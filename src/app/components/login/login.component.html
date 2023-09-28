@@ -1,0 +1,59 @@
+<section class="form-container">
+    <article class="form-content">
+    
+    <div class="container">
+        <div class="forms-container">
+          <div class="signin-signup">
+            <form [formGroup]="formGroup" class="sign-in-form">
+              <h2 class="title">Ingresar</h2>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input formControlName="user" type="text" name="user" placeholder="usuario" />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <input formControlName="password" type="password" name="password" placeholder="Contraseña" />
+              </div>
+              <button [disabled]="formGroup.invalid || loading" class="btn solid" (click)="handleLogin()">Login</button>
+              <p class="social-text">Siguenos en nuestras redes sociales</p>
+              <div class="social-media">
+                <a href="#" class="social-icon">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-icon">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-icon">
+                  <i class="fab fa-google"></i>
+                </a>
+                <a href="#" class="social-icon">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+    
+        <div class="panels-container">
+          <div class="panel left-panel">
+            <div class="content">
+              <h3>Bienvenido a UnsiSmile</h3>
+              <p>
+                “Nada de lo que llevas es más importante que tu sonrisa”
+              </p>
+            </div>
+              <img src="../../../assets/undraw_medical_care_movn.svg" class="image" alt="" />
+          </div>
+        </div>
+    </div>
+
+    </article>
+           
+</section>
+ 
+<app-alert
+[open]="alertConfig.open"
+[singleMessage]="alertConfig.singleMessage"
+[severity]="alertConfig.severity"
+(eventCloseToast)="closeAlert()"
+></app-alert>

@@ -22,7 +22,16 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@mean/interceptor": ["src/app/core/interceptors"],
+      "@mean/public": ["src/app/components"],
+      "@mean/admin": ["src/app/components/admin"],
+      "@mean/shared": ["src/app/shared"],
+      "@mean/utils": ["src/app/utils"],
+      "@mean/models": ["src/app/models"],
+      "@mean/services": ["src/app/services"],
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
