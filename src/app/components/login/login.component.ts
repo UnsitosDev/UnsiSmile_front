@@ -1,16 +1,24 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService, AuthService } from '@mean/services';
 import { BaseComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import {Get,PostLogin} from './model/loginResponse.model'
+import { AlertComponent } from 'src/app/shared/alert/alert.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
+  standalone: true,
+  imports: [
+    BaseComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    AlertComponent
+  ]
 })
 
 

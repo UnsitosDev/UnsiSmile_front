@@ -10,6 +10,7 @@ interface KeyParams {
 
 @Component({
   template: '',
+  standalone: true
 })
 export class BaseComponent<
   GET = {},
