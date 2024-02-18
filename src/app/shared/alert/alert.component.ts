@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from
 import { AlertModel } from '@mean/models';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { CommonModule } from '@angular/common';
+
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import {ToastModule} from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
@@ -16,13 +16,12 @@ import { DialogModule } from 'primeng/dialog';
   standalone: true,
   imports: [
     ButtonModule,
-    CommonModule,
     ConfirmDialogModule,
     ToastModule,
     MessagesModule,
     DialogModule,
     AlertComponent
-  ]
+]
   
 })
 export class AlertComponent implements OnChanges {

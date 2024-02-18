@@ -10,26 +10,30 @@
         <a
           routerLink="/" [routerLinkActive]="['is-active']"
           [routerLinkActiveOptions]="{ exact: true }"
-        >
+          >
           Inicio
         </a>
       </li>
-      <li *ngIf="showMenuLogin">
-        <a
-          routerLink="/login" [routerLinkActive]="['is-active']"
-        >
-          Iniciar sesión
-        </a>
-      </li>
-      <li *ngIf="!showMenuLogin">
-        <a
-          [routerLinkActive]="['is-active']"
-          (click)="logout()"
-          class="cursor-pointer"
-        >
-          Cerrar sesión
-        </a>
-      </li>
+      @if (showMenuLogin) {
+        <li>
+          <a
+            routerLink="/login" [routerLinkActive]="['is-active']"
+            >
+            Iniciar sesión
+          </a>
+        </li>
+      }
+      @if (!showMenuLogin) {
+        <li>
+          <a
+            [routerLinkActive]="['is-active']"
+            (click)="logout()"
+            class="cursor-pointer"
+            >
+            Cerrar sesión
+          </a>
+        </li>
+      }
     </ul>
   </nav>
 </header>
