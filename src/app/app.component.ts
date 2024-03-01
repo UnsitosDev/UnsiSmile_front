@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import routes from './app.routing.routes';
 import { RouterModule } from '@angular/router';
-import { LoginComponent } from './components';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +7,7 @@ import { LoginComponent } from './components';
   styleUrls: ['./app.component.css'],
   standalone: true,
   imports: [
-    RouterModule,
-    LoginComponent
+    RouterModule
   ]
 })
 export class AppComponent {

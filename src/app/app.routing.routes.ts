@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import {LoginComponent} from './components/login/login.component'
+import { LoginComponent } from '@mean/public';
 
 const routes: Routes = [
   {
