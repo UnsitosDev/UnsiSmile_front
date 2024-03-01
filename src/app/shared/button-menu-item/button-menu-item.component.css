@@ -1,0 +1,28 @@
+
+
+li {
+  padding: 15px 0px 15px 20px !important;
+  text-align: left;
+  list-style: none;
+  color: white;
+}
+
+img{
+  height: 100%;
+  width: 100%;
+}
+
+i{
+  margin-right: 20px;
+}
+
+/* Estilo de hover */
+li:hover {
+  cursor: pointer;
+  background-color: #670300;
+}
+
+/* Estilo del color activo */
+li.active {
+  background-color: #670300;
+}

@@ -27,6 +27,7 @@
       "@mean/interceptor": ["src/app/core/interceptors"],
       "@mean/public": ["src/app/components/public"],
       "@mean/admin": ["src/app/components/admin"],
+      "@mean/students": ["src/app/components/private/students"],
       "@mean/shared": ["src/app/shared"],
       "@mean/utils": ["src/app/utils"],
       "@mean/models": ["src/app/models"],

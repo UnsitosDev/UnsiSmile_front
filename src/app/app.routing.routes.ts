@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from '@mean/public';
+import { DashboardComponent, PatientsComponent } from '@mean/students';
 
 const routes: Routes = [
   {
@@ -10,6 +11,17 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+
+  {
+    path: 'students',
+    component: DashboardComponent,
+    children: [
+      {
+        path: 'patients',
+        component: PatientsComponent,
+      }
+    ]
   },
 
   {
