@@ -11,7 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.css'],
+  styleUrls: ['./alert.component.scss'],
   providers: [MessageService],
   standalone: true,
   imports: [

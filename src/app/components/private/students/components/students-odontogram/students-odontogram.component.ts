@@ -17,7 +17,7 @@ import { store } from 'src/app/services/odontogram.service';
     MatTabsModule,
   ],
   templateUrl: './students-odontogram.component.html',
-  styleUrl: './students-odontogram.component.css',
+  styleUrl: './students-odontogram.component.scss',
 })
 export class StudentsOdontogramComponent {
   arcada = {

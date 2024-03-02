@@ -10,7 +10,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
     RouterLink
   ],
   templateUrl: './button-menu-item.component.html',
-  styleUrl: './button-menu-item.component.css'
+  styleUrl: './button-menu-item.component.scss'
 })
 
 export class ButtonMenuItemComponent {

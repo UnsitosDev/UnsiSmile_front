@@ -9,7 +9,7 @@ import { HeaderComponent, SideNavComponent } from '@mean/shared';
     RouterOutlet, SideNavComponent, HeaderComponent
   ],
   templateUrl: './students-layout.component.html',
-  styleUrl: './students-layout.component.css'
+  styleUrl: './students-layout.component.scss'
 })
 export class StudentsLayoutComponent {
   isSidebarOpen = false;

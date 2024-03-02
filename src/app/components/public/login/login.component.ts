@@ -11,7 +11,7 @@ import { AlertComponent } from 'src/app/shared/alert/alert.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.scss'],
   standalone: true,
   imports: [
     BaseComponent,
