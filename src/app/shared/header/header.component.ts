@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -7,20 +7,15 @@ import { Router, RouterLinkActive } from '@angular/router';
   styleUrls: ['./header.component.css'],
   standalone: true,
   imports:[
-    RouterLinkActive
   ]
 })
 export class HeaderComponent {
-  logo = '../../../assets/logo.png';
-  showMenuLogin = true;
-  constructor(
-    private router: Router
-  ) {
-  }
 
-  logout() {
-    sessionStorage.clear();
-    this.router.navigate(['/login']);
+  @Output() closeSidebar = new EventEmitter<void>();
+
+  toggleSidebar() {
+    this.closeSidebar.emit();
+    console.log("emiting");
   }
 
 }

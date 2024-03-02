@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from '@mean/public';
 import { DashboardComponent, PatientsComponent } from '@mean/students';
+import { LayoutComponent } from './components/private/students/components/layout/layout.component';
 
 const routes: Routes = [
   {
@@ -15,11 +16,20 @@ const routes: Routes = [
 
   {
     path: 'students',
-    component: DashboardComponent,
+    component: LayoutComponent,
     children: [
       {
         path: 'patients',
         component: PatientsComponent,
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
+        path: '**',
+        pathMatch: 'full',
+        redirectTo: 'dashboard',
       }
     ]
   },
