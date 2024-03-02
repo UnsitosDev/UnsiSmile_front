@@ -2,17 +2,16 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
 
-
 @Component({
-  selector: 'app-layout',
+  selector: 'app-students-layout',
   standalone: true,
   imports: [
     RouterOutlet, SideNavComponent, HeaderComponent
   ],
-  templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+  templateUrl: './students-layout.component.html',
+  styleUrl: './students-layout.component.css'
 })
-export class LayoutComponent {
+export class StudentsLayoutComponent {
   isSidebarOpen = false;
 
   onSidebarToggle() {
