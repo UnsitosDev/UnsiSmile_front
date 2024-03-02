@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { HeaderComponent } from 'src/app/shared/header/header.component';
-import { SideNavComponent } from 'src/app/shared/side-nav/side-nav.component';
+import { RouterOutlet } from '@angular/router';
+import { HeaderComponent, SideNavComponent } from '@mean/shared';
 
 
 @Component({
@@ -18,6 +17,5 @@ export class LayoutComponent {
 
   onSidebarToggle() {
     this.isSidebarOpen = !this.isSidebarOpen;
-    console.log("comunicating");
   }
 }
