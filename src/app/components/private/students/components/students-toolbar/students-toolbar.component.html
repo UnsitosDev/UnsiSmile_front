@@ -1,0 +1,10 @@
+<div class="box-toolbar clear">
+    <ng-container *ngFor="let item of toolbar.opcoes">
+      <button 
+        type="button" 
+        class="bt-toolbar" 
+        (click)="onButtonClicked(item)">
+        {{ item.nome }}
+      </button>
+    </ng-container>
+  </div>
