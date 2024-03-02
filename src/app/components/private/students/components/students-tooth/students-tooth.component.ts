@@ -10,7 +10,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
   ],
   templateUrl: './students-tooth.component.html',
-  styleUrl: './students-tooth.component.css'
+  styleUrl: './students-tooth.component.scss'
 })
 export class StudentsToothComponent {
   @Input() data: any;

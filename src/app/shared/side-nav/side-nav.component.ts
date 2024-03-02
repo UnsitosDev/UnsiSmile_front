@@ -8,7 +8,7 @@ import { items } from '@mean/models';
   standalone: true,
   imports: [ButtonMenuItemComponent, NgFor],
   templateUrl: './side-nav.component.html',
-  styleUrl: './side-nav.component.css',
+  styleUrl: './side-nav.component.scss',
 })
 export class SideNavComponent {
   public menuItems = items;

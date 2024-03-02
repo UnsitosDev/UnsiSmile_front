@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     NgFor
   ],
   templateUrl: './students-toolbar.component.html',
-  styleUrl: './students-toolbar.component.css'
+  styleUrl: './students-toolbar.component.scss'
 })
 export class StudentsToolbarComponent {
   @Input() toolbar: any;
