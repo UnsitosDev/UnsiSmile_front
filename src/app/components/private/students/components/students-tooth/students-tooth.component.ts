@@ -15,7 +15,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class StudentsToothComponent {
   @Input() data: any;
   @Input() index: number = 0;
+  @Input() color: string = "withe";
   @Output() toggleTooth = new EventEmitter<any>();
   @Output() setFace = new EventEmitter<any>();
+
+  clicked(data: any, index:number, faceId:any){
+    console.log("emiting");
+    this.setFace.emit({ faceId: data.faces[index].id, index: index, data: data });
+  }
 
 }
