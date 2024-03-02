@@ -1,20 +1,19 @@
-import { NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { faChartPie, faFileAlt, faCogs } from '@fortawesome/free-solid-svg-icons';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
+import { items } from '@mean/models';
 
 @Component({
   selector: 'app-side-nav',
   standalone: true,
-  imports: [
-    ButtonMenuItemComponent
-  ],
+  imports: [ButtonMenuItemComponent, NgFor],
   templateUrl: './side-nav.component.html',
-  styleUrl: './side-nav.component.css'
+  styleUrl: './side-nav.component.css',
 })
 export class SideNavComponent {
+  public menuItems = items;
+
+  constructor() {}
+
   @Input() isSidebarOpen = false;
-  faFontAwesomeFlag = faChartPie;
-  faFileAlt = faFileAlt;
-  faCogs = faCogs;
 }

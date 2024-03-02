@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from '@mean/public';
-import { DashboardComponent, PatientsComponent } from '@mean/students';
-import { LayoutComponent } from './components/private/students/components/layout/layout.component';
+import { StudentsDashboardComponent, StudentsLayoutComponent, StudentsPatientsComponent } from '@mean/students';
 
 const routes: Routes = [
   {
@@ -13,18 +12,17 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
-
   {
     path: 'students',
-    component: LayoutComponent,
+    component: StudentsLayoutComponent,
     children: [
       {
         path: 'patients',
-        component: PatientsComponent,
+        component: StudentsPatientsComponent,
       },
       {
         path: 'dashboard',
-        component: DashboardComponent,
+        component: StudentsDashboardComponent,
       },
       {
         path: '**',
