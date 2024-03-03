@@ -20,7 +20,6 @@ export class StudentsToothComponent {
   @Output() setFace = new EventEmitter<any>();
 
   clicked(data: any, index:number, faceId:any){
-    console.log("emiting");
     this.setFace.emit({ faceId: data.faces[index].id, index: index, data: data });
   }
 
