@@ -2,8 +2,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { Component } from '@angular/core';
 import { StudentsToothComponent } from '../students-tooth/students-tooth.component';
 import { NgFor, NgIf } from '@angular/common';
-import { StudentsToolbarComponent } from '../students-toolbar/students-toolbar.component';
-import { store } from 'src/app/services/odontogram.service';
+import { StudentsToolbarComponent } from '../students-odontogram-toolbar/students-toolbar.component';
+import { store } from '@mean/services';
 
 @Component({
   selector: 'app-students-odontogram',
@@ -39,7 +39,6 @@ export class StudentsOdontogramComponent {
 
   handleAction(cor: string, nome: string): void {
     this.marked = { selecionado: nome, cor };
-    console.log(this.marked.cor);
   }
 
   toggleTooth(data: any) {
@@ -49,7 +48,6 @@ export class StudentsOdontogramComponent {
   setFace(event: any) {
     const { faceId, index, data } = event;
     const acao = this.marked.cor;
-    console.log(this.marked.cor);
     data.faces[index].estado = acao;
   }
 }
