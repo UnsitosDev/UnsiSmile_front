@@ -1,52 +1,49 @@
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 .boxTooth {
-    width:35px;
-    float:left;
-    margin: 0 10px 50px 0;
+  width: 35px;
+  float: left;
+  margin: 0 10px 50px 0;
 }
-.addButton,.removeButton {
-    margin-bottom: 5px;
-    width: 16px;
-    border-radius: 10px;
-    padding: 0;
-    cursor:pointer;
+.addButton,
+.removeButton {
+  margin-bottom: 5px;
+  width: 16px;
+  border-radius: 10px;
+  padding: 0;
+  cursor: pointer;
 }
 .addButton {
-    float:left;
-    background: green;
-    color:white
+  float: left;
+  background: green;
+  color: white;
 }
 .removeButton {
-    float:right;
-    background:red;
-    color: white;
+  float: right;
+  background: red;
+  color: white;
 }
 .tooth {
-    display:block;
-    margin: 0 auto;
+  display: block;
+  margin: 0 auto;
 }
 .tooth.disabled {
-    display: none;
+  display: none;
 }
 
 .clear {
-    clear:both;
+  clear: both;
 }
 
 .spaceRight {
-    margin-right:40px;
+  margin-right: 40px;
 }
-.noMarginRight{
-    margin-right: 0;
-}
-
-.bt-toolbar {
-    margin: 5px 10px;
+.noMarginRight {
+  margin-right: 0;
 }
 
 .face {
-    cursor:pointer;
+  cursor: pointer;
 }
