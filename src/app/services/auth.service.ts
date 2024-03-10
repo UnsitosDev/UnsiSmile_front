@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthModel } from '../models/core/auth.model';
 import jwtDecode from 'jwt-decode';
 import { Router } from '@angular/router';
+import { TokenData } from '../components/public/login/model/tokenData';
 
 @Injectable({
   providedIn: 'root',
@@ -44,20 +45,16 @@ export class AuthService {
    * Decodificar el token y obtener los datos asociados.
    *
    * @param {string} token - El token JWT a decodificar.
-   * @returns {any} - Objeto con los datos decodificados del token.
+   * @returns {TokenData} - Objeto con los datos decodificados del token.
    */
 
-  getTokenDataUser(token: string): any {
+  getTokenDataUser(token: string): TokenData {
     return token
       ? jwtDecode(token)
       : {
           exp: 0,
           iat: 0,
-          role: [
-            {
-              authority: '',
-            },
-          ],
+          role: [{ authority: '' }],
           sub: '',
           uuid: '',
         };
