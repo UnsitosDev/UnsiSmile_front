@@ -1,23 +1,55 @@
 import { Injectable } from '@angular/core';
 import { AuthModel } from '../models/core/auth.model';
 import jwtDecode from 'jwt-decode';
+import { Router } from '@angular/router';
+import { TokenData } from '../components/public/login/model/tokenData';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor() {}
+  constructor(private router: Router) {}
 
   saveToSession(key: string, value: string) {
-    sessionStorage.setItem(key,value);
+    sessionStorage.setItem(key, value);
   }
 
-  readFromSession(key: string): AuthModel.UserTokenData{
+  readFromSession(key: string): AuthModel.UserTokenData {
     return this.getTokenData(sessionStorage.getItem(key) || '');
   }
 
-  private getTokenData(token:string) :  AuthModel.UserTokenData{
+  private getTokenData(token: string): AuthModel.UserTokenData {
     return token ? jwtDecode(token) : AuthModel.userTokenData;
   }
 
+  /**
+   * Redirige al usuario según su rol obtenido del token.
+   *
+   * @param {string} role - El rol del usuario.
+   */
+
+  redirectByRole(role: string): void {
+    const roleRoutes: { [key: string]: string } = {
+      ROLE_STUDENT: '/students/dashboard',
+    };
+    const route = roleRoutes[role];
+
+    if (route) {
+      this.router.navigate([route]);
+    } else {
+      this.router.navigateByUrl('');
+    }
+  }
+
+    /**
+   * Decodifica el token JWT proporcionado y devuelve los datos asociados.
+   *
+   * @param {string} token - El token JWT a decodificar.
+   * @returns {TokenData} - Objeto con los datos decodificados del token.
+   */
+  getTokenDataUser(token: string): TokenData {
+    const tokenData: TokenData = jwtDecode(token);
+
+    return tokenData;
+  }
 }

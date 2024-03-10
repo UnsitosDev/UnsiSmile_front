@@ -1,11 +1,16 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService, AuthService } from '@mean/services';
 import { BaseComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
-import {Get,PostLogin} from './model/loginResponse.model'
+import { Get, PostLogin } from './model/loginResponse.model';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
 
 @Component({
@@ -13,19 +18,14 @@ import { AlertComponent } from 'src/app/shared/alert/alert.component';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [
-    BaseComponent,
-    ReactiveFormsModule,
-    FormsModule,
-    AlertComponent
-  ]
+  imports: [BaseComponent, ReactiveFormsModule, FormsModule, AlertComponent],
 })
+export class LoginComponent extends BaseComponent<Get, PostLogin> {
+  private userService = inject(AuthService);
 
-
-export class LoginComponent extends BaseComponent<Get,PostLogin> {
   @Output() onSubmitLoginEvent = new EventEmitter();
   constructor(
-    private readonly api: ApiService<Get,PostLogin>,
+    private readonly api: ApiService<Get, PostLogin>,
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly authServise: AuthService
@@ -35,33 +35,40 @@ export class LoginComponent extends BaseComponent<Get,PostLogin> {
       user: ['', Validators.required],
       password: ['', Validators.required],
     });
-    
   }
 
+  // Maneja el inicio de sesión del usuario, guarda el token de sesión y redirige según el rol.
   handleLogin() {
     if (this.isFormValid()) {
       const { user, password } = this.formGroup.value;
 
       this.createService({
-         url: `${UriConstants.USER_LOGIN}`,
-         data: {
-          username : user,
-          password: password
-         }
-        }).subscribe({
-          next: data => {
-            console.log(data);
-            console.log(data.response)
-            const {token} = data.response;
-            this.authServise.saveToSession(SessionStorageConstants.USER_TOKEN, token);
-            console.log(token);
-          },
-          error: error => {
-            this.alertConfiguration('ERROR', error);
-            this.openAlert();
-            this.loading = false;
-          }
-        })
+        url: `${UriConstants.USER_LOGIN}`,
+        data: {
+          username: user,
+          password: password,
+        },
+      }).subscribe({
+        next: (data) => {
+          const { token } = data.response;
+          this.authServise.saveToSession(
+            SessionStorageConstants.USER_TOKEN,
+            token
+          );
+
+          // Decodifica el token JWT proporcionado para obtener los datos asociados del usuario.
+          const tokenData = this.userService.getTokenDataUser(token);
+
+          // Redirige al usuario según el rol obtenido del token decodificado.
+          this.userService.redirectByRole(tokenData.role[0].authority);
+
+        },
+        error: (error) => {
+          this.alertConfiguration('ERROR', error);
+          this.openAlert();
+          this.loading = false;
+        },
+      });
     }
   }
 }
