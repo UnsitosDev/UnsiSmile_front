@@ -41,22 +41,15 @@ export class AuthService {
     }
   }
 
-  /**
-   * Decodificar el token y obtener los datos asociados.
+    /**
+   * Decodifica el token JWT proporcionado y devuelve los datos asociados.
    *
    * @param {string} token - El token JWT a decodificar.
    * @returns {TokenData} - Objeto con los datos decodificados del token.
    */
-
   getTokenDataUser(token: string): TokenData {
-    return token
-      ? jwtDecode(token)
-      : {
-          exp: 0,
-          iat: 0,
-          role: [{ authority: '' }],
-          sub: '',
-          uuid: '',
-        };
+    const tokenData: TokenData = jwtDecode(token);
+
+    return tokenData;
   }
 }
