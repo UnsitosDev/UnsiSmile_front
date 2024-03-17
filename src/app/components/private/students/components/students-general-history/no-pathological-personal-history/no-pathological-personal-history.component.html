@@ -1,0 +1,149 @@
+
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg gap-4 mt-4 mb-16 mr-4 ml-4">
+    <table class="w-full text-sm text-left rtl:text-right text-black-500 dark:text-black">
+        <thead class="text-xs text-black uppercase bg-gray-50 dark:bg-white-700 dark:text-black">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Respuesta
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Si/No
+                </th>
+            
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-white border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
+                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
+                    Come frutas y verduras
+                </th>
+                <td class="px-6 py-4">
+                    <p><mat-checkbox></mat-checkbox></p>
+                </td>
+              
+             
+            </tr>
+            <tr class="bg-white border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
+                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
+                    Come carnes (Res, puerco o pollo)
+                </th>
+                <td class="px-6 py-4">
+                    <p><mat-checkbox></mat-checkbox></p>
+                </td>
+              
+             
+            </tr>
+            <tr class="bg-white border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
+                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
+                    Come cereales (Pan, Cereal, etc.)
+                </th>
+                <td class="px-6 py-4">
+                    <p><mat-checkbox></mat-checkbox></p>
+                </td>
+              
+             
+            </tr>
+            <tr class="bg-white border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
+                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
+                    Come alimentos chatarra (Dulces, botanas, etc.) 
+                </th>
+                <td class="px-6 py-4">
+                    <p><mat-checkbox></mat-checkbox></p>
+                </td>
+              
+             
+            </tr>
+            <tr class="bg-white border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
+                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
+                    Toma o bebe 2 litros de agua al día
+                </th>
+                <td class="px-6 py-4">
+                    <p><mat-checkbox></mat-checkbox></p>
+                </td>
+              
+             
+            </tr>
+            <tr class="bg-white border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
+                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
+                    Toma o bebe uno o más refrescos al día
+                </th>
+                <td class="px-6 py-4">
+                    <p><mat-checkbox></mat-checkbox></p>
+                </td>
+              
+             
+            </tr>
+            <tr class="bg-white border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
+                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
+                    Su vivienda tiene piso
+                </th>
+                <td class="px-6 py-4">
+                    <p><mat-checkbox></mat-checkbox></p>
+                </td>             
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <div class="mx-4">
+        <form>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mt-4 mb-16">
+            <!-- Horas que duerme al día -->
+            <div class="relative flex-grow w-full">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Horas que duerme al día</label>
+              <input type="number" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+            <!-- Cuantas veces a la semana se baña -->
+            <div class="relative flex-grow w-full">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cuantas veces a la semana se baña</label>
+              <input type="number" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+            <!-- Cuantas veces al día cepilla sus dientes -->
+            <div class="relative flex-grow w-full">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cuantas veces al día cepilla sus dientes  </label>
+              <input type="number" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+            <!-- Piso de vivienda -->
+            <div class="relative flex-grow w-full">
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                  >Su vivienda tiene Piso</label
+                >
+                <select
+                  id="countries"
+                  class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option>--</option>
+                  <option>Si</option>
+                  <option>No</option>
+                </select>
+            </div>
+            <!-- De que esta hecha la vivienda -->
+            <div class="relative flex-grow w-full">
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                  >Su vivienda tiene Piso</label
+                >
+                <select
+                  id="countries"
+                  class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option>--</option>
+                  <option>Ladrillo</option>
+                  <option>Adobe</option>
+                  <option>Madera</option>
+                  <option>Lamina</option>
+                  <option>Otro</option>
+                </select>
+            </div>
+           
+          </div>
+          
+        </form>
+      </div>
+     
+      
+</div>
+<div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
+    <button mat-raised-button color="primary">Siguiente</button>
+  </div>
