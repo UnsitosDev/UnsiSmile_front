@@ -1,6 +1,8 @@
 <div class="mx-4">
   <form>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
+    >
       <!-- Nombre -->
       <div class="relative flex-grow w-full">
         <label
@@ -62,15 +64,15 @@
       </div>
       <!-- Fecha de nacimiento -->
       <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Fecha de Nacimiento</label
-        >
+        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha de Nacimiento</label>
         <input
           type="date"
+          name="birthDate"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
+          [(ngModel)]="birthDate" (change)="onFechaNacimientoChange()"
+                  />
       </div>
+      
       <!-- Grado escolar -->
       <div class="relative flex-grow w-full">
         <label
@@ -192,6 +194,7 @@
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
+     
       <!-- Motivo de consulta -->
       <div class="relative flex-grow w-full">
         <label
@@ -204,7 +207,77 @@
           class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         ></textarea>
       </div>
+     
+      
     </div>
+    @if (youngerForm) {
+      <h1>Datos de los padres</h1>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-4 mb-16">
+        <div class="relative flex-grow w-full">
+          <label
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+            >Nombre del padre</label
+          >
+          <input
+            type="text"
+            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <div class="relative flex-grow w-full">
+          <label
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+            >Ocupacion</label
+          >
+          <input
+            type="text"
+            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <div class="relative flex-grow w-full">
+          <label
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+            >Nombre de la Madre</label
+          >
+          <input
+            type="text"
+            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <div class="relative flex-grow w-full">
+          <label
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+            >Ocupacion</label
+          >
+          <input
+            type="text"
+            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <div class="relative flex-grow w-full">
+          <label
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+            >Estado civil de los padres</label
+          >
+          <input
+            type="text"
+            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <div class="relative flex-grow w-full">
+          <label
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+            >Nombre del medico familiar</label
+          >
+          <input
+            type="text"
+            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>  
+      </div>
+      
+     
+    }
+    
     <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
       <button mat-raised-button color="primary">Siguiente</button>
     </div>
