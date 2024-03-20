@@ -1,0 +1,160 @@
+<div class="mx-4 mb-8">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <h1><b>VESTIBULARES SUPERIORES</b></h1>
+      <table class="w-full text-sm text-left rtl:text-right text-black border-collapse">
+        <thead>
+          <tr>
+            <th class="border border-black"></th>
+            @for (item of etiquetasColumnasDerecha; track $index) {
+              <ng-container>
+                <th class="border border-black">1 <br>{{ item }}</th>
+              </ng-container>
+            }
+            <th class="border border-black"></th> <!-- Columna adicional -->
+            @for (item of etiquetasColumnasIzquierda; track $index) {
+              <ng-container>
+                <th class="border border-black">2 <br>{{ item }}</th>
+              </ng-container>
+            }
+            
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let fila of filasDatos; let i = index">
+            <tr class="border border-black">{{ fila }}
+                <td *ngFor="let etiqueta of etiquetasColumnasDerecha; let colIndex = index" class="border border-black" contenteditable="true" (input)="onCellInput($event, i, colIndex)"></td>
+                <!-- Columna adicional -->
+              <td class="border border-black"(input)="onCellInput($event, i, 'additional')">{{ columnasAdicionales[i] }}</td>
+              <!-- Fin de la columna adicional -->
+              <td *ngFor="let etiqueta of etiquetasColumnasDerecha; let colIndex = index" class="border border-black" contenteditable="true" (input)="onCellInput($event, i, colIndex)"></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <h1><b>PALATINAS</b></h1>
+      <table class="w-full text-sm text-left rtl:text-right text-black border-collapse">
+        <thead>
+          <tr>
+            <th class="border border-black"></th>
+            @for (item of etiquetasColumnasDerecha; track $index) {
+              <ng-container>
+                <th class="border border-black">1 <br>{{ item }}</th>
+              </ng-container>
+            }
+            <th class="border border-black"></th> <!-- Columna adicional -->
+            @for (item of etiquetasColumnasIzquierda; track $index) {
+              <ng-container>
+                <th class="border border-black">2 <br>{{ item }}</th>
+              </ng-container>
+            }
+            
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let fila of filasDatos; let i = index">
+            <tr class="border border-black">{{ fila }}
+                <td *ngFor="let etiqueta of etiquetasColumnasDerecha; let colIndex = index" class="border border-black" contenteditable="true" (input)="onCellInput($event, i, colIndex)"></td>
+                <!-- Columna adicional -->
+              <td class="border border-black"(input)="onCellInput($event, i, 'additional')">{{ columnasAdicionales[i] }}</td>
+              <!-- Fin de la columna adicional -->
+              <td *ngFor="let etiqueta of etiquetasColumnasDerecha; let colIndex = index" class="border border-black" contenteditable="true" (input)="onCellInput($event, i, colIndex)"></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <h1><b>VESTIBULARES INFERIORES</b></h1>
+      <table class="w-full text-sm text-left rtl:text-right text-black border-collapse">
+        <thead>
+          <tr>
+            <th class="border border-black"></th>
+            @for (item of etiquetasColumnasDerecha; track $index) {
+              <ng-container>
+                <th class="border border-black">1 <br>{{ item }}</th>
+              </ng-container>
+            }
+            <th class="border border-black"></th> <!-- Columna adicional -->
+            @for (item of etiquetasColumnasIzquierda; track $index) {
+              <ng-container>
+                <th class="border border-black">2 <br>{{ item }}</th>
+              </ng-container>
+            }
+            
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let fila of filasDatos; let i = index">
+            <tr class="border border-black">{{ fila }}
+                <td *ngFor="let etiqueta of etiquetasColumnasDerecha; let colIndex = index" class="border border-black" contenteditable="true" (input)="onCellInput($event, i, colIndex)"></td>
+                <!-- Columna adicional -->
+              <td class="border border-black"(input)="onCellInput($event, i, 'additional')">{{ columnasAdicionales[i] }}</td>
+              <!-- Fin de la columna adicional -->
+              <td *ngFor="let etiqueta of etiquetasColumnasDerecha; let colIndex = index" class="border border-black" contenteditable="true" (input)="onCellInput($event, i, colIndex)"></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <h1><b>LINGUALES</b></h1>
+      <table class="w-full text-sm text-left rtl:text-right text-black border-collapse">
+        <thead>
+          <tr>
+            <th class="border border-black"></th>
+            @for (item of etiquetasColumnasDerecha; track $index) {
+              <ng-container>
+                <th class="border border-black">1 <br>{{ item }}</th>
+              </ng-container>
+            }
+            <th class="border border-black"></th> <!-- Columna adicional -->
+            @for (item of etiquetasColumnasIzquierda; track $index) {
+              <ng-container>
+                <th class="border border-black">2 <br>{{ item }}</th>
+              </ng-container>
+            }
+            
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let fila of filasDatos; let i = index">
+            <tr class="border border-black">{{ fila }}
+                <td *ngFor="let etiqueta of etiquetasColumnasDerecha; let colIndex = index" class="border border-black" contenteditable="true" (input)="onCellInput($event, i, colIndex)"></td>
+                <!-- Columna adicional -->
+              <td class="border border-black"(input)="onCellInput($event, i, 'additional')">{{ columnasAdicionales[i] }}</td>
+              <!-- Fin de la columna adicional -->
+              <td *ngFor="let etiqueta of etiquetasColumnasDerecha; let colIndex = index" class="border border-black" contenteditable="true" (input)="onCellInput($event, i, colIndex)"></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="mx-4">
+    <form>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16">
+        @for (field of formFields; track $index) {
+          <div class="relative flex-grow w-full">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+              {{ field.label }}
+            </label>
+            <input
+              [type]="field.type"
+              class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
+        } 
+      </div>
+      <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
+        <button mat-raised-button color="primary">Siguiente</button>
+      </div>
+    </form>
+  </div>
+  
+  
