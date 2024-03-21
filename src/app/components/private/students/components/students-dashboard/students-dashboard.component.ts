@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import { TablaDataComponent } from 'src/app/components/tabla-data/tabla-data.component';
+import { TablaDataComponent } from 'src/app/shared/tabla-data/tabla-data.component';
 import { IMouse } from 'src/app/models/tabla/mouse';
 import { getEntityPropiedades, Accion } from 'src/app/models/tabla/tabla-columna';
 import { ProductService } from 'src/app/services/product.service';
