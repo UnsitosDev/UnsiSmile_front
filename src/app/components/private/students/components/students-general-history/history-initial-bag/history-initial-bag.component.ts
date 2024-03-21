@@ -1,18 +1,17 @@
 import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
-import { InputField, inputs } from './models/inputs';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, MatButtonModule],
   templateUrl: './history-initial-bag.component.html',
   styleUrl: './history-initial-bag.component.scss'
 })
 
 export class HistoryInitialBagComponent {
   // inputs
-  formFields: InputField[] = inputs;
 
   etiquetasColumnasDerecha = ['8', '7', '6', '5', '4', '3', '2', '1'];
   etiquetasColumnasIzquierda = ['1', '2', '3', '4', '5', '6', '7', '8'];

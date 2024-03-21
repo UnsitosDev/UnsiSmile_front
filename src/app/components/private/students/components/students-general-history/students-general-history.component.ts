@@ -8,12 +8,13 @@ import { NoPathologicalPersonalHistoryComponent } from "./no-pathological-person
 import { PathologicalPersonalHistoryComponent } from "./pathological-personal-history/pathological-personal-history.component";
 import { StudentsOdontogramComponent } from "../students-odontogram/students-odontogram.component";
 import { HistoryInitialBagComponent } from "./history-initial-bag/history-initial-bag.component";
+import { HistoryMultidiciplinaryEvaluationComponent } from "./history-multidiciplinary-evaluation/history-multidiciplinary-evaluation.component";
 
 @Component({
     selector: 'app-students-general-history',
     standalone: true,
     templateUrl: './students-general-history.component.html',
     styleUrl: './students-general-history.component.scss',
-    imports: [MatTabsModule, HistoryPersonalDataComponent, HistoryVitalSignsComponent, HistoryFacialExamComponent, HistoryFamilyHistoryComponent, NoPathologicalPersonalHistoryComponent, PathologicalPersonalHistoryComponent, StudentsOdontogramComponent, HistoryInitialBagComponent]
+    imports: [MatTabsModule, HistoryPersonalDataComponent, HistoryVitalSignsComponent, HistoryFacialExamComponent, HistoryFamilyHistoryComponent, NoPathologicalPersonalHistoryComponent, PathologicalPersonalHistoryComponent, StudentsOdontogramComponent, HistoryInitialBagComponent, HistoryMultidiciplinaryEvaluationComponent]
 })
 export class StudentsGeneralHistoryComponent {}

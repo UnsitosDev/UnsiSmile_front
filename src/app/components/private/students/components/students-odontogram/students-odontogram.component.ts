@@ -4,6 +4,7 @@ import { StudentsToothComponent } from '../students-tooth/students-tooth.compone
 import { NgFor, NgIf } from '@angular/common';
 import { StudentsToolbarComponent } from '../students-odontogram-toolbar/students-toolbar.component';
 import { store } from '@mean/services';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-students-odontogram',
@@ -15,6 +16,7 @@ import { store } from '@mean/services';
     StudentsToolbarComponent,
     StudentsToolbarComponent,
     MatTabsModule,
+    MatButtonModule
   ],
   templateUrl: './students-odontogram.component.html',
   styleUrl: './students-odontogram.component.scss',
