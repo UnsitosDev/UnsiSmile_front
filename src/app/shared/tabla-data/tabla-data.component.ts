@@ -1,10 +1,11 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
 
 @Component({
   selector: 'app-tabla-data',
   standalone: true,
-  imports: [],
+  imports: [NgIf],
   templateUrl: './tabla-data.component.html',
   styleUrl: './tabla-data.component.scss'
 })

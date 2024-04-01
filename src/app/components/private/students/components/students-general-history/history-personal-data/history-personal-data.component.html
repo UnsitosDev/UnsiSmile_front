@@ -9,8 +9,10 @@
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >Nombre</label
         >
+        
         <input
           type="text"
+          [value]="data.nombre"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
@@ -22,6 +24,7 @@
         >
         <input
           type="number"
+          [value]="data.edad"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
@@ -35,7 +38,7 @@
           id="countries"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
-          <option>--</option>
+          <option>Hombre</option>
           <option>Hombre</option>
           <option>Mujer</option>
         </select>
@@ -47,6 +50,7 @@
           >Grupo Etnico</label
         >
         <input
+        value="Sin Grupo Etnico"
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -58,6 +62,7 @@
           >Ocupacion</label
         >
         <input
+        value="Jornalero"
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -83,10 +88,9 @@
           id="countries"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
-          <option>--</option>
-          <option>Primaria</option>
+        <option>Media Superior</option>
+        <option>Primaria</option>
           <option>Scundaria</option>
-          <option>Media Superior</option>
           <option>Universidad</option>
         </select>
       </div>
@@ -97,6 +101,7 @@
           >Telefono</label
         >
         <input
+        [value]="data.telefono"
           type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -108,6 +113,7 @@
           >Domicilio</label
         >
         <input
+        value="Miahuatlan de Porfirio Diaz"
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -122,9 +128,8 @@
           id="countries"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
-          <option>--</option>
-          <option>Soltero</option>
-          <option>Casado</option>
+        <option>Casado</option>
+        <option>Soltero</option>
           <option>Divorciado</option>
         </select>
       </div>
@@ -135,6 +140,7 @@
           >Religion</label
         >
         <input
+        value="Sin religion"
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -157,6 +163,7 @@
           >Nacionalidad</label
         >
         <input
+        value="Mexicano"
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -168,6 +175,7 @@
           >Localidad</label
         >
         <input
+        value="Miahuatlan de Porfirio Diaz"
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -179,6 +187,7 @@
           >Correo Electronico</label
         >
         <input
+        [value]="data.email"
           type="email"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />

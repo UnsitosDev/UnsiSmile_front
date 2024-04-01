@@ -1,5 +1,6 @@
 import { keyboardResponse } from "./keyboard";
 import { mouseResponse } from "./mouse";
+import { patientsResponse } from "./patients";
 
 
 
@@ -16,11 +17,13 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
   let clase: any;
 
   switch(entidad){
+    case 'patients':
+      clase = new patientsResponse(); break;
     case 'keyboard':
       clase = new keyboardResponse(); break;
     case 'mouse':
       clase = new mouseResponse(); break;
-
+   
   }
 
   if(clase){
