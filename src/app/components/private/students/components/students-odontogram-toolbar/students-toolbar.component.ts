@@ -16,23 +16,44 @@ export class StudentsToolbarComponent {
 
   constructor() {}
 
-  // No es necesario especificar "render" en Angular, ya que Angular maneja la actualización del DOM.
-
-//   onButtonClicked(item: any): void {
-//     this.handleAction.emit({ cor: item.cor, nome: item.nome, icon: item.icon, all:item.all });
-//     console.log('item:', item);
-// } 
-
-onButtonClicked(item: any): void {
-  if (item.all && item.all === true) {
-    // Emitir un evento para indicar que se debe pintar todo el diente
-    this.handleAction.emit({ all: true });
-  } else {
-    // Emitir un evento con los datos de la opción seleccionada
-    this.handleAction.emit({ cor: item.cor, nome: item.nome, icon: item.icon, all: false });
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.handleActionSubscription();
+    console.log(this.handleActionSubscription);
+    
   }
-  console.log('item:', item);
-}
+
+
+  handleActionSubscription() {
+    // Suscribirse al evento handleAction del componente StudentsToolbarComponent
+    this.handleAction.subscribe((event: any) => {
+      // Manejar los datos recibidos aquí
+      console.log('Datos recibidos:', event);
+      // Verificar si se debe pintar todo el diente
+      if (event.all && event.all === true) {
+        // Tu lógica para pintar todo el diente aquí
+        console.log('Pintar todo el diente');
+      } else {
+        // Tu lógica para pintar una región específica aquí, si lo deseas
+        console.log('Pintar una región específica');
+      }
+    });
+  }
+
+  onButtonClicked(item: any): void {
+    this.handleAction.emit({ cor: item.cor, nome: item.nome, icon: item.icon, all:item.all });
+    console.log('item:', item);
+} 
+
+// onButtonClicked(item: any): void {
+//   if (item.all && item.all === true) {
+//     this.handleAction.emit({ all: true });
+//   } else {
+//     this.handleAction.emit({ cor: item.cor, nome: item.nome, icon: item.icon, all: false });
+//   }
+//   console.log('item:', item);
+// }
 
 
 

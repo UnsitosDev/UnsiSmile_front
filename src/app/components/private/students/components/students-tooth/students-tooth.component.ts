@@ -1,5 +1,5 @@
 import { NgClass, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 
 interface Face {
   id: string;
@@ -25,11 +25,37 @@ export class StudentsToothComponent {
   @Output() toggleTooth = new EventEmitter<any>();
   @Output() setFace = new EventEmitter<any>();
 
-  // clicked(data: any, index:number, faceId:any){
-  //   this.setFace.emit({ faceId: data.faces[index].id, index: index, data: data });
-  //   console.log('Data', data);
-  //   console.log('id', data.id);
+  
+
+  clicked(data: any, index:number, faceId:any){
+    this.setFace.emit({ faceId: data.faces[index].id, index: index, data: data });
+    const newEstado = 'green';
     
+
+    console.log('Data', data);
+    console.log('id', data.id);    
+    console.log('faces id y estado:');
+    data.faces.forEach((face: Face) => {
+      console.log('ID:', face.id);
+      console.log('Estado:', face.estado);
+    });
+    this.handleAction;
+  }
+   // Método para manejar los datos emitidos por StudentsToolbarComponent
+   handleAction(event: any): void {
+    console.log('Datos recibidos:', event);
+    // Aquí puedes realizar cualquier otra acción con los datos recibidos
+  }
+  
+  // clicked(data: any, index: number, faceId: any): void {
+  //   const newEstado = 'green';
+  
+  //   data.faces.forEach((face: Face) => {
+  //     face.estado = newEstado;
+  //   });
+  
+  //   this.setFace.emit({ faceId: data.faces[index].id, index: index, data: data });
+  
   //   console.log('faces id y estado:');
   //   data.faces.forEach((face: Face) => {
   //     console.log('ID:', face.id);
@@ -37,25 +63,6 @@ export class StudentsToothComponent {
   //   });
   // }
   
-  clicked(data: any, index: number, faceId: any): void {
-    // Obtener el nuevo estado (en este caso, verde)
-    const newEstado = 'green';
-  
-    // Actualizar el estado de todas las regiones del diente al nuevo estado
-    data.faces.forEach((face: Face) => {
-      face.estado = newEstado;
-    });
-  
-    // Emitir un evento con los datos actualizados del diente
-    this.setFace.emit({ faceId: data.faces[index].id, index: index, data: data });
-  
-    // Imprimir en consola los IDs y estados actualizados de todas las regiones del diente
-    console.log('faces id y estado:');
-    data.faces.forEach((face: Face) => {
-      console.log('ID:', face.id);
-      console.log('Estado:', face.estado);
-    });
-  }
   
 
 }
