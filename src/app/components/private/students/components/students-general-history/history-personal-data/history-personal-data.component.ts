@@ -29,11 +29,11 @@ export class HistoryPersonalDataComponent implements OnInit{
   birthDate: string;
   youngerForm: boolean = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor() {
     this.birthDate = ''; // Inicializamos la propiedad en el constructor
   }
   ngOnInit(): void {
-    console.log('Datos recibidos en el componente de diálogo:', this.data);
+    console.log('Datos recibidos en el componente de diálogo:');
 
   }
   onFechaNacimientoChange() {

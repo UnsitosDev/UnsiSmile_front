@@ -1,5 +1,6 @@
 <!-- tooth.component.html -->
 <div [ngClass]="data.css ? 'boxTooth ' + data.css : 'boxTooth'">
+  
     <button *ngIf="data.status; else addButton" class="removeButton" (click)="toggleTooth.emit(data)">-</button>
     <ng-template #addButton><button class="addButton" (click)="toggleTooth.emit(data)">+</button></ng-template>
   
@@ -15,7 +16,9 @@
         (click)="clicked(data,  0, data.faces[0].id )"
         class="face"
       />
-  
+      <!-- <text x="15" y="10" text-anchor="middle" alignment-baseline="middle" fill="black">A</text> -->
+
+
       <!-- Face 2 -->
       <polygon 
         stroke="blue" 
@@ -35,6 +38,7 @@
         (click)="clicked(data,  2, data.faces[2].id )"
         class="face"
       />
+
   
       <!-- Face 4 -->
       <polygon 

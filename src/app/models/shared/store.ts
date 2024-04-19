@@ -7,7 +7,9 @@ export interface Store {
     toolbar: {
       opcoes: {
         nome: string;
-        cor: string;
+        cor?: string;
+        icon?: string;
+        all?: boolean
       }[];
     };
     arcada: {

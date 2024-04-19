@@ -9,16 +9,41 @@ export const store: Store = {
       opcoes: [
         {
           nome: 'Restaurado',
-          cor: 'black',
+          cor: 'yellow',
         },
         {
           nome: 'Caríado',
           cor: 'green',
+
         },
         {
           nome: 'Hígido',
           cor: 'red',
+
         },
+        {
+          nome: 'Diente Obturado',
+          cor: 'gray',
+
+        },
+        {
+          nome: 'Diente c/fluorosis',
+          icon: 'F'
+        },
+        {
+          nome: 'Diente c/hipoplasia',
+          icon: 'H'
+        },
+        {
+          nome: 'Diente sano',
+          icon: '✔️ '
+        },
+        {
+          nome: 'Diente con corona',
+          cor: 'blue',
+          all: true
+        }
+       
       ],
     },
     arcada: {

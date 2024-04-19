@@ -21,6 +21,13 @@ import { faChartPie, IconDefinition, faHospitalUser} from '@fortawesome/free-sol
         buttonDescription: 'Ver pacientes',
         routerlink: '/students/patients'
       },
+      {
+        fontAwesomeIcon: faHospitalUser,
+        buttonText: 'Patients',
+        buttonDescription: 'Ver pacientes',
+        routerlink: '/students/historyClinic'
+      },
+      
 
       
     ];
