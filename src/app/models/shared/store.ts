@@ -3,13 +3,14 @@ export interface Store {
     marked: {
       selecionado: string;
       cor: string;
+      all?:string;
     };
     toolbar: {
       opcoes: {
         nome: string;
         cor?: string;
         icon?: string;
-        all?: boolean
+        all?: string
       }[];
     };
     arcada: {

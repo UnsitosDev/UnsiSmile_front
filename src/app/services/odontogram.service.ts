@@ -4,6 +4,7 @@ export const store: Store = {
     marked: {
       selecionado: '',
       cor: '',
+      all: ''
     },
     toolbar: {
       opcoes: [
@@ -41,7 +42,7 @@ export const store: Store = {
         {
           nome: 'Diente con corona',
           cor: 'blue',
-          all: true
+          all: 'allasdas'
         }
        
       ],

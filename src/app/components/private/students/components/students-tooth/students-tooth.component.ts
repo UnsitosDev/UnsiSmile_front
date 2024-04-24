@@ -1,5 +1,12 @@
 import { NgClass, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  input,
+} from '@angular/core';
 
 interface Face {
   id: string;
@@ -9,60 +16,44 @@ interface Face {
 @Component({
   selector: 'app-students-tooth',
   standalone: true,
-  imports: [
-    NgClass,
-    NgIf
-
-  ],
+  imports: [NgClass, NgIf],
   templateUrl: './students-tooth.component.html',
-  styleUrl: './students-tooth.component.scss'
+  styleUrl: './students-tooth.component.scss',
 })
-
 export class StudentsToothComponent {
   @Input() data: any;
   @Input() index: number = 0;
-  @Input() color: string = "withe";
+  @Input() color: string = 'withe';
+  @Input() all: string = '';
   @Output() toggleTooth = new EventEmitter<any>();
   @Output() setFace = new EventEmitter<any>();
 
-  
+  /**
+   * Función invocada cuando se hace clic en un diente.
+   * @param data Información de los estudiantes y sus dientes.
+   * @param index Índice del estudiante actual.
+   * @param faceId Identificador del diente seleccionado.
+   * @param all Variable de control opcional.
+   */
+  clicked(data: any, index: number, faceId: any, all: string) {
+    // Se emite un evento para configurar la cara con la información del diente seleccionado.
+    this.setFace.emit({faceId: data.faces[index].id, index: index, data: data, all: all,});
 
-  clicked(data: any, index:number, faceId:any){
-    this.setFace.emit({ faceId: data.faces[index].id, index: index, data: data });
-    const newEstado = 'green';
-    
+    // Se define un nuevo estado 'blue'.
+    const newEstado = 'blue';
 
-    console.log('Data', data);
-    console.log('id', data.id);    
-    console.log('faces id y estado:');
+    // Se itera sobre todos los dientes.
     data.faces.forEach((face: Face) => {
-      console.log('ID:', face.id);
-      console.log('Estado:', face.estado);
-    });
-    this.handleAction;
-  }
-   // Método para manejar los datos emitidos por StudentsToolbarComponent
-   handleAction(event: any): void {
-    console.log('Datos recibidos:', event);
-    // Aquí puedes realizar cualquier otra acción con los datos recibidos
-  }
-  
-  // clicked(data: any, index: number, faceId: any): void {
-  //   const newEstado = 'green';
-  
-  //   data.faces.forEach((face: Face) => {
-  //     face.estado = newEstado;
-  //   });
-  
-  //   this.setFace.emit({ faceId: data.faces[index].id, index: index, data: data });
-  
-  //   console.log('faces id y estado:');
-  //   data.faces.forEach((face: Face) => {
-  //     console.log('ID:', face.id);
-  //     console.log('Estado:', face.estado);
-  //   });
-  // }
-  
-  
+      // Si el estado del diente es 'blue', se actualiza el estado de todos los dientes a 'blue'.
+      if (face.estado === 'blue') {
+        // Se define un nuevo estado 'blue'.
+        const newEstado = 'blue';
 
+        // Se itera sobre todos los dientes y se actualiza su estado a 'blue'.
+        data.faces.forEach((face: Face) => {
+          face.estado = newEstado;
+        });
+      }
+    });
+  }
 }

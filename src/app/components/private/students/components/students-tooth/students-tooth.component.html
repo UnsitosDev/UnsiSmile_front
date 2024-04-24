@@ -13,7 +13,7 @@
         points="1.0136711597442627,1.35626420378685 7.767158031463623,9.155386298894882 21.696229934692383,9.155386298894882 28.449718475341797,1.35626420378685 " 
         [attr.id]="data.faces[0].id" 
         [attr.fill]="data.faces[0].estado"
-        (click)="clicked(data,  0, data.faces[0].id )"
+        (click)="clicked(data,  0, data.faces[0].id, all )"
         class="face"
       />
       <!-- <text x="15" y="10" text-anchor="middle" alignment-baseline="middle" fill="black">A</text> -->
@@ -25,7 +25,7 @@
         points="21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 28.19916971027851,32.98905944824219 28.41021592915058,0.8176754713058472 " 
         [attr.id]="data.faces[1].id" 
         [attr.fill]="data.faces[1].estado"
-        (click)="clicked(data,  1, data.faces[1].id )"
+        (click)="clicked(data,  1, data.faces[1].id, all )"
         class="face"
       />
   
@@ -35,7 +35,7 @@
         points="21.445680618286133,25.29296439886093 28.199169158935547,33.092128217220306 0.7631232142448425,33.092128217220306 7.516610622406006,25.29296439886093 " 
         [attr.id]="data.faces[2].id"
         [attr.fill]="data.faces[2].estado"
-        (click)="clicked(data,  2, data.faces[2].id )"
+        (click)="clicked(data,  2, data.faces[2].id, all )"
         class="face"
       />
 
@@ -46,7 +46,7 @@
         points="0.7631232291460037,1.3051201105117798 0.7631232291460037,33.232784271240234 7.516610696911812,25.189937591552734 7.516610696911812,25.189937591552734 7.516610696911812,9.104242324829102 " 
         [attr.id]="data.faces[3].id" 
         [attr.fill]="data.faces[3].estado"
-        (click)="clicked(data,  3, data.faces[3].id )"
+        (click)="clicked(data,  3, data.faces[3].id, all )"
         class="face"
       />
   
@@ -56,7 +56,7 @@
         points="7.516610696911812,9.104242324829102 21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 7.516610696911812,25.189937591552734 " 
         [attr.id]="data.faces[4].id" 
         [attr.fill]="data.faces[4].estado"
-        (click)="clicked(data,  4, data.faces[4].id )"
+        (click)="clicked(data,  4, data.faces[4].id, all )"
         class="face"
       />
     </svg>
