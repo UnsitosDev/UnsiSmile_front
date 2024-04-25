@@ -80,15 +80,23 @@ export class StudentsToothComponent {
         });
       }
 
-      if (face.estado === '✔️') {
+      if (face.estado === '✓') {
         const newSimbol = 'white';
 
-        this.newSimbolColor = '✔️';
+        this.newSimbolColor = '✓';
         data.faces.forEach((face:Face) => {
           face.estado = newSimbol;
         });
       }
       
+      if (face.estado === '⤻') {
+        const newSimbol = 'white';
+
+        this.newSimbolColor = '⤻';
+        data.faces.forEach((face:Face) => {
+          face.estado = newSimbol;
+        });
+      }
    
       
       

@@ -9,24 +9,22 @@ export const store: Store = {
     toolbar: {
       opcoes: [
         {
-          nome: 'Restaurado',
-          cor: 'yellow',
-        },
-        {
-          nome: 'Caríado',
-          cor: 'green',
-
-        },
-        {
-          nome: 'Hígido',
-          cor: 'red',
-
+          nome: 'Diente presente',
+          cor: '✓',
+          icon: '✓'
         },
         {
           nome: 'Diente Obturado',
-          cor: 'gray',
-
+          cor: 'teal',
         },
+        {
+          nome: 'Diente con corona',
+          cor: 'blue',
+        },
+        {
+          nome: 'Diente Cariado',
+          cor: 'red',
+        },       
         {
           nome: 'Diente c/fluorosis',
           icon: 'F',
@@ -38,15 +36,15 @@ export const store: Store = {
           cor: 'H'
         },
         {
-          nome: 'Diente sano',
-          cor: '✔️',
-          icon: '✔️'
+          nome: 'Diente en mal posicion',
+          icon: '⤻',
+          cor: '⤻'
         },
         {
-          nome: 'Diente con corona',
-          cor: 'blue',
-          all: 'allasdas'
-        }
+          nome: 'Borrar',
+          icon: '◻︎',
+          cor: 'white'
+        },
        
       ],
     },
