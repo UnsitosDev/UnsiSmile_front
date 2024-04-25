@@ -29,15 +29,18 @@ export const store: Store = {
         },
         {
           nome: 'Diente c/fluorosis',
-          icon: 'F'
+          icon: 'F',
+          cor: 'F'
         },
         {
           nome: 'Diente c/hipoplasia',
-          icon: 'H'
+          icon: 'H',
+          cor: 'H'
         },
         {
           nome: 'Diente sano',
-          icon: '✔️ '
+          cor: '✔️',
+          icon: '✔️'
         },
         {
           nome: 'Diente con corona',

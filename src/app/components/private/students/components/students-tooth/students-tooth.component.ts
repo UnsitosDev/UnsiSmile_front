@@ -35,10 +35,14 @@ export class StudentsToothComponent {
    * @param faceId Identificador del diente seleccionado.
    * @param all Variable de control opcional.
    */
+
+  // Variable para almacenar el color de la simbologia
+  newSimbolColor: string = '';
   clicked(data: any, index: number, faceId: any, all: string) {
     // Se emite un evento para configurar la cara con la información del diente seleccionado.
     this.setFace.emit({faceId: data.faces[index].id, index: index, data: data, all: all,});
 
+    console.log('data', data);
     // Se define un nuevo estado 'blue'.
     const newEstado = 'blue';
 
@@ -49,11 +53,45 @@ export class StudentsToothComponent {
         // Se define un nuevo estado 'blue'.
         const newEstado = 'blue';
 
+        console.log('estado', face.estado);
+
         // Se itera sobre todos los dientes y se actualiza su estado a 'blue'.
         data.faces.forEach((face: Face) => {
           face.estado = newEstado;
         });
       }
+
+
+      if (face.estado === 'H') {
+        const newSimbol = 'white';
+
+        this.newSimbolColor = 'H';
+        data.faces.forEach((face:Face) => {
+          face.estado = newSimbol;
+        });
+      }
+
+      if (face.estado === 'F') {
+        const newSimbol = 'white';
+
+        this.newSimbolColor = 'F';
+        data.faces.forEach((face:Face) => {
+          face.estado = newSimbol;
+        });
+      }
+
+      if (face.estado === '✔️') {
+        const newSimbol = 'white';
+
+        this.newSimbolColor = '✔️';
+        data.faces.forEach((face:Face) => {
+          face.estado = newSimbol;
+        });
+      }
+      
+   
+      
+      
     });
   }
 }
