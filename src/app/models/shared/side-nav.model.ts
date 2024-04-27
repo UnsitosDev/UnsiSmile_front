@@ -11,7 +11,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/
     export const items: MenuItem[] = [
       {
         fontAwesomeIcon: faHome, // Reemplaza con el ícono FontAwesome que desees
-        buttonText: 'Home',
+        buttonText: 'Inicio',
         buttonDescription: 'Información del usuario',
         routerlink: '/students/dashboard'
       },
