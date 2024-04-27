@@ -3,6 +3,7 @@ import { AuthModel } from '../models/core/auth.model';
 import jwtDecode from 'jwt-decode';
 import { Router } from '@angular/router';
 import { TokenData } from '../components/public/login/model/tokenData';
+import { SessionStorageConstants } from '../utils/session.storage';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,21 @@ export class AuthService {
 
   private getTokenData(token: string): AuthModel.UserTokenData {
     return token ? jwtDecode(token) : AuthModel.userTokenData;
+  }
+
+  /**
+ * Obtiene el token de usuario almacenado en la sesión.
+ *
+ * @returns {string | null} El token de usuario almacenado en la sesión o null si no se encuentra.
+ */
+  getToken(): string | null {
+    // Verifica si la ventana está definida para evitar errores en entornos sin ventana, como Node.js
+    if (typeof window !== 'undefined') {
+      // Obtiene el token de usuario de la sesión
+      const token = sessionStorage.getItem(SessionStorageConstants.USER_TOKEN);
+      return token;
+    }
+    return null;// Devuelve null si no se encuentra el token o no hay ventana definida
   }
 
   /**
