@@ -1,6 +1,6 @@
 
 <main class="p-10 ">
-    <h1 class="pb-6">Lista de {{title }}</h1>
+    <h1 class="pb-6">{{title }}</h1>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -11,7 +11,7 @@
                 </th>
               }
               <th scope="col" class="px-6 py-3">
-                Acciones
+                
               </th>
             </tr>
         </thead>
@@ -25,8 +25,8 @@
               </td>
               }
               <td class="py-4 text-left ">
-                  <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-7" (click)="onAction('Editar',data)">Edit</a>
-                  <a  class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="onAction('Eliminar',data)">Delete</a>
+                  <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-7" (click)="onAction('Editar',data)"><i class="fas fa-folder"></i></a>
+                  <a  class="font-medium text-red-600 dark:text-blue-500 hover:underline pr-7" (click)="onAction('Eliminar',data)"><i class="fas fa-trash-alt"></i></a>
               </td>
           </tr>
           }

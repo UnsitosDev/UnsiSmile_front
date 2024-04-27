@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-history-personal-data',
@@ -22,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './history-personal-data.component.scss',
 })
 export class HistoryPersonalDataComponent implements OnInit{
+
   
   birthDate: string;
   youngerForm: boolean = false;
@@ -30,6 +33,8 @@ export class HistoryPersonalDataComponent implements OnInit{
     this.birthDate = ''; // Inicializamos la propiedad en el constructor
   }
   ngOnInit(): void {
+    console.log('Datos recibidos en el componente de diálogo:');
+
   }
   onFechaNacimientoChange() {
     const fechaActual = new Date();

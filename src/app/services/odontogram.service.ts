@@ -4,21 +4,78 @@ export const store: Store = {
     marked: {
       selecionado: '',
       cor: '',
+      all: ''
     },
     toolbar: {
       opcoes: [
         {
-          nome: 'Restaurado',
-          cor: 'black',
+          nome: 'Diente presente',
+          cor: '✓',
+          icon: '✓'
         },
         {
-          nome: 'Caríado',
-          cor: 'green',
+          nome: 'Diente Obturado',
+          cor: 'teal',
         },
         {
-          nome: 'Hígido',
+          nome: 'Diente con corona',
+          cor: 'blue',
+        },
+        {
+          nome: 'Diente Cariado',
           cor: 'red',
+        },       
+        {
+          nome: 'Diente c/fluorosis',
+          icon: 'F',
+          cor: 'F'
         },
+        {
+          nome: 'Diente c/hipoplasia',
+          icon: 'H',
+          cor: 'H'
+        },
+        {
+          nome: 'Diente en mal posicion',
+          icon: '⤻',
+          cor: '⤻'
+        },
+        {
+          nome: 'Diente parcialmente erupcionado',
+          icon: '──',
+          cor: '──'
+        },
+        {
+          nome: 'Espacio c/Corona',
+          icon: 'E/C',
+          cor: 'E/C'
+        },
+        {
+          nome: 'Espacio c/Banda',
+          icon: 'E/B',
+          cor: 'E/B'
+        },
+        {
+          nome: 'Puente',
+          icon: '───',
+          cor: '───'
+        },
+        {
+          nome: 'Prótesis p/removible',
+          icon: '──',
+          cor: 'pr'
+        },
+        {
+          nome: 'Diente Extraido',
+          icon: '△',
+          cor: '△'
+        },
+        {
+          nome: 'Borrar',
+          icon: '◻︎',
+          cor: '◻︎'
+        },
+       
       ],
     },
     arcada: {
