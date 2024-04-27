@@ -1,5 +1,14 @@
-<app-tabla-data  
+
+<div class="flex justify-end">
+    <button class="mr-10" mat-flat-button color="primary" routerLink="/students/historyClinic">
+        <i class="fas fa-user-plus"></i>  
+        Nuevo Paciente
+    </button>
+</div>
+
+<app-tabla-data
 [titulo]="title"
 [columns]="columnas"
 [data]="keyboardList" 
-(action)="onAction($event)"></app-tabla-data>
+(action)="onAction($event)">
+</app-tabla-data>
