@@ -38,6 +38,7 @@ export class StudentsToothComponent {
 
   // Variable para almacenar el color de la simbologia
   newSimbolColor: string = '';
+  line: boolean = false;
   clicked(data: any, index: number, faceId: any, all: string) {
     // Se emite un evento para configurar la cara con la información del diente seleccionado.
     this.setFace.emit({faceId: data.faces[index].id, index: index, data: data, all: all,});
@@ -96,6 +97,14 @@ export class StudentsToothComponent {
         data.faces.forEach((face:Face) => {
           face.estado = newSimbol;
         });
+      }
+   
+      if (face.estado === '──') {
+        const newSimbol = 'white';
+        data.faces.forEach((face:Face) => {
+          face.estado = newSimbol;
+        });
+        this.line = true;
       }
    
       

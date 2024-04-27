@@ -59,8 +59,12 @@
         (click)="clicked(data,  4, data.faces[4].id, all )"
         class="face"
       />
-    </svg>
+      
+      @if (line) {
+        <line x1="100" y1="25" x2="0" y2="25" />
+      }
 
+    </svg>
       <div class="simbols">
         <span>{{ newSimbolColor }}</span>
       </div>

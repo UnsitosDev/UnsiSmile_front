@@ -41,6 +41,11 @@ export const store: Store = {
           cor: '⤻'
         },
         {
+          nome: 'Diente parcialmente erupcionado',
+          icon: '──',
+          cor: '──'
+        },
+        {
           nome: 'Borrar',
           icon: '◻︎',
           cor: 'white'
