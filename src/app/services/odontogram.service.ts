@@ -46,9 +46,34 @@ export const store: Store = {
           cor: '──'
         },
         {
+          nome: 'Espacio c/Corona',
+          icon: 'E/C',
+          cor: 'E/C'
+        },
+        {
+          nome: 'Espacio c/Banda',
+          icon: 'E/B',
+          cor: 'E/B'
+        },
+        {
+          nome: 'Puente',
+          icon: '───',
+          cor: '───'
+        },
+        {
+          nome: 'Prótesis p/removible',
+          icon: '──',
+          cor: 'pr'
+        },
+        {
+          nome: 'Diente Extraido',
+          icon: '△',
+          cor: '△'
+        },
+        {
           nome: 'Borrar',
           icon: '◻︎',
-          cor: 'white'
+          cor: '◻︎'
         },
        
       ],

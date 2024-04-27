@@ -49,19 +49,18 @@ export class StudentsToothComponent {
 
     // Se itera sobre todos los dientes.
     data.faces.forEach((face: Face) => {
-      // Si el estado del diente es 'blue', se actualiza el estado de todos los dientes a 'blue'.
-      if (face.estado === 'blue') {
-        // Se define un nuevo estado 'blue'.
-        const newEstado = 'blue';
 
-        console.log('estado', face.estado);
 
-        // Se itera sobre todos los dientes y se actualiza su estado a 'blue'.
-        data.faces.forEach((face: Face) => {
-          face.estado = newEstado;
+      
+      
+      // Funcion borrador
+      if (face.estado === '◻︎') {
+        const newSimbol = 'white';
+        this.newSimbolColor = '';
+        data.faces.forEach((face:Face) => {
+          face.estado = newSimbol;
         });
       }
-
 
       if (face.estado === 'H') {
         const newSimbol = 'white';
@@ -106,8 +105,68 @@ export class StudentsToothComponent {
         });
         this.line = true;
       }
-   
+
+      if (face.estado === 'E/C') {
+        const newSimbol = 'blue';
+        this.newSimbolColor = 'E/C';
+        data.faces.forEach((face:Face) => {
+          face.estado = newSimbol;
+        });
+      }
+
+      if (face.estado === 'E/C') {
+        const newSimbol = 'blue';
+        this.newSimbolColor = 'E/C';
+        data.faces.forEach((face:Face) => {
+          face.estado = newSimbol;
+        });
+      }
+
+
+
+      if (face.estado === 'blue') {
+        const newEstado = 'blue';
+        console.log('estado', face.estado);
+        data.faces.forEach((face: Face) => {
+          face.estado = newEstado;
+        });
+      }  
+
+
+      if (face.estado === 'E/B') {
+        const newEstado = 'blue';
+        this.newSimbolColor = 'E/B'
+        console.log('estado', face.estado);
+        data.faces.forEach((face: Face) => {
+          face.estado = newEstado;
+        });
+      }  
+      if (face.estado === '───') {
+        const newEstado = 'blue';
+        this.newSimbolColor = '───'
+        console.log('estado', face.estado);
+        data.faces.forEach((face: Face) => {
+          face.estado = newEstado;
+        });
+      }  
       
+      if (face.estado === 'pr') {
+        const newEstado = 'white';
+        this.newSimbolColor = '───'
+        console.log('estado', face.estado);
+        data.faces.forEach((face: Face) => {
+          face.estado = newEstado;
+        });
+      }  
+
+      if (face.estado === '△') {
+        const newEstado = 'white';
+        this.newSimbolColor = '△'
+        console.log('estado', face.estado);
+        data.faces.forEach((face: Face) => {
+          face.estado = newEstado;
+        });
+      }  
       
     });
   }
