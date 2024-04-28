@@ -1,45 +1,58 @@
 <div class="mx-4">
-    <form>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16">
-        <!-- Perfil Recto -->
-        <div class="relative flex-grow w-full">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Perfil Recto</label>
-          <input type="number" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-        </div>
-        <!-- Cóncavo -->
-        <div class="relative flex-grow w-full">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cóncavo</label>
-          <input type="number" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-        </div>
-        <!-- Convexo -->
-        <div class="relative flex-grow w-full">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Convexo</label>
-          <input type="number" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-        </div>
-        <!-- Frente Braquifacial -->
-        <div class="relative flex-grow w-full">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Frente Braquifacial</label>
-          <input type="number" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-        </div>
-        <!-- Normofacial -->
-        <div class="relative flex-grow w-full">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Normofacial</label>
-          <input type="number" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-        </div>
-        <!-- Dolicofacial -->
-        <div class="relative flex-grow w-full">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Dolicofacial</label>
-          <input type="number" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-        </div>
-        <!-- Señas particulares -->
-        <div class="relative flex-grow w-full">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Señas particulares</label>
-          <input type="number" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-        </div>
+  <form>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 mb-16"
+    >
+      <!-- Perfil -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Perfil Recto</label
+        >
+        <select
+          id="countries"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          <option></option>
+          <option>Recto</option>
+          <option>Cóncavo</option>
+          <option>Convexo</option>
+        </select>
       </div>
-      <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
-        <button mat-raised-button color="primary">Siguiente</button>
+
+      <!-- Frente Braquifacial -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Frente Braquifacial</label
+        >
+        <select
+          id="countries"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          <option></option>
+          <option>Braquifacial</option>
+          <option>Normofacial</option>
+          <option>Dolicofacial</option>
+        </select>
       </div>
-    </form>
-  </div>
-  
+
+      <!-- Señas particulares -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Señas particulares</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+    </div>
+    <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
+      <button (click)="SendExamFacial()" mat-raised-button color="primary">
+        Siguiente
+      </button>
+    </div>
+  </form>
+</div>

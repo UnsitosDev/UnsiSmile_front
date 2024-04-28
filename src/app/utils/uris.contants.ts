@@ -45,7 +45,7 @@ export class UriConstants {
   public static readonly POST_FACIAL_PROFILE_= basePath + '/medical-histories/facial-profiles'
   // facial-front-controller
   public static readonly GETID_FACIAL_FRONT = basePath + '/medical-histories/facial-fronts/'
-  public static readonly GET_FACIAL_FRONT_ = basePath + '/medical-histories/facial-fronts'
+  public static readonly GET_FACIAL_FRONT = basePath + '/medical-histories/facial-fronts'
   public static readonly GET_FACIAL_FRONT_BYNAME = basePath + '/medical-histories/facial-fronts/byName/'
   public static readonly POST_FACIAL_FRONT = basePath + '/medical-histories/facial-fronts'
   // facial-exam-controller
