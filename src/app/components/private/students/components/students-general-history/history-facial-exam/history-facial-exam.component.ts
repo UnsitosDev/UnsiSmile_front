@@ -2,7 +2,7 @@ import { ApiService } from './../../../../../../services/api.service';
 import { NgFor } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -26,10 +26,20 @@ import { UriConstants } from '@mean/utils';
 })
 export class HistoryFacialExamComponent {
 
+  // Formularios
+  facialExamForms: FormGroup;
   constructor(
-    public authService : AuthService,
-    public apiService: ApiService
-  ){}
+    private authService : AuthService,
+    private apiService: ApiService,
+    private fb: FormBuilder
+    
+  ){
+
+    // Inicializando formularios
+    this.facialExamForms = this.fb.group({
+
+    })
+  }
 
   SendExamFacial() {
     const token = this.authService.getToken();
