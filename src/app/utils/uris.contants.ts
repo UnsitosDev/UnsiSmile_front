@@ -11,6 +11,12 @@ export class UriConstants {
   public static readonly GETID_TOOTH_REGION = basePath + '/medical-histories/tooth-regions/'
   public static readonly GET_TOOTH_REGION = basePath + '/medical-histories/tooth-regions'
   public static readonly POST_TOOTH_REGION = basePath + '/medical-histories/tooth-regions'
+
+  // tooth-region-periodontogram-controller
+  public static readonly GETID_TOOTH_REGION_PERIODONTOGRAM = basePath + '/medical-histories/tooth-region-periodontograms/'
+  public static readonly GET_TOOTH_REGION_PERIODONTOGRAM= basePath + '/medical-histories/tooth-region-periodontograms'
+  public static readonly POST_TOOTH_REGION_PERIODONTOGRAM = basePath + '/medical-histories/tooth-region-periodontograms'
+  
   // tooth-detail-controller
   public static readonly GETID_TOOTH_DETAIL = basePath + '/medical-histories/tooth-details/'
   public static readonly GET_TOOTH_DETAIL = basePath + '/medical-histories/tooth-details'
@@ -83,5 +89,45 @@ export class UriConstants {
   // auth-controller
   public static readonly POST_AUTH = basePath + '/auth/register'
   public static readonly POSTB_AUTH = basePath + '/auth/register'
+
+  //person controller
+  public static readonly GETID_PERSON = basePath + '/persons/'
+  public static readonly GET_PERSON = basePath + '/persons'
+  public static readonly POST_PERSON = basePath + '/persons'
+
+   // grupos
+   public static readonly GETID_GROUPS = basePath + '/groups/'
+   public static readonly GET_GROUPS = basePath + '/groups'
+   public static readonly POST_GROUPS = basePath + '/groups'
+
+   // semestres
+   public static readonly GETID_SEMESTER = basePath + '/semesters/'
+   public static readonly GET_SEMESTER = basePath + '/semesters'
+   public static readonly POST_SEMESTER = basePath + '/semesters'
+
+   // REGION MEASUREMENT  
+   public static readonly GETID_REGION_MEASUREMENT_POCKETS = basePath + '/medical-histories/region-measurement-pockets/'
+   public static readonly GET_REGION_MEASUREMENT_POCKETS = basePath + '/medical-histories/region-measurement-pockets'
+   public static readonly POST_REGION_MEASUREMENT_POCKETS = basePath + '/medical-histories/region-measurement-pockets'
+   
+   // POCKET MEASUREMENT DETAIL  
+   public static readonly GETID_POCKET_MEASUREMENT_DETAIL = basePath + '/medical-histories/pocket-measurement-details/'
+   public static readonly GET_POCKET_MEASUREMENT_DETAIL = basePath + '/medical-histories/region-measurement-pockets'
+   public static readonly POST_POCKET_MEASUREMENT_DETAIL = basePath + '/medical-histories/region-measurement-pockets'
+
+   // periodontograma
+    public static readonly GETID_PERIODONTOGRAM = basePath + '/medical-histories/periodontograms/'
+    public static readonly GET_PERIODONTOGRAM = basePath + '/medical-histories/periodontograms'
+    public static readonly POST_PERIODONTOGRAM = basePath + '/medical-histories/periodontograms'
+
+    // open question pathological antecedentes
+    public static readonly GETID_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS = basePath + '/medical-histories/open-question-pathological-antecedents/'
+    public static readonly GET_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS = basePath + '/medical-histories/open-question-pathological-antecedents'
+    public static readonly POST_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS = basePath + '/medical-histories/open-question-pathological-antecedents'
+
+  
+
+  
+
 
 }
