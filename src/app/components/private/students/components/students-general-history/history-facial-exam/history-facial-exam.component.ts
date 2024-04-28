@@ -48,7 +48,7 @@ export class HistoryFacialExamComponent {
       idFacialProfile:[1],
       // facial front
       facialFront: [''],
-      idFacialFront:[1] 
+      idFacialFront:[] 
     });
   }
 
