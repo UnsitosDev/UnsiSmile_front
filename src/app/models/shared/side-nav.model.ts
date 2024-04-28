@@ -1,4 +1,4 @@
-import { faChartPie, IconDefinition, faHospitalUser} from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/free-solid-svg-icons';
 
 
     export interface MenuItem {
@@ -10,23 +10,23 @@ import { faChartPie, IconDefinition, faHospitalUser} from '@fortawesome/free-sol
   
     export const items: MenuItem[] = [
       {
-        fontAwesomeIcon: faChartPie, // Reemplaza con el ícono FontAwesome que desees
-        buttonText: 'Dashboard',
-        buttonDescription: 'Ver opciones del dashboard',
+        fontAwesomeIcon: faHome, // Reemplaza con el ícono FontAwesome que desees
+        buttonText: 'Inicio',
+        buttonDescription: 'Información del usuario',
         routerlink: '/students/dashboard'
       },
       {
         fontAwesomeIcon: faHospitalUser,
-        buttonText: 'Patients',
+        buttonText: 'Pacientes',
         buttonDescription: 'Ver pacientes',
         routerlink: '/students/patients'
       },
-      {
-        fontAwesomeIcon: faHospitalUser,
-        buttonText: 'Patients',
-        buttonDescription: 'Ver pacientes',
-        routerlink: '/students/historyClinic'
-      },
+      // {
+      //   fontAwesomeIcon: faHospitalUser,
+      //   buttonText: 'Patients',
+      //   buttonDescription: 'Ver pacientes',
+      //   routerlink: '/students/historyClinic'
+      // },
       
 
       

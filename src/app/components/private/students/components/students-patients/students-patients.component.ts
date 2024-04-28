@@ -10,10 +10,12 @@ import { Ipatients } from 'src/app/models/tabla/patients';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentsGeneralHistoryComponent } from '../students-general-history/students-general-history.component';
+import { RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-students-patients',
   standalone: true,
-  imports: [TablaDataComponent, MatButtonModule],
+  imports: [TablaDataComponent, MatButtonModule, RouterLink],
   templateUrl: './students-patients.component.html',
   styleUrl: './students-patients.component.scss',
 })
