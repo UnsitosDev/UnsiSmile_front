@@ -1,7 +1,7 @@
 import { ApiService } from './../../../../../../services/api.service';
 import { NgFor } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,6 +15,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { AuthService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ReactiveFormsModule } from '@angular/forms';
+
+interface FacialFront {
+  idFacialFront: number;
+  facialFront: string;
+}
 
 @Component({
   selector: 'app-history-facial-exam',
@@ -31,7 +36,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   templateUrl: './history-facial-exam.component.html',
   styleUrl: './history-facial-exam.component.scss',
 })
-export class HistoryFacialExamComponent {
+export class HistoryFacialExamComponent implements OnInit {
   // Formulario para el examen facial
   facialExamForms: FormGroup;
 
@@ -43,8 +48,8 @@ export class HistoryFacialExamComponent {
    */
   constructor(
     private authService: AuthService,
-    private apiService: ApiService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private apiService: ApiService
   ) {
     // Inicialización del formulario facialExamForms utilizando FormBuilder
     this.facialExamForms = this.fb.group({
@@ -63,38 +68,17 @@ export class HistoryFacialExamComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.fetchFacialFronts();
+    this.fetchFacialProfile();
+  }
   /**
    * Método para manejar la presentación del formulario.
    * Este método se activa cuando se envía el formulario.
    * Procesa los datos del formulario y los imprime en la consola.
    */
   onSubmit() {
-    // Variables para almacenar los ID asociados a las opciones seleccionadas
-    let idFacialProfile = 0; // Valor predeterminado para "Recto"
-    let idFacialFront = 0; // Valor predeterminado para "Braquifacial"
-
-    // Obtener el valor seleccionado del perfil facial
-    const selectedProfile =
-      this.facialExamForms?.get('facialProfile')?.value ?? 0;
-    // Determinar el ID asociado al perfil facial seleccionado
-    if (selectedProfile === 'Recto') {
-      idFacialProfile = 0;
-    } else if (selectedProfile === 'Cóncavo') {
-      idFacialProfile = 2;
-    } else if (selectedProfile === 'Convexo') {
-      idFacialProfile = 3;
-    }
-
-    // Obtener el valor seleccionado del frente facial
-    const selectedFront = this.facialExamForms?.get('facialFront')?.value ?? 0;
-    // Determinar el ID asociado al frente facial seleccionado
-    if (selectedFront === 'Braquifacial') {
-      idFacialFront = 0;
-    } else if (selectedFront === 'Normofacial') {
-      idFacialFront = 1;
-    } else if (selectedFront === 'Dolicofacial') {
-      idFacialFront = 2;
-    }
+ 
 
     // Objeto para enviar
     const exampleFacialExam = {
@@ -102,17 +86,18 @@ export class HistoryFacialExamComponent {
       distinguishingFeatures:
         this.facialExamForms?.get('distinguishingFeatures')?.value ?? '',
       facialProfile: {
-        idFacialProfile: idFacialProfile,
+        idFacialProfile: '',
         facialProfile: this.facialExamForms?.get('facialProfile')?.value ?? '',
       },
       facialFront: {
-        idFacialFront: idFacialFront,
+        idFacialFront:'' ,
         facialFront: this.facialExamForms?.get('facialFront')?.value ?? '',
       },
     };
 
     console.log(exampleFacialExam);
     const token = this.authService.getToken();
+    console.log(token);
     this.apiService
       .postService({
         headers: new HttpHeaders({
@@ -124,11 +109,64 @@ export class HistoryFacialExamComponent {
       })
       .subscribe({
         next: (response) => {
-          console.log('response: ', response);
+          console.log('enviado');
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
         },
       });
   }
+
+  namefacialFront: any[] = [];
+  idfacialFront: any[] = [];
+  fetchFacialFronts() {   
+    this.apiService
+      .getListService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_FACIAL_FRONT}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          // Verifica si la respuesta contiene datos antes de asignar
+          if (response && Array.isArray(response)) {
+            this.namefacialFront = response.map(item => item.facialFront);
+            this.idfacialFront = response.map(item => item.idFacialFront);
+          }
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
+  
+  nameFacialProfile: any[] = [];
+  idFacialProfile: any[] = [];
+  fetchFacialProfile() {   
+    this.apiService
+      .getListService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_FACIAL_PROFILE}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          // Verifica si la respuesta contiene datos antes de asignar
+          if (response && Array.isArray(response)) {
+            this.nameFacialProfile = response.map(item => item.facialProfile);
+            this.idFacialProfile = response.map(item => item.idFacialProfile);
+          }
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
+  
+
+  
 }
