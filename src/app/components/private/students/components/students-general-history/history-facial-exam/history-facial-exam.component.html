@@ -10,8 +10,8 @@
               class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
               formControlName="facialProfile"> <!-- Vinculando con idFacialProfile -->
               <option></option>
-              @for (item of namefacialFront; track $index) {
-                <option>{{ item }}</option>
+              @for (item of nameFacialProfile; track $index) {
+                <option [value]="item.idFacialProfile">{{ item.facialProfile }}</option>
               }     
             </select>
           </div>
@@ -23,8 +23,8 @@
             class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
             formControlName="facialFront">
             <option></option>
-            @for (item of nameFacialProfile; track $index) {
-              <option>{{item}}</option>
+            @for (item of namefacialFront; track $index) {
+              <option [value]="item.idFacialFront">{{item.facialFront}}</option>
 
             }
           </select>

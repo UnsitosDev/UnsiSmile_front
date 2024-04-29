@@ -9,6 +9,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SessionStorageConstants} from '../utils/session.storage';
 import { AuthService } from '../services/auth.service';
+
 //@Injectable({ providedIn: 'root' })
 // export class AuthInterceptor implements HttpInterceptor {
 //   intercept(
@@ -32,10 +33,15 @@ import { AuthService } from '../services/auth.service';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   let token = sessionStorage.getItem(SessionStorageConstants.USER_TOKEN);
+  if (token) {
     const cloneRequest = req.clone({
       setHeaders:{
         Authorization: `Bearer ${token}`
       }
     });
-  return next(cloneRequest);
+      return next(cloneRequest);
+
+  }
+    
+  return next(req);
 };

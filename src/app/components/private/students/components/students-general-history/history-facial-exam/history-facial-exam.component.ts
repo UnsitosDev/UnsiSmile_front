@@ -16,11 +16,6 @@ import { AuthService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ReactiveFormsModule } from '@angular/forms';
 
-interface FacialFront {
-  idFacialFront: number;
-  facialFront: string;
-}
-
 @Component({
   selector: 'app-history-facial-exam',
   standalone: true,
@@ -77,27 +72,55 @@ export class HistoryFacialExamComponent implements OnInit {
    * Este método se activa cuando se envía el formulario.
    * Procesa los datos del formulario y los imprime en la consola.
    */
-  onSubmit() {
- 
 
-    // Objeto para enviar
+  onSubmit() {
+    const selectedIdFacialProfileValue =
+      this.facialExamForms?.get('facialProfile')?.value;
+    const selectedIdFacialFrontValue =
+      this.facialExamForms?.get('facialFront')?.value;
+
+    const matchedItem = this.namefacialFront.find(
+      (item) =>
+        item.idFacialFront.toString() === selectedIdFacialFrontValue.toString()
+    );
+    
+    const matchedItemFacial = this.nameFacialProfile.find(
+      (item) =>
+        item.idFacialProfile.toString() === selectedIdFacialProfileValue.toString()
+    );
+
+
+    // Verificar si se encontró el objeto correspondiente
+    if (matchedItem) {
+      // Imprimir en consola el valor de facialFront correspondiente
+      // console.log('Facial Front seleccionado:', matchedItem.facialFront);
+    } else {
+      // Si no se encuentra un objeto correspondiente, manejar el caso según sea necesario
+      // console.log('No se encontró un Facial Front correspondiente para el id seleccionado:',selectedIdFacialFrontValue);
+    }
+   
+    if (matchedItemFacial) {
+     // console.log('Facial Front seleccionado:', matchedItemFacial.facialProfile);
+    } else {
+     // console.log('No se encontró un Facial Front correspondiente para el id seleccionado:',selectedIdFacialProfileValue);
+    }
+
     const exampleFacialExam = {
       idFacialExam: this.facialExamForms?.get('idFacialExam')?.value ?? 0,
       distinguishingFeatures:
         this.facialExamForms?.get('distinguishingFeatures')?.value ?? '',
       facialProfile: {
-        idFacialProfile: '',
-        facialProfile: this.facialExamForms?.get('facialProfile')?.value ?? '',
+        idFacialProfile: selectedIdFacialProfileValue,
+        facialProfile: matchedItemFacial.facialProfile,
       },
       facialFront: {
-        idFacialFront:'' ,
-        facialFront: this.facialExamForms?.get('facialFront')?.value ?? '',
+        idFacialFront: selectedIdFacialFrontValue,
+        facialFront: matchedItem.facialFront,
       },
     };
 
     console.log(exampleFacialExam);
     const token = this.authService.getToken();
-    console.log(token);
     this.apiService
       .postService({
         headers: new HttpHeaders({
@@ -118,8 +141,8 @@ export class HistoryFacialExamComponent implements OnInit {
   }
 
   namefacialFront: any[] = [];
-  idfacialFront: any[] = [];
-  fetchFacialFronts() {   
+
+  fetchFacialFronts() {
     this.apiService
       .getListService({
         headers: new HttpHeaders({
@@ -132,8 +155,23 @@ export class HistoryFacialExamComponent implements OnInit {
         next: (response) => {
           // Verifica si la respuesta contiene datos antes de asignar
           if (response && Array.isArray(response)) {
-            this.namefacialFront = response.map(item => item.facialFront);
-            this.idfacialFront = response.map(item => item.idFacialFront);
+            this.namefacialFront = response.map((item) => ({
+              facialFront: item.facialFront,
+              idFacialFront: item.idFacialFront,
+            }));
+            // Crear el arreglo comparefacialFront a partir de la respuesta del backend
+            const comparefacialFront: any[] = [];
+
+            for (const item of response) {
+              comparefacialFront.push({
+                facialFront: item.facialFront,
+                idFacialFront: item.idFacialFront,
+              });
+            }
+
+            // Imprimir el arreglo comparefacialFront en la consola
+            // console.log('Arreglo comparefacialFront:', comparefacialFront);
+            // console.log(this.namefacialFront);
           }
         },
         error: (error) => {
@@ -141,10 +179,9 @@ export class HistoryFacialExamComponent implements OnInit {
         },
       });
   }
-  
+
   nameFacialProfile: any[] = [];
-  idFacialProfile: any[] = [];
-  fetchFacialProfile() {   
+  fetchFacialProfile() {
     this.apiService
       .getListService({
         headers: new HttpHeaders({
@@ -157,8 +194,23 @@ export class HistoryFacialExamComponent implements OnInit {
         next: (response) => {
           // Verifica si la respuesta contiene datos antes de asignar
           if (response && Array.isArray(response)) {
-            this.nameFacialProfile = response.map(item => item.facialProfile);
-            this.idFacialProfile = response.map(item => item.idFacialProfile);
+            this.nameFacialProfile = response.map((item) => ({
+              facialProfile: item.facialProfile,
+              idFacialProfile: item.idFacialProfile,
+            }));
+            // Crear el arreglo comparefacialFront a partir de la respuesta del backend
+            const comparefacialFacial: any[] = [];
+
+            for (const item of response) {
+              comparefacialFacial.push({
+                facialProfile: item.facialProfile,
+                idFacialProfile: item.idFacialProfile,
+              });
+            }
+
+            // Imprimir el arreglo comparefacialFront en la consola
+           // console.log('Arreglo comparefacialFacial:', comparefacialFacial);
+            // console.log(this.nameFacialProfile);
           }
         },
         error: (error) => {
@@ -166,7 +218,4 @@ export class HistoryFacialExamComponent implements OnInit {
         },
       });
   }
-  
-
-  
 }
