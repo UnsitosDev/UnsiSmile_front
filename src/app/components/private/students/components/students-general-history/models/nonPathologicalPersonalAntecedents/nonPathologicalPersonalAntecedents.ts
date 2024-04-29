@@ -1,7 +1,7 @@
 import { housingMaterialRequest, housingMaterialResponse } from "../housingMaterial/housingMaterial"
 
 export interface nonPathologicalPersonalAntecedentsRequest {
-    "idNonPathologicalPersonalAntecedents": number,
+    "idNonPathologicalPersonalAntecedents": number|null,
     "eatsFruitsVegetables": boolean,
     "eatsMeat": boolean,
     "eatsCereals": boolean,

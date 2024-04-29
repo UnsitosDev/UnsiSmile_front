@@ -1,5 +1,5 @@
 export interface periodontogramaRequest {
-    "idPeriodontogram": number,
+    "idPeriodontogram": number|null,
     "description": string,
     "date": string
 

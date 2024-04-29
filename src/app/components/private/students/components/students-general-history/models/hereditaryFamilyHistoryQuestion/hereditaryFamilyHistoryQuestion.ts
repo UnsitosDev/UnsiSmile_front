@@ -1,5 +1,5 @@
 export interface hereditaryFamilyHistoryQuestionRequest {
-    "idQuestion": number,
+    "idQuestion": number|null,
     "question": string
 }
 

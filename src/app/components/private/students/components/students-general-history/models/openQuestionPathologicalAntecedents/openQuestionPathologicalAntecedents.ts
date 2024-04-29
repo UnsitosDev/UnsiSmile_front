@@ -1,5 +1,5 @@
 export interface openQuestionPathologicalAntecedentsRequest{
-    "idOpenQuestion": number,
+    "idOpenQuestion": number|null,
   "question": string
     
 }

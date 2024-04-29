@@ -1,5 +1,5 @@
 export interface toothConditionRequest {
-    "idToothCondition": number,
+    "idToothCondition": number|null,
     "description": string
 
 }

@@ -1,5 +1,5 @@
 export interface dentalCodeRequest {
-    "idDentalCode": number,
+    "idDentalCode": number|null,
     "code": string,
     "adult": boolean
 

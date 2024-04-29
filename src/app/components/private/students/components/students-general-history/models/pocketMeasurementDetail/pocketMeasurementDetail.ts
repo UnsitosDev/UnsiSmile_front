@@ -4,8 +4,8 @@ import { regionMeasurementPocketsRequest, regionMeasurementPocketsResponse } fro
 import { toothRegionPeriodontogramRequest, toothRegionPeriodontogramResponse } from "../toothRegionPeriodontogram/toothRegionPeriodontogram"
 
 export interface pocketMeasurementDetailRequest {
-    "idPocketMeasurementDetail": 0,
-  "measurement": 0,
+    "idPocketMeasurementDetail": number|null,
+  "measurement": number,
   "toothRegionsPeriodontogram": toothRegionPeriodontogramRequest,
   "dentalCode": dentalCodeRequest,
   "regionsMeasurementPockets": regionMeasurementPocketsRequest,
@@ -14,8 +14,8 @@ export interface pocketMeasurementDetailRequest {
 }
 
 export interface pocketMeasurementDetailResponse {
-    "idPocketMeasurementDetail": 0,
-    "measurement": 0,
+    "idPocketMeasurementDetail": number,
+    "measurement": number,
     "toothRegionsPeriodontogram": toothRegionPeriodontogramResponse,
     "dentalCode": dentalCodeResponse,
     "regionsMeasurementPockets": regionMeasurementPocketsResponse,

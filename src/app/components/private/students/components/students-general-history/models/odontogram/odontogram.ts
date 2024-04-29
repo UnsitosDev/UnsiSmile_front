@@ -1,5 +1,5 @@
 export interface odontogramRequest {
-    "idOdontogram": number,
+    "idOdontogram": number|null,
     "description": string
 
 }
