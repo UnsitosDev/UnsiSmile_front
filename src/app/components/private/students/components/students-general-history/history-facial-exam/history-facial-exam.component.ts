@@ -67,30 +67,33 @@ export class HistoryFacialExamComponent implements OnInit {
     this.fetchFacialFronts();
     this.fetchFacialProfile();
   }
+
   /**
    * Método para manejar la presentación del formulario.
    * Este método se activa cuando se envía el formulario.
    * Procesa los datos del formulario y los imprime en la consola.
    */
-
   onSubmit() {
+    // Obtiene los valores seleccionados para el perfil facial y la vista frontal del formulario
     const selectedIdFacialProfileValue =
       this.facialExamForms?.get('facialProfile')?.value;
     const selectedIdFacialFrontValue =
       this.facialExamForms?.get('facialFront')?.value;
 
+    // Busca el objeto correspondiente a la vista frontal seleccionada en la lista namefacialFront
     const matchedItem = this.namefacialFront.find(
       (item) =>
         item.idFacialFront.toString() === selectedIdFacialFrontValue.toString()
     );
-    
+
+    // Busca el objeto correspondiente al perfil facial seleccionado en la lista nameFacialProfile
     const matchedItemFacial = this.nameFacialProfile.find(
       (item) =>
-        item.idFacialProfile.toString() === selectedIdFacialProfileValue.toString()
+        item.idFacialProfile.toString() ===
+        selectedIdFacialProfileValue.toString()
     );
 
-
-    // Verificar si se encontró el objeto correspondiente
+    // Verifica si se encontró el objeto correspondiente a la vista frontal seleccionada
     if (matchedItem) {
       // Imprimir en consola el valor de facialFront correspondiente
       // console.log('Facial Front seleccionado:', matchedItem.facialFront);
@@ -98,13 +101,15 @@ export class HistoryFacialExamComponent implements OnInit {
       // Si no se encuentra un objeto correspondiente, manejar el caso según sea necesario
       // console.log('No se encontró un Facial Front correspondiente para el id seleccionado:',selectedIdFacialFrontValue);
     }
-   
+
+    // Verifica si se encontró el objeto correspondiente al perfil facial seleccionado
     if (matchedItemFacial) {
-     // console.log('Facial Front seleccionado:', matchedItemFacial.facialProfile);
+      // console.log('Facial Front seleccionado:', matchedItemFacial.facialProfile);
     } else {
-     // console.log('No se encontró un Facial Front correspondiente para el id seleccionado:',selectedIdFacialProfileValue);
+      // console.log('No se encontró un Facial Front correspondiente para el id seleccionado:',selectedIdFacialProfileValue);
     }
 
+    // Crea un objeto exampleFacialExam que contiene la información del examen facial
     const exampleFacialExam = {
       idFacialExam: this.facialExamForms?.get('idFacialExam')?.value ?? 0,
       distinguishingFeatures:
@@ -119,7 +124,7 @@ export class HistoryFacialExamComponent implements OnInit {
       },
     };
 
-    console.log(exampleFacialExam);
+    // console.log(exampleFacialExam);
     const token = this.authService.getToken();
     this.apiService
       .postService({
@@ -132,16 +137,19 @@ export class HistoryFacialExamComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          console.log('enviado');
+          // console.log('enviado');
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
         },
       });
   }
-
+  /**
+   * Método para recuperar las opciones disponibles para la vista frontal del examen facial desde el backend.
+   * Realiza una solicitud GET al backend y asigna los datos recuperados a la lista namefacialFront.
+   * Además, crea un arreglo comparefacialFront a partir de la respuesta del backend.
+   */
   namefacialFront: any[] = [];
-
   fetchFacialFronts() {
     this.apiService
       .getListService({
@@ -168,10 +176,6 @@ export class HistoryFacialExamComponent implements OnInit {
                 idFacialFront: item.idFacialFront,
               });
             }
-
-            // Imprimir el arreglo comparefacialFront en la consola
-            // console.log('Arreglo comparefacialFront:', comparefacialFront);
-            // console.log(this.namefacialFront);
           }
         },
         error: (error) => {
@@ -180,6 +184,11 @@ export class HistoryFacialExamComponent implements OnInit {
       });
   }
 
+  /**
+   * Método para recuperar las opciones disponibles para el perfil facial del examen facial desde el backend.
+   * Realiza una solicitud GET al backend y asigna los datos recuperados a la lista nameFacialProfile.
+   * Además, crea un arreglo comparefacialFacial a partir de la respuesta del backend.
+   */
   nameFacialProfile: any[] = [];
   fetchFacialProfile() {
     this.apiService
@@ -198,7 +207,7 @@ export class HistoryFacialExamComponent implements OnInit {
               facialProfile: item.facialProfile,
               idFacialProfile: item.idFacialProfile,
             }));
-            // Crear el arreglo comparefacialFront a partir de la respuesta del backend
+            // Crear el arreglo comparefacialFacial a partir de la respuesta del backend
             const comparefacialFacial: any[] = [];
 
             for (const item of response) {
@@ -207,10 +216,6 @@ export class HistoryFacialExamComponent implements OnInit {
                 idFacialProfile: item.idFacialProfile,
               });
             }
-
-            // Imprimir el arreglo comparefacialFront en la consola
-           // console.log('Arreglo comparefacialFacial:', comparefacialFacial);
-            // console.log(this.nameFacialProfile);
           }
         },
         error: (error) => {
