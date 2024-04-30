@@ -4,6 +4,7 @@ import { StudentsDashboardComponent, StudentsLayoutComponent, StudentsPatientsCo
 import { StudentsOdontogramComponent } from './components/private/students/components/students-odontogram/students-odontogram.component';
 import { StudentsGeneralHistoryComponent } from './components/private/students/components/students-general-history/students-general-history.component';
 import { StudentsPeriodonticsHistoryComponent } from './components/private/students/components/students-periodontics-history/students-periodontics-history.component';
+import { HistoryPersonalDataComponent } from './components/private/students/components/students-general-history/history-personal-data/history-personal-data.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
         path: 'historyClinic1',
         component: StudentsPeriodonticsHistoryComponent
       },
+      {
+        path: 'addPatient',
+        component: HistoryPersonalDataComponent
+      }, 
       {
         path: '**',
         pathMatch: 'full',

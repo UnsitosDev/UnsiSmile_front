@@ -10,7 +10,7 @@ import { Ipatients } from 'src/app/models/tabla/patients';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentsGeneralHistoryComponent } from '../students-general-history/students-general-history.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-students-patients',
@@ -27,7 +27,8 @@ export class StudentsPatientsComponent {
 
   constructor(
     private productService: ProductService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +57,8 @@ export class StudentsPatientsComponent {
 
   editar(objeto: any) {
     console.log('editar', objeto);
-    this.openDialog(objeto);
+    this.router.navigate(['/students', 'historyClinic']);
+
   }
 
   eliminar(nombre: string) {
