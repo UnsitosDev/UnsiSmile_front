@@ -3,9 +3,10 @@ import { AppComponent } from './app/app.component';
 import { importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import routes from './app/app.routing.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { AuthInterceptor } from './app/core';
 
 
 bootstrapApplication(
@@ -13,8 +14,8 @@ bootstrapApplication(
   {providers:[
     importProvidersFrom(BrowserModule),
     provideAnimations(),
-    provideHttpClient(withInterceptorsFromDi()),
-    provideRouter(routes), provideAnimationsAsync()
+    provideHttpClient(withInterceptorsFromDi(), withInterceptors([AuthInterceptor])),
+    provideRouter(routes), provideAnimationsAsync(),
   ]},
   )
   .catch(err => console.error(err));
