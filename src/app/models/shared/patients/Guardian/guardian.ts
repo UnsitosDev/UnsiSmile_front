@@ -1,7 +1,7 @@
 export interface guardianRequest {
 
 
-    "idGuardian": number,
+    "idGuardian": number|null,
     "firstName": string,
     "lastName": string,
     "phone": string,

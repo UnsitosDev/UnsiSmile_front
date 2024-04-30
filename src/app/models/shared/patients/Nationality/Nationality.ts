@@ -1,7 +1,7 @@
 export interface nationalityRequest {
 
 
-    "idNationality": number,
+    "idNationality": number|null,
     "nationality": string
 
 }
