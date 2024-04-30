@@ -1,10 +1,10 @@
-export interface guardianRequest {
+export interface ethnicGroupRequest {
 
-    "idEthnicGroup": number,
+    "idEthnicGroup": number|null,
     "ethnicGroup": string
 }
 
-export interface guardianResponse {
+export interface ethnicGroupResponse {
     "idEthnicGroup": number,
     "ethnicGroup": string
 }
