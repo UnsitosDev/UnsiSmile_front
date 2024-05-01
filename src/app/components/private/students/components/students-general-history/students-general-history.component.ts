@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { HistoryPersonalDataComponent } from './history-personal-data/history-personal-data.component';
 import { HistoryVitalSignsComponent } from './history-vital-signs/history-vital-signs.component';
-import { HistoryFacialExamComponent } from './history-facial-exam/history-facial-exam.component';
+//import { HistoryFacialExamComponent } from './history-facial-exam/history-facial-exam.component';
 import { HistoryFamilyHistoryComponent } from './history-family-history/history-family-history.component';
 import { NoPathologicalPersonalHistoryComponent } from './no-pathological-personal-history/no-pathological-personal-history.component';
 import { PathologicalPersonalHistoryComponent } from './pathological-personal-history/pathological-personal-history.component';
@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
     MatTabsModule,
     HistoryPersonalDataComponent,
     HistoryVitalSignsComponent,
-    HistoryFacialExamComponent,
+    //HistoryFacialExamComponent,
     HistoryFamilyHistoryComponent,
     NoPathologicalPersonalHistoryComponent,
     PathologicalPersonalHistoryComponent,

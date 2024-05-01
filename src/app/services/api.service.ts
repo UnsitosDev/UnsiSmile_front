@@ -14,11 +14,11 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
   constructor(private http: HttpClient) {}
 
   /** Para realizar las peticiones GET */
-  getService(reqParams: ApiModel.ReqParams): Observable< ApiModel.ResponseParams<GET>> {
+  getService(reqParams: ApiModel.ReqParams): Observable< GET> {
     const options = {
       params: reqParams.params ? reqParams.params : {},
     };
-    return this.http.get<ApiModel.ResponseParams<GET>>(reqParams.url, options).pipe(
+    return this.http.get<GET>(reqParams.url, options).pipe(
       map((res) => {
         return res;
       }),
@@ -26,11 +26,11 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
     );
   }
 
-  getListService(reqParams: ApiModel.ReqParams): Observable< ApiModel.ResponseParams<GET[]>> {
+  getListService(reqParams: ApiModel.ReqParams): Observable< GET[]> {
     const options = {
       params: reqParams.params ? reqParams.params : {},
     };
-    return this.http.get<ApiModel.ResponseParams<GET[]>>(reqParams.url, options).pipe(
+    return this.http.get<GET[]>(reqParams.url, options).pipe(
       map((res) => {
         return res;
       }),
@@ -40,23 +40,23 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
 
 
   /** Para realizar las peticiones POST */
-  postService(reqParams: ApiModel.ReqParams): Observable<ApiModel.ResponseParams<POST>> {
+  postService(reqParams: ApiModel.ReqParams): Observable<POST> {
     const options = {
       params: reqParams.params ? reqParams.params : {},
     };
-    return this.http.post<ApiModel.ResponseParams<POST>>(reqParams.url, reqParams.data, options ).pipe(  
+    return this.http.post<POST>(reqParams.url, reqParams.data, options ).pipe(  
       map((res) => res),
       catchError(this.handleError)
     );
   }
 
   /** Para realizar las peticiones DELETE*/
-  deleteService(reqParams: ApiModel.ReqParams): Observable<ApiModel.ResponseParams<DELETE>> {
+  deleteService(reqParams: ApiModel.ReqParams): Observable<DELETE> {
     const options = {
       body: reqParams.data,
       params: reqParams.params,
     };
-    return this.http.delete<ApiModel.ResponseParams<DELETE>>(reqParams.url, options).pipe(
+    return this.http.delete<DELETE>(reqParams.url, options).pipe(
       map((res) => res),
       catchError(this.handleError)
     );

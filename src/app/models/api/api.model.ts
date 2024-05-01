@@ -8,6 +8,7 @@ export namespace ApiModel {
 
   export interface ResponseParams<T> {
       response: T
+      
   }
 
 }
