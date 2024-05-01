@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 
@@ -153,56 +153,10 @@ interface Genero {
 })
 export class HistoryPersonalDataComponent implements OnInit {
 
-  patientForm = new FormGroup({
-    idPatient: new FormControl(321, Validators.required),
-    admissionDate: new FormControl('', Validators.required),
-    isMinor: new FormControl(false),
-    hasDisability: new FormControl(false),
-    nationalityId: new FormControl('', Validators.required),
-    person: new FormGroup({
-      curp: new FormControl('', Validators.required),
-      firstName: new FormControl('', Validators.required),
-      secondName: new FormControl('', Validators.required),
-      firstLastName: new FormControl('', Validators.required),
-      secondLastName: new FormControl('', Validators.required),
-      phone: new FormControl('', Validators.required),
-      birthDate: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      gender: new FormGroup({
-        idGender: new FormControl('', Validators.required),
-        gender: new FormControl('', Validators.required),
-      }),
-    }),
-    address: new FormGroup({
-      streetNumber: new FormControl('', Validators.required),
-      interiorNumber: new FormControl('', Validators.required),
-      housing: new FormGroup({
-        idHousing: new FormControl('', Validators.required),
-        category: new FormControl('', Validators.required),
-      }),
-      street: new FormGroup({
-        idStreet: new FormControl('', Validators.required),
-        name: new FormControl('', Validators.required),
-        neighborhood: new FormGroup({
-          idNeighborhood: new FormControl('', Validators.required),
-          name: new FormControl('', Validators.required),
-          locality: new FormGroup({
-            idLocality: new FormControl('', Validators.required),
-            name: new FormControl('', Validators.required),
-            postalCode: new FormControl('', Validators.required),
-            municipality: new FormGroup({
-              idMunicipality: new FormControl('', Validators.required),
-              name: new FormControl('', Validators.required),
-              state: new FormGroup({
-                idState: new FormControl('', Validators.required),
-                name: new FormControl('', Validators.required),
-              }),
-            }),
-          }),
-        }),
-      }),
-    }),
-  });
+  patientForm: FormGroup;
+
+
+  
   // Crear un control de formulario para el input de texto
   controlNationality = new FormControl('');
   controlOcupation = new FormControl('');
@@ -315,6 +269,63 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.filteredReligion = new Observable<string[]>();
     this.filteredLocality = new Observable<string[]>();
     this.filterGender = new Observable<string[]>();
+
+    this.patientForm = new FormGroup({
+      idPatient: new FormControl(321),
+      occupationId: new FormControl(''),
+      ethnicGroupId: new FormControl(''),
+      religionId: new FormControl(''),
+      maritalStatusId: new FormControl(''),
+      admissionDate: new FormControl(''),
+      isMinor: new FormControl(false),
+      hasDisability: new FormControl(false),
+      nationalityId: new FormControl(''),
+      person: new FormGroup({
+        curp: new FormControl(''),
+        firstName: new FormControl(''),
+        secondName: new FormControl(''),
+        firstLastName: new FormControl(''),
+        secondLastName: new FormControl(''),
+        phone: new FormControl(''),
+        birthDate: new FormControl(''),
+        email: new FormControl(''),
+        gender: new FormGroup({
+          idGender: new FormControl(''),
+          gender: new FormControl(''),
+        }),
+      }),
+      address: new FormGroup({
+        streetNumber: new FormControl(''),
+        interiorNumber: new FormControl(''),
+        housing: new FormGroup({
+          idHousing: new FormControl(''),
+          category: new FormControl(''),
+        }),
+        street: new FormGroup({
+          idStreet: new FormControl(''),
+          name: new FormControl(''),
+          neighborhood: new FormGroup({
+            idNeighborhood: new FormControl(''),
+            name: new FormControl(''),
+            locality: new FormGroup({
+              idLocality: new FormControl(''),
+              name: new FormControl(''),
+              postalCode: new FormControl(''),
+              municipality: new FormGroup({
+                idMunicipality: new FormControl(''),
+                name: new FormControl(''),
+                state: new FormGroup({
+                  idState: new FormControl(''),
+                  name: new FormControl(''),
+                }),
+              }),
+            }),
+          }),
+        }),
+      }),
+    });
+
+    
   }
   ngOnInit(): void {
     this.getReligion();
@@ -325,7 +336,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.getLocality();
     this.getGender();
 
-    console.log(this.patientForm.value);
+ //   console.log(this.patientForm.value);
 
     // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
     this.filteredNationality = this.controlNationality.valueChanges.pipe(
@@ -385,6 +396,10 @@ export class HistoryPersonalDataComponent implements OnInit {
     } else {
       this.youngerForm = false;
     }
+  }
+
+  sumbmit(){
+    console.log(this.patientForm.value);
   }
 
   // Religion
@@ -540,4 +555,7 @@ export class HistoryPersonalDataComponent implements OnInit {
         },
       });
   }
+
+ 
+  
 }
