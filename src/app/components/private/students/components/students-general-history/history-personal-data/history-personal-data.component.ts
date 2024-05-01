@@ -91,6 +91,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   controlMaritalStatus = new FormControl('');
   controlReligion = new FormControl('');
   controlLocalitie = new FormControl('');
+  controlGender = new FormControl('');
   // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
   filteredNationality: Observable<string[]>;
   filteredEthnicGroup: Observable<string[]>;
@@ -98,6 +99,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   filteredMaritalStatus: Observable<string[]>;
   filteredReligion: Observable<string[]>;
   filteredLocality: Observable<string[]>;
+  filterGender:Observable<string[]>;
 
   // Método que se encarga de filtrar las nacionalidades según el valor de búsqueda
   private _filter(value: string): string[] {
@@ -161,11 +163,23 @@ export class HistoryPersonalDataComponent implements OnInit {
       );
   }
 
+  // Método que se encarga de filtrar las los generos con el valor de busqueda
+  private _filterGender(value: string): string[] {
+    const filterGender = this._normalizeValue(value);
+    return this.genderData
+      .map((genderName) => genderName.gender)
+      .filter((genderData) =>
+        this._normalizeValue(genderData).includes(filterGender)
+      );
+  }
+
   // Método que se encarga de normalizar el valor de búsqueda
   private _normalizeValue(value: string): string {
     // Convertir el valor a minúsculas
     return value.toLowerCase().replace(/\s/g, '');
   }
+
+  
 
   birthDate: string;
   youngerForm: boolean = false;
@@ -181,6 +195,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.filteredMaritalStatus = new Observable<string[]>();
     this.filteredReligion = new Observable<string[]>();
     this.filteredLocality = new Observable<string[]>();
+    this.filterGender = new Observable<string[]>();
   }
   ngOnInit(): void {
     this.getReligion();
@@ -228,6 +243,13 @@ export class HistoryPersonalDataComponent implements OnInit {
       startWith(''),
       map((value) => this._filterLocality(value || ''))
     );
+
+    // Crear un observable que devuelve un arreglo de strings que representan las localidades filtradas
+    this.filterGender = this.controlGender.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterGender(value || ''))
+    );
+    
   }
 
   onFechaNacimientoChange() {
