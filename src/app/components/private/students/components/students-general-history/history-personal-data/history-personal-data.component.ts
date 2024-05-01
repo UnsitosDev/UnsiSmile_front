@@ -12,71 +12,6 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 
-interface PatientData {
-  idPatient: number;
-  admissionDate: string;
-  isMinor: boolean;
-  hasDisability: boolean;
-  nationalityId: number;
-  person: {
-    curp: string;
-    firstName: string;
-    secondName: string;
-    firstLastName: string;
-    secondLastName: string;
-    phone: string;
-    birthDate: string;
-    email: string;
-    gender: {
-      idGender: number;
-      gender: string;
-    };
-  };
-  address: {
-    idAddress: number;
-    streetNumber: string;
-    interiorNumber: string;
-    housing: {
-      idHousing: string;
-      category: string;
-    };
-    street: {
-      idStreet: number;
-      name: string;
-      neighborhood: {
-        idNeighborhood: number;
-        name: string;
-        locality: {
-          idLocality: string;
-          name: string;
-          postalCode: string;
-          municipality: {
-            idMunicipality: string;
-            name: string;
-            state: {
-              idState: string;
-              name: string;
-            };
-          };
-        };
-      };
-    };
-  };
-
-
-
-  maritalStatusId: number;
-  occupationId: number;
-  ethnicGroupId: number;
-  religionId: number;
-  guardian: {
-    idGuardian: number;
-    firstName: string;
-    lastName: string;
-    phone: string;
-    email: string;
-  };
-}
 
 
 
@@ -152,10 +87,6 @@ interface Genero {
   styleUrl: './history-personal-data.component.scss',
 })
 export class HistoryPersonalDataComponent implements OnInit {
-
-  patientForm: FormGroup;
-
-
   
   // Crear un control de formulario para el input de texto
   controlNationality = new FormControl('');
@@ -254,13 +185,13 @@ export class HistoryPersonalDataComponent implements OnInit {
 
   
 
-  birthDate: string;
+  birthDateU: string;
   youngerForm: boolean = false;
 
   private apiService = inject(ApiService<Religion>);
 
   constructor() {
-    this.birthDate = ''; // Inicializamos la propiedad en el constructor
+    this.birthDateU = ''; // Inicializamos la propiedad en el constructor
     // Inicializamos la propiedades oara filtros
     this.filteredNationality = new Observable<string[]>();
     this.filteredEthnicGroup = new Observable<string[]>();
@@ -270,60 +201,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.filteredLocality = new Observable<string[]>();
     this.filterGender = new Observable<string[]>();
 
-    this.patientForm = new FormGroup({
-      idPatient: new FormControl(321),
-      occupationId: new FormControl(''),
-      ethnicGroupId: new FormControl(''),
-      religionId: new FormControl(''),
-      maritalStatusId: new FormControl(''),
-      admissionDate: new FormControl(''),
-      isMinor: new FormControl(false),
-      hasDisability: new FormControl(false),
-      nationalityId: new FormControl(''),
-      person: new FormGroup({
-        curp: new FormControl(''),
-        firstName: new FormControl(''),
-        secondName: new FormControl(''),
-        firstLastName: new FormControl(''),
-        secondLastName: new FormControl(''),
-        phone: new FormControl(''),
-        birthDate: new FormControl(''),
-        email: new FormControl(''),
-        gender: new FormGroup({
-          idGender: new FormControl(''),
-          gender: new FormControl(''),
-        }),
-      }),
-      address: new FormGroup({
-        streetNumber: new FormControl(''),
-        interiorNumber: new FormControl(''),
-        housing: new FormGroup({
-          idHousing: new FormControl(''),
-          category: new FormControl(''),
-        }),
-        street: new FormGroup({
-          idStreet: new FormControl(''),
-          name: new FormControl(''),
-          neighborhood: new FormGroup({
-            idNeighborhood: new FormControl(''),
-            name: new FormControl(''),
-            locality: new FormGroup({
-              idLocality: new FormControl(''),
-              name: new FormControl(''),
-              postalCode: new FormControl(''),
-              municipality: new FormGroup({
-                idMunicipality: new FormControl(''),
-                name: new FormControl(''),
-                state: new FormGroup({
-                  idState: new FormControl(''),
-                  name: new FormControl(''),
-                }),
-              }),
-            }),
-          }),
-        }),
-      }),
-    });
+    
 
     
   }
@@ -398,9 +276,6 @@ export class HistoryPersonalDataComponent implements OnInit {
     }
   }
 
-  sumbmit(){
-    console.log(this.patientForm.value);
-  }
 
   // Religion
   religionData: Religion[] = [];
@@ -558,4 +433,112 @@ export class HistoryPersonalDataComponent implements OnInit {
 
  
   
+
+  idPatient: number = 0;
+  admissionDate: string = '2024-05-01';
+  isMinor: boolean = true;
+  hasDisability: boolean = true;
+  nationalityId: number = 0;
+  curp: string = '';
+  firstName: string = '';
+  secondName: string = '';
+  firstLastName: string = '';
+  secondLastName: string = '';
+  phone: string = '';
+  birthDate: string = '0000-00-00';
+  email: string = '';
+  genderId: number = 0;
+  gender: string = '';
+  addressId: number = 0;
+  streetNumber: string = '';
+  interiorNumber: string = '';
+  housingId: string = '';
+  housingCategory: string = '';
+  streetId: number = 0;
+  streetName: string = '';
+  neighborhoodId: number = 0;
+  neighborhoodName: string = '';
+  localityId: string = '';
+  localityName: string = '';
+  postalCode: string = '';
+  municipalityId: string = '';
+  municipalityName: string = '';
+  stateId: string = '';
+  stateName: string = '';
+  maritalStatusId: number = 0;
+  occupationId: number = 0;
+  ethnicGroupId: number = 0;
+  religionId: number = 0;
+  guardianId: number = 0;
+  guardianFirstName: string = '';
+  guardianLastName: string = '';
+  guardianPhone: string = '';
+  guardianEmail: string = '';
+
+  createPatient() {
+    const patient = {
+      idPatient: this.idPatient,
+      admissionDate: this.admissionDate,
+      isMinor: this.isMinor,
+      hasDisability: this.hasDisability,
+      nationalityId: this.nationalityId,
+      person: {
+        curp: this.curp,
+        firstName: this.firstName,
+        secondName: this.secondName,
+        firstLastName: this.firstLastName,
+        secondLastName: this.secondLastName,
+        phone: this.phone,
+        birthDate: this.birthDate,
+        email: this.email,
+        gender: {
+          idGender: this.genderId,
+          gender: this.gender
+        }
+      },
+      address: {
+        idAddress: this.addressId,
+        streetNumber: this.streetNumber,
+        interiorNumber: this.interiorNumber,
+        housing: {
+          idHousing: this.housingId,
+          category: this.housingCategory
+        },
+        street: {
+          idStreet: this.streetId,
+          name: this.streetName,
+          neighborhood: {
+            idNeighborhood: this.neighborhoodId,
+            name: this.neighborhoodName,
+            locality: {
+              idLocality: this.localityId,
+              name: this.localityName,
+              postalCode: this.postalCode,
+              municipality: {
+                idMunicipality: this.municipalityId,
+                name: this.municipalityName,
+                state: {
+                  idState: this.stateId,
+                  name: this.stateName
+                }
+              }
+            }
+          }
+        }
+      },
+      maritalStatusId: this.maritalStatusId,
+      occupationId: this.occupationId,
+      ethnicGroupId: this.ethnicGroupId,
+      religionId: this.religionId,
+      guardian: {
+        idGuardian: this.guardianId,
+        firstName: this.guardianFirstName,
+        lastName: this.guardianLastName,
+        phone: this.guardianPhone,
+        email: this.guardianEmail
+      }
+    };
+
+    console.log(patient);
+  }
 }

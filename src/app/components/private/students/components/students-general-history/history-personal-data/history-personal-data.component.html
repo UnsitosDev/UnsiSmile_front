@@ -1,336 +1,322 @@
 <div class="mx-4">
-  <!-- <h1>Agregar paciente</h1> -->
-  <form [formGroup]="patientForm" (submit)="sumbmit()">
-    <h1>Datos personales</h1>
-
-    <!-- Grupo 'person' -->
+  <form (ngSubmit)="createPatient()">
     <div
-      formGroupName="person"
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
     >
-      <!-- Primer Nombre -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Primer Nombre</label
+          for="firstName"
+          >Nombre:</label
         >
         <input
-          formControlName="firstName"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           type="text"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          id="firstName"
+          [(ngModel)]="firstName"
+          name="firstName"
         />
       </div>
 
-      <!-- Segundo Nombre -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Segundo Nombre</label
+          for="secondName"
+          >Segundo nombre:</label
         >
-
         <input
-          formControlName="secondName"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           type="text"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          id="secondName"
+          [(ngModel)]="secondName"
+          name="secondName"
         />
       </div>
 
-      <!-- Primer Apellido-->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Primer Apellido</label
+          for="firstLastName"
+          >Primer apellido:</label
         >
-
         <input
-          formControlName="firstLastName"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           type="text"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          id="firstLastName"
+          [(ngModel)]="firstLastName"
+          name="firstLastName"
         />
       </div>
 
-      <!-- Segundo Apellido -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Segundo Apellido</label
+          for="secondLastName"
+          >Segundo apellido:</label
         >
-
         <input
-          formControlName="secondLastName"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           type="text"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          id="secondLastName"
+          [(ngModel)]="secondLastName"
+          name="secondLastName"
         />
       </div>
 
-      <!-- CURP -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >CURP</label
+          for="curp"
+          >CURP:</label
         >
-
         <input
-          formControlName="curp"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           type="text"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          id="curp"
+          [(ngModel)]="curp"
+          name="curp"
         />
       </div>
 
-      <!-- Telefono -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Telefono</label
+          for="phone"
+          >Teléfono:</label
         >
         <input
-          formControlName="phone"
-          type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="tel"
+          id="phone"
+          [(ngModel)]="phone"
+          name="phone"
         />
       </div>
 
-      <!-- Fecha de nacimiento -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Fecha de Nacimiento</label
+          for="birthDate"
+          >Fecha de nacimiento:</label
         >
         <input
-          formControlName="birthDate"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           type="date"
-          name="birthDate"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          id="birthDate"
           [(ngModel)]="birthDate"
           (change)="onFechaNacimientoChange()"
+          name="birthDate"
         />
       </div>
 
-      <!-- Correo electronico -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Correo Electronico</label
+          for="email"
+          >Correo electrónico:</label
         >
         <input
-          formControlName="email"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           type="email"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
         />
       </div>
 
-      <div formGroupName="gender">
-        <!-- Campo gender -->
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Sexo</label
-          >
-          <input
-            formControlName="gender"
-            type="text"
-            [formControl]="controlGender"
-            [matAutocomplete]="autoGender"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-          <mat-autocomplete #autoGender="matAutocomplete">
-            @for (item of filterGender | async; track item) {
-            <mat-option [value]="item">{{ item }}</mat-option>
-            }
-          </mat-autocomplete>
-        </div>
-      </div>
-      <!-- Sexo -->
-    </div>
-
-    <h1>Domicilio</h1>
-
-    <!-- Grupo 'address' -->
-    <div
-      formGroupName="address"
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16">
-      <!-- Número exterior -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Número exterior</label
+          for="gender"
+          >Género:</label
         >
         <input
-          formControlName="streetNumber"
-          type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="gender"
+          [formControl]="controlGender"
+          [matAutocomplete]="autoGender"
+          [(ngModel)]="gender"
+          name="gender"
+        />
+        <mat-autocomplete #autoGender="matAutocomplete">
+          @for (item of filterGender | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          for="streetNumber"
+          >Número Exterior:</label
+        >
+        <input
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="streetNumber"
+          [(ngModel)]="streetNumber"
+          name="streetNumber"
         />
       </div>
 
-      <!-- Número interior -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Número interior</label
+          for="interiorNumber"
+          >Número interior:</label
         >
         <input
-          formControlName="interiorNumber"
-          type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="interiorNumber"
+          [(ngModel)]="interiorNumber"
+          name="interiorNumber"
         />
       </div>
 
-      <!-- Grupo 'housing' dentro de 'address' -->
-      <div formGroupName="housing">
-        <!-- Tipo de vivienda -->
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Tipo de vivienda</label
-          >
-          <input
-            formControlName="category"
-            type="text"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-      </div>
-
-      <!-- Grupo 'street' dentro de 'address' -->
-      <div formGroupName="street">
-        <!-- Calle -->
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Calle</label
-          >
-          <input
-            formControlName="name"
-            type="text"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-
-        <!-- Grupo 'neighborhood' dentro de 'street' -->
-        <div formGroupName="neighborhood">
-          <!-- Colonia -->
-          <div class="relative flex-grow w-full">
-            <label
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-              >Colonia</label
-            >
-            <input
-              formControlName="name"
-              type="text"
-              class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            />
-          </div>
-
-          <!-- Grupo 'locality' dentro de 'neighborhood' -->
-          <div formGroupName="locality">
-            <!-- Localidad -->
-            <div class="relative flex-grow w-full">
-              <label
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-                >Localidad</label
-              >
-              <input
-                type="text"
-                formControlName="name"
-                [formControl]="controlLocalitie"
-                [matAutocomplete]="autoLocality"
-                class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              />
-              <mat-autocomplete #autoLocality="matAutocomplete">
-                @for (item of filteredLocality | async; track item) {
-                <mat-option [value]="item">{{ item }}</mat-option>
-                }
-              </mat-autocomplete>
-            </div>
-
-            <!-- Codigo postal -->
-            <div class="relative flex-grow w-full">
-              <label
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-                >Código postal</label
-              >
-              <input
-                formControlName="postalCode"
-                type="number"
-                class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              />
-            </div>
-            <!-- Grupo 'municipality' dentro de 'locality' -->
-            <div formGroupName="municipality">
-              <!-- Municipio -->
-              <div class="relative flex-grow w-full">
-                <label
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-                  >Municipio</label
-                >
-                <input
-                  formControlName="name"
-                  type="text"
-                  class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-              </div>
-
-              <!-- Grupo 'state' dentro de 'municipality' -->
-              <div formGroupName="state">
-                <!-- Estado -->
-                <div class="relative flex-grow w-full">
-                  <label
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-                    >Estado</label
-                  >
-                  <input
-                    formControlName="name"
-                    type="text"
-                    class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-      <!-- Fecha de ingreso -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Fecha de ingreso</label
+          for="housingCategory"
+          >Categoría de vivienda:</label
         >
         <input
-          formControlName="admissionDate"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="housingCategory"
+          [(ngModel)]="housingCategory"
+          name="housingCategory"
+        />
+      </div>
+
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          for="streetName"
+          >Nombre de calle:</label
+        >
+        <input
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="streetName"
+          [(ngModel)]="streetName"
+          name="streetName"
+        />
+      </div>
+
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          for="neighborhoodName"
+          >Nombre de colonia:</label
+        >
+        <input
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="neighborhoodName"
+          [(ngModel)]="neighborhoodName"
+          name="neighborhoodName"
+        />
+      </div>
+
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          for="localityName"
+          >Nombre de localidad:</label
+        >
+        <input
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="localityName"
+          [formControl]="controlLocalitie"
+          [matAutocomplete]="autoLocality"
+          [(ngModel)]="localityName"
+          name="localityName"
+        />
+        <mat-autocomplete #autoLocality="matAutocomplete">
+          @for (item of filteredLocality | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          for="postalCode"
+          >Código postal:</label
+        >
+        <input
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="postalCode"
+          [(ngModel)]="postalCode"
+          name="postalCode"
+        />
+      </div>
+
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          for="municipalityName"
+          >Nombre de municipio:</label
+        >
+        <input
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="municipalityName"
+          [(ngModel)]="municipalityName"
+          name="municipalityName"
+        />
+      </div>
+
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          for="stateName"
+          >Nombre de estado:</label
+        >
+        <input
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="stateName"
+          [(ngModel)]="stateName"
+          name="stateName"
+        />
+      </div>
+
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          for="admissionDate"
+          >Fecha de admisión:</label
+        >
+        <input
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           type="date"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          id="admissionDate"
+          [(ngModel)]="admissionDate"
+          name="admissionDate"
         />
       </div>
 
-      <!-- Discapacidad -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Discapacidad</label
+          for="nationalityId"
+          >Nacionalidad:</label
         >
         <input
-          formControlName="hasDisability"
-          type="text"
-          [formControl]="controlOcupation"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-
-      <!-- Nacionalidad -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Nacionalidad</label
-        >
-        <input
           type="text"
-          formControlName="nationalityId"
+          id="nationalityId"
           [formControl]="controlNationality"
           [matAutocomplete]="autoNationality"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          [(ngModel)]="nationalityId"
+          name="nationalityId"
         />
         <mat-autocomplete #autoNationality="matAutocomplete">
           @for (item of filteredNationality | async; track item) {
@@ -339,18 +325,20 @@
         </mat-autocomplete>
       </div>
 
-      <!-- Estado civil -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Estado Civil</label
+          for="maritalStatusId"
+          >Estado civil:</label
         >
         <input
-          type="text"
-          formControlName="maritalStatusId"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="number"
+          id="maritalStatusId"
           [formControl]="controlMaritalStatus"
           [matAutocomplete]="autoMaritalStatus"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          [(ngModel)]="maritalStatusId"
+          name="maritalStatusId"
         />
         <mat-autocomplete #autoMaritalStatus="matAutocomplete">
           @for (item of filteredMaritalStatus | async; track item) {
@@ -359,18 +347,20 @@
         </mat-autocomplete>
       </div>
 
-      <!-- Ocupacion -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Ocupacion</label
+          for="occupationId"
+          >Ocupación:</label
         >
         <input
-          type="text"
-          formControlName="occupationId"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="number"
+          id="occupationId"
           [formControl]="controlOcupation"
           [matAutocomplete]="autoOcupation"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          [(ngModel)]="occupationId"
+          name="occupationId"
         />
         <mat-autocomplete #autoOcupation="matAutocomplete">
           @for (item of filteredOcupations | async; track item) {
@@ -379,18 +369,20 @@
         </mat-autocomplete>
       </div>
 
-      <!-- Grupo etnico -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Grupo Etnico</label
+          for="ethnicGroupId"
+          >Grupo étnico:</label
         >
         <input
-          type="text"
-          formControlName="ethnicGroupId"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="number"
+          id="ethnicGroupId"
           [formControl]="controlEthnicGroup"
           [matAutocomplete]="auto"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          [(ngModel)]="ethnicGroupId"
+          name="ethnicGroupId"
         />
         <mat-autocomplete #auto="matAutocomplete">
           @for (item of filteredEthnicGroup | async; track item) {
@@ -399,18 +391,20 @@
         </mat-autocomplete>
       </div>
 
-      <!-- Religion -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Religion</label
+          for="religionId"
+          >Religión:</label
         >
         <input
-          type="text"
-          formControlName="occupationId"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="number"
+          id="religionId"
           [formControl]="controlReligion"
           [matAutocomplete]="autoReligion"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          [(ngModel)]="religionId"
+          name="religionId"
         />
         <mat-autocomplete #autoReligion="matAutocomplete">
           @for (item of filteredReligion | async; track item) {
@@ -419,114 +413,97 @@
         </mat-autocomplete>
       </div>
 
-      <!-- Ultima consulta -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          for="religionId"
           >Ultima Consulta</label
         >
         <input
-          type="date"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="date"
+          id="religionId"
+          name="religionId"
         />
       </div>
 
-      <!-- Motivo de consulta -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          for="religionId"
           >Motivo de Consulta</label
         >
-        <textarea
-          id="message"
-          rows="4"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        ></textarea>
+        <input
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          id="religionId"
+          name="religionId"
+        />
       </div>
 
       @if (youngerForm) {
-      <h1>Datos del tutor</h1>
-      <div
-        class="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 gap-4 mt-4 mb-16"
-      >
-        <!-- Primer Nombre -->
         <div class="relative flex-grow w-full">
           <label
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Primer Nombre</label
+            for="guardianFirstName"
+            >Nombre del tutor:</label
           >
           <input
-            type="text"
             class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="text"
+            id="guardianFirstName"
+            [(ngModel)]="guardianFirstName"
+            name="guardianFirstName"
           />
         </div>
-
-        <!-- Segundo Nombre -->
+  
         <div class="relative flex-grow w-full">
           <label
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Segundo Nombre</label
+            for="guardianLastName"
+            >Apellido del tutor:</label
           >
           <input
-            type="text"
             class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="text"
+            id="guardianLastName"
+            [(ngModel)]="guardianLastName"
+            name="guardianLastName"
           />
         </div>
-
-        <!-- Primer Apellido -->
+  
         <div class="relative flex-grow w-full">
           <label
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Apellido Paterno</label
+            for="guardianPhone"
+            >Teléfono del tutor:</label
           >
           <input
-            type="text"
             class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="tel"
+            id="guardianPhone"
+            [(ngModel)]="guardianPhone"
+            name="guardianPhone"
           />
         </div>
-
-        <!-- Segundo Apellido -->
+  
         <div class="relative flex-grow w-full">
           <label
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Apellido Materno</label
+            for="guardianEmail"
+            >Correo electrónico del tutor:</label
           >
           <input
-            type="text"
             class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-
-        <!-- Telefono -->
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Telefono</label
-          >
-          <input
-            type="text"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-
-        <!-- Correo Electronico -->
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Correo Electronico</label
-          >
-          <input
             type="email"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            id="guardianEmail"
+            [(ngModel)]="guardianEmail"
+            name="guardianEmail"
           />
         </div>
-      </div>
-
       }
+      
     </div>
-
-    <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
-      <button type="submit" mat-raised-button color="primary">Siguiente</button>
-    </div>
+    <button type="submit">Crear paciente</button>
   </form>
 </div>
