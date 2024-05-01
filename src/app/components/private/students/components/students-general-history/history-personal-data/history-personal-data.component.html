@@ -360,7 +360,6 @@
           }
         </mat-autocomplete>
       </div>
-     
 
       <!-- Ultima consulta -->
       <div class="relative flex-grow w-full">
@@ -388,70 +387,82 @@
       </div>
     </div>
     @if (youngerForm) {
-    <h1>Datos de los padres</h1>
+    <h1>Datos del tutor</h1>
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-4 mb-16"
+      class="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 gap-4 mt-4 mb-16"
     >
+      <!-- Primer Nombre -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Nombre del padre</label
+          >Primer Nombre</label
         >
         <input
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
+
+      <!-- Segundo Nombre -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Ocupacion</label
+          >Segundo Nombre</label
         >
         <input
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
+
+      <!-- Primer Apellido -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Nombre de la Madre</label
+          >Apellido Paterno</label
         >
         <input
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
+
+      <!-- Segundo Apellido -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Ocupacion</label
+          >Apellido Materno</label
         >
         <input
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
+
+      <!-- Telefono -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Estado civil de los padres</label
+          >Telefono</label
         >
         <input
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
+
+      <!-- Correo Electronico -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Nombre del medico familiar</label
+          >Correo Electronico</label
         >
         <input
-          type="text"
+          type="email"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
+
     </div>
 
     }
