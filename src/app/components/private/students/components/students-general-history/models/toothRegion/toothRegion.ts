@@ -1,6 +1,6 @@
 export interface toothRegionRequest {
 
-    "idToothRegion": number,
+    "idToothRegion": number|null,
     "description": string
 }
 

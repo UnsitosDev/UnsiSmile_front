@@ -1,5 +1,5 @@
 export interface facialFrontRequest {
-    "idFacialFront": number,
+    "idFacialFront": number|null,
     "facialFront": string
 }
 

@@ -1,5 +1,5 @@
 export interface toothRegionPeriodontogramRequest {
-    "idToothRegionsPeriodontogram": number,
+    "idToothRegionsPeriodontogram": number|null,
     "region": string
 
 }

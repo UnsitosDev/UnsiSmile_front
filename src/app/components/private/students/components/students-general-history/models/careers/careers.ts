@@ -1,5 +1,6 @@
 export interface careersRequest {
 
+    "idCareer": number|null,
     "career": string
 }
 

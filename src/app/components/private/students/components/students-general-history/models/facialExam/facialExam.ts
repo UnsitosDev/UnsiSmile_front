@@ -1,7 +1,7 @@
 import { facialProfilesRequest, facialProfilesResponse } from "../facialProfiles/facialProfiles"
 
 export interface facialFrontRequest {
-    "idFacialExam": 0,
+    "idFacialExam": number|null,
     "distinguishingFeatures": "string",
     "facialProfile": facialProfilesRequest,
     "facialFront": facialFrontRequest

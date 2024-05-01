@@ -1,5 +1,5 @@
 export interface regionMeasurementPocketsRequest {
-    "idRegionsMeasurementPockets": number,
+    "idRegionsMeasurementPockets": number|null,
     "region": string
 
 }

@@ -1,5 +1,5 @@
 export interface housingMaterialRequest {
-    "housingMaterialId": number,
+    "housingMaterialId": number|null,
     "material": string
 }
 

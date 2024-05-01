@@ -5,7 +5,7 @@ import { toothRegionRequest, toothRegionResponse } from "../toothRegion/toothReg
 
 export interface toothDetailRequest {
 
-  "idToothDetail": number,
+  "idToothDetail": number|null,
   "dentalCode": dentalCodeRequest,
   "toothConditionRequest": toothConditionRequest,
   "toothRegionRequest": toothRegionRequest,

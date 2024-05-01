@@ -115,6 +115,11 @@ export class UriConstants {
     public static readonly GETID_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS = basePath + '/medical-histories/open-question-pathological-antecedents/'
     public static readonly GET_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS = basePath + '/medical-histories/open-question-pathological-antecedents'
     public static readonly POST_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS = basePath + '/medical-histories/open-question-pathological-antecedents'
+
+    //´getpacientes
+    public static readonly GET_PATIENTS = basePath + '/patients'
+
+
     // vital-signs-controller
     public static readonly GETID_VITAL_SIGNS = basePath + '/medical-histories/vital-signs/{id}'
     public static readonly GET_VITAL_SIGNS = basePath + '/medical-histories/vital-signs'

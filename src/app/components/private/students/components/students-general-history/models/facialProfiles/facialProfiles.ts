@@ -1,6 +1,6 @@
 export interface facialProfilesRequest {
 
-        "idFacialProfile": number,
+        "idFacialProfile": number|null,
         "facialProfile": string
 }
 

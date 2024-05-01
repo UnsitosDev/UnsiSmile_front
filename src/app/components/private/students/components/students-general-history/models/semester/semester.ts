@@ -3,7 +3,7 @@ import { cyclesResponse } from "../cycles/cycles"
 import { groupRequest, groupResponse } from "../group/group"
 
 export interface toothConditionRequest {
-    "idSemester": number,
+    "idSemester": number|null,
     "group": groupRequest,
     "cycle": careersRequest
 }

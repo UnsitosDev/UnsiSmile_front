@@ -1,6 +1,6 @@
 export interface closedQuestionPathologicalAntecedentsRequest {
 
-    "idClosedQuestion": number,
+    "idClosedQuestion": number|null,
     "question": string
 }
 
