@@ -158,8 +158,15 @@
         >
         <input
           type="text"
+          [formControl]="controlReligion"
+          [matAutocomplete]="autoReligion"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
+        <mat-autocomplete #autoReligion="matAutocomplete">
+          @for (item of filteredReligion | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
       </div>
       <!-- Fecha de ingreso -->
       <div class="relative flex-grow w-full">
@@ -198,8 +205,15 @@
         >
         <input
           type="text"
+          [formControl]="controlLocalitie"
+          [matAutocomplete]="autoLocality"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
+        <mat-autocomplete #autoLocality="matAutocomplete">
+          @for (item of filteredLocality | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
       </div>
       <!-- Correo electronico -->
       <div class="relative flex-grow w-full">

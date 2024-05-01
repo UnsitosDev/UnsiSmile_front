@@ -8,10 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {AsyncPipe} from '@angular/common';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
-
 
 interface Religion {
   idReligion: number;
@@ -61,7 +60,6 @@ interface Genero {
   gender: string;
 }
 
-
 @Component({
   selector: 'app-history-personal-data',
   standalone: true,
@@ -81,50 +79,87 @@ interface Genero {
     MatAutocompleteModule,
     ReactiveFormsModule,
     AsyncPipe,
-    
   ],
   templateUrl: './history-personal-data.component.html',
   styleUrl: './history-personal-data.component.scss',
 })
 export class HistoryPersonalDataComponent implements OnInit {
-
   // Crear un control de formulario para el input de texto
   controlNationality = new FormControl('');
   controlOcupation = new FormControl('');
   controlEthnicGroup = new FormControl('');
   controlMaritalStatus = new FormControl('');
+  controlReligion = new FormControl('');
+  controlLocalitie = new FormControl('');
   // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
   filteredNationality: Observable<string[]>;
   filteredEthnicGroup: Observable<string[]>;
   filteredOcupations: Observable<string[]>;
   filteredMaritalStatus: Observable<string[]>;
+  filteredReligion: Observable<string[]>;
+  filteredLocality: Observable<string[]>;
 
   // Método que se encarga de filtrar las nacionalidades según el valor de búsqueda
   private _filter(value: string): string[] {
     // Normalizar el valor de búsqueda para que sea case-insensitive y sin espacios en blanco
     const filterValue = this._normalizeValue(value);
     // Convertir el arreglo de objetos nationalityData en un arreglo de strings que representan las nacionalidades
-    return this.nationalityData.map(nacionalidad => nacionalidad.nationality).filter(nationalityData => this._normalizeValue(nationalityData).includes(filterValue));
+    return this.nationalityData
+      .map((nacionalidad) => nacionalidad.nationality)
+      .filter((nationalityData) =>
+        this._normalizeValue(nationalityData).includes(filterValue)
+      );
   }
 
   // Método que se encarga de filtrar los grupos etnicos según el valor de búsqueda
   private _filterEthnicGroup(value: string): string[] {
     const filterValue = this._normalizeValue(value);
-    return this.ethnicGroupData.map(ethnicGroup => ethnicGroup.ethnicGroup).filter(ethnicGroupData => this._normalizeValue(ethnicGroupData).includes(filterValue));
+    return this.ethnicGroupData
+      .map((ethnicGroup) => ethnicGroup.ethnicGroup)
+      .filter((ethnicGroupData) =>
+        this._normalizeValue(ethnicGroupData).includes(filterValue)
+      );
   }
 
   // Método que se encarga de filtrar las ocupaciones según el valor de búsqueda
   private _filterOcupations(value: string): string[] {
     const filterValue = this._normalizeValue(value);
-    return this.occupationData.map(ocupacion => ocupacion.occupation).filter(occupationData => this._normalizeValue(occupationData).includes(filterValue));
+    return this.occupationData
+      .map((ocupacion) => ocupacion.occupation)
+      .filter((occupationData) =>
+        this._normalizeValue(occupationData).includes(filterValue)
+      );
   }
 
   // Método que se encarga de filtrar las ocupaciones según el valor de búsqueda
   private _filterMaritalStatus(value: string): string[] {
     const filterValue = this._normalizeValue(value);
-    return this.maritalStatusData.map(maritalSts => maritalSts.maritalStatus).filter(maritalStatusData => this._normalizeValue(maritalStatusData).includes(filterValue));
+    return this.maritalStatusData
+      .map((maritalSts) => maritalSts.maritalStatus)
+      .filter((maritalStatusData) =>
+        this._normalizeValue(maritalStatusData).includes(filterValue)
+      );
   }
 
+  // Método que se encarga de filtrar las reliogiones segun el valor de busqueda
+  private _filterReligion(value: string): string[] {
+    const filterValue = this._normalizeValue(value);
+    return this.religionData
+      .map((religionName) => religionName.religion)
+      .filter((religionData) =>
+        this._normalizeValue(religionData).includes(filterValue)
+      );
+  }
+
+  // Método que se encarga de filtrar las las localidades segun el valor de busqueda
+  private _filterLocality(value: string): string[] {
+    const filterValue = this._normalizeValue(value);
+    return this.localityData
+      .map((locality) => locality.name)
+      .filter((localityData) =>
+        this._normalizeValue(localityData).includes(filterValue)
+      );
+  }
 
   // Método que se encarga de normalizar el valor de búsqueda
   private _normalizeValue(value: string): string {
@@ -137,15 +172,15 @@ export class HistoryPersonalDataComponent implements OnInit {
 
   private apiService = inject(ApiService<Religion>);
 
-  constructor() 
-  {
+  constructor() {
     this.birthDate = ''; // Inicializamos la propiedad en el constructor
     // Inicializamos la propiedades oara filtros
-    this.filteredNationality = new Observable<string[]>(); 
+    this.filteredNationality = new Observable<string[]>();
     this.filteredEthnicGroup = new Observable<string[]>();
     this.filteredOcupations = new Observable<string[]>();
     this.filteredMaritalStatus = new Observable<string[]>();
-
+    this.filteredReligion = new Observable<string[]>();
+    this.filteredLocality = new Observable<string[]>();
   }
   ngOnInit(): void {
     this.getReligion();
@@ -161,25 +196,37 @@ export class HistoryPersonalDataComponent implements OnInit {
       // Inicializar el observable con un valor vacío para que se muestren todas las nacionalidades al principio
       startWith(''),
       // Cuando el valor del control cambia, aplicar el método _filter para filtrar las nacionalidades
-      map(value => this._filter(value || '')),
+      map((value) => this._filter(value || ''))
     );
 
     // Crear un observable que devuelve un arreglo de strings que representan los grupos etnicos filtrados
     this.filteredEthnicGroup = this.controlEthnicGroup.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterEthnicGroup(value || '')),
+      map((value) => this._filterEthnicGroup(value || ''))
     );
 
     // Crear un observable que devuelve un arreglo de strings que representan las ocupaciones filtradas
     this.filteredOcupations = this.controlOcupation.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterOcupations(value || '')),
+      map((value) => this._filterOcupations(value || ''))
     );
 
     // Crear un observable que devuelve un arreglo de strings que representan los estados civiles filtrados
     this.filteredMaritalStatus = this.controlMaritalStatus.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterMaritalStatus(value || '')),
+      map((value) => this._filterMaritalStatus(value || ''))
+    );
+
+    // Crear un observable que devuelve un arreglo de strings que representan las religiones filtradas
+    this.filteredReligion = this.controlReligion.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterReligion(value || ''))
+    );
+
+    // Crear un observable que devuelve un arreglo de strings que representan las localidades filtradas
+    this.filteredLocality = this.controlLocalitie.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterLocality(value || ''))
     );
   }
 
@@ -211,9 +258,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.religionData = response;
-          console.log(this.religionData);
-
-
+          // console.log(this.religionData);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
@@ -222,7 +267,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   }
 
   // Nacionalidad
-  nationalityData: Nacionalidad[]=[];
+  nationalityData: Nacionalidad[] = [];
   getNacionality() {
     this.apiService
       .getService({
@@ -235,7 +280,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.nationalityData = response;
-          console.log(this.nationalityData);
+          // console.log(this.nationalityData);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
@@ -244,7 +289,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   }
 
   // Ocupacion
-  occupationData: Ocupacion[]=[];
+  occupationData: Ocupacion[] = [];
   getOcupation() {
     this.apiService
       .getService({
@@ -257,7 +302,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.occupationData = response;
-          console.log('ocupacion',this.occupationData);
+          // console.log('ocupacion',this.occupationData);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
@@ -265,8 +310,8 @@ export class HistoryPersonalDataComponent implements OnInit {
       });
   }
 
-  // Estado civil 
-  maritalStatusData: EstadoCivil[]=[];
+  // Estado civil
+  maritalStatusData: EstadoCivil[] = [];
   getMaritalStatus() {
     this.apiService
       .getService({
@@ -279,7 +324,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.maritalStatusData = response;
-          console.log(this.maritalStatusData);
+          // console.log(this.maritalStatusData);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
@@ -287,72 +332,69 @@ export class HistoryPersonalDataComponent implements OnInit {
       });
   }
 
-   // Grupo etnico
-   ethnicGroupData: GrupoEtnico[]=[];
-   getEthnicGroup() {
-     this.apiService
-       .getService({
-         headers: new HttpHeaders({
-           'Content-Type': 'application/json',
-         }),
-         url: `${UriConstants.GET_ETHNIC_GROUP}`,
-         data: {},
-       })
-       .subscribe({
-         next: (response) => {
-           this.ethnicGroupData = response;
-           console.log(this.ethnicGroupData);
-         },
-         error: (error) => {
-           console.error('Error en la autenticación:', error);
-         },
-       });
-   }
+  // Grupo etnico
+  ethnicGroupData: GrupoEtnico[] = [];
+  getEthnicGroup() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_ETHNIC_GROUP}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.ethnicGroupData = response;
+          // console.log(this.ethnicGroupData);
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
 
-   // Localidad
-   localityData: Localidad[]=[];
-   getLocality() {
-     this.apiService
-       .getService({
-         headers: new HttpHeaders({
-           'Content-Type': 'application/json',
-         }),
-         url: `${UriConstants.GET_LOCALITIES}`,
-         data: {},
-       })
-       .subscribe({
-         next: (response) => {
-           this.localityData = response;
-           console.log(this.localityData);
-         },
-         error: (error) => {
-           console.error('Error en la autenticación:', error);
-         },
-       });
-   }
+  // Localidad
+  localityData: Localidad[] = [];
+  getLocality() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_LOCALITIES}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.localityData = response;
+          // console.log('localidades =',this.localityData);
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
 
-   // Genero
-   genderData: Genero[]=[];
-   getGender() {
-     this.apiService
-       .getService({
-         headers: new HttpHeaders({
-           'Content-Type': 'application/json',
-         }),
-         url: `${UriConstants.GET_GENDER}`,
-         data: {},
-       })
-       .subscribe({
-         next: (response) => {
-           this.genderData = response;
-           console.log(this.genderData);
-         },
-         error: (error) => {
-           console.error('Error en la autenticación:', error);
-         },
-       });
-   }
-
-   
-   
+  // Genero
+  genderData: Genero[] = [];
+  getGender() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_GENDER}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.genderData = response;
+          // console.log(this.genderData);
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
 }
