@@ -92,6 +92,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   control = new FormControl('');
   // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
   filteredNationality: Observable<string[]>;
+  filteredEthnicGroup: Observable<string[]>;
 
   // Método que se encarga de filtrar las nacionalidades según el valor de búsqueda
   private _filter(value: string): string[] {
@@ -99,6 +100,12 @@ export class HistoryPersonalDataComponent implements OnInit {
     const filterValue = this._normalizeValue(value);
     // Convertir el arreglo de objetos nationalityData en un arreglo de strings que representan las nacionalidades
     return this.nationalityData.map(nacionalidad => nacionalidad.nationality).filter(nationalityData => this._normalizeValue(nationalityData).includes(filterValue));
+  }
+
+  // Método que se encarga de filtrar los grupos etnicos según el valor de búsqueda
+  private _filterEthnicGroup(value: string): string[] {
+    const filterValue = this._normalizeValue(value);
+    return this.ethnicGroupData.map(ethnicGroup => ethnicGroup.ethnicGroup).filter(ethnicGroupData => this._normalizeValue(ethnicGroupData).includes(filterValue));
   }
 
   // Método que se encarga de normalizar el valor de búsqueda
@@ -116,6 +123,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   {
     this.birthDate = ''; // Inicializamos la propiedad en el constructor
     this.filteredNationality = new Observable<string[]>(); // Inicializamos la propiedad filteredOptions
+    this.filteredEthnicGroup = new Observable<string[]>();
 
   }
   ngOnInit(): void {
@@ -133,6 +141,14 @@ export class HistoryPersonalDataComponent implements OnInit {
       startWith(''),
       // Cuando el valor del control cambia, aplicar el método _filter para filtrar las nacionalidades
       map(value => this._filter(value || '')),
+    );
+
+    // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
+    this.filteredEthnicGroup = this.control.valueChanges.pipe(
+      // Inicializar el observable con un valor vacío para que se muestren todas las nacionalidades al principio
+      startWith(''),
+      // Cuando el valor del control cambia, aplicar el método _filter para filtrar las nacionalidades
+      map(value => this._filterEthnicGroup(value || '')),
     );
   }
 
