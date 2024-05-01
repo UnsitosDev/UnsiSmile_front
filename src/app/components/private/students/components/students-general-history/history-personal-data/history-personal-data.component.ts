@@ -12,6 +12,74 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 
+interface PatientData {
+  idPatient: number;
+  admissionDate: string;
+  isMinor: boolean;
+  hasDisability: boolean;
+  nationalityId: number;
+  person: {
+    curp: string;
+    firstName: string;
+    secondName: string;
+    firstLastName: string;
+    secondLastName: string;
+    phone: string;
+    birthDate: string;
+    email: string;
+    gender: {
+      idGender: number;
+      gender: string;
+    };
+  };
+  address: {
+    idAddress: number;
+    streetNumber: string;
+    interiorNumber: string;
+    housing: {
+      idHousing: string;
+      category: string;
+    };
+    street: {
+      idStreet: number;
+      name: string;
+      neighborhood: {
+        idNeighborhood: number;
+        name: string;
+        locality: {
+          idLocality: string;
+          name: string;
+          postalCode: string;
+          municipality: {
+            idMunicipality: string;
+            name: string;
+            state: {
+              idState: string;
+              name: string;
+            };
+          };
+        };
+      };
+    };
+  };
+
+
+  
+  maritalStatusId: number;
+  occupationId: number;
+  ethnicGroupId: number;
+  religionId: number;
+  guardian: {
+    idGuardian: number;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+  };
+}
+
+
+
 interface Religion {
   idReligion: number;
   religion: string;
