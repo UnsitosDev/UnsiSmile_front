@@ -89,10 +89,15 @@ interface Genero {
 export class HistoryPersonalDataComponent implements OnInit {
 
   // Crear un control de formulario para el input de texto
-  control = new FormControl('');
+  controlNationality = new FormControl('');
+  controlOcupation = new FormControl('');
+  controlEthnicGroup = new FormControl('');
+  controlMaritalStatus = new FormControl('');
   // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
   filteredNationality: Observable<string[]>;
   filteredEthnicGroup: Observable<string[]>;
+  filteredOcupations: Observable<string[]>;
+  filteredMaritalStatus: Observable<string[]>;
 
   // Método que se encarga de filtrar las nacionalidades según el valor de búsqueda
   private _filter(value: string): string[] {
@@ -108,6 +113,19 @@ export class HistoryPersonalDataComponent implements OnInit {
     return this.ethnicGroupData.map(ethnicGroup => ethnicGroup.ethnicGroup).filter(ethnicGroupData => this._normalizeValue(ethnicGroupData).includes(filterValue));
   }
 
+  // Método que se encarga de filtrar las ocupaciones según el valor de búsqueda
+  private _filterOcupations(value: string): string[] {
+    const filterValue = this._normalizeValue(value);
+    return this.occupationData.map(ocupacion => ocupacion.occupation).filter(occupationData => this._normalizeValue(occupationData).includes(filterValue));
+  }
+
+  // Método que se encarga de filtrar las ocupaciones según el valor de búsqueda
+  private _filterMaritalStatus(value: string): string[] {
+    const filterValue = this._normalizeValue(value);
+    return this.maritalStatusData.map(maritalSts => maritalSts.maritalStatus).filter(maritalStatusData => this._normalizeValue(maritalStatusData).includes(filterValue));
+  }
+
+
   // Método que se encarga de normalizar el valor de búsqueda
   private _normalizeValue(value: string): string {
     // Convertir el valor a minúsculas
@@ -122,8 +140,11 @@ export class HistoryPersonalDataComponent implements OnInit {
   constructor() 
   {
     this.birthDate = ''; // Inicializamos la propiedad en el constructor
-    this.filteredNationality = new Observable<string[]>(); // Inicializamos la propiedad filteredOptions
+    // Inicializamos la propiedades oara filtros
+    this.filteredNationality = new Observable<string[]>(); 
     this.filteredEthnicGroup = new Observable<string[]>();
+    this.filteredOcupations = new Observable<string[]>();
+    this.filteredMaritalStatus = new Observable<string[]>();
 
   }
   ngOnInit(): void {
@@ -136,19 +157,29 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.getGender();
 
     // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
-    this.filteredNationality = this.control.valueChanges.pipe(
+    this.filteredNationality = this.controlNationality.valueChanges.pipe(
       // Inicializar el observable con un valor vacío para que se muestren todas las nacionalidades al principio
       startWith(''),
       // Cuando el valor del control cambia, aplicar el método _filter para filtrar las nacionalidades
       map(value => this._filter(value || '')),
     );
 
-    // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
-    this.filteredEthnicGroup = this.control.valueChanges.pipe(
-      // Inicializar el observable con un valor vacío para que se muestren todas las nacionalidades al principio
+    // Crear un observable que devuelve un arreglo de strings que representan los grupos etnicos filtrados
+    this.filteredEthnicGroup = this.controlEthnicGroup.valueChanges.pipe(
       startWith(''),
-      // Cuando el valor del control cambia, aplicar el método _filter para filtrar las nacionalidades
       map(value => this._filterEthnicGroup(value || '')),
+    );
+
+    // Crear un observable que devuelve un arreglo de strings que representan las ocupaciones filtradas
+    this.filteredOcupations = this.controlOcupation.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterOcupations(value || '')),
+    );
+
+    // Crear un observable que devuelve un arreglo de strings que representan los estados civiles filtrados
+    this.filteredMaritalStatus = this.controlMaritalStatus.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterMaritalStatus(value || '')),
     );
   }
 
@@ -226,7 +257,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.occupationData = response;
-          console.log(this.occupationData);
+          console.log('ocupacion',this.occupationData);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);

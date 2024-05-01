@@ -50,7 +50,7 @@
         >
         <input
           type="text"
-          [formControl]="control"
+          [formControl]="controlEthnicGroup"
           [matAutocomplete]="auto"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -68,8 +68,15 @@
         >
         <input
           type="text"
+          [formControl]="controlOcupation"
+          [matAutocomplete]="autoOcupation"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
+        <mat-autocomplete #autoOcupation="matAutocomplete">
+          @for (item of filteredOcupations | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
       </div>
       <!-- Fecha de nacimiento -->
       <div class="relative flex-grow w-full">
@@ -131,15 +138,17 @@
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >Estado Civil</label
         >
-        <select
-          id="countries"
+        <input
+          type="text"
+          [formControl]="controlMaritalStatus"
+          [matAutocomplete]="autoMaritalStatus"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-          <option></option>
-          <option>Casado</option>
-          <option>Soltero</option>
-          <option>Divorciado</option>
-        </select>
+        />
+        <mat-autocomplete #autoMaritalStatus="matAutocomplete">
+          @for (item of filteredMaritalStatus | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
       </div>
       <!-- Religion -->
       <div class="relative flex-grow w-full">
@@ -171,11 +180,11 @@
         >
         <input
           type="text"
-          [formControl]="control"
-          [matAutocomplete]="auto"
+          [formControl]="controlNationality"
+          [matAutocomplete]="autoNationality"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
-        <mat-autocomplete #auto="matAutocomplete">
+        <mat-autocomplete #autoNationality="matAutocomplete">
           @for (item of filteredNationality | async; track item) {
           <mat-option [value]="item">{{ item }}</mat-option>
           }
