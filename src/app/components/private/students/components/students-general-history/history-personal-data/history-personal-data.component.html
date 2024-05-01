@@ -1,97 +1,73 @@
 <div class="mx-4">
+  <!-- <h1>Agregar paciente</h1> -->
   <form>
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
     >
-      <!-- Nombre -->
+      <!-- Primer Nombre -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Nombre</label
+          >Primer Nombre</label
         >
-        
+
         <input
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
-      <!-- Edad -->
+      <!-- Segundo Nombre -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Edad</label
+          >Segundo Nombre</label
         >
-        <input
-          type="number"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      <!-- Sexo -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Sexo</label
-        >
-        <select
-          id="countries"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-          <option>Hombre</option>
-          <option>Hombre</option>
-          <option>Mujer</option>
-        </select>
-      </div>
-      <!-- Grupo etnico -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Grupo Etnico</label
-        >
-        <input
-        value="Sin Grupo Etnico"
-          type="text"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      <!-- Ocupacion -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Ocupacion</label
-        >
+
         <input
           type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
-      <!-- Fecha de nacimiento -->
-      <div class="relative flex-grow w-full">
-        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha de Nacimiento</label>
-        <input
-          type="date"
-          name="birthDate"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          [(ngModel)]="birthDate" (change)="onFechaNacimientoChange()"
-                  />
-      </div>
-      
-      <!-- Grado escolar -->
+
+      <!-- Primer Apellido -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Grado Escolar</label
+          >Primer Apellido</label
         >
-        <select
-          id="countries"
+
+        <input
+          type="text"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-        <option></option>
-        <option>Media Superior</option>
-        <option>Primaria</option>
-          <option>Scundaria</option>
-          <option>Universidad</option>
-        </select>
+        />
       </div>
+
+      <!-- Segundo Apellido -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Segundo Apellido</label
+        >
+
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- CURP -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >CURP</label
+        >
+
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
       <!-- Telefono -->
       <div class="relative flex-grow w-full">
         <label
@@ -103,78 +79,22 @@
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
-      <!-- Domicilio -->
+
+      <!-- Fecha de nacimiento -->
       <div class="relative flex-grow w-full">
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Domicilio</label
-        >
-        <input
-          type="text"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      <!-- Estado civil -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Estado Civil</label
-        >
-        <select
-          id="countries"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-        <option></option>
-        <option>Casado</option>
-        <option>Soltero</option>
-        <option>Divorciado</option>
-        </select>
-      </div>
-      <!-- Religion -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Religion</label
-        >
-        <input
-          type="text"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      <!-- Fecha de ingreso -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Fecha de ingreso</label
+          >Fecha de Nacimiento</label
         >
         <input
           type="date"
+          name="birthDate"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          [(ngModel)]="birthDate"
+          (change)="onFechaNacimientoChange()"
         />
       </div>
-      <!-- Nacionalidad -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Nacionalidad</label
-        >
-        <input
-        value="Mexicano"
-          type="text"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      <!-- Localidad -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Localidad</label
-        >
-        <input
-          type="text"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
+
       <!-- Correo electronico -->
       <div class="relative flex-grow w-full">
         <label
@@ -186,6 +106,261 @@
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
+
+      <!-- Sexo -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Sexo</label
+        >
+        <input
+          type="text"
+          [formControl]="controlGender"
+          [matAutocomplete]="autoGender"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+        <mat-autocomplete #autoGender="matAutocomplete">
+          @for (item of filterGender | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
+      <!-- Número exterior -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Número exterior</label
+        >
+        <input
+          type="number"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Número interior -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Número interior</label
+        >
+        <input
+          type="number"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Tipo de vivienda -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Tipo de vivienda</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Calle -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Calle</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Colonia -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Colonia</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Localidad -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Localidad</label
+        >
+        <input
+          type="text"
+          [formControl]="controlLocalitie"
+          [matAutocomplete]="autoLocality"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+        <mat-autocomplete #autoLocality="matAutocomplete">
+          @for (item of filteredLocality | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
+      <!-- Codigo postal -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Código postal</label
+        >
+        <input
+          type="number"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Municipio -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Municipio</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Estado -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Estado</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Estado civil -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Estado Civil</label
+        >
+        <input
+          type="text"
+          [formControl]="controlMaritalStatus"
+          [matAutocomplete]="autoMaritalStatus"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+        <mat-autocomplete #autoMaritalStatus="matAutocomplete">
+          @for (item of filteredMaritalStatus | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
+      <!-- Ocupacion -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Ocupacion</label
+        >
+        <input
+          type="text"
+          [formControl]="controlOcupation"
+          [matAutocomplete]="autoOcupation"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+        <mat-autocomplete #autoOcupation="matAutocomplete">
+          @for (item of filteredOcupations | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
+      <!-- Grupo etnico -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Grupo Etnico</label
+        >
+        <input
+          type="text"
+          [formControl]="controlEthnicGroup"
+          [matAutocomplete]="auto"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (item of filteredEthnicGroup | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
+      <!-- Religion -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Religion</label
+        >
+        <input
+          type="text"
+          [formControl]="controlReligion"
+          [matAutocomplete]="autoReligion"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+        <mat-autocomplete #autoReligion="matAutocomplete">
+          @for (item of filteredReligion | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
+      <!-- Fecha de ingreso -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Fecha de ingreso</label
+        >
+        <input
+          type="date"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Discapacidad -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Discapacidad</label
+        >
+        <input
+          type="text"
+          [formControl]="controlOcupation"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Nacionalidad -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Nacionalidad</label
+        >
+        <input
+          type="text"
+          [formControl]="controlNationality"
+          [matAutocomplete]="autoNationality"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+        <mat-autocomplete #autoNationality="matAutocomplete">
+          @for (item of filteredNationality | async; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
       <!-- Ultima consulta -->
       <div class="relative flex-grow w-full">
         <label
@@ -197,7 +372,7 @@
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </div>
-     
+
       <!-- Motivo de consulta -->
       <div class="relative flex-grow w-full">
         <label
@@ -210,77 +385,88 @@
           class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         ></textarea>
       </div>
-     
-      
     </div>
     @if (youngerForm) {
-      <h1>Datos de los padres</h1>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-4 mb-16">
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Nombre del padre</label
-          >
-          <input
-            type="text"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Ocupacion</label
-          >
-          <input
-            type="text"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Nombre de la Madre</label
-          >
-          <input
-            type="text"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Ocupacion</label
-          >
-          <input
-            type="text"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Estado civil de los padres</label
-          >
-          <input
-            type="text"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-        <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            >Nombre del medico familiar</label
-          >
-          <input
-            type="text"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>  
+    <h1>Datos del tutor</h1>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 gap-4 mt-4 mb-16"
+    >
+      <!-- Primer Nombre -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Primer Nombre</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
       </div>
-      
-     
+
+      <!-- Segundo Nombre -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Segundo Nombre</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Primer Apellido -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Apellido Paterno</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Segundo Apellido -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Apellido Materno</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Telefono -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Telefono</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Correo Electronico -->
+      <div class="relative flex-grow w-full">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          >Correo Electronico</label
+        >
+        <input
+          type="email"
+          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
+
+    </div>
+
     }
-    
+
     <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
       <button mat-raised-button color="primary">Siguiente</button>
     </div>

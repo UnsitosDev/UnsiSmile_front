@@ -164,16 +164,16 @@ export class HistoryFacialExamComponent implements OnInit {
           // Verifica si la respuesta contiene datos antes de asignar
           if (response && Array.isArray(response)) {
             this.namefacialFront = response.map((item) => ({
-              facialFront: item.facialFront,
-              idFacialFront: item.idFacialFront,
+              // facialFront: item.facialFront,
+              // idFacialFront: item.idFacialFront,
             }));
             // Crear el arreglo comparefacialFront a partir de la respuesta del backend
             const comparefacialFront: any[] = [];
 
             for (const item of response) {
               comparefacialFront.push({
-                facialFront: item.facialFront,
-                idFacialFront: item.idFacialFront,
+                // facialFront: item.facialFront,
+                // idFacialFront: item.idFacialFront,
               });
             }
           }
@@ -204,16 +204,16 @@ export class HistoryFacialExamComponent implements OnInit {
           // Verifica si la respuesta contiene datos antes de asignar
           if (response && Array.isArray(response)) {
             this.nameFacialProfile = response.map((item) => ({
-              facialProfile: item.facialProfile,
-              idFacialProfile: item.idFacialProfile,
+              // facialProfile: item.facialProfile,
+              // idFacialProfile: item.idFacialProfile,
             }));
             // Crear el arreglo comparefacialFacial a partir de la respuesta del backend
             const comparefacialFacial: any[] = [];
 
             for (const item of response) {
               comparefacialFacial.push({
-                facialProfile: item.facialProfile,
-                idFacialProfile: item.idFacialProfile,
+                // facialProfile: item.facialProfile,
+                // idFacialProfile: item.idFacialProfile,
               });
             }
           }

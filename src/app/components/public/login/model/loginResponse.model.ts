@@ -2,5 +2,7 @@
 export type Get = {}
 
 export type PostLogin = {
-  token : string;
+  response : {
+    token : string;
+  }
 }
