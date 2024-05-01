@@ -116,6 +116,9 @@ export class UriConstants {
     public static readonly GET_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS = basePath + '/medical-histories/open-question-pathological-antecedents'
     public static readonly POST_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS = basePath + '/medical-histories/open-question-pathological-antecedents'
 
+    //´getpacientes
+    public static readonly GET_PATIENTS = basePath + '/patients'
+
   
 
   

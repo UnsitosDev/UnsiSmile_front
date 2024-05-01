@@ -7,7 +7,7 @@ import { addressRequest, addressResponse } from "../../addresses/address/address
 import { nationalityResponse } from "../Nationality/Nationality"
 import { personRequest, personResponse } from "src/app/components/private/students/components/students-general-history/models/person/person"
 
-export interface studentRequest {
+export interface patientRequest {
   "idPatient": number|null,
   "admissionDate": Date,
   "isMinor": boolean,
@@ -23,7 +23,7 @@ export interface studentRequest {
 
 }
 
-export interface studentResponse {
+export interface patientResponse {
 
   "idPatient": number,
   "admissionDate": Date,
