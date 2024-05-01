@@ -1,14 +1,15 @@
-import { ethnicGroupResponse } from "src/app/models/shared/patients/EthnicGroup/ethnicGroup"
-import { guardianRequest, guardianResponse } from "src/app/models/shared/patients/Guardian/guardian"
-import { maritalStatusResponse } from "src/app/models/shared/patients/MaritalStatus/maritalStatus"
-import { occupationResponse } from "src/app/models/shared/patients/Occupation/occupation"
-import { religionResponse } from "src/app/models/shared/patients/Religion/religion"
-import { addressRequest, addressResponse } from "../../addresses/address/address"
-import { nationalityResponse } from "../Nationality/Nationality"
 import { personRequest, personResponse } from "src/app/components/private/students/components/students-general-history/models/person/person"
+import { addressRequest, addressResponse } from "../../addresses/address/address"
+import { guardianRequest, guardianResponse } from "../Guardian/guardian"
+import { religionResponse } from "../Religion/religion"
+import { ethnicGroupResponse } from "../EthnicGroup/ethnicGroup"
+import { occupationResponse } from "../Occupation/occupation"
+import { maritalStatusResponse } from "../MaritalStatus/maritalStatus"
+import { nationalityResponse } from "../Nationality/Nationality"
 
 export interface patientRequest {
-  "idPatient": number|null,
+
+  "idPatient": number | null,
   "admissionDate": Date,
   "isMinor": boolean,
   "hasDisability": boolean,
@@ -22,6 +23,7 @@ export interface patientRequest {
   "guardian": guardianRequest
 
 }
+
 
 export interface patientResponse {
 
@@ -37,5 +39,5 @@ export interface patientResponse {
   "ethnicGroup": ethnicGroupResponse,
   "religion": religionResponse,
   "guardian": guardianResponse
-
 }
+

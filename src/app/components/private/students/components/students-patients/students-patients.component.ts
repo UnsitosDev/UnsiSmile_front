@@ -23,18 +23,18 @@ import { UriConstants } from '@mean/utils';
   templateUrl: './students-patients.component.html',
   styleUrl: './students-patients.component.scss',
 })
-export class StudentsPatientsComponent implements OnInit{
+export class StudentsPatientsComponent implements OnInit {
 
   keyboardList: Ipatients[] = [];
   columnas: string[] = [];
   title: string = 'Pacientes';
-  private apiService=inject(ApiService<patientRequest>)
-  
+  private apiService = inject(ApiService<patientRequest>)
+
 
   constructor(
     private productService: ProductService,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('patients');
@@ -75,26 +75,27 @@ export class StudentsPatientsComponent implements OnInit{
   }
 
 
-  pacientesData:patientRequest[]=[];
+  pacientesData: patientRequest[] = [];
   getPacientes() {
     this.apiService
-    .getListService({
-    headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    }),
-    url: `${UriConstants.GET_PATIENTS}`,
-    data: {},
-    })
-    .subscribe({
-    next: (response) => {
-      console.log('ergssg',response);
-    
-    
-    },
-    error: (error) => {
-    console.error('Error en la autenticación:', error);
-    },
-    });
-    }
+      .getListService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_PATIENTS}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.pacientesData = response.response;
+          console.log('Respuesta del servidor:', this.pacientesData);
+
+
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
 
 }
