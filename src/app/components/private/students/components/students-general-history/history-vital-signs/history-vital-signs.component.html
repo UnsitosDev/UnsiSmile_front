@@ -1,5 +1,5 @@
 <div class="mx-4">
-  <form [formGroup]="formVitalSigns" (ngSubmit)="postVitalSigns()">
+  <form (submit)="postVitalSigns()">
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
     >
@@ -10,7 +10,9 @@
           >Peso</label
         >
         <input
-          formControlName="weight"
+          id="weight"
+          name="weight"
+          [(ngModel)]="weight"
           type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -23,7 +25,9 @@
           >Estatura</label
         >
         <input
-          formControlName="height"
+          id="height"
+          name="height"
+          [(ngModel)]="height"
           type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -36,7 +40,9 @@
           >Temperatura</label
         >
         <input
-          formControlName="temperature"
+          id="temperature"
+          name="temperature"
+          [(ngModel)]="temperature"
           type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -49,7 +55,9 @@
           >Frecuncia Cardiaca</label
         >
         <input
-          formControlName="heartRate"
+          id="heartRate"
+          name="heartRate"
+          [(ngModel)]="heartRate"
           type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -62,7 +70,9 @@
           >Frecuencia Respiratoria</label
         >
         <input
-          formControlName="respiratoryRate"
+          id="respiratoryRate"
+          name="respiratoryRate"
+          [(ngModel)]="respiratoryRate"
           type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -75,7 +85,9 @@
           >Presion Arterial</label
         >
         <input
-          formControlName="bloodPressure"
+          id="bloodPressure"
+          name="bloodPressure"
+          [(ngModel)]="bloodPressure"
           type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -87,7 +99,9 @@
           >Saturacion de oxigeno</label
         >
         <input
-          formControlName="oxygenSaturation"
+          id="oxygenSaturation"
+          name="oxygenSaturation"
+          [(ngModel)]="oxygenSaturation"
           type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -100,7 +114,9 @@
           >Glucosa</label
         >
         <input
-          formControlName="glucose"
+          id="glucose"
+          name="glucose"
+          [(ngModel)]="glucose"
           type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -113,7 +129,9 @@
           >Pulso</label
         >
         <input
-          formControlName="pulse"
+          id="pulse"
+          name="pulse"
+          [(ngModel)]="pulse"
           type="number"
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
