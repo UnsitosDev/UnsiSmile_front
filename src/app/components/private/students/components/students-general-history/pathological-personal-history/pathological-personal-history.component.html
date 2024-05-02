@@ -4,283 +4,49 @@
     <table class="w-full text-sm text-left rtl:text-right text-black-500 dark:text-black">
         <thead class="text-xs text-black uppercase bg-gray-50 dark:bg-white-700 dark:text-black">
             <tr>
+                
                 <th scope="col" class="px-6 py-3">
                     Respuesta
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Si/No
                 </th>
-            
+                <th scope="col" class="px-6 py-3">
+                    Ampliar respuesta
+                </th>
             </tr>
         </thead>
         <tbody>
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Tabaquismo
-                </th>
+            @for (item of questionsPathologicalPersonData; track $index) {
+                <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
+                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
+                        {{item.question}}
+                    </th>                
                 <td class="px-6 py-4">
                     <p><mat-checkbox></mat-checkbox></p>
                 </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Alcoholismo
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
+                <td>
+                    <input class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
             </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Otras sustancias psicoactivas o recreativas
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Perforaciones (Aretes, en mujeres además de los 2 aretes en cada oreja)
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Tatuajes
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Neoplasia (Cáncer)
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Diabetes
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Hipertensión Arterial
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Padecimientos mentales/convulsiones/desmayos/migraña/neuralgia
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Obesidad diagnosticada
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Padecimientos hematológicos/hemorrágicos/anemia/leucemia
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Malformaciones congénitas/ Síndromes
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Problemas cardiacos/ angina de pecho/ infarto/ tromboembolia/ marcapasos/ bypass
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Radioterapia/Quimioterapia
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Padecimientos reumatológicos/ artritis/ osteoporosis
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Enfermedades del riñón
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Enfermedades hepáticas/Hepatitis
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Enfermedades de transmisión sexual  
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Hipertiroidismo/Hipotiroidismo
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Enfermedades de vías aéreas/ asma
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Problemas oculares
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Enfermedades digestivas
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Tuberculosis o vive con persona(s) con este padecimiento
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Enfermedades de la piel
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-            <tr class="bg-transparent border-b dark:bg-white-800 dark:border-black-700 hover:bg-gray-50">
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
-                    Trasplantes de órganos
-                </th>
-                <td class="px-6 py-4">
-                    <p><mat-checkbox></mat-checkbox></p>
-                </td>
-            </tr>
-
-
+            }
         </tbody>
     </table>
     <br>
     <div class="mx-4">
         <form>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mt-4 mb-16">
-            <!--¿Has sido hospitalizado/a alguna vez? -->
-            <div class="relative flex-grow w-full">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">¿Has sido hospitalizado/a alguna vez? En caso afirmativo, ¿cuál fue el motivo de la hospitalización?</label>
-              <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-            <!-- ¿Ha tomado algún medicamento recientemente? En caso afirmativo, ¿cuál fue el medicamento y cuál fue el motivo de su uso?-->
-            <div class="relative flex-grow w-full">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">¿Ha tomado algún medicamento recientemente? En caso afirmativo, ¿cuál fue el medicamento y cuál fue el motivo de su uso?</label>
-              <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-            <!-- ¿Ha experimentado alguna complicación con la anestesia dental o general en el pasado? En caso afirmativo, ¿podría especificar cuál fue la complicación? -->
-            <div class="relative flex-grow w-full">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">¿Ha experimentado alguna complicación con la anestesia dental o general en el pasado? En caso afirmativo, ¿podría especificar cuál fue la complicación?</label>
-              <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-            <!-- ¿Ha tomado algún medicamento recientemente? En caso afirmativo, ¿cuál fue el medicamento y cuál fue el motivo de su uso?-->
-            <div class="relative flex-grow w-full">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">¿Ha tomado algún medicamento recientemente? En caso afirmativo, ¿cuál fue el medicamento y cuál fue el motivo de su uso?</label>
-                <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-              </div>
-              <!-- ¿Tiene alguna alergia a algún medicamento o sustancia? En caso afirmativo, ¿cuál es esa sustancia o medicamento al que es alérgico/a?-->
-              <div class="relative flex-grow w-full">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">¿Tiene alguna alergia a algún medicamento o sustancia? En caso afirmativo, ¿cuál es esa sustancia o medicamento al que es alérgico/a?</label>
-                <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-              </div>
-            <!-- ¿Tiene alguna alergia a algún medicamento o sustancia? En caso afirmativo, ¿cuál es esa sustancia o medicamento al que es alérgico/a?-->
-            <div class="relative flex-grow w-full">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Padecimiento y tratamientos</label>
-                <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-              </div>
-        
+            @for (item of getOpenQuestionsPhatologicalData; track $index) {
+                <div class="relative flex-grow w-full">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">{{item.question}}</label>
+                    <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                  </div>
+            }        
           </div>
           
         </form>
-      </div>
+    </div>
      
       
 </div>
