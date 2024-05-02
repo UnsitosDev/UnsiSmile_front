@@ -245,6 +245,7 @@
           [matAutocomplete]="autoNeighborhood"
           [(ngModel)]="neighborhoodName"
           name="neighborhoodName"
+          (focus)="findNeighborhood()"
         />
         <mat-autocomplete #autoNeighborhood="matAutocomplete">
           @for (item of filterNeighborhood | async; track item) {

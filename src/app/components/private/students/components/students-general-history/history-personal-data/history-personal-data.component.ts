@@ -792,6 +792,29 @@ export class HistoryPersonalDataComponent implements OnInit {
     }
   }
 
+  // Buscar id Colonia
+
+  foundNeighborhood: NeighborhoodData | undefined;
+
+  findNeighborhood(): void {
+    const neighborhoodNameToFind = this.neighborhoodName;
+
+    this.foundNeighborhood = this.neighborhoodResponseData.find(
+      (neighborhood) => {
+        return neighborhood.name === neighborhoodNameToFind;
+      }
+    );
+
+    if (this.foundNeighborhood) {
+      console.log('Se encontró el vecindario:');
+      console.log(this.foundNeighborhood);
+    } else {
+      console.log(
+        'No se encontró ningún vecindario con el nombre proporcionado.'
+      );
+    }
+  }
+
   createPatient() {
     // Buscando vivienda
     if (!this.foundHousing) {
@@ -810,6 +833,13 @@ export class HistoryPersonalDataComponent implements OnInit {
       console.error('No se ha encontrado ninguna calle.');
       return;
     }
+
+    // Buscar id domicilio
+    if (!this.foundNeighborhood) {
+      console.error('No se ha encontrado ningún vecindario.');
+      return;
+    }
+  
 
     const patient = {
       idPatient: this.idPatient,
@@ -840,10 +870,10 @@ export class HistoryPersonalDataComponent implements OnInit {
           category: this.housingCategory,
         },
         street: {
-          idStreet:this.foundStreet.idStreet,
-          name:  this.streetName,
+          idStreet: this.foundStreet.idStreet,
+          name: this.streetName,
           neighborhood: {
-            idNeighborhood: this.neighborhoodId,
+            idNeighborhood: this.foundNeighborhood.idNeighborhood,
             name: this.neighborhoodName,
             locality: {
               idLocality: this.localityId,
