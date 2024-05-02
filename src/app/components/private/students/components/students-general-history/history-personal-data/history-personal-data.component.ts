@@ -836,6 +836,26 @@ export class HistoryPersonalDataComponent implements OnInit {
     }
   }
 
+  // Buscar id del municipio
+  foundMunicipality: Municipio | undefined;
+
+  findMunicipality(): void {
+    const municipalityNameToFind = this.municipalityName;
+
+    this.foundMunicipality = this.municipalityResponse.find((municipality) => {
+      return municipality.name === municipalityNameToFind;
+    });
+
+    if (this.foundMunicipality) {
+      console.log('Se encontró el municipio:');
+      console.log(this.foundMunicipality);
+    } else {
+      console.log(
+        'No se encontró ningún municipio con el nombre proporcionado.'
+      );
+    }
+  }
+
   createPatient() {
     // Buscando vivienda
     if (!this.foundHousing) {
@@ -864,6 +884,12 @@ export class HistoryPersonalDataComponent implements OnInit {
     // Buscando Id localidad
     if (!this.foundLocality) {
       console.error('No se ha encontrado ninguna localidad.');
+      return;
+    }
+
+    // Buscando municipio
+    if (!this.foundMunicipality) {
+      console.error('No se ha encontrado ningún municipio.');
       return;
     }
 
@@ -906,7 +932,7 @@ export class HistoryPersonalDataComponent implements OnInit {
               name: this.localityName,
               postalCode: this.postalCode,
               municipality: {
-                idMunicipality: this.municipalityId,
+                idMunicipality: this.foundMunicipality.idMunicipality,
                 name: this.municipalityName,
                 state: {
                   idState: this.stateId,

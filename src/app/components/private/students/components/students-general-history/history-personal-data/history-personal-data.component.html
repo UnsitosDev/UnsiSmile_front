@@ -307,6 +307,7 @@
           [(ngModel)]="municipalityName"
           name="municipalityName"
           (input)="getMunicipalityData()"
+          (focus)="findMunicipality()"
         />
         <mat-autocomplete #autoMunicipality="matAutocomplete">
           @for (item of filterMunicipality | async; track item) {
