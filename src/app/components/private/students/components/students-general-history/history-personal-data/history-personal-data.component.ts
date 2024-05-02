@@ -815,6 +815,27 @@ export class HistoryPersonalDataComponent implements OnInit {
     }
   }
 
+  // Buscar id localidad
+
+  foundLocality: Localidad | undefined;
+
+  findLocality(): void {
+    const localityNameToFind = this.localityName;
+
+    this.foundLocality = this.localityData.find((locality) => {
+      return locality.name === localityNameToFind;
+    });
+
+    if (this.foundLocality) {
+      console.log('Se encontró la localidad:');
+      console.log(this.foundLocality);
+    } else {
+      console.log(
+        'No se encontró ninguna localidad con el nombre proporcionado.'
+      );
+    }
+  }
+
   createPatient() {
     // Buscando vivienda
     if (!this.foundHousing) {
@@ -839,7 +860,12 @@ export class HistoryPersonalDataComponent implements OnInit {
       console.error('No se ha encontrado ningún vecindario.');
       return;
     }
-  
+
+    // Buscando Id localidad
+    if (!this.foundLocality) {
+      console.error('No se ha encontrado ninguna localidad.');
+      return;
+    }
 
     const patient = {
       idPatient: this.idPatient,
@@ -876,7 +902,7 @@ export class HistoryPersonalDataComponent implements OnInit {
             idNeighborhood: this.foundNeighborhood.idNeighborhood,
             name: this.neighborhoodName,
             locality: {
-              idLocality: this.localityId,
+              idLocality: this.foundLocality.idLocality,
               name: this.localityName,
               postalCode: this.postalCode,
               municipality: {

@@ -268,6 +268,7 @@
           [matAutocomplete]="autoLocality"
           [(ngModel)]="localityName"
           name="localityName"
+          (focus)="findLocality()"
         />
         <mat-autocomplete #autoLocality="matAutocomplete">
           @for (item of filteredLocality | async; track item) {
