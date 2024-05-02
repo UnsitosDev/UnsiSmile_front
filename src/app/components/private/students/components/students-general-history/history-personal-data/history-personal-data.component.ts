@@ -12,6 +12,24 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 
+interface NeighborhoodData {
+  idNeighborhood: number;
+  name: string;
+  locality: {
+    idLocality: string;
+    name: string;
+    postalCode: string;
+    municipality: {
+      idMunicipality: string;
+      name: string;
+      state: {
+        idState: string;
+        name: string;
+      }
+    }
+  }
+}
+
 interface AddressData {
   idStreet: number;
   name: string;
@@ -122,6 +140,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   controlGender = new FormControl('');
   controlHousingData = new FormControl('');
   controlstreetsData = new FormControl('');
+  controlNeighborhood = new FormControl('');
   // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
   filteredNationality: Observable<string[]>;
   filteredEthnicGroup: Observable<string[]>;
@@ -132,6 +151,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   filterGender:Observable<string[]>;
   filterHousingData:Observable<string[]>;
   filterStreetsData: Observable<string[]>;
+  filterNeighborhood: Observable<string[]>;
 
   // Método que se encarga de filtrar las nacionalidades según el valor de búsqueda
   private _filter(value: string): string[] {
@@ -226,6 +246,16 @@ export class HistoryPersonalDataComponent implements OnInit {
       );
   }
 
+  // Método que se encarga de filtrar las colonias
+  private _filterNeighborhoods(value: string): string[] {
+    const filterGender = this._normalizeValue(value);
+    return this.neighborhoodResponseData
+      .map((neighborhoodName) => neighborhoodName.name)
+      .filter((neighborhoodResponseData) =>
+        this._normalizeValue(neighborhoodResponseData).includes(filterGender)
+      );
+  }
+
 
   // Método que se encarga de normalizar el valor de búsqueda
   private _normalizeValue(value: string): string {
@@ -252,6 +282,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.filterGender = new Observable<string[]>();
     this.filterHousingData = new Observable<string[]>();
     this.filterStreetsData = new Observable<string[]>();
+    this.filterNeighborhood = new Observable<string[]>();
 
     
 
@@ -267,7 +298,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.getGender();
     this.getHousingData();
     this.getStreets();
-
+    this.getNeighborhoodData();
  //   console.log(this.patientForm.value);
 
     // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
@@ -326,7 +357,12 @@ export class HistoryPersonalDataComponent implements OnInit {
       map((value) => this._filterStreets(value || ''))
     );
 
-    
+     // Crear un observable que devuelve un arreglo de strings que representan los nombres de las colonias filtradas
+     this.filterNeighborhood = this.controlNeighborhood.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterNeighborhoods(value || ''))
+    );
+
     
     
   }
@@ -543,6 +579,29 @@ export class HistoryPersonalDataComponent implements OnInit {
         },
       });
   }
+
+  // Colonias
+  neighborhoodResponseData: NeighborhoodData[] = [];
+  getNeighborhoodData() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_NEIGHBORHOODS}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.neighborhoodResponseData = response;
+         // console.log(this.neighborhoodResponseData);
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
+
   
 
   idPatient: number = 0;

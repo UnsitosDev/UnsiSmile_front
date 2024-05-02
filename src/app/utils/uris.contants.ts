@@ -136,6 +136,8 @@ export class UriConstants {
    public static readonly GET_HOUSING = basePath + '/address/housing'
    // street-controller
    public static readonly GET_STREETS = basePath + '/address/streets'
+   // neighborhood-controller
+   public static readonly GET_NEIGHBORHOODS = basePath + '/addresses/neighborhoods'
   
 
 
