@@ -6,12 +6,12 @@ import {
   Accion,
 } from 'src/app/models/tabla/tabla-columna';
 import { ProductService } from 'src/app/services/product.service';
-import { Ipatients, patientsResponse } from 'src/app/models/tabla/patients';
+import { Ipatients, patientsTableData } from 'src/app/models/tabla/patients';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentsGeneralHistoryComponent } from '../students-general-history/students-general-history.component';
 import { ApiService } from '@mean/services';
-import { patientRequest } from 'src/app/models/shared/patients/patient/patient';
+import { patientRequest, patientResponse } from 'src/app/models/shared/patients/patient/patient';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { Router, RouterLink } from '@angular/router';
@@ -26,24 +26,21 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class StudentsPatientsComponent implements OnInit {
 
-  keyboardList: Ipatients[] = [];
+  patientsList: patientsTableData[] = [];
   columnas: string[] = [];
   title: string = 'Pacientes';
-  private apiService = inject(ApiService<patientRequest>)
+  private apiService = inject(ApiService<patientResponse>)
 
 
   constructor(
     private productService: ProductService,
     public dialog: MatDialog,
     public router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('patients');
 
-    this.productService.obtenerPacientes().subscribe((data) => {
-      this.keyboardList = data;
-    });
     this.getPacientes();
   }
 
@@ -78,7 +75,7 @@ export class StudentsPatientsComponent implements OnInit {
   }
 
 
-  pacientesData: patientRequest[] = [];
+  pacientesData: patientResponse[] = [];
   getPacientes() {
     this.apiService
       .getListService({
@@ -90,9 +87,25 @@ export class StudentsPatientsComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.pacientesData = response.response;
+          this.pacientesData = response;
           console.log('Respuesta del servidor:', this.pacientesData);
 
+  
+          // Mapear los datos deseados de cada paciente
+          this.patientsList = this.pacientesData.map((patient) => {
+            const person = patient.person; // Obtener el objeto "person"
+           //const medicalHistory = patient.medicalHistoryResponse;
+           const medicalHistory = patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
+            return {
+              nombre: person.firstName,
+              apellido: `${person.firstLastName} ${person.secondLastName}`,
+              correo: person.email,
+              curp: person.curp,
+              idMedicalHistory: medicalHistory
+            };
+            
+          });
+          console.log('Respuesta del servidor:', this.patientsList);
 
         },
         error: (error) => {
@@ -100,5 +113,12 @@ export class StudentsPatientsComponent implements OnInit {
         },
       });
   }
+
+
+
+  //filtar datos
+
+
+
 
 }
