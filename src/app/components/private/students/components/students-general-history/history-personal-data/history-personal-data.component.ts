@@ -735,7 +735,8 @@ export class HistoryPersonalDataComponent implements OnInit {
   guardianLastName: string = '';
   guardianPhone: string = '';
   guardianEmail: string = '';
-  nationalityName : string = '';
+  nationalityName: string = '';
+  maritalStatusName: string = '';
 
   // Variables para buscar id's
   foundHousing: HousingData | undefined;
@@ -880,20 +881,40 @@ export class HistoryPersonalDataComponent implements OnInit {
 
   findNationality(): void {
     const nationalityNameToFind = this.nationalityName;
-  
-    this.foundNationality = this.nationalityData.find(nationality => {
+
+    this.foundNationality = this.nationalityData.find((nationality) => {
       return nationality.nationality === nationalityNameToFind;
     });
-  
+
     if (this.foundNationality) {
       console.log('Se encontró la nacionalidad:');
       console.log(this.foundNationality);
     } else {
-      console.log('No se encontró ninguna nacionalidad con el nombre proporcionado.');
+      console.log(
+        'No se encontró ninguna nacionalidad con el nombre proporcionado.'
+      );
     }
   }
-  
 
+  // Buscar Estado Civil
+  foundMaritalStatus: EstadoCivil | undefined;
+
+  findMaritalStatus(): void {
+    const maritalStatusNameToFind = this.maritalStatusName;
+
+    this.foundMaritalStatus = this.maritalStatusData.find((maritalStatus) => {
+      return maritalStatus.maritalStatus === maritalStatusNameToFind;
+    });
+
+    if (this.foundMaritalStatus) {
+      console.log('Se encontró el estado civil:');
+      console.log(this.foundMaritalStatus);
+    } else {
+      console.log(
+        'No se encontró ningún estado civil con el nombre proporcionado.'
+      );
+    }
+  }
 
   createPatient() {
     // Buscando vivienda
@@ -941,6 +962,12 @@ export class HistoryPersonalDataComponent implements OnInit {
     // Buscando Nacionalidad
     if (!this.foundNationality) {
       console.error('No se ha encontrado ninguna nacionalidad.');
+      return;
+    }
+
+    // Buscando estado civil
+    if (!this.foundMaritalStatus) {
+      console.error('No se ha encontrado ningún estado civil.');
       return;
     }
     const patient = {
@@ -993,7 +1020,7 @@ export class HistoryPersonalDataComponent implements OnInit {
           },
         },
       },
-      maritalStatusId: this.maritalStatusId,
+      maritalStatusId:  this.foundMaritalStatus.idMaritalStatus,
       occupationId: this.occupationId,
       ethnicGroupId: this.ethnicGroupId,
       religionId: this.religionId,
