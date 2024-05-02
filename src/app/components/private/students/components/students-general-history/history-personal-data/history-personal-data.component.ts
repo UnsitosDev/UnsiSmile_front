@@ -12,6 +12,11 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 
+interface StateData {
+  idState: string;
+  name: string;
+}
+
 interface MunicipalityData {
   idMunicipality: string;
   name: string;
@@ -20,7 +25,6 @@ interface MunicipalityData {
     name: string;
   }
 }
-
 
 interface NeighborhoodData {
   idNeighborhood: number;
@@ -152,6 +156,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   controlstreetsData = new FormControl('');
   controlNeighborhood = new FormControl('');
   controlMunicipality = new FormControl('');
+  controlState = new FormControl('');
   // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
   filteredNationality: Observable<string[]>;
   filteredEthnicGroup: Observable<string[]>;
@@ -164,6 +169,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   filterStreetsData: Observable<string[]>;
   filterNeighborhood: Observable<string[]>;
   filterMunicipality: Observable<string[]>;
+  filterSates: Observable<string[]>;
 
   // Método que se encarga de filtrar las nacionalidades según el valor de búsqueda
   private _filter(value: string): string[] {
@@ -278,6 +284,14 @@ export class HistoryPersonalDataComponent implements OnInit {
       );
   }
 
+  private _filterState(value: string): string[] {
+    const filterGender = this._normalizeValue(value);
+    return this.stateResponseData
+      .map((stateName) => stateName.name)
+      .filter((stateResponseData) =>
+        this._normalizeValue(stateResponseData).includes(filterGender)
+      );
+  }
 
   // Método que se encarga de normalizar el valor de búsqueda
   private _normalizeValue(value: string): string {
@@ -306,10 +320,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.filterStreetsData = new Observable<string[]>();
     this.filterNeighborhood = new Observable<string[]>();
     this.filterMunicipality = new Observable<string[]>();
-
-    
-
-    
+    this.filterSates = new Observable<string[]>();    
   }
   ngOnInit(): void {
     this.getReligion();
@@ -322,6 +333,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.getHousingData();
     this.getStreets();
     this.getNeighborhoodData();
+    this.getStateData();
     // this.getMunicipalityData();
  //   console.log(this.patientForm.value);
 
@@ -392,6 +404,13 @@ export class HistoryPersonalDataComponent implements OnInit {
       startWith(''),
       map((value) => this._filterMunicipality(value || ''))
     );    
+
+     // Crear un observable que devuelve un arreglo de strings que representan los estados filtrados
+     this.filterSates = this.controlState.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterState(value || ''))
+    );    
+
 
     
     
@@ -653,6 +672,30 @@ export class HistoryPersonalDataComponent implements OnInit {
         },
       });
   }
+
+  // Estados
+  stateResponseData: StateData[]=[];
+  getStateData() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_STATE}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.stateResponseData = response;
+          // console.log(this.stateResponseData);
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
+
+  
 
   
 
