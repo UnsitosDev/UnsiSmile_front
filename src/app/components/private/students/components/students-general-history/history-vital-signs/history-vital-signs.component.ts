@@ -1,6 +1,6 @@
 import { NgFor } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,68 +20,59 @@ import { ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     NgFor,
     MatButtonModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
   ],
   templateUrl: './history-vital-signs.component.html',
-  styleUrl: './history-vital-signs.component.scss'
+  styleUrl: './history-vital-signs.component.scss',
 })
-export class HistoryVitalSignsComponent {
-  // Formulario
-  formVitalSigns: FormGroup;
+export class HistoryVitalSignsComponent implements OnInit {
   private apiService = inject(ApiService);
 
-  constructor(
-    private fb: FormBuilder
-  ){
-    this.formVitalSigns = this.fb.group({
-      idVitalSigns: [0],
-      weight:[],
-      height:[],
-      temperature:[],
-      heartRate:[],
-      respiratoryRate:[],
-      bloodPressure:[],
-      oxygenSaturation:[],
-      glucose:[],
-      pulse:[]
-    })
-  }
+  constructor() {}
 
+  ngOnInit(): void {}
+
+  idVitalSigns: number = 0;
+  weight: number = 0;
+  height: number = 0;
+  temperature: number = 0;
+  heartRate: number = 0;
+  respiratoryRate: number = 0;
+  bloodPressure: number = 0;
+  oxygenSaturation: number = 0;
+  glucose: number = 0;
+  pulse: number = 0;
   postVitalSigns() {
-
     const vitalSigns = {
-      idVitalSigns: this.formVitalSigns.get('idVitalSigns')?.value,
-      weight: this.formVitalSigns.get('weight')?.value,
-      height: this.formVitalSigns.get('height')?.value,
-      temperature: this.formVitalSigns.get('temperature')?.value,
-      heartRate: this.formVitalSigns.get('heartRate')?.value,
-      respiratoryRate: this.formVitalSigns.get('respiratoryRate')?.value,
-      bloodPressure: this.formVitalSigns.get('bloodPressure')?.value,
-      oxygenSaturation: this.formVitalSigns.get('oxygenSaturation')?.value,
-      glucose: this.formVitalSigns.get('glucose')?.value,
-      pulse: this.formVitalSigns.get('pulse')?.value
+      idVitalSigns: this.idVitalSigns,
+      weight: this.weight,
+      height: this.height,
+      temperature: this.temperature,
+      heartRate: this.heartRate,
+      respiratoryRate: this.respiratoryRate,
+      bloodPressure: this.bloodPressure,
+      oxygenSaturation: this.oxygenSaturation,
+      glucose: this.glucose,
+      pulse: this.pulse,
     };
 
     console.log(vitalSigns);
 
-    // this.apiService
-    //   .postService({
-    //     headers: new HttpHeaders({
-    //       'Content-Type': 'application/json',
-    //     }),
-    //     url: `${UriConstants.POST_VITAL_SIGNS}`,
-    //     data: {},
-    //   })
-    //   .subscribe({
-    //     next: (response) => {
-
-
-    //     },
-    //     error: (error) => {
-    //       console.error('Error en la autenticación:', error);
-    //     },
-    //   });
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_VITAL_SIGNS}`,
+        data: vitalSigns,
+      })
+      .subscribe({
+        next: (response) => {
+          console.log('post');
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
   }
-
-
 }
