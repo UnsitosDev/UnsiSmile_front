@@ -132,7 +132,8 @@ export class UriConstants {
     public static readonly GET_ETHNIC_GROUP = basePath + '/patients/ethnic-groups'
     // locality-controller
     public static readonly GET_LOCALITIES = basePath + '/address/locality'
-   
+   // housing-controller
+   public static readonly GET_HOUSING = basePath + '/address/housing'
   
 
 

@@ -13,7 +13,10 @@ import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 
 
-
+interface HousingData {
+  idHousing: string;
+  category: string;
+}
 
 interface Religion {
   idReligion: number;
@@ -96,6 +99,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   controlReligion = new FormControl('');
   controlLocalitie = new FormControl('');
   controlGender = new FormControl('');
+  controlHousingData = new FormControl('');
   // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
   filteredNationality: Observable<string[]>;
   filteredEthnicGroup: Observable<string[]>;
@@ -104,6 +108,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   filteredReligion: Observable<string[]>;
   filteredLocality: Observable<string[]>;
   filterGender:Observable<string[]>;
+  filterHousingData:Observable<string[]>;
 
   // Método que se encarga de filtrar las nacionalidades según el valor de búsqueda
   private _filter(value: string): string[] {
@@ -177,6 +182,16 @@ export class HistoryPersonalDataComponent implements OnInit {
       );
   }
 
+   // Método que se encarga de filtrar las los generos con el valor de busqueda
+   private _filterGenderHousing(value: string): string[] {
+    const filterGender = this._normalizeValue(value);
+    return this.housingResponseData
+      .map((housingName) => housingName.category)
+      .filter((housingResponseData) =>
+        this._normalizeValue(housingResponseData).includes(filterGender)
+      );
+  }
+
   // Método que se encarga de normalizar el valor de búsqueda
   private _normalizeValue(value: string): string {
     // Convertir el valor a minúsculas
@@ -200,6 +215,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.filteredReligion = new Observable<string[]>();
     this.filteredLocality = new Observable<string[]>();
     this.filterGender = new Observable<string[]>();
+    this.filterHousingData = new Observable<string[]>();
 
     
 
@@ -213,6 +229,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.getEthnicGroup();
     this.getLocality();
     this.getGender();
+    this.getHousingData();
 
  //   console.log(this.patientForm.value);
 
@@ -259,6 +276,13 @@ export class HistoryPersonalDataComponent implements OnInit {
       startWith(''),
       map((value) => this._filterGender(value || ''))
     );
+
+    // Crear un observable que devuelve un arreglo de strings que representan las categorias de casas filtradas
+    this.filterHousingData = this.controlHousingData.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterGenderHousing(value || ''))
+    );
+    
     
   }
 
@@ -431,6 +455,27 @@ export class HistoryPersonalDataComponent implements OnInit {
       });
   }
 
+  // Tipos de vivienda
+  housingResponseData: HousingData[] = [];
+  getHousingData() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_HOUSING}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.housingResponseData = response;
+          // console.log(this.housingResponseData);
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
  
   
 
