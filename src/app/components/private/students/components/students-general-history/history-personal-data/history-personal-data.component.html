@@ -222,6 +222,7 @@
           [matAutocomplete]="autoStreet"
           [(ngModel)]="streetName"
           name="streetName"
+          (focus)="findStreet()"
         />
         <mat-autocomplete #autoStreet="matAutocomplete">
           @for (item of filterStreetsData | async; track item) {

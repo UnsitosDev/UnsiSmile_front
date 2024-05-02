@@ -715,7 +715,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   interiorNumber: string = '';
   housingId: string = '';
   housingCategory: string = '';
-  streetId: number = 1;
+  streetId: string = '';
   streetName: string = '';
   neighborhoodId: number = 1;
   neighborhoodName: string = '';
@@ -739,8 +739,6 @@ export class HistoryPersonalDataComponent implements OnInit {
   // Variables para buscar id's
   foundHousing: HousingData | undefined;
 
-
-  // Buscar id vivienda
   findHousing(): void {
     const housingCategoryToFind = this.housingCategory;
 
@@ -761,20 +759,38 @@ export class HistoryPersonalDataComponent implements OnInit {
   // Buscar id genero
   foundGender: Genero | undefined;
 
-findGender(): void {
-  const genderToFind = this.gender;
+  findGender(): void {
+    const genderToFind = this.gender;
 
-  this.foundGender = this.genderData.find(gender => {
-    return gender.gender === genderToFind;
-  });
+    this.foundGender = this.genderData.find((gender) => {
+      return gender.gender === genderToFind;
+    });
 
-  if (this.foundGender) {
-    console.log('Se encontró el género:');
-    console.log(this.foundGender);
-  } else {
-    console.log('No se encontró ningún género con el nombre proporcionado.');
+    if (this.foundGender) {
+      console.log('Se encontró el género:');
+      console.log(this.foundGender);
+    } else {
+      console.log('No se encontró ningún género con el nombre proporcionado.');
+    }
   }
-}
+
+  // Buscar id calle
+  foundStreet: AddressData | undefined;
+
+  findStreet(): void {
+    const streetNameToFind = this.streetName;
+
+    this.foundStreet = this.streetsData.find((street) => {
+      return street.name === streetNameToFind;
+    });
+
+    if (this.foundStreet) {
+      console.log('Se encontró la calle:');
+      console.log(this.foundStreet);
+    } else {
+      console.log('No se encontró ninguna calle con el nombre proporcionado.');
+    }
+  }
 
   createPatient() {
     // Buscando vivienda
@@ -788,6 +804,13 @@ findGender(): void {
       console.error('No se ha encontrado ningún género.');
       return;
     }
+
+    // Buscando calle
+    if (!this.foundStreet) {
+      console.error('No se ha encontrado ninguna calle.');
+      return;
+    }
+
     const patient = {
       idPatient: this.idPatient,
       admissionDate: this.admissionDate,
@@ -817,8 +840,8 @@ findGender(): void {
           category: this.housingCategory,
         },
         street: {
-          idStreet: this.streetId,
-          name: this.streetName,
+          idStreet:this.foundStreet.idStreet,
+          name:  this.streetName,
           neighborhood: {
             idNeighborhood: this.neighborhoodId,
             name: this.neighborhoodName,
