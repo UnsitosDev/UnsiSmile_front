@@ -739,6 +739,8 @@ export class HistoryPersonalDataComponent implements OnInit {
   // Variables para buscar id's
   foundHousing: HousingData | undefined;
 
+
+  // Buscar id vivienda
   findHousing(): void {
     const housingCategoryToFind = this.housingCategory;
 
@@ -756,9 +758,34 @@ export class HistoryPersonalDataComponent implements OnInit {
     }
   }
 
+  // Buscar id genero
+  foundGender: Genero | undefined;
+
+findGender(): void {
+  const genderToFind = this.gender;
+
+  this.foundGender = this.genderData.find(gender => {
+    return gender.gender === genderToFind;
+  });
+
+  if (this.foundGender) {
+    console.log('Se encontró el género:');
+    console.log(this.foundGender);
+  } else {
+    console.log('No se encontró ningún género con el nombre proporcionado.');
+  }
+}
+
   createPatient() {
+    // Buscando vivienda
     if (!this.foundHousing) {
       console.error('No se ha encontrado ninguna vivienda.');
+      return;
+    }
+
+    // Buscando genero
+    if (!this.foundGender) {
+      console.error('No se ha encontrado ningún género.');
       return;
     }
     const patient = {
@@ -777,7 +804,7 @@ export class HistoryPersonalDataComponent implements OnInit {
         birthDate: this.birthDate,
         email: this.email,
         gender: {
-          idGender: this.genderId,
+          idGender: this.foundGender.idGender,
           gender: this.gender,
         },
       },

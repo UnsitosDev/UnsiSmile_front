@@ -139,6 +139,7 @@
           [formControl]="controlGender"
           [matAutocomplete]="autoGender"
           [(ngModel)]="gender"
+          (focus)="findGender()"
           name="gender"
         />
         <mat-autocomplete #autoGender="matAutocomplete">
