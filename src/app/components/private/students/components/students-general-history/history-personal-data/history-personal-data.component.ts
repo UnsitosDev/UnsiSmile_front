@@ -699,7 +699,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   admissionDate: string = '2024-05-01';
   isMinor: boolean = false;
   hasDisability: boolean = false;
-  nationalityId: number = 0;
+  nationalityId: string = '';
   curp: string = '';
   firstName: string = '';
   secondName: string = '';
@@ -735,6 +735,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   guardianLastName: string = '';
   guardianPhone: string = '';
   guardianEmail: string = '';
+  nationalityName : string = '';
 
   // Variables para buscar id's
   foundHousing: HousingData | undefined;
@@ -856,6 +857,44 @@ export class HistoryPersonalDataComponent implements OnInit {
     }
   }
 
+  // Buscar id Estado
+  foundState: Estado | undefined;
+
+  findState(): void {
+    const stateNameToFind = this.stateName;
+
+    this.foundState = this.stateResponseData.find((state) => {
+      return state.name === stateNameToFind;
+    });
+
+    if (this.foundState) {
+      console.log('Se encontró el estado:');
+      console.log(this.foundState);
+    } else {
+      console.log('No se encontró ningún estado con el nombre proporcionado.');
+    }
+  }
+
+  // Buscar Nacionalidad
+  foundNationality: Nacionalidad | undefined;
+
+  findNationality(): void {
+    const nationalityNameToFind = this.nationalityName;
+  
+    this.foundNationality = this.nationalityData.find(nationality => {
+      return nationality.nationality === nationalityNameToFind;
+    });
+  
+    if (this.foundNationality) {
+      console.log('Se encontró la nacionalidad:');
+      console.log(this.foundNationality);
+    } else {
+      console.log('No se encontró ninguna nacionalidad con el nombre proporcionado.');
+    }
+  }
+  
+
+
   createPatient() {
     // Buscando vivienda
     if (!this.foundHousing) {
@@ -893,12 +932,23 @@ export class HistoryPersonalDataComponent implements OnInit {
       return;
     }
 
+    // Buscando Estado
+    if (!this.foundState) {
+      console.error('No se ha encontrado ningún estado.');
+      return;
+    }
+
+    // Buscando Nacionalidad
+    if (!this.foundNationality) {
+      console.error('No se ha encontrado ninguna nacionalidad.');
+      return;
+    }
     const patient = {
       idPatient: this.idPatient,
       admissionDate: this.admissionDate,
       isMinor: this.isMinor,
       hasDisability: this.hasDisability,
-      nationalityId: this.nationalityId,
+      nationalityId: this.foundNationality.idNationality,
       person: {
         curp: this.curp,
         firstName: this.firstName,
@@ -935,7 +985,7 @@ export class HistoryPersonalDataComponent implements OnInit {
                 idMunicipality: this.foundMunicipality.idMunicipality,
                 name: this.municipalityName,
                 state: {
-                  idState: this.stateId,
+                  idState: this.foundState.idState,
                   name: this.stateName,
                 },
               },
