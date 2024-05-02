@@ -739,6 +739,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   maritalStatusName: string = '';
   occupationName: string = '';
   ethnicGroupName: string = '';
+  religionName: string = '';
 
   // Variables para buscar id's
   foundHousing: HousingData | undefined;
@@ -958,6 +959,26 @@ export class HistoryPersonalDataComponent implements OnInit {
     }
   }
 
+  // Buscar Religion
+  foundReligion: Religion | undefined;
+
+  findReligion(): void {
+    const religionNameToFind = this.religionName;
+
+    this.foundReligion = this.religionData.find((religion) => {
+      return religion.religion === religionNameToFind;
+    });
+
+    if (this.foundReligion) {
+      console.log('Se encontró la religión:');
+      console.log(this.foundReligion);
+    } else {
+      console.log(
+        'No se encontró ninguna religión con el nombre proporcionado.'
+      );
+    }
+  }
+
   createPatient() {
     // Buscando vivienda
     if (!this.foundHousing) {
@@ -1025,6 +1046,11 @@ export class HistoryPersonalDataComponent implements OnInit {
       return;
     }
 
+    // Buscar Religion
+    if (!this.foundReligion) {
+      console.error('No se ha encontrado ninguna religión.');
+      return;
+    }
     const patient = {
       idPatient: this.idPatient,
       admissionDate: this.admissionDate,
@@ -1078,7 +1104,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       maritalStatusId: this.foundMaritalStatus.idMaritalStatus,
       occupationId: this.foundOccupation.idOccupation,
       ethnicGroupId: this.foundEthnicGroup.idEthnicGroup,
-      religionId: this.religionId,
+      religionId: this.foundReligion.idReligion,
       guardian: {
         idGuardian: this.guardianId,
         firstName: this.guardianFirstName,

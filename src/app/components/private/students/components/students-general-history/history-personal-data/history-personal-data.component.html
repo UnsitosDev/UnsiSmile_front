@@ -461,11 +461,12 @@
         <input
           class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
           type="text"
-          id="religionId"
+          id="religionName"
           [formControl]="controlReligion"
           [matAutocomplete]="autoReligion"
-          [(ngModel)]="religionId"
-          name="religionId"
+          [(ngModel)]="religionName"
+          name="religionName"
+          (focus)="findReligion()"
         />
         <mat-autocomplete #autoReligion="matAutocomplete">
           @for (item of filteredReligion | async; track item) {
