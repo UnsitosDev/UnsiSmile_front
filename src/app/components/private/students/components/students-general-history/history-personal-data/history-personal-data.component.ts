@@ -2,13 +2,22 @@ import { Component, Inject, OnInit, inject } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatAutocompleteModule,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 
@@ -23,7 +32,7 @@ interface MunicipalityData {
   state: {
     idState: string;
     name: string;
-  }
+  };
 }
 
 interface NeighborhoodData {
@@ -39,9 +48,9 @@ interface NeighborhoodData {
       state: {
         idState: string;
         name: string;
-      }
-    }
-  }
+      };
+    };
+  };
 }
 
 interface AddressData {
@@ -60,10 +69,10 @@ interface AddressData {
         state: {
           idState: string;
           name: string;
-        }
-      }
-    }
-  }
+        };
+      };
+    };
+  };
 }
 
 interface HousingData {
@@ -143,7 +152,6 @@ interface Genero {
   styleUrl: './history-personal-data.component.scss',
 })
 export class HistoryPersonalDataComponent implements OnInit {
-  
   // Crear un control de formulario para el input de texto
   controlNationality = new FormControl('');
   controlOcupation = new FormControl('');
@@ -164,8 +172,8 @@ export class HistoryPersonalDataComponent implements OnInit {
   filteredMaritalStatus: Observable<string[]>;
   filteredReligion: Observable<string[]>;
   filteredLocality: Observable<string[]>;
-  filterGender:Observable<string[]>;
-  filterHousingData:Observable<string[]>;
+  filterGender: Observable<string[]>;
+  filterHousingData: Observable<string[]>;
   filterStreetsData: Observable<string[]>;
   filterNeighborhood: Observable<string[]>;
   filterMunicipality: Observable<string[]>;
@@ -243,8 +251,8 @@ export class HistoryPersonalDataComponent implements OnInit {
       );
   }
 
-   // Método que se encarga de filtrar las los generos con el valor de busqueda
-   private _filterGenderHousing(value: string): string[] {
+  // Método que se encarga de filtrar las los generos con el valor de busqueda
+  private _filterGenderHousing(value: string): string[] {
     const filterGender = this._normalizeValue(value);
     return this.housingResponseData
       .map((housingName) => housingName.category)
@@ -252,7 +260,6 @@ export class HistoryPersonalDataComponent implements OnInit {
         this._normalizeValue(housingResponseData).includes(filterGender)
       );
   }
-
 
   // Método que se encarga de filtrar las calles
   private _filterStreets(value: string): string[] {
@@ -274,8 +281,8 @@ export class HistoryPersonalDataComponent implements OnInit {
       );
   }
 
-   // Método que se encarga de filtrar los municipios
-   private _filterMunicipality(value: string): string[] {
+  // Método que se encarga de filtrar los municipios
+  private _filterMunicipality(value: string): string[] {
     const filterGender = this._normalizeValue(value);
     return this.municipalityResponse
       .map((municipalityName) => municipalityName.name)
@@ -299,8 +306,6 @@ export class HistoryPersonalDataComponent implements OnInit {
     return value.toLowerCase().replace(/\s/g, '');
   }
 
-  
-
   birthDateU: string;
   youngerForm: boolean = false;
 
@@ -320,7 +325,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.filterStreetsData = new Observable<string[]>();
     this.filterNeighborhood = new Observable<string[]>();
     this.filterMunicipality = new Observable<string[]>();
-    this.filterSates = new Observable<string[]>();    
+    this.filterSates = new Observable<string[]>();
   }
   ngOnInit(): void {
     this.getReligion();
@@ -335,7 +340,7 @@ export class HistoryPersonalDataComponent implements OnInit {
     this.getNeighborhoodData();
     this.getStateData();
     // this.getMunicipalityData();
- //   console.log(this.patientForm.value);
+    //   console.log(this.patientForm.value);
 
     // Crear un observable que devuelve un arreglo de strings que representan las nacionalidades filtradas
     this.filteredNationality = this.controlNationality.valueChanges.pipe(
@@ -387,33 +392,29 @@ export class HistoryPersonalDataComponent implements OnInit {
       map((value) => this._filterGenderHousing(value || ''))
     );
 
-     // Crear un observable que devuelve un arreglo de strings que representan los nombres de las calles filtradas
-     this.filterStreetsData = this.controlstreetsData.valueChanges.pipe(
+    // Crear un observable que devuelve un arreglo de strings que representan los nombres de las calles filtradas
+    this.filterStreetsData = this.controlstreetsData.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterStreets(value || ''))
     );
 
-     // Crear un observable que devuelve un arreglo de strings que representan los nombres de las colonias filtradas
-     this.filterNeighborhood = this.controlNeighborhood.valueChanges.pipe(
+    // Crear un observable que devuelve un arreglo de strings que representan los nombres de las colonias filtradas
+    this.filterNeighborhood = this.controlNeighborhood.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterNeighborhoods(value || ''))
     );
 
-     // Crear un observable que devuelve un arreglo de strings que representan los municipios filtrados
-     this.filterMunicipality = this.controlMunicipality.valueChanges.pipe(
+    // Crear un observable que devuelve un arreglo de strings que representan los municipios filtrados
+    this.filterMunicipality = this.controlMunicipality.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterMunicipality(value || ''))
-    );    
+    );
 
-     // Crear un observable que devuelve un arreglo de strings que representan los estados filtrados
-     this.filterSates = this.controlState.valueChanges.pipe(
+    // Crear un observable que devuelve un arreglo de strings que representan los estados filtrados
+    this.filterSates = this.controlState.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterState(value || ''))
-    );    
-
-
-    
-    
+    );
   }
 
   onFechaNacimientoChange() {
@@ -429,7 +430,6 @@ export class HistoryPersonalDataComponent implements OnInit {
       this.youngerForm = false;
     }
   }
-
 
   // Religion
   religionData: Religion[] = [];
@@ -599,14 +599,14 @@ export class HistoryPersonalDataComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.housingResponseData = response;
-          // console.log(this.housingResponseData);
+          console.log(this.housingResponseData);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
         },
       });
   }
- 
+
   // Calles
   streetsData: AddressData[] = [];
   getStreets() {
@@ -643,7 +643,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.neighborhoodResponseData = response;
-         // console.log(this.neighborhoodResponseData);
+          // console.log(this.neighborhoodResponseData);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
@@ -652,7 +652,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   }
 
   // Municipios
-  municipalityResponse: MunicipalityData[]=[];
+  municipalityResponse: MunicipalityData[] = [];
   getMunicipalityData() {
     this.apiService
       .getService({
@@ -665,7 +665,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.municipalityResponse = response;
-         // console.log(this.municipalityResponse);
+          // console.log(this.municipalityResponse);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
@@ -674,7 +674,7 @@ export class HistoryPersonalDataComponent implements OnInit {
   }
 
   // Estados
-  stateResponseData: StateData[]=[];
+  stateResponseData: StateData[] = [];
   getStateData() {
     this.apiService
       .getService({
@@ -695,14 +695,10 @@ export class HistoryPersonalDataComponent implements OnInit {
       });
   }
 
-  
-
-  
-
   idPatient: number = 0;
   admissionDate: string = '2024-05-01';
-  isMinor: boolean = true;
-  hasDisability: boolean = true;
+  isMinor: boolean = false;
+  hasDisability: boolean = false;
   nationalityId: number = 0;
   curp: string = '';
   firstName: string = '';
@@ -710,18 +706,18 @@ export class HistoryPersonalDataComponent implements OnInit {
   firstLastName: string = '';
   secondLastName: string = '';
   phone: string = '';
-  birthDate: string = '0000-00-00';
+  birthDate: string = '2024-05-01';
   email: string = '';
-  genderId: number = 0;
+  genderId: number = 1;
   gender: string = '';
-  addressId: number = 0;
+  addressId: number = 1;
   streetNumber: string = '';
   interiorNumber: string = '';
   housingId: string = '';
   housingCategory: string = '';
-  streetId: number = 0;
+  streetId: number = 1;
   streetName: string = '';
-  neighborhoodId: number = 0;
+  neighborhoodId: number = 1;
   neighborhoodName: string = '';
   localityId: string = '';
   localityName: string = '';
@@ -730,17 +726,41 @@ export class HistoryPersonalDataComponent implements OnInit {
   municipalityName: string = '';
   stateId: string = '';
   stateName: string = '';
-  maritalStatusId: number = 0;
-  occupationId: number = 0;
-  ethnicGroupId: number = 0;
-  religionId: number = 0;
-  guardianId: number = 0;
+  maritalStatusId: number = 1;
+  occupationId: number = 1;
+  ethnicGroupId: number = 1;
+  religionId: number = 1;
+  guardianId: number = 1;
   guardianFirstName: string = '';
   guardianLastName: string = '';
   guardianPhone: string = '';
   guardianEmail: string = '';
 
+  // Variables para buscar id's
+  foundHousing: HousingData | undefined;
+
+  findHousing(): void {
+    const housingCategoryToFind = this.housingCategory;
+
+    this.foundHousing = this.housingResponseData.find((housing) => {
+      return housing.category === housingCategoryToFind;
+    });
+
+    if (this.foundHousing) {
+      console.log('Se encontró el objeto de vivienda:');
+      console.log(this.foundHousing);
+    } else {
+      console.log(
+        'No se encontró ningún objeto de vivienda con la categoría proporcionada.'
+      );
+    }
+  }
+
   createPatient() {
+    if (!this.foundHousing) {
+      console.error('No se ha encontrado ninguna vivienda.');
+      return;
+    }
     const patient = {
       idPatient: this.idPatient,
       admissionDate: this.admissionDate,
@@ -758,16 +778,16 @@ export class HistoryPersonalDataComponent implements OnInit {
         email: this.email,
         gender: {
           idGender: this.genderId,
-          gender: this.gender
-        }
+          gender: this.gender,
+        },
       },
       address: {
         idAddress: this.addressId,
         streetNumber: this.streetNumber,
         interiorNumber: this.interiorNumber,
         housing: {
-          idHousing: this.housingId,
-          category: this.housingCategory
+          idHousing: this.foundHousing.idHousing,
+          category: this.housingCategory,
         },
         street: {
           idStreet: this.streetId,
@@ -784,12 +804,12 @@ export class HistoryPersonalDataComponent implements OnInit {
                 name: this.municipalityName,
                 state: {
                   idState: this.stateId,
-                  name: this.stateName
-                }
-              }
-            }
-          }
-        }
+                  name: this.stateName,
+                },
+              },
+            },
+          },
+        },
       },
       maritalStatusId: this.maritalStatusId,
       occupationId: this.occupationId,
@@ -800,10 +820,28 @@ export class HistoryPersonalDataComponent implements OnInit {
         firstName: this.guardianFirstName,
         lastName: this.guardianLastName,
         phone: this.guardianPhone,
-        email: this.guardianEmail
-      }
+        email: this.guardianEmail,
+      },
     };
 
     console.log(patient);
+
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_PATIENT}`,
+        data: patient,
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          console.log('solicitudpost');
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
   }
 }

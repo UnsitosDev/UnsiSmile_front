@@ -198,6 +198,7 @@
           [matAutocomplete]="autoHousing"
           [(ngModel)]="housingCategory"
           name="housingCategory"
+          (focus)="findHousing()"
         />
         <mat-autocomplete #autoHousing="matAutocomplete">
           @for (item of filterHousingData | async; track item) {

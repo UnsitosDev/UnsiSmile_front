@@ -142,6 +142,8 @@ export class UriConstants {
     public static readonly GET_MUNICIPALITY = basePath + '/address/municipalities'
     // state-controller
     public static readonly GET_STATE = basePath + '/address/states'
+    // Patient controller
+    public static readonly POST_PATIENT = basePath + '/patients'
     
 
 
