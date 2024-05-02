@@ -6,6 +6,7 @@ import { ethnicGroupResponse } from "../EthnicGroup/ethnicGroup"
 import { occupationResponse } from "../Occupation/occupation"
 import { maritalStatusResponse } from "../MaritalStatus/maritalStatus"
 import { nationalityResponse } from "../Nationality/Nationality"
+import { medicalHistoryResponse } from "../medicalHistory/medicalHistory"
 
 export interface patientRequest {
 
@@ -28,16 +29,17 @@ export interface patientRequest {
 export interface patientResponse {
 
   "idPatient": number,
-  "admissionDate": Date,
-  "isMinor": boolean,
-  "hasDisability": boolean,
-  "nationality": nationalityResponse,
-  "person": personResponse,
-  "address": addressResponse,
-  "maritalStatus": maritalStatusResponse,
-  "occupation": occupationResponse,
-  "ethnicGroup": ethnicGroupResponse,
-  "religion": religionResponse,
-  "guardian": guardianResponse
+    "admissionDate": Date,
+    "isMinor": boolean,
+    "hasDisability": boolean,
+    "nationality": nationalityResponse,
+    "person": personResponse,
+    "address": addressResponse,
+    "maritalStatus": maritalStatusResponse,
+    "occupation": occupationResponse,
+    "ethnicGroup": ethnicGroupResponse,
+    "religion": religionResponse,
+    "guardian": guardianResponse,
+    "medicalHistoryResponse": medicalHistoryResponse
 }
 

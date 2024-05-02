@@ -5,10 +5,19 @@ export interface Ipatients{
     telefono : number
     email : string
   }
-export class patientsResponse{
-    nombre = ''
-    edad = 0
-    sexo = ''
-    telefono = 0
-    email = ''
+export class patientsTableData{
+  nombre = ''
+  apellido =  ''
+  correo= ''
+  curp =  ''
+  idMedicalHistory = 0
+
   }
+
+  export class columnPatientsTableData{
+    nombre = ''
+    apellido =  ''
+    correo= ''
+    curp =  ''
+  
+    }
