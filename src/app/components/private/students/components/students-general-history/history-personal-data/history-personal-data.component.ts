@@ -737,6 +737,8 @@ export class HistoryPersonalDataComponent implements OnInit {
   guardianEmail: string = '';
   nationalityName: string = '';
   maritalStatusName: string = '';
+  occupationName: string = '';
+  ethnicGroupName: string = '';
 
   // Variables para buscar id's
   foundHousing: HousingData | undefined;
@@ -916,6 +918,46 @@ export class HistoryPersonalDataComponent implements OnInit {
     }
   }
 
+  // Buscar Ocupacion
+  foundOccupation: Ocupacion | undefined;
+
+  findOccupation(): void {
+    const occupationNameToFind = this.occupationName;
+
+    this.foundOccupation = this.occupationData.find((occupation) => {
+      return occupation.occupation === occupationNameToFind;
+    });
+
+    if (this.foundOccupation) {
+      console.log('Se encontró la ocupación:');
+      console.log(this.foundOccupation);
+    } else {
+      console.log(
+        'No se encontró ninguna ocupación con el nombre proporcionado.'
+      );
+    }
+  }
+
+  // Buscar grupo etnico
+  foundEthnicGroup: GrupoEtnico | undefined;
+
+  findEthnicGroup(): void {
+    const ethnicGroupNameToFind = this.ethnicGroupName;
+
+    this.foundEthnicGroup = this.ethnicGroupData.find((ethnicGroup) => {
+      return ethnicGroup.ethnicGroup === ethnicGroupNameToFind;
+    });
+
+    if (this.foundEthnicGroup) {
+      console.log('Se encontró el grupo étnico:');
+      console.log(this.foundEthnicGroup);
+    } else {
+      console.log(
+        'No se encontró ningún grupo étnico con el nombre proporcionado.'
+      );
+    }
+  }
+
   createPatient() {
     // Buscando vivienda
     if (!this.foundHousing) {
@@ -970,6 +1012,19 @@ export class HistoryPersonalDataComponent implements OnInit {
       console.error('No se ha encontrado ningún estado civil.');
       return;
     }
+
+    // Buscar ocupacion
+    if (!this.foundOccupation) {
+      console.error('No se ha encontrado ninguna ocupación.');
+      return;
+    }
+
+    // Buscar grupo etnico
+    if (!this.foundEthnicGroup) {
+      console.error('No se ha encontrado ningún grupo étnico.');
+      return;
+    }
+
     const patient = {
       idPatient: this.idPatient,
       admissionDate: this.admissionDate,
@@ -1020,9 +1075,9 @@ export class HistoryPersonalDataComponent implements OnInit {
           },
         },
       },
-      maritalStatusId:  this.foundMaritalStatus.idMaritalStatus,
-      occupationId: this.occupationId,
-      ethnicGroupId: this.ethnicGroupId,
+      maritalStatusId: this.foundMaritalStatus.idMaritalStatus,
+      occupationId: this.foundOccupation.idOccupation,
+      ethnicGroupId: this.foundEthnicGroup.idEthnicGroup,
       religionId: this.religionId,
       guardian: {
         idGuardian: this.guardianId,
