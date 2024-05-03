@@ -20,6 +20,9 @@ import {
 } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
+import { AlertComponent } from 'src/app/shared/alert/alert.component';
+import { AlertModel } from '@mean/models';
+import { Router, RouterModule } from '@angular/router';
 
 interface StateData {
   idState: string;
@@ -147,6 +150,8 @@ interface Genero {
     MatAutocompleteModule,
     ReactiveFormsModule,
     AsyncPipe,
+    AlertComponent,
+    RouterModule
   ],
   templateUrl: './history-personal-data.component.html',
   styleUrl: './history-personal-data.component.scss',
@@ -178,6 +183,27 @@ export class HistoryPersonalDataComponent implements OnInit {
   filterNeighborhood: Observable<string[]>;
   filterMunicipality: Observable<string[]>;
   filterSates: Observable<string[]>;
+
+
+  alertConfig = new AlertModel.AlertaClass(
+    false,
+    'Ha ocurrido un error',
+    AlertModel.AlertSeverity.ERROR
+  );
+
+  public openAlert() {
+    this.alertConfig.open = true;
+  }
+
+  public closeAlert() {
+    this.alertConfig.open = false;
+  }
+
+  public alertConfiguration(severity: 'ERROR' | 'SUCCESS', msg: string) {
+    this.alertConfig.severity = AlertModel.AlertSeverity[severity];
+    this.alertConfig.singleMessage = msg;
+  }
+
 
   // Método que se encarga de filtrar las nacionalidades según el valor de búsqueda
   private _filter(value: string): string[] {
@@ -311,7 +337,7 @@ export class HistoryPersonalDataComponent implements OnInit {
 
   private apiService = inject(ApiService<Religion>);
 
-  constructor() {
+  constructor(private router: Router) {
     this.birthDateU = ''; // Inicializamos la propiedad en el constructor
     // Inicializamos la propiedades oara filtros
     this.filteredNationality = new Observable<string[]>();
@@ -449,6 +475,9 @@ export class HistoryPersonalDataComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
+          this.alertConfiguration('ERROR', error);
+          this.openAlert();
+          //this.loading = false;
         },
       });
   }
@@ -1051,6 +1080,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       console.error('No se ha encontrado ninguna religión.');
       return;
     }
+
     const patient = {
       idPatient: this.idPatient,
       admissionDate: this.admissionDate,
@@ -1065,8 +1095,8 @@ export class HistoryPersonalDataComponent implements OnInit {
         secondLastName: this.secondLastName,
         phone: this.phone,
         birthDate: this.birthDate,
-        //email: this.email,
-        email: 'elioenai.2001@outlook.com',
+        email: this.email,
+        //email: 'elioenai.2001@outlook.com',
         gender: {
           idGender: this.foundGender.idGender,
           gender: this.gender,
@@ -1106,13 +1136,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       occupationId: this.foundOccupation.idOccupation,
       ethnicGroupId: this.foundEthnicGroup.idEthnicGroup,
       religionId: this.foundReligion.idReligion,
-      guardian: {
-        idGuardian: this.guardianId,
-        firstName: this.guardianFirstName,
-        lastName: this.guardianLastName,
-        phone: this.guardianPhone,
-        email: this.guardianEmail,
-      },
+      guardian: null,
     };
 
     console.log(patient);
@@ -1129,9 +1153,16 @@ export class HistoryPersonalDataComponent implements OnInit {
         next: (response) => {
           console.log(response);
           console.log('solicitudpost');
+
+          this.alertConfiguration('SUCCESS', "Se ha insertado correctamente el usuario.");
+          this.openAlert();
+
+          this.router.navigate(['/students/patients']);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
+          this.alertConfiguration('ERROR', error);
+          this.openAlert();
         },
       });
   }

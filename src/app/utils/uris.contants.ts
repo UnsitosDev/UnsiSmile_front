@@ -150,6 +150,7 @@ export class UriConstants {
     // Patient controller
     public static readonly POST_PATIENT = basePath + '/patients'
     
+    public static readonly GET_USER_INFO = basePath + '/users/userInformation'
 
 
 }
