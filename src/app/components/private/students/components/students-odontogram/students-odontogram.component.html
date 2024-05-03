@@ -26,10 +26,12 @@
         </mat-tab>
       </mat-tab-group>
     </div>
-    <app-students-toolbar
+    @if(toolbar){
+      <app-students-toolbar
       [toolbar]="toolbar"
-      (handleAction)="handleAction($event.cor, $event.nome, $event.all)"
+      (handleAction)="handleAction($event.cor, $event.nome, $event.all, $event.idCondition)"
     ></app-students-toolbar>
+    }
   </main>
   <br><br>
   <div class="mx-2">
@@ -47,7 +49,7 @@
     </div>
     <br><br>
     <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
-      <button mat-raised-button color="primary">Siguiente</button>
+      <button color="primary" (click)="store()">Siguiente</button>
     </div>
   </div>
   <br><br>

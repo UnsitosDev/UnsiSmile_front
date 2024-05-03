@@ -1,3 +1,4 @@
+import { toothOptions, uiTooth } from './../../../../../models/shared/store';
 import { NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
@@ -19,11 +20,8 @@ export class StudentsToolbarComponent {
    * Emite un evento handleAction con información sobre el botón clickeado.
    * @param item Objeto que representa el botón clickeado.
    */
-  onButtonClicked(item: any): void {
+  onButtonClicked(item: toothOptions): void {
     // Se emite un evento handleAction con información sobre el botón clickeado.
-    this.handleAction.emit({cor: item.cor, nome: item.nome, icon: item.icon, all: item.all,});
-
-    // Se imprime información del botón en la consola.
-    //console.log('item:', item);
+    this.handleAction.emit({cor: item.uiTooth.cor, nome: item.nome, icon: item.uiTooth.icon, all: item.uiTooth.all, idCondition: item.idCondition});
   }
 }

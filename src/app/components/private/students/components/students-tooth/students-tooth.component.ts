@@ -3,9 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
-  OnInit,
-  input,
+  Output
 } from '@angular/core';
 
 interface Face {
@@ -25,6 +23,7 @@ export class StudentsToothComponent {
   @Input() index: number = 0;
   @Input() color: string = 'withe';
   @Input() all: string = '';
+  @Input() idCondition: number = 0;
   @Output() toggleTooth = new EventEmitter<any>();
   @Output() setFace = new EventEmitter<any>();
 
@@ -39,20 +38,16 @@ export class StudentsToothComponent {
   // Variable para almacenar el color de la simbologia
   newSimbolColor: string = '';
   line: boolean = false;
-  clicked(data: any, index: number, faceId: any, all: string) {
+  clicked(data: any, index: number, faceId: any, all: string, idCondition: number) {
     // Se emite un evento para configurar la cara con la información del diente seleccionado.
-    this.setFace.emit({faceId: data.faces[index].id, index: index, data: data, all: all,});
+    this.setFace.emit({faceId: data.faces[index].id, index: index, data: data, all: all, idCondition: idCondition });
 
     console.log('data', data);
-    // Se define un nuevo estado 'blue'.
-    const newEstado = 'blue';
+    console.log('option selected: ' , idCondition);
 
     // Se itera sobre todos los dientes.
     data.faces.forEach((face: Face) => {
 
-
-      
-      
       // Funcion borrador
       if (face.estado === '◻︎') {
         const newSimbol = 'white';
