@@ -27,7 +27,6 @@ export class PathologicalPersonalHistoryComponent implements OnInit {
 
   questionsPathologicalPersonData: closedQuestionPathologicalAntecedentsRequest[]=[];
   getPathologicalPersonHistory(){
-    console.log('Antecedentes patologicos');
     this.apiService
       .getListService({
         headers: new HttpHeaders({
@@ -49,7 +48,6 @@ export class PathologicalPersonalHistoryComponent implements OnInit {
 
    getOpenQuestionsPhatologicalData: openQuestionPathologicalAntecedentsRequest [] = [];
    getQuestionsPathologicalPersonHistory(){
-    console.log('Antecedentes patologicos');
     this.apiService
       .getListService({
         headers: new HttpHeaders({
