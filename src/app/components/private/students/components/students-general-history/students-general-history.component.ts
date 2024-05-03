@@ -11,6 +11,7 @@ import { HistoryInitialBagComponent } from './history-initial-bag/history-initia
 import { HistoryMultidiciplinaryEvaluationComponent } from './history-multidiciplinary-evaluation/history-multidiciplinary-evaluation.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { HistoryFacialExamComponent } from './history-facial-exam/history-facial-exam.component';
 
 @Component({
   selector: 'app-students-general-history',
@@ -21,7 +22,7 @@ import { CommonModule } from '@angular/common';
     MatTabsModule,
     HistoryPersonalDataComponent,
     HistoryVitalSignsComponent,
-    //HistoryFacialExamComponent,
+    HistoryFacialExamComponent,
     HistoryFamilyHistoryComponent,
     NoPathologicalPersonalHistoryComponent,
     PathologicalPersonalHistoryComponent,
