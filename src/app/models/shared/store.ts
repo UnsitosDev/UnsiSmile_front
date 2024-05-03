@@ -1,42 +1,10 @@
 // store.interface.ts
 export interface Store {
-  marked: {
-    idCondition: number;
-    selecionado: string;
-    uiTooth: {
-      cor: string;
-      all?: string;
-    };
-  };
+  marked: IMarked;
   toolbar: {
     opcoes: toothOptions[];
   };
-  arcada: {
-    adulto: {
-      id: number;
-      nome: string;
-      status: boolean;
-      css?: string;
-      faces: {
-        id: string;
-        nome: string;
-        estado: string;
-        idEstado: number;
-      }[];
-    }[];
-    infantil: {
-      id: number;
-      nome: string;
-      status: boolean;
-      css?: string;
-      faces: {
-        id: string;
-        nome: string;
-        estado: string;
-        idEstado: number;
-      }[];
-    }[];
-  };
+  arcada: IArcada;
 }
 
 export interface toothOptions {
@@ -49,4 +17,31 @@ export interface uiTooth {
   cor?: string;
   icon?: string;
   all?: string;
+}
+
+export interface tooth {
+  id: number;
+  nome: string;
+  status: boolean;
+  css?: string;
+  faces: faces[]
+
+}
+
+export interface faces {
+  id: string;
+  nome: string;
+  estado: string;
+  idCondition: number;
+}
+
+export interface IArcada {
+  adulto: tooth[];
+  infantil: tooth[];
+}
+
+export interface IMarked {
+  idCondition: number;
+  selecionado: string;
+  uiTooth: uiTooth;
 }

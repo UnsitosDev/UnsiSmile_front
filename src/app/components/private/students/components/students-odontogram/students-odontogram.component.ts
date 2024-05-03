@@ -1,10 +1,10 @@
+import { tooth, IArcada } from './../../../../../models/shared/store';
 import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { toothOptions } from '@mean/models';
 import { ApiService, store } from '@mean/services';
-import { UriConstants } from '@mean/utils';
 import { OdontogramData } from 'src/app/services/odontogram-data.service';
 import { dentalCodeResponse } from '../students-general-history/models/dentalCode/dentalCode';
 import { toothConditionResponse } from '../students-general-history/models/toothCondition/toothCondition';
@@ -27,14 +27,15 @@ import { StudentsToothComponent } from '../students-tooth/students-tooth.compone
   styleUrl: './students-odontogram.component.scss',
 })
 export class StudentsOdontogramComponent implements OnInit {
-  arcada = {
-    adulto: store.arcada.adulto, // Utiliza el servicio para obtener los datos
-    infantil: store.arcada.infantil, // Utiliza el servicio para obtener los datos
-  };
+  
+  //define la estructura de una arcada (odontograma)
+  arcada!:
+    IArcada;
 
   data = store;
 
   toolbar!: { opcoes: toothOptions[] }; // Utiliza el servicio para obtener los datos
+  
   marked: { selecionado: string; cor: string; all: any, idCondition: number } = {
     selecionado: '',
     cor: '',
@@ -54,37 +55,16 @@ export class StudentsOdontogramComponent implements OnInit {
       console.log(options);
       this.toolbar ={opcoes: options} 
     });
-  }
 
-  private getToothCondition() {
-
-    this.tootConditionService
-    .getListService({
-      url: `${UriConstants.GET_TOOTH_CONDITION}`,
-    })
-    .subscribe({
-      next: (data) => {
-        // Accede a los datos
-        console.log(data);
-      },
-      error: (error) => {},
+    this.odontogramData.getDentalCodesOfAdults().subscribe(dentalCodes => {
+      this.arcada.adulto = dentalCodes;
     });
 
+    this.odontogramData.getDentalCodesOfChilds().subscribe(dentalCodes => {
+      this.arcada.infantil = dentalCodes;
+    });
   }
 
-  private getDentalCodes() {
-    this.dentalCodeService
-      .getListService({
-        url: `${UriConstants.GET_DENTAL_CODE}`,
-      })
-      .subscribe({
-        next: (data) => {
-          // Accede a los datos
-          console.log(data);
-        },
-        error: (error) => {},
-      });
-  }
 
   /**
    * Función invocada cuando cambia el valor del odontograma.
@@ -106,7 +86,6 @@ export class StudentsOdontogramComponent implements OnInit {
   handleAction(cor: string, nome: string, all: string, idCondition: number): void {
     this.marked = { selecionado: nome, cor: cor, all : all , idCondition: idCondition};
     this.paintAll = all;
-    console.log('idcondition in odontogram', idCondition)
   }
 
   /**
@@ -122,7 +101,7 @@ export class StudentsOdontogramComponent implements OnInit {
    * @param event Información del evento que contiene el ID del diente, su índice y los datos del estudiante.
    */
   setFace(event: any) {
-    const { faceId, index, data, idCondition } = event;
+    const {  index, data } = event;
     const acao = this.marked.cor;
     data.faces[index].estado = acao;
     data.faces[index].idCondition = this.marked.idCondition;

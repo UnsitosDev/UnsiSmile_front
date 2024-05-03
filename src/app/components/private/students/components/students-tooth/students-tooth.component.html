@@ -1,10 +1,10 @@
 <!-- tooth.component.html -->
-<div [ngClass]="data.css ? 'boxTooth ' + data.css : 'boxTooth'">
+<div [ngClass]="data.css!='' ? 'boxTooth ' + data.css : 'boxTooth'">
   
     <button *ngIf="data.status; else addButton" class="removeButton" (click)="toggleTooth.emit(data)">-</button>
     <ng-template #addButton><button class="addButton" (click)="toggleTooth.emit(data)">+</button></ng-template>
   
-    <small style="text-align: center; display: block; clear: both">{{ data.id }}</small>
+    <small style="text-align: center; display: block; clear: both">{{ data.nome }}</small>
   
     <svg width="29" height="34" [attr.id]="data.id" [ngClass]="data.status ? 'tooth' : 'tooth disabled'">
       <!-- Face 1 -->
