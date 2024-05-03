@@ -1,9 +1,11 @@
 
 <br>
 <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4 bg-white clinic" >
-    <!-- <mat-tab label="Datos Personales">
-        <app-history-personal-data></app-history-personal-data>
-    </mat-tab> -->
+    <mat-tab label="Datos Personales">
+        <app-students-patient-detail
+        [idPatient]="id"
+        ></app-students-patient-detail>
+    </mat-tab>
     <mat-tab label="Signos Vitales">
         <app-history-vital-signs></app-history-vital-signs>
     </mat-tab>

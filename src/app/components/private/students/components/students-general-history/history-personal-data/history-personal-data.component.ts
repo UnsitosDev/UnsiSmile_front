@@ -1051,6 +1051,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       console.error('No se ha encontrado ninguna religión.');
       return;
     }
+
     const patient = {
       idPatient: this.idPatient,
       admissionDate: this.admissionDate,
@@ -1106,13 +1107,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       occupationId: this.foundOccupation.idOccupation,
       ethnicGroupId: this.foundEthnicGroup.idEthnicGroup,
       religionId: this.foundReligion.idReligion,
-      guardian: {
-        idGuardian: this.guardianId,
-        firstName: this.guardianFirstName,
-        lastName: this.guardianLastName,
-        phone: this.guardianPhone,
-        email: this.guardianEmail,
-      },
+      guardian: null,
     };
 
     console.log(patient);

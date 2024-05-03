@@ -38,7 +38,7 @@ const routes: Routes = [
         component: StudentsGeneralHistoryComponent
       },
       {
-        path: 'historyClinic1',
+        path: 'periodontics',
         component: StudentsPeriodonticsHistoryComponent
       },
       {
