@@ -11,11 +11,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentsGeneralHistoryComponent } from '../students-general-history/students-general-history.component';
 import { ApiService } from '@mean/services';
-import { patientRequest, patientResponse } from 'src/app/models/shared/patients/patient/patient';
+import {
+  patientRequest,
+  patientResponse,
+} from 'src/app/models/shared/patients/patient/patient';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
-import { Router, RouterLink } from '@angular/router';
-
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-students-patients',
@@ -25,28 +27,26 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './students-patients.component.scss',
 })
 export class StudentsPatientsComponent implements OnInit {
-
   patientsList: patientsTableData[] = [];
   columnas: string[] = [];
   title: string = 'Pacientes';
-  private apiService = inject(ApiService<patientResponse>)
-
+  private apiService = inject(ApiService<patientResponse>);
 
   constructor(
     private productService: ProductService,
     public dialog: MatDialog,
-    public router: Router
-  ) { }
+    public router: Router,
+    public route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('patients');
-
     this.getPacientes();
   }
 
   openDialog(objeto: any) {
     this.dialog.open(StudentsGeneralHistoryComponent, {
-      data: objeto
+      data: objeto,
     });
   }
 
@@ -60,11 +60,11 @@ export class StudentsPatientsComponent implements OnInit {
     }
   }
 
+  // Id paciente
   editar(objeto: any) {
-    console.log('editar', objeto);
-    this.router.navigate(['/students', 'historyClinic']);
-
-  }
+  // console.log('osddsfsdf',objeto.patientID);
+  this.router.navigate(['/students', 'historyClinic', objeto.patientID]);
+}
 
   eliminar(nombre: string) {
     console.log('eliminar', nombre);
@@ -74,7 +74,7 @@ export class StudentsPatientsComponent implements OnInit {
     alert('¡Haz clic en un icono!');
   }
 
-
+  idPatientx: number = 0;
   pacientesData: patientResponse[] = [];
   getPacientes() {
     this.apiService
@@ -88,25 +88,27 @@ export class StudentsPatientsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.pacientesData = response;
-          console.log('Respuesta del servidor:', this.pacientesData);
+         // console.log('Respuesta del servidor:', this.pacientesData);
 
-  
+
           // Mapear los datos deseados de cada paciente
           this.patientsList = this.pacientesData.map((patient) => {
             const person = patient.person; // Obtener el objeto "person"
-           //const medicalHistory = patient.medicalHistoryResponse;
-           const medicalHistory = patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
+            this.idPatientx = patient.idPatient;
+            // console.log('idpatiendfsdfsdf', this.idPatientx);
+            //const medicalHistory = patient.medicalHistoryResponse;
+            const medicalHistory =
+              patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
             return {
               nombre: person.firstName,
               apellido: `${person.firstLastName} ${person.secondLastName}`,
               correo: person.email,
               curp: person.curp,
-              idMedicalHistory: medicalHistory
+              idMedicalHistory: medicalHistory,
+              patientID:this.idPatientx
             };
-            
           });
-          console.log('Respuesta del servidor:', this.patientsList);
-
+          // console.log('Respuesta del servidor:', this.patientsList);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
@@ -114,11 +116,5 @@ export class StudentsPatientsComponent implements OnInit {
       });
   }
 
-
-
   //filtar datos
-
-
-
-
 }

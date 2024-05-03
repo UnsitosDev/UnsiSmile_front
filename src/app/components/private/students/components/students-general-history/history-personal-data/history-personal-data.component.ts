@@ -695,7 +695,7 @@ export class HistoryPersonalDataComponent implements OnInit {
       });
   }
 
-  idPatient: number = 0;
+  idPatient: number = 2;
   admissionDate: string = '2024-05-01';
   isMinor: boolean = false;
   hasDisability: boolean = false;
@@ -1065,7 +1065,8 @@ export class HistoryPersonalDataComponent implements OnInit {
         secondLastName: this.secondLastName,
         phone: this.phone,
         birthDate: this.birthDate,
-        email: this.email,
+        //email: this.email,
+        email: 'elioenai.2001@outlook.com',
         gender: {
           idGender: this.foundGender.idGender,
           gender: this.gender,

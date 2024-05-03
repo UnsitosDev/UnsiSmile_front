@@ -88,7 +88,7 @@ export class HistoryFacialExamComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.namefacialFront = response;
-          console.log('Facial front + ', this.namefacialFront);
+          // console.log('Facial front + ', this.namefacialFront);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
@@ -109,7 +109,7 @@ export class HistoryFacialExamComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.nameFacialProfile = response;
-          console.log('facial profile =>', this.nameFacialProfile);
+          // console.log('facial profile =>', this.nameFacialProfile);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
