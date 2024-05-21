@@ -32,12 +32,13 @@ const routes: Routes = [
         path: 'odontogram',
         component: StudentsOdontogramComponent
       },
+      // Ruta historia clinica general
       {
-        path: 'historyClinic',
+        path: 'historyClinic/:id',
         component: StudentsGeneralHistoryComponent
       },
       {
-        path: 'historyClinic1',
+        path: 'periodontics',
         component: StudentsPeriodonticsHistoryComponent
       },
       {

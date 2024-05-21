@@ -33,3 +33,31 @@ export interface studentResponse {
     "career": "string"
 
 }
+
+
+export interface studentUserResponse {
+    enrollment: string;
+    user: {
+      id: string;
+      username: string;
+      role: {
+        idRole: number;
+        role: string;
+      };
+    };
+    person: {
+      curp: string;
+      firstName: string;
+      secondName: string;
+      firstLastName: string;
+      secondLastName: string;
+      phone: string;
+      birthDate: number[];
+      email: string;
+      gender: {
+        idGender: number;
+        gender: string;
+      };
+    };
+  }
+  
