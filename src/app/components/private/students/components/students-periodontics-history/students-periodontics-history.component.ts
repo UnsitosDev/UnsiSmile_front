@@ -6,8 +6,7 @@ import { HistoryInterrogationComponent } from './history-interrogation/history-i
 import { HistoryPerodontalExamComponent } from './history-perodontal-exam/history-perodontal-exam.component';
 import { HistoryExplorationOralComponent } from './history-exploration-oral/history-exploration-oral.component';
 import { HistoryTreatmentPlanComponent } from './history-treatment-plan/history-treatment-plan.component';
-import { ReceiptComponent } from './receipt/receipt.component';
-import { TeethImageComponent } from './teeth-image/teeth-image.component';
+import { EvaluacionPerodonciaComponent } from './evaluacion-perodoncia/evaluacion-perodoncia.component';
 
 @Component({
   selector: 'app-students-periodontics-history',
@@ -15,7 +14,7 @@ import { TeethImageComponent } from './teeth-image/teeth-image.component';
   imports: [HistoryIdComponent,MatTabsModule,
     HistoryVitalSingsComponent, HistoryInterrogationComponent
     ,HistoryPerodontalExamComponent,HistoryExplorationOralComponent,
-    HistoryTreatmentPlanComponent,ReceiptComponent, TeethImageComponent
+    HistoryTreatmentPlanComponent,EvaluacionPerodonciaComponent
   ],
   templateUrl: './students-periodontics-history.component.html',
   styleUrl: './students-periodontics-history.component.scss'
