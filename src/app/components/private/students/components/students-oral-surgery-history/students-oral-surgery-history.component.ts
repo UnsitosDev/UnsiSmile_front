@@ -4,12 +4,13 @@ import { HistoryIdentificationFileComponent } from './history-identification-fil
 import { HistoryVitalSingsComponent } from './history-vital-sings/history-vital-sings.component';
 import { HistoryFamilyHistoryComponent } from './history-family-history/history-family-history.component';
 import { HistoryInterrogationDivicesSystemsComponent } from './history-interrogation-divices-systems/history-interrogation-divices-systems.component';
+import { HistoryCurrentConditionComponent } from './history-current-condition/history-current-condition.component';
 
 @Component({
   selector: 'app-students-oral-surgery-history',
   standalone: true,
   imports: [MatTabsModule, HistoryIdentificationFileComponent, HistoryVitalSingsComponent,
-    HistoryFamilyHistoryComponent,HistoryInterrogationDivicesSystemsComponent],
+    HistoryFamilyHistoryComponent,HistoryInterrogationDivicesSystemsComponent,HistoryCurrentConditionComponent],
   templateUrl: './students-oral-surgery-history.component.html',
   styleUrl: './students-oral-surgery-history.component.scss'
 })
