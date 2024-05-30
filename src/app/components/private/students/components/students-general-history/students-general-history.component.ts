@@ -51,4 +51,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       console.log('id del paciente: ', this.id);
     });
   }
+
+  stopPropagation(event: MouseEvent) {
+    event.stopPropagation();
+}
 }

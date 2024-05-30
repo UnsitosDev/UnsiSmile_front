@@ -2,11 +2,12 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { patientResponse } from 'src/app/models/shared/patients/patient/patient';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-students-patient-detail',
   standalone: true,
-  imports: [],
+  imports: [MatButton],
   templateUrl: './students-patient-detail.component.html',
   styleUrl: './students-patient-detail.component.scss',
 })
