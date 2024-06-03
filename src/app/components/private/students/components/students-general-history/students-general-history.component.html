@@ -1,40 +1,37 @@
 
 <br>
-<mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4 bg-white clinic" (click)="stopPropagation($event)">
+<mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4 bg-white clinic">
     <mat-tab label="Datos Personales">
         <app-students-patient-detail
         [idPatient]="id"
         ></app-students-patient-detail>
     </mat-tab>
-    <mat-tab label="Signos Vitales">
-        <app-history-vital-signs></app-history-vital-signs>
+    <mat-tab label="Signos Vitales"  [disabled]="false">
+        <app-history-vital-signs (eventoEmitido)="recibirEvento($event)"></app-history-vital-signs>
     </mat-tab>
-    <mat-tab label="Examen Facial">
+    <mat-tab label="Examen Facial"  [disabled]="vitalSigns">
          <app-history-facial-exam></app-history-facial-exam>
     </mat-tab>
-    <mat-tab label="Antecedentes Heredofamiliares">
+    <mat-tab label="Antecedentes Heredofamiliares"  [disabled]="true">
         <app-history-family-history></app-history-family-history>
     </mat-tab>
-    <mat-tab label="Antecedentes Personales no Patologicos">
+    <mat-tab label="Antecedentes Personales no Patologicos"  [disabled]="true">
         <app-no-pathological-personal-history></app-no-pathological-personal-history>
     </mat-tab>
-    <mat-tab label="Antecedentes Personales Patologicos">
+    <mat-tab label="Antecedentes Personales Patologicos"  [disabled]="true">
         <app-pathological-personal-history></app-pathological-personal-history>
     </mat-tab>
-    <mat-tab label="Odontograma Inicial">
+    <mat-tab label="Odontograma Inicial" [disabled]="true">
         <app-students-odontogram></app-students-odontogram>
     </mat-tab>
-    <mat-tab label="Odontograma Final">
+    <mat-tab label="Odontograma Final" [disabled]="true">
         <app-students-odontogram></app-students-odontogram>
     </mat-tab>
-    <mat-tab label="Medicion de Bolsas Inicial">
+    <mat-tab label="Medicion de Bolsas Inicial" [disabled]="true">
         <app-history-initial-bag></app-history-initial-bag>
     </mat-tab>
-    <mat-tab label="Evaluación Multidisciplinaria">
+    <mat-tab label="Evaluación Multidisciplinaria" [disabled]="true">
         <app-history-multidiciplinary-evaluation></app-history-multidiciplinary-evaluation>
     </mat-tab>
   </mat-tab-group>
-
-  <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4 bg-white clinic" (click)="stopPropagation($event)">
-    <!-- Tabs aquí -->
-</mat-tab-group>
+  <button (click)="irSiguienteTab()">Ir al siguiente tab</button>

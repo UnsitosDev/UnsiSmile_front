@@ -1,6 +1,7 @@
+import { vitalSignRequest } from './../../../../../../models/shared/patients/vitalSigns/vitalSign';
 import { NgFor } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,7 +27,9 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrl: './history-vital-signs.component.scss',
 })
 export class HistoryVitalSignsComponent implements OnInit {
+  vitalSings = false;
   private apiService = inject(ApiService);
+item: any;
 
   constructor() {}
 
@@ -56,8 +59,10 @@ export class HistoryVitalSignsComponent implements OnInit {
       pulse: this.pulse,
     };
 
-    console.log(vitalSigns);
+    this.emitirEvento();
+    
 
+    console.log(vitalSigns);
     this.apiService
       .postService({
         headers: new HttpHeaders({
@@ -69,10 +74,21 @@ export class HistoryVitalSignsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           console.log('post');
+
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
         },
       });
+  }
+
+
+  @Output() eventoEmitido = new EventEmitter<boolean>();
+  pageNumber: number = 1;
+  emitirEvento() {
+    this.eventoEmitido.emit(false);
+    console.log(false);
+    
+
   }
 }

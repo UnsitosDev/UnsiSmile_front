@@ -3,6 +3,7 @@ import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { patientResponse } from 'src/app/models/shared/patients/patient/patient';
 import { MatButton } from '@angular/material/button';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-students-patient-detail',
@@ -37,4 +38,9 @@ export class StudentsPatientDetailComponent implements OnInit {
         },
       });
   }
+
+  id: any;
+
+  constructor(private tabGroup: MatTabGroup) {}
+
 }

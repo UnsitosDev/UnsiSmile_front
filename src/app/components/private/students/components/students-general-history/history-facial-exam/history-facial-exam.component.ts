@@ -3,7 +3,7 @@ import { facialFrontResponse } from './../models/facialFront/facialFront';
 import { ApiService } from './../../../../../../services/api.service';
 import { NgFor } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -47,7 +47,10 @@ export class HistoryFacialExamComponent implements OnInit {
    */
 
   public apiService = inject(ApiService);
-  constructor(private authService: AuthService, private fb: FormBuilder) {}
+  constructor(private authService: AuthService, private fb: FormBuilder) {
+    console.log('Componente receptor creado');
+
+  }
 
   ngOnInit(): void {
     this.fetchFacialFronts();
@@ -116,4 +119,8 @@ export class HistoryFacialExamComponent implements OnInit {
         },
       });
   }
+
+  @Input() eventoRecibido: boolean = true;
+
+ 
 }

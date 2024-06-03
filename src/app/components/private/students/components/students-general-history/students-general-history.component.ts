@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { HistoryPersonalDataComponent } from './history-personal-data/history-personal-data.component';
 import { HistoryVitalSignsComponent } from './history-vital-signs/history-vital-signs.component';
 //import { HistoryFacialExamComponent } from './history-facial-exam/history-facial-exam.component';
@@ -36,15 +36,28 @@ import { patientResponse } from 'src/app/models/shared/patients/patient/patient'
     CommonModule,
     MatTabsModule,
     MatDialogModule,
-    StudentsPatientDetailComponent
+    StudentsPatientDetailComponent,
   ],
 })
 export class StudentsGeneralHistoryComponent implements OnInit {
   public id!: number;
+  vitalSigns = true;
 
-  constructor(private router: ActivatedRoute) {}
+  recibirEvento(evento: boolean) {
+    console.log('Evento recibido:', evento);
+    this.vitalSigns = evento;
+  }
+  nextpage: boolean = true;
+  constructor(private router: ActivatedRoute,) {
+  }
+
 
   ngOnInit(): void {
+    // this.historyVitalSignsComponent.eventoEmitido.subscribe((evento) => {
+    //   console.log('Evento recibido:', evento); // Imprimimos en consola
+    //   this.eventoRecibido = evento;
+    // });
+
     this.router.params.subscribe((params) => {
       this.id = params['id'];
 
@@ -54,5 +67,21 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
   stopPropagation(event: MouseEvent) {
     event.stopPropagation();
+  }
+
+  @ViewChild(MatTabGroup) tabGroup?: MatTabGroup;
+
+
+  ngAfterViewInit() {
+    this.tabGroup = this.tabGroup;
+  }
+
+  irSiguienteTab() {
+    if (this.tabGroup) {
+      this.tabGroup.selectedIndex = (this.tabGroup.selectedIndex ?? 0) + 1;
+      console.log("tab",this.tabGroup.selectedIndex);
+    }
+  }
+
 }
-}
+
