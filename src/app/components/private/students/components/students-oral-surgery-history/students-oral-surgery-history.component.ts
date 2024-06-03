@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { HistoryIdentificationFileComponent } from './history-identification-file/history-identification-file.component';
-import { HistoryVitalSingsComponent } from './history-vital-sings/history-vital-sings.component';
-import { HistoryFamilyHistoryComponent } from './history-family-history/history-family-history.component';
-import { HistoryInterrogationDivicesSystemsComponent } from './history-interrogation-divices-systems/history-interrogation-divices-systems.component';
-import { HistoryCurrentConditionComponent } from './history-current-condition/history-current-condition.component';
+import { CurrentConditionComponent } from './current-condition/current-condition.component';
+import { FamilyHistoryComponent } from './family-history/family-history.component';
+import { IdentificationFileComponent } from './identification-file/identification-file.component';
+import { InterrogationDivicesSystemsComponent } from './interrogation-divices-systems/interrogation-divices-systems.component';
+import { VitalSingsComponent } from './vital-sings/vital-sings.component';
 
 @Component({
   selector: 'app-students-oral-surgery-history',
   standalone: true,
-  imports: [MatTabsModule, HistoryIdentificationFileComponent, HistoryVitalSingsComponent,
-    HistoryFamilyHistoryComponent,HistoryInterrogationDivicesSystemsComponent,HistoryCurrentConditionComponent],
+  imports: [MatTabsModule, CurrentConditionComponent, FamilyHistoryComponent,IdentificationFileComponent
+    ,InterrogationDivicesSystemsComponent,VitalSingsComponent],
   templateUrl: './students-oral-surgery-history.component.html',
   styleUrl: './students-oral-surgery-history.component.scss'
 })
