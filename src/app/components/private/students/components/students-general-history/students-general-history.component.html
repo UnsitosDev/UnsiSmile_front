@@ -7,7 +7,7 @@
         ></app-students-patient-detail>
     </mat-tab>
     <mat-tab label="Signos Vitales"  [disabled]="false">
-        <app-history-vital-signs (eventoEmitido)="recibirEvento($event)"></app-history-vital-signs>
+        <app-history-vital-signs (eventoEmitido)="recibirEvento($event)"  (cambiarTab)="recibirTab($event)"></app-history-vital-signs>
     </mat-tab>
     <mat-tab label="Examen Facial"  [disabled]="vitalSigns">
          <app-history-facial-exam></app-history-facial-exam>
@@ -34,4 +34,4 @@
         <app-history-multidiciplinary-evaluation></app-history-multidiciplinary-evaluation>
     </mat-tab>
   </mat-tab-group>
-  <button (click)="irSiguienteTab()">Ir al siguiente tab</button>
+  <!-- <button (click)="irSiguienteTab()">Ir al siguiente tab</button> -->

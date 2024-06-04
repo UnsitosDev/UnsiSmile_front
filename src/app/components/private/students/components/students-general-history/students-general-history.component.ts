@@ -47,6 +47,14 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     console.log('Evento recibido:', evento);
     this.vitalSigns = evento;
   }
+
+  recibirTab(evento: number){
+    console.log("pagina recibida", evento);
+    this.irSiguienteTab(evento);
+
+  }
+
+  
   nextpage: boolean = true;
   constructor(private router: ActivatedRoute,) {
   }
@@ -76,7 +84,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     this.tabGroup = this.tabGroup;
   }
 
-  irSiguienteTab() {
+  irSiguienteTab(evento: number) {
     if (this.tabGroup) {
       this.tabGroup.selectedIndex = (this.tabGroup.selectedIndex ?? 0) + 1;
       console.log("tab",this.tabGroup.selectedIndex);

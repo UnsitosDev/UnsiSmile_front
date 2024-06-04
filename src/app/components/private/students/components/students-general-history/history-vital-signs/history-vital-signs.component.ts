@@ -60,6 +60,7 @@ item: any;
     };
 
     this.emitirEvento();
+    this.irSiguienteTab();
     
 
     console.log(vitalSigns);
@@ -90,5 +91,9 @@ item: any;
     console.log(false);
     
 
+  }
+  @Output() cambiarTab = new EventEmitter<number>();
+  irSiguienteTab() {
+    this.cambiarTab.emit(3);
   }
 }
