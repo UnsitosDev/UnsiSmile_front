@@ -29,7 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class HistoryVitalSignsComponent implements OnInit {
   vitalSings = false;
   private apiService = inject(ApiService);
-item: any;
+  item: any;
 
   constructor() {}
 
@@ -61,7 +61,6 @@ item: any;
 
     this.emitirEvento();
     this.irSiguienteTab();
-    
 
     console.log(vitalSigns);
     this.apiService
@@ -75,7 +74,6 @@ item: any;
       .subscribe({
         next: (response) => {
           console.log('post');
-
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
@@ -83,17 +81,14 @@ item: any;
       });
   }
 
-
   @Output() eventoEmitido = new EventEmitter<boolean>();
   pageNumber: number = 1;
   emitirEvento() {
     this.eventoEmitido.emit(false);
     console.log(false);
-    
-
   }
   @Output() cambiarTab = new EventEmitter<number>();
   irSiguienteTab() {
-    this.cambiarTab.emit(3);
+    this.cambiarTab.emit(0);
   }
 }

@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { patientResponse } from 'src/app/models/shared/patients/patient/patient';
@@ -13,7 +20,6 @@ import { MatTabGroup } from '@angular/material/tabs';
   styleUrl: './students-patient-detail.component.scss',
 })
 export class StudentsPatientDetailComponent implements OnInit {
-
   @Input() idPatient: number = 0;
   public patient!: patientResponse;
 
@@ -26,16 +32,14 @@ export class StudentsPatientDetailComponent implements OnInit {
   fetchPatientData() {
     this.patientService
       .getService({
-        url: `${UriConstants.GET_PATIENTS + "/" + this.idPatient}`
+        url: `${UriConstants.GET_PATIENTS + '/' + this.idPatient}`,
       })
       .subscribe({
         next: (data) => {
           this.patient = data;
-          console.log("patient data: ", data);
+          console.log('patient data: ', data);
         },
-        error: (error) => {
-          
-        },
+        error: (error) => {},
       });
   }
 
@@ -43,4 +47,19 @@ export class StudentsPatientDetailComponent implements OnInit {
 
   constructor(private tabGroup: MatTabGroup) {}
 
+  @Output() eventoEmitido = new EventEmitter<boolean>();
+  pageNumber: number = 1;
+  emitirEvento() {
+    this.eventoEmitido.emit(false);
+    console.log(false);
+  }
+  @Output() cambiarTab = new EventEmitter<number>();
+  irSiguienteTab() {
+    this.cambiarTab.emit(0);
+  }
+
+  nextPage() {
+    this.emitirEvento();
+    this.irSiguienteTab();
+  }
 }

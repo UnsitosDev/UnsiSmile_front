@@ -1,3 +1,4 @@
+import { occupationRequest } from './../../../../../models/shared/patients/Occupation/occupation';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
@@ -42,30 +43,61 @@ import { patientResponse } from 'src/app/models/shared/patients/patient/patient'
 export class StudentsGeneralHistoryComponent implements OnInit {
   public id!: number;
   vitalSigns = true;
+  facialExam = true;
+  atecedentesHeredofamiliares = true;
+  antecedentesPersonalesNoPatologicos = true;
+  antecedentesPersonalesPatologicos = true;
+  ontogramaInicial = true;
+  ontogramaFinal = true;
+  medicionDeBolsasInicial = true;
+  evaluacion = true;
 
-  recibirEvento(evento: boolean) {
-    console.log('Evento recibido:', evento);
+  facialExamEvent(evento: boolean) {
+    this.facialExam = evento;
+    this.irSiguienteTab();
+  }
+
+  vitalSignsEvent(evento: boolean) {
     this.vitalSigns = evento;
   }
 
-  recibirTab(evento: number){
-    console.log("pagina recibida", evento);
-    this.irSiguienteTab(evento);
-
+  atecedentesHeredofamiliaresEvent(evento: boolean) {
+    this.atecedentesHeredofamiliares = evento;
   }
 
-  
+  antecedentesPersonalesNoPatologicosEvent(evento: boolean) {
+    this.antecedentesPersonalesNoPatologicos = evento;
+  }
+
+  antecedentesPersonalesPatologicosEvent(evento: boolean) {
+    this.antecedentesPersonalesPatologicos = evento;
+  }
+
+  ontogramaInicialEvent(evento: boolean) {
+    this.ontogramaInicial = evento;
+  }
+
+  ontogramaFinalEvent(evento: boolean) {
+    this.ontogramaFinal = evento;
+  }
+
+  medicionDeBolsasIniciallEvent(evento: boolean) {
+    this.medicionDeBolsasInicial = evento;
+  }
+
+  evaluacionEvent(evento: boolean) {
+    this.evaluacion = evento;
+  }
+
+  recibirTab(evento: number) {
+    console.log('pagina recibida', evento);
+    this.irSiguienteTab();
+  }
+
   nextpage: boolean = true;
-  constructor(private router: ActivatedRoute,) {
-  }
-
+  constructor(private router: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // this.historyVitalSignsComponent.eventoEmitido.subscribe((evento) => {
-    //   console.log('Evento recibido:', evento); // Imprimimos en consola
-    //   this.eventoRecibido = evento;
-    // });
-
     this.router.params.subscribe((params) => {
       this.id = params['id'];
 
@@ -79,17 +111,14 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
   @ViewChild(MatTabGroup) tabGroup?: MatTabGroup;
 
-
   ngAfterViewInit() {
     this.tabGroup = this.tabGroup;
   }
 
-  irSiguienteTab(evento: number) {
+  irSiguienteTab() {
     if (this.tabGroup) {
       this.tabGroup.selectedIndex = (this.tabGroup.selectedIndex ?? 0) + 1;
-      console.log("tab",this.tabGroup.selectedIndex);
+      console.log('tab', this.tabGroup.selectedIndex);
     }
   }
-
 }
-
