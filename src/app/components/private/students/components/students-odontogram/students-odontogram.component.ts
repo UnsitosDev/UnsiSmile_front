@@ -1,5 +1,5 @@
 import { MatTabsModule } from '@angular/material/tabs';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { StudentsToothComponent } from '../students-tooth/students-tooth.component';
 import { NgFor, NgIf } from '@angular/common';
 import { StudentsToolbarComponent } from '../students-odontogram-toolbar/students-toolbar.component';
@@ -31,7 +31,11 @@ export class StudentsOdontogramComponent {
   data = store;
 
   toolbar: { opcoes: any } = { opcoes: store.toolbar.opcoes }; // Utiliza el servicio para obtener los datos
-  marked: { selecionado: string; cor: string; all: any } = {selecionado: '', cor: '', all: '',};
+  marked: { selecionado: string; cor: string; all: any } = {
+    selecionado: '',
+    cor: '',
+    all: '',
+  };
   value = 0;
 
   constructor() {} // Inyecta el servicio en el constructor
@@ -77,5 +81,21 @@ export class StudentsOdontogramComponent {
     const acao = this.marked.cor;
     data.faces[index].estado = acao;
     const color = this.marked.cor;
+  }
+
+  sendData() {
+    this.emitirEvento();
+    this.irSiguienteTab();
+  }
+
+  @Output() eventoEmitido = new EventEmitter<boolean>();
+  pageNumber: number = 1;
+  emitirEvento() {
+    this.eventoEmitido.emit(false);
+    console.log(false);
+  }
+  @Output() cambiarTab = new EventEmitter<number>();
+  irSiguienteTab() {
+    this.cambiarTab.emit(0);
   }
 }

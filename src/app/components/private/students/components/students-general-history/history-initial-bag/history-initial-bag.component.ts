@@ -1,5 +1,5 @@
 import { NgFor } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -7,9 +7,8 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [NgFor, MatButtonModule],
   templateUrl: './history-initial-bag.component.html',
-  styleUrl: './history-initial-bag.component.scss'
+  styleUrl: './history-initial-bag.component.scss',
 })
-
 export class HistoryInitialBagComponent {
   // inputs
 
@@ -19,18 +18,21 @@ export class HistoryInitialBagComponent {
   filasDatos = ['D', 'M', 'M'];
   columnasAdicionales = ['D', 'M', 'M']; // Valores correspondientes a la columna adicional
 
-  registros: { value: string, row: string, column: string }[] = []; // Arreglo para almacenar los registros
+  registros: { value: string; row: string; column: string }[] = []; // Arreglo para almacenar los registros
   Coordenadas: any[] = []; // Arreglo para almacenar las coordenadas
 
   onCellInput(event: Event, rowIndex: number, colIndex: number | string): void {
     const inputValue = (event.target as HTMLTableCellElement).innerText.trim();
     const rowLabel = this.filasDatos[rowIndex];
-    const colLabel = typeof colIndex === 'number' ? this.getColumnLabel(colIndex) : 'Additional Column';
+    const colLabel =
+      typeof colIndex === 'number'
+        ? this.getColumnLabel(colIndex)
+        : 'Additional Column';
 
     const registro = {
       value: inputValue,
       row: rowLabel,
-      column: colLabel
+      column: colLabel,
     };
 
     this.registros.push(registro); // Almacenar el objeto en el arreglo de registros
@@ -46,7 +48,27 @@ export class HistoryInitialBagComponent {
     } else if (index === this.etiquetasColumnasDerecha.length) {
       return 'Additional Column';
     } else {
-      return `2 ${this.etiquetasColumnasIzquierda[index - this.etiquetasColumnasDerecha.length - 1]}`;
+      return `2 ${
+        this.etiquetasColumnasIzquierda[
+          index - this.etiquetasColumnasDerecha.length - 1
+        ]
+      }`;
     }
+  }
+
+  sendData() {
+    this.emitirEvento();
+    this.irSiguienteTab();
+  }
+
+  @Output() eventoEmitido = new EventEmitter<boolean>();
+  pageNumber: number = 1;
+  emitirEvento() {
+    this.eventoEmitido.emit(false);
+    console.log(false);
+  }
+  @Output() cambiarTab = new EventEmitter<number>();
+  irSiguienteTab() {
+    this.cambiarTab.emit(0);
   }
 }

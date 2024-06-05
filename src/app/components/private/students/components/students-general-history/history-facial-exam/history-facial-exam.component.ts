@@ -3,7 +3,14 @@ import { facialFrontResponse } from './../models/facialFront/facialFront';
 import { ApiService } from './../../../../../../services/api.service';
 import { NgFor } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -47,7 +54,9 @@ export class HistoryFacialExamComponent implements OnInit {
    */
 
   public apiService = inject(ApiService);
-  constructor(private authService: AuthService, private fb: FormBuilder) {}
+  constructor(private authService: AuthService, private fb: FormBuilder) {
+    console.log('Componente receptor creado');
+  }
 
   ngOnInit(): void {
     this.fetchFacialFronts();
@@ -55,6 +64,8 @@ export class HistoryFacialExamComponent implements OnInit {
   }
 
   onSubmit() {
+    this.emitirEvento();
+    this.irSiguienteTab();
     const token = this.authService.getToken();
     this.apiService
       .postService({
@@ -115,5 +126,16 @@ export class HistoryFacialExamComponent implements OnInit {
           console.error('Error en la autenticación:', error);
         },
       });
+  }
+
+  @Output() eventoEmitido = new EventEmitter<boolean>();
+  pageNumber: number = 1;
+  emitirEvento() {
+    this.eventoEmitido.emit(false);
+    console.log(false);
+  }
+  @Output() cambiarTab = new EventEmitter<number>();
+  irSiguienteTab() {
+    this.cambiarTab.emit(0);
   }
 }

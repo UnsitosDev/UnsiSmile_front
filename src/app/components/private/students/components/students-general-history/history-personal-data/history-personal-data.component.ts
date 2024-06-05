@@ -151,7 +151,8 @@ interface Genero {
     ReactiveFormsModule,
     AsyncPipe,
     AlertComponent,
-    RouterModule
+    RouterModule,
+    
   ],
   templateUrl: './history-personal-data.component.html',
   styleUrl: './history-personal-data.component.scss',

@@ -2,3 +2,12 @@
     height: 100%;
     width: 100%;
 }
+
+::ng-deep .mat-tab-group .mat-tab-label {
+    background-color: lightgray; /* Color de fondo para tabs no seleccionados */
+  }
+  
+  ::ng-deep .mat-tab-group .mat-tab-label.mat-tab-label-active {
+    background-color: lightblue; /* Color de fondo para el tab seleccionado */
+  }
+  
