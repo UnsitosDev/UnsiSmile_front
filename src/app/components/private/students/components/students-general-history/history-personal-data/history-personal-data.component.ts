@@ -158,6 +158,23 @@ interface Genero {
   styleUrl: './history-personal-data.component.scss',
 })
 export class HistoryPersonalDataComponent implements OnInit {
+
+  // Validar curp
+  curpPattern = /^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]{2}$/;
+  curpValido: boolean = true;
+  validarTimeout: any;
+
+  // Método para validar curp
+  validarCurp() {
+    if (this.validarTimeout) {
+      clearTimeout(this.validarTimeout);
+    }
+
+    this.validarTimeout = setTimeout(() => {
+      this.curpValido = this.curpPattern.test(this.curp);
+    }, 500);
+  }
+
   // Crear un control de formulario para el input de texto
   controlNationality = new FormControl('');
   controlOcupation = new FormControl('');
