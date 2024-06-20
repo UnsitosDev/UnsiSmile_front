@@ -19,7 +19,7 @@
     <mat-tab label="PLAN DE TRATAMIENTO" [disabled]="treatmentplan">
         <app-treatment-plan (eventoEmitido)="periodonticEvaluationEvent($event)"  (cambiarTab)="recibirTab($event)"></app-treatment-plan>
     </mat-tab>
-    <mat-tab label="EVALUACIÓN DE PERIODONCIA" [disabled]="treatmentplan" >
+    <mat-tab label="EVALUACIÓN DE PERIODONCIA" [disabled]="periodonticEvaluation" >
         <app-evaluacion-perodoncia  (cambiarTab)="recibirTab($event)"></app-evaluacion-perodoncia>
     </mat-tab>
   </mat-tab-group>
