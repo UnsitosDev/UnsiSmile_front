@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,5 +20,21 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './identification-file.component.scss'
 })
 export class IdentificationFileComponent {
+
+  @Output() eventoEmitido = new EventEmitter<boolean>();
+  pageNumber: number = 1;
+  emitirEvento() {
+    this.eventoEmitido.emit(false);
+    console.log(false);
+  }
+  @Output() cambiarTab = new EventEmitter<number>();
+  irSiguienteTab() {
+    this.cambiarTab.emit(0);
+  }
+
+  nextPage() {
+    this.emitirEvento();
+    this.irSiguienteTab();
+  }
 
 }
