@@ -3,93 +3,93 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
         <!-- Información básica -->
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">ID Paciente</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.idPatient" readonly>
+          <label [class]="labelClass">ID Paciente</label>
+          <input type="text" [class]="inputClass" [value]="patient.idPatient" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Fecha de Admisión</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.admissionDate" readonly>
+          <label [class]="labelClass">Fecha de Admisión</label>
+          <input type="text" [class]="inputClass" [value]="patient.admissionDate" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Menor de Edad</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.isMinor ? 'Sí' : 'No'" readonly>
+          <label [class]="labelClass">Menor de Edad</label>
+          <input type="text" [class]="inputClass" [value]="patient.isMinor ? 'Sí' : 'No'" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Discapacidad</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.hasDisability ? 'Sí' : 'No'" readonly>
+          <label [class]="labelClass">Discapacidad</label>
+          <input type="text" [class]="inputClass" [value]="patient.hasDisability ? 'Sí' : 'No'" readonly>
         </div>
         <!-- Información personal -->
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">CURP</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.person.curp" readonly>
+          <label [class]="labelClass">CURP</label>
+          <input type="text" [class]="inputClass" [value]="patient.person.curp" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.person.firstName + ' ' + patient.person.secondName" readonly>
+          <label [class]="labelClass">Nombre</label>
+          <input type="text" [class]="inputClass" [value]="patient.person.firstName + ' ' + patient.person.secondName" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Apellidos</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.person.firstLastName + ' ' + patient.person.secondLastName" readonly>
+          <label [class]="labelClass">Apellidos</label>
+          <input type="text" [class]="inputClass" [value]="patient.person.firstLastName + ' ' + patient.person.secondLastName" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Teléfono</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.person.phone" readonly>
+          <label [class]="labelClass">Teléfono</label>
+          <input type="text" [class]="inputClass" [value]="patient.person.phone" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Fecha de Nacimiento</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.person.birthDate" readonly>
+          <label [class]="labelClass">Fecha de Nacimiento</label>
+          <input type="text" [class]="inputClass" [value]="day + '/' + month + '/' + year" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Correo Electrónico</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.person.email" readonly>
+          <label [class]="labelClass">Correo Electrónico</label>
+          <input type="text" [class]="inputClass" [value]="patient.person.email" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Género</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.person.gender.gender" readonly>
+          <label [class]="labelClass">Género</label>
+          <input type="text" [class]="inputClass" [value]="patient.person.gender.gender" readonly>
         </div>
   
         <!-- Información de dirección -->
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Calle y Número</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.address.street.name + ' ' + patient.address.streetNumber + '-' + patient.address.interiorNumber" readonly>
+          <label [class]="labelClass">Calle y Número</label>
+          <input type="text" [class]="inputClass" [value]="patient.address.street.name + ' ' + patient.address.streetNumber + '-' + patient.address.interiorNumber" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Tipo de Vivienda</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.address.housing.category" readonly>
+          <label [class]="labelClass">Tipo de Vivienda</label>
+          <input type="text" [class]="inputClass" [value]="patient.address.housing.category" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Colonia</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.address.street.neighborhood.name" readonly>
+          <label [class]="labelClass">Colonia</label>
+          <input type="text" [class]="inputClass" [value]="patient.address.street.neighborhood.name" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Localidad</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.address.street.neighborhood.locality.name" readonly>
+          <label [class]="labelClass">Localidad</label>
+          <input type="text" [class]="inputClass" [value]="patient.address.street.neighborhood.locality.name" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Municipio</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.address.street.neighborhood.locality.municipality.name" readonly>
+          <label [class]="labelClass">Municipio</label>
+          <input type="text" [class]="inputClass" [value]="patient.address.street.neighborhood.locality.municipality.name" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Estado</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.address.street.neighborhood.locality.municipality.state.name" readonly>
+          <label [class]="labelClass">Estado</label>
+          <input type="text" [class]="inputClass" [value]="patient.address.street.neighborhood.locality.municipality.state.name" readonly>
         </div>
   
         <!-- Información adicional -->
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Estado Civil</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.maritalStatus.maritalStatus" readonly>
+          <label [class]="labelClass">Estado Civil</label>
+          <input type="text" [class]="inputClass" [value]="patient.maritalStatus.maritalStatus" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Ocupación</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.occupation.occupation" readonly>
+          <label [class]="labelClass">Ocupación</label>
+          <input type="text" [class]="inputClass" [value]="patient.occupation.occupation" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Grupo Étnico</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.ethnicGroup.ethnicGroup" readonly>
+          <label [class]="labelClass">Grupo Étnico</label>
+          <input type="text" [class]="inputClass" [value]="patient.ethnicGroup.ethnicGroup" readonly>
         </div>
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-900">Religión</label>
-          <input type="text" class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" [value]="patient.religion.religion" readonly>
+          <label [class]="labelClass">Religión</label>
+          <input type="text" [class]="inputClass" [value]="patient.religion.religion" readonly>
         </div>
       </div>
     </form>

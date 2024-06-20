@@ -1,6 +1,22 @@
+<!-- <p>
+  <mat-label>Primer Nombre:</mat-label><br />
+  <mat-form-field [appearance]="'outline'" class="custom-width">
+    <input matInput type="date" placeholder="Placeholder" />
+  </mat-form-field>
+</p>
+<p>
+  <mat-label>Fecha</mat-label><br>
+  <mat-form-field  [appearance]="'outline'" class="custom-width" >
+    <input matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</p> -->
+
+
+
 <div class="container mx-auto px-4">
   <form (ngSubmit)="createPatient()">
-
     <!-- Datos Personales -->
     <div
       class="block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
@@ -11,14 +27,14 @@
       <div
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-4"
       >
+        <!-- Primer Nombre -->
+      
+
+        
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="firstName"
-            >Nombre:</label
-          >
+          <label [class]="labelClass" for="firstName">Nombre:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="firstName"
             [(ngModel)]="firstName"
@@ -27,13 +43,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="secondName"
-            >Segundo nombre:</label
-          >
+          <label [class]="labelClass" for="secondName">Segundo nombre:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="secondName"
             [(ngModel)]="secondName"
@@ -42,13 +54,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="firstLastName"
+          <label [class]="labelClass" for="firstLastName"
             >Primer apellido:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="firstLastName"
             [(ngModel)]="firstLastName"
@@ -57,13 +67,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="secondLastName"
+          <label [class]="labelClass" for="secondLastName"
             >Segundo apellido:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="secondLastName"
             [(ngModel)]="secondLastName"
@@ -72,28 +80,26 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="curp"
-            >CURP:</label
-          >
+          <label [class]="labelClass" for="curp">CURP:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="curp"
             [(ngModel)]="curp"
             name="curp"
+            maxlength="18"
+            (ngModelChange)="validarCurp()"
           />
+
+          @if (!curpValido && curp.length === 18) {
+          <div class="text-red-600">CURP no válida.</div>
+          }
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="phone"
-            >Teléfono:</label
-          >
+          <label [class]="labelClass" for="phone">Teléfono:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="tel"
             id="phone"
             [(ngModel)]="phone"
@@ -102,13 +108,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="birthDate"
+          <label [class]="labelClass" for="birthDate"
             >Fecha de nacimiento:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="date"
             id="birthDate"
             [(ngModel)]="birthDate"
@@ -118,13 +122,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="email"
-            >Correo electrónico:</label
-          >
+          <label [class]="labelClass" for="email">Correo electrónico:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="email"
             id="email"
             [(ngModel)]="email"
@@ -133,13 +133,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="gender"
-            >Género:</label
-          >
+          <label [class]="labelClass" for="gender">Género:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="gender"
             [formControl]="controlGender"
@@ -168,13 +164,11 @@
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-4"
       >
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="streetNumber"
+          <label [class]="labelClass" for="streetNumber"
             >Número Exterior:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="streetNumber"
             [(ngModel)]="streetNumber"
@@ -183,13 +177,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="interiorNumber"
+          <label [class]="labelClass" for="interiorNumber"
             >Número interior:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="interiorNumber"
             [(ngModel)]="interiorNumber"
@@ -198,13 +190,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="housingCategory"
+          <label [class]="labelClass" for="housingCategory"
             >Categoría de vivienda:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="housingCategory"
             [formControl]="controlHousingData"
@@ -221,13 +211,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="streetName"
-            >Nombre de calle:</label
-          >
+          <label [class]="labelClass" for="streetName">Nombre de calle:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="streetName"
             [formControl]="controlstreetsData"
@@ -244,13 +230,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="neighborhoodName"
+          <label [class]="labelClass" for="neighborhoodName"
             >Nombre de colonia:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="neighborhoodName"
             [formControl]="controlNeighborhood"
@@ -267,13 +251,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="localityName"
+          <label [class]="labelClass" for="localityName"
             >Nombre de localidad:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="localityName"
             [formControl]="controlLocalitie"
@@ -290,13 +272,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="postalCode"
-            >Código postal:</label
-          >
+          <label [class]="labelClass" for="postalCode">Código postal:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="postalCode"
             [(ngModel)]="postalCode"
@@ -305,13 +283,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="municipalityName"
+          <label [class]="labelClass" for="municipalityName"
             >Nombre de municipio:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="municipalityName"
             [formControl]="controlMunicipality"
@@ -329,13 +305,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="stateName"
-            >Nombre de estado:</label
-          >
+          <label [class]="labelClass" for="stateName">Nombre de estado:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="stateName"
             [formControl]="controlState"
@@ -364,13 +336,11 @@
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
       >
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="admissionDate"
+          <label [class]="labelClass" for="admissionDate"
             >Fecha de admisión:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="date"
             id="admissionDate"
             [(ngModel)]="admissionDate"
@@ -379,13 +349,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="nationalityId"
-            >Nacionalidad:</label
-          >
+          <label [class]="labelClass" for="nationalityId">Nacionalidad:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="nationalityName"
             [formControl]="controlNationality"
@@ -402,13 +368,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="maritalStatusId"
+          <label [class]="labelClass" for="maritalStatusId"
             >Estado civil:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="maritalStatusName"
             [formControl]="controlMaritalStatus"
@@ -425,13 +389,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="occupationId"
-            >Ocupación:</label
-          >
+          <label [class]="labelClass" for="occupationId">Ocupación:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="occupationName"
             [formControl]="controlOcupation"
@@ -448,13 +408,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="ethnicGroupId"
-            >Grupo étnico:</label
-          >
+          <label [class]="labelClass" for="ethnicGroupId">Grupo étnico:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="ethnicGroupName"
             [formControl]="controlEthnicGroup"
@@ -471,13 +427,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="religionId"
-            >Religión:</label
-          >
+          <label [class]="labelClass" for="religionId">Religión:</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="religionName"
             [formControl]="controlReligion"
@@ -494,13 +446,9 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="religionId"
-            >Ultima Consulta</label
-          >
+          <label [class]="labelClass" for="religionId">Ultima Consulta</label>
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="date"
             id="religionId"
             name="religionId"
@@ -508,13 +456,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="religionId"
+          <label [class]="labelClass" for="religionId"
             >Motivo de Consulta</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="religionId"
             name="religionId"
@@ -535,13 +481,11 @@
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
       >
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="guardianFirstName"
+          <label [class]="labelClass" for="guardianFirstName"
             >Nombre del tutor:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="guardianFirstName"
             [(ngModel)]="guardianFirstName"
@@ -550,13 +494,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="guardianLastName"
+          <label [class]="labelClass" for="guardianLastName"
             >Apellido del tutor:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="text"
             id="guardianLastName"
             [(ngModel)]="guardianLastName"
@@ -565,13 +507,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="guardianPhone"
+          <label [class]="labelClass" for="guardianPhone"
             >Teléfono del tutor:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="tel"
             id="guardianPhone"
             [(ngModel)]="guardianPhone"
@@ -580,13 +520,11 @@
         </div>
 
         <div class="relative flex-grow w-full">
-          <label
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-            for="guardianEmail"
+          <label [class]="labelClass" for="guardianEmail"
             >Correo electrónico del tutor:</label
           >
           <input
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            [class]="inputClass"
             type="email"
             id="guardianEmail"
             [(ngModel)]="guardianEmail"
@@ -598,12 +536,12 @@
     <br />
     }
     <div class="align-right">
-      <button type="submit" mat-raised-button color="primary"><i class="fas fa-check"></i>Registrar Paciente</button>
+      <button type="submit" mat-raised-button color="primary">
+        <i class="fas fa-check"></i>Registrar Paciente
+      </button>
     </div>
   </form>
 </div>
-
-
 
 <app-alert
   [open]="alertConfig.open"
