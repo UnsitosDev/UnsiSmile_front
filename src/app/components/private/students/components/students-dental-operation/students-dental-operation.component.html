@@ -1,18 +1,18 @@
 <br>
 <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4 bg-white">
     <mat-tab label="FICHA DE IDENTIFICACIÓN">
-        <app-identification-file></app-identification-file>
+        <app-identification-file (eventoEmitido)="vitalSignsEvent($event)"  (cambiarTab)="recibirTab($event)"></app-identification-file>
     </mat-tab>
-    <mat-tab label="SIGNOS VITALES">
-        <app-vital-sings></app-vital-sings>
+    <mat-tab label="SIGNOS VITALES"  [disabled]="vitalSigns">
+        <app-vital-sings (eventoEmitido)="interrogationEvent($event)"  (cambiarTab)="recibirTab($event)"></app-vital-sings>
     </mat-tab>
-    <mat-tab label="INTERROGATORIO">
-        <app-interrogation></app-interrogation>
+    <mat-tab label="INTERROGATORIO"  [disabled]="interrogation">
+        <app-interrogation (eventoEmitido)="pathologicalHistoryEvent($event)"  (cambiarTab)="recibirTab($event)"></app-interrogation>
     </mat-tab>
-    <mat-tab label="EXAMEN PARODONTAL">
-        <app-pathological-history></app-pathological-history>
+    <mat-tab label="EXAMEN PARODONTAL"  [disabled]="pathologicalHistory">
+        <app-pathological-history (eventoEmitido)="explorationOralEvent($event)"  (cambiarTab)="recibirTab($event)"></app-pathological-history>
     </mat-tab>
-    <mat-tab label="EXPLORACIÓN DE LA CAVIDAD BUCAL">
+    <mat-tab label="EXPLORACIÓN DE LA CAVIDAD BUCAL"  [disabled]="explorationOral">
         <app-exploration-oral-cavity></app-exploration-oral-cavity>
     </mat-tab>
 </mat-tab-group>
