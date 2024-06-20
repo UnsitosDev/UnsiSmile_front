@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 
@@ -13,6 +13,24 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
   styleUrl: './periodontic-evaluation.component.scss'
 })
 export class EvaluacionPerodonciaComponent {
+
+
+  
+  @Output() eventoEmitido = new EventEmitter<boolean>();
+  pageNumber: number = 1;
+  emitirEvento() {
+    this.eventoEmitido.emit(false);
+    console.log(false);
+  }
+  @Output() cambiarTab = new EventEmitter<number>();
+  irSiguienteTab() {
+    this.cambiarTab.emit(0);
+  }
+
+  nextPage() {
+    this.emitirEvento();
+    this.irSiguienteTab();
+  }
    // inputs
 
    etiquetasColumnasDerecha = ['8', '7', '6', '5', '4', '3', '2', '1'];
