@@ -5,11 +5,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormControl,
   FormGroup,
+  FormGroupDirective,
   FormsModule,
+  NgForm,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
@@ -23,6 +25,19 @@ import { Observable, map, startWith } from 'rxjs';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
 import { AlertModel } from '@mean/models';
 import { Router, RouterModule } from '@angular/router';
+import { inputClass, labelClass } from 'src/app/utils/inputs';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
+
+import {ChangeDetectionStrategy} from '@angular/core';
+
+
+import {provideNativeDateAdapter} from '@angular/material/core';
+
+
+
 
 interface StateData {
   idState: string;
@@ -131,6 +146,14 @@ interface Genero {
   gender: string;
 }
 
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
 @Component({
   selector: 'app-history-personal-data',
   standalone: true,
@@ -151,13 +174,36 @@ interface Genero {
     ReactiveFormsModule,
     AsyncPipe,
     AlertComponent,
-    RouterModule,
+    RouterModule,MatFormFieldModule, MatInputModule, MatIconModule,  CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule, MatDatepickerModule
     
   ],
+  providers:[provideNativeDateAdapter()],
   templateUrl: './history-personal-data.component.html',
   styleUrl: './history-personal-data.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class HistoryPersonalDataComponent implements OnInit {
+
+  inputClass = inputClass;
+  labelClass = labelClass;
+
+
+
+  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  firstNameFormControl = new FormControl('', [Validators.required]);
+  secondNameFormControl = new FormControl('', [Validators.required]);
+  firstLastNameControl = new FormControl('',[Validators.required]);
+  secondLastNameControl = new FormControl('',[Validators.required]);
+  curpControl = new FormControl('',[Validators.required]);
+  phoneControl = new FormControl('',[Validators.required]);
+  birthdayDateControl = new FormControl('',[Validators.required]);
+
+  matcher = new MyErrorStateMatcher();
 
   // Validar curp
   curpPattern = /^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]{2}$/;

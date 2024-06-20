@@ -11,6 +11,7 @@ import { UriConstants } from '@mean/utils';
 import { patientResponse } from 'src/app/models/shared/patients/patient/patient';
 import { MatButton } from '@angular/material/button';
 import { MatTabGroup } from '@angular/material/tabs';
+import { inputClass, labelClass } from 'src/app/utils/inputs';
 
 @Component({
   selector: 'app-students-patient-detail',
@@ -22,12 +23,17 @@ import { MatTabGroup } from '@angular/material/tabs';
 export class StudentsPatientDetailComponent implements OnInit {
   @Input() idPatient: number = 0;
   public patient!: patientResponse;
-
+  inputClass = inputClass;
+  labelClass = labelClass;
   private patientService = inject(ApiService<patientResponse, {}>);
 
   ngOnInit() {
     this.fetchPatientData();
   }
+
+  year?: number;
+  month?: number;
+  day?: number;
 
   fetchPatientData() {
     this.patientService
@@ -37,7 +43,15 @@ export class StudentsPatientDetailComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.patient = data;
-          console.log('patient data: ', data);
+          // Extraer year, month y day del objeto Date
+          const birthDate = new Date(this.patient.person.birthDate);
+          const year = birthDate.getFullYear();
+          const month = birthDate.getMonth() + 1; // getMonth() devuelve el mes (0-11), sumamos 1 para obtener el mes (1-12)
+          const day = birthDate.getDate();
+          // Asignar los valores a las propiedades
+          this.year = year;
+          this.month = month;
+          this.day = day;
         },
         error: (error) => {},
       });
