@@ -29,8 +29,7 @@ import { StudentsToothComponent } from '../students-tooth/students-tooth.compone
 export class StudentsOdontogramComponent implements OnInit {
   
   //define la estructura de una arcada (odontograma)
-  arcada!:
-    IArcada;
+  arcada: IArcada = store.arcada;
 
   data = store;
 
@@ -57,10 +56,12 @@ export class StudentsOdontogramComponent implements OnInit {
     });
 
     this.odontogramData.getDentalCodesOfAdults().subscribe(dentalCodes => {
+      console.log("ADentalCodes ", dentalCodes);
       this.arcada.adulto = dentalCodes;
     });
 
     this.odontogramData.getDentalCodesOfChilds().subscribe(dentalCodes => {
+      console.log("iDentalCodes", dentalCodes)
       this.arcada.infantil = dentalCodes;
     });
   }

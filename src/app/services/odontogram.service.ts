@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Store } from '@mean/models';
 import { UriConstants } from '../utils/uris.contants';
 import { dentalCodeResponse } from './../components/private/students/components/students-general-history/models/dentalCode/dentalCode';
 import { ApiService } from './api.service';
+import { IStore } from '../models/shared/store';
 
-export const store: Store = {
+export const store: IStore = {
   marked: {
     idCondition: 1,
     selecionado: '',

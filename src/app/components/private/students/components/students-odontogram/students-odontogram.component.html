@@ -4,24 +4,28 @@
       <mat-tab-group [(selectedIndex)]="value">
         <mat-tab label="Adulto">
           <div>
+          @if (arcada.adulto) {
             <app-students-tooth
-              *ngFor="let item of arcada.adulto; let index = index"
-              [data]="item"
-              [index]="index"
-              (toggleTooth)="toggleTooth($event)"
-              (setFace)="setFace($event)"
-            ></app-students-tooth>
+            *ngFor="let item of arcada.adulto; let index = index"
+            [data]="item"
+            [index]="index"
+            (toggleTooth)="toggleTooth($event)"
+            (setFace)="setFace($event)"
+          ></app-students-tooth>
+          }
           </div>
         </mat-tab>
         <mat-tab label="Infantil">
           <div>
-            <app-students-tooth
+            @if (arcada.infantil) {
+              <app-students-tooth
               *ngFor="let item of arcada.infantil; let index = index"
               [data]="item"
               [index]="index"
               (toggleTooth)="toggleTooth($event)"
               (setFace)="setFace($event)"
             ></app-students-tooth>
+            }
           </div>
         </mat-tab>
       </mat-tab-group>

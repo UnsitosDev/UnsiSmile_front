@@ -1,5 +1,5 @@
 // store.interface.ts
-export interface Store {
+export interface IStore {
   marked: IMarked;
   toolbar: {
     opcoes: toothOptions[];
