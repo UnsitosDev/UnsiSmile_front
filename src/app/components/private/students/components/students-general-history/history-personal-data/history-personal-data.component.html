@@ -1,585 +1,551 @@
+<!-- <p>
+  <mat-label>Primer Nombre:</mat-label><br />
+  <mat-form-field [appearance]="'outline'" class="custom-width">
+    <input matInput type="date" placeholder="Placeholder" />
+  </mat-form-field>
+</p>
+<p>
+  <mat-label>Fecha</mat-label><br>
+  <mat-form-field  [appearance]="'outline'" class="custom-width" >
+    <input matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</p> -->
+
+
+
 <div class="container mx-auto px-4">
   <form (ngSubmit)="createPatient()">
-    <h1>Datos personales</h1>
-
+    <!-- Datos Personales -->
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-4"
+      class="block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
     >
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="firstName"
-          >Nombre:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="firstName"
-          [(ngModel)]="firstName"
-          name="firstName"
-        />
-      </div>
+      <h1><i class="fas fa-hospital-user"></i><b>Datos personales</b></h1>
+      <br />
+      <hr />
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-4"
+      >
+        <!-- Primer Nombre -->
+      
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="secondName"
-          >Segundo nombre:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="secondName"
-          [(ngModel)]="secondName"
-          name="secondName"
-        />
-      </div>
+        
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="firstName">Nombre:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="firstName"
+            [(ngModel)]="firstName"
+            name="firstName"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="firstLastName"
-          >Primer apellido:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="firstLastName"
-          [(ngModel)]="firstLastName"
-          name="firstLastName"
-        />
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="secondName">Segundo nombre:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="secondName"
+            [(ngModel)]="secondName"
+            name="secondName"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="secondLastName"
-          >Segundo apellido:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="secondLastName"
-          [(ngModel)]="secondLastName"
-          name="secondLastName"
-        />
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="firstLastName"
+            >Primer apellido:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="firstLastName"
+            [(ngModel)]="firstLastName"
+            name="firstLastName"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="curp"
-          >CURP:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="curp"
-          [(ngModel)]="curp"
-          name="curp"
-        />
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="secondLastName"
+            >Segundo apellido:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="secondLastName"
+            [(ngModel)]="secondLastName"
+            name="secondLastName"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="phone"
-          >Teléfono:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="tel"
-          id="phone"
-          [(ngModel)]="phone"
-          name="phone"
-        />
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="curp">CURP:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="curp"
+            [(ngModel)]="curp"
+            name="curp"
+            maxlength="18"
+            (ngModelChange)="validarCurp()"
+          />
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="birthDate"
-          >Fecha de nacimiento:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="date"
-          id="birthDate"
-          [(ngModel)]="birthDate"
-          (change)="onFechaNacimientoChange()"
-          name="birthDate"
-        />
-      </div>
-
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="email"
-          >Correo electrónico:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="email"
-          id="email"
-          [(ngModel)]="email"
-          name="email"
-        />
-      </div>
-
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="gender"
-          >Género:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="gender"
-          [formControl]="controlGender"
-          [matAutocomplete]="autoGender"
-          [(ngModel)]="gender"
-          (focus)="findGender()"
-          name="gender"
-        />
-        <mat-autocomplete #autoGender="matAutocomplete">
-          @for (item of filterGender | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
+          @if (!curpValido && curp.length === 18) {
+          <div class="text-red-600">CURP no válida.</div>
           }
-        </mat-autocomplete>
+        </div>
+
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="phone">Teléfono:</label>
+          <input
+            [class]="inputClass"
+            type="tel"
+            id="phone"
+            [(ngModel)]="phone"
+            name="phone"
+          />
+        </div>
+
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="birthDate"
+            >Fecha de nacimiento:</label
+          >
+          <input
+            [class]="inputClass"
+            type="date"
+            id="birthDate"
+            [(ngModel)]="birthDate"
+            (change)="onFechaNacimientoChange()"
+            name="birthDate"
+          />
+        </div>
+
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="email">Correo electrónico:</label>
+          <input
+            [class]="inputClass"
+            type="email"
+            id="email"
+            [(ngModel)]="email"
+            name="email"
+          />
+        </div>
+
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="gender">Género:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="gender"
+            [formControl]="controlGender"
+            [matAutocomplete]="autoGender"
+            [(ngModel)]="gender"
+            (focus)="findGender()"
+            name="gender"
+          />
+          <mat-autocomplete #autoGender="matAutocomplete">
+            @for (item of filterGender | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
       </div>
     </div>
-
-    <h1>Domicilio</h1>
-
+    <br />
+    <!-- Domicilio -->
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-4"
+      class="block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
     >
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="streetNumber"
-          >Número Exterior:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="streetNumber"
-          [(ngModel)]="streetNumber"
-          name="streetNumber"
-        />
-      </div>
+      <h1><i class="fas fa-map-marked-alt"></i><b>Domicilio</b></h1>
+      <br />
+      <hr />
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-4"
+      >
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="streetNumber"
+            >Número Exterior:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="streetNumber"
+            [(ngModel)]="streetNumber"
+            name="streetNumber"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="interiorNumber"
-          >Número interior:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="interiorNumber"
-          [(ngModel)]="interiorNumber"
-          name="interiorNumber"
-        />
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="interiorNumber"
+            >Número interior:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="interiorNumber"
+            [(ngModel)]="interiorNumber"
+            name="interiorNumber"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="housingCategory"
-          >Categoría de vivienda:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="housingCategory"
-          [formControl]="controlHousingData"
-          [matAutocomplete]="autoHousing"
-          [(ngModel)]="housingCategory"
-          name="housingCategory"
-          (focus)="findHousing()"
-        />
-        <mat-autocomplete #autoHousing="matAutocomplete">
-          @for (item of filterHousingData | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="housingCategory"
+            >Categoría de vivienda:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="housingCategory"
+            [formControl]="controlHousingData"
+            [matAutocomplete]="autoHousing"
+            [(ngModel)]="housingCategory"
+            name="housingCategory"
+            (focus)="findHousing()"
+          />
+          <mat-autocomplete #autoHousing="matAutocomplete">
+            @for (item of filterHousingData | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="streetName"
-          >Nombre de calle:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="streetName"
-          [formControl]="controlstreetsData"
-          [matAutocomplete]="autoStreet"
-          [(ngModel)]="streetName"
-          name="streetName"
-          (focus)="findStreet()"
-        />
-        <mat-autocomplete #autoStreet="matAutocomplete">
-          @for (item of filterStreetsData | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="streetName">Nombre de calle:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="streetName"
+            [formControl]="controlstreetsData"
+            [matAutocomplete]="autoStreet"
+            [(ngModel)]="streetName"
+            name="streetName"
+            (focus)="findStreet()"
+          />
+          <mat-autocomplete #autoStreet="matAutocomplete">
+            @for (item of filterStreetsData | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="neighborhoodName"
-          >Nombre de colonia:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="neighborhoodName"
-          [formControl]="controlNeighborhood"
-          [matAutocomplete]="autoNeighborhood"
-          [(ngModel)]="neighborhoodName"
-          name="neighborhoodName"
-          (focus)="findNeighborhood()"
-        />
-        <mat-autocomplete #autoNeighborhood="matAutocomplete">
-          @for (item of filterNeighborhood | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="neighborhoodName"
+            >Nombre de colonia:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="neighborhoodName"
+            [formControl]="controlNeighborhood"
+            [matAutocomplete]="autoNeighborhood"
+            [(ngModel)]="neighborhoodName"
+            name="neighborhoodName"
+            (focus)="findNeighborhood()"
+          />
+          <mat-autocomplete #autoNeighborhood="matAutocomplete">
+            @for (item of filterNeighborhood | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="localityName"
-          >Nombre de localidad:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="localityName"
-          [formControl]="controlLocalitie"
-          [matAutocomplete]="autoLocality"
-          [(ngModel)]="localityName"
-          name="localityName"
-          (focus)="findLocality()"
-        />
-        <mat-autocomplete #autoLocality="matAutocomplete">
-          @for (item of filteredLocality | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="localityName"
+            >Nombre de localidad:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="localityName"
+            [formControl]="controlLocalitie"
+            [matAutocomplete]="autoLocality"
+            [(ngModel)]="localityName"
+            name="localityName"
+            (focus)="findLocality()"
+          />
+          <mat-autocomplete #autoLocality="matAutocomplete">
+            @for (item of filteredLocality | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="postalCode"
-          >Código postal:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="postalCode"
-          [(ngModel)]="postalCode"
-          name="postalCode"
-        />
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="postalCode">Código postal:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="postalCode"
+            [(ngModel)]="postalCode"
+            name="postalCode"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="municipalityName"
-          >Nombre de municipio:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="municipalityName"
-          [formControl]="controlMunicipality"
-          [matAutocomplete]="autoMunicipality"
-          [(ngModel)]="municipalityName"
-          name="municipalityName"
-          (input)="getMunicipalityData()"
-          (focus)="findMunicipality()"
-        />
-        <mat-autocomplete #autoMunicipality="matAutocomplete">
-          @for (item of filterMunicipality | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="municipalityName"
+            >Nombre de municipio:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="municipalityName"
+            [formControl]="controlMunicipality"
+            [matAutocomplete]="autoMunicipality"
+            [(ngModel)]="municipalityName"
+            name="municipalityName"
+            (input)="getMunicipalityData()"
+            (focus)="findMunicipality()"
+          />
+          <mat-autocomplete #autoMunicipality="matAutocomplete">
+            @for (item of filterMunicipality | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="stateName"
-          >Nombre de estado:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="stateName"
-          [formControl]="controlState"
-          [matAutocomplete]="autoState"
-          [(ngModel)]="stateName"
-          name="stateName"
-          (focus)="findState()"
-        />
-        <mat-autocomplete #autoState="matAutocomplete">
-          @for (item of filterSates | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="stateName">Nombre de estado:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="stateName"
+            [formControl]="controlState"
+            [matAutocomplete]="autoState"
+            [(ngModel)]="stateName"
+            name="stateName"
+            (focus)="findState()"
+          />
+          <mat-autocomplete #autoState="matAutocomplete">
+            @for (item of filterSates | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
       </div>
     </div>
-
-    <h1>Otros datos</h1>
-
+    <br />
+    <!-- Otros datos -->
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
+      class="block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
     >
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="admissionDate"
-          >Fecha de admisión:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="date"
-          id="admissionDate"
-          [(ngModel)]="admissionDate"
-          name="admissionDate"
-        />
-      </div>
+      <h1><i class="fas fa-file-signature"></i><b>Otros datos</b></h1>
+      <br />
+      <hr />
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
+      >
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="admissionDate"
+            >Fecha de admisión:</label
+          >
+          <input
+            [class]="inputClass"
+            type="date"
+            id="admissionDate"
+            [(ngModel)]="admissionDate"
+            name="admissionDate"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="nationalityId"
-          >Nacionalidad:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="nationalityName"
-          [formControl]="controlNationality"
-          [matAutocomplete]="autoNationality"
-          [(ngModel)]="nationalityName"
-          name="nationalityName"
-          (focus)="findNationality()"
-        />
-        <mat-autocomplete #autoNationality="matAutocomplete">
-          @for (item of filteredNationality | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="nationalityId">Nacionalidad:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="nationalityName"
+            [formControl]="controlNationality"
+            [matAutocomplete]="autoNationality"
+            [(ngModel)]="nationalityName"
+            name="nationalityName"
+            (focus)="findNationality()"
+          />
+          <mat-autocomplete #autoNationality="matAutocomplete">
+            @for (item of filteredNationality | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="maritalStatusId"
-          >Estado civil:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="maritalStatusName"
-          [formControl]="controlMaritalStatus"
-          [matAutocomplete]="autoMaritalStatus"
-          [(ngModel)]="maritalStatusName"
-          name="maritalStatusName"
-          (focus)="findMaritalStatus()"
-        />
-        <mat-autocomplete #autoMaritalStatus="matAutocomplete">
-          @for (item of filteredMaritalStatus | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="maritalStatusId"
+            >Estado civil:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="maritalStatusName"
+            [formControl]="controlMaritalStatus"
+            [matAutocomplete]="autoMaritalStatus"
+            [(ngModel)]="maritalStatusName"
+            name="maritalStatusName"
+            (focus)="findMaritalStatus()"
+          />
+          <mat-autocomplete #autoMaritalStatus="matAutocomplete">
+            @for (item of filteredMaritalStatus | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="occupationId"
-          >Ocupación:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="occupationName"
-          [formControl]="controlOcupation"
-          [matAutocomplete]="autoOcupation"
-          [(ngModel)]="occupationName"
-          name="occupationName"
-          (focus)="findOccupation()"
-        />
-        <mat-autocomplete #autoOcupation="matAutocomplete">
-          @for (item of filteredOcupations | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="occupationId">Ocupación:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="occupationName"
+            [formControl]="controlOcupation"
+            [matAutocomplete]="autoOcupation"
+            [(ngModel)]="occupationName"
+            name="occupationName"
+            (focus)="findOccupation()"
+          />
+          <mat-autocomplete #autoOcupation="matAutocomplete">
+            @for (item of filteredOcupations | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="ethnicGroupId"
-          >Grupo étnico:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="ethnicGroupName"
-          [formControl]="controlEthnicGroup"
-          [matAutocomplete]="auto"
-          [(ngModel)]="ethnicGroupName"
-          name="ethnicGroupName"
-          (focus)="findEthnicGroup()"
-        />
-        <mat-autocomplete #auto="matAutocomplete">
-          @for (item of filteredEthnicGroup | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="ethnicGroupId">Grupo étnico:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="ethnicGroupName"
+            [formControl]="controlEthnicGroup"
+            [matAutocomplete]="auto"
+            [(ngModel)]="ethnicGroupName"
+            name="ethnicGroupName"
+            (focus)="findEthnicGroup()"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            @for (item of filteredEthnicGroup | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="religionId"
-          >Religión:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="religionName"
-          [formControl]="controlReligion"
-          [matAutocomplete]="autoReligion"
-          [(ngModel)]="religionName"
-          name="religionName"
-          (focus)="findReligion()"
-        />
-        <mat-autocomplete #autoReligion="matAutocomplete">
-          @for (item of filteredReligion | async; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-autocomplete>
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="religionId">Religión:</label>
+          <input
+            [class]="inputClass"
+            type="text"
+            id="religionName"
+            [formControl]="controlReligion"
+            [matAutocomplete]="autoReligion"
+            [(ngModel)]="religionName"
+            name="religionName"
+            (focus)="findReligion()"
+          />
+          <mat-autocomplete #autoReligion="matAutocomplete">
+            @for (item of filteredReligion | async; track item) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-autocomplete>
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="religionId"
-          >Ultima Consulta</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="date"
-          id="religionId"
-          name="religionId"
-        />
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="religionId">Ultima Consulta</label>
+          <input
+            [class]="inputClass"
+            type="date"
+            id="religionId"
+            name="religionId"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="religionId"
-          >Motivo de Consulta</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="religionId"
-          name="religionId"
-        />
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="religionId"
+            >Motivo de Consulta</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="religionId"
+            name="religionId"
+          />
+        </div>
       </div>
     </div>
-
+    <br />
+    <!-- Datos del tutor -->
     @if (youngerForm) {
-    <h1>Datos del tutor</h1>
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
+      class="block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
     >
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="guardianFirstName"
-          >Nombre del tutor:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="guardianFirstName"
-          [(ngModel)]="guardianFirstName"
-          name="guardianFirstName"
-        />
-      </div>
+      <h1><i class="fas fa-user-friends"></i><b>Datos del tutor</b></h1>
+      <br />
+      <hr />
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
+      >
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="guardianFirstName"
+            >Nombre del tutor:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="guardianFirstName"
+            [(ngModel)]="guardianFirstName"
+            name="guardianFirstName"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="guardianLastName"
-          >Apellido del tutor:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          id="guardianLastName"
-          [(ngModel)]="guardianLastName"
-          name="guardianLastName"
-        />
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="guardianLastName"
+            >Apellido del tutor:</label
+          >
+          <input
+            [class]="inputClass"
+            type="text"
+            id="guardianLastName"
+            [(ngModel)]="guardianLastName"
+            name="guardianLastName"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="guardianPhone"
-          >Teléfono del tutor:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="tel"
-          id="guardianPhone"
-          [(ngModel)]="guardianPhone"
-          name="guardianPhone"
-        />
-      </div>
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="guardianPhone"
+            >Teléfono del tutor:</label
+          >
+          <input
+            [class]="inputClass"
+            type="tel"
+            id="guardianPhone"
+            [(ngModel)]="guardianPhone"
+            name="guardianPhone"
+          />
+        </div>
 
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          for="guardianEmail"
-          >Correo electrónico del tutor:</label
-        >
-        <input
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="email"
-          id="guardianEmail"
-          [(ngModel)]="guardianEmail"
-          name="guardianEmail"
-        />
+        <div class="relative flex-grow w-full">
+          <label [class]="labelClass" for="guardianEmail"
+            >Correo electrónico del tutor:</label
+          >
+          <input
+            [class]="inputClass"
+            type="email"
+            id="guardianEmail"
+            [(ngModel)]="guardianEmail"
+            name="guardianEmail"
+          />
+        </div>
       </div>
     </div>
+    <br />
     }
-
-    <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
-      <button type="submit" mat-raised-button color="primary">Siguiente</button>
+    <div class="align-right">
+      <button type="submit" mat-raised-button color="primary">
+        <i class="fas fa-check"></i>Registrar Paciente
+      </button>
     </div>
   </form>
 </div>
 
 <app-alert
-[open]="alertConfig.open"
-[singleMessage]="alertConfig.singleMessage"
-[severity]="alertConfig.severity"
-(eventCloseToast)="closeAlert()"
+  [open]="alertConfig.open"
+  [singleMessage]="alertConfig.singleMessage"
+  [severity]="alertConfig.severity"
+  (eventCloseToast)="closeAlert()"
 ></app-alert>

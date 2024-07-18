@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { ApiService } from './../../../../../../services/api.service';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UriConstants } from '@mean/utils';
@@ -12,21 +12,23 @@ import { openQuestionPathologicalAntecedentsRequest } from '../models/openQuesti
   standalone: true,
   imports: [MatCheckboxModule, MatButtonModule],
   templateUrl: './pathological-personal-history.component.html',
-  styleUrl: './pathological-personal-history.component.scss'
+  styleUrl: './pathological-personal-history.component.scss',
 })
 export class PathologicalPersonalHistoryComponent implements OnInit {
+  private apiService = inject(
+    ApiService<closedQuestionPathologicalAntecedentsRequest>
+  );
 
-  private apiService = inject(ApiService<closedQuestionPathologicalAntecedentsRequest>);
-
-  constructor(){}
+  constructor() {}
 
   ngOnInit(): void {
     this.getPathologicalPersonHistory();
     this.getQuestionsPathologicalPersonHistory();
   }
 
-  questionsPathologicalPersonData: closedQuestionPathologicalAntecedentsRequest[]=[];
-  getPathologicalPersonHistory(){
+  questionsPathologicalPersonData: closedQuestionPathologicalAntecedentsRequest[] =
+    [];
+  getPathologicalPersonHistory() {
     this.apiService
       .getListService({
         headers: new HttpHeaders({
@@ -44,10 +46,11 @@ export class PathologicalPersonalHistoryComponent implements OnInit {
           console.error('Error en la autenticación:', error);
         },
       });
-   }
+  }
 
-   getOpenQuestionsPhatologicalData: openQuestionPathologicalAntecedentsRequest [] = [];
-   getQuestionsPathologicalPersonHistory(){
+  getOpenQuestionsPhatologicalData: openQuestionPathologicalAntecedentsRequest[] =
+    [];
+  getQuestionsPathologicalPersonHistory() {
     this.apiService
       .getListService({
         headers: new HttpHeaders({
@@ -65,5 +68,21 @@ export class PathologicalPersonalHistoryComponent implements OnInit {
           console.error('Error en la autenticación:', error);
         },
       });
-   }
+  }
+
+  sendData() {
+    this.emitirEvento();
+    this.irSiguienteTab();
+  }
+
+  @Output() eventoEmitido = new EventEmitter<boolean>();
+  pageNumber: number = 1;
+  emitirEvento() {
+    this.eventoEmitido.emit(false);
+    console.log(false);
+  }
+  @Output() cambiarTab = new EventEmitter<number>();
+  irSiguienteTab() {
+    this.cambiarTab.emit(0);
+  }
 }

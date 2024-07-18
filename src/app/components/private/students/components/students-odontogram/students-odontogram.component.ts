@@ -1,6 +1,8 @@
 import { tooth, IArcada } from './../../../../../models/shared/store';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { StudentsToothComponent } from '../students-tooth/students-tooth.component';
 import { NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { toothOptions } from '@mean/models';
@@ -9,8 +11,6 @@ import { OdontogramData } from 'src/app/services/odontogram-data.service';
 import { dentalCodeResponse } from '../students-general-history/models/dentalCode/dentalCode';
 import { toothConditionResponse } from '../students-general-history/models/toothCondition/toothCondition';
 import { StudentsToolbarComponent } from '../students-odontogram-toolbar/students-toolbar.component';
-import { StudentsToothComponent } from '../students-tooth/students-tooth.component';
-
 @Component({
   selector: 'app-students-odontogram',
   standalone: true,
@@ -109,6 +109,21 @@ export class StudentsOdontogramComponent implements OnInit {
     const color = this.marked.cor;
   }
 
+  sendData() {
+    this.emitirEvento();
+    this.irSiguienteTab();
+  }
+
+  @Output() eventoEmitido = new EventEmitter<boolean>();
+  pageNumber: number = 1;
+  emitirEvento() {
+    this.eventoEmitido.emit(false);
+    console.log(false);
+  }
+  @Output() cambiarTab = new EventEmitter<number>();
+  irSiguienteTab() {
+    this.cambiarTab.emit(0);
+  }
   store() {
     console.log(this.data);
   }

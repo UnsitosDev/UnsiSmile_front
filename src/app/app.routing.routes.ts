@@ -5,6 +5,8 @@ import { StudentsOdontogramComponent } from './components/private/students/compo
 import { StudentsGeneralHistoryComponent } from './components/private/students/components/students-general-history/students-general-history.component';
 import { StudentsPeriodonticsHistoryComponent } from './components/private/students/components/students-periodontics-history/students-periodontics-history.component';
 import { HistoryPersonalDataComponent } from './components/private/students/components/students-general-history/history-personal-data/history-personal-data.component';
+import { StudentsOralSurgeryHistoryComponent } from './components/private/students/components/students-oral-surgery-history/students-oral-surgery-history.component';
+import { StudentsDentalOperationComponent } from './components/private/students/components/students-dental-operation/students-dental-operation.component';
 
 const routes: Routes = [
   {
@@ -40,6 +42,14 @@ const routes: Routes = [
       {
         path: 'periodontics',
         component: StudentsPeriodonticsHistoryComponent
+      },
+      {
+        path: 'OralSurgery',
+        component: StudentsOralSurgeryHistoryComponent
+      },
+      {
+        path: 'DentalOperation',
+        component: StudentsDentalOperationComponent
       },
       {
         path: 'addPatient',

@@ -1,0 +1,65 @@
+<div class="mx-4">
+    <form>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16">
+        <!-- Peso -->
+        <div class="relative flex-grow w-full">
+          <label
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+            >Peso</label
+          >
+          <input
+            type="number"
+            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <!-- Presión Arterial -->
+        <div class="relative flex-grow w-full">
+            <label
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+              >Presión Arterial</label
+            >
+            <input
+              type="number"
+              class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
+        <!-- Pulso -->
+        <div class="relative flex-grow w-full">
+            <label
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+              >Pulso</label
+            >
+            <input
+              type="number"
+              class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
+        <!-- Temperatura -->
+        <div class="relative flex-grow w-full">
+            <label
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+              >Temperatura</label
+            >
+            <input
+              type="number"
+              class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
+        <!-- Glucosa -->
+        <div class="relative flex-grow w-full">
+          <label
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+            >Glucosa</label
+          >
+          <input
+            type="number"
+            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+      </div>
+      <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
+        <button (click)="nextPage()" mat-raised-button color="primary">  Continuar</button>
+      </div>
+    </form>
+  </div>
+  
