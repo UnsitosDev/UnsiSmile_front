@@ -9,7 +9,7 @@ export interface IStore {
 
 export interface toothOptions {
   idCondition: number;
-  nome: string;
+  name: string;
   uiTooth: uiTooth;
 }
 
@@ -21,7 +21,7 @@ export interface uiTooth {
 
 export interface tooth {
   id: number;
-  nome: string;
+  name: string;
   status: boolean;
   css?: string;
   faces: faces[]
@@ -30,7 +30,7 @@ export interface tooth {
 
 export interface faces {
   id: string;
-  nome: string;
+  name: string;
   estado: string;
   idCondition: number;
 }

@@ -27,7 +27,7 @@ export class OdontogramData {
     return conditions.map((condition) => {
       return {
         idCondition: condition.idToothCondition,
-        nome: condition.description,
+        name: condition.description,
         uiTooth: this.getColorForCondition(condition.description),
       };
     });
@@ -131,37 +131,37 @@ export class OdontogramData {
       .map((tooth) => {
         return {
           id: tooth.idDentalCode,
-          nome: tooth.code,
+          name: tooth.code,
           status: true,
           css: this.getCssById(tooth.code),
           faces: [
             {
               id: tooth.code,
-              nome: 'face',
+              name: 'face',
               estado: 'white',
               idCondition: 1,
             },
             {
               id: tooth.code,
-              nome: 'face',
+              name: 'face',
               estado: 'white',
               idCondition: 1,
             },
             {
               id: tooth.code,
-              nome: 'face',
+              name: 'face',
               estado: 'white',
               idCondition: 1,
             },
             {
               id: tooth.code,
-              nome: 'face',
+              name: 'face',
               estado: 'white',
               idCondition: 1,
             },
             {
               id: tooth.code,
-              nome: 'face',
+              name: 'face',
               estado: 'white',
               idCondition: 1,
             },
@@ -184,37 +184,37 @@ export class OdontogramData {
       .map((tooth) => {
         return {
           id: tooth.idDentalCode,
-          nome: tooth.code,
+          name: tooth.code,
           status: true,
           css: this.getCssById(tooth.code),
           faces: [
             {
               id: tooth.code,
-              nome: 'face',
+              name: 'face',
               estado: 'white',
               idCondition: 1,
             },
             {
               id: tooth.code,
-              nome: 'face',
+              name: 'face',
               estado: 'white',
               idCondition: 1,
             },
             {
               id: tooth.code,
-              nome: 'face',
+              name: 'face',
               estado: 'white',
               idCondition: 1,
             },
             {
               id: tooth.code,
-              nome: 'face',
-              estado: 'white',
+              name: 'face',
+              estado: 'withe',
               idCondition: 1,
             },
             {
               id: tooth.code,
-              nome: 'face',
+              name: 'face',
               estado: 'white',
               idCondition: 1,
             },
