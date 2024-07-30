@@ -10,7 +10,7 @@ export const store: IStore = {
     idCondition: 4,
     selecionado: 'white',
     uiTooth: {
-      cor: 'white',
+      color: 'white',
       all: '',
     },
   },
@@ -20,7 +20,7 @@ export const store: IStore = {
         idCondition: 4,
         name: 'Diente presente',
         uiTooth: {
-          cor: '✓',
+          color: '✓',
           icon: '✓',
         },
       },
@@ -28,21 +28,21 @@ export const store: IStore = {
         idCondition: 4,
         name: 'Diente Obturado',
         uiTooth: {
-          cor: 'teal',
+          color: 'teal',
         },
       },
       {
         idCondition: 4,
         name: 'Diente con corona',
         uiTooth: {
-          cor: 'blue',
+          color: 'blue',
         },
       },
       {
         idCondition: 4,
         name: 'Diente Cariado',
         uiTooth: {
-          cor: 'red',
+          color: 'red',
         },
       },
       {
@@ -50,7 +50,7 @@ export const store: IStore = {
         idCondition: 4,
 
         uiTooth: {
-          cor: 'F',
+          color: 'F',
           icon: 'F',
         },
       },
@@ -60,7 +60,7 @@ export const store: IStore = {
 
         uiTooth: {
           icon: 'H',
-          cor: 'H',
+          color: 'H',
         },
       },
       {
@@ -69,7 +69,7 @@ export const store: IStore = {
 
         uiTooth: {
           icon: '⤻',
-          cor: '⤻',
+          color: '⤻',
         },
       },
       {
@@ -78,7 +78,7 @@ export const store: IStore = {
 
         uiTooth: {
           icon: '──',
-          cor: '──',
+          color: '──',
         },
       },
       {
@@ -86,7 +86,7 @@ export const store: IStore = {
         idCondition: 4,
 
         uiTooth: {
-          cor: 'E/C',
+          color: 'E/C',
           icon: 'E/C',
         },
       },
@@ -96,7 +96,7 @@ export const store: IStore = {
 
         uiTooth: {
           icon: 'E/B',
-          cor: 'E/B',
+          color: 'E/B',
         },
       },
       {
@@ -105,7 +105,7 @@ export const store: IStore = {
 
         uiTooth: {
           icon: '───',
-          cor: '───',
+          color: '───',
         },
       },
       {
@@ -114,7 +114,7 @@ export const store: IStore = {
 
         uiTooth: {
           icon: '──',
-          cor: 'pr',
+          color: 'pr',
         },
       },
       {
@@ -123,7 +123,7 @@ export const store: IStore = {
 
         uiTooth: {
           icon: '△',
-          cor: '△',
+          color: '△',
         },
       },
       {
@@ -132,7 +132,7 @@ export const store: IStore = {
 
         uiTooth: {
           icon: '◻︎',
-          cor: '◻︎',
+          color: '◻︎',
         },
       },
     ],

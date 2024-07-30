@@ -14,7 +14,7 @@ export interface toothOptions {
 }
 
 export interface uiTooth {
-  cor?: string;
+  color?: string;
   icon?: string;
   all?: string;
 }

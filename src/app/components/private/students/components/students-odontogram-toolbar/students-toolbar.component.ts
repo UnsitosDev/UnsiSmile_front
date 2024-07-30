@@ -22,6 +22,6 @@ export class StudentsToolbarComponent {
    */
   onButtonClicked(item: toothOptions): void {
     // Se emite un evento handleAction con información sobre el botón clickeado.
-    this.handleAction.emit({cor: item.uiTooth.cor, nome: item.name, icon: item.uiTooth.icon, all: item.uiTooth.all, idCondition: item.idCondition});
+    this.handleAction.emit({cor: item.uiTooth.color, nome: item.name, icon: item.uiTooth.icon, all: item.uiTooth.all, idCondition: item.idCondition});
   }
 }

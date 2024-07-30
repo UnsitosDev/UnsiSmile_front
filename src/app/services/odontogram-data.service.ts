@@ -37,82 +37,82 @@ export class OdontogramData {
     switch (condition) {
       case 'Diente obturado con caries':
         return {
-          cor: 'red',
+          color: 'red',
         };
       case 'Diente con fluorosis':
         return {
-          cor: 'F',
+          color: 'F',
           icon: 'F',
         };
       case 'Diente con fractura':
         return {
-          cor: 'F',
+          color: 'F',
           icon: 'F',
         };
       case 'Diente en mal posición':
         return {
           icon: '⤻',
-          cor: '⤻',
+          color: '⤻',
         };
       case 'Diente extraido':
         return {
           icon: '△',
-          cor: '△',
+          color: '△',
         };
       case 'Diente cariado':
         return {
-          cor: 'red',
+          color: 'red',
         };
       case 'Fístula':
         return {
-          cor: 'red',
+          color: 'red',
         };
       case 'Puente':
         return {
           icon: '───',
-          cor: '───',
+          color: '───',
         };
       case 'Prótesis removible':
         return {
           icon: '──',
-          cor: 'pr',
+          color: 'pr',
         };
       case 'Diente con hipoplasia':
         return {
           icon: 'H',
-          cor: 'H',
+          color: 'H',
         };
       case 'Mantenedor de espacio con corona':
         return {
-          cor: 'E/C',
+          color: 'E/C',
           icon: 'E/C',
         };
       case 'mantenedor de espacio con banda':
         return {
           icon: 'E/B',
-          cor: 'E/B',
+          color: 'E/B',
         };
       case 'Diente con corona':
         return {
-          cor: 'blue',
+          color: 'blue',
         };
       case 'Diente obturado':
         return {
-          cor: 'teal',
+          color: 'teal',
         };
       case 'Diente parcialmente erupcionado':
         return {
           icon: '──',
-          cor: '──',
+          color: '──',
         };
       case 'Diente presente':
         return {
-          cor: '✓',
+          color: '✓',
           icon: '✓',
         };
       default:
         return {
-          cor: 'white',
+          color: 'white',
         }; // Default color if condition not found
     }
   }

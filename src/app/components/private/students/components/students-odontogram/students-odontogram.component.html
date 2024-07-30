@@ -5,15 +5,15 @@
         <mat-tab label="Adulto">
           <div>
             @if (arcada.adulto) { 
-              <!-- @for (item of arcada.adulto; track $index) { -->
+              @for (item of arcada.adulto; track $index) {
               <app-students-tooth
-                [data]="arcada.adulto[1]"
-                [index]="1"
+                [data]="item"
+                [index]="$index"
                 (toggleTooth)="toggleTooth($event)"
                 (setFace)="setFace($event)"
               ></app-students-tooth>
               
-            <!-- }  -->
+            } 
           }
           </div>
         </mat-tab>
