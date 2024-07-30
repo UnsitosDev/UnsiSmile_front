@@ -1,12 +1,12 @@
 <div class="box-toolbar clear">
-    <ng-container *ngFor="let item of toolbar.opcoes">
-      <button 
-        type="button" 
-        class="bt-toolbar" 
-        (click)="onButtonClicked(item)">
-        <span class="color-bar" [style.background-color]="item.cor">&nbsp;&nbsp;&nbsp;</span>
-        <b>{{ item.icon }} </b>     
-        {{ item.nome }}
-      </button>
-    </ng-container>
-  </div>
+  @for (item of toolbar.opcoes; track item) {
+    <button
+      type="button"
+      class="bt-toolbar"
+      (click)="onButtonClicked(item)">
+      <span class="color-bar" [style.background-color]="item.cor">&nbsp;&nbsp;&nbsp;</span>
+      <b>{{ item.icon }} </b>
+      {{ item.nome }}
+    </button>
+  }
+</div>

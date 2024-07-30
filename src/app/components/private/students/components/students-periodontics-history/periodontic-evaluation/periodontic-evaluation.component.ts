@@ -1,6 +1,6 @@
 
 import { Component, EventEmitter, Output } from '@angular/core';
-import { NgFor } from '@angular/common';
+
 import { MatButton, MatButtonModule } from '@angular/material/button';
 
 
@@ -8,7 +8,7 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-evaluacion-perodoncia',
   standalone: true,
-  imports: [NgFor, MatButtonModule],
+  imports: [MatButtonModule],
    templateUrl: './periodontic-evaluation.component.html',
   styleUrl: './periodontic-evaluation.component.scss'
 })

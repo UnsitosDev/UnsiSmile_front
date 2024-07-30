@@ -1,11 +1,11 @@
 import { toothOptions, uiTooth } from './../../../../../models/shared/store';
-import { NgFor } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-students-toolbar',
   standalone: true,
-  imports: [NgFor],
+  imports: [],
   templateUrl: './students-toolbar.component.html',
   styleUrl: './students-toolbar.component.scss',
 })

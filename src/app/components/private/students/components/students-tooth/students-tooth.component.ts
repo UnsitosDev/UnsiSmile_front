@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -14,7 +14,7 @@ interface Face {
 @Component({
   selector: 'app-students-tooth',
   standalone: true,
-  imports: [NgClass, NgIf],
+  imports: [NgClass],
   templateUrl: './students-tooth.component.html',
   styleUrl: './students-tooth.component.scss',
 })

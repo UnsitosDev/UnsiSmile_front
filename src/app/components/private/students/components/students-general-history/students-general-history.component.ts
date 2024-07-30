@@ -5,7 +5,7 @@ import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { HistoryPersonalDataComponent } from './history-personal-data/history-personal-data.component';
 import { HistoryVitalSignsComponent } from './history-vital-signs/history-vital-signs.component';
 //import { HistoryFacialExamComponent } from './history-facial-exam/history-facial-exam.component';
-import { CommonModule } from '@angular/common';
+
 import { MatDialogModule } from '@angular/material/dialog';
 import { StudentsOdontogramComponent } from '../students-odontogram/students-odontogram.component';
 import { HistoryFacialExamComponent } from './history-facial-exam/history-facial-exam.component';
@@ -34,11 +34,10 @@ import { patientResponse } from 'src/app/models/shared/patients/patient/patient'
     HistoryInitialBagComponent,
     HistoryMultidiciplinaryEvaluationComponent,
     MatDialogModule,
-    CommonModule,
     MatTabsModule,
     MatDialogModule,
-    StudentsPatientDetailComponent,
-  ],
+    StudentsPatientDetailComponent
+],
 })
 export class StudentsGeneralHistoryComponent implements OnInit {
   public id!: number;

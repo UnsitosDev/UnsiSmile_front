@@ -1,5 +1,9 @@
 <div [ngClass]="data.css !== '' ? 'boxTooth ' + data.css : 'boxTooth'">
-  <button *ngIf="data.status; else addButton" class="removeButton" (click)="toggleTooth.emit(data)">-</button>
+  @if (data.status) {
+    <button class="removeButton" (click)="toggleTooth.emit(data)">-</button>
+  } @else {
+    <button class="addButton" (click)="toggleTooth.emit(data)">+</button>
+  }
   <ng-template #addButton>
     <button class="addButton" (click)="toggleTooth.emit(data)">+</button>
   </ng-template>
@@ -8,96 +12,126 @@
 
   <svg width="29" height="34" [attr.id]="data.id" [ngClass]="data.status ? 'tooth' : 'tooth disabled'">
     <!-- Face 1 (Top) -->
-    <polygon 
-      stroke="blue" 
-      points="1,1 7,9 21,9 28,1" 
-      [attr.id]="data.faces[0].id" 
+    <polygon
+      stroke="blue"
+      points="1,1 7,9 21,9 28,1"
+      [attr.id]="data.faces[0].id"
       [attr.fill]="data.faces[0].estado"
       (click)="clicked(data, 0, data.faces[0].id, all, data.idOption)"
       class="face"
-    />
+      />
 
     <!-- Face 2 (Right) -->
-    <polygon 
-      stroke="blue" 
-      points="21,9 21,25 28,33 28,1" 
-      [attr.id]="data.faces[1].id" 
+    <polygon
+      stroke="blue"
+      points="21,9 21,25 28,33 28,1"
+      [attr.id]="data.faces[1].id"
       [attr.fill]="data.faces[1].estado"
       (click)="clicked(data, 1, data.faces[1].id, all, data.idOption)"
       class="face"
-    />
+      />
 
     <!-- Face 3 (Bottom) -->
-    <polygon 
-      stroke="blue" 
-      points="21,25 28,33 1,33 7,25" 
+    <polygon
+      stroke="blue"
+      points="21,25 28,33 1,33 7,25"
       [attr.id]="data.faces[2].id"
       [attr.fill]="data.faces[2].estado"
       (click)="clicked(data, 2, data.faces[2].id, all, data.idOption)"
       class="face"
-    />
+      />
 
     <!-- Face 4 (Left) -->
-    <polygon 
-      stroke="blue" 
-      points="1,1 1,33 7,25 7,9" 
-      [attr.id]="data.faces[3].id" 
+    <polygon
+      stroke="blue"
+      points="1,1 1,33 7,25 7,9"
+      [attr.id]="data.faces[3].id"
       [attr.fill]="data.faces[3].estado"
       (click)="clicked(data, 3, data.faces[3].id, all, data.idOption)"
       class="face"
-    />
+      />
 
     <!-- Face 5 (Center) -->
-    <polygon 
-      stroke="blue" 
-      points="7,9 21,9 21,25 7,25" 
-      [attr.id]="data.faces[4].id" 
+    <polygon
+      stroke="blue"
+      points="7,9 21,9 21,25 7,25"
+      [attr.id]="data.faces[4].id"
       [attr.fill]="data.faces[4].estado"
       (click)="clicked(data, 4, data.faces[4].id, all, data.idOption)"
       class="face"
-    />
+      />
 
     <!-- Simbolos -->
     @for (symbol of data.symbols; track $index) {
       <ng-container>
-      <!-- A. Simbología para Partes Específicas del Diente -->
-      <!-- Incrustación metálica -->
-      <rect *ngIf="symbol.type === 'inlay'" x="7" y="9" width="14" height="7" fill="gray" stroke="black" stroke-width="1" />
+        <!-- A. Simbología para Partes Específicas del Diente -->
+        <!-- Incrustación metálica -->
+        @if (symbol.type === 'inlay') {
+          <rect x="7" y="9" width="14" height="7" fill="gray" stroke="black" stroke-width="1" />
+        }
 
-      <!-- Caries -->
-      <polygon points="1,1 7,9 21,9 28,1" fill="red" opacity="0.6" />
-      @if (symbol.type === 'caries' && symbol.faceIndex === 1) {<polygon points="21,9 21,25 28,33 28,1" fill="red" opacity="0.6" />}
-      <polygon *ngIf="symbol.type === 'caries' && symbol.faceIndex === 2" points="21,25 28,33 1,33 7,25" fill="red" opacity="0.6" />
-      <polygon *ngIf="symbol.type === 'caries' && symbol.faceIndex === 3" points="1,1 1,33 7,25 7,9" fill="red" opacity="0.6" />
-      <polygon *ngIf="symbol.type === 'caries' && symbol.faceIndex === 4" points="7,9 21,9 21,25 7,25" fill="red" opacity="0.6" />
+        <!-- Caries -->
+        @if(symbol.type === 'caries' && symbol.faceIndex === 0){
+          <polygon points="1,1 7,9 21,9 28,1" fill="red" opacity="0.6" />
+        }
 
-      <!-- Fractura -->
-      <line *ngIf="symbol.type === 'fracture' && symbol.faceIndex === 0" x1="1" y1="1" x2="28" y2="9" stroke="red" stroke-width="2" />
-      <line *ngIf="symbol.type === 'fracture' && symbol.faceIndex === 1" x1="21" y1="9" x2="28" y2="33" stroke="red" stroke-width="2" />
-      <line *ngIf="symbol.type === 'fracture' && symbol.faceIndex === 2" x1="21" y1="25" x2="1" y2="33" stroke="red" stroke-width="2" />
-      <line *ngIf="symbol.type === 'fracture' && symbol.faceIndex === 3" x1="1" y1="1" x2="7" y2="25" stroke="red" stroke-width="2" />
-      <line *ngIf="symbol.type === 'fracture' && symbol.faceIndex === 4" x1="7" y1="9" x2="21" y2="25" stroke="red" stroke-width="2" />
+        @if (symbol.type === 'caries' && symbol.faceIndex === 1) {
+          <polygon points="21,9 21,25 28,33 28,1" fill="red" opacity="0.6" />
+        }
 
-      <!-- B. Simbología para Diente Completo -->
-      <!-- Endodoncia -->
-      <text *ngIf="symbol.type === 'endodontics'" x="14.5" y="17" text-anchor="middle" alignment-baseline="middle" fill="black" font-size="12">X</text>
+        @if (symbol.type === 'caries' && symbol.faceIndex === 2) {
+          <polygon points="21,25 28,33 1,33 7,25" fill="red" opacity="0.6" />
+        }
 
-      <!-- Extracción -->
-      <text x="14.5" y="17" text-anchor="middle" alignment-baseline="middle" fill="red" font-size="12">X</text>
+        @if (symbol.type === 'caries' && symbol.faceIndex === 3) {
+          <polygon points="1,1 1,33 7,25 7,9" fill="red" opacity="0.6" />
+        }
 
-      <!-- Implante -->
-      <polygon *ngIf="symbol.type === 'implant'" points="14.5,4 4,30 25,30" stroke="green" stroke-width="2" fill="none" />
+        @if (symbol.type === 'caries' && symbol.faceIndex === 4) {
+          <polygon points="7,9 21,9 21,25 7,25" fill="red" opacity="0.6" />
+        }
 
-      <!-- Bolsa periodontal -->
-      <path d="M1,1 Q14.5,17 28,1 Q14.5,33 1,1" stroke="black" stroke-width="2" fill="none" />
+        <!-- Fractura -->
+        @if (symbol.type === 'fracture' && symbol.faceIndex === 0) {
+          <line x1="1" y1="1" x2="28" y2="9" stroke="red" stroke-width="2" />
+        }
+        @if (symbol.type === 'fracture' && symbol.faceIndex === 1) {
+          <line x1="21" y1="9" x2="28" y2="33" stroke="red" stroke-width="2" />
+        }
+        @if (symbol.type === 'fracture' && symbol.faceIndex === 2) {
+          <line x1="21" y1="25" x2="1" y2="33" stroke="red" stroke-width="2" />
+        }
+        @if (symbol.type === 'fracture' && symbol.faceIndex === 3) {
+          <line x1="1" y1="1" x2="7" y2="25" stroke="red" stroke-width="2" />
+        }
+        @if (symbol.type === 'fracture' && symbol.faceIndex === 4) {
+          <line x1="7" y1="9" x2="21" y2="25" stroke="red" stroke-width="2" />
+        }
 
-      <!-- Sangrado al sondaje -->
-      <text x="14.5" y="17" text-anchor="middle" alignment-baseline="middle" fill="red" font-size="12">S</text>
+        <!-- B. Simbología para Diente Completo -->
+        <!-- Endodoncia -->
+        @if (symbol.type === 'endodontics') {
+          <text x="14.5" y="17" text-anchor="middle" alignment-baseline="middle" fill="black" font-size="12">X</text>
+        }
 
-    </ng-container>
+        <!-- Extracción -->
+        <text x="14.5" y="17" text-anchor="middle" alignment-baseline="middle" fill="red" font-size="12">X</text>
+
+        <!-- Implante -->
+        @if (symbol.type === 'implant') {
+          <polygon points="14.5,4 4,30 25,30" stroke="green" stroke-width="2" fill="none" />
+        }
+
+        <!-- Bolsa periodontal -->
+        <path d="M1,1 Q14.5,17 28,1 Q14.5,33 1,1" stroke="black" stroke-width="2" fill="none" />
+
+        <!-- Sangrado al sondaje -->
+        <text x="14.5" y="17" text-anchor="middle" alignment-baseline="middle" fill="red" font-size="12">S</text>
+
+      </ng-container>
     }
-    </svg>
-    
+  </svg>
+
 
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" [ngClass]="!data.status ? 'tooth' : 'tooth disabled'">
     <path fill="red" d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/>

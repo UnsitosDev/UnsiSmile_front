@@ -11,7 +11,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
@@ -162,8 +162,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatSelectModule,
     MatInputModule,
     FormsModule,
-    NgFor,
-    NgIf,
     MatButtonModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
@@ -174,13 +172,16 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     ReactiveFormsModule,
     AsyncPipe,
     AlertComponent,
-    RouterModule,MatFormFieldModule, MatInputModule, MatIconModule,  CommonModule,
+    RouterModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule, MatDatepickerModule
-    
-  ],
+    MatInputModule,
+    MatDatepickerModule
+],
   providers:[provideNativeDateAdapter()],
   templateUrl: './history-personal-data.component.html',
   styleUrl: './history-personal-data.component.scss',

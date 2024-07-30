@@ -1,7 +1,7 @@
 import { tooth, IArcada } from './../../../../../models/shared/store';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { StudentsToothComponent } from '../students-tooth/students-tooth.component';
-import { NgFor, NgIf } from '@angular/common';
+
 import { OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -16,13 +16,11 @@ import { StudentsToolbarComponent } from '../students-odontogram-toolbar/student
   standalone: true,
   imports: [
     StudentsToothComponent,
-    NgIf,
-    NgFor,
     StudentsToolbarComponent,
     StudentsToolbarComponent,
     MatTabsModule,
-    MatButtonModule,
-  ],
+    MatButtonModule
+],
   templateUrl: './students-odontogram.component.html',
   styleUrl: './students-odontogram.component.scss',
 })
