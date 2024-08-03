@@ -60,5 +60,23 @@ export class StudentsToothComponent {
         return '';
     }
   }
+
+  getFracturePoints(faceIndex: number): [number, number, number, number] {
+    switch (faceIndex) {
+      case 0:
+        return [1, 1, 28, 9];
+      case 1:
+        return [21, 9, 28, 33];
+      case 2:
+        return [21, 25, 1, 33];
+      case 3:
+        return [1, 1, 7, 25];
+      case 4:
+        return [7, 9, 21, 25];
+      default:
+        return [0, 0, 0, 0];
+    }
+  }
+  
   
 }

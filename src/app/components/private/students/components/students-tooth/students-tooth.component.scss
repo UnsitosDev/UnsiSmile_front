@@ -53,7 +53,20 @@
   font-size: 20px ;
 }
 
-line{
-  stroke: black;
-  stroke-width: 2;
+.tooth-symbols-below {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tooth-symbol-fluorosis {
+  font-size: 14px;
+  color: blue;
+  margin-right: 5px;
+}
+
+.tooth-symbol-mispositioned {
+  display: inline-block;
+  margin-left: 5px;
 }
