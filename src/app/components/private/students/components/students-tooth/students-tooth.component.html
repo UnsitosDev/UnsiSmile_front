@@ -60,76 +60,40 @@
       (click)="clicked(data, 4, data.faces[4].id, all, data.idOption)"
       class="face"
       />
-
-    <!-- Simbolos -->
-    @for (symbol of data.symbols; track $index) {
+    
+    <!-- Simbologías -->
+    <!-- @for (symbol of data.symbols; track trackByIndex($index, symbol)) { -->
       <ng-container>
-        <!-- A. Simbología para Partes Específicas del Diente -->
-        <!-- Incrustación metálica -->
-        @if (symbol.type === 'inlay') {
-          <rect x="7" y="9" width="14" height="7" fill="gray" stroke="black" stroke-width="1" />
+        <!-- Diente parcialmente erupcionado -->
+        @if (false) {
+          <ng-container>
+            <line x1="0" y1="17" x2="29" y2="17" stroke="blue" fill="blue" stroke-width="2" />
+          </ng-container>
         }
-
-        <!-- Caries -->
-        @if(symbol.type === 'caries' && symbol.faceIndex === 0){
-          <polygon points="1,1 7,9 21,9 28,1" fill="red" opacity="0.6" />
+        <!-- Diente obturado -->
+        @if (false) {
+          <ng-container>
+            <polygon [attr.points]="getFacePoints(index)" fill="blue" opacity="0.8" />
+          </ng-container>
         }
-
-        @if (symbol.type === 'caries' && symbol.faceIndex === 1) {
-          <polygon points="21,9 21,25 28,33 28,1" fill="red" opacity="0.6" />
+        <!-- Diente con corona -->
+        @if (false) {
+          <ng-container>
+            <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
+          </ng-container>
         }
-
-        @if (symbol.type === 'caries' && symbol.faceIndex === 2) {
-          <polygon points="21,25 28,33 1,33 7,25" fill="red" opacity="0.6" />
+        <!-- Mantenedor de espacio con corona -->
+        @if (false) {
+          <ng-container>
+            <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
+            <line x1="0" y1="28" x2="29" y2="28" stroke="blue" stroke-width="2" />
+            <line x1="5" y1="17" x2="29" y2="17" stroke="blue" stroke-width="2" />
+            <line x1="0" y1="6" x2="29" y2="6" stroke="blue" stroke-width="2" />
+          </ng-container>
         }
-
-        @if (symbol.type === 'caries' && symbol.faceIndex === 3) {
-          <polygon points="1,1 1,33 7,25 7,9" fill="red" opacity="0.6" />
-        }
-
-        @if (symbol.type === 'caries' && symbol.faceIndex === 4) {
-          <polygon points="7,9 21,9 21,25 7,25" fill="red" opacity="0.6" />
-        }
-
-        <!-- Fractura -->
-        @if (symbol.type === 'fracture' && symbol.faceIndex === 0) {
-          <line x1="1" y1="1" x2="28" y2="9" stroke="red" stroke-width="2" />
-        }
-        @if (symbol.type === 'fracture' && symbol.faceIndex === 1) {
-          <line x1="21" y1="9" x2="28" y2="33" stroke="red" stroke-width="2" />
-        }
-        @if (symbol.type === 'fracture' && symbol.faceIndex === 2) {
-          <line x1="21" y1="25" x2="1" y2="33" stroke="red" stroke-width="2" />
-        }
-        @if (symbol.type === 'fracture' && symbol.faceIndex === 3) {
-          <line x1="1" y1="1" x2="7" y2="25" stroke="red" stroke-width="2" />
-        }
-        @if (symbol.type === 'fracture' && symbol.faceIndex === 4) {
-          <line x1="7" y1="9" x2="21" y2="25" stroke="red" stroke-width="2" />
-        }
-
-        <!-- B. Simbología para Diente Completo -->
-        <!-- Endodoncia -->
-        @if (symbol.type === 'endodontics') {
-          <text x="14.5" y="17" text-anchor="middle" alignment-baseline="middle" fill="black" font-size="12">X</text>
-        }
-
-        <!-- Extracción -->
-        <text x="14.5" y="17" text-anchor="middle" alignment-baseline="middle" fill="red" font-size="12">X</text>
-
-        <!-- Implante -->
-        @if (symbol.type === 'implant') {
-          <polygon points="14.5,4 4,30 25,30" stroke="green" stroke-width="2" fill="none" />
-        }
-
-        <!-- Bolsa periodontal -->
-        <path d="M1,1 Q14.5,17 28,1 Q14.5,33 1,1" stroke="black" stroke-width="2" fill="none" />
-
-        <!-- Sangrado al sondaje -->
-        <text x="14.5" y="17" text-anchor="middle" alignment-baseline="middle" fill="red" font-size="12">S</text>
-
       </ng-container>
-    }
+    <!-- } -->
+
   </svg>
 
 

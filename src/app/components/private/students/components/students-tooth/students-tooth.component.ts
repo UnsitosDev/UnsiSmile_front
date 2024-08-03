@@ -27,6 +27,8 @@ export class StudentsToothComponent {
   @Output() toggleTooth = new EventEmitter<any>();
   @Output() setFace = new EventEmitter<any>();
 
+  faceClicked = 0;
+
   /**
    * Función invocada cuando se hace clic en un diente.
    * @param data Información de los pacientes y sus dientes.
@@ -37,8 +39,26 @@ export class StudentsToothComponent {
   clicked(data: any, index: number, faceId: any, all: string, idCondition: number) {
     // Se emite un evento para configurar la cara con la información del diente seleccionado.
     this.setFace.emit({faceId: data.faces[index].id, index: index, data: data, all: all, idCondition: idCondition });
-
+    this.faceClicked = index
     console.log('data', data);
     console.log('option selected: ' , idCondition);
   }
+
+  getFacePoints(faceIndex: number): string {
+    switch (faceIndex) {
+      case 0:
+        return '1,1 7,9 21,9 28,1';
+      case 1:
+        return '21,9 21,25 28,33 28,1';
+      case 2:
+        return '21,25 28,33 1,33 7,25';
+      case 3:
+        return '1,1 1,33 7,25 7,9';
+      case 4:
+        return '7,9 21,9 21,25 7,25';
+      default:
+        return '';
+    }
+  }
+  
 }
