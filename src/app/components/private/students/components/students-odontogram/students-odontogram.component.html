@@ -35,11 +35,9 @@
       </mat-tab-group>
     </div>
     @if(toolbar){
-    <app-students-toolbar
+      <app-students-toolbar
       [toolbar]="toolbar"
-      (handleAction)="
-        handleAction($event.cor, $event.nome, $event.all, $event.idCondition)
-      "
+      (handleAction)="handleAction($event)"
     ></app-students-toolbar>
     }
   </main>

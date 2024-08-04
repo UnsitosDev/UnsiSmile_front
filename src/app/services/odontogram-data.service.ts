@@ -5,6 +5,7 @@ import { toothConditionResponse } from './../components/private/students/compone
 import { tooth, toothOptions, uiTooth } from './../models/shared/store';
 import { ApiService } from './api.service';
 import { Observable, map } from 'rxjs';
+import { ICondition } from '../models/shared/odontogram';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class OdontogramData {
   private dentalCodeService = inject(ApiService<dentalCodeResponse>);
   private tootConditionService = inject(ApiService<toothConditionResponse>);
 
-  getToothCondition(): Observable<toothOptions[]> {
+  getToothCondition(): Observable<ICondition[]> {
     return this.tootConditionService
       .getListService({
         url: UriConstants.GET_TOOTH_CONDITION,
@@ -23,12 +24,12 @@ export class OdontogramData {
       .pipe(map((data) => this.mapOptions(data)));
   }
 
-  private mapOptions(conditions: toothConditionResponse[]): toothOptions[] {
+  private mapOptions(conditions: toothConditionResponse[]): ICondition[] {
     return conditions.map((condition) => {
       return {
         idCondition: condition.idToothCondition,
-        name: condition.description,
-        uiTooth: this.getColorForCondition(condition.description),
+        condition: condition.description,
+        description: ""
       };
     });
   }

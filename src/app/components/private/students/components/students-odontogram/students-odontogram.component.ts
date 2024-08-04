@@ -1,22 +1,19 @@
-import { tooth, IArcada } from './../../../../../models/shared/store';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { StudentsToothComponent } from '../students-tooth/students-tooth.component';
+import { IArcada } from './../../../../../models/shared/store';
 
 import { OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
-import { toothOptions } from '@mean/models';
-import { ApiService, store } from '@mean/services';
+import { store } from '@mean/services';
+import { ICondition } from 'src/app/models/shared/odontogram';
 import { OdontogramData } from 'src/app/services/odontogram-data.service';
-import { dentalCodeResponse } from '../students-general-history/models/dentalCode/dentalCode';
-import { toothConditionResponse } from '../students-general-history/models/toothCondition/toothCondition';
 import { StudentsToolbarComponent } from '../students-odontogram-toolbar/students-toolbar.component';
 @Component({
   selector: 'app-students-odontogram',
   standalone: true,
   imports: [
     StudentsToothComponent,
-    StudentsToolbarComponent,
     StudentsToolbarComponent,
     MatTabsModule,
     MatButtonModule
@@ -31,26 +28,23 @@ export class StudentsOdontogramComponent implements OnInit {
 
   data = store;
 
-  toolbar!: { opcoes: toothOptions[] }; // Utiliza el servicio para obtener los datos
+  toolbar!: { options: ICondition[] }; // Utiliza el servicio para obtener los datos
   
-  marked: { selecionado: string; cor: string; all: any, idCondition: number } = {
+  marked: { selecionado: string; cor: string, idCondition: number } = {
     selecionado: '',
     cor: '',
-    all: '',
     idCondition:0
   };
   value = 0;
 
   constructor() {}
 
-  private dentalCodeService = inject(ApiService<dentalCodeResponse>);
-  private tootConditionService = inject(ApiService<toothConditionResponse>);
   private odontogramData = inject(OdontogramData);
 
   ngOnInit() {
     this.odontogramData.getToothCondition().subscribe(options => {
-      console.log(options);
-      this.toolbar ={opcoes: options} 
+      console.log("options: ",options);
+      this.toolbar ={options: options} 
     });
 
     this.odontogramData.getDentalCodesOfAdults().subscribe(dentalCodes => {
@@ -82,9 +76,9 @@ export class StudentsOdontogramComponent implements OnInit {
    * @param nome Nombre del diente seleccionado.
    * @param all Información adicional sobre el diente seleccionado.
    */
-  handleAction(cor: string, nome: string, all: string, idCondition: number): void {
-    this.marked = { selecionado: nome, cor: cor, all : all , idCondition: idCondition};
-    this.paintAll = all;
+  handleAction(event: any): void {
+    const {  nome, cor, idCondition } = event;
+    this.marked = { selecionado: nome, cor: cor , idCondition: idCondition};
   }
 
   /**

@@ -1,5 +1,5 @@
 import { ICondition } from "./odontogram";
 
-export interface toolbar {
+export interface Toolbar {
     options: ICondition[]
 };

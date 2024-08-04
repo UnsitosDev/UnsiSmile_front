@@ -1,6 +1,8 @@
 import { toothOptions, uiTooth } from './../../../../../models/shared/store';
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ICondition } from 'src/app/models/shared/odontogram';
+import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
 
 @Component({
   selector: 'app-students-toolbar',
@@ -10,18 +12,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './students-toolbar.component.scss',
 })
 export class StudentsToolbarComponent {
-  @Input() toolbar: any;
-  @Output() handleAction = new EventEmitter<any>();
+  @Input() toolbar!: Toolbar ;
+  @Output() handleAction = new EventEmitter<ICondition>();
 
-  constructor() {}
-
-  /**
-   * Función invocada cuando se hace clic en un botón de la barra de herramientas.
-   * Emite un evento handleAction con información sobre el botón clickeado.
-   * @param item Objeto que representa el botón clickeado.
-   */
-  onButtonClicked(item: toothOptions): void {
-    // Se emite un evento handleAction con información sobre el botón clickeado.
-    this.handleAction.emit({cor: item.uiTooth.color, nome: item.name, icon: item.uiTooth.icon, all: item.uiTooth.all, idCondition: item.idCondition});
+  selectSymbol(symbol: ICondition) {
+    this.handleAction.emit(symbol);
+    console.log(symbol)
   }
+
 }

@@ -1,4 +1,89 @@
-.bt-toolbar {
-  margin: 5px 10px;
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
+.toolbar-item {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  .symbol-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 5px;
+
+    .symbol {
+      width: 100%;
+      height: 100%;
+      display: inline-block;
+
+      &.inlay {
+        background: gray;
+        border: 1px solid black;
+      }
+
+      &.caries {
+        background: red;
+        opacity: 0.6;
+      }
+
+      &.fracture {
+        position: relative;
+        &::after {
+          content: '';
+          display: block;
+          width: 100%;
+          height: 2px;
+          background: red;
+          position: absolute;
+          top: 50%;
+          left: 0;
+          transform: rotate(-45deg);
+        }
+      }
+
+      &.endodontics,
+      &.extraction {
+        font-size: 18px;
+        font-weight: bold;
+        color: red;
+      }
+
+      &.implant {
+        width: 0;
+        height: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 24px solid green;
+      }
+
+      &.periodontal-pocket {
+        border: 1px solid black;
+        border-radius: 50%;
+      }
+
+      &.bleeding-probing {
+        font-size: 18px;
+        font-weight: bold;
+        color: red;
+      }
+    }
+  }
+
+  .symbol-name {
+    font-size: 12px;
+    text-align: center;
+  }
+}
