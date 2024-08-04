@@ -1,23 +1,21 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
-import { TablaDataComponent } from 'src/app/shared/tabla-data/tabla-data.component';
-import { IKeyboard } from 'src/app/models/tabla/keyboard';
-import {
-  getEntityPropiedades,
-  Accion,
-} from 'src/app/models/tabla/tabla-columna';
-import { ProductService } from 'src/app/services/product.service';
-import { Ipatients, patientsTableData } from 'src/app/models/tabla/patients';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { StudentsGeneralHistoryComponent } from '../students-general-history/students-general-history.component';
-import { ApiService } from '@mean/services';
-import {
-  patientRequest,
-  patientResponse,
-} from 'src/app/models/shared/patients/patient/patient';
-import { HttpHeaders } from '@angular/common/http';
-import { UriConstants } from '@mean/utils';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import {
+  patientResponse
+} from 'src/app/models/shared/patients/patient/patient';
+import { patientsTableData } from 'src/app/models/tabla/patients';
+import {
+  Accion,
+  getEntityPropiedades,
+} from 'src/app/models/tabla/tabla-columna';
+import { ProductService } from 'src/app/services/product.service';
+import { TablaDataComponent } from 'src/app/shared/tabla-data/tabla-data.component';
+import { StudentsGeneralHistoryComponent } from '../students-general-history/students-general-history.component';
 
 @Component({
   selector: 'app-students-patients',
@@ -33,7 +31,6 @@ export class StudentsPatientsComponent implements OnInit {
   private apiService = inject(ApiService<patientResponse>);
 
   constructor(
-    private productService: ProductService,
     public dialog: MatDialog,
     public router: Router,
     public route: ActivatedRoute
