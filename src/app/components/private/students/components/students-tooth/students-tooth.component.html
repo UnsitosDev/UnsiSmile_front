@@ -64,79 +64,80 @@
     <!-- Simbologías -->
     @for (symbol of data.symbols; track $index) {
 
-    <ng-container>
-      <!-- Diente parcialmente erupcionado -->
-      @if (false) {
-        <ng-container>
-          <line x1="0" y1="17" x2="29" y2="17" stroke="blue" fill="blue" stroke-width="2" />
-        </ng-container>
-      }
-      <!-- Diente obturado -->
-      @if (false) {
-        <ng-container>
-          <polygon [attr.points]="getFacePoints(faceClicked)" fill="blue" opacity="0.8" />
-        </ng-container>
-      }
-      <!-- Diente con corona -->
-      @if (false) {
-        <ng-container>
-          <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
-        </ng-container>
-      }
-      <!-- Mantenedor de espacio con corona -->
-      @if (false) {
-        <ng-container>
-          <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
-          <line x1="0" y1="28" x2="29" y2="28" stroke="blue" stroke-width="2" />
-          <line x1="5" y1="17" x2="29" y2="17" stroke="blue" stroke-width="2" />
-          <line x1="0" y1="6" x2="29" y2="6" stroke="blue" stroke-width="2" />
-        </ng-container>
-      }
-
-      <!-- Diente cariado -->
-      @if (false) {
-        <ng-container>
-          <polygon [attr.points]="getFacePoints(faceClicked)" fill="blue" opacity="0.6" />
-        </ng-container>
-      }
-
-      <!-- Diente con fractura-->
-      @if (true) {
       <ng-container>
-        <line [attr.x1]="getFracturePoints(faceClicked).x1" [attr.y1]="getFracturePoints(faceClicked).y1" [attr.x2]="getFracturePoints(faceClicked).x2" [attr.y2]="getFracturePoints(faceClicked).y2" stroke="red" stroke-width="2" stroke-dasharray="4" />
+        <!-- Diente parcialmente erupcionado -->
+        @if (false) {
+          <ng-container>
+            <line x1="0" y1="17" x2="29" y2="17" stroke="blue" fill="blue" stroke-width="2" />
+          </ng-container>
+        }
+        <!-- Diente obturado -->
+        @if (false) {
+          <ng-container>
+            <polygon [attr.points]="getFacePoints(faceClicked)" fill="blue" opacity="0.8" />
+          </ng-container>
+        }
+        <!-- Diente con corona -->
+        @if (false) {
+          <ng-container>
+            <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
+          </ng-container>
+        }
+        <!-- Mantenedor de espacio con corona -->
+        @if (false) {
+          <ng-container>
+            <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
+            <line x1="0" y1="28" x2="29" y2="28" stroke="black" stroke-width="2" opacity="0.6"/>
+            <line x1="20" y1="17" x2="29" y2="17" stroke="black" stroke-width="2" opacity="0.6"/>
+            <line x1="0" y1="6" x2="29" y2="6" stroke="black" stroke-width="2" opacity="0.6"/>
+          </ng-container>
+        }
+
+        <!-- Diente cariado -->
+        @if (false) {
+          <ng-container>
+            <polygon [attr.points]="getFacePoints(faceClicked)" fill="blue" opacity="0.6" />
+          </ng-container>
+        }
+
+        <!-- Diente con fractura-->
+        @if (true) {
+          <ng-container>
+            <line [attr.x1]="getFracturePoints(faceClicked).x1" [attr.y1]="getFracturePoints(faceClicked).y1" [attr.x2]="getFracturePoints(faceClicked).x2" [attr.y2]="getFracturePoints(faceClicked).y2" stroke="red" stroke-width="2" stroke-dasharray="4" />
+          </ng-container>
+        }
+
+        <!-- Fístula -->
+        @if (false) {
+          <ng-container>
+            <circle cx="14.5" cy="17" r="4" fill="red" />
+          </ng-container>
+        }
+
+        <!-- Diente obturado con caries -->
+        @if (true) {
+          <ng-container>
+            <polygon [attr.points]="getFacePoints(faceClicked)" fill="blue" opacity="0.6" stroke="red" stroke-width="2" />
+          </ng-container>
+        }
       </ng-container>
-      }
-
-      <!-- Fístula -->
-      @if (false) {
-        <ng-container>
-          <circle cx="14.5" cy="17" r="4" fill="red" />
-        </ng-container>
-      }
-
-      <!-- Diente obturado con caries -->
-      @if (true) {
-        <ng-container>
-          <polygon [attr.points]="getFacePoints(faceClicked)" fill="blue" opacity="0.6" stroke="red" stroke-width="2" />
-        </ng-container>
-      }
-    </ng-container>
     }
 
   </svg>
 
   <!-- Contenedor de simbologías debajo del diente -->
   <div class="tooth-symbols-below">
-    @for (symbol of data.symbols; track $index) {
+    <!-- @for (symbol of data.symbols; track $index) { -->
       <!-- Diente con fluorosis -->
-      @if (true) {
+      @if (false) {
         <span class="tooth-symbol-fluorosis">F</span>
       }
+      
       <!-- Diente en mal posición -->
-      @if (true) {
+      @if (false) {
         <span class="tooth-symbol-mispositioned">
           <svg width="29" height="10">
-            @if (true) {
+            @if (false) {
               <path d="M5,10 C10,5 20,5 25,10" stroke="blue" stroke-width="2" fill="none" />
             }
             <!-- @if (symbol.direction === 'counterclockwise') { -->
@@ -146,7 +147,18 @@
           </svg>
         </span>
       }
-    }
+
+      <!-- Prótesis removible -->
+      @if (false) {
+        <span>
+          <svg>
+              <ng-container>
+                <path d="M5,30 L5,35 L25,35 L25,30" stroke="red" stroke-width="1" fill="none"/>
+              </ng-container>
+          </svg>
+        </span>
+      }
+    <!-- } -->
   </div>
 
 
