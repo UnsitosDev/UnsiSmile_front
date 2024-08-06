@@ -27,7 +27,8 @@ export class StudentsToolbarComponent {
       'Diente con corona',
       'Mantenedor de espacio con corona',
       'Mantenedor de espacio con banda',
-      'Prótesis removible'
+      'Prótesis removible',
+      'Puente'
     ];
     return normalConditions.includes(condition);
   }
@@ -40,6 +41,7 @@ export class StudentsToolbarComponent {
       'Diente con fractura',
       'Fístula',
       'Diente con fluorosis',
+      'Diente con hipoplasia',
       'Diente obturado con caries'
     ];
     return abnormalConditions.includes(condition);

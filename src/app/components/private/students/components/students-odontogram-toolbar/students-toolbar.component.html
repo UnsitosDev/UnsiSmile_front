@@ -3,10 +3,10 @@
   <div class="row">
     <div class="col-4">
       <h1>Código normal (azul)</h1>
-        @for (symbol of toolbar.options; track symbol) {
+        @for (symbol of toolbar.options; track $index) {
           @if (isNormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
-            <div class="symbol-icon normal">
+            <div class="symbol-icon">
               <svg width="30" height="35" viewBox="0 0 30 35">
                 <!-- Representación del diente con cinco caras -->
                 <polygon stroke="black" points="1,1 7,9 21,9 28,1" fill="none" stroke-width="0.5"/>
@@ -20,30 +20,36 @@
                     <!-- Diente parcialmente erupcionado -->
                     @case ('Diente parcialmente erupcionado') {
                       <g>
-                        <line x1="0" y1="17" x2="29" y2="17" stroke="blue" fill="blue" stroke-width="2" />
+                        <line x1="0" y1="25" x2="29" y2="25" stroke="blue" fill="blue" stroke-width="2"/>
                       </g>
                     }
                     <!-- Diente obturado -->
                     @case ('Diente obturado') {
                       <g>
-                        <polygon points="7,9 21,9 21,25 7,25" fill="blue" opacity="0.6" />
+                        <polygon points="7,9 21,9 21,25 7,25" fill="blue" opacity="0.6"/>
                       </g>
                     }
                     <!-- Diente con corona -->
                     @case ('Diente con corona') {
                       <g>
-                        <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
+                        <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6"/>
+                      </g>
+                    }
+                    @case ('Puente') {
+                      <g>
+                        <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6"/>
                       </g>
                     }
                     <!-- Mantenedor de espacio con corona -->
                     @case ('Mantenedor de espacio con corona') {
                       <g>
-                        <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
+                        <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3"/>
                         <line x1="0" y1="28" x2="29" y2="28" stroke="black" stroke-width="2" opacity="0.6"/>
                         <line x1="20" y1="17" x2="29" y2="17" stroke="black" stroke-width="2" opacity="0.6"/>
                         <line x1="0" y1="6" x2="29" y2="6" stroke="black" stroke-width="2" opacity="0.6"/>
                       </g>
                     }
+                    <!-- Mantenedor de espacio con banda -->
                     @case ('Mantenedor de espacio con banda') {
                       <g>
                         <line x1="0" y1="28" x2="29" y2="28" stroke="black" stroke-width="2" opacity="0.6"/>
@@ -51,15 +57,26 @@
                         <line x1="0" y1="6" x2="29" y2="6" stroke="black" stroke-width="2" opacity="0.6"/>
                       </g>
                     }
-                    @case ('Prótesis removible') {
-                      <g>
-                        <path  d="M5,30 L5,35 L25,35 L25,30" stroke="red" stroke-width="1" fill="none"/>
-                      </g>
-                    }
-                    
                   }
                 </g>
               </svg>
+              <div class="tooth-symbols-below">
+                <!-- Simbologías debajo del diente -->
+                @if (symbol.condition === 'Prótesis removible') {
+                  <span>
+                    <svg width="29" height="10">
+                      <rect x="0" y="5" width="25" height="5" fill="none" stroke-width="2" stroke="blue" />
+                    </svg>
+                  </span>
+                }
+                @if (symbol.condition === 'Puente') {
+                  <span>
+                    <svg width="29" height="10">
+                      <rect x="0" y="5" width="25" height="5" fill="none" stroke-width="2" stroke="blue" />
+                    </svg>
+                  </span>
+                }                               
+              </div>
             </div>
             <div class="symbol-name">{{ symbol.condition }}</div>
           </div>
@@ -72,7 +89,7 @@
   <div class="row">
     <div class="col-4">
       <h1>Código anormal (rojo)</h1>
-        @for (symbol of toolbar.options; track symbol) {
+        @for (symbol of toolbar.options; track $index) {
           @if (isAbnormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
             <div class="symbol-icon abnormal">
@@ -89,47 +106,63 @@
                     <!-- Diente cariado -->
                     @case ('Diente cariado') {
                       <g>
-                        <polygon points="7,9 21,9 21,25 7,25" fill="red" opacity="0.6" />
-                      </g>
-                    }
-                    <!-- Diente en mal posición -->
-                    @case ('Diente en mal posición derecha') {
-                      <g>
-                        <path d="M5,10 C10,5 20,5 25,10" stroke="blue" stroke-width="2" fill="none" />
-                      </g>
-                    }
-                    @case ('Diente en mal posición izquierda') {
-                      <g>
-                        <path d="M5,0 C10,5 20,5 25,0" stroke="blue" stroke-width="2" fill="none" />
+                        <polygon points="7,9 21,9 21,25 7,25" fill="red" opacity="0.6"/>
                       </g>
                     }
                     <!-- Diente con fractura -->
                     @case ('Diente con fractura') {
                       <g>
-                        <line [attr.x1]="21" [attr.y1]="9" [attr.x2]="28" [attr.y2]="33" stroke="red" stroke-width="2" stroke-dasharray="4" />
+                        <line x1="21" y1="9" x2="28" y2="33" stroke="red" stroke-width="2" stroke-dasharray="4"/>
                       </g>
                     }
                     <!-- Fístula -->
                     @case ('Fístula') {
                       <g>
-                        <circle cx="14.5" cy="17" r="4" fill="red" />
-                      </g>
-                    }
-                    <!-- Diente con fluorosis -->
-                    @case ('Diente con fluorosis') {
-                      <g>
-                        <text x="15" y="33" text-anchor="middle" fill="black" font-size="5">F</text>
+                        <circle cx="14.5" cy="17" r="4" fill="red"/>
                       </g>
                     }
                     <!-- Diente obturado con caries -->
                     @case ('Diente obturado con caries') {
                       <g>
-                        <polygon  points="7,9 21,9 21,25 7,25" fill="blue" opacity="0.8" stroke="red" stroke-width="2" />
+                        <polygon points="7,9 21,9 21,25 7,25" fill="blue" opacity="0.8" stroke="red" stroke-width="2"/>
                       </g>
                     }
                   }
                 </g>
               </svg>
+              <div class="tooth-symbols-below">
+                <!-- Diente con fluorosis -->
+                @if (symbol.condition === 'Diente con fluorosis') {
+                  <span>
+                    <svg width="29" height="10">
+                      <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">F</text>
+                    </svg>
+                  </span>
+                }
+                <!-- Diente con fluorosis -->
+                @if (symbol.condition === 'Diente con hipoplasia') {
+                  <span>
+                    <svg width="29" height="10">
+                      <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">H</text>
+                    </svg>
+                  </span>
+                }                
+                <!-- Diente en mal posición -->
+                @if (symbol.condition === 'Diente en mal posición derecha') {
+                  <span>
+                    <svg width="29" height="10">
+                      <path d="M5,10 C10,5 20,5 25,10" stroke="blue" stroke-width="2" fill="none"/>
+                    </svg>
+                  </span>
+                }
+                @if (symbol.condition === 'Diente en mal posición izquierda') {
+                  <span>
+                    <svg width="29" height="10">
+                      <path d="M5,0 C10,5 20,5 25,0" stroke="blue" stroke-width="2" fill="none"/>
+                    </svg>
+                  </span>
+                }
+              </div>
             </div>
             <div class="symbol-name">{{ symbol.condition }}</div>
           </div>
