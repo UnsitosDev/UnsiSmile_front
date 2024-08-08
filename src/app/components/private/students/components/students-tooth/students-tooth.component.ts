@@ -5,11 +5,7 @@ import {
   Input,
   Output
 } from '@angular/core';
-
-interface Face {
-  id: string;
-  estado: string;
-}
+import { ICondition, IOdontogram, ITooth } from 'src/app/models/shared/odontogram';
 
 @Component({
   selector: 'app-students-tooth',
@@ -21,9 +17,9 @@ interface Face {
   styleUrl: './students-tooth.component.scss',
 })
 export class StudentsToothComponent {
-  @Input() data: any;
+  @Input() data!: ITooth;
   @Input() index: number = 0;
-  @Input() color: string = 'withe';
+  @Input() toothConditions!: ICondition[];
   @Output() toggleTooth = new EventEmitter<any>();
   @Output() setFace = new EventEmitter<any>();
 
@@ -35,12 +31,11 @@ export class StudentsToothComponent {
    * @param index Índice del diente actual.
    * @param faceId Identificador del diente seleccionado.
    */
-  clicked(data: any, index: number, faceId: any, idCondition: number) {
+  clicked(data: ITooth, index: number, faceId: any, idCondition: number) {
     // Se emite un evento para configurar la cara con la información del diente seleccionado.
-    this.setFace.emit({faceId: data.faces[index].id, index: index, data: data, idCondition: idCondition });
+    this.setFace.emit({faceId: data.faces[index].idFace, index: index, data: data});
     this.faceClicked = index
     console.log('data', data);
-    console.log('option selected: ' , idCondition);
   }
 
   getFacePoints(faceIndex: number): string {

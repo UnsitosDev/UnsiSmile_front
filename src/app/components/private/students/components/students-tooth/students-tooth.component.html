@@ -1,4 +1,5 @@
-<div [ngClass]="data.css !== '' ? 'boxTooth ' + data.css : 'boxTooth'">
+<!-- <div [ngClass]="data.css !== '' ? 'boxTooth ' + data.css : 'boxTooth'"> -->
+<div class="boxTooth">
   @if (data.status) {
     <button class="removeButton" (click)="toggleTooth.emit(data)">-</button>
   } @else {
@@ -8,16 +9,16 @@
     <button class="addButton" (click)="toggleTooth.emit(data)">+</button>
   </ng-template>
 
-  <small style="text-align: center; display: block; clear: both">{{ data.nome }}</small>
+  <small style="text-align: center; display: block; clear: both">{{ data.idTooth }}</small>
 
-  <svg width="29" height="34" [attr.id]="data.id" [ngClass]="data.status ? 'tooth' : 'tooth disabled'">
+  <svg width="29" height="34" [attr.id]="data.idTooth" [ngClass]="data.status ? 'tooth' : 'tooth disabled'">
     <!-- Face 1 (Top) -->
     <polygon
       stroke="blue"
       points="1,1 7,9 21,9 28,1"
-      [attr.id]="data.faces[0].id"
-      [attr.fill]="data.faces[0].estado"
-      (click)="clicked(data, 0, data.faces[0].id, data.idOption)"
+      [attr.id]="data.faces[0].idFace"
+      fill="white"
+      (click)="clicked(data, 0, data.faces[0].idFace, data.idTooth)"
       class="face"
       />
 
@@ -25,9 +26,9 @@
     <polygon
       stroke="blue"
       points="21,9 21,25 28,33 28,1"
-      [attr.id]="data.faces[1].id"
-      [attr.fill]="data.faces[1].estado"
-      (click)="clicked(data, 1, data.faces[1].id, data.idOption)"
+      [attr.id]="data.faces[1].idFace"
+      fill="white"
+      (click)="clicked(data, 1, data.faces[1].idFace, data.idTooth)"
       class="face"
       />
 
@@ -35,9 +36,9 @@
     <polygon
       stroke="blue"
       points="21,25 28,33 1,33 7,25"
-      [attr.id]="data.faces[2].id"
-      [attr.fill]="data.faces[2].estado"
-      (click)="clicked(data, 2, data.faces[2].id, data.idOption)"
+      [attr.id]="data.faces[2].idFace"
+      fill="white"
+      (click)="clicked(data, 2, data.faces[2].idFace, data.idTooth)"
       class="face"
       />
 
@@ -45,9 +46,9 @@
     <polygon
       stroke="blue"
       points="1,1 1,33 7,25 7,9"
-      [attr.id]="data.faces[3].id"
-      [attr.fill]="data.faces[3].estado"
-      (click)="clicked(data, 3, data.faces[3].id, data.idOption)"
+      [attr.id]="data.faces[3].idFace"
+      fill="white"
+      (click)="clicked(data, 3, data.faces[3].idFace, data.idTooth)"
       class="face"
       />
 
@@ -55,14 +56,14 @@
     <polygon
       stroke="blue"
       points="7,9 21,9 21,25 7,25"
-      [attr.id]="data.faces[4].id"
-      [attr.fill]="data.faces[4].estado"
-      (click)="clicked(data, 4, data.faces[4].id, data.idOption)"
+      [attr.id]="data.faces[4].idFace"
+      fill="white"
+      (click)="clicked(data, 4, data.faces[4].idFace, data.idTooth)"
       class="face"
       />
 
     <!-- Simbologías -->
-    @for (symbol of data.symbols; track $index) {
+    @for (symbol of toothConditions; track $index) {
 
       <ng-container>
         <!-- Diente parcialmente erupcionado -->
