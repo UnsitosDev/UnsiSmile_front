@@ -16,25 +16,21 @@ import { StudentsToolbarComponent } from '../students-odontogram-toolbar/student
     StudentsToothComponent,
     StudentsToolbarComponent,
     MatTabsModule,
-    MatButtonModule
-],
+    MatButtonModule,
+  ],
   templateUrl: './students-odontogram.component.html',
   styleUrl: './students-odontogram.component.scss',
 })
 export class StudentsOdontogramComponent implements OnInit {
-  
   //define la estructura de una arcada (odontograma)
-  arcada: IArcada = store.arcada;
+  arcadaAdulto = store.adultArcade;
+  arcadaInfantil = store.childrenArcade;
 
   data = store;
 
   toolbar!: { options: ICondition[] }; // Utiliza el servicio para obtener los datos
-  
-  marked: { selecionado: string; cor: string, idCondition: number } = {
-    selecionado: '',
-    cor: '',
-    idCondition:0
-  };
+
+  marked!: ICondition;
   value = 0;
 
   constructor() {}
@@ -42,22 +38,21 @@ export class StudentsOdontogramComponent implements OnInit {
   private odontogramData = inject(OdontogramData);
 
   ngOnInit() {
-    this.odontogramData.getToothCondition().subscribe(options => {
-      console.log("options: ",options);
-      this.toolbar ={options: options} 
+    this.odontogramData.getToothCondition().subscribe((options) => {
+      console.log('options: ', options);
+      this.toolbar = { options: options };
     });
 
-    this.odontogramData.getDentalCodesOfAdults().subscribe(dentalCodes => {
-      console.log("ADentalCodes ", dentalCodes);
-      this.arcada.adulto = dentalCodes;
-    });
+    // this.odontogramData.getDentalCodesOfAdults().subscribe((dentalCodes) => {
+    //   console.log('ADentalCodes ', dentalCodes);
+    //   this.arcadaAdulto = dentalCodes;
+    // });
 
-    this.odontogramData.getDentalCodesOfChilds().subscribe(dentalCodes => {
-      console.log("iDentalCodes", dentalCodes)
-      this.arcada.infantil = dentalCodes;
-    });
+    // this.odontogramData.getDentalCodesOfChilds().subscribe((dentalCodes) => {
+    //   console.log('iDentalCodes', dentalCodes);
+    //   this.arcada.infantil = dentalCodes;
+    // });
   }
-
 
   /**
    * Función invocada cuando cambia el valor del odontograma.
@@ -68,8 +63,6 @@ export class StudentsOdontogramComponent implements OnInit {
     this.value = value;
   }
 
-  paintAll: string = '';
-
   /**
    * Función invocada cuando se realiza una acción en un diente del odontograma.
    * @param cor Color del diente seleccionado.
@@ -77,8 +70,12 @@ export class StudentsOdontogramComponent implements OnInit {
    * @param all Información adicional sobre el diente seleccionado.
    */
   handleAction(event: any): void {
-    const {  nome, cor, idCondition } = event;
-    this.marked = { selecionado: nome, cor: cor , idCondition: idCondition};
+    const { description, condition, idCondition } = event;
+    this.marked = {
+      idCondition: idCondition,
+      condition: condition,
+      description: description,
+    };
   }
 
   /**
@@ -94,11 +91,9 @@ export class StudentsOdontogramComponent implements OnInit {
    * @param event Información del evento que contiene el ID del diente, su índice y los datos del estudiante.
    */
   setFace(event: any) {
-    const {  index, data } = event;
-    const acao = this.marked.cor;
-    data.faces[index].estado = acao;
+    const { index, data } = event;
+    data.faces[index].estado = this.marked;
     data.faces[index].idCondition = this.marked.idCondition;
-    const color = this.marked.cor;
   }
 
   sendData() {

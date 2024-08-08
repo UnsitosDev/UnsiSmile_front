@@ -4,23 +4,22 @@
       <mat-tab-group [(selectedIndex)]="value">
         <mat-tab label="Adulto">
           <div>
-            @if (arcada.adulto) { 
-              @for (item of arcada.adulto; track $index) {
+            @if (arcadaAdulto) { 
+              @for (item of arcadaAdulto.tooths; track $index) {
               <app-students-tooth
                 [data]="item"
                 [index]="$index"
                 (toggleTooth)="toggleTooth($event)"
                 (setFace)="setFace($event)"
               ></app-students-tooth>
-              
             } 
           }
           </div>
         </mat-tab>
         <mat-tab label="Infantil">
           <div>
-            @if (arcada.infantil) { 
-              @for (item of arcada.infantil; track $index)
+            @if (arcadaInfantil) { 
+              @for (item of arcadaInfantil.tooths; track $index)
               {
               <app-students-tooth
                 [data]="item"

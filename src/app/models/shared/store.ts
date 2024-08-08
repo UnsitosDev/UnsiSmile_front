@@ -1,9 +1,5 @@
 // store.interface.ts
 export interface IStore {
-  marked: IMarked;
-  toolbar: {
-    opcoes: toothOptions[];
-  };
   arcada: IArcada;
 }
 
