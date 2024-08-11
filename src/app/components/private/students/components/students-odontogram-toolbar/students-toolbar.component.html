@@ -62,6 +62,7 @@
               </svg>
               <div class="tooth-symbols-below">
                 <!-- Simbologías debajo del diente -->
+                <!-- Prótesis removible -->
                 @if (symbol.condition === 'Prótesis removible') {
                   <span>
                     <svg width="29" height="10">
@@ -92,7 +93,7 @@
         @for (symbol of toolbar.options; track $index) {
           @if (isAbnormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
-            <div class="symbol-icon abnormal">
+            <div class="symbol-icon abnormal" (click)="selectSymbol(symbol)">
               <svg width="30" height="35" viewBox="0 0 30 35">
                 <!-- Representación del diente con cinco caras -->
                 <polygon stroke="black" points="1,1 7,9 21,9 28,1" fill="none" stroke-width="0.5"/>

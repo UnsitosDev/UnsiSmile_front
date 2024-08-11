@@ -11,6 +11,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 55,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -37,6 +38,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 54,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -63,6 +65,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 53,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -89,6 +92,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 52,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -115,6 +119,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 51,
         status: true,
+        conditions:[],
         //css: 'spaceRight',
         faces: [
           {
@@ -142,6 +147,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 61,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -168,6 +174,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 62,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -194,6 +201,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 63,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -220,6 +228,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 64,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -246,6 +255,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 65,
         status: true,
+        conditions:[],
         //css: 'noMarginRight',
         faces: [
           {
@@ -273,6 +283,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 85,
         status: true,
+        conditions:[],
         //css: 'clear',
         faces: [
           {
@@ -300,6 +311,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 84,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -326,6 +338,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 83,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -352,6 +365,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 82,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -378,6 +392,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 81,
         status: true,
+        conditions:[],
         //css: 'spaceRight',
         faces: [
           {
@@ -405,6 +420,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 71,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -431,6 +447,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 72,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -457,6 +474,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 73,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -483,6 +501,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 74,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -509,6 +528,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 75,
         status: true,
+        conditions:[],
         //css: 'noMarginRight',
         faces: [
           {
@@ -567,6 +587,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 17,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -593,6 +614,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 16,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -619,6 +641,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 15,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -645,6 +668,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 14,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -671,6 +695,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 13,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -697,6 +722,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 12,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -723,6 +749,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 11,
         status: true,
+        conditions:[],
         // css: 'spaceRight',
         faces: [
           {
@@ -750,6 +777,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 21,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -776,6 +804,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 22,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -802,6 +831,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 23,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -828,6 +858,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 24,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -854,6 +885,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 25,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -880,6 +912,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 26,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -906,6 +939,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 27,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -932,6 +966,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 28,
         status: true,
+        conditions:[],
         //css: 'noMarginRight',
         faces: [
           {
@@ -959,6 +994,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 48,
         status: true,
+        conditions:[],
         //css: 'clear',
         faces: [
           {
@@ -986,6 +1022,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 47,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1012,6 +1049,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 46,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1038,6 +1076,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 45,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1064,6 +1103,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 44,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1090,6 +1130,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 43,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1116,6 +1157,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 42,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1142,6 +1184,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 41,
         status: true,
+        conditions:[],
         //css: 'spaceRight',
         faces: [
           {
@@ -1169,6 +1212,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 31,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1195,6 +1239,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 32,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1221,6 +1266,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 33,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1247,6 +1293,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 34,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1273,6 +1320,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 35,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1299,6 +1347,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 36,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1325,6 +1374,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 37,
         status: true,
+        conditions:[],
         faces: [
           {
             idFace: 1,
@@ -1351,6 +1401,7 @@ export const store: IOdontogramHandler = {
       {
         idTooth: 38,
         status: true,
+        conditions:[],
         //css: 'noMarginRight',
         faces: [
           {

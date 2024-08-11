@@ -15,7 +15,7 @@ export interface ITooth {
     idTooth: number,
     faces: IFace[],
     status: true,
-    conditions?: ICondition[]
+    conditions: ICondition[]
 }
 
 export interface IOdontogram {

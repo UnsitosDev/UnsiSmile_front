@@ -1,3 +1,4 @@
+import { ToothConditionsConstants } from './../../../../../utils/ToothConditions.constant';
 import { NgClass } from '@angular/common';
 import {
   Component,
@@ -19,23 +20,23 @@ import { ICondition, IOdontogram, ITooth } from 'src/app/models/shared/odontogra
 export class StudentsToothComponent {
   @Input() data!: ITooth;
   @Input() index: number = 0;
+  @Input() marked!: ICondition;
   @Input() toothConditions!: ICondition[];
   @Output() toggleTooth = new EventEmitter<any>();
-  @Output() setFace = new EventEmitter<any>();
+  @Output() setFace = new EventEmitter<{faceId: number, index: number, data: ITooth}>();
 
   faceClicked = 0;
+  ToothConditionsConstant = ToothConditionsConstants;
 
   /**
    * Función invocada cuando se hace clic en un diente.
    * @param data Información de los pacientes y sus dientes.
    * @param index Índice del diente actual.
-   * @param faceId Identificador del diente seleccionado.
    */
   clicked(data: ITooth, index: number, faceId: any, idCondition: number) {
     // Se emite un evento para configurar la cara con la información del diente seleccionado.
     this.setFace.emit({faceId: data.faces[index].idFace, index: index, data: data});
     this.faceClicked = index
-    console.log('data', data);
   }
 
   getFacePoints(faceIndex: number): string {

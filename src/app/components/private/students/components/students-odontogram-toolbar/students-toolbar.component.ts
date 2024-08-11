@@ -1,5 +1,3 @@
-import { toothOptions, uiTooth } from './../../../../../models/shared/store';
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICondition } from 'src/app/models/shared/odontogram';
 import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
@@ -12,12 +10,12 @@ import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
   styleUrl: './students-toolbar.component.scss',
 })
 export class StudentsToolbarComponent {
-  @Input() toolbar!: Toolbar ;
+  @Input() toolbar!: Toolbar;
   @Output() handleAction = new EventEmitter<ICondition>();
 
   selectSymbol(symbol: ICondition) {
     this.handleAction.emit(symbol);
-    console.log(symbol)
+    console.log(symbol);
   }
 
   isNormalCondition(condition: string): boolean {
@@ -28,7 +26,7 @@ export class StudentsToolbarComponent {
       'Mantenedor de espacio con corona',
       'Mantenedor de espacio con banda',
       'Prótesis removible',
-      'Puente'
+      'Puente',
     ];
     return normalConditions.includes(condition);
   }
@@ -42,9 +40,8 @@ export class StudentsToolbarComponent {
       'Fístula',
       'Diente con fluorosis',
       'Diente con hipoplasia',
-      'Diente obturado con caries'
+      'Diente obturado con caries',
     ];
     return abnormalConditions.includes(condition);
   }
-
 }

@@ -1,17 +1,23 @@
-<!-- <div [ngClass]="data.css !== '' ? 'boxTooth ' + data.css : 'boxTooth'"> -->
 <div class="boxTooth">
   @if (data.status) {
-    <button class="removeButton" (click)="toggleTooth.emit(data)">-</button>
+  <button class="removeButton" (click)="toggleTooth.emit(data)">-</button>
   } @else {
-    <button class="addButton" (click)="toggleTooth.emit(data)">+</button>
+  <button class="addButton" (click)="toggleTooth.emit(data)">+</button>
   }
   <ng-template #addButton>
     <button class="addButton" (click)="toggleTooth.emit(data)">+</button>
   </ng-template>
 
-  <small style="text-align: center; display: block; clear: both">{{ data.idTooth }}</small>
+  <small style="text-align: center; display: block; clear: both">{{
+    data.idTooth
+  }}</small>
 
-  <svg width="29" height="34" [attr.id]="data.idTooth" [ngClass]="data.status ? 'tooth' : 'tooth disabled'">
+  <svg
+    width="29"
+    height="34"
+    [attr.id]="data.idTooth"
+    [ngClass]="data.status ? 'tooth' : 'tooth disabled'"
+  >
     <!-- Face 1 (Top) -->
     <polygon
       stroke="blue"
@@ -20,7 +26,7 @@
       fill="white"
       (click)="clicked(data, 0, data.faces[0].idFace, data.idTooth)"
       class="face"
-      />
+    />
 
     <!-- Face 2 (Right) -->
     <polygon
@@ -30,7 +36,7 @@
       fill="white"
       (click)="clicked(data, 1, data.faces[1].idFace, data.idTooth)"
       class="face"
-      />
+    />
 
     <!-- Face 3 (Bottom) -->
     <polygon
@@ -40,7 +46,7 @@
       fill="white"
       (click)="clicked(data, 2, data.faces[2].idFace, data.idTooth)"
       class="face"
-      />
+    />
 
     <!-- Face 4 (Left) -->
     <polygon
@@ -50,7 +56,7 @@
       fill="white"
       (click)="clicked(data, 3, data.faces[3].idFace, data.idTooth)"
       class="face"
-      />
+    />
 
     <!-- Face 5 (Center) -->
     <polygon
@@ -60,111 +66,255 @@
       fill="white"
       (click)="clicked(data, 4, data.faces[4].idFace, data.idTooth)"
       class="face"
-      />
+    />
 
     <!-- Simbologías -->
-    @for (symbol of toothConditions; track $index) {
-
+    @for (face of data.faces; track $index) { @for (condition of
+    face.conditions; track $index) {
+    <ng-container>
+      <!-- Diente parcialmente erupcionado -->
+      @if (condition.condition == "Diente parcialmente erupcionado") {
       <ng-container>
-        <!-- Diente parcialmente erupcionado -->
-        @if (false) {
-          <ng-container>
-            <line x1="0" y1="17" x2="29" y2="17" stroke="blue" fill="blue" stroke-width="2" />
-          </ng-container>
-        }
-        <!-- Diente obturado -->
-        @if (false) {
-          <ng-container>
-            <polygon [attr.points]="getFacePoints(faceClicked)" fill="blue" opacity="0.8" />
-          </ng-container>
-        }
-        <!-- Diente con corona -->
-        @if (false) {
-          <ng-container>
-            <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
-          </ng-container>
-        }
-        <!-- Mantenedor de espacio con corona -->
-        @if (false) {
-          <ng-container>
-            <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
-            <line x1="0" y1="28" x2="29" y2="28" stroke="black" stroke-width="2" opacity="0.6"/>
-            <line x1="20" y1="17" x2="29" y2="17" stroke="black" stroke-width="2" opacity="0.6"/>
-            <line x1="0" y1="6" x2="29" y2="6" stroke="black" stroke-width="2" opacity="0.6"/>
-          </ng-container>
-        }
-
-        <!-- Diente cariado -->
-        @if (false) {
-          <ng-container>
-            <polygon [attr.points]="getFacePoints(faceClicked)" fill="blue" opacity="0.6" />
-          </ng-container>
-        }
-
-        <!-- Diente con fractura-->
-        @if (true) {
-          <ng-container>
-            <line [attr.x1]="getFracturePoints(faceClicked).x1" [attr.y1]="getFracturePoints(faceClicked).y1" [attr.x2]="getFracturePoints(faceClicked).x2" [attr.y2]="getFracturePoints(faceClicked).y2" stroke="red" stroke-width="2" stroke-dasharray="4" />
-          </ng-container>
-        }
-
-        <!-- Fístula -->
-        @if (false) {
-          <ng-container>
-            <circle cx="14.5" cy="17" r="4" fill="red" />
-          </ng-container>
-        }
-
-        <!-- Diente obturado con caries -->
-        @if (true) {
-          <ng-container>
-            <polygon [attr.points]="getFacePoints(faceClicked)" fill="blue" opacity="0.6" stroke="red" stroke-width="2" />
-          </ng-container>
-        }
+        <line
+          x1="0"
+          y1="25"
+          x2="29"
+          y2="25"
+          stroke="blue"
+          fill="blue"
+          stroke-width="2"
+        />
       </ng-container>
-    }
+      }
+      <!-- Diente obturado -->
 
+      @if (condition.condition == ToothConditionsConstant.DIENTE_OBTURADO) {
+      <ng-container>
+        <polygon
+          [attr.points]="getFacePoints(faceClicked)"
+          fill="blue"
+          opacity="0.8"
+        />
+      </ng-container>
+      }
+      <!-- Diente con corona -->
+      @if (condition.condition == ToothConditionsConstant.DIENTE_CON_CORONA) {
+      <ng-container>
+        <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
+      </ng-container>
+      }
+      <!-- Mantenedor de espacio con corona -->
+      @if (condition.condition ==
+      ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
+      <ng-container>
+        <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
+        <line
+          x1="0"
+          y1="28"
+          x2="29"
+          y2="28"
+          stroke="black"
+          stroke-width="2"
+          opacity="0.6"
+        />
+        <line
+          x1="20"
+          y1="17"
+          x2="29"
+          y2="17"
+          stroke="black"
+          stroke-width="2"
+          opacity="0.6"
+        />
+        <line
+          x1="0"
+          y1="6"
+          x2="29"
+          y2="6"
+          stroke="black"
+          stroke-width="2"
+          opacity="0.6"
+        />
+      </ng-container>
+      }
+
+      <!-- Mantenedor de espacio con banda -->
+      @if (condition.condition ==
+      ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_BANDA) {
+      <ng-container>
+        <line
+          x1="0"
+          y1="28"
+          x2="29"
+          y2="28"
+          stroke="black"
+          stroke-width="2"
+          opacity="0.6"
+        />
+        <line
+          x1="20"
+          y1="17"
+          x2="29"
+          y2="17"
+          stroke="black"
+          stroke-width="2"
+          opacity="0.6"
+        />
+        <line
+          x1="0"
+          y1="6"
+          x2="29"
+          y2="6"
+          stroke="black"
+          stroke-width="2"
+          opacity="0.6"
+        />
+      </ng-container>
+      }
+
+      <!-- Diente cariado -->
+      @if (condition.condition == ToothConditionsConstant.DIENTE_CARIADO) {
+      <ng-container>
+        <polygon
+          [attr.points]="getFacePoints(faceClicked)"
+          fill="red"
+          opacity="0.6"
+        />
+      </ng-container>
+      }
+
+      <!-- Diente con fractura-->
+      @if (condition.condition == ToothConditionsConstant.DIENTE_CON_FRACTURA) {
+      <ng-container>
+        <line
+          [attr.x1]="getFracturePoints(faceClicked).x1"
+          [attr.y1]="getFracturePoints(faceClicked).y1"
+          [attr.x2]="getFracturePoints(faceClicked).x2"
+          [attr.y2]="getFracturePoints(faceClicked).y2"
+          stroke="red"
+          stroke-width="2"
+          stroke-dasharray="4"
+        />
+      </ng-container>
+      }
+
+      <!-- Fístula -->
+      @if (condition.condition == ToothConditionsConstant.FISTULA) {
+      <ng-container>
+        <circle cx="14.5" cy="17" r="4" fill="red" />
+      </ng-container>
+      }
+
+      <!-- Diente obturado con caries -->
+      @if (condition.condition ==
+      ToothConditionsConstant.DIENTE_OBTURADO_CON_CARIES) {
+      <ng-container>
+        <polygon
+          [attr.points]="getFacePoints(faceClicked)"
+          fill="blue"
+          opacity="0.6"
+          stroke="red"
+          stroke-width="2"
+        />
+      </ng-container>
+      }
+    </ng-container>
+    } }
   </svg>
 
   <!-- Contenedor de simbologías debajo del diente -->
   <div class="tooth-symbols-below">
-    <!-- @for (symbol of data.symbols; track $index) { -->
-      <!-- Diente con fluorosis -->
-      @if (false) {
-        <span class="tooth-symbol-fluorosis">F</span>
-      }
-      
-      <!-- Diente en mal posición -->
-      @if (false) {
-        <span class="tooth-symbol-mispositioned">
+    @for (condition of data.conditions; track $index) {
+    <!-- Diente con fluorosis -->
+    @if (condition.condition == ToothConditionsConstant.DIENTE_CON_FLUOROSIS) {
+      <span>
+        <ng-container>
           <svg width="29" height="10">
-            @if (false) {
-              <path d="M5,10 C10,5 20,5 25,10" stroke="blue" stroke-width="2" fill="none" />
-            }
-            <!-- @if (symbol.direction === 'counterclockwise') { -->
-            @if(false){
-              <path d="M5,0 C10,5 20,5 25,0" stroke="blue" stroke-width="2" fill="none" />
-            }
+            <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">F</text>
           </svg>
-        </span>
-      }
+        </ng-container>
+      </span>
+    }
 
-      <!-- Prótesis removible -->
-      @if (false) {
-        <span>
-          <svg>
-              <ng-container>
-                <path d="M5,30 L5,35 L25,35 L25,30" stroke="red" stroke-width="1" fill="none"/>
-              </ng-container>
+    <!-- Diente con hipoplasia -->
+    @if (condition.condition == ToothConditionsConstant.DIENTE_CON_HIPOPLASIA) {
+      <span>
+        <ng-container>
+          <svg width="29" height="10">
+            <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">F</text>
           </svg>
+        </ng-container>
+      </span>
+    }
+
+    <!-- Diente en mal posición -->
+    @if (condition.condition ==
+    ToothConditionsConstant.DIENTE_EN_MAL_POSICION_DERECHA) {
+    <span>
+      <ng-container>
+        <svg width="29" height="10">
+          <path d="M5,10 C10,5 20,5 25,10" stroke="blue" stroke-width="2" fill="none"/>
+        </svg>
+      </ng-container>
+    </span>
+    }
+
+        <!-- Diente en mal posición izq-->
+        @if (condition.condition ==
+        ToothConditionsConstant.DIENTE_EN_MAL_POSICION_DERECHA) {
+        <span>
+          <ng-container>
+            <svg width="29" height="10">
+              <path d="M5,0 C10,5 20,5 25,0" stroke="blue" stroke-width="2" fill="none"/>
+            </svg>
+          </ng-container>
         </span>
+        }
+
+    <!-- Prótesis removible -->
+    @if (condition.condition == ToothConditionsConstant.PROTESIS_REMOVIBLE) {
+    <span>
+      <svg>
+        <ng-container>
+          <svg width="29" height="10">
+            <rect
+              x="0"
+              y="5"
+              width="25"
+              height="5"
+              fill="none"
+              stroke-width="2"
+              stroke="blue"
+            />
+          </svg>
+        </ng-container>
+      </svg>
+    </span>
+    } 
+    
+    @if (condition.condition == ToothConditionsConstant.PUENTE) {
+      <span>
+        <svg>
+          <ng-container>
+            <svg width="29" height="10">
+            <rect x="0" y="5" width="25" height="5" fill="none" stroke-width="2" stroke="blue" />
+          </svg>
+          </ng-container>
+        </svg>
+      </span>
       }
-    <!-- } -->
+  }
   </div>
 
-
-
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" [ngClass]="!data.status ? 'tooth' : 'tooth disabled'">
-    <path fill="red" d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    [ngClass]="!data.status ? 'tooth' : 'tooth disabled'"
+  >
+    <path
+      fill="red"
+      d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"
+    />
   </svg>
 </div>

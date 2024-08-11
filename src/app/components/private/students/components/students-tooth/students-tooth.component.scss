@@ -54,24 +54,8 @@
 }
 
 .tooth-symbols-below {
-  margin-top: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.tooth-symbol-fluorosis {
-  font-size: 14px;
-  color: blue;
-  margin-right: 5px;
-}
-
-.tooth-symbol-mispositioned {
-  display: inline-block;
-  margin-left: 5px;
-}
-
-.tooth-symbol-removable-prosthesis {
-  display: inline-block;
-  margin-left: 5px;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  text-align: center;
 }

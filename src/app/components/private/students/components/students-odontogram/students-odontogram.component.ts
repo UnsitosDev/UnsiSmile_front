@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { StudentsToothComponent } from '../students-tooth/students-tooth.component';
-import { IArcada } from './../../../../../models/shared/store';
 
 import { OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { store } from '@mean/services';
-import { ICondition } from 'src/app/models/shared/odontogram';
+import { ICondition, ITooth } from 'src/app/models/shared/odontogram';
 import { OdontogramData } from 'src/app/services/odontogram-data.service';
 import { StudentsToolbarComponent } from '../students-odontogram-toolbar/students-toolbar.component';
+import { ToothConditionsConstants } from 'src/app/utils/ToothConditions.constant';
 @Component({
   selector: 'app-students-odontogram',
   standalone: true,
@@ -90,10 +90,26 @@ export class StudentsOdontogramComponent implements OnInit {
    * Función para configurar la cara del estudiante según el diente seleccionado.
    * @param event Información del evento que contiene el ID del diente, su índice y los datos del estudiante.
    */
-  setFace(event: any) {
+  setFace(event: {faceId: number, index: number, data: ITooth}) {
     const { index, data } = event;
-    data.faces[index].estado = this.marked;
-    data.faces[index].idCondition = this.marked.idCondition;
+    if(this.isNotAFaceCondition(this.marked)){
+      data.conditions?.push(this.marked);
+    }else{
+      data.faces[index].conditions?.push(this.marked);
+    }
+    console.log("checking marked: ", this.marked, " data:  ", data);
+  }
+
+  isNotAFaceCondition(condition: ICondition): Boolean{
+    const normalConditions = [
+      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA,
+      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA,
+      ToothConditionsConstants.PUENTE,
+      ToothConditionsConstants.PROTESIS_REMOVIBLE,
+      ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
+      ToothConditionsConstants.DIENTE_CON_HIPOPLASIA
+    ];
+    return normalConditions.includes(condition.condition);
   }
 
   sendData() {
