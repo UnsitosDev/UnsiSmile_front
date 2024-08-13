@@ -1,4 +1,4 @@
-import { columnPatientsTableData, patientsTableData } from "./patients";
+import { columnPatientsTableData, patientsTableData } from "../shared/patients";
 
 
 
