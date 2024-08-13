@@ -43,15 +43,6 @@ export class StudentsOdontogramComponent implements OnInit {
       this.toolbar = { options: options };
     });
 
-    // this.odontogramData.getDentalCodesOfAdults().subscribe((dentalCodes) => {
-    //   console.log('ADentalCodes ', dentalCodes);
-    //   this.arcadaAdulto = dentalCodes;
-    // });
-
-    // this.odontogramData.getDentalCodesOfChilds().subscribe((dentalCodes) => {
-    //   console.log('iDentalCodes', dentalCodes);
-    //   this.arcada.infantil = dentalCodes;
-    // });
   }
 
   /**
@@ -88,15 +79,23 @@ export class StudentsOdontogramComponent implements OnInit {
 
   /**
    * Función para configurar la cara del estudiante según el diente seleccionado.
-   * @param event Información del evento que contiene el ID del diente, su índice y los datos del estudiante.
+   * @param event Información del evento que contiene información del diente
    */
   setFace(event: {faceId: number, index: number, data: ITooth}) {
     const { index, data } = event;
+
+    //se verifica que el la condicion se inserte a nivel del diente o de las caras
     if(this.isNotAFaceCondition(this.marked)){
       data.conditions?.push(this.marked);
     }else{
       data.faces[index].conditions?.push(this.marked);
     }
+
+    if(this.marked.condition === ToothConditionsConstants.PUENTE){
+      data.faces[index].conditions?.push(this.marked);
+    }
+
+
     console.log("checking marked: ", this.marked, " data:  ", data);
   }
 

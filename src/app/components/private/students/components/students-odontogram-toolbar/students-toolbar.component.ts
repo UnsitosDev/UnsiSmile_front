@@ -1,3 +1,5 @@
+import { toothConditionRequest } from './../students-general-history/models/toothCondition/toothCondition';
+import { ToothConditionsConstants } from './../../../../../utils/ToothConditions.constant';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICondition } from 'src/app/models/shared/odontogram';
 import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
@@ -13,6 +15,8 @@ export class StudentsToolbarComponent {
   @Input() toolbar!: Toolbar;
   @Output() handleAction = new EventEmitter<ICondition>();
 
+  ToothConditionsConstants = ToothConditionsConstants 
+
   selectSymbol(symbol: ICondition) {
     this.handleAction.emit(symbol);
     console.log(symbol);
@@ -20,27 +24,27 @@ export class StudentsToolbarComponent {
 
   isNormalCondition(condition: string): boolean {
     const normalConditions = [
-      'Diente parcialmente erupcionado',
-      'Diente obturado',
-      'Diente con corona',
-      'Mantenedor de espacio con corona',
-      'Mantenedor de espacio con banda',
-      'Prótesis removible',
-      'Puente',
+      ToothConditionsConstants.DIENTE_PARCIALMENTE_ERUPCIONADO,
+      ToothConditionsConstants.DIENTE_OBTURADO,
+      ToothConditionsConstants.DIENTE_CON_CORONA,
+      ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA,
+      ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA,
+      ToothConditionsConstants.PROTESIS_REMOVIBLE,
+      ToothConditionsConstants.PUENTE
     ];
     return normalConditions.includes(condition);
   }
 
   isAbnormalCondition(condition: string): boolean {
     const abnormalConditions = [
-      'Diente cariado',
-      'Diente en mal posición derecha',
-      'Diente en mal posición izquierda',
-      'Diente con fractura',
-      'Fístula',
-      'Diente con fluorosis',
-      'Diente con hipoplasia',
-      'Diente obturado con caries',
+      ToothConditionsConstants.DIENTE_CARIADO,
+      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA,
+      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA,
+      ToothConditionsConstants.DIENTE_CON_FRACTURA,
+      ToothConditionsConstants.FISTULA,
+      ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
+      ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
+      ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES
     ];
     return abnormalConditions.includes(condition);
   }

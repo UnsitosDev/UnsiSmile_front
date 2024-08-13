@@ -103,6 +103,14 @@
         <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
       </ng-container>
       }
+
+      <!-- Puente -->
+      @if (condition.condition == ToothConditionsConstant.PUENTE) {
+        <ng-container>
+          <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
+        </ng-container>
+        }
+
       <!-- Mantenedor de espacio con corona -->
       @if (condition.condition ==
       ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
@@ -261,11 +269,11 @@
 
         <!-- Diente en mal posición izq-->
         @if (condition.condition ==
-        ToothConditionsConstant.DIENTE_EN_MAL_POSICION_DERECHA) {
+        ToothConditionsConstant.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
         <span>
           <ng-container>
-            <svg width="29" height="10">
-              <path d="M5,0 C10,5 20,5 25,0" stroke="blue" stroke-width="2" fill="none"/>
+            <svg width="40" height="10">
+              <path d="M10,5 C15,10 25,10 30,5" stroke="blue" stroke-width="2" fill="none"/>
             </svg>
           </ng-container>
         </span>

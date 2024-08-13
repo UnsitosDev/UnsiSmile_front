@@ -1,5 +1,5 @@
 export class ToothConditionsConstants {
-  public static readonly DIENTE_PARCIALMENTE_OBTURADO =
+  public static readonly DIENTE_PARCIALMENTE_ERUPCIONADO =
     'Diente parcialmente erupcionado';
   public static readonly DIENTE_OBTURADO = 'Diente obturado';
   public static readonly DIENTE_CON_CORONA = 'Diente con corona';
