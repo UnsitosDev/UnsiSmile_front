@@ -70,222 +70,250 @@
 
     <!-- Simbologías -->
     @for (face of data.faces; track face) {
+    <ng-container>
+      @for (condition of face.conditions; track condition) {
       <ng-container>
-        @for (condition of face.conditions; track condition) {
-          <ng-container>
-            <!-- Diente parcialmente erupcionado -->
-            @if (condition.condition === ToothConditionsConstant.DIENTE_PARCIALMENTE_ERUPCIONADO) {
-              <ng-container>
-                <line
-                  x1="0"
-                  y1="25"
-                  x2="29"
-                  y2="25"
-                  stroke="blue"
-                  fill="blue"
-                  stroke-width="2"
-                  />
-              </ng-container>
-            }
-            <!-- Diente obturado -->
-            @if (condition.condition === ToothConditionsConstant.DIENTE_OBTURADO) {
-              <ng-container>
-                <polygon
-                  [attr.points]="getFacePoints(face.idFace-1)"
-                  fill="blue"
-                  opacity="0.8"
-                  />
-              </ng-container>
-            }
-            <!-- Puente -->
-            @if (condition.condition === ToothConditionsConstant.PUENTE) {
-              <ng-container>
-                <polygon
-                  points="1,1 28,1 28,33 1,33"
-                  fill="blue"
-                  opacity="0.6"
-                  />
-              </ng-container>
-            }
-            <!-- Diente con corona -->
-            @if (condition.condition === ToothConditionsConstant.DIENTE_CON_CORONA) {
-              <ng-container>
-                <polygon
-                  points="1,1 28,1 28,33 1,33"
-                  fill="blue"
-                  opacity="0.6"
-                  />
-              </ng-container>
-            }
+        <!-- Diente parcialmente erupcionado -->
+        @if (condition.condition ===
+        ToothConditionsConstant.DIENTE_PARCIALMENTE_ERUPCIONADO) {
+        <ng-container>
+          <line
+            x1="0"
+            y1="25"
+            x2="29"
+            y2="25"
+            stroke="blue"
+            fill="blue"
+            stroke-width="2"
+          />
+        </ng-container>
+        }
+        <!-- Diente obturado -->
+        @if (condition.condition === ToothConditionsConstant.DIENTE_OBTURADO) {
+        <ng-container>
+          <polygon
+            [attr.points]="getFacePoints(face.idFace - 1)"
+            fill="blue"
+            opacity="0.8"
+          />
+        </ng-container>
+        }
+        <!-- Puente -->
+        @if (condition.condition === ToothConditionsConstant.PUENTE) {
+        <ng-container>
+          <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
+        </ng-container>
+        }
+        <!-- Diente con corona -->
+        @if (condition.condition === ToothConditionsConstant.DIENTE_CON_CORONA)
+        {
+        <ng-container>
+          <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
+        </ng-container>
+        }
 
-            
-            <!-- Mantenedor de espacio con corona -->
-            @if (condition.condition === ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
-              <ng-container>
-                <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
-                <line
-                  x1="0"
-                  y1="28"
-                  x2="29"
-                  y2="28"
-                  stroke="black"
-                  stroke-width="2"
-                  opacity="0.6"
-                  />
-                <line
-                  x1="20"
-                  y1="17"
-                  x2="29"
-                  y2="17"
-                  stroke="black"
-                  stroke-width="2"
-                  opacity="0.6"
-                  />
-                <line
-                  x1="0"
-                  y1="6"
-                  x2="29"
-                  y2="6"
-                  stroke="black"
-                  stroke-width="2"
-                  opacity="0.6"
-                  />
-              </ng-container>
-            }
-            <!-- Mantenedor de espacio con banda -->
-            @if (condition.condition === ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_BANDA) {
-              <ng-container>
-                <line
-                  x1="0"
-                  y1="28"
-                  x2="29"
-                  y2="28"
-                  stroke="black"
-                  stroke-width="2"
-                  opacity="0.6"
-                  />
-                <line
-                  x1="20"
-                  y1="17"
-                  x2="29"
-                  y2="17"
-                  stroke="black"
-                  stroke-width="2"
-                  opacity="0.6"
-                  />
-                <line
-                  x1="0"
-                  y1="6"
-                  x2="29"
-                  y2="6"
-                  stroke="black"
-                  stroke-width="2"
-                  opacity="0.6"
-                  />
-              </ng-container>
-            }
-            <!-- Diente cariado -->
-            @if (condition.condition === ToothConditionsConstant.DIENTE_CARIADO) {
-              <ng-container>
-                <polygon
-                  [attr.points]="getFacePoints(face.idFace-1)"
-                  fill="red"
-                  opacity="0.6"
-                  />
-              </ng-container>
-            }
-            <!-- Diente con fractura -->
-            @if (condition.condition === ToothConditionsConstant.DIENTE_CON_FRACTURA) {
-              <ng-container>
-                <line
-                  [attr.x1]="getFracturePoints(face.idFace-1).x1"
-                  [attr.y1]="getFracturePoints(face.idFace-1).y1"
-                  [attr.x2]="getFracturePoints(face.idFace-1).x2"
-                  [attr.y2]="getFracturePoints(face.idFace-1).y2"
-                  stroke="red"
-                  stroke-width="2"
-                  stroke-dasharray="4"
-                  />
-              </ng-container>
-            }
-            <!-- Fístula -->
-            @if (condition.condition === ToothConditionsConstant.FISTULA) {
-              <ng-container>
-                <circle cx="14.5" cy="17" r="4" fill="red" />
-              </ng-container>
-            }
-            <!-- Diente obturado con caries -->
-            @if (condition.condition === ToothConditionsConstant.DIENTE_OBTURADO_CON_CARIES) {
-              <ng-container>
-                <polygon
-                  [attr.points]="getFacePoints(face.idFace-1)"
-                  fill="blue"
-                  opacity="0.6"
-                  stroke="red"
-                  stroke-width="2"
-                  />
-              </ng-container>
-            }
-          </ng-container>
+        <!-- Mantenedor de espacio con corona -->
+        @if (condition.condition ===
+        ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
+        <ng-container>
+          <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
+          <line
+            x1="0"
+            y1="28"
+            x2="29"
+            y2="28"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+          <line
+            x1="20"
+            y1="17"
+            x2="29"
+            y2="17"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+          <line
+            x1="0"
+            y1="6"
+            x2="29"
+            y2="6"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+        </ng-container>
+        }
+        <!-- Mantenedor de espacio con banda -->
+        @if (condition.condition ===
+        ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_BANDA) {
+        <ng-container>
+          <line
+            x1="0"
+            y1="28"
+            x2="29"
+            y2="28"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+          <line
+            x1="20"
+            y1="17"
+            x2="29"
+            y2="17"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+          <line
+            x1="0"
+            y1="6"
+            x2="29"
+            y2="6"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+        </ng-container>
+        }
+        <!-- Diente cariado -->
+        @if (condition.condition === ToothConditionsConstant.DIENTE_CARIADO) {
+        <ng-container>
+          <polygon
+            [attr.points]="getFacePoints(face.idFace - 1)"
+            fill="red"
+            opacity="0.6"
+          />
+        </ng-container>
+        }
+        <!-- Diente con fractura -->
+        @if (condition.condition ===
+        ToothConditionsConstant.DIENTE_CON_FRACTURA) {
+        <ng-container>
+          <line
+            [attr.x1]="getFracturePoints(face.idFace - 1).x1"
+            [attr.y1]="getFracturePoints(face.idFace - 1).y1"
+            [attr.x2]="getFracturePoints(face.idFace - 1).x2"
+            [attr.y2]="getFracturePoints(face.idFace - 1).y2"
+            stroke="red"
+            stroke-width="2"
+            stroke-dasharray="4"
+          />
+        </ng-container>
+        }
+        <!-- Fístula -->
+        @if (condition.condition === ToothConditionsConstant.FISTULA) {
+        <ng-container>
+          <svg width="29" height="34">
+            <g>
+              <circle
+                [attr.cx]="getFaceCirclePoints(face.idFace - 1).cx"
+                [attr.cy]="getFaceCirclePoints(face.idFace - 1).cy"
+                [attr.r]="getFaceCirclePoints(face.idFace - 1).r"
+                fill="red"
+              />
+            </g>
+          </svg>
+        </ng-container>
+        }
+
+        <!-- Diente obturado con caries -->
+        @if (condition.condition ===
+        ToothConditionsConstant.DIENTE_OBTURADO_CON_CARIES) {
+        <ng-container>
+          <polygon
+            [attr.points]="getFacePoints(face.idFace - 1)"
+            fill="blue"
+            opacity="0.6"
+            stroke="red"
+            stroke-width="2"
+          />
+        </ng-container>
         }
       </ng-container>
+      }
+    </ng-container>
     }
   </svg>
 
   <!-- Contenedor de simbologías debajo del diente -->
   <div class="tooth-symbols-below">
     @for (condition of data.conditions; track condition) {
-      <!-- Diente con fluorosis -->
-      @if (condition.condition === ToothConditionsConstant.DIENTE_CON_FLUOROSIS) {
-        <svg width="29" height="10">
-          <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">F</text>
-        </svg>
-      }
-      <!-- Diente con hipoplasia -->
-      @if (condition.condition === ToothConditionsConstant.DIENTE_CON_HIPOPLASIA) {
-        <svg width="29" height="10">
-          <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">H</text>
-        </svg>
-      }
-      <!-- Diente en mal posición derecha -->
-      @if (condition.condition === ToothConditionsConstant.DIENTE_EN_MAL_POSICION_DERECHA) {
-        <svg width="29" height="10">
-          <path d="M5,10 C10,5 20,5 25,10" stroke="blue" stroke-width="2" fill="none"/>
-        </svg>
-      }
-      <!-- Diente en mal posición izquierda -->
-      @if (condition.condition === ToothConditionsConstant.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
-        <svg width="40" height="10">
-          <path d="M10,5 C15,10 25,10 30,5" stroke="blue" stroke-width="2" fill="none"/>
-        </svg>
-      }
-      <!-- Prótesis removible -->
-      @if (condition.condition === ToothConditionsConstant.PROTESIS_REMOVIBLE) {
-        <svg width="29" height="10">
-          <rect
-            x="0"
-            y="5"
-            width="25"
-            height="5"
-            fill="none"
-            stroke-width="2"
-            stroke="blue"
-            />
-        </svg>
-      }
-
-      @if (condition.condition === ToothConditionsConstant.PUENTE) {
-        <span>
-          <svg>
-            <ng-container>
-              <svg width="29" height="10">
-              <rect x="0" y="5" width="25" height="5" fill="none" stroke-width="2" stroke="blue" />
-            </svg>
-            </ng-container>
-          </svg>
-        </span>
-        }
-
+    <!-- Diente con fluorosis -->
+    @if (condition.condition === ToothConditionsConstant.DIENTE_CON_FLUOROSIS) {
+    <svg width="29" height="10">
+      <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">
+        F
+      </text>
+    </svg>
     }
+    <!-- Diente con hipoplasia -->
+    @if (condition.condition === ToothConditionsConstant.DIENTE_CON_HIPOPLASIA)
+    {
+    <svg width="29" height="10">
+      <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">
+        H
+      </text>
+    </svg>
+    }
+    <!-- Diente en mal posición derecha -->
+    @if (condition.condition ===
+    ToothConditionsConstant.DIENTE_EN_MAL_POSICION_DERECHA) {
+    <svg width="29" height="10">
+      <path
+        d="M5,10 C10,5 20,5 25,10"
+        stroke="blue"
+        stroke-width="2"
+        fill="none"
+      />
+    </svg>
+    }
+    <!-- Diente en mal posición izquierda -->
+    @if (condition.condition ===
+    ToothConditionsConstant.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
+    <svg width="40" height="10">
+      <path
+        d="M10,5 C15,10 25,10 30,5"
+        stroke="blue"
+        stroke-width="2"
+        fill="none"
+      />
+    </svg>
+    }
+    <!-- Prótesis removible -->
+    @if (condition.condition === ToothConditionsConstant.PROTESIS_REMOVIBLE) {
+    <svg width="29" height="10">
+      <rect
+        x="0"
+        y="5"
+        width="25"
+        height="5"
+        fill="none"
+        stroke-width="2"
+        stroke="blue"
+      />
+    </svg>
+    } @if (condition.condition === ToothConditionsConstant.PUENTE) {
+    <span>
+      <svg>
+        <ng-container>
+          <svg width="29" height="10">
+            <rect
+              x="0"
+              y="5"
+              width="25"
+              height="5"
+              fill="none"
+              stroke-width="2"
+              stroke="blue"
+            />
+          </svg>
+        </ng-container>
+      </svg>
+    </span>
+    } }
   </div>
 </div>

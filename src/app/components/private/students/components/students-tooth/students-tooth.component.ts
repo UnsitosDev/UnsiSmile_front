@@ -55,6 +55,23 @@ export class StudentsToothComponent {
         return '';
     }
   }
+
+  getFaceCirclePoints(faceIndex: number): { cx: number, cy: number, r: number } {
+    switch (faceIndex) {
+      case 0: // Cara superior
+        return { cx: 14.5, cy: 5, r: 4 };
+      case 1: // Cara derecha
+        return { cx: 25, cy: 17, r: 4 };
+      case 2: // Cara inferior
+        return { cx: 14.5, cy: 29, r: 4 };
+      case 3: // Cara izquierda
+        return { cx: 4, cy: 17, r: 4 };
+      case 4: // Cara central
+        return { cx: 14.5, cy: 17, r: 4 };
+      default:
+        return { cx: 0, cy: 0, r: 0 };
+    }
+  }
   
   getFracturePoints(faceIndex: number): { x1: number, y1: number, x2: number, y2: number } {
     switch(faceIndex) {
