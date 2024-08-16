@@ -1,4 +1,3 @@
-import { Toolbar } from './tool-bar-options.model';
 // odontogram.interface.ts
 export interface ICondition {
     idCondition: Number,
