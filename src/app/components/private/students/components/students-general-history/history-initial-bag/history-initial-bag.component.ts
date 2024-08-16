@@ -1,11 +1,11 @@
-import { NgFor } from '@angular/common';
+
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
-  imports: [NgFor, MatButtonModule],
+  imports: [MatButtonModule],
   templateUrl: './history-initial-bag.component.html',
   styleUrl: './history-initial-bag.component.scss',
 })

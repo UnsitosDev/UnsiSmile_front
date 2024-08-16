@@ -1,79 +1,319 @@
-<!-- tooth.component.html -->
-<div [ngClass]="data.css ? 'boxTooth ' + data.css : 'boxTooth'">
-  
-    <button *ngIf="data.status; else addButton" class="removeButton" (click)="toggleTooth.emit(data)">-</button>
-    <ng-template #addButton><button class="addButton" (click)="toggleTooth.emit(data)">+</button></ng-template>
-  
-    <small style="text-align: center; display: block; clear: both">{{ data.id }}</small>
-  
-    <svg width="29" height="34" [attr.id]="data.id" [ngClass]="data.status ? 'tooth' : 'tooth disabled'">
-      <!-- Face 1 -->
-      <polygon 
-        stroke="blue" 
-        points="1.0136711597442627,1.35626420378685 7.767158031463623,9.155386298894882 21.696229934692383,9.155386298894882 28.449718475341797,1.35626420378685 " 
-        [attr.id]="data.faces[0].id" 
-        [attr.fill]="data.faces[0].estado"
-        (click)="clicked(data,  0, data.faces[0].id, all )"
-        class="face"
-      />
-      <!-- <text x="15" y="10" text-anchor="middle" alignment-baseline="middle" fill="black">A</text> -->
+<div class="boxTooth">
+  @if (data.status) {
+  <button class="removeButton" (click)="toggleTooth.emit(data)">-</button>
+  } @else {
+  <button class="addButton" (click)="toggleTooth.emit(data)">+</button>
+  }
+  <ng-template #addButton>
+    <button class="addButton" (click)="toggleTooth.emit(data)">+</button>
+  </ng-template>
 
+  <small style="text-align: center; display: block; clear: both">{{
+    data.idTooth
+  }}</small>
 
-      <!-- Face 2 -->
-      <polygon 
-        stroke="blue" 
-        points="21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 28.19916971027851,32.98905944824219 28.41021592915058,0.8176754713058472 " 
-        [attr.id]="data.faces[1].id" 
-        [attr.fill]="data.faces[1].estado"
-        (click)="clicked(data,  1, data.faces[1].id, all )"
-        class="face"
-      />
-  
-      <!-- Face 3 -->
-      <polygon 
-        stroke="blue" 
-        points="21.445680618286133,25.29296439886093 28.199169158935547,33.092128217220306 0.7631232142448425,33.092128217220306 7.516610622406006,25.29296439886093 " 
-        [attr.id]="data.faces[2].id"
-        [attr.fill]="data.faces[2].estado"
-        (click)="clicked(data,  2, data.faces[2].id, all )"
-        class="face"
-      />
+  <svg
+    width="29"
+    height="34"
+    [attr.id]="data.idTooth"
+    [ngClass]="data.status ? 'tooth' : 'tooth disabled'"
+  >
+    <!-- Face 1 (Top) -->
+    <polygon
+      stroke="blue"
+      points="1,1 7,9 21,9 28,1"
+      [attr.id]="data.faces[0].idFace"
+      fill="white"
+      (click)="clicked(data, 0, data.faces[0].idFace, data.idTooth)"
+      class="face"
+    />
 
-  
-      <!-- Face 4 -->
-      <polygon 
-        stroke="blue" 
-        points="0.7631232291460037,1.3051201105117798 0.7631232291460037,33.232784271240234 7.516610696911812,25.189937591552734 7.516610696911812,25.189937591552734 7.516610696911812,9.104242324829102 " 
-        [attr.id]="data.faces[3].id" 
-        [attr.fill]="data.faces[3].estado"
-        (click)="clicked(data,  3, data.faces[3].id, all )"
-        class="face"
-      />
-  
-      <!-- Face 5 -->
-      <polygon 
-        stroke="blue" 
-        points="7.516610696911812,9.104242324829102 21.445681169629097,9.104242324829102 21.445681169629097,25.189937591552734 7.516610696911812,25.189937591552734 " 
-        [attr.id]="data.faces[4].id" 
-        [attr.fill]="data.faces[4].estado"
-        (click)="clicked(data,  4, data.faces[4].id, all )"
-        class="face"
-      />
-      
-      @if (line) {
-        <line x1="100" y1="25" x2="0" y2="25" />
+    <!-- Face 2 (Right) -->
+    <polygon
+      stroke="blue"
+      points="21,9 21,25 28,33 28,1"
+      [attr.id]="data.faces[1].idFace"
+      fill="white"
+      (click)="clicked(data, 1, data.faces[1].idFace, data.idTooth)"
+      class="face"
+    />
+
+    <!-- Face 3 (Bottom) -->
+    <polygon
+      stroke="blue"
+      points="21,25 28,33 1,33 7,25"
+      [attr.id]="data.faces[2].idFace"
+      fill="white"
+      (click)="clicked(data, 2, data.faces[2].idFace, data.idTooth)"
+      class="face"
+    />
+
+    <!-- Face 4 (Left) -->
+    <polygon
+      stroke="blue"
+      points="1,1 1,33 7,25 7,9"
+      [attr.id]="data.faces[3].idFace"
+      fill="white"
+      (click)="clicked(data, 3, data.faces[3].idFace, data.idTooth)"
+      class="face"
+    />
+
+    <!-- Face 5 (Center) -->
+    <polygon
+      stroke="blue"
+      points="7,9 21,9 21,25 7,25"
+      [attr.id]="data.faces[4].idFace"
+      fill="white"
+      (click)="clicked(data, 4, data.faces[4].idFace, data.idTooth)"
+      class="face"
+    />
+
+    <!-- Simbologías -->
+    @for (face of data.faces; track face) {
+    <ng-container>
+      @for (condition of face.conditions; track condition) {
+      <ng-container>
+        <!-- Diente parcialmente erupcionado -->
+        @if (condition.condition ===
+        ToothConditionsConstant.DIENTE_PARCIALMENTE_ERUPCIONADO) {
+        <ng-container>
+          <line
+            x1="0"
+            y1="25"
+            x2="29"
+            y2="25"
+            stroke="blue"
+            fill="blue"
+            stroke-width="2"
+          />
+        </ng-container>
+        }
+        <!-- Diente obturado -->
+        @if (condition.condition === ToothConditionsConstant.DIENTE_OBTURADO) {
+        <ng-container>
+          <polygon
+            [attr.points]="getFacePoints(face.idFace - 1)"
+            fill="blue"
+            opacity="0.8"
+          />
+        </ng-container>
+        }
+        <!-- Puente -->
+        @if (condition.condition === ToothConditionsConstant.PUENTE) {
+        <ng-container>
+          <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
+        </ng-container>
+        }
+        <!-- Diente con corona -->
+        @if (condition.condition === ToothConditionsConstant.DIENTE_CON_CORONA)
+        {
+        <ng-container>
+          <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
+        </ng-container>
+        }
+
+        <!-- Mantenedor de espacio con corona -->
+        @if (condition.condition ===
+        ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
+        <ng-container>
+          <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
+          <line
+            x1="0"
+            y1="28"
+            x2="29"
+            y2="28"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+          <line
+            x1="20"
+            y1="17"
+            x2="29"
+            y2="17"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+          <line
+            x1="0"
+            y1="6"
+            x2="29"
+            y2="6"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+        </ng-container>
+        }
+        <!-- Mantenedor de espacio con banda -->
+        @if (condition.condition ===
+        ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_BANDA) {
+        <ng-container>
+          <line
+            x1="0"
+            y1="28"
+            x2="29"
+            y2="28"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+          <line
+            x1="20"
+            y1="17"
+            x2="29"
+            y2="17"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+          <line
+            x1="0"
+            y1="6"
+            x2="29"
+            y2="6"
+            stroke="black"
+            stroke-width="2"
+            opacity="0.6"
+          />
+        </ng-container>
+        }
+        <!-- Diente cariado -->
+        @if (condition.condition === ToothConditionsConstant.DIENTE_CARIADO) {
+        <ng-container>
+          <polygon
+            [attr.points]="getFacePoints(face.idFace - 1)"
+            fill="red"
+            opacity="0.6"
+          />
+        </ng-container>
+        }
+        <!-- Diente con fractura -->
+        @if (condition.condition ===
+        ToothConditionsConstant.DIENTE_CON_FRACTURA) {
+        <ng-container>
+          <line
+            [attr.x1]="getFracturePoints(face.idFace - 1).x1"
+            [attr.y1]="getFracturePoints(face.idFace - 1).y1"
+            [attr.x2]="getFracturePoints(face.idFace - 1).x2"
+            [attr.y2]="getFracturePoints(face.idFace - 1).y2"
+            stroke="red"
+            stroke-width="2"
+            stroke-dasharray="4"
+          />
+        </ng-container>
+        }
+        <!-- Fístula -->
+        @if (condition.condition === ToothConditionsConstant.FISTULA) {
+        <ng-container>
+          <svg width="29" height="34">
+            <g>
+              <circle
+                [attr.cx]="getFaceCirclePoints(face.idFace - 1).cx"
+                [attr.cy]="getFaceCirclePoints(face.idFace - 1).cy"
+                [attr.r]="getFaceCirclePoints(face.idFace - 1).r"
+                fill="red"
+              />
+            </g>
+          </svg>
+        </ng-container>
+        }
+
+        <!-- Diente obturado con caries -->
+        @if (condition.condition ===
+        ToothConditionsConstant.DIENTE_OBTURADO_CON_CARIES) {
+        <ng-container>
+          <polygon
+            [attr.points]="getFacePoints(face.idFace - 1)"
+            fill="blue"
+            opacity="0.6"
+            stroke="red"
+            stroke-width="2"
+          />
+        </ng-container>
+        }
+      </ng-container>
       }
+    </ng-container>
+    }
+  </svg>
 
-
+  <!-- Contenedor de simbologías debajo del diente -->
+  <div class="tooth-symbols-below">
+    @for (condition of data.conditions; track condition) {
+    <!-- Diente con fluorosis -->
+    @if (condition.condition === ToothConditionsConstant.DIENTE_CON_FLUOROSIS) {
+    <svg width="29" height="10">
+      <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">
+        F
+      </text>
     </svg>
- 
-      <div class="simbols">
-        <span>{{ newSimbolColor }}</span>
-      </div>
-      
-      
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" [ngClass]="!data.status ? 'tooth' : 'tooth disabled'">
-      <path fill="red" d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/>
+    }
+    <!-- Diente con hipoplasia -->
+    @if (condition.condition === ToothConditionsConstant.DIENTE_CON_HIPOPLASIA)
+    {
+    <svg width="29" height="10">
+      <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">
+        H
+      </text>
     </svg>
+    }
+    <!-- Diente en mal posición derecha -->
+    @if (condition.condition ===
+    ToothConditionsConstant.DIENTE_EN_MAL_POSICION_DERECHA) {
+    <svg width="29" height="10">
+      <path
+        d="M5,10 C10,5 20,5 25,10"
+        stroke="blue"
+        stroke-width="2"
+        fill="none"
+      />
+    </svg>
+    }
+    <!-- Diente en mal posición izquierda -->
+    @if (condition.condition ===
+    ToothConditionsConstant.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
+    <svg width="40" height="10">
+      <path
+        d="M10,5 C15,10 25,10 30,5"
+        stroke="blue"
+        stroke-width="2"
+        fill="none"
+      />
+    </svg>
+    }
+    <!-- Prótesis removible -->
+    @if (condition.condition === ToothConditionsConstant.PROTESIS_REMOVIBLE) {
+    <svg width="29" height="10">
+      <rect
+        x="0"
+        y="5"
+        width="25"
+        height="5"
+        fill="none"
+        stroke-width="2"
+        stroke="blue"
+      />
+    </svg>
+    } @if (condition.condition === ToothConditionsConstant.PUENTE) {
+    <span>
+      <svg>
+        <ng-container>
+          <svg width="29" height="10">
+            <rect
+              x="0"
+              y="5"
+              width="25"
+              height="5"
+              fill="none"
+              stroke-width="2"
+              stroke="blue"
+            />
+          </svg>
+        </ng-container>
+      </svg>
+    </span>
+    } }
   </div>
-  
+</div>

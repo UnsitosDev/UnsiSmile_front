@@ -1,45 +1,60 @@
 import { personRequest, personResponse } from "src/app/components/private/students/components/students-general-history/models/person/person"
 import { addressRequest, addressResponse } from "../../addresses/address/address"
-import { guardianRequest, guardianResponse } from "../Guardian/guardian"
-import { religionResponse } from "../Religion/religion"
 import { ethnicGroupResponse } from "../EthnicGroup/ethnicGroup"
-import { occupationResponse } from "../Occupation/occupation"
+import { guardianRequest, guardianResponse } from "../Guardian/guardian"
 import { maritalStatusResponse } from "../MaritalStatus/maritalStatus"
 import { nationalityResponse } from "../Nationality/Nationality"
+import { occupationResponse } from "../Occupation/occupation"
+import { religionResponse } from "../Religion/religion"
 import { medicalHistoryResponse } from "../medicalHistory/medicalHistory"
+import { Pageable, Sort } from "../../paginatedResponse"
 
 export interface patientRequest {
 
-  "idPatient": number | null,
-  "admissionDate": Date,
-  "isMinor": boolean,
-  "hasDisability": boolean,
-  "nationalityId": number,
-  "person": personRequest,
-  "address": addressRequest,
-  "maritalStatusId": number,
-  "occupationId": number,
-  "ethnicGroupId": number,
-  "religionId": number,
-  "guardian": guardianRequest
+  idPatient: number | null,
+  admissionDate: Date,
+  isMinor: boolean,
+  hasDisability: boolean,
+  nationalityId: number,
+  person: personRequest,
+  address: addressRequest,
+  maritalStatusId: number,
+  occupationId: number,
+  ethnicGroupId: number,
+  religionId: number,
+  guardian: guardianRequest
 
 }
 
 
-export interface patientResponse {
+export interface Patient {
 
-  "idPatient": number,
-    "admissionDate": Date,
-    "isMinor": boolean,
-    "hasDisability": boolean,
-    "nationality": nationalityResponse,
-    "person": personResponse,
-    "address": addressResponse,
-    "maritalStatus": maritalStatusResponse,
-    "occupation": occupationResponse,
-    "ethnicGroup": ethnicGroupResponse,
-    "religion": religionResponse,
-    "guardian": guardianResponse,
-    "medicalHistoryResponse": medicalHistoryResponse
+  idPatient: number,
+    admissionDate: Date,
+    isMinor: boolean,
+    hasDisability: boolean,
+    nationality: nationalityResponse,
+    person: personResponse,
+    address: addressResponse,
+    maritalStatus: maritalStatusResponse,
+    occupation: occupationResponse,
+    ethnicGroup: ethnicGroupResponse,
+    religion: religionResponse,
+    guardian: guardianResponse,
+    medicalHistoryResponse: medicalHistoryResponse
 }
 
+
+export interface PatientResponse {
+  content: Patient[];
+  pageable: Pageable;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  size: number;
+  number: number;
+  sort: Sort;
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
+}

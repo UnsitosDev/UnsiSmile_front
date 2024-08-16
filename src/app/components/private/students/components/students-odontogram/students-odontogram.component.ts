@@ -1,20 +1,19 @@
-import { MatTabsModule } from '@angular/material/tabs';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { StudentsToothComponent } from '../students-tooth/students-tooth.component';
-import { NgFor, NgIf } from '@angular/common';
-import { StudentsToolbarComponent } from '../students-odontogram-toolbar/students-toolbar.component';
-import { store } from '@mean/services';
-import { MatButtonModule } from '@angular/material/button';
-import { all } from 'axios';
 
+import { OnInit, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
+import { store } from '@mean/services';
+import { ICondition, ITooth } from 'src/app/models/shared/odontogram';
+import { OdontogramData } from 'src/app/services/odontogram-data.service';
+import { StudentsToolbarComponent } from '../students-odontogram-toolbar/students-toolbar.component';
+import { ToothConditionsConstants } from 'src/app/utils/ToothConditions.constant';
 @Component({
   selector: 'app-students-odontogram',
   standalone: true,
   imports: [
     StudentsToothComponent,
-    NgIf,
-    NgFor,
-    StudentsToolbarComponent,
     StudentsToolbarComponent,
     MatTabsModule,
     MatButtonModule,
@@ -22,23 +21,29 @@ import { all } from 'axios';
   templateUrl: './students-odontogram.component.html',
   styleUrl: './students-odontogram.component.scss',
 })
-export class StudentsOdontogramComponent {
-  arcada = {
-    adulto: store.arcada.adulto, // Utiliza el servicio para obtener los datos
-    infantil: store.arcada.infantil, // Utiliza el servicio para obtener los datos
-  };
+export class StudentsOdontogramComponent implements OnInit {
+  //define la estructura de una arcada (odontograma)
+  arcadaAdulto = store.adultArcade;
+  arcadaInfantil = store.childrenArcade;
 
   data = store;
 
-  toolbar: { opcoes: any } = { opcoes: store.toolbar.opcoes }; // Utiliza el servicio para obtener los datos
-  marked: { selecionado: string; cor: string; all: any } = {
-    selecionado: '',
-    cor: '',
-    all: '',
-  };
+  toolbar!: { options: ICondition[] }; // Utiliza el servicio para obtener los datos
+
+  marked!: ICondition;
   value = 0;
 
-  constructor() {} // Inyecta el servicio en el constructor
+  constructor() {}
+
+  private odontogramData = inject(OdontogramData);
+
+  ngOnInit() {
+    this.odontogramData.getToothCondition().subscribe((options) => {
+      console.log('options: ', options);
+      this.toolbar = { options: options };
+    });
+
+  }
 
   /**
    * Función invocada cuando cambia el valor del odontograma.
@@ -49,19 +54,19 @@ export class StudentsOdontogramComponent {
     this.value = value;
   }
 
-  paintAll: string = '';
-
   /**
    * Función invocada cuando se realiza una acción en un diente del odontograma.
    * @param cor Color del diente seleccionado.
    * @param nome Nombre del diente seleccionado.
    * @param all Información adicional sobre el diente seleccionado.
    */
-  handleAction(cor: string, nome: string, all: string): void {
-    this.marked = { selecionado: nome, cor, all };
-    //console.log('marked', this.marked);
-    this.paintAll = all;
-    //console.log('all', this.paintAll);
+  handleAction(event: any): void {
+    const { description, condition, idCondition } = event;
+    this.marked = {
+      idCondition: idCondition,
+      condition: condition,
+      description: description,
+    };
   }
 
   /**
@@ -74,13 +79,36 @@ export class StudentsOdontogramComponent {
 
   /**
    * Función para configurar la cara del estudiante según el diente seleccionado.
-   * @param event Información del evento que contiene el ID del diente, su índice y los datos del estudiante.
+   * @param event Información del evento que contiene información del diente
    */
-  setFace(event: any) {
-    const { faceId, index, data } = event;
-    const acao = this.marked.cor;
-    data.faces[index].estado = acao;
-    const color = this.marked.cor;
+  setFace(event: {faceId: number, index: number, data: ITooth}) {
+    const { index, data } = event;
+
+    //se verifica que el la condicion se inserte a nivel del diente o de las caras
+    if(this.isNotAFaceCondition(this.marked)){
+      data.conditions?.push(this.marked);
+    }else{
+      data.faces[index].conditions?.push(this.marked);
+    }
+
+    if(this.marked.condition === ToothConditionsConstants.PUENTE){
+      data.faces[index].conditions?.push(this.marked);
+    }
+
+
+    console.log("checking marked: ", this.marked, " data:  ", data);
+  }
+
+  isNotAFaceCondition(condition: ICondition): Boolean{
+    const normalConditions = [
+      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA,
+      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA,
+      ToothConditionsConstants.PUENTE,
+      ToothConditionsConstants.PROTESIS_REMOVIBLE,
+      ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
+      ToothConditionsConstants.DIENTE_CON_HIPOPLASIA
+    ];
+    return normalConditions.includes(condition.condition);
   }
 
   sendData() {
@@ -97,5 +125,8 @@ export class StudentsOdontogramComponent {
   @Output() cambiarTab = new EventEmitter<number>();
   irSiguienteTab() {
     this.cambiarTab.emit(0);
+  }
+  store() {
+    console.log(this.data);
   }
 }

@@ -1,29 +1,51 @@
-import { NgFor } from '@angular/common';
+import { toothConditionRequest } from './../students-general-history/models/toothCondition/toothCondition';
+import { ToothConditionsConstants } from './../../../../../utils/ToothConditions.constant';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ICondition } from 'src/app/models/shared/odontogram';
+import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
 
 @Component({
   selector: 'app-students-toolbar',
   standalone: true,
-  imports: [NgFor],
+  imports: [],
   templateUrl: './students-toolbar.component.html',
   styleUrl: './students-toolbar.component.scss',
 })
 export class StudentsToolbarComponent {
-  @Input() toolbar: any;
-  @Output() handleAction = new EventEmitter<any>();
+  @Input() toolbar!: Toolbar;
+  @Output() handleAction = new EventEmitter<ICondition>();
 
-  constructor() {}
+  ToothConditionsConstants = ToothConditionsConstants 
 
-  /**
-   * Función invocada cuando se hace clic en un botón de la barra de herramientas.
-   * Emite un evento handleAction con información sobre el botón clickeado.
-   * @param item Objeto que representa el botón clickeado.
-   */
-  onButtonClicked(item: any): void {
-    // Se emite un evento handleAction con información sobre el botón clickeado.
-    this.handleAction.emit({cor: item.cor, nome: item.nome, icon: item.icon, all: item.all,});
+  selectSymbol(symbol: ICondition) {
+    this.handleAction.emit(symbol);
+    console.log(symbol);
+  }
 
-    // Se imprime información del botón en la consola.
-    //console.log('item:', item);
+  isNormalCondition(condition: string): boolean {
+    const normalConditions = [
+      ToothConditionsConstants.DIENTE_PARCIALMENTE_ERUPCIONADO,
+      ToothConditionsConstants.DIENTE_OBTURADO,
+      ToothConditionsConstants.DIENTE_CON_CORONA,
+      ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA,
+      ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA,
+      ToothConditionsConstants.PROTESIS_REMOVIBLE,
+      ToothConditionsConstants.PUENTE
+    ];
+    return normalConditions.includes(condition);
+  }
+
+  isAbnormalCondition(condition: string): boolean {
+    const abnormalConditions = [
+      ToothConditionsConstants.DIENTE_CARIADO,
+      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA,
+      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA,
+      ToothConditionsConstants.DIENTE_CON_FRACTURA,
+      ToothConditionsConstants.FISTULA,
+      ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
+      ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
+      ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES
+    ];
+    return abnormalConditions.includes(condition);
   }
 }

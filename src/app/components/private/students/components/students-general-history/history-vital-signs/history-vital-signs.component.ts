@@ -1,5 +1,5 @@
 import { vitalSignRequest } from './../../../../../../models/shared/patients/vitalSigns/vitalSign';
-import { NgFor } from '@angular/common';
+
 import { HttpHeaders } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
@@ -19,10 +19,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatSelectModule,
     MatInputModule,
     FormsModule,
-    NgFor,
     MatButtonModule,
-    ReactiveFormsModule,
-  ],
+    ReactiveFormsModule
+],
   templateUrl: './history-vital-signs.component.html',
   styleUrl: './history-vital-signs.component.scss',
 })

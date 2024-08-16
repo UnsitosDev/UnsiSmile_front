@@ -1,23 +1,18 @@
+import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient/patient';
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
-import { TablaDataComponent } from 'src/app/shared/tabla-data/tabla-data.component';
-import { IKeyboard } from 'src/app/models/tabla/keyboard';
-import {
-  getEntityPropiedades,
-  Accion,
-} from 'src/app/models/tabla/tabla-columna';
-import { ProductService } from 'src/app/services/product.service';
-import { Ipatients, patientsTableData } from 'src/app/models/tabla/patients';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { StudentsGeneralHistoryComponent } from '../students-general-history/students-general-history.component';
-import { ApiService } from '@mean/services';
-import {
-  patientRequest,
-  patientResponse,
-} from 'src/app/models/shared/patients/patient/patient';
-import { HttpHeaders } from '@angular/common/http';
-import { UriConstants } from '@mean/utils';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { patientsTableData } from 'src/app/models/shared/patients';
+import {
+  Accion,
+  getEntityPropiedades,
+} from 'src/app/models/tabla/tabla-columna';
+import { TablaDataComponent } from 'src/app/shared/tabla-data/tabla-data.component';
+import { StudentsGeneralHistoryComponent } from '../students-general-history/students-general-history.component';
 
 @Component({
   selector: 'app-students-patients',
@@ -30,10 +25,9 @@ export class StudentsPatientsComponent implements OnInit {
   patientsList: patientsTableData[] = [];
   columnas: string[] = [];
   title: string = 'Pacientes';
-  private apiService = inject(ApiService<patientResponse>);
+  private apiService = inject(ApiService<PatientResponse>);
 
   constructor(
-    private productService: ProductService,
     public dialog: MatDialog,
     public router: Router,
     public route: ActivatedRoute
@@ -62,9 +56,9 @@ export class StudentsPatientsComponent implements OnInit {
 
   // Id paciente
   editar(objeto: any) {
-  // console.log('osddsfsdf',objeto.patientID);
-  this.router.navigate(['/students', 'historyClinic', objeto.patientID]);
-}
+    // console.log('osddsfsdf',objeto.patientID);
+    this.router.navigate(['/students', 'historyClinic', objeto.patientID]);
+  }
 
   eliminar(nombre: string) {
     console.log('eliminar', nombre);
@@ -75,10 +69,10 @@ export class StudentsPatientsComponent implements OnInit {
   }
 
   idPatientx: number = 0;
-  pacientesData: patientResponse[] = [];
+  patients!: Patient[];
   getPacientes() {
     this.apiService
-      .getListService({
+      .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
@@ -87,15 +81,14 @@ export class StudentsPatientsComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.pacientesData = response;
-         // console.log('Respuesta del servidor:', this.pacientesData);
-
+          this.patients = response.content;
+          console.log('Respuesta del servidor:', this.patients);
 
           // Mapear los datos deseados de cada paciente
-          this.patientsList = this.pacientesData.map((patient) => {
+          this.patientsList = this.patients.map((patient: Patient) => {
             const person = patient.person; // Obtener el objeto "person"
             this.idPatientx = patient.idPatient;
-            // console.log('idpatiendfsdfsdf', this.idPatientx);
+            console.log('idpatiendfsdfsdf', this.idPatientx);
             //const medicalHistory = patient.medicalHistoryResponse;
             const medicalHistory =
               patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
@@ -105,10 +98,10 @@ export class StudentsPatientsComponent implements OnInit {
               correo: person.email,
               curp: person.curp,
               idMedicalHistory: medicalHistory,
-              patientID:this.idPatientx
+              patientID: this.idPatientx,
             };
           });
-          // console.log('Respuesta del servidor:', this.patientsList);
+          console.log('Respuesta del servidor:', this.patientsList);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);

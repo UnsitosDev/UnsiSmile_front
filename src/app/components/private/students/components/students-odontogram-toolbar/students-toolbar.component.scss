@@ -1,4 +1,42 @@
-.bt-toolbar {
-  margin: 5px 10px;
+.toolbar-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  margin-right: 10px; /* Añadir margen derecho para espaciar los elementos */
+  margin-bottom: 10px; /* Añadir margen inferior para espaciar los elementos */
+}
+
+.symbol-icon {
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 35px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.symbol-name {
+  display: block;
+  margin-top: 5px;
+  text-align: center;
+  font-size: 12px;
+  color: black;
+}
+
+.tooth-symbols-below {
+  top: 40px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.tooth-symbol-fluorosis {
+  color: red;
+  font-size: 12px;
 }
 

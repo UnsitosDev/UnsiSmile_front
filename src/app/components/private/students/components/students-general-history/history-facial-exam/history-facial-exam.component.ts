@@ -1,7 +1,7 @@
 import { facialProfilesResponse } from './../models/facialProfiles/facialProfiles';
 import { facialFrontResponse } from './../models/facialFront/facialFront';
 import { ApiService } from './../../../../../../services/api.service';
-import { NgFor } from '@angular/common';
+
 import { HttpHeaders } from '@angular/common/http';
 import {
   Component,
@@ -38,10 +38,9 @@ interface FacialFrontData {
     MatSelectModule,
     MatInputModule,
     FormsModule,
-    NgFor,
     MatButtonModule,
-    ReactiveFormsModule,
-  ],
+    ReactiveFormsModule
+],
   templateUrl: './history-facial-exam.component.html',
   styleUrl: './history-facial-exam.component.scss',
 })

@@ -4,32 +4,42 @@
       <mat-tab-group [(selectedIndex)]="value">
         <mat-tab label="Adulto">
           <div>
-            <app-students-tooth
-              *ngFor="let item of arcada.adulto; let index = index"
-              [data]="item"
-              [index]="index"
-              (toggleTooth)="toggleTooth($event)"
-              (setFace)="setFace($event)"
-            ></app-students-tooth>
+            @if (arcadaAdulto) { 
+              @for (item of arcadaAdulto.tooths; track $index) {
+              <app-students-tooth
+                [data]="item"
+                [index]="$index"
+                (toggleTooth)="toggleTooth($event)"
+                (setFace)="setFace($event)"
+              ></app-students-tooth>
+            } 
+          }
           </div>
         </mat-tab>
         <mat-tab label="Infantil">
           <div>
-            <app-students-tooth
-              *ngFor="let item of arcada.infantil; let index = index"
-              [data]="item"
-              [index]="index"
-              (toggleTooth)="toggleTooth($event)"
-              (setFace)="setFace($event)"
-            ></app-students-tooth>
+            @if (arcadaInfantil) { 
+              @for (item of arcadaInfantil.tooths; track $index)
+              {
+              <app-students-tooth
+                [data]="item"
+                [index]="$index"
+                [marked]="marked"
+                (toggleTooth)="toggleTooth($event)"
+                (setFace)="setFace($event)"
+              ></app-students-tooth>
+              } 
+            }
           </div>
         </mat-tab>
       </mat-tab-group>
     </div>
-    <app-students-toolbar
+    @if(toolbar){
+      <app-students-toolbar
       [toolbar]="toolbar"
-      (handleAction)="handleAction($event.cor, $event.nome, $event.all)"
+      (handleAction)="handleAction($event)"
     ></app-students-toolbar>
+    }
   </main>
   <br /><br />
   <div class="mx-2">
@@ -48,9 +58,7 @@
     </div>
     <br /><br />
     <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
-      <button (click)="sendData()" mat-raised-button color="primary">
-        Siguiente
-      </button>
+      <button color="primary" (click)="store()">Siguiente</button>
     </div>
   </div>
   <br /><br />

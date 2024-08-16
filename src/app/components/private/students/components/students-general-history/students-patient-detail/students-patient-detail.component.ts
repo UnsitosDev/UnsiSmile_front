@@ -6,11 +6,11 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { ApiService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
-import { patientResponse } from 'src/app/models/shared/patients/patient/patient';
 import { MatButton } from '@angular/material/button';
 import { MatTabGroup } from '@angular/material/tabs';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { inputClass, labelClass } from 'src/app/utils/inputs';
 
 @Component({
@@ -22,10 +22,10 @@ import { inputClass, labelClass } from 'src/app/utils/inputs';
 })
 export class StudentsPatientDetailComponent implements OnInit {
   @Input() idPatient: number = 0;
-  public patient!: patientResponse;
+  public patient!: Patient;
   inputClass = inputClass;
   labelClass = labelClass;
-  private patientService = inject(ApiService<patientResponse, {}>);
+  private patientService = inject(ApiService<Patient, {}>);
 
   ngOnInit() {
     this.fetchPatientData();

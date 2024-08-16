@@ -1,11 +1,10 @@
-import { occupationRequest } from './../../../../../models/shared/patients/Occupation/occupation';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
+import { ActivatedRoute } from '@angular/router';
 import { HistoryPersonalDataComponent } from './history-personal-data/history-personal-data.component';
 import { HistoryVitalSignsComponent } from './history-vital-signs/history-vital-signs.component';
 //import { HistoryFacialExamComponent } from './history-facial-exam/history-facial-exam.component';
-import { CommonModule } from '@angular/common';
+
 import { MatDialogModule } from '@angular/material/dialog';
 import { StudentsOdontogramComponent } from '../students-odontogram/students-odontogram.component';
 import { HistoryFacialExamComponent } from './history-facial-exam/history-facial-exam.component';
@@ -15,7 +14,6 @@ import { HistoryMultidiciplinaryEvaluationComponent } from './history-multidicip
 import { NoPathologicalPersonalHistoryComponent } from './no-pathological-personal-history/no-pathological-personal-history.component';
 import { PathologicalPersonalHistoryComponent } from './pathological-personal-history/pathological-personal-history.component';
 import { StudentsPatientDetailComponent } from './students-patient-detail/students-patient-detail.component';
-import { patientResponse } from 'src/app/models/shared/patients/patient/patient';
 
 @Component({
   selector: 'app-students-general-history',
@@ -34,11 +32,10 @@ import { patientResponse } from 'src/app/models/shared/patients/patient/patient'
     HistoryInitialBagComponent,
     HistoryMultidiciplinaryEvaluationComponent,
     MatDialogModule,
-    CommonModule,
     MatTabsModule,
     MatDialogModule,
-    StudentsPatientDetailComponent,
-  ],
+    StudentsPatientDetailComponent
+],
 })
 export class StudentsGeneralHistoryComponent implements OnInit {
   public id!: number;
