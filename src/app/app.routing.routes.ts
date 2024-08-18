@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from '@mean/public';
 import { StudentsDashboardComponent, StudentsLayoutComponent, StudentsPatientsComponent } from '@mean/students';
-import { StudentsOdontogramComponent } from './components/private/students/components/students-odontogram/students-odontogram.component';
-import { StudentsGeneralHistoryComponent } from './components/private/students/pages/students-general-history/students-general-history.component';
-import { StudentsPeriodonticsHistoryComponent } from './components/private/students/pages/students-periodontics-history/students-periodontics-history.component';
-import { HistoryPersonalDataComponent } from './components/private/students/components/history-personal-data/history-personal-data.component';
-import { StudentsOralSurgeryHistoryComponent } from './components/private/students/pages/students-oral-surgery-history/students-oral-surgery-history.component';
-import { StudentsDentalOperationComponent } from './components/private/students/pages/students-dental-operation/students-dental-operation.component';
+import { StudentsOdontogramComponent } from './components/private/students/components/odontogram/students-odontogram.component';
+import { StudentsGeneralHistoryComponent } from './components/private/students/pages/history-general/students-general-history.component';
+import { StudentsPeriodonticsHistoryComponent } from './components/private/students/pages/history-periodontics/students-periodontics-history.component';
+import { HistoryPersonalDataComponent } from './components/private/students/components/form-personal-data/history-personal-data.component';
+import { StudentsOralSurgeryHistoryComponent } from './components/private/students/pages/history-oral-surgery/students-oral-surgery-history.component';
+import { StudentsDentalOperationComponent } from './components/private/students/pages/history-dental-operation/students-dental-operation.component';
 
 const routes: Routes = [
   {

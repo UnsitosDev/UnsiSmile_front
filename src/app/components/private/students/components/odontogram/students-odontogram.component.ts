@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { StudentsToothComponent } from '../students-tooth/students-tooth.component';
+import { StudentsToothComponent } from '../tooth/students-tooth.component';
 
 import { OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +7,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { store } from '@mean/services';
 import { ICondition, ITooth } from 'src/app/models/shared/odontogram';
 import { OdontogramData } from 'src/app/services/odontogram-data.service';
-import { StudentsToolbarComponent } from '../students-odontogram-toolbar/students-toolbar.component';
+import { StudentsToolbarComponent } from '../toolbar-odontogram/students-toolbar.component';
 import { ToothConditionsConstants } from 'src/app/utils/ToothConditions.constant';
 @Component({
   selector: 'app-students-odontogram',
