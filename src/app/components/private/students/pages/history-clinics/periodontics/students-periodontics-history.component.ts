@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
-import { ExplorationOralComponent } from '../../components/form-exploration-oral/exploration-oral.component';
-import { IdentificationFileComponent } from '../../components/form-identification-file-oral-surgery/identification-file.component';
-import { InterrogationComponent } from '../../components/form-interrogation-periodontics/interrogation.component';
-import { PerodontalExamComponent } from '../../components/table-perodontal-exam/perodontal-exam.component';
-import { TreatmentPlanComponent } from '../../components/form-treatment-plan/treatment-plan.component';
-import { VitalSingsComponent } from '../../components/form-vital-sings-periodontics/vital-sings.component';
-import { EvaluacionPerodonciaComponent } from '../../components/table-periodontic-evaluation/periodontic-evaluation.component';
+import { ExplorationOralComponent } from '../../../components/form-exploration-oral/exploration-oral.component';
+import { IdentificationFileComponent } from '../../../components/form-identification-file-oral-surgery/identification-file.component';
+import { InterrogationComponent } from '../../../components/form-interrogation-periodontics/interrogation.component';
+import { PerodontalExamComponent } from '../../../components/table-perodontal-exam/perodontal-exam.component';
+import { TreatmentPlanComponent } from '../../../components/form-treatment-plan/treatment-plan.component';
+import { VitalSingsComponent } from '../../../components/form-vital-sings-periodontics/vital-sings.component';
+import { EvaluacionPerodonciaComponent } from '../../../components/table-periodontic-evaluation/periodontic-evaluation.component';
 
 @Component({
   selector: 'app-students-periodontics-history',
