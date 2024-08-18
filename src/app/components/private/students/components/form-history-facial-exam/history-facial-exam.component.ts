@@ -1,6 +1,6 @@
-import { facialProfilesResponse } from './../models/facialProfiles/facialProfiles';
-import { facialFrontResponse } from './../models/facialFront/facialFront';
-import { ApiService } from './../../../../../../services/api.service';
+import { facialProfilesResponse } from '../../../../../models/models-students/facialProfiles/facialProfiles';
+import { facialFrontResponse } from '../../../../../models/models-students/facialFront/facialFront';
+import { ApiService } from '../../../../../services/api.service';
 
 import { HttpHeaders } from '@angular/common/http';
 import {

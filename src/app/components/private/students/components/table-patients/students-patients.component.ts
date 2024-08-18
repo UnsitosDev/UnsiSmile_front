@@ -12,7 +12,7 @@ import {
   getEntityPropiedades,
 } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/tabla-data/tabla-data.component';
-import { StudentsGeneralHistoryComponent } from '../students-general-history/students-general-history.component';
+import { StudentsGeneralHistoryComponent } from '../../pages/history-clinics/general/students-general-history.component';
 
 @Component({
   selector: 'app-students-patients',

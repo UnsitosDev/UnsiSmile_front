@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { dentalCodeResponse } from '../components/private/students/components/students-general-history/models/dentalCode/dentalCode';
+import { dentalCodeResponse } from '../models/models-students/dentalCode/dentalCode';
 import { UriConstants } from '../utils/uris.contants';
-import { toothConditionResponse } from './../components/private/students/components/students-general-history/models/toothCondition/toothCondition';
+import { toothConditionResponse } from '../models/models-students/toothCondition/toothCondition';
 import { ApiService } from './api.service';
 import { Observable, map } from 'rxjs';
 import { ICondition } from '../models/shared/odontogram';

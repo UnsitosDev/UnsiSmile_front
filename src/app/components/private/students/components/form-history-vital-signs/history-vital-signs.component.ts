@@ -1,4 +1,4 @@
-import { vitalSignRequest } from './../../../../../../models/shared/patients/vitalSigns/vitalSign';
+import { vitalSignRequest } from '../../../../../models/shared/patients/vitalSigns/vitalSign';
 
 import { HttpHeaders } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';

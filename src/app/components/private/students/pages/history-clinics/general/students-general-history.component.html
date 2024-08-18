@@ -21,13 +21,13 @@
     <mat-tab label="Antecedentes Personales Patologicos"  [disabled]="antecedentesPersonalesPatologicos">
         <app-pathological-personal-history (eventoEmitido)="ontogramaInicialEvent($event)"  (cambiarTab)="recibirTab($event)"></app-pathological-personal-history>
     </mat-tab>
-    <mat-tab label="Odontograma Inicial" [disabled]="ontogramaInicial">
+    <mat-tab label="Odontograma Inicial" >
         <app-students-odontogram (eventoEmitido)="ontogramaFinalEvent($event)"  (cambiarTab)="recibirTab($event)"></app-students-odontogram>
     </mat-tab>
-    <mat-tab label="Odontograma Final" [disabled]="ontogramaFinal">
+    <mat-tab label="Odontograma Final">
         <app-students-odontogram (eventoEmitido)="medicionDeBolsasIniciallEvent($event)"  (cambiarTab)="recibirTab($event)"></app-students-odontogram>
     </mat-tab>
-    <mat-tab label="Medicion de Bolsas Inicial" [disabled]="medicionDeBolsasInicial">
+    <mat-tab label="Medicion de Bolsas Inicial">
         <app-history-initial-bag (eventoEmitido)="evaluacionEvent($event)"  (cambiarTab)="recibirTab($event)"></app-history-initial-bag>
     </mat-tab>
     <mat-tab label="Evaluación Multidisciplinaria" [disabled]="evaluacion">
