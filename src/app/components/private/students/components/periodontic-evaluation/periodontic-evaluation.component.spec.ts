@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PeriodonticEvaluationComponent } from './periodontic-evaluation.component';
+import { EvaluacionPerodonciaComponent } from './periodontic-evaluation.component';
 
 describe('PeriodonticEvaluationComponent', () => {
-  let component: PeriodonticEvaluationComponent;
-  let fixture: ComponentFixture<PeriodonticEvaluationComponent>;
+  let component: EvaluacionPerodonciaComponent;
+  let fixture: ComponentFixture<EvaluacionPerodonciaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PeriodonticEvaluationComponent]
+      imports: [EvaluacionPerodonciaComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(PeriodonticEvaluationComponent);
+    fixture = TestBed.createComponent(EvaluacionPerodonciaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

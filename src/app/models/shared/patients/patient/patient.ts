@@ -1,4 +1,3 @@
-import { personRequest, personResponse } from "src/app/components/private/students/components/students-general-history/models/person/person"
 import { addressRequest, addressResponse } from "../../addresses/address/address"
 import { ethnicGroupResponse } from "../EthnicGroup/ethnicGroup"
 import { guardianRequest, guardianResponse } from "../Guardian/guardian"
@@ -8,6 +7,7 @@ import { occupationResponse } from "../Occupation/occupation"
 import { religionResponse } from "../Religion/religion"
 import { medicalHistoryResponse } from "../medicalHistory/medicalHistory"
 import { Pageable, Sort } from "../../paginatedResponse"
+import { personRequest, personResponse } from "src/app/models/models-students/person/person"
 
 export interface patientRequest {
 

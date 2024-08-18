@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { InputField, bucalExam, funcionalAnalysis, inputs, medicalConsultation, patientPosture, radiographicAnalisys, studyLab, studyModels } from './models/inputs';
+import { InputField, bucalExam, funcionalAnalysis, inputs, medicalConsultation, patientPosture, radiographicAnalisys, studyLab, studyModels } from '../../../../../models/models-history-multidiciplinary-evaluation/inputs';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';

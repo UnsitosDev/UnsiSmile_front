@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
-import { CurrentConditionComponent } from './current-condition/current-condition.component';
-import { FamilyHistoryComponent } from './family-history/family-history.component';
-import { IdentificationFileComponent } from './identification-file/identification-file.component';
-import { InterrogationDivicesSystemsComponent } from './interrogation-divices-systems/interrogation-divices-systems.component';
-import { VitalSingsComponent } from './vital-sings/vital-sings.component';
+import { CurrentConditionComponent } from '../../components/current-condition/current-condition.component';
+import { FamilyHistoryComponent } from '../../components/family-history/family-history.component';
+import { IdentificationFileComponent } from '../../components/identification-file-oral-surgery/identification-file.component';
+import { InterrogationDivicesSystemsComponent } from '../../components/interrogation-divices-systems/interrogation-divices-systems.component';
+import { VitalSingsComponent } from '../../components/vital-sings-oral-surgery/vital-sings.component';
 
 @Component({
   selector: 'app-students-oral-surgery-history',

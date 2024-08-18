@@ -1,4 +1,4 @@
-import { toothConditionRequest } from './../students-general-history/models/toothCondition/toothCondition';
+import { toothConditionRequest } from '../../../../../models/models-students/toothCondition/toothCondition';
 import { ToothConditionsConstants } from './../../../../../utils/ToothConditions.constant';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICondition } from 'src/app/models/shared/odontogram';

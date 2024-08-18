@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
-import { ExplorationOralCavityComponent } from './exploration-oral-cavity/exploration-oral-cavity.component';
-import { IdentificationFileComponent } from './identification-file/identification-file.component';
-import { InterrogationComponent } from './interrogation/interrogation.component';
-import { PathologicalHistoryComponent } from './pathological-history/pathological-history.component';
-import { VitalSingsComponent } from './vital-sings/vital-sings.component';
+import { ExplorationOralCavityComponent } from '../../components/exploration-oral-cavity/exploration-oral-cavity.component';
+import { IdentificationFileComponent } from '../../components/identification-file/identification-file.component';
+import { InterrogationComponent } from '../../components/interrogation/interrogation.component';
+import { PathologicalHistoryComponent } from '../../components/pathological-history/pathological-history.component';
+import { VitalSingsComponent } from '../../components/vital-sings/vital-sings.component';
 
 @Component({
   selector: 'app-students-dental-operation',

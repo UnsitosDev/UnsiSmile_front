@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
-import { ExplorationOralComponent } from './exploration-oral/exploration-oral.component';
-import { IdentificationFileComponent } from './identification-file/identification-file.component';
-import { InterrogationComponent } from './interrogation/interrogation.component';
-import { PerodontalExamComponent } from './perodontal-exam/perodontal-exam.component';
-import { TreatmentPlanComponent } from './treatment-plan/treatment-plan.component';
-import { VitalSingsComponent } from './vital-sings/vital-sings.component';
-import { EvaluacionPerodonciaComponent } from './periodontic-evaluation/periodontic-evaluation.component';
+import { ExplorationOralComponent } from '../../components/exploration-oral/exploration-oral.component';
+import { IdentificationFileComponent } from '../../components/identification-file-periodontics/identification-file.component';
+import { InterrogationComponent } from '../../components/interrogation-periodontics/interrogation.component';
+import { PerodontalExamComponent } from '../../components/perodontal-exam/perodontal-exam.component';
+import { TreatmentPlanComponent } from '../../components/treatment-plan/treatment-plan.component';
+import { VitalSingsComponent } from '../../components/vital-sings-periodontics/vital-sings.component';
+import { EvaluacionPerodonciaComponent } from '../../components/periodontic-evaluation/periodontic-evaluation.component';
 
 @Component({
   selector: 'app-students-periodontics-history',

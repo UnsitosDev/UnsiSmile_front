@@ -1,11 +1,11 @@
 import { HttpHeaders } from '@angular/common/http';
-import { ApiService } from './../../../../../../services/api.service';
+import { ApiService } from '../../../../../services/api.service';
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UriConstants } from '@mean/utils';
-import { closedQuestionPathologicalAntecedentsRequest } from '../models/closedQuestionPathologicalAntecedents/closedQuestionPathologicalAntecedents';
-import { openQuestionPathologicalAntecedentsRequest } from '../models/openQuestionPathologicalAntecedents/openQuestionPathologicalAntecedents';
+import { closedQuestionPathologicalAntecedentsRequest } from '../../../../../models/models-students/closedQuestionPathologicalAntecedents/closedQuestionPathologicalAntecedents';
+import { openQuestionPathologicalAntecedentsRequest } from '../../../../../models/models-students/openQuestionPathologicalAntecedents/openQuestionPathologicalAntecedents';
 
 @Component({
   selector: 'app-pathological-personal-history',

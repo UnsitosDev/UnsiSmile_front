@@ -1,19 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
-import { HistoryPersonalDataComponent } from './history-personal-data/history-personal-data.component';
-import { HistoryVitalSignsComponent } from './history-vital-signs/history-vital-signs.component';
+import { HistoryPersonalDataComponent } from '../../components/history-personal-data/history-personal-data.component';
+import { HistoryVitalSignsComponent } from '../../components/history-vital-signs/history-vital-signs.component';
 //import { HistoryFacialExamComponent } from './history-facial-exam/history-facial-exam.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
-import { StudentsOdontogramComponent } from '../students-odontogram/students-odontogram.component';
-import { HistoryFacialExamComponent } from './history-facial-exam/history-facial-exam.component';
-import { HistoryFamilyHistoryComponent } from './history-family-history/history-family-history.component';
-import { HistoryInitialBagComponent } from './history-initial-bag/history-initial-bag.component';
-import { HistoryMultidiciplinaryEvaluationComponent } from './history-multidiciplinary-evaluation/history-multidiciplinary-evaluation.component';
-import { NoPathologicalPersonalHistoryComponent } from './no-pathological-personal-history/no-pathological-personal-history.component';
-import { PathologicalPersonalHistoryComponent } from './pathological-personal-history/pathological-personal-history.component';
-import { StudentsPatientDetailComponent } from './students-patient-detail/students-patient-detail.component';
+import { StudentsOdontogramComponent } from '../../components/students-odontogram/students-odontogram.component';
+import { HistoryFacialExamComponent } from '../../components/history-facial-exam/history-facial-exam.component';
+import { HistoryFamilyHistoryComponent } from '../../components/history-family-history/history-family-history.component';
+import { HistoryInitialBagComponent } from '../../components/history-initial-bag/history-initial-bag.component';
+import { HistoryMultidiciplinaryEvaluationComponent } from '../../components/history-multidiciplinary-evaluation/history-multidiciplinary-evaluation.component';
+import { NoPathologicalPersonalHistoryComponent } from '../../components/no-pathological-personal-history/no-pathological-personal-history.component';
+import { PathologicalPersonalHistoryComponent } from '../../components/pathological-personal-history/pathological-personal-history.component';
+import { StudentsPatientDetailComponent } from '../../components/students-patient-detail/students-patient-detail.component';
 
 @Component({
   selector: 'app-students-general-history',
