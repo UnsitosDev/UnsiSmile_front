@@ -7,6 +7,7 @@ import { StudentsPeriodonticsHistoryComponent } from './components/private/stude
 import { HistoryPersonalDataComponent } from './components/private/students/components/form-personal-data/history-personal-data.component';
 import { StudentsOralSurgeryHistoryComponent } from './components/private/students/pages/history-clinics/oral-surgery/students-oral-surgery-history.component';
 import { StudentsDentalOperationComponent } from './components/private/students/pages/history-clinics/dental-operation/students-dental-operation.component';
+import { FormPatientPersonalDataComponent } from './components/private/students/components/form-patient-personal-data/form-patient-personal-data.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
       },
       {
         path: 'addPatient',
+        component: FormPatientPersonalDataComponent
+      }, 
+      {
+        path: 'addPatientv1',
         component: HistoryPersonalDataComponent
       }, 
       {
