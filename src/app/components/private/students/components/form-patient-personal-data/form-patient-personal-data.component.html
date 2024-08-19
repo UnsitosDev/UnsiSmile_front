@@ -2,89 +2,100 @@
   <div class="m-4 p-6">
     <h1><b>Datos personales</b></h1>
     <br /><br />
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Primer Nombre</mat-label>
-        <input matInput [formControl]="firstNameControl"/>
-        @if (firstNameControl.hasError('required')) {
-          <mat-error>El Primer Nombre es requerido</mat-error>
-        }
-      </mat-form-field>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Segundo Nombre</mat-label>
-        <input matInput/>
-      </mat-form-field>
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Primer Nombre</mat-label>
+          <input matInput formControlName="firstName"/>
+          @if (formGroup.get('firstName')?.hasError('required')) {
+            <mat-error>El Primer Nombre es requerido</mat-error>
+          }
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Segundo Nombre</mat-label>
+          <input matInput/>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Apellido Paterno</mat-label>
+          <input matInput formControlName="firstSurname"/>
+          @if (formGroup.get('firstSurname')?.hasError('required')) {
+            <mat-error>El Apellido Paterno es requerido</mat-error>
+          }
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Apellido Materno</mat-label>
+          <input matInput formControlName="lastSurname"/>
+          @if (formGroup.get('lastSurname')?.hasError('required')) {
+            <mat-error>El Apellido Materno es requerido</mat-error>
+          }
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>CURP</mat-label>
+          <input matInput formControlName="curp" placeholder="EJ. PEJO860315MDFRJN05"/>
+          @if (formGroup.get('curp')?.hasError('invalidCurp') && !formGroup.get('curp')?.hasError('required')) {
+            <mat-error>Por favor, introduce una CURP válida.</mat-error>
+          }
+          @if (formGroup.get('curp')?.hasError('required')) {
+            <mat-error>El campo CURP es requerido.</mat-error>
+          }
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Teléfono </mat-label>
+          <input matInput formControlName="tel" placeholder="EJ. 9514008592"/>
+          @if (formGroup.get('tel')?.hasError('required')) {
+            <mat-error>El Teléfono es requerido</mat-error>
+          }
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Fecha de Nacimiento</mat-label>
+          <input matInput formControlName="birthDate" [matDatepicker]="picker" />
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          @if (formGroup.get('birthDate')?.hasError('required')) {
+            <mat-error>El campo Fecha de Nacimiento es requerido</mat-error>
+          }
+        </mat-form-field>
+  
+        <mat-form-field class="example-full-width">
+          <mat-label>Correo electrónico</mat-label>
+          <input type="email" matInput formControlName="emailForm" placeholder="EJ. name@gmail.com"/>
+          @if (formGroup.get('emailForm')?.hasError('email') && !formGroup.get('emailForm')?.hasError('required')) {
+          <mat-error>Por favor, introduce una dirección de correo electrónico válida</mat-error>
+          } 
+          @if (formGroup.get('emailForm')?.hasError('required')) {
+          <mat-error>El Correo electrónico es requerido</mat-error>
+          }
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Genero</mat-label>
+          <mat-select disableRipple formControlName="gender">
+            <mat-option value="1">MASCULINO</mat-option>
+            <mat-option value="2">FEMENINO</mat-option>
+            <mat-option value="3">NO BINARIO</mat-option>
+          </mat-select>
+          @if (formGroup.get('gender')?.hasError('genderRequired')) {
+            <mat-error>Por favor, selecciona un género.</mat-error>
+          }
+        </mat-form-field>
 
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Apellido Paterno</mat-label>
-        <input matInput [formControl]="firstSurnameControl"/>
-        @if (firstSurnameControl.hasError('required')) {
-          <mat-error>El Apellido Paterno es requerido</mat-error>
-        }
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Apellido Materno</mat-label>
-        <input matInput [formControl]="lastSurnameControl"/>
-        @if (lastSurnameControl.hasError('required')) {
-          <mat-error>El Apellido Materno es requerido</mat-error>
-        }
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>CURP</mat-label>
-        <input matInput [formControl]="curpControl" placeholder="EJ. PEJO860315MDFRJN05"/>
-        @if (curpControl.hasError('invalidCurp') && !curpControl.hasError('required')) {
-          <mat-error>Por favor, introduce una CURP válida.</mat-error>
-        }
-        @if (curpControl.hasError('required')) {
-          <mat-error>El campo CURP es requerido.</mat-error>
-        }
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Teléfono </mat-label>
-        <input matInput [formControl]="telControl" placeholder="EJ. 9514008592"/>
-        @if (telControl.hasError('required')) {
-          <mat-error>El Teléfono es requerido</mat-error>
-        }
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Fecha de Nacimiento</mat-label>
-        <input matInput [formControl]="birthDateControl" [matDatepicker]="picker" />
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        @if (birthDateControl.hasError('required')) {
-          <mat-error>El campo Fecha de Nacimiento es requerido</mat-error>
-        }
-      </mat-form-field>
-
-      <mat-form-field class="example-full-width">
-        <mat-label>Correo electrónico</mat-label>
-        <input type="email" matInput [formControl]="emailFormControl" placeholder="EJ. name@gmail.com"/>
-        @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
-        <mat-error>Por favor, introduce una dirección de correo electrónico válida</mat-error>
-        } 
-        @if (emailFormControl.hasError('required')) {
-        <mat-error>El Correo electrónico es requerido</mat-error>
-        }
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Genero</mat-label>
-        <mat-select disableRipple [formControl]="genderControl">
-          <mat-option value="1">MASCULINO</mat-option>
-          <mat-option value="2">FEMENINO</mat-option>
-          <mat-option value="3">NO BINARIO</mat-option>
-        </mat-select>
-        @if (genderControl.hasError('genderRequired')) {
-          <mat-error>Por favor, selecciona un género.</mat-error>
-        }
-      </mat-form-field>
+      </div>
       
-    </div>
+      <div class="flex justify-end">
+        <button mat-raised-button type="submit">Guardar  <i class="fas fa-save"></i></button>
+      </div>
+
+    </form>
+
+    <app-alert [singleMessage]="alertMessage" [severity]="alertSeverity" [open]="showAlert" (eventCloseToast)="showAlert = false"></app-alert>
   </div>
 </div>
+

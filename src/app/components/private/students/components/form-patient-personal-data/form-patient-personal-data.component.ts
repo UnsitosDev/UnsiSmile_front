@@ -1,46 +1,70 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgFor } from '@angular/common';
-import { MatGridListModule } from '@angular/material/grid-list';  // Importa MatGridListModule
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ChangeDetectionStrategy, } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, Validators, FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { curpValidator, genderValidator } from 'src/app/utils/validators';
+import { AlertModel } from '@mean/models';
+import { AlertComponent } from 'src/app/shared/alert/alert.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 
-export interface Field {
-  typeElement: string;
-  gridSize: number;
-  [key: string]: any;
-}
 
-export interface Row {
-  row: Field[];
-  index: number;
-}
 
 @Component({
   selector: 'app-form-patient-personal-data',
   standalone: true,
-  imports: [NgFor, MatGridListModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatSelectModule],
+  imports: [MatDividerModule, MatButtonModule, MatGridListModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatSelectModule, AlertComponent],
   templateUrl: './form-patient-personal-data.component.html',
   styleUrl: './form-patient-personal-data.component.scss',
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class FormPatientPersonalDataComponent{
-  // Datos personales
-  firstNameControl = new FormControl('', [Validators.required]); // Primer Nombre
-  firstSurnameControl = new FormControl('', [Validators.required]); // Apellido Paterno
-  lastSurnameControl = new FormControl('', [Validators.required]); // Apellido Materno
-  curpControl = new FormControl('', [Validators.required,curpValidator()]);  // curp 
-  telControl = new FormControl('', [Validators.required]);  // telefono 
-  birthDateControl = new FormControl('', [Validators.required]); // fecha de nacimiento
-  genderControl = new FormControl('', [genderValidator()]);
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]); // Correo electronico
+export class FormPatientPersonalDataComponent {
+  alertMessage: string = '';
+  alertSeverity: string = AlertModel.AlertSeverity.ERROR;
+  showAlert: boolean = false;
 
+  formGroup: FormGroup;
+  constructor() {
+    this.formGroup = new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      firstSurname: new FormControl('', [Validators.required]),
+      lastSurname: new FormControl('', [Validators.required]),
+      curp: new FormControl('', [Validators.required, curpValidator()]),
+      tel: new FormControl('', [Validators.required]),
+      birthDate: new FormControl('', [Validators.required]),
+      gender: new FormControl('', [genderValidator()]),
+      emailForm: new FormControl('', [Validators.required, Validators.email]),
+    })
+  }
+
+  onSubmit() {
+    if (this.formGroup.valid) {
+      const formData = {
+        personalData: {
+          name: this.formGroup.get('firstName')?.value,
+          surname: this.formGroup.get('firstSurname')?.value,
+          lastName: this.formGroup.get('lastSurname')?.value,
+          curp: this.formGroup.get('curp')?.value,
+          phone: this.formGroup.get('tel')?.value,
+          birthDate: this.formGroup.get('birthDate')?.value,
+          gender: this.formGroup.get('gender')?.value,
+          email: this.formGroup.get('emailForm')?.value
+        }
+      };
+
+      console.log('Data', formData);
+
+    } else {
+      this.alertMessage = 'Por favor, completa todos los campos correctamente.';
+      this.showAlert = true;
+    }
+  }
 }
