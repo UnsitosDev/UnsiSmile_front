@@ -10,7 +10,7 @@ import { FormControl, Validators, FormsModule, ReactiveFormsModule, FormGroup } 
 import { MatSelectModule } from '@angular/material/select';
 import { curpValidator, genderValidator } from 'src/app/utils/validators';
 import { AlertModel } from '@mean/models';
-import { AlertComponent } from 'src/app/shared/alert/alert.component';
+import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 
