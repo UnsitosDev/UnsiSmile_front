@@ -1,1 +1,24 @@
-<p>field-component works!</p>
+@switch (field.type) {
+  @case ('input') {
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>{{ field.label }}</mat-label>
+      <input matInput [formControlName]="field.name" (input)="onValueChange($event)" />
+      @if (formGroup.get(field.name)?.hasError('required')) {
+        <mat-error>{{ errors?.[field.name] }}</mat-error>
+      }
+    </mat-form-field>
+  }
+  @case ('select') {
+    <mat-form-field>
+      <mat-label>{{ field.label }}</mat-label>
+      <mat-select disableRipple [formControlName]="field.name" (selectionChange)="onValueChange($event)">
+      </mat-select>
+      @if (formGroup.get(field.name)?.hasError('required')) {
+        <mat-error>{{ errors?.[field.name] }}</mat-error>
+      }
+    </mat-form-field>
+  }
+  @default {
+    <p>Tipo de campo no soportado.</p>
+  }
+}
