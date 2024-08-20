@@ -5,9 +5,6 @@ import { FormGroup } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar ReactiveFormsModule
 
-
-
-
 @Component({
   selector: 'app-field-component',
   standalone: true,
@@ -22,7 +19,6 @@ export class FieldComponentComponent {
   @Output() setFieldValue = new EventEmitter<any>();
   @Output() selectionChange = new EventEmitter<string>();
 
-  message:any;
   typeElement: string = '';
 
   onSelectionChange(event: Event): void {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ChangeDetectionStrategy, } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { FormControl, Validators, FormsModule, ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, Validators, FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, ValidatorFn } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { curpValidator, genderValidator } from 'src/app/utils/validators';
 import { AlertModel } from '@mean/models';
@@ -22,12 +22,9 @@ interface FormField {
   label: string;
   required?: boolean;
   options?: { value: string, label: string }[];
+  validators?: ValidatorFn[]; // Agregar la propiedad validators
+  value?: any;
 }
-
-interface FormValues {
-  [key: string]: any;
-}
-
 @Component({
   selector: 'app-form-patient-personal-data',
   standalone: true,
@@ -43,53 +40,39 @@ interface FormValues {
 export class FormPatientPersonalDataComponent {
   formGroup!: FormGroup;
 
-  fields: FormField[] = [
+  formFields: FormField[] = [
     {
       type: 'input',
-      name: 'name',
-      label: 'Primer Nombre',
-      required: true
+      label: 'Nombre',
+      name: 'nombre',
+      required: true,
+      validators: [Validators.required] // Agregar validadores
     },
     {
       type: 'select',
-      name: 'gender',
-      label: 'Género',
+      label: 'País',
+      name: 'pais',
+      required: true,
       options: [
-        { value: 'M', label: 'Masculino' },
-        { value: 'F', label: 'Femenino' }
+        { value: 'MX', label: 'México' },
+        { value: 'US', label: 'Estados Unidos' }
       ],
-      required: true
+      validators: [Validators.required] // Agregar validadores
     }
   ];
 
-  values: FormValues = {
-    name: 'Juan',
-    gender: 'M'
-  };
-
-  errors: FormValues = {
-    name: 'Este campo es requerido.',
-    gender: 'Seleccione una opción.'
-  };
-
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.buildForm();
-  }
-
-  buildForm() {
-    const group: { [key: string]: any } = {};
-
-    this.fields.forEach(field => {
-      group[field.name] = [
-        this.values[field.name] || '',
-        field.required ? Validators.required : null
-      ];
+  constructor(private fb: FormBuilder) {
+    // Construcción del formulario
+    this.formGroup = this.fb.group({});
+    this.formFields.forEach(field => {
+      this.formGroup.addControl(
+        field.name,
+        this.fb.control(field.value || '', field.validators || [])
+      );
     });
-
-    this.formGroup = this.fb.group(group);
   }
+
+  ngOnInit(): void {}
 
   handleSetFieldValue(event: { field: string, value: any }) {
     this.formGroup.get(event.field)?.setValue(event.value);
@@ -100,5 +83,4 @@ export class FormPatientPersonalDataComponent {
       console.log('Form Values:', this.formGroup.value);
     }
   }
- 
 }

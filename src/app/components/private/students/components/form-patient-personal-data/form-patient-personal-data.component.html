@@ -1,20 +1,13 @@
-<!-- form-component.component.html -->
-<div class="containger bg-white">
-  <div class="m-4 p-6">
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        @for (field of fields; track $index) {
-          <ng-container>
-            <app-field-component 
-              [field]="field" 
-              [formGroup]="formGroup" 
-              [errors]="errors" 
-              (setFieldValue)="handleSetFieldValue($event)">
-            </app-field-component>
-          </ng-container>
-        }
-      </div>
-      <button mat-raised-button color="primary" type="submit">Submit</button>
-    </form> 
-  </div>
-</div>  
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  @for (field of formFields; track $index) {
+    <ng-container>
+      <app-field-component 
+        [field]="field" 
+        [formGroup]="formGroup" 
+        (setFieldValue)="handleSetFieldValue($event)">
+      </app-field-component>
+    </ng-container>
+  }
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>
+
