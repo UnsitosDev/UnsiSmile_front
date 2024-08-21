@@ -1,4 +1,5 @@
 import { columnPatientsTableData, patientsTableData } from "../shared/patients";
+import { studentsTableData } from "../shared/students";
 
 
 
@@ -17,8 +18,13 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
   switch(entidad){
     case 'patients':
       clase = new columnPatientsTableData(); break;
+
+    case 'student':
+      clase = new studentsTableData(); break;
    
   }
+
+
 
   if(clase){
     resultados = Object.keys(clase);
