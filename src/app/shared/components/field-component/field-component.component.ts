@@ -27,7 +27,8 @@ export class FieldComponentComponent {
   }
 
   onValueChange(event: any) {
-    this.setFieldValue.emit({ field: this.field.name, value: event.target.value });
+    // Verifica si el evento es de un input o de un select
+    const value = event.target ? event.target.value : event.value; 
+    this.setFieldValue.emit({ field: this.field.name, value: value });
   }
-
 }
