@@ -14,14 +14,20 @@ export class FormFieldsService {
             label: 'Nombre',
             name: 'nombre',
             required: true,
-            validators: [Validators.required] // Agregar validadores
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Nombre es requerido.'
+            }
         },
         {
             type: 'input',
             label: 'Segundo Nombre',
             name: 'segundoNombre',
             required: true,
-            validators: [Validators.required] // Agregar validadores
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Segundo Nombre es requerido.'
+            }
         },
         {
             type: 'select',
@@ -32,7 +38,10 @@ export class FormFieldsService {
                 { value: 'MX', label: 'México' },
                 { value: 'US', label: 'Estados Unidos' }
             ],
-            validators: [Validators.required] // Agregar validadores
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo País es requerido.'
+            }
         }
     ];
     getFormFields(): FormField[] {

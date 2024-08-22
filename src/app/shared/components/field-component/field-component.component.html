@@ -5,7 +5,7 @@
       <mat-label>{{ field.label }}</mat-label>
       <input matInput [formControlName]="field.name" (input)="onValueChange($event)" />
       @if (formGroup.get(field.name)?.hasError('required')) {
-        <mat-error>{{ errors?.[field.name] }}</mat-error>
+        <mat-error>{{ errors?.required }}</mat-error>
       }
     </mat-form-field>
   }
@@ -17,8 +17,9 @@
           <mat-option [value]="option.value">{{ option.label }}</mat-option>
         }
       </mat-select>
+      
       @if (formGroup.get(field.name)?.hasError('required')) {
-        <mat-error>{{ errors?.[field.name] }}</mat-error>
+        <mat-error>{{ errors?.required }}</mat-error>
       }
     </mat-form-field>
   }

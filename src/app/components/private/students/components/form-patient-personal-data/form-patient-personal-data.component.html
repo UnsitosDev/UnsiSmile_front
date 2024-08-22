@@ -3,6 +3,7 @@
       <app-field-component 
         [field]="field" 
         [formGroup]="formGroup" 
+        [errors]="field.errorMessages"
         (setFieldValue)="handleSetFieldValue($event)">
       </app-field-component>
   }
