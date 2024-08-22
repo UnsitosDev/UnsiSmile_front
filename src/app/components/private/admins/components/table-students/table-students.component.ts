@@ -11,7 +11,7 @@ import {
   getEntityPropiedades,
 } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/tabla-data/tabla-data.component';
-import { StudentsGeneralHistoryComponent } from '../../students/pages/history-clinics/general/students-general-history.component';
+import { StudentsGeneralHistoryComponent } from '../../../students/pages/history-clinics/general/students-general-history.component';
 import { studentRequest } from 'src/app/shared/interfaces/student/student';
 
 @Component({
@@ -24,7 +24,7 @@ import { studentRequest } from 'src/app/shared/interfaces/student/student';
 
 export class TableStudentsComponent implements OnInit {
   studentsList: studentsTableData[] = [];
-  columnas: string[] = [];
+  columns: string[] = [];
   title: string = 'Estudiantes';
   private apiService = inject(ApiService<studentRequest[]>);
 
@@ -35,7 +35,7 @@ export class TableStudentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.columnas = getEntityPropiedades('student');
+    this.columns = getEntityPropiedades('student');
     this.getAlumnos();
   }
 
@@ -47,23 +47,23 @@ export class TableStudentsComponent implements OnInit {
 
   onAction(accion: Accion) {
     if (accion.accion === 'Editar') {
-      this.editar(accion.fila);
+      this.edit(accion.fila);
     } else if (accion.accion === 'Eliminar') {
-      this.eliminar(accion.fila.nombre);
+      this.delete(accion.fila.nombre);
     } else if (accion.accion === 'MostrarAlerta') {
-      this.mostrarAlerta();
+      this.showAlert();
     }
   }
 
-  editar(objeto: any) {
+  edit(objeto: any) {
     this.router.navigate(['/students', 'historyClinic', objeto.user.id]);
   }
 
-  eliminar(nombre: string) {
+  delete(nombre: string) {
     console.log('eliminar', nombre);
   }
 
-  mostrarAlerta() {
+  showAlert() {
     alert('¡Haz clic en un icono!');
   }
 
@@ -76,7 +76,6 @@ export class TableStudentsComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
-        console.log('Respuesta del servidor:', response);
         if (Array.isArray(response)) {
           this.studentsList = response.map((student: studentRequest) => {
             const person = student.person;
@@ -88,7 +87,6 @@ export class TableStudentsComponent implements OnInit {
               matricula: user.username
             };
           });
-          console.log('Lista de estudiantes:', this.studentsList);
         } else {
           console.error('La respuesta no es un array.');
         }
