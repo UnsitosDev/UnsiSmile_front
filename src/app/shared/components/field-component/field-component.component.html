@@ -4,7 +4,7 @@
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>{{ field.label }}</mat-label>
       <input matInput [formControlName]="field.name" (input)="onValueChange($event)" />
-      @if (formGroup.get(field.name)?.hasError('lastError') && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+      @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
         <mat-error>{{ errors?.lastError }}</mat-error>
       }
       @if (formGroup.get(field.name)?.hasError('required')) {

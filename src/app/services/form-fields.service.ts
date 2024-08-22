@@ -47,7 +47,7 @@ export class FormFieldsService {
             required: true,
             validators: [Validators.required],
             errorMessages: {
-                required: 'El campo CURP es requerido.',
+                required: 'El campo Apellido Materno es requerido.',
             }
         },
         {
@@ -86,9 +86,11 @@ export class FormFieldsService {
             label: 'Correo electrónico',
             name: 'email',
             required: true,
-            validators: [Validators.required],
+            validators: [Validators.required, Validators.email],
             errorMessages: {
-                required: 'El campo Correo electrónico es requerido.'
+                required: 'El campo Correo electrónico es requerido.',
+                lastError: 'Por favor, introduce un correo electrónico válido.'
+
             }
         },
         {
@@ -102,7 +104,7 @@ export class FormFieldsService {
             ],
             validators: [Validators.required],
             errorMessages: {
-                required: 'El campo País es requerido.'
+                required: 'El campo GENERO es requerido.'
             }
         }
     ];
