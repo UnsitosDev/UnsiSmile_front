@@ -3,6 +3,7 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
+import { curpValidator } from '../utils/validators';
 
 @Injectable({
     providedIn: 'root'
@@ -11,18 +12,18 @@ export class FormFieldsService {
     private formFields: FormField[] = [
         {
             type: 'input',
-            label: 'Nombre',
-            name: 'nombre',
+            label: 'Primer Nombre',
+            name: 'firstName',
             required: true,
             validators: [Validators.required],
             errorMessages: {
-                required: 'El campo Nombre es requerido.'
+                required: 'El campo Primer Nombre es requerido.'
             }
         },
         {
             type: 'input',
             label: 'Segundo Nombre',
-            name: 'segundoNombre',
+            name: 'secondName',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -30,13 +31,74 @@ export class FormFieldsService {
             }
         },
         {
+            type: 'input',
+            label: 'Apellido Paterno',
+            name: 'firstLastName',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Apellido Paterno es requerido.'
+            }
+        },
+        {
+            type: 'input',
+            label: 'Apellido Materno',
+            name: 'secondLastName',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo CURP es requerido.',
+            }
+        },
+        {
+            type: 'input',
+            label: 'CURP',
+            name: 'curp',
+            required: true,
+            validators: [Validators.required, curpValidator()],
+            errorMessages: {
+                required: 'El campo CURP es requerido.',
+                lastError: 'Introduzca una CURP válida'
+            },
+        },
+        {
+            type: 'input',
+            label: 'Teléfono',
+            name: 'phone',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Teléfono es requerido.'
+            }
+        },
+        {
+            type: 'input',
+            label: 'Fecha de Nacimiento',
+            name: 'birthDate',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Fecha de Nacimiento es requerido.'
+            }
+        },
+        {
+            type: 'input',
+            label: 'Correo electrónico',
+            name: 'email',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Correo electrónico es requerido.'
+            }
+        },
+        {
             type: 'select',
-            label: 'País',
-            name: 'pais',
+            label: 'GENERO',
+            name: 'gender',
             required: true,
             options: [
-                { value: 'MX', label: 'México' },
-                { value: 'US', label: 'Estados Unidos' }
+                { value: '1', label: 'MASCULINO' },
+                { value: '2', label: 'FEMENINO' }
             ],
             validators: [Validators.required],
             errorMessages: {
