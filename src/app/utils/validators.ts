@@ -16,3 +16,14 @@ export function genderValidator(): ValidatorFn {
     return null;
   };
 }
+
+export function phoneNumberValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (!control.value) {
+      return null;
+    }
+    const phonePattern = /^\d{10}$/;
+    const valid = phonePattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}

@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
-import { curpValidator } from '../utils/validators';
+import { curpValidator, phoneNumberValidator } from '../utils/validators';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +25,6 @@ export class FormFieldsService {
             label: 'Segundo Nombre',
             name: 'secondName',
             required: true,
-            validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Segundo Nombre es requerido.'
             }
@@ -65,10 +64,10 @@ export class FormFieldsService {
             type: 'input',
             label: 'Teléfono',
             name: 'phone',
-            required: true,
-            validators: [Validators.required],
+            required: false,
+            validators: [phoneNumberValidator()],
             errorMessages: {
-                required: 'El campo Teléfono es requerido.'
+                lastError: 'Por favor, introduce un número de teléfono válido.'
             }
         },
         {
@@ -95,12 +94,12 @@ export class FormFieldsService {
         },
         {
             type: 'select',
-            label: 'GENERO',
+            label: 'Genero',
             name: 'gender',
             required: true,
             options: [
-                { value: '1', label: 'MASCULINO' },
-                { value: '2', label: 'FEMENINO' }
+                { value: '1', label: 'Masculino' },
+                { value: '2', label: 'Femenino' }
             ],
             validators: [Validators.required],
             errorMessages: {
