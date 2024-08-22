@@ -1,13 +1,12 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   @for (field of formFields; track $index) {
-    <ng-container>
       <app-field-component 
         [field]="field" 
         [formGroup]="formGroup" 
         (setFieldValue)="handleSetFieldValue($event)">
       </app-field-component>
-    </ng-container>
   }
   <button mat-raised-button color="primary" type="submit">Submit</button>
 </form>
+
 

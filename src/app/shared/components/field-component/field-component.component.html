@@ -10,9 +10,12 @@
     </mat-form-field>
   }
   @case ('select') {
-    <mat-form-field>
+    <mat-form-field  appearance="fill" class="w-full">
       <mat-label>{{ field.label }}</mat-label>
       <mat-select disableRipple [formControlName]="field.name" (selectionChange)="onValueChange($event)">
+        @for (option of field.options; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
       </mat-select>
       @if (formGroup.get(field.name)?.hasError('required')) {
         <mat-error>{{ errors?.[field.name] }}</mat-error>

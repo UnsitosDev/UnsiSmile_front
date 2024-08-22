@@ -6,25 +6,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ChangeDetectionStrategy, } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { FormControl, Validators, FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, ValidatorFn } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { curpValidator, genderValidator } from 'src/app/utils/validators';
-import { AlertModel } from '@mean/models';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
+import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormFieldsService } from 'src/app/services/form-fields.service';
 
-
-interface FormField {
-  type: string;
-  name: string;
-  label: string;
-  required?: boolean;
-  options?: { value: string, label: string }[];
-  validators?: ValidatorFn[]; // Agregar la propiedad validators
-  value?: any;
-}
 @Component({
   selector: 'app-form-patient-personal-data',
   standalone: true,
@@ -39,29 +29,18 @@ interface FormField {
 
 export class FormPatientPersonalDataComponent {
   formGroup!: FormGroup;
+  formFields: FormField[] = [];
 
-  formFields: FormField[] = [
-    {
-      type: 'input',
-      label: 'Nombre',
-      name: 'nombre',
-      required: true,
-      validators: [Validators.required] // Agregar validadores
-    },
-    {
-      type: 'select',
-      label: 'País',
-      name: 'pais',
-      required: true,
-      options: [
-        { value: 'MX', label: 'México' },
-        { value: 'US', label: 'Estados Unidos' }
-      ],
-      validators: [Validators.required] // Agregar validadores
-    }
-  ];
+  constructor(
+    private fb: FormBuilder,
+    private formFieldsService: FormFieldsService
 
-  constructor(private fb: FormBuilder) {
+  ) { }
+
+  ngOnInit(): void {
+    // Obtener los campos del formulario del servicio
+    this.formFields = this.formFieldsService.getFormFields();
+
     // Construcción del formulario
     this.formGroup = this.fb.group({});
     this.formFields.forEach(field => {
@@ -71,8 +50,6 @@ export class FormPatientPersonalDataComponent {
       );
     });
   }
-
-  ngOnInit(): void {}
 
   handleSetFieldValue(event: { field: string, value: any }) {
     this.formGroup.get(event.field)?.setValue(event.value);
