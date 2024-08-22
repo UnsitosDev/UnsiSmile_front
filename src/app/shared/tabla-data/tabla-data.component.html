@@ -1,40 +1,39 @@
+<main class="p-10">
+  <h1 class="pb-6">{{title }}</h1>
 
-<main class="p-10 ">
-    <h1 class="pb-6">{{title }}</h1>
+  <!-- Input de búsqueda -->
+  <div class="pb-4">
+    <input class="form-control" placeholder="Buscar..." (input)="applyFilter($event)" />
+  </div>
+
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              @for(column of columnas; track $index){
-                <th scope="col" class="px-6 py-3">
-                  {{ column }}
-                </th>
-              }
-              <th scope="col" class="px-6 py-3">
-                
-              </th>
-            </tr>
-        </thead>
-        <tbody>
-          @for(data of dataSource; track $index){
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-  
-              @for(nombre of columnas; track $index ){
-                <td class="px-6 py-4">
-                  {{ data[nombre] }}
-              </td>
-              }
-              <td class="py-4 text-left ">
-                  <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-7" (click)="onAction('Editar',data)"><i class="fas fa-folder"></i></a>
-                  <a  class="font-medium text-red-600 dark:text-blue-500 hover:underline pr-7" (click)="onAction('Eliminar',data)"><i class="fas fa-trash-alt"></i></a>
-              </td>
-          </tr>
-          }
-        </tbody>
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th *ngFor="let column of columnas" scope="col" class="px-6 py-3">
+            {{ column }}
+          </th>
+          <th scope="col" class="px-6 py-3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of dataSource.filteredData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td *ngFor="let nombre of columnas" class="px-6 py-4">
+            {{ data[nombre] }}
+          </td>
+          <td class="py-4 text-left">
+            <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-7" (click)="onAction('Editar',data)">
+              <i class="fas fa-folder"></i>
+            </a>
+            <a class="font-medium text-red-600 dark:text-red-500 hover:underline pr-7" (click)="onAction('Eliminar',data)">
+              <i class="fas fa-trash-alt"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
-  </main>
-  
-  <!-- Crear el servicio -->
-  
-  
+
+  <!-- Asegúrate de que el paginador esté dentro del contenedor adecuado -->
+  <mat-paginator [pageSizeOptions]="[1, 2, 20]" showFirstLastButtons></mat-paginator>
+</main>
