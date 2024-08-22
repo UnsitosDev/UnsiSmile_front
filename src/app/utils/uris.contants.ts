@@ -119,7 +119,7 @@ export class UriConstants {
     //´getpacientes
     public static readonly GET_PATIENTS = basePath + '/patients'
 
-    //´getpacientes
+    
     public static readonly GET_STUDENTS = basePath + '/students'
 
 

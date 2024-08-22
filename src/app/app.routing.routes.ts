@@ -7,7 +7,7 @@ import { StudentsPeriodonticsHistoryComponent } from './components/private/stude
 import { HistoryPersonalDataComponent } from './components/private/students/components/form-personal-data/history-personal-data.component';
 import { StudentsOralSurgeryHistoryComponent } from './components/private/students/pages/history-clinics/oral-surgery/students-oral-surgery-history.component';
 import { StudentsDentalOperationComponent } from './components/private/students/pages/history-clinics/dental-operation/students-dental-operation.component';
-import { TableStudentsComponent } from './components/private/students/components/table-students/table-students.component';
+import { TableStudentsComponent } from './components/private/admins/table-students/table-students.component';
 
 const routes: Routes = [
   {

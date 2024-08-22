@@ -8,7 +8,7 @@ export interface userRequest {
 }
 
 export interface userResponse {
-    "idUser": number | null,
+    "idUser": number,
     "username": string,
     "password": string,
     "role": rolResponse

@@ -8,6 +8,6 @@ export interface rolRequest{
 
 
 export interface rolResponse{
-    "idRole": number | null,
+    "idRole": number,
     "role": string
 }

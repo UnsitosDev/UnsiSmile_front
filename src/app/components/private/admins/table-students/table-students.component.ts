@@ -11,7 +11,7 @@ import {
   getEntityPropiedades,
 } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/tabla-data/tabla-data.component';
-import { StudentsGeneralHistoryComponent } from '../../pages/history-clinics/general/students-general-history.component';
+import { StudentsGeneralHistoryComponent } from '../../students/pages/history-clinics/general/students-general-history.component';
 import { studentRequest } from 'src/app/shared/interfaces/student/student';
 
 @Component({
