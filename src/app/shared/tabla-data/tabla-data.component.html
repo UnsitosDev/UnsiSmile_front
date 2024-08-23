@@ -1,16 +1,24 @@
-<main class="p-10">
-  <h1 class="pb-6">{{title}}</h1>
-
-  <!-- Campo de búsqueda -->
-  <div class="mb-4">
-    <label for="search" class="mr-2">Buscar:</label>
-    <input id="search" [(ngModel)]="searchText" (input)="filterData()" placeholder="Buscar..."
-      class="border rounded p-2" />
+<main class="p-10 bg-white shadow-md rounded-lg">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-semibold">{{title}}</h1>
+    <button (click)="exportToExcel()" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded shadow-md flex items-center">
+      <i class="fas fa-file-excel mr-2"></i> Exportar a Excel
+    </button>
   </div>
 
+  <!-- Campo de búsqueda -->
+  <div class="flex items-center mb-4">
+    <div class="relative w-full">
+      <input id="search" [(ngModel)]="searchText" (input)="filterData()" placeholder="Buscar..."
+        class="border border-gray-300 rounded-lg py-2 px-4 w-full shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+      <i class="fas fa-search absolute top-1/2 transform -translate-y-1/2 right-3 text-gray-400"></i>
+    </div>
+  </div>
+
+  <!-- Tabla -->
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
           <th scope="col" class="px-6 py-3" *ngFor="let column of columnas; trackBy: trackByIndex">
             {{ column }}
@@ -20,15 +28,17 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: page }"
-          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          class="bg-white border-b hover:bg-gray-50">
           <td class="px-6 py-4" *ngFor="let nombre of columnas; trackBy: trackByIndex">
             {{ data[nombre] }}
           </td>
-          <td class="py-4 text-left">
-            <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-7"
-              (click)="onAction('Editar', data)"><i class="fas fa-folder"></i></a>
-            <a class="font-medium text-red-600 dark:text-blue-500 hover:underline pr-7"
-              (click)="onAction('Eliminar', data)"><i class="fas fa-trash-alt"></i></a>
+          <td class="py-4 text-left flex">
+            <a class="text-blue-600 hover:text-blue-700 mr-4" (click)="onAction('Editar', data)">
+              <i class="fas fa-folder"></i>
+            </a>
+            <a class="text-red-600 hover:text-red-700" (click)="onAction('Eliminar', data)">
+              <i class="fas fa-trash-alt"></i>
+            </a>
           </td>
         </tr>
       </tbody>
@@ -36,13 +46,15 @@
   </div>
 
   <!-- Selector para elegir el número de elementos por página -->
-  <div class="mb-4">
-    <label for="itemsPerPage" class="mr-2">Elementos por página:</label>
-    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" class="border rounded p-2">
+  <div class="flex items-center justify-between mt-4">
+    <label for="itemsPerPage" class="text-gray-700 font-medium">Elementos por página:</label>
+    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" class="border border-gray-300 rounded-lg py-2 px-3 ml-2 shadow-sm">
       <option *ngFor="let size of pageSizes" [value]="size">{{size}}</option>
     </select>
   </div>
 
   <!-- Paginación -->
-  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+  <div class="mt-4">
+    <pagination-controls class="text-center" (pageChange)="onPageChange($event)"></pagination-controls>
+  </div>
 </main>

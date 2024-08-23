@@ -1,0 +1,16 @@
+table {
+    th, td {
+      border-bottom: 1px solid #e5e7eb; // Color de borde más suave
+    }
+  
+    tbody tr:hover {
+      background-color: #f9fafb; // Color de fondo más claro al hacer hover
+    }
+  }
+  
+  button {
+    i {
+      margin-right: 0.5rem; // Espaciado entre el icono y el texto
+    }
+  }
+  

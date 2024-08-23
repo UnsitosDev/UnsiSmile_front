@@ -2,12 +2,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Importa FormsModule para usar ngModel
+import { FormsModule } from '@angular/forms';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-tabla-data',
   standalone: true,
-  imports: [CommonModule, NgxPaginationModule, FormsModule], // Agrega FormsModule
+  imports: [CommonModule, NgxPaginationModule, FormsModule],
   templateUrl: './tabla-data.component.html',
   styleUrls: ['./tabla-data.component.scss']
 })
@@ -18,9 +21,9 @@ export class TablaDataComponent {
   filteredData: any[] = [];
   paginatedData: any[] = [];
   page = 1;
-  itemsPerPage = 2; // Valor inicial de elementos por página
-  pageSizes = [1, 2, 20, 50]; // Opciones para el selector
-  searchText = ''; // Texto de búsqueda
+  itemsPerPage = 2;
+  pageSizes = [1, 2, 20, 50];
+  searchText = '';
 
   @Input() set titulo(title: any) {
     this.title = title;
@@ -32,8 +35,8 @@ export class TablaDataComponent {
 
   @Input() set data(data: any[]) {
     this.dataSource = data;
-    this.filteredData = data; // Inicializa los datos filtrados
-    this.paginatedData = data; // Inicializa los datos paginados
+    this.filteredData = data;
+    this.paginatedData = data;
   }
 
   @Output() action: EventEmitter<Accion> = new EventEmitter();
@@ -50,7 +53,6 @@ export class TablaDataComponent {
     return index;
   }
 
-  // Método para filtrar los datos
   filterData() {
     this.filteredData = this.dataSource.filter(item => {
       return this.columnas.some(column => {
@@ -58,4 +60,19 @@ export class TablaDataComponent {
       });
     });
   }
+
+  // Método para exportar los datos filtrados y paginados a Excel
+  exportToExcel() {
+    const dataToExport = this.filteredData.slice(
+      (this.page - 1) * this.itemsPerPage,
+      this.page * this.itemsPerPage
+    );
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos');
+    XLSX.writeFile(workbook, 'data.xlsx');
+  }
+
+ 
 }
