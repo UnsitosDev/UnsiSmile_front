@@ -1,39 +1,48 @@
 <main class="p-10">
-  <h1 class="pb-6">{{title }}</h1>
+  <h1 class="pb-6">{{title}}</h1>
 
-  <!-- Input de búsqueda -->
-  <div class="pb-4">
-    <input class="form-control" placeholder="Buscar..." (input)="applyFilter($event)" />
+  <!-- Campo de búsqueda -->
+  <div class="mb-4">
+    <label for="search" class="mr-2">Buscar:</label>
+    <input id="search" [(ngModel)]="searchText" (input)="filterData()" placeholder="Buscar..."
+      class="border rounded p-2" />
   </div>
 
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th *ngFor="let column of columnas" scope="col" class="px-6 py-3">
+          <th scope="col" class="px-6 py-3" *ngFor="let column of columnas; trackBy: trackByIndex">
             {{ column }}
           </th>
           <th scope="col" class="px-6 py-3"></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of dataSource.filteredData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-          <td *ngFor="let nombre of columnas" class="px-6 py-4">
+        <tr *ngFor="let data of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: page }"
+          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td class="px-6 py-4" *ngFor="let nombre of columnas; trackBy: trackByIndex">
             {{ data[nombre] }}
           </td>
           <td class="py-4 text-left">
-            <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-7" (click)="onAction('Editar',data)">
-              <i class="fas fa-folder"></i>
-            </a>
-            <a class="font-medium text-red-600 dark:text-red-500 hover:underline pr-7" (click)="onAction('Eliminar',data)">
-              <i class="fas fa-trash-alt"></i>
-            </a>
+            <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-7"
+              (click)="onAction('Editar', data)"><i class="fas fa-folder"></i></a>
+            <a class="font-medium text-red-600 dark:text-blue-500 hover:underline pr-7"
+              (click)="onAction('Eliminar', data)"><i class="fas fa-trash-alt"></i></a>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Asegúrate de que el paginador esté dentro del contenedor adecuado -->
-  <mat-paginator [pageSizeOptions]="[1, 2, 20]" showFirstLastButtons></mat-paginator>
+  <!-- Selector para elegir el número de elementos por página -->
+  <div class="mb-4">
+    <label for="itemsPerPage" class="mr-2">Elementos por página:</label>
+    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" class="border rounded p-2">
+      <option *ngFor="let size of pageSizes" [value]="size">{{size}}</option>
+    </select>
+  </div>
+
+  <!-- Paginación -->
+  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
 </main>

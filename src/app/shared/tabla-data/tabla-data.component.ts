@@ -1,26 +1,28 @@
-import { Component, EventEmitter, Input, Output, AfterViewInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatInputModule } from '@angular/material/input';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // Importa FormsModule para usar ngModel
 
 @Component({
   selector: 'app-tabla-data',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatInputModule, CommonModule],
+  imports: [CommonModule, NgxPaginationModule, FormsModule], // Agrega FormsModule
   templateUrl: './tabla-data.component.html',
   styleUrls: ['./tabla-data.component.scss']
 })
-export class TablaDataComponent implements AfterViewInit {
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+export class TablaDataComponent {
   title = '';
   columnas: string[] = [];
-  dataSource = new MatTableDataSource<any>([]);
+  dataSource: any[] = [];
+  filteredData: any[] = [];
+  paginatedData: any[] = [];
+  page = 1;
+  itemsPerPage = 2; // Valor inicial de elementos por página
+  pageSizes = [1, 2, 20, 50]; // Opciones para el selector
+  searchText = ''; // Texto de búsqueda
 
-  @Input() set titulo(title: string) {
+  @Input() set titulo(title: any) {
     this.title = title;
   }
 
@@ -29,30 +31,31 @@ export class TablaDataComponent implements AfterViewInit {
   }
 
   @Input() set data(data: any[]) {
-    this.dataSource.data = data;
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
+    this.dataSource = data;
+    this.filteredData = data; // Inicializa los datos filtrados
+    this.paginatedData = data; // Inicializa los datos paginados
   }
 
   @Output() action: EventEmitter<Accion> = new EventEmitter();
-
-  ngAfterViewInit() {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-  }
 
   onAction(accion: string, row?: any) {
     this.action.emit({ accion: accion, fila: row });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+  onPageChange(page: number) {
+    this.page = page;
+  }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
+  // Método para filtrar los datos
+  filterData() {
+    this.filteredData = this.dataSource.filter(item => {
+      return this.columnas.some(column => {
+        return item[column].toString().toLowerCase().includes(this.searchText.toLowerCase());
+      });
+    });
   }
 }
