@@ -32,17 +32,11 @@
 							"src/custom-theme.scss",
 							"src/styles.scss",
 							"node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-							"node_modules/primeng/resources/primeng.min.css",
-							"node_modules/bootstrap/dist/css/bootstrap.min.css",
-							"node_modules/bootstrap-table/dist/bootstrap-table.min.css"
+							"node_modules/primeng/resources/primeng.min.css"
+							
 						],
 						"scripts": [
-							"node_modules/jquery/dist/jquery.min.js",
-							"node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-							"node_modules/tableexport.jquery.plugin/tableExport.min.js",
-							"node_modules/bootstrap-table/dist/bootstrap-table.min.js",
-							"node_modules/bootstrap-table/dist/bootstrap-table-locale-all.min.js",
-							"node_modules/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js"
+				
 						]
 					},
 					"configurations": {
