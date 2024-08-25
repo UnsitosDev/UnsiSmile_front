@@ -96,10 +96,7 @@ export class FormFieldsService {
             label: 'Género',
             name: 'gender',
             required: true,
-            options: [
-                { value: '1', label: 'Masculino' },
-                { value: '2', label: 'Femenino' }
-            ],
+            options: this.patientService.genderOptions,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo GENERO es requerido.'
@@ -303,23 +300,18 @@ export class FormFieldsService {
             }
         }
     ];
-    // Formularios
-    getPersonalDataFields(): FormField[] {
-        return this.personalDataFields;
-    }
 
-    getAddressFields(): FormField[] {
-        return this.addressFields;
-    }
-
-    getOtherDataFields(): FormField[] {
-        return this.otherDataFields;
-    }
 
     // Eventos
 
+    constructor() {
+        this.handleGenderClick({} as MouseEvent);
+    }
     private handleGenderClick(event: MouseEvent): void {
         this.patientService.getGender();
+        // Acceder a genderOptions después de que se cargo
+        const genderField = this.personalDataFields.find(field => field.name === 'gender');
+        genderField && (genderField.options = this.patientService.genderOptions);
     }
     private handleHousingClick(event: MouseEvent): void {
         this.patientService.getHousingData();
@@ -353,5 +345,18 @@ export class FormFieldsService {
     }
     private handleReligionClick(event: MouseEvent): void {
         this.patientService.getReligionData();
+    }
+
+    // Formularios
+    getPersonalDataFields(): FormField[] {
+        return this.personalDataFields;
+    }
+
+    getAddressFields(): FormField[] {
+        return this.addressFields;
+    }
+
+    getOtherDataFields(): FormField[] {
+        return this.otherDataFields;
     }
 }

@@ -45,6 +45,7 @@ export class PatientService {
     }
     // Genero
     genderData: genderRequest[] = [];
+    genderOptions: Array<{ value: string; label: string }> = [];
     getGender() {
         this.apiService
             .getService({
@@ -57,7 +58,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.genderData = response;
-                    console.log(this.genderData);
+                    this.genderOptions = response.map((item: any) => ({
+                        value: item.idGender.toString(),
+                        label: item.gender
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -285,5 +289,5 @@ export class PatientService {
             });
     }
 
-    
+
 }

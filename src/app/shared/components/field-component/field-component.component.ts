@@ -7,13 +7,13 @@ import { ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-field-component',
   standalone: true,
-  imports: [MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule],
+  imports: [NgFor, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule],
   templateUrl: './field-component.component.html',
   styleUrl: './field-component.component.scss',
   providers: [provideNativeDateAdapter(), DatePipe],
@@ -30,7 +30,7 @@ export class FieldComponentComponent {
 
   typeElement: string = '';
   datePipe = inject(DatePipe);
-
+  
   onSelectionChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
     this.selectionChange.emit(value);

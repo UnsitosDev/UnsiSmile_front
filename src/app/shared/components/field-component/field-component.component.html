@@ -12,20 +12,21 @@
       }
     </mat-form-field>
   }
-  @case ('select') {
-    <mat-form-field  appearance="fill" class="w-full">
-      <mat-label>{{ field.label }}</mat-label>
-      <mat-select disableRipple [formControlName]="field.name" (click)="field.onClick && field.onClick($event)" (selectionChange)="onValueChange($event)">
-        @for (option of field.options; track option.value) {
-          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+    @case ('select') {
+      <mat-form-field  appearance="fill" class="w-full">
+        <mat-label>{{ field.label }}</mat-label>
+        <mat-select disableRipple [formControlName]="field.name" (click)="field.onClick && field.onClick($event)" (selectionChange)="onValueChange($event)">
+          
+          @for (option of field.options; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+        
+        @if (formGroup.get(field.name)?.hasError('required')) {
+          <mat-error>{{ errors?.required }}</mat-error>
         }
-      </mat-select>
-      
-      @if (formGroup.get(field.name)?.hasError('required')) {
-        <mat-error>{{ errors?.required }}</mat-error>
+      </mat-form-field>
       }
-    </mat-form-field>
-    }
     @case('datepicker') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
