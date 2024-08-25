@@ -6,7 +6,7 @@ export interface FormFieldOption {
 }
 
 export interface FormField {
-    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group'; // Tipos de campo permitidos
+    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group'; 
     name: string;
     label: string;
     required?: boolean;
@@ -15,4 +15,6 @@ export interface FormField {
     value?: any;
     errorMessages?: { [key: string]: string };
     fields?: FormField[]; // Campos anidados para 'group'
+    onClick?: (event: MouseEvent) => void; // Función opcional para manejar clics
+
 }

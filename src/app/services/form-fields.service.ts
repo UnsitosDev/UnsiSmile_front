@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
 import { curpValidator, phoneNumberValidator } from '../utils/validators';
+import { PatientService } from './patient/patient.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FormFieldsService {
+    patientService = inject(PatientService);
     private personalDataFields: FormField[] = [
         {
             type: 'input',
@@ -101,7 +103,8 @@ export class FormFieldsService {
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo GENERO es requerido.'
-            }
+            },
+            onClick: this.handleGenderClick.bind(this) // Usa bind para asegurar el contexto
         },
     ];
 
@@ -300,4 +303,8 @@ export class FormFieldsService {
         return this.otherDataFields;
     }
 
+     // Función para manejar el clic y llamar a getGender
+     private handleGenderClick(event: MouseEvent): void {
+        this.patientService.getGender();
+    }
 }
