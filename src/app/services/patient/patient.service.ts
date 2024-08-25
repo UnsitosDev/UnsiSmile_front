@@ -23,6 +23,7 @@ export class PatientService {
 
     private apiService = inject(ApiService<religionRequest>);
     religionData: religionRequest[] = [];
+    religionOptions: Array<{ value: string; label: string }> = [];
     getReligionData() {
         this.apiService
             .getListService({
@@ -35,7 +36,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.religionData = response;
-                    console.log(this.religionData);
+                    this.religionOptions = response.map((item: any) => ({
+                        value: item.idReligion.toString(),
+                        label: item.religion
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -140,7 +144,6 @@ export class PatientService {
                         value: item.idNeighborhood.toString(),
                         label: item.name
                     }));
-                    console.log(this.neighborhoodOptions);
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -150,6 +153,7 @@ export class PatientService {
 
     // Localidad
     localityData: localityRequest[] = [];
+    localityOptions: Array<{ value: string; label: string }> = [];
     getLocality() {
         this.apiService
             .getService({
@@ -162,7 +166,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.localityData = response;
-                    console.log('localidades =', this.localityData);
+                    this.localityOptions = response.map((item: any) => ({
+                        value: item.idLocality.toString(),
+                        label: item.name
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -172,6 +179,7 @@ export class PatientService {
 
     // Municipios
     municipalityResponse: municipalityRequest[] = [];
+    municipalityOptions: Array<{ value: string; label: string }> = [];
     getMunicipalityData() {
         this.apiService
             .getService({
@@ -184,7 +192,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.municipalityResponse = response;
-                    console.log(this.municipalityResponse);
+                    this.municipalityOptions = response.map((item: any) => ({
+                        value: item.idMunicipality.toString(),
+                        label: item.name    
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -194,6 +205,7 @@ export class PatientService {
 
     // Estados
     stateResponseData: stateRequest[] = [];
+    stateOptions: Array<{ value: string; label: string }> = [];
     getStateData() {
         this.apiService
             .getService({
@@ -206,7 +218,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.stateResponseData = response;
-                    console.log(this.stateResponseData);
+                    this.stateOptions = response.map((item: any) => ({
+                        value: item.idState.toString(),
+                        label: item.name    
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -216,6 +231,7 @@ export class PatientService {
 
     // Nacionalidad
     nationalityData: nationalityRequest[] = [];
+    nationalityOptions: Array<{ value: string; label: string }> = [];
     getNacionalityData() {
         this.apiService
             .getService({
@@ -228,7 +244,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.nationalityData = response;
-                    console.log(this.nationalityData);
+                    this.nationalityOptions = response.map((item: any) => ({
+                        value: item.idNationality.toString(),
+                        label: item.nationality    
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -238,6 +257,7 @@ export class PatientService {
 
     // Estado civil
     maritalStatusData: maritalStatusRequest[] = [];
+    maritalStatusOptions: Array<{ value: string; label: string }> = [];
     getMaritalStatusData() {
         this.apiService
             .getService({
@@ -250,7 +270,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.maritalStatusData = response;
-                    console.log(this.maritalStatusData);
+                    this.maritalStatusOptions = response.map((item: any) => ({
+                        value: item.idMaritalStatus.toString(),
+                        label: item.maritalStatus    
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -260,6 +283,7 @@ export class PatientService {
 
     // Ocupacion
     occupationData: occupationRequest[] = [];
+    occupationOptions: Array<{ value: string; label: string }> = [];
     getOcupationData() {
         this.apiService
             .getService({
@@ -272,7 +296,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.occupationData = response;
-                    console.log('ocupacion', this.occupationData);
+                    this.occupationOptions = response.map((item: any) => ({
+                        value: item.idOccupation.toString(),
+                        label: item.occupation    
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -282,6 +309,7 @@ export class PatientService {
 
     // Grupo etnico
     ethnicGroupData: ethnicGroupRequest[] = [];
+    ethnicGroupOptions: Array<{ value: string; label: string }> = [];
     getEthnicGroupData() {
         this.apiService
             .getService({
@@ -294,7 +322,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.ethnicGroupData = response;
-                    console.log(this.ethnicGroupData);
+                    this.ethnicGroupOptions = response.map((item: any) => ({
+                        value: item.idEthnicGroup.toString(),
+                        label: item.ethnicGroup    
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);

@@ -234,12 +234,6 @@ export class FormFieldsService {
             label: 'Estado civil',
             name: 'maritalStatus',
             required: true,
-            options: [
-                { value: '1', label: 'Soltero' },
-                { value: '2', label: 'Casado' },
-                { value: '3', label: 'Divorciado' },
-                { value: '4', label: 'Viudo' }
-            ],
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Estado civil es requerido.'
@@ -296,17 +290,18 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Motivo de Consulta es requerido.'
             }
-        }
+        },
+ 
     ];
 
 
     // Eventos
 
     constructor() {
-        this.handleGenderClick({} as MouseEvent);
-        this.handleHousingClick({}as MouseEvent);
-        this.handleStretClick({}as MouseEvent);
-        this.handleNeighborhoodClick({} as MouseEvent);
+        // this.handleGenderClick({} as MouseEvent);
+        // this.handleHousingClick({}as MouseEvent);
+        // this.handleStretClick({}as MouseEvent);
+        // this.handleNeighborhoodClick({} as MouseEvent);
     }
     private handleGenderClick(event: MouseEvent): void {
         this.patientService.getGender();
@@ -331,27 +326,43 @@ export class FormFieldsService {
     }
     private handleLocalityClick(event: MouseEvent): void {
         this.patientService.getLocality();
+        const localityField = this.addressFields.find(field => field.name === 'localityName');
+        localityField && (localityField.options = this.patientService.localityOptions);
     }
     private handleMunicipalityClick(event: MouseEvent): void {
         this.patientService.getMunicipalityData();
+        const municipalityField = this.addressFields.find(field => field.name === 'municipalityName');
+        municipalityField && (municipalityField.options = this.patientService.municipalityOptions);
     }
     private handleStateClick(event: MouseEvent): void {
         this.patientService.getStateData();
+        const stateField = this.addressFields.find(field => field.name === 'stateName');
+        stateField && (stateField.options = this.patientService.stateOptions);
     }
     private handleNacionalityClick(event: MouseEvent): void {
         this.patientService.getNacionalityData();
+        const nationalityField = this.otherDataFields.find(field => field.name === 'nationality');
+        nationalityField && (nationalityField.options = this.patientService.nationalityOptions);
     }
     private handleMaritalStatusClick(event: MouseEvent): void {
         this.patientService.getMaritalStatusData();
+        const maritalStatusField = this.otherDataFields.find(field => field.name === 'maritalStatus');
+        maritalStatusField && (maritalStatusField.options = this.patientService.maritalStatusOptions);
     }
     private handleOcupationClick(event: MouseEvent): void {
         this.patientService.getOcupationData();
+        const occupationField = this.otherDataFields.find(field => field.name === 'occupation');
+        occupationField && (occupationField.options = this.patientService.occupationOptions);
     }
     private handleEthnicGroupClick(event: MouseEvent): void {
         this.patientService.getEthnicGroupData();
+        const ethnicGroupField = this.otherDataFields.find(field => field.name === 'ethnicGroup');
+        ethnicGroupField && (ethnicGroupField.options = this.patientService.ethnicGroupOptions);
     }
     private handleReligionClick(event: MouseEvent): void {
         this.patientService.getReligionData();
+        const religionField = this.otherDataFields.find(field => field.name === 'religion');
+        religionField && (religionField.options = this.patientService.religionOptions);
     }
 
     // Formularios
