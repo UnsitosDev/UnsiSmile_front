@@ -25,7 +25,20 @@
         <mat-error>{{ errors?.required }}</mat-error>
       }
     </mat-form-field>
-  }
+    }
+    @case('datepicker') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput type="date" [formControlName]="field.name" (dateChange)="onValueChangeDate($event)">
+        
+        @if (formGroup.get(field.name)?.hasError('required') && formGroup.get(field.name)?.touched) {
+          <mat-error>{{ errors?.required }}</mat-error>
+        }
+        @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+          <mat-error>{{ errors?.lastError }}</mat-error>
+        }
+      </mat-form-field>
+    }
   @default {
     <p>Tipo de campo no soportado.</p>
   }

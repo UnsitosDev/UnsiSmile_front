@@ -1,16 +1,25 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormGroup } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar ReactiveFormsModule
+import { ChangeDetectionStrategy } from '@angular/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-field-component',
   standalone: true,
-  imports: [MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule],
+  imports: [MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule],
   templateUrl: './field-component.component.html',
-  styleUrl: './field-component.component.scss'
+  styleUrl: './field-component.component.scss',
+  providers: [provideNativeDateAdapter(), DatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
+
 })
 export class FieldComponentComponent {
   @Input() field: any;
@@ -20,6 +29,7 @@ export class FieldComponentComponent {
   @Output() selectionChange = new EventEmitter<string>();
 
   typeElement: string = '';
+  datePipe = inject(DatePipe);
 
   onSelectionChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
@@ -27,11 +37,18 @@ export class FieldComponentComponent {
   }
 
   onValueChange(event: any) {
-    // Verifica si el evento es de un input o de un select
     const value = event.target ? event.target.value : event.value;
     this.setFieldValue.emit({ field: this.field.name, value: value });
   }
+  
+  showDate: any; // Para almacenar la fecha formateada
 
+  onValueChangeDate(event: any) {
+    const value = event.value as Date;
+    this.setFieldValue.emit({ field: this.field.name, value: this.datePipe.transform(value, 'yyyy-MM-dd') });
+  }
+
+  
   /**
  * Verifica si un campo del formulario tiene algún error que no sea 'required'.
  * 

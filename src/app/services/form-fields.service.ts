@@ -71,7 +71,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'datepicker',
             label: 'Fecha de Nacimiento',
             name: 'birthDate',
             required: true,
