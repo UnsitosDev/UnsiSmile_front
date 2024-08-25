@@ -1,13 +1,64 @@
-<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  @for (field of formFields; track $index) {
-      <app-field-component 
-        [field]="field" 
-        [formGroup]="formGroup" 
-        [errors]="field.errorMessages"
-        (setFieldValue)="handleSetFieldValue($event)">
-      </app-field-component>
-  }
-  <button mat-raised-button color="primary" type="submit">Submit</button>
-</form>
+<mat-stepper linear #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>DATOS PERSONALES</ng-template>
 
+      <div class="button-container">
+        <div></div>
+        <button mat-button matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+      </div>
+    </form>
+  </mat-step>
+  
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>DOMICILIO</ng-template>
+
+      <div class="button-container">
+        <button mat-button matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
+        <button mat-button matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+      </div>
+    </form>
+  </mat-step>
+  
+  <mat-step>
+    <ng-template matStepLabel>OTROS DATOS</ng-template>
+    
+    <div class="button-container">
+      <button mat-button matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
+      <button mat-button >GUARDAR <i class="fas fa-save"></i></button>
+    </div>
+  </mat-step>
+</mat-stepper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="containger bg-white m-4 p-6">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+  
+    @for (field of formFields; track $index) {
+        <app-field-component 
+          [field]="field" 
+          [formGroup]="formGroup" 
+          [errors]="field.errorMessages"
+          (setFieldValue)="handleSetFieldValue($event)">
+        </app-field-component>
+    }
+    </div>  
+    <button mat-raised-button color="primary" type="submit">GUARDAR</button>
+    </form>
+</div>
+<button type="button" (click)="transformAndSubmitData()" mat-raised-button color="primary"></button>
 
