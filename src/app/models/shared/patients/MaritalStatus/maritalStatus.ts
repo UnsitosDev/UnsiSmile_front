@@ -1,7 +1,5 @@
 export interface maritalStatusRequest {
-
-
-    "idMaritalStatus": number|null,
+    "idMaritalStatus": number | null,
     "maritalStatus": string
 
 }

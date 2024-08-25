@@ -104,7 +104,7 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo GENERO es requerido.'
             },
-            onClick: this.handleGenderClick.bind(this) // Usa bind para asegurar el contexto
+            onClick: this.handleGenderClick.bind(this)
         },
     ];
 
@@ -141,37 +141,42 @@ export class FormFieldsService {
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Categoría de vivienda es requerido.'
-            }
+            },
+            onClick: this.handleHousingClick.bind(this)
         },
         {
-            type: 'input',
+            type: 'select',
             label: 'Nombre de calle',
             name: 'streetName',
             required: true,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de calle es requerido.'
-            }
+            },
+            onClick: this.handleStretClick.bind(this)
+
         },
         {
-            type: 'input',
+            type: 'select',
             label: 'Nombre de colonia',
             name: 'neighborhoodName',
             required: true,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de colonia es requerido.'
-            }
+            },
+            onClick: this.handleNeighborhoodClick.bind(this)
         },
         {
-            type: 'input',
+            type: 'select',
             label: 'Nombre de localidad',
             name: 'localityName',
             required: true,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de localidad es requerido.'
-            }
+            },
+            onClick: this.handleLocalityClick.bind(this)
         },
         {
             type: 'input',
@@ -181,27 +186,29 @@ export class FormFieldsService {
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Código postal es requerido.'
-            }
+            },
         },
         {
-            type: 'input',
+            type: 'select',
             label: 'Nombre de municipio',
             name: 'municipalityName',
             required: true,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de municipio es requerido.'
-            }
+            },
+            onClick: this.handleMunicipalityClick.bind(this)
         },
         {
-            type: 'input',
+            type: 'select',
             label: 'Nombre de estado',
             name: 'stateName',
             required: true,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de estado es requerido.'
-            }
+            },
+            onClick: this.handleStateClick.bind(this)
         },
     ];
 
@@ -217,14 +224,15 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'select',
             label: 'Nacionalidad',
             name: 'nationality',
             required: true,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nacionalidad es requerido.'
-            }
+            },
+            onClick: this.handleNacionalityClick.bind(this)
         },
         {
             type: 'select',
@@ -240,35 +248,40 @@ export class FormFieldsService {
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Estado civil es requerido.'
-            }
+            },
+            onClick: this.handleMaritalStatusClick.bind(this)
         },
         {
-            type: 'input',
+            type: 'select',
             label: 'Ocupación',
             name: 'occupation',
             required: true,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Ocupación es requerido.'
-            }
+            },
+            onClick: this.handleOcupationClick.bind(this)
         },
         {
-            type: 'input',
+            type: 'select',
             label: 'Grupo étnico',
             name: 'ethnicGroup',
             required: false,
             errorMessages: {
                 required: 'El campo Grupo étnico es opcional.'
-            }
+            },
+            onClick: this.handleEthnicGroupClick.bind(this)
         },
         {
-            type: 'input',
+            type: 'select',
             label: 'Religión',
             name: 'religion',
             required: false,
             errorMessages: {
                 required: 'El campo Religión es opcional.'
-            }
+            },
+            onClick: this.handleReligionClick.bind(this)
+
         },
         {
             type: 'datepicker',
@@ -290,7 +303,7 @@ export class FormFieldsService {
             }
         }
     ];
-
+    // Formularios
     getPersonalDataFields(): FormField[] {
         return this.personalDataFields;
     }
@@ -303,8 +316,42 @@ export class FormFieldsService {
         return this.otherDataFields;
     }
 
-     // Función para manejar el clic y llamar a getGender
-     private handleGenderClick(event: MouseEvent): void {
+    // Eventos
+
+    private handleGenderClick(event: MouseEvent): void {
         this.patientService.getGender();
+    }
+    private handleHousingClick(event: MouseEvent): void {
+        this.patientService.getHousingData();
+    }
+    private handleStretClick(event: MouseEvent): void {
+        this.patientService.getStreets();
+    }
+    private handleNeighborhoodClick(event: MouseEvent): void {
+        this.patientService.getNeighborhoodData();
+    }
+    private handleLocalityClick(event: MouseEvent): void {
+        this.patientService.getLocality();
+    }
+    private handleMunicipalityClick(event: MouseEvent): void {
+        this.patientService.getMunicipalityData();
+    }
+    private handleStateClick(event: MouseEvent): void {
+        this.patientService.getStateData();
+    }
+    private handleNacionalityClick(event: MouseEvent): void {
+        this.patientService.getNacionalityData();
+    }
+    private handleMaritalStatusClick(event: MouseEvent): void {
+        this.patientService.getMaritalStatusData();
+    }
+    private handleOcupationClick(event: MouseEvent): void {
+        this.patientService.getOcupationData();
+    }
+    private handleEthnicGroupClick(event: MouseEvent): void {
+        this.patientService.getEthnicGroupData();
+    }
+    private handleReligionClick(event: MouseEvent): void {
+        this.patientService.getReligionData();
     }
 }

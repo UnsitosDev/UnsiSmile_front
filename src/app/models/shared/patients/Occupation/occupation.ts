@@ -1,13 +1,9 @@
 export interface occupationRequest {
-
-
-    "idOccupation": number,
+  "idOccupation": number,
   "occupation": string
-
 }
 
 export interface occupationResponse {
-
-    "idOccupation": number,
-    "occupation": string
+  "idOccupation": number,
+  "occupation": string
 }
