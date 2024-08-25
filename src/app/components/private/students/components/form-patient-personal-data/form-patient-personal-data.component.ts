@@ -114,39 +114,47 @@ export class FormPatientPersonalDataComponent {
   });
   secondFormGroup = this._formBuilder.group({
   });
-  
+
   formGroup!: FormGroup;
-  formFields: FormField[] = [];
+
+  personal: FormField[] = [];
+  address: FormField[] = [];
+  other: FormField[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private formFieldsService: FormFieldsService
-
+    private personalDataFields: FormFieldsService,
+    private addressDataFields: FormFieldsService,
+    private otherDataFields: FormFieldsService
   ) { }
 
   ngOnInit(): void {
     // Obtener los campos del formulario del servicio
-    this.formFields = this.formFieldsService.getFormFields();
+    this.personal = this.personalDataFields.getPersonalDataFields();
+    this.address = this.addressDataFields.getAddressFields();
+    this.other = this.otherDataFields.getOtherDataFields();
 
     // Construcción del formulario
-    this.formGroup = this.fb.group({});
-    this.formFields.forEach(field => {
+    this.formGroup = this.fb.group({}); // Inicializar el FormGroup
+    [...this.personal, ...this.address, ...this.other].forEach(field => {
       this.formGroup.addControl(
         field.name,
         this.fb.control(field.value || '', field.validators || [])
       );
     });
   }
-
   handleSetFieldValue(event: { field: string, value: any }) {
     this.formGroup.get(event.field)?.setValue(event.value);
   }
 
   onSubmit() {
     if (this.formGroup.valid) {
-      console.log('Form Values:', this.formGroup.value);
+      console.log('Todos los datos del formulario:', this.formGroup.value);
+    } else {
+      console.log('El formulario no es válido');
     }
   }
+
   transformAndSubmitData() {
     console.log('Entrando a la funion')
     if (this.formGroup.valid) {

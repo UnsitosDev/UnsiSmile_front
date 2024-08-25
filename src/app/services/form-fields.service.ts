@@ -7,7 +7,7 @@ import { curpValidator, phoneNumberValidator } from '../utils/validators';
     providedIn: 'root'
 })
 export class FormFieldsService {
-    private formFields: FormField[] = [
+    private personalDataFields: FormField[] = [
         {
             type: 'input',
             label: 'Primer Nombre',
@@ -103,7 +103,9 @@ export class FormFieldsService {
                 required: 'El campo GENERO es requerido.'
             }
         },
-        // New fields added below
+    ];
+
+    private addressFields: FormField[] = [
         {
             type: 'input',
             label: 'Número Exterior',
@@ -198,6 +200,9 @@ export class FormFieldsService {
                 required: 'El campo Nombre de estado es requerido.'
             }
         },
+    ];
+
+    private otherDataFields: FormField[] = [
         {
             type: 'datepicker',
             label: 'Fecha de admisión',
@@ -283,7 +288,16 @@ export class FormFieldsService {
         }
     ];
 
-    getFormFields(): FormField[] {
-        return this.formFields;
+    getPersonalDataFields(): FormField[] {
+        return this.personalDataFields;
     }
+
+    getAddressFields(): FormField[] {
+        return this.addressFields;
+    }
+
+    getOtherDataFields(): FormField[] {
+        return this.otherDataFields;
+    }
+
 }

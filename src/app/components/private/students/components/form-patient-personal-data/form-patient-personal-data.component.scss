@@ -7,10 +7,10 @@ button{
     display: flex;
     justify-content: space-between; /* Distribuye el espacio entre los botones */
     margin-top: 20px; /* Espacio superior opcional */
-  }
+}
   
-  .button-container button {
+.button-container button {
     max-width: 400px; /* Limita el ancho máximo de los botones */
     flex: 0 0 auto; /* Evita que los botones crezcan para ocupar el espacio disponible */
     margin: 0 5px; /* Espacio entre los botones */
-  }
+}
