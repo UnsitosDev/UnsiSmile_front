@@ -130,11 +130,7 @@ export class FormFieldsService {
             label: 'Categoría de vivienda',
             name: 'housingCategory',
             required: true,
-            options: [
-                { value: '1', label: 'Casa' },
-                { value: '2', label: 'Departamento' },
-                { value: '3', label: 'Otro' }
-            ],
+            options: this.patientService.housingOptions,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Categoría de vivienda es requerido.'
@@ -146,6 +142,7 @@ export class FormFieldsService {
             label: 'Nombre de calle',
             name: 'streetName',
             required: true,
+            options: this.patientService.streetsOptions,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de calle es requerido.'
@@ -158,6 +155,7 @@ export class FormFieldsService {
             label: 'Nombre de colonia',
             name: 'neighborhoodName',
             required: true,
+            options: this.patientService.neighborhoodOptions,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de colonia es requerido.'
@@ -306,6 +304,9 @@ export class FormFieldsService {
 
     constructor() {
         this.handleGenderClick({} as MouseEvent);
+        this.handleHousingClick({}as MouseEvent);
+        this.handleStretClick({}as MouseEvent);
+        this.handleNeighborhoodClick({} as MouseEvent);
     }
     private handleGenderClick(event: MouseEvent): void {
         this.patientService.getGender();
@@ -315,12 +316,18 @@ export class FormFieldsService {
     }
     private handleHousingClick(event: MouseEvent): void {
         this.patientService.getHousingData();
+        const housingField = this.addressFields.find(field => field.name === 'housingCategory');
+        housingField && (housingField.options = this.patientService.housingOptions);
     }
     private handleStretClick(event: MouseEvent): void {
         this.patientService.getStreets();
+        const streetsField = this.addressFields.find(field => field.name === 'streetName');
+        streetsField && (streetsField.options = this.patientService.streetsOptions);
     }
     private handleNeighborhoodClick(event: MouseEvent): void {
         this.patientService.getNeighborhoodData();
+        const neighborhoodField = this.addressFields.find(field => field.name === 'neighborhoodName');
+        neighborhoodField && (neighborhoodField.options = this.patientService.neighborhoodOptions);
     }
     private handleLocalityClick(event: MouseEvent): void {
         this.patientService.getLocality();

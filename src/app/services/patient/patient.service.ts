@@ -71,6 +71,7 @@ export class PatientService {
 
     // Tipos de vivienda
     housingResponseData: housingRequest[] = [];
+    housingOptions: Array<{ value: string; label: string }> = [];
     getHousingData() {
         this.apiService
             .getService({
@@ -83,7 +84,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.housingResponseData = response;
-                    console.log(this.housingResponseData);
+                    this.housingOptions = response.map((item: any) => ({
+                        value: item.idHousing.toString(),
+                        label: item.category
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -93,6 +97,7 @@ export class PatientService {
 
     // Calles
     streetsData: streetRequest[] = [];
+    streetsOptions: Array<{ value: string; label: string }> = [];
     getStreets() {
         this.apiService
             .getService({
@@ -105,7 +110,10 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.streetsData = response;
-                    console.log(this.streetsData);
+                    this.streetsOptions = response.map((item: any) => ({
+                        value: item.idStreet.toString(),
+                        label: item.name
+                    }));
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -115,6 +123,7 @@ export class PatientService {
 
     // Colonias
     neighborhoodResponseData: neighborhoodRequest[] = [];
+    neighborhoodOptions: Array<{ value: string; label: string }> = [];
     getNeighborhoodData() {
         this.apiService
             .getService({
@@ -127,7 +136,11 @@ export class PatientService {
             .subscribe({
                 next: (response) => {
                     this.neighborhoodResponseData = response;
-                    console.log(this.neighborhoodResponseData);
+                    this.neighborhoodOptions = response.map((item: any) => ({
+                        value: item.idNeighborhood.toString(),
+                        label: item.name
+                    }));
+                    console.log(this.neighborhoodOptions);
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
