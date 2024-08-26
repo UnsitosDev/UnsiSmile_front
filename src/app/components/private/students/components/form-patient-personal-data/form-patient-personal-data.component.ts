@@ -17,7 +17,9 @@ import { FormFieldsService } from 'src/app/services/form-fields.service';
 import { inject} from '@angular/core';
 import { Validators} from '@angular/forms';
 
+
 import {MatStepperModule} from '@angular/material/stepper';
+import { AlertModel } from '@mean/models';
 
 interface Gender {
   idGender: number;
@@ -147,12 +149,15 @@ export class FormPatientPersonalDataComponent {
     this.formGroup.get(event.field)?.setValue(event.value);
   }
 
+  alertMessage: string = '';
+  alertSeverity: string = AlertModel.AlertSeverity.ERROR;
+  showAlert: boolean = false;
   onSubmit() {
     if (this.formGroup.valid) {
       console.log('Todos los datos del formulario:', this.formGroup.value);
     } else {
-      console.log('El formulario no es válido');
-    }
+      this.alertMessage = 'Por favor, completa todos los campos correctamente.';
+      this.showAlert = true;    }
   }
 
   transformAndSubmitData() {

@@ -96,7 +96,6 @@ export class FormFieldsService {
             label: 'Género',
             name: 'gender',
             required: true,
-            options: this.patientService.genderOptions,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo GENERO es requerido.'
@@ -130,7 +129,6 @@ export class FormFieldsService {
             label: 'Categoría de vivienda',
             name: 'housingCategory',
             required: true,
-            options: this.patientService.housingOptions,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Categoría de vivienda es requerido.'
@@ -142,7 +140,6 @@ export class FormFieldsService {
             label: 'Nombre de calle',
             name: 'streetName',
             required: true,
-            options: this.patientService.streetsOptions,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de calle es requerido.'
@@ -155,7 +152,6 @@ export class FormFieldsService {
             label: 'Nombre de colonia',
             name: 'neighborhoodName',
             required: true,
-            options: this.patientService.neighborhoodOptions,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de colonia es requerido.'
