@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormGroup } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar ReactiveFormsModule
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -28,19 +28,27 @@ export class FieldComponentComponent {
   @Output() setFieldValue = new EventEmitter<any>();
   @Output() selectionChange = new EventEmitter<string>();
 
+
   typeElement: string = '';
   datePipe = inject(DatePipe);
-  
+
   onSelectionChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
     this.selectionChange.emit(value);
   }
 
   onValueChange(event: any) {
+    // Verifica si el evento es de tipo MatSelectChange
+    if (event instanceof MatSelectChange) {
+      const selectedValue = event.value;
+      const selectedOption = this.field?.options?.find((option: any) => option.value === selectedValue);
+      console.log('Opción seleccionada:', selectedOption);
+    }
+    // Emite el valor para todos los tipos de eventos
     const value = event.target ? event.target.value : event.value;
     this.setFieldValue.emit({ field: this.field.name, value: value });
   }
-  
+
   showDate: any; // Para almacenar la fecha formateada
 
   onValueChangeDate(event: any) {
@@ -48,7 +56,7 @@ export class FieldComponentComponent {
     this.setFieldValue.emit({ field: this.field.name, value: this.datePipe.transform(value, 'yyyy-MM-dd') });
   }
 
-  
+
   /**
  * Verifica si un campo del formulario tiene algún error que no sea 'required'.
  * 
