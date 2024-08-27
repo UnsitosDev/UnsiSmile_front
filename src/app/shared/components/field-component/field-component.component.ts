@@ -26,29 +26,68 @@ export class FieldComponentComponent {
   @Input() formGroup!: FormGroup;
   @Input() errors: any;
   @Output() setFieldValue = new EventEmitter<any>();
-  @Output() selectionChange = new EventEmitter<string>();
 
 
   typeElement: string = '';
   datePipe = inject(DatePipe);
 
-  onSelectionChange(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    this.selectionChange.emit(value);
-  }
+  // onSelectionChange(event: any) {
+  //   const selectedValue = event.value;
+  //   const selectedOption = this.field?.options?.find((option: any) => option.value === selectedValue);
+  //   const obj = {
+  //     id: selectedOption.value,
+  //     label: selectedOption.label
+  //   }
+  //   console.log('Valor emitido desde select:', obj); // Para depuración
+  //   const value = event.target ? event.target.value : event.value;
+  //   this.setFieldValue.emit({ field: this.field.name, value: value });
 
+  // }
+
+  onSelectionChange(event: any) {
+   // const selectedValue = event.value;
+    // const selectedOption = this.field?.options?.find((option: any) => option.value === selectedValue);
+    // console.log('Valor emitido desde select:', selectedOption  ); 
+    // this.setFieldValue.emit({ field: this.field.name, value: selectedValue  });
+    // this.setFieldValue.emit({ field: this.field.name, value: selectedOption  });
+    // this.onSelectionChange2(selectedValue);
+  }
+  
+  onSelectionChange2(event: any) {
+    const selectedValue2 = event.value;
+
+    const selectedOption = this.field?.options?.find((option: any) => option.value === selectedValue2);
+    // console.log('Valor emitido desde select:', selectedOption  ); 
+    // this.setFieldValue.emit({ field: this.field.name, value: selectedValue  });
+     this.setFieldValue.emit({ field: this.field.name, value: selectedOption  });
+  }
+  
+  
+  
   onValueChange(event: any) {
-    // Verifica si el evento es de tipo MatSelectChange
-    if (event instanceof MatSelectChange) {
-      const selectedValue = event.value;
-      const selectedOption = this.field?.options?.find((option: any) => option.value === selectedValue);
-      console.log('Opción seleccionada:', selectedOption);
-    }
     // Emite el valor para todos los tipos de eventos
     const value = event.target ? event.target.value : event.value;
     this.setFieldValue.emit({ field: this.field.name, value: value });
   }
 
+  // handleSelectChange(event: any) {
+  //   const selectedValue = event.value;
+  //   const selectedOption = this.field?.options?.find((option: any) => option.value === selectedValue);
+  //   const obj = {
+  //     id: selectedOption.value,
+  //     label: selectedOption.label
+  //   }
+  //   this.selectedLabel = obj.label; // Actualiza la propiedad con el label seleccionado
+  //   console.log('Valor emitido desde select:', obj.label); // Para depuración
+  //   const value = event.target ? event.target.value : event.value;
+  //   this.setFieldValue.emit({ field: this.field.name, value: obj });
+  // }
+
+  handleSelectChange(event: any) {
+
+    const value = event.target ? event.target.value : event.value;
+    this.setFieldValue.emit({ field: this.field.name, value: value });
+  }
   showDate: any; // Para almacenar la fecha formateada
 
   onValueChangeDate(event: any) {
