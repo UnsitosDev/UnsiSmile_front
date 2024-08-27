@@ -39,12 +39,26 @@ export class TablaDataComponent {
 
   @Output() action: EventEmitter<Accion> = new EventEmitter();
 
+  @Output() pageSizeChange = new EventEmitter<number>();
+
+
   onAction(accion: string, row?: any) {
     this.action.emit({ accion: accion, fila: row });
   }
 
   onPageChange(page: number) {
     this.page = page;
+    this.updatePaginatedData();
+  }
+  onPageSizeChange() {
+    this.pageSizeChange.emit(this.itemsPerPage);
+    this.updatePaginatedData();
+  }
+
+  private updatePaginatedData() {
+    const start = (this.page - 1) * this.itemsPerPage;
+    const end = this.page * this.itemsPerPage;
+    this.paginatedData = this.filteredData.slice(start, end);
   }
 
   trackByIndex(index: number, obj: any): any {
@@ -57,20 +71,25 @@ export class TablaDataComponent {
         return item[column].toString().toLowerCase().includes(this.searchText.toLowerCase());
       });
     });
+    this.updatePaginatedData();
   }
 
   // Método para exportar los datos filtrados y paginados a Excel
   exportToExcel() {
-    const dataToExport = this.filteredData.slice(
-      (this.page - 1) * this.itemsPerPage,
-      this.page * this.itemsPerPage
-    );
+  // Selecciona los datos para la página actual
+  let dataToExport = this.filteredData.slice(
+    (this.page - 1) * this.itemsPerPage,
+    this.page * this.itemsPerPage
+  );
 
-    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos');
-    XLSX.writeFile(workbook, 'data.xlsx');
-  }
+  // Excluye los dos últimos elementos
+  //dataToExport = dataToExport.slice(0, -2);
+
+  const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos');
+  XLSX.writeFile(workbook, 'data.xlsx');
+}
 
  
 }

@@ -1,7 +1,8 @@
 <main class="p-10 bg-white shadow-md rounded-lg">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-semibold">{{title}}</h1>
-    <button (click)="exportToExcel()" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded shadow-md flex items-center">
+    <button (click)="exportToExcel()"
+      class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded shadow-md flex items-center">
       <i class="fas fa-file-excel mr-2"></i> Exportar a Excel
     </button>
   </div>
@@ -46,15 +47,16 @@
   </div>
 
   <!-- Selector para elegir el número de elementos por página -->
-  <div class="flex items-center justify-between mt-4">
-    <label for="itemsPerPage" class="text-gray-700 font-medium">Elementos por página:</label>
-    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" class="border border-gray-300 rounded-lg py-2 px-3 ml-2 shadow-sm">
-      <option *ngFor="let size of pageSizes" [value]="size">{{size}}</option>
+  <div>
+    <label for="pageSize">Items por página:</label>
+    <select id="pageSize" [(ngModel)]="itemsPerPage" (change)="onPageSizeChange()">
+      <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
     </select>
   </div>
 
   <!-- Paginación -->
   <div class="mt-4">
-    <pagination-controls class="text-center" (pageChange)="onPageChange($event)"></pagination-controls>
+    <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" class="text-center"
+      (pageChange)="onPageChange($event)"></pagination-controls>
   </div>
 </main>
