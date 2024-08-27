@@ -48,7 +48,7 @@
 
   <!-- Selector para elegir el número de elementos por página -->
   <div>
-    <label for="pageSize">Items por página:</label>
+    <label for="pageSize">Datos por página:</label>
     <select id="pageSize" [(ngModel)]="itemsPerPage" (change)="onPageSizeChange()">
       <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
     </select>
