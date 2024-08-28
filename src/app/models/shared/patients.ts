@@ -6,8 +6,8 @@ export interface Ipatients{
     email : string
   }
 export class patientsTableData{
-  nombre = ''
-  apellido =  ''
+  nombres = ''
+  apellidos =  ''
   correo= ''
   curp =  ''
   idMedicalHistory = 0
@@ -15,8 +15,8 @@ export class patientsTableData{
   }
 
   export class columnPatientsTableData{
-    nombre = ''
-    apellido =  ''
+    nombres = ''
+    apellidos =  ''
     correo= ''
     curp =  ''
   

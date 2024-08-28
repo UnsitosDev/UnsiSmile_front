@@ -1,21 +1,25 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tabla-data',
   standalone: true,
-  imports: [],
+  imports: [NgxPaginationModule, FormsModule],
   templateUrl: './tabla-data.component.html',
-  styleUrl: './tabla-data.component.scss'
+  styleUrls: ['./tabla-data.component.scss']
 })
 export class TablaDataComponent {
-
-  
   title = '';
   columnas: string[] = [];
-  dataSource: any = [];
-
+  dataSource: any[] = [];
+  filteredData: any[] = [];
+  paginatedData: any[] = [];
+  page = 1;
+  itemsPerPage = 10;
+  pageSizes = [10, 20, 20, 50];
+  searchText = '';
 
   @Input() set titulo(title: any) {
     this.title = title;
@@ -25,18 +29,51 @@ export class TablaDataComponent {
     this.columnas = columns;
   }
 
-  @Input() set data(data: any) {
+  @Input() set data(data: any[]) {
     this.dataSource = data;
+    this.filteredData = data;
+    this.paginatedData = data;
   }
 
-  // Que data va a fluir?, añadir el Json y las interfaces, ya ahí añadir el action
-  // Implementar el Accion
-
   @Output() action: EventEmitter<Accion> = new EventEmitter();
+
+  @Output() pageSizeChange = new EventEmitter<number>();
+
 
   onAction(accion: string, row?: any) {
     this.action.emit({ accion: accion, fila: row });
   }
 
+  onPageChange(page: number) {
+    this.page = page;
+    this.updatePaginatedData();
+  }
+  onPageSizeChange() {
+    this.pageSizeChange.emit(this.itemsPerPage);
+    this.updatePaginatedData();
+  }
 
+  private updatePaginatedData() {
+    const start = (this.page - 1) * this.itemsPerPage;
+    const end = this.page * this.itemsPerPage;
+    this.paginatedData = this.filteredData.slice(start, end);
+  }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
+  filterData() {
+    this.filteredData = this.dataSource.filter(item => {
+      return this.columnas.some(column => {
+        return item[column].toString().toLowerCase().includes(this.searchText.toLowerCase());
+      });
+    });
+    this.updatePaginatedData();
+  }
+
+  // Método para exportar los datos filtrados y paginados a Excel
+
+
+ 
 }
