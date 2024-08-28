@@ -40,6 +40,18 @@
         }
       </mat-form-field>
     }
+    @case ('inputEvent') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput [formControlName]="field.name" (input)="onInputChange($event)" />
+        @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+          <mat-error>{{ errors?.lastError }}</mat-error>
+        }
+        @if (formGroup.get(field.name)?.hasError('required')) {
+          <mat-error>{{ errors?.required }}</mat-error>
+        }
+      </mat-form-field>
+    }
   @default {
     <p>Tipo de campo no soportado.</p>
   }

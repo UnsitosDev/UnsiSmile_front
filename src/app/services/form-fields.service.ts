@@ -170,7 +170,7 @@ export class FormFieldsService {
             onClick: this.handleLocalityClick.bind(this)
         },
         {
-            type: 'input',
+            type: 'inputEvent',
             label: 'Código postal',
             name: 'postalCode',
             required: true,
@@ -178,6 +178,10 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Código postal es requerido.'
             },
+            onInputChange: {
+                changeFunction: this.handlePostalCodeClick.bind(this),
+                length: 5
+            }
         },
         {
             type: 'select',
@@ -359,6 +363,10 @@ export class FormFieldsService {
         this.patientService.getReligionData();
         const religionField = this.otherDataFields.find(field => field.name === 'religion');
         religionField && (religionField.options = this.patientService.religionOptions);
+    }
+
+    private handlePostalCodeClick(event: MouseEvent): void {
+        this.patientService.getPostalCode();
     }
 
     // Formularios

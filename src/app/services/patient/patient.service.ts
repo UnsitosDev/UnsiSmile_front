@@ -14,6 +14,7 @@ import { nationalityRequest } from 'src/app/models/shared/patients/Nationality/N
 import { maritalStatusRequest } from 'src/app/models/shared/patients/MaritalStatus/maritalStatus';
 import { occupationRequest } from 'src/app/models/shared/patients/Occupation/occupation';
 import { ethnicGroupRequest } from 'src/app/models/shared/patients/EthnicGroup/ethnicGroup';
+import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 
 
 @Injectable({
@@ -178,7 +179,7 @@ export class PatientService {
     }
 
     // Municipios
-    municipalityResponse: municipalityRequest[] = [];
+    municipalityResponse:PaginatedData<municipalityRequest> [] = [];
     municipalityOptions: Array<{ value: string; label: string }> = [];
     getMunicipalityData() {
         this.apiService
@@ -191,11 +192,12 @@ export class PatientService {
             })
             .subscribe({
                 next: (response) => {
-                    this.municipalityResponse = response;
-                    this.municipalityOptions = response.map((item: any) => ({
+                    this.municipalityResponse = response.content;
+                    this.municipalityOptions = this.municipalityResponse.map((item: any) => ({
                         value: item.idMunicipality.toString(),
                         label: item.name    
                     }));
+                    console.log(this.municipalityResponse);
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -204,7 +206,7 @@ export class PatientService {
     }
 
     // Estados
-    stateResponseData: stateRequest[] = [];
+    stateResponseData: PaginatedData<stateRequest>[] = [];
     stateOptions: Array<{ value: string; label: string }> = [];
     getStateData() {
         this.apiService
@@ -217,8 +219,8 @@ export class PatientService {
             })
             .subscribe({
                 next: (response) => {
-                    this.stateResponseData = response;
-                    this.stateOptions = response.map((item: any) => ({
+                    this.stateResponseData = response.content;
+                    this.stateOptions = this.stateResponseData.map((item: any) => ({
                         value: item.idState.toString(),
                         label: item.name    
                     }));
@@ -333,5 +335,26 @@ export class PatientService {
             });
     }
 
+    // Buscar por codigo postal
+    postalCode: String = '70805';
+    getPostalCode() {
+        this.apiService
+            .getService({
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                }),
+                url: `${UriConstants.GET_POSTAL_CODE}`+ this.postalCode,
+                data: {},
+            })
+            .subscribe({
+                next: (response) => {
+
+                    console.log('Codigo postal = ', response);
+                },
+                error: (error) => {
+                    console.error('Error en la autenticación:', error);
+                },
+            });
+    }
 
 }

@@ -144,13 +144,13 @@ export class UriConstants {
     // neighborhood-controller
     public static readonly GET_NEIGHBORHOODS = basePath + '/addresses/neighborhoods'
     // municipality-controller
-    public static readonly GET_MUNICIPALITY = basePath + '/address/municipalities'
+    public static readonly GET_MUNICIPALITY = basePath + '/address/municipalities?page=0&size=10&order=name&asc=true'
     // state-controller
     public static readonly GET_STATE = basePath + '/address/states'
     // Patient controller
     public static readonly POST_PATIENT = basePath + '/patients'
     
     public static readonly GET_USER_INFO = basePath + '/users/userInformation'
-
-
+    // get postalCode
+    public static readonly GET_POSTAL_CODE = basePath + '/address/locality/postal-code/'
 }

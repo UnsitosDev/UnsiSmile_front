@@ -5,8 +5,15 @@ export interface FormFieldOption {
     label: string;
 }
 
+// Interfaz para la configuración de onInputChange
+export interface InputChangeConfig {
+    service: string;
+    method: string;
+    minLength: number;
+}
+
 export interface FormField {
-    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group'; 
+    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent'; 
     name: string;
     label: string;
     required?: boolean;
@@ -16,5 +23,9 @@ export interface FormField {
     errorMessages?: { [key: string]: string };
     fields?: FormField[]; // Campos anidados para 'group'
     onClick?: (event: MouseEvent) => void; // Función opcional para manejar clics
+    onInputChange?: {
+        changeFunction?: (event: MouseEvent) => void;
+        length: number
+    } 
 
 }

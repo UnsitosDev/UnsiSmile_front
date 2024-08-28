@@ -9,6 +9,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { DatePipe, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { InputChangeConfig } from 'src/app/models/form-fields/form-field.interface';
+import { PatientService } from 'src/app/services/patient/patient.service';
 
 @Component({
   selector: 'app-field-component',
@@ -22,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 })
 export class FieldComponentComponent {
+
   @Input() field: any;
   @Input() formGroup!: FormGroup;
   @Input() errors: any;
@@ -45,30 +48,31 @@ export class FieldComponentComponent {
   // }
 
   onSelectionChange(event: any) {
-   // const selectedValue = event.value;
+    // const selectedValue = event.value;
     // const selectedOption = this.field?.options?.find((option: any) => option.value === selectedValue);
     // console.log('Valor emitido desde select:', selectedOption  ); 
     // this.setFieldValue.emit({ field: this.field.name, value: selectedValue  });
     // this.setFieldValue.emit({ field: this.field.name, value: selectedOption  });
     // this.onSelectionChange2(selectedValue);
   }
-  
+
   onSelectionChange2(event: any) {
     const selectedValue2 = event.value;
 
     const selectedOption = this.field?.options?.find((option: any) => option.value === selectedValue2);
     // console.log('Valor emitido desde select:', selectedOption  ); 
     // this.setFieldValue.emit({ field: this.field.name, value: selectedValue  });
-     this.setFieldValue.emit({ field: this.field.name, value: selectedOption  });
+    this.setFieldValue.emit({ field: this.field.name, value: selectedOption });
   }
-  
-  
-  
+
+
+
   onValueChange(event: any) {
     // Emite el valor para todos los tipos de eventos
     const value = event.target ? event.target.value : event.value;
     this.setFieldValue.emit({ field: this.field.name, value: value });
   }
+
 
   // handleSelectChange(event: any) {
   //   const selectedValue = event.value;
@@ -95,7 +99,21 @@ export class FieldComponentComponent {
     this.setFieldValue.emit({ field: this.field.name, value: this.datePipe.transform(value, 'yyyy-MM-dd') });
   }
 
+  // onInputChange(event: Event) {
+  //   if (this.field.onInputChange) {
+  //     this.field.onInputChange(event);
+  //   }
+  // }
+  onInputChange(event: Event) {
+    if (this.field.onInputChange) {
+        const inputElement = event.target as HTMLInputElement;
+        const value = inputElement.value;
 
+        if (value.length === this.field.onInputChange.length) {
+            this.field.onInputChange.changeFunction(event);
+        }
+    }
+}
   /**
  * Verifica si un campo del formulario tiene algún error que no sea 'required'.
  * 
