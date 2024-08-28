@@ -1,14 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-tabla-data',
   standalone: true,
-  imports: [CommonModule, NgxPaginationModule, FormsModule],
+  imports: [NgxPaginationModule, FormsModule],
   templateUrl: './tabla-data.component.html',
   styleUrls: ['./tabla-data.component.scss']
 })
@@ -19,8 +17,8 @@ export class TablaDataComponent {
   filteredData: any[] = [];
   paginatedData: any[] = [];
   page = 1;
-  itemsPerPage = 2;
-  pageSizes = [1, 2, 20, 50];
+  itemsPerPage = 10;
+  pageSizes = [10, 20, 20, 50];
   searchText = '';
 
   @Input() set titulo(title: any) {
@@ -75,21 +73,7 @@ export class TablaDataComponent {
   }
 
   // Método para exportar los datos filtrados y paginados a Excel
-  exportToExcel() {
-  // Selecciona los datos para la página actual
-  let dataToExport = this.filteredData.slice(
-    (this.page - 1) * this.itemsPerPage,
-    this.page * this.itemsPerPage
-  );
 
-  // Excluye los dos últimos elementos
-  //dataToExport = dataToExport.slice(0, -2);
-
-  const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos');
-  XLSX.writeFile(workbook, 'data.xlsx');
-}
 
  
 }
