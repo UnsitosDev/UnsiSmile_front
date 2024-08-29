@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
-import { studentItems, adminItems, MenuItem } from '@mean/models';
+import { StudentItems, AdminItems, MenuItem } from '@mean/models';
 import {
   studentResponse,
   studentUserResponse,
@@ -47,9 +47,9 @@ export class SideNavComponent implements OnInit {
 
   setMenuItems() {
     if (this.user.user.role.role === 'ROLE_STUDENT') {
-      this.menuItems = studentItems;
+      this.menuItems = StudentItems;
     } else if (this.user.user.role.role === 'ROLE_ADMIN') {
-      this.menuItems = adminItems;
+      this.menuItems = AdminItems;
     }
   }
 }

@@ -8,7 +8,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/
       routerlink: string;
     }
   
-    export const studentItems: MenuItem[] = [
+    export const StudentItems: MenuItem[] = [
       {
         fontAwesomeIcon: faHome,
         buttonText: 'Inicio',
@@ -23,7 +23,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/
       },
     ];
     
-    export const adminItems: MenuItem[] = [
+    export const AdminItems: MenuItem[] = [
       {
         fontAwesomeIcon: faHome,
         buttonText: 'Inicio',
@@ -36,7 +36,6 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/
         buttonDescription: 'Ver estudiantes',
         routerlink: '/admin/students'
       },
-      // Agregar mas dependiendo de sus vistas
     ];
     
   

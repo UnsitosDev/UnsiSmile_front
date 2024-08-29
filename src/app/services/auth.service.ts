@@ -47,6 +47,7 @@ export class AuthService {
   redirectByRole(role: string): void {
     const roleRoutes: { [key: string]: string } = {
       ROLE_STUDENT: '/students/dashboard',
+      ROLE_ADMIN: '/admin',
     };
     const route = roleRoutes[role];
 
