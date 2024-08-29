@@ -8,6 +8,7 @@ import { HistoryPersonalDataComponent } from './components/private/students/comp
 import { StudentsOralSurgeryHistoryComponent } from './components/private/students/pages/history-clinics/oral-surgery/students-oral-surgery-history.component';
 import { StudentsDentalOperationComponent } from './components/private/students/pages/history-clinics/dental-operation/students-dental-operation.component';
 import { TableStudentsComponent } from './components/private/admins/components/table-students/table-students.component';
+import { LayoutAdminComponent } from './components/private/admins/components/layout-admin/layout-admin.component';
 
 const routes: Routes = [
   {
@@ -59,7 +60,19 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'admin',
+    component: LayoutAdminComponent,
+    children: [
+      {
+        path:'students',
+        component: TableStudentsComponent,
 
+      }
+    ]
+
+  },
+  
   {
     path: '**',
     pathMatch: 'full',
