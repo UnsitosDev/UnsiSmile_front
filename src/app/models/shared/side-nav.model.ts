@@ -8,9 +8,9 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/
       routerlink: string;
     }
   
-    export const items: MenuItem[] = [
+    export const studentItems: MenuItem[] = [
       {
-        fontAwesomeIcon: faHome, // Reemplaza con el ícono FontAwesome que desees
+        fontAwesomeIcon: faHome,
         buttonText: 'Inicio',
         buttonDescription: 'Información del usuario',
         routerlink: '/students/dashboard'
@@ -21,14 +21,22 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/
         buttonDescription: 'Ver pacientes',
         routerlink: '/students/patients'
       },
-      // {
-      //   fontAwesomeIcon: faHospitalUser,
-      //   buttonText: 'Patients',
-      //   buttonDescription: 'Ver pacientes',
-      //   routerlink: '/students/historyClinic'
-      // },
-      
-
-      
     ];
+    
+    export const adminItems: MenuItem[] = [
+      {
+        fontAwesomeIcon: faHome,
+        buttonText: 'Inicio',
+        buttonDescription: 'Información del usuario',
+        routerlink: '/admin'
+      },
+      {
+        fontAwesomeIcon: faHospitalUser,
+        buttonText: 'Estudiantes',
+        buttonDescription: 'Ver estudiantes',
+        routerlink: '/admin/students'
+      },
+      // Agregar mas dependiendo de sus vistas
+    ];
+    
   
