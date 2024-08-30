@@ -20,6 +20,7 @@ import { Validators } from '@angular/forms';
 
 import { MatStepperModule } from '@angular/material/stepper';
 import { AlertModel } from '@mean/models';
+import { PatientService } from 'src/app/services/patient/patient.service';
 
 interface FormData {
   idPatient: number;
@@ -97,49 +98,85 @@ interface FormData {
 
 
 
-export class FormPatientPersonalDataComponent {
-  private _formBuilder = inject(FormBuilder);
+  export class FormPatientPersonalDataComponent {
+    private _formBuilder = inject(FormBuilder);
+    private patientService = inject(PatientService); // Asegúrate de inyectar el servicio aquí
 
-  firstFormGroup = this._formBuilder.group({
-  });
-  secondFormGroup = this._formBuilder.group({
-  });
 
-  formGroup!: FormGroup;
-
-  personal: FormField[] = [];
-  address: FormField[] = [];
-  other: FormField[] = [];
-
-  constructor(
-    private fb: FormBuilder,
-    private personalDataFields: FormFieldsService,
-    private addressDataFields: FormFieldsService,
-    private otherDataFields: FormFieldsService
-  ) { }
-
-  ngOnInit(): void {
-    // Obtener los campos del formulario del servicio
-    this.personal = this.personalDataFields.getPersonalDataFields();
-    this.address = this.addressDataFields.getAddressFields();
-    this.other = this.otherDataFields.getOtherDataFields();
-
-    // Construcción del formulario
-    this.formGroup = this.fb.group({}); // Inicializar el FormGroup
-    [...this.personal, ...this.address, ...this.other].forEach(field => {
-      this.formGroup.addControl(
-        field.name,
-        this.fb.control(field.value || '', field.validators || [])
-      );
+    firstFormGroup = this._formBuilder.group({
     });
-  }
-  handleSetFieldValue(event: { field: string, value: any }) {
-    this.formGroup.get(event.field)?.setValue(event.value);
-  }
+    secondFormGroup = this._formBuilder.group({
+    });
 
-  alertMessage: string = '';
-  alertSeverity: string = AlertModel.AlertSeverity.ERROR;
-  showAlert: boolean = false;
+    formGroup!: FormGroup;
+
+    personal: FormField[] = [];
+    address: FormField[] = [];
+    other: FormField[] = [];
+
+    constructor(
+      private fb: FormBuilder,
+      private personalDataFields: FormFieldsService,
+      private addressDataFields: FormFieldsService,
+      private otherDataFields: FormFieldsService
+    ) { }
+
+    ngOnInit(): void {
+      // Obtener los campos del formulario del servicio
+      this.personal = this.personalDataFields.getPersonalDataFields();
+      this.address = this.addressDataFields.getAddressFields();
+      this.other = this.otherDataFields.getOtherDataFields();
+
+      // Construcción del formulario
+      this.formGroup = this.fb.group({}); // Inicializar el FormGroup
+      [...this.personal, ...this.address, ...this.other].forEach(field => {
+        this.formGroup.addControl(
+          field.name,
+          this.fb.control(field.value || '', field.validators || [])
+        );
+      });
+    }
+   
+    onFieldValueChange(event: any) {
+      const { name, value } = event;
+      this.formGroup.get(name)?.setValue(value);
+  
+      // Si el campo es el código postal, llama a la función para obtener los datos
+      if (name === 'postalCode' && value.length === 5) {
+        this.handlePostalCodeClick(value);
+      }
+    }
+  
+    handlePostalCodeClick(param: string): void {
+      this.patientService.getPostalCode(param).subscribe({
+        next: (response) => {
+          // Actualiza los campos de autocompletado
+          this.formGroup.get('localityName')?.setValue(response[0].name);
+          this.formGroup.get('municipalityName')?.setValue(response[0].municipality.name);
+          this.formGroup.get('stateName')?.setValue(response[0].municipality.state.name);
+    
+          // Mostrar mensaje de éxito
+          this.showAlert = true;
+          this.alertMessage = 'Datos actualizados correctamente';
+          this.alertSeverity = AlertModel.AlertSeverity.SUCCESS;
+        },
+        error: (error) => {
+          // Manejar errores
+          this.showAlert = true;
+          this.alertMessage = 'Error al obtener los datos del código postal';
+          this.alertSeverity = AlertModel.AlertSeverity.ERROR;
+          console.error('Error al obtener los datos del código postal:', error);
+        }
+      });
+    }
+  
+    getFieldValue(fieldName: string) {
+      return this.formGroup.get(fieldName)?.value;
+    }
+    
+    alertMessage: string = '';
+    alertSeverity: string = AlertModel.AlertSeverity.ERROR;
+    showAlert: boolean = false;
 
   onSubmit() {
     if (this.formGroup.valid) {

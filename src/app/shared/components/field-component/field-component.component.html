@@ -40,7 +40,7 @@
     @case ('inputEvent') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-          <input matInput [formControlName]="field.name" (input)="onInputChange($event)" />
+          <input matInput [value]="fieldValue" [formControlName]="field.name" (input)="onInputChange($event)" />
             @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
               <mat-error>{{ errors?.lastError }}</mat-error>
             }
@@ -52,7 +52,7 @@
     @case ('autocomplete') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-          <input matInput [value]="field.value" [formControlName]="field.name"  (input)="onInputAutocomplete($event)">               
+          <input matInput [value]="fieldValue" [formControlName]="field.name"  (input)="onInputAutocomplete($event)">               
       </mat-form-field>
       
     }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
@@ -29,6 +29,7 @@ export class FieldComponentComponent {
   @Input() field: any;
   @Input() formGroup!: FormGroup;
   @Input() errors: any;
+  @Input() fieldValue: any;
   @Output() setFieldValue = new EventEmitter<any>();
 
   typeElement: string = '';
@@ -51,21 +52,57 @@ export class FieldComponentComponent {
     );
   }
 
-  onInputChange(event: Event) {
-    if (this.field.onInputChange) {
-      const inputElement = event.target as HTMLInputElement;
-      const value = inputElement.value;
+  // onInputChange(event: Event) {
+  //   if (this.field.onInputChange) {
+  //     const inputElement = event.target as HTMLInputElement;
+  //     const value = inputElement.value;
 
-      // Verifica si la longitud del valor es igual a la longitud esperada
-      if (value.length === this.field.onInputChange.length) {
-        this.field.onInputChange.changeFunction?.(value); // Pasa el valor del input
-      }
+  //     // Verifica si la longitud del valor es igual a la longitud esperada
+  //     if (value.length === this.field.onInputChange.length) {
+  //       this.field.onInputChange.changeFunction?.(value); // Pasa el valor del input
+  //     }
+  //   }
+  // }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['fieldValue']) {
+      this.myControl.setValue(changes['fieldValue'].currentValue);
     }
+  }
+  
+
+  // onInputChange(event: Event) {
+  //   const inputElement = event.target as HTMLInputElement;
+  //   const value = inputElement.value;
+
+  //   if (this.field.onInputChange) {
+  //     this.field.onInputChange.changeFunction?.(value);
+  //   }
+
+  //   // Emitir el valor del campo al componente padre
+  //   this.setFieldValue.emit({ name: this.field.name, value });
+  // }
+
+  // onInputAutocomplete(event: Event): void {
+  //   const inputValue = (event.target as HTMLInputElement).value;
+  //   // Aquí puedes realizar la lógica para manejar el valor del autocomplete
+  //   this.setFieldValue.emit({ name: this.field.name, value: inputValue });
+  // }
+  onInputChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const value = inputElement.value;
+
+    if (this.field.onInputChange) {
+      this.field.onInputChange.changeFunction?.(value);
+    }
+
+    this.setFieldValue.emit({ name: this.field.name, value });
   }
 
   onInputAutocomplete(event: Event): void {
     const inputValue = (event.target as HTMLInputElement).value;
-}
+    this.setFieldValue.emit({ name: this.field.name, value: inputValue });
+  }
 
   private _filter(value: string): { value: string; label: string }[] {
     const filterValue = value.toLowerCase();

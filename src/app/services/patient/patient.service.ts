@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from '../api.service';
 import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
 import { UriConstants } from '@mean/utils';
@@ -24,6 +24,8 @@ import { FormFieldOption } from 'src/app/models/form-fields/form-field.interface
     providedIn: 'root'
 })
 export class PatientService {
+    constructor(private http: HttpClient) {}
+
 
     private apiService = inject(ApiService<religionRequest>);
     religionData: religionRequest[] = [];
@@ -340,32 +342,39 @@ export class PatientService {
     }
 
     // Buscar por codigo postal
-    locality: string = 'u';
+    locality: string = '';
     municipality: string = '';
     state: string = '';
     dat:any;
-    getPostalCode(param: string) : void {
-        this.apiService
-            .getService({
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                }),
-                url: `${UriConstants.GET_POSTAL_CODE}` + param,
-                data: {},
-            })
-            .subscribe({
-                next: (response) => {
+    // getPostalCode(param: string) : Observable<any> {
+    //     this.apiService
+    //         .getService({
+    //             headers: new HttpHeaders({
+    //                 'Content-Type': 'application/json',
+    //             }),
+    //             url: `${UriConstants.GET_POSTAL_CODE}` + param,
+    //             data: {},
+    //         })
+    //         .subscribe({
+    //             next: (response) => {
 
-                    this.locality = response[0].name;
-                    this.municipality = response[0].municipality.name;
-                    this.state = response[0].municipality.state.name;
-                    this.dat = [this.locality, this.municipality, this.state];
-                    console.log(this.dat)
-                },
-                error: (error) => {
-                    console.error('Error en la autenticación:', error);
-                },
-            });
-    }
+    //                 this.locality = response[0].name;
+    //                 this.municipality = response[0].municipality.name;
+    //                 this.state = response[0].municipality.state.name;
+    //                 this.dat = [this.locality, this.municipality, this.state];
+    //                 console.log(this.dat)
+    //             },
+    //             error: (error) => {
+    //                 console.error('Error en la autenticación:', error);
+    //             },
+    //         });
+    // }
+    getPostalCode(param: string): Observable<any> {
+        return this.http.get<any>(`${UriConstants.GET_POSTAL_CODE}${param}`, {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+        });
+      }
 
 }

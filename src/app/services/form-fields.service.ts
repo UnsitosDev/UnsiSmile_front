@@ -8,7 +8,7 @@ import { PatientService } from './patient/patient.service';
     providedIn: 'root'
 })
 export class FormFieldsService {
-    patientService = inject(PatientService);
+        patientService = inject(PatientService);
     private personalDataFields: FormField[] = [
         {
             type: 'input',
@@ -158,16 +158,7 @@ export class FormFieldsService {
             },
             onClick: this.handleNeighborhoodClick.bind(this)
         },
-        {
-            type: 'select',
-            label: 'Nombre de localidad',
-            name: 'localityName',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Nombre de localidad es requerido.'
-            },
-        },
+        
         {
             type: 'inputEvent',
             label: 'Código postal',
@@ -183,9 +174,21 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'select',
+            type: 'autocomplete',
+            label: 'Nombre de localidad',
+            name: 'localityName',
+            value: this.patientService.locality,
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Nombre de localidad es requerido.'
+            },
+        },
+        {
+            type: 'autocomplete',
             label: 'Nombre de municipio',
             name: 'municipalityName',
+            value: this.patientService.municipality,
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -194,9 +197,10 @@ export class FormFieldsService {
             onClick: this.handleMunicipalityClick.bind(this)
         },
         {
-            type: 'select',
+            type: 'autocomplete',
             label: 'Nombre de estado',
             name: 'stateName',
+            value: this.patientService.state,
             required: true,
             validators: [Validators.required],
             errorMessages: {
