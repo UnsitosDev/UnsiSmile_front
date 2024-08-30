@@ -15,6 +15,9 @@ import { maritalStatusRequest } from 'src/app/models/shared/patients/MaritalStat
 import { occupationRequest } from 'src/app/models/shared/patients/Occupation/occupation';
 import { ethnicGroupRequest } from 'src/app/models/shared/patients/EthnicGroup/ethnicGroup';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import { FormGroup } from '@angular/forms';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
+import { FormFieldOption } from 'src/app/models/form-fields/form-field.interface';
 
 
 @Injectable({
@@ -76,7 +79,7 @@ export class PatientService {
 
     // Tipos de vivienda
     housingResponseData: housingRequest[] = [];
-    housingOptions: Array<{ value: string; label: string }> = [];
+    housingOptions:FormFieldOption[] = [];
     getHousingData() {
         this.apiService
             .getService({
@@ -155,13 +158,13 @@ export class PatientService {
     // Localidad
     localityData: localityRequest[] = [];
     localityOptions: Array<{ value: string; label: string }> = [];
-    getLocality() {
+    getLocality(param: string) {
         this.apiService
             .getService({
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
                 }),
-                url: `${UriConstants.GET_LOCALITIES}`,
+                url: `${UriConstants.GET_LOCALITIES_NAME}` + param,
                 data: {},
             })
             .subscribe({
@@ -171,6 +174,7 @@ export class PatientService {
                         value: item.idLocality.toString(),
                         label: item.name
                     }));
+                    console.log(this.localityData)
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -179,7 +183,7 @@ export class PatientService {
     }
 
     // Municipios
-    municipalityResponse:PaginatedData<municipalityRequest> [] = [];
+    municipalityResponse: PaginatedData<municipalityRequest>[] = [];
     municipalityOptions: Array<{ value: string; label: string }> = [];
     getMunicipalityData() {
         this.apiService
@@ -195,7 +199,7 @@ export class PatientService {
                     this.municipalityResponse = response.content;
                     this.municipalityOptions = this.municipalityResponse.map((item: any) => ({
                         value: item.idMunicipality.toString(),
-                        label: item.name    
+                        label: item.name
                     }));
                     console.log(this.municipalityResponse);
                 },
@@ -222,7 +226,7 @@ export class PatientService {
                     this.stateResponseData = response.content;
                     this.stateOptions = this.stateResponseData.map((item: any) => ({
                         value: item.idState.toString(),
-                        label: item.name    
+                        label: item.name
                     }));
                 },
                 error: (error) => {
@@ -248,7 +252,7 @@ export class PatientService {
                     this.nationalityData = response;
                     this.nationalityOptions = response.map((item: any) => ({
                         value: item.idNationality.toString(),
-                        label: item.nationality    
+                        label: item.nationality
                     }));
                 },
                 error: (error) => {
@@ -274,7 +278,7 @@ export class PatientService {
                     this.maritalStatusData = response;
                     this.maritalStatusOptions = response.map((item: any) => ({
                         value: item.idMaritalStatus.toString(),
-                        label: item.maritalStatus    
+                        label: item.maritalStatus
                     }));
                 },
                 error: (error) => {
@@ -300,7 +304,7 @@ export class PatientService {
                     this.occupationData = response;
                     this.occupationOptions = response.map((item: any) => ({
                         value: item.idOccupation.toString(),
-                        label: item.occupation    
+                        label: item.occupation
                     }));
                 },
                 error: (error) => {
@@ -326,7 +330,7 @@ export class PatientService {
                     this.ethnicGroupData = response;
                     this.ethnicGroupOptions = response.map((item: any) => ({
                         value: item.idEthnicGroup.toString(),
-                        label: item.ethnicGroup    
+                        label: item.ethnicGroup
                     }));
                 },
                 error: (error) => {
@@ -336,20 +340,27 @@ export class PatientService {
     }
 
     // Buscar por codigo postal
-    postalCode: String = '70805';
-    getPostalCode() {
+    locality: string = 'u';
+    municipality: string = '';
+    state: string = '';
+    dat:any;
+    getPostalCode(param: string) : void {
         this.apiService
             .getService({
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
                 }),
-                url: `${UriConstants.GET_POSTAL_CODE}`+ this.postalCode,
+                url: `${UriConstants.GET_POSTAL_CODE}` + param,
                 data: {},
             })
             .subscribe({
                 next: (response) => {
 
-                    console.log('Codigo postal = ', response);
+                    this.locality = response[0].name;
+                    this.municipality = response[0].municipality.name;
+                    this.state = response[0].municipality.state.name;
+                    this.dat = [this.locality, this.municipality, this.state];
+                    console.log(this.dat)
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);

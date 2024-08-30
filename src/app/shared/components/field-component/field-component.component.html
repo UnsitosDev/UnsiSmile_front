@@ -1,59 +1,63 @@
 <div [formGroup]="formGroup">
-@switch (field.type) {
-  @case ('input') {
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>{{ field.label }}</mat-label>
-      <input matInput [formControlName]="field.name" (input)="onValueChange($event)" />
-      @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-        <mat-error>{{ errors?.lastError }}</mat-error>
-      }
-      @if (formGroup.get(field.name)?.hasError('required')) {
-        <mat-error>{{ errors?.required }}</mat-error>
-      }
-    </mat-form-field>
-  }
+  @switch (field.type) {
+    @case ('input') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ field.label }}</mat-label>
+          <input matInput [formControlName]="field.name" (input)="onValueChange($event)" />
+            @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+              <mat-error>{{ errors?.lastError }}</mat-error>
+            }
+            @if (formGroup.get(field.name)?.hasError('required')) {
+              <mat-error>{{ errors?.required }}</mat-error>
+            }
+      </mat-form-field>
+    }
     @case ('select') {
       <mat-form-field  appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <mat-select disableRipple [formControlName]="field.name" (click)="field.onClick && field.onClick($event)" (selectionChange)="onValueChange($event)">
-          
-          @for (option of field.options; track option.value) {
-            <mat-option [value]="option.value">{{ option.label }}</mat-option>
-          }
-        </mat-select>
-        
-        @if (formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.required }}</mat-error>
-        }
+          <mat-select disableRipple [formControlName]="field.name" (click)="field.onClick && field.onClick($event)" (selectionChange)="onValueChange($event)">  
+            @for (option of field.options; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+            @if (formGroup.get(field.name)?.hasError('required')) {
+              <mat-error>{{ errors?.required }}</mat-error>
+            }
       </mat-form-field>
-      }
+    }
     @case('datepicker') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <input matInput type="date" [formControlName]="field.name" (dateChange)="onValueChangeDate($event)">
-        
-        @if (formGroup.get(field.name)?.hasError('required') && formGroup.get(field.name)?.touched) {
-          <mat-error>{{ errors?.required }}</mat-error>
-        }
-        @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.lastError }}</mat-error>
-        }
+          <input matInput type="date" [formControlName]="field.name" (dateChange)="onValueChangeDate($event)">    
+            @if (formGroup.get(field.name)?.hasError('required') && formGroup.get(field.name)?.touched) {
+              <mat-error>{{ errors?.required }}</mat-error>
+            }
+            @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+              <mat-error>{{ errors?.lastError }}</mat-error>
+            }
       </mat-form-field>
     }
     @case ('inputEvent') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <input matInput [formControlName]="field.name" (input)="onInputChange($event)" />
-        @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.lastError }}</mat-error>
-        }
-        @if (formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.required }}</mat-error>
-        }
+          <input matInput [formControlName]="field.name" (input)="onInputChange($event)" />
+            @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+              <mat-error>{{ errors?.lastError }}</mat-error>
+            }
+            @if (formGroup.get(field.name)?.hasError('required')) {
+              <mat-error>{{ errors?.required }}</mat-error>
+            }
       </mat-form-field>
     }
-  @default {
-    <p>Tipo de campo no soportado.</p>
+    @case ('autocomplete') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ field.label }}</mat-label>
+          <input matInput [value]="field.value" [formControlName]="field.name"  (input)="onInputAutocomplete($event)">               
+      </mat-form-field>
+      
+    }
+    @default {
+      <p>Tipo de campo no soportado.</p>
+    }
   }
-}
 </div>

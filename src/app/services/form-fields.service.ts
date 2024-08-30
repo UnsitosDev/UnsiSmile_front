@@ -167,7 +167,6 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Nombre de localidad es requerido.'
             },
-            onClick: this.handleLocalityClick.bind(this)
         },
         {
             type: 'inputEvent',
@@ -324,8 +323,8 @@ export class FormFieldsService {
         const neighborhoodField = this.addressFields.find(field => field.name === 'neighborhoodName');
         neighborhoodField && (neighborhoodField.options = this.patientService.neighborhoodOptions);
     }
-    private handleLocalityClick(event: MouseEvent): void {
-        this.patientService.getLocality();
+    private handleLocalityClick(param: string): void {
+        this.patientService.getLocality(param);
         const localityField = this.addressFields.find(field => field.name === 'localityName');
         localityField && (localityField.options = this.patientService.localityOptions);
     }
@@ -365,8 +364,8 @@ export class FormFieldsService {
         religionField && (religionField.options = this.patientService.religionOptions);
     }
 
-    private handlePostalCodeClick(event: MouseEvent): void {
-        this.patientService.getPostalCode();
+    private handlePostalCodeClick(param: string): void {
+        this.patientService.getPostalCode(param);
     }
 
     // Formularios

@@ -137,6 +137,8 @@ export class UriConstants {
     public static readonly GET_ETHNIC_GROUP = basePath + '/patients/ethnic-groups'
     // locality-controller
     public static readonly GET_LOCALITIES = basePath + '/address/locality'
+    public static readonly GET_LOCALITIES_NAME = basePath + '/address/locality/name/'
+
     // housing-controller
     public static readonly GET_HOUSING = basePath + '/address/housing'
     // street-controller
@@ -144,7 +146,7 @@ export class UriConstants {
     // neighborhood-controller
     public static readonly GET_NEIGHBORHOODS = basePath + '/addresses/neighborhoods'
     // municipality-controller
-    public static readonly GET_MUNICIPALITY = basePath + '/address/municipalities?page=0&size=10&order=name&asc=true'
+          public static readonly GET_MUNICIPALITY = basePath + '/address/municipalities?page=0&size=10&order=name&asc=true'
     // state-controller
     public static readonly GET_STATE = basePath + '/address/states'
     // Patient controller

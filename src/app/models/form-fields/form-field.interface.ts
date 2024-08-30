@@ -1,4 +1,4 @@
-import { ValidatorFn } from '@angular/forms';
+import { FormGroup, ValidatorFn } from '@angular/forms';
 
 export interface FormFieldOption {
     value: any;
@@ -13,7 +13,7 @@ export interface InputChangeConfig {
 }
 
 export interface FormField {
-    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent'; 
+    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete'; 
     name: string;
     label: string;
     required?: boolean;
@@ -24,8 +24,12 @@ export interface FormField {
     fields?: FormField[]; // Campos anidados para 'group'
     onClick?: (event: MouseEvent) => void; // Función opcional para manejar clics
     onInputChange?: {
-        changeFunction?: (event: MouseEvent) => void;
+        changeFunction: (param: string) => void;
         length: number
     } 
+    onInputAutocomplete?: {
+        changeFunction: (param: string) => void; // Modificado para aceptar formGroup
+        length: number;
+    };
 
 }
