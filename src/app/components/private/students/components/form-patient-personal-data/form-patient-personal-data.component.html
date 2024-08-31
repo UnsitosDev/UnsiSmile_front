@@ -1,6 +1,8 @@
 <mat-stepper linear #stepper>
   <mat-step>
+
     <form [formGroup]="formGroup">
+      
       <ng-template matStepLabel>DATOS PERSONALES</ng-template>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
         @for (field of personal; track $index) {
@@ -57,7 +59,7 @@
       </div>
       <div class="button-container">
         <button mat-button matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
-        <button mat-button type="submit">GUARDAR <i class="fas fa-save"></i></button>
+        <button mat-button (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
       </div>
     </form>
   </mat-step>

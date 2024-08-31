@@ -98,91 +98,97 @@ interface FormData {
 
 
 
-  export class FormPatientPersonalDataComponent {
-    private _formBuilder = inject(FormBuilder);
-    private patientService = inject(PatientService); // Asegúrate de inyectar el servicio aquí
+export class FormPatientPersonalDataComponent {
+  private _formBuilder = inject(FormBuilder);
+  private patientService = inject(PatientService); // Asegúrate de inyectar el servicio aquí
 
 
-    firstFormGroup = this._formBuilder.group({
+  firstFormGroup = this._formBuilder.group({
+  });
+  secondFormGroup = this._formBuilder.group({
+  });
+
+  formGroup!: FormGroup;
+
+  personal: FormField[] = [];
+  address: FormField[] = [];
+  other: FormField[] = [];
+
+  constructor(
+    private fb: FormBuilder,
+    private personalDataFields: FormFieldsService,
+    private addressDataFields: FormFieldsService,
+    private otherDataFields: FormFieldsService
+  ) { }
+
+  ngOnInit(): void {
+    // Obtener los campos del formulario del servicio
+    this.personal = this.personalDataFields.getPersonalDataFields();
+    this.address = this.addressDataFields.getAddressFields();
+    this.other = this.otherDataFields.getOtherDataFields();
+
+    // Construcción del formulario
+    this.formGroup = this.fb.group({}); // Inicializar el FormGroup
+    [...this.personal, ...this.address, ...this.other].forEach(field => {
+      this.formGroup.addControl(
+        field.name,
+        this.fb.control(field.value || '', field.validators || [])
+      );
     });
-    secondFormGroup = this._formBuilder.group({
-    });
+  }
 
-    formGroup!: FormGroup;
+  onFieldValueChange(event: any) {
+    const { name, value } = event;
+    this.formGroup.get(name)?.setValue(value);
 
-    personal: FormField[] = [];
-    address: FormField[] = [];
-    other: FormField[] = [];
-
-    constructor(
-      private fb: FormBuilder,
-      private personalDataFields: FormFieldsService,
-      private addressDataFields: FormFieldsService,
-      private otherDataFields: FormFieldsService
-    ) { }
-
-    ngOnInit(): void {
-      // Obtener los campos del formulario del servicio
-      this.personal = this.personalDataFields.getPersonalDataFields();
-      this.address = this.addressDataFields.getAddressFields();
-      this.other = this.otherDataFields.getOtherDataFields();
-
-      // Construcción del formulario
-      this.formGroup = this.fb.group({}); // Inicializar el FormGroup
-      [...this.personal, ...this.address, ...this.other].forEach(field => {
-        this.formGroup.addControl(
-          field.name,
-          this.fb.control(field.value || '', field.validators || [])
-        );
-      });
+    // Si el campo es el código postal, llama a la función para obtener los datos
+    if (name === 'postalCode' && value.length === 5) {
+      this.handlePostalCodeClick(value);
     }
-   
-    onFieldValueChange(event: any) {
-      const { name, value } = event;
-      this.formGroup.get(name)?.setValue(value);
-  
-      // Si el campo es el código postal, llama a la función para obtener los datos
-      if (name === 'postalCode' && value.length === 5) {
-        this.handlePostalCodeClick(value);
+  }
+  localityId: string = '';
+  municipalityNameId: string = '';
+  stateNameId: string = '';
+  handlePostalCodeClick(param: string): void {
+    this.patientService.getPostalCode(param).subscribe({
+      next: (response) => {
+        // Actualiza los campos de autocompletado
+        this.formGroup.get('localityName')?.setValue(response[0].name);
+        this.formGroup.get('municipalityName')?.setValue(response[0].municipality.name);
+        this.formGroup.get('stateName')?.setValue(response[0].municipality.state.name);
+        // Guardar los ids
+        this.localityId = response[0].idLocality;
+        this.municipalityNameId = response[0].municipality.idMunicipality;
+        this.stateNameId = response[0].municipality.state.idState;
+        console.log(this.localityId, this.municipalityNameId, this.stateNameId);
+        // Mostrar mensaje de éxito
+        this.showAlert = true;
+        this.alertMessage = 'Datos actualizados correctamente';
+        this.alertSeverity = AlertModel.AlertSeverity.SUCCESS;
+      },
+      error: (error) => {
+        // Manejar errores
+        this.showAlert = true;
+        this.alertMessage = 'Error al obtener los datos del código postal';
+        this.alertSeverity = AlertModel.AlertSeverity.ERROR;
+        console.error('Error al obtener los datos del código postal:', error);
       }
-    }
-  
-    handlePostalCodeClick(param: string): void {
-      this.patientService.getPostalCode(param).subscribe({
-        next: (response) => {
-          // Actualiza los campos de autocompletado
-          this.formGroup.get('localityName')?.setValue(response[0].name);
-          this.formGroup.get('municipalityName')?.setValue(response[0].municipality.name);
-          this.formGroup.get('stateName')?.setValue(response[0].municipality.state.name);
-    
-          // Mostrar mensaje de éxito
-          this.showAlert = true;
-          this.alertMessage = 'Datos actualizados correctamente';
-          this.alertSeverity = AlertModel.AlertSeverity.SUCCESS;
-        },
-        error: (error) => {
-          // Manejar errores
-          this.showAlert = true;
-          this.alertMessage = 'Error al obtener los datos del código postal';
-          this.alertSeverity = AlertModel.AlertSeverity.ERROR;
-          console.error('Error al obtener los datos del código postal:', error);
-        }
-      });
-    }
-  
-    getFieldValue(fieldName: string) {
-      return this.formGroup.get(fieldName)?.value;
-    }
-    
-    alertMessage: string = '';
-    alertSeverity: string = AlertModel.AlertSeverity.ERROR;
-    showAlert: boolean = false;
+    });
+  }
+
+  getFieldValue(fieldName: string) {
+    return this.formGroup.get(fieldName)?.value;
+  }
+
+  alertMessage: string = '';
+  alertSeverity: string = AlertModel.AlertSeverity.ERROR;
+  showAlert: boolean = false;
 
   onSubmit() {
     if (this.formGroup.valid) {
       console.log('Todos los datos del formulario:', this.formGroup.value);
       const formValues = this.formGroup.value;
-      
+
 
       const transformedData: FormData = {
         idPatient: 0, // Valor de prueba

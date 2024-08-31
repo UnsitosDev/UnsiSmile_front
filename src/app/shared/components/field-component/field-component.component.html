@@ -52,7 +52,7 @@
     @case ('autocomplete') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-          <input matInput [value]="fieldValue" [formControlName]="field.name"  (input)="onInputAutocomplete($event)">               
+          <input matInput [formControlName]="field.name"  (input)="onInputAutocomplete($event)">               
       </mat-form-field>
       
     }
