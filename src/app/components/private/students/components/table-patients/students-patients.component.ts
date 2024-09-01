@@ -25,6 +25,8 @@ export class StudentsPatientsComponent implements OnInit {
   patientsList: patientsTableData[] = [];
   columnas: string[] = [];
   title: string = 'Pacientes';
+  currentPage = 1;
+  itemsPerPage = 10;
   private apiService = inject(ApiService<PatientResponse>);
 
   constructor(
@@ -35,7 +37,13 @@ export class StudentsPatientsComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('patients');
-    this.getPacientes();
+    this.getPacientes(this.currentPage, this.itemsPerPage);
+  }
+
+  onPageSizeChange(newSize: number) {
+    this.itemsPerPage = newSize;
+    this.currentPage = 1;  // Opcionalmente, reinicia a la primera página
+    this.getPacientes(this.currentPage, this.itemsPerPage);
   }
 
   openDialog(objeto: any) {
@@ -70,44 +78,35 @@ export class StudentsPatientsComponent implements OnInit {
 
   idPatientx: number = 0;
   patients!: Patient[];
-  getPacientes() {
+  getPacientes(page: number, size: number) {
     this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_PATIENTS}`,
+        url: `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}`,
         data: {},
       })
       .subscribe({
         next: (response) => {
           this.patients = response.content;
-          console.log('Respuesta del servidor:', this.patients);
-
-          // Mapear los datos deseados de cada paciente
           this.patientsList = this.patients.map((patient: Patient) => {
-            const person = patient.person; // Obtener el objeto "person"
-            this.idPatientx = patient.idPatient;
-            console.log('idpatiendfsdfsdf', this.idPatientx);
-            //const medicalHistory = patient.medicalHistoryResponse;
-            const medicalHistory =
-              patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
+            const person = patient.person;
+            const medicalHistory = patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
             return {
-              nombre: person.firstName,
-              apellido: `${person.firstLastName} ${person.secondLastName}`,
+              nombres: person.firstName,
+              apellidos: `${person.firstLastName} ${person.secondLastName}`,
               correo: person.email,
               curp: person.curp,
               idMedicalHistory: medicalHistory,
-              patientID: this.idPatientx,
+              patientID: patient.idPatient,
             };
           });
-          console.log('Respuesta del servidor:', this.patientsList);
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
         },
       });
   }
-
   //filtar datos
 }

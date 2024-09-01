@@ -15,7 +15,7 @@ bootstrapApplication(
     importProvidersFrom(BrowserModule),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi(), withInterceptors([AuthInterceptor])),
-    provideRouter(routes), provideAnimationsAsync(),
+    provideRouter(routes), provideAnimationsAsync(), provideAnimationsAsync('noop'),
   ]},
   )
   .catch(err => console.error(err));

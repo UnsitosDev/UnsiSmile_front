@@ -1,7 +1,6 @@
-
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
-import { items } from '@mean/models';
+import { StudentItems, AdminItems, MenuItem } from '@mean/models';
 import {
   studentResponse,
   studentUserResponse,
@@ -17,13 +16,11 @@ import { UriConstants } from '@mean/utils';
   styleUrl: './side-nav.component.scss',
 })
 export class SideNavComponent implements OnInit {
-  public menuItems = items;
+  public menuItems: MenuItem[] = [];
 
   private userService = inject(ApiService<studentResponse, {}>);
 
   user!: studentUserResponse;
-
-  constructor() {}
 
   @Input() isSidebarOpen = false;
 
@@ -39,9 +36,20 @@ export class SideNavComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.user = data;
-          console.log('patient data: ', data);
+          this.setMenuItems();
+          console.log('user data: ', data);
         },
-        error: (error) => {},
+        error: (error) => {
+          console.error('Error fetching user data:', error);
+        },
       });
+  }
+
+  setMenuItems() {
+    if (this.user.user.role.role === 'ROLE_STUDENT') {
+      this.menuItems = StudentItems;
+    } else if (this.user.user.role.role === 'ROLE_ADMIN') {
+      this.menuItems = AdminItems;
+    }
   }
 }

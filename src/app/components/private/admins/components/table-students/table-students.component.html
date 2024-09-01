@@ -1,0 +1,14 @@
+
+<div class="flex justify-end">
+    <button class="mr-10" mat-flat-button color="primary" routerLink="/students/patients">
+        <i class="fas fa-user-plus"></i>  
+        Nuevo Alumno
+    </button>
+</div>
+
+<app-tabla-data
+[title]="title"
+[columns]="columns"
+[data]="studentsList" 
+(action)="onAction($event)">
+</app-tabla-data>
