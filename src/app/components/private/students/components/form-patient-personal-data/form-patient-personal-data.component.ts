@@ -42,18 +42,9 @@ import { Router } from '@angular/router';
 
 
 export class FormPatientPersonalDataComponent {
-  private _formBuilder = inject(FormBuilder);
   private apiService = inject(ApiService<religionRequest>);
   private patientService = inject(PatientService);
-
-
-  firstFormGroup = this._formBuilder.group({
-  });
-  secondFormGroup = this._formBuilder.group({
-  });
-
   formGroup!: FormGroup;
-
   personal: FormField[] = [];
   address: FormField[] = [];
   other: FormField[] = [];
@@ -106,18 +97,6 @@ export class FormPatientPersonalDataComponent {
         this.localityId = response[0].idLocality;
         this.municipalityNameId = response[0].municipality.idMunicipality;
         this.stateNameId = response[0].municipality.state.idState;
-        console.log(this.localityId, this.municipalityNameId, this.stateNameId);
-        // Mostrar mensaje de éxito
-        this.showAlert = true;
-        this.alertMessage = 'Datos actualizados correctamente';
-        this.alertSeverity = AlertModel.AlertSeverity.SUCCESS;
-      },
-      error: (error) => {
-        // Manejar errores
-        this.showAlert = true;
-        this.alertMessage = 'Error al obtener los datos del código postal';
-        this.alertSeverity = AlertModel.AlertSeverity.ERROR;
-        console.error('Error al obtener los datos del código postal:', error);
       }
     });
   }

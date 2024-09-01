@@ -300,7 +300,21 @@ export class FormFieldsService {
 
 
     // Eventos
-    
+
+    constructor(){
+        this.handleGenderClick({} as MouseEvent);
+        this.handleHousingClick({}as MouseEvent);
+        this.handleStretClick({}as MouseEvent);
+        this.handleNeighborhoodClick({} as MouseEvent);
+        this.handleMunicipalityClick({} as MouseEvent);
+        this.handleStateClick({} as MouseEvent);
+        this.handleNacionalityClick({} as MouseEvent);
+        this.handleMaritalStatusClick({} as MouseEvent);
+        this.handleOcupationClick({} as MouseEvent);
+        this.handleEthnicGroupClick({} as MouseEvent);
+        this.handleReligionClick({} as MouseEvent);
+    }
+
     private handleGenderClick(event: MouseEvent): void {
         this.patientService.getGender();
         const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);

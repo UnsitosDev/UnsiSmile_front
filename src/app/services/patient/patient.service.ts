@@ -153,7 +153,6 @@ export class PatientService {
                         value: item.idLocality.toString(),
                         label: item.name
                     }));
-                    console.log(this.localityData)
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -180,7 +179,6 @@ export class PatientService {
                         value: item.idMunicipality.toString(),
                         label: item.name
                     }));
-                    console.log(this.municipalityResponse);
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
