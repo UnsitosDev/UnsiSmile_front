@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from '../api.service';
-import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
+import { religionRequest, religionResponse } from 'src/app/models/shared/patients/Religion/religion';
 import { UriConstants } from '@mean/utils';
 import { genderRequest } from 'src/app/models/models-students/genders/genders';
 import { housingRequest } from 'src/app/models/shared/addresses/housing/housing';
@@ -24,35 +24,12 @@ import { FormFieldOption } from 'src/app/models/form-fields/form-field.interface
     providedIn: 'root'
 })
 export class PatientService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
 
     private apiService = inject(ApiService<religionRequest>);
-    religionData: religionRequest[] = [];
-    religionOptions: Array<{ value: string; label: string }> = [];
-    getReligionData() {
-        this.apiService
-            .getListService({
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                }),
-                url: `${UriConstants.GET_RELIGION}`,
-                data: {},
-            })
-            .subscribe({
-                next: (response) => {
-                    this.religionData = response;
-                    this.religionOptions = response.map((item: any) => ({
-                        value: item.idReligion.toString(),
-                        label: item.religion
-                    }));
-                },
-                error: (error) => {
-                    console.error('Error en la autenticación:', error);
 
-                },
-            });
-    }
+
     // Genero
     genderData: genderRequest[] = [];
     genderOptions: Array<{ value: string; label: string }> = [];
@@ -81,7 +58,7 @@ export class PatientService {
 
     // Tipos de vivienda
     housingResponseData: housingRequest[] = [];
-    housingOptions:FormFieldOption[] = [];
+    housingOptions: FormFieldOption[] = [];
     getHousingData() {
         this.apiService
             .getService({
@@ -211,6 +188,32 @@ export class PatientService {
             });
     }
 
+    // Nacionalidad
+    nationalityRequest: PaginatedData<nationalityRequest>[] = [];
+    nationalityOptions: Array<{ value: string; label: string }> = [];
+    getNacionalityData() {
+        this.apiService
+            .getService({
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                }),
+                url: `${UriConstants.GET_NACIONALITY}`,
+                data: {},
+            })
+            .subscribe({
+                next: (response) => {
+
+                    this.nationalityRequest = response.content;
+                    this.nationalityOptions = this.nationalityRequest.map((item: any) => ({
+                        value: item.idNationality.toString(),
+                        label: item.nationality
+                    }))
+                },
+                error: (error) => {
+                    console.error('Error en la autenticación:', error);
+                },
+            });
+    }
     // Estados
     stateResponseData: PaginatedData<stateRequest>[] = [];
     stateOptions: Array<{ value: string; label: string }> = [];
@@ -230,6 +233,7 @@ export class PatientService {
                         value: item.idState.toString(),
                         label: item.name
                     }));
+
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -237,34 +241,10 @@ export class PatientService {
             });
     }
 
-    // Nacionalidad
-    nationalityData: nationalityRequest[] = [];
-    nationalityOptions: Array<{ value: string; label: string }> = [];
-    getNacionalityData() {
-        this.apiService
-            .getService({
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                }),
-                url: `${UriConstants.GET_NACIONALITY}`,
-                data: {},
-            })
-            .subscribe({
-                next: (response) => {
-                    this.nationalityData = response;
-                    this.nationalityOptions = response.map((item: any) => ({
-                        value: item.idNationality.toString(),
-                        label: item.nationality
-                    }));
-                },
-                error: (error) => {
-                    console.error('Error en la autenticación:', error);
-                },
-            });
-    }
+
 
     // Estado civil
-    maritalStatusData: maritalStatusRequest[] = [];
+    maritalStatusData: PaginatedData<maritalStatusRequest>[] = [];
     maritalStatusOptions: Array<{ value: string; label: string }> = [];
     getMaritalStatusData() {
         this.apiService
@@ -277,8 +257,8 @@ export class PatientService {
             })
             .subscribe({
                 next: (response) => {
-                    this.maritalStatusData = response;
-                    this.maritalStatusOptions = response.map((item: any) => ({
+                    this.maritalStatusData = response.content;
+                    this.maritalStatusOptions = this.maritalStatusData.map((item: any) => ({
                         value: item.idMaritalStatus.toString(),
                         label: item.maritalStatus
                     }));
@@ -290,7 +270,7 @@ export class PatientService {
     }
 
     // Ocupacion
-    occupationData: occupationRequest[] = [];
+    occupationData: PaginatedData<occupationRequest>[] = [];
     occupationOptions: Array<{ value: string; label: string }> = [];
     getOcupationData() {
         this.apiService
@@ -303,8 +283,8 @@ export class PatientService {
             })
             .subscribe({
                 next: (response) => {
-                    this.occupationData = response;
-                    this.occupationOptions = response.map((item: any) => ({
+                    this.occupationData = response.content;
+                    this.occupationOptions = this.occupationData.map((item: any) => ({
                         value: item.idOccupation.toString(),
                         label: item.occupation
                     }));
@@ -316,7 +296,7 @@ export class PatientService {
     }
 
     // Grupo etnico
-    ethnicGroupData: ethnicGroupRequest[] = [];
+    ethnicGroupData: PaginatedData<ethnicGroupRequest>[] = [];
     ethnicGroupOptions: Array<{ value: string; label: string }> = [];
     getEthnicGroupData() {
         this.apiService
@@ -329,8 +309,8 @@ export class PatientService {
             })
             .subscribe({
                 next: (response) => {
-                    this.ethnicGroupData = response;
-                    this.ethnicGroupOptions = response.map((item: any) => ({
+                    this.ethnicGroupData = response.content;
+                    this.ethnicGroupOptions = this.ethnicGroupData.map((item: any) => ({
                         value: item.idEthnicGroup.toString(),
                         label: item.ethnicGroup
                     }));
@@ -341,40 +321,43 @@ export class PatientService {
             });
     }
 
+    religionData: PaginatedData<religionResponse>[] = [];
+    religionOptions: Array<{ value: string; label: string }> = [];
+    getReligionData() {
+        this.apiService
+            .getService({
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                }),
+                url: `${UriConstants.GET_RELIGION}`,
+                data: {},
+            })
+            .subscribe({
+                next: (response) => {
+                    this.religionData = response.content;
+                    this.religionOptions = this.religionData.map((item: any) => ({
+                        value: item.idReligion.toString(),
+                        label: item.religion
+                    }));
+                },
+                error: (error) => {
+                    console.error('Error en la autenticación:', error);
+
+                },
+            });
+    }
     // Buscar por codigo postal
     locality: string = '';
     municipality: string = '';
     state: string = '';
-    dat:any;
-    // getPostalCode(param: string) : Observable<any> {
-    //     this.apiService
-    //         .getService({
-    //             headers: new HttpHeaders({
-    //                 'Content-Type': 'application/json',
-    //             }),
-    //             url: `${UriConstants.GET_POSTAL_CODE}` + param,
-    //             data: {},
-    //         })
-    //         .subscribe({
-    //             next: (response) => {
+    dat: any;
 
-    //                 this.locality = response[0].name;
-    //                 this.municipality = response[0].municipality.name;
-    //                 this.state = response[0].municipality.state.name;
-    //                 this.dat = [this.locality, this.municipality, this.state];
-    //                 console.log(this.dat)
-    //             },
-    //             error: (error) => {
-    //                 console.error('Error en la autenticación:', error);
-    //             },
-    //         });
-    // }
     getPostalCode(param: string): Observable<any> {
         return this.http.get<any>(`${UriConstants.GET_POSTAL_CODE}${param}`, {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-          }),
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
         });
-      }
+    }
 
 }

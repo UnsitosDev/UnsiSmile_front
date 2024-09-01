@@ -22,68 +22,6 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { AlertModel } from '@mean/models';
 import { PatientService } from 'src/app/services/patient/patient.service';
 
-interface FormData {
-  idPatient: number;
-  admissionDate: string;
-  isMinor: boolean;
-  hasDisability: boolean;
-  nationalityId: number;
-  person: {
-    curp: string;
-    firstName: string;
-    secondName: string;
-    firstLastName: string;
-    secondLastName: string;
-    phone: string;
-    birthDate: string;
-    email: string;
-    gender: {
-      idGender: number;
-      gender: string;
-    };
-  };
-  address: {
-    idAddress: number;
-    streetNumber: string;
-    interiorNumber: string;
-    housing: {
-      idHousing: number;
-      category: string;
-    };
-    street: {
-      idStreet: number;
-      name: string;
-      neighborhood: {
-        idNeighborhood: number;
-        name: string;
-        locality: {
-          idLocality: number;
-          name: string;
-          postalCode: string;
-          municipality: {
-            idMunicipality: number;
-            name: string;
-            state: {
-              idState: number;
-              name: string;
-            };
-          };
-        };
-      };
-    };
-  };
-  maritalStatusId: number;
-  occupationId: number;
-  ethnicGroupId: number;
-  religionId: number;
-  guardian: {
-    idGuardian: number;
-    firstName: string;
-    lastName: string;
-    phone: string;
-    email: string;
-  };
-}
 
 @Component({
   selector: 'app-form-patient-personal-data',
@@ -190,69 +128,68 @@ export class FormPatientPersonalDataComponent {
       const formValues = this.formGroup.value;
 
 
-      const transformedData: FormData = {
+      const transformedData = {
         idPatient: 0, // Valor de prueba
-        admissionDate: formValues.admissionDate,
-        isMinor: false, // Asumimos que no es menor de edad
-        hasDisability: true, // Asumimos que tiene discapacidad
-        nationalityId: 1, // Valor de prueba (ID para México)
+        admissionDate: "2024-08-31",
+        isMinor: true,
+        hasDisability: true,
+        nationalityId: 0,
         person: {
-          curp: formValues.curp,
-          firstName: formValues.firstName,
-          secondName: formValues.secondName,
-          firstLastName: formValues.firstLastName,
-          secondLastName: formValues.secondLastName,
-          phone: formValues.phone,
-          birthDate: formValues.birthDate,
-          email: formValues.email,
+          curp: "stringstringstring",
+          firstName: "string",
+          secondName: "string",
+          firstLastName: "string",
+          secondLastName: "string",
+          phone: "6804661135",
+          birthDate: "2024-08-31",
+          email: "string",
           gender: {
-            idGender: parseInt(formValues.gender, 10) || 1, // 1 = Masculino, 2 = Femenino
-            gender: formValues.gender === '1' ? 'Masculino' : 'Femenino' // Basado en el valor del campo
+            idGender: 0,
+            gender: "string"
           }
         },
         address: {
-          idAddress: 0, // Valor de prueba
-          streetNumber: formValues.exteriorNumber || '19',
-          interiorNumber: formValues.interiorNumber || '1',
+          idAddress: 0,
+          streetNumber: "st",
+          interiorNumber: "st",
           housing: {
-            idHousing: 0, // Valor de prueba
-            category: formValues.housingCategory === '1' ? 'Casa' : (formValues.housingCategory === '2' ? 'Departamento' : 'Otro')
+            idHousing: "st",
+            category: "string"
           },
           street: {
-            idStreet: 0, // Valor de prueba
-            name: formValues.streetName || '12',
+            idStreet: 0,
+            name: "string",
             neighborhood: {
-              idNeighborhood: 0, // Valor de prueba
-              name: formValues.neighborhoodName || 'Melchor',
+              idNeighborhood: 0,
+              name: "string",
               locality: {
-                idLocality: 0, // Valor de prueba
-                name: formValues.localityName || 'Cieneguilla',
-                postalCode: formValues.postalCode || '70877',
+                idLocality: "strin",
+                name: "string",
+                postalCode: "strin",
                 municipality: {
-                  idMunicipality: 0, // Valor de prueba
-                  name: formValues.municipalityName || 'San Sebastián',
+                  idMunicipality: "stri",
+                  name: "string",
                   state: {
-                    idState: 0, // Valor de prueba
-                    name: formValues.stateName || 'Oaxaca'
+                    idState: "st",
+                    name: "string"
                   }
                 }
               }
             }
           }
         },
-        maritalStatusId: parseInt(formValues.maritalStatus, 10) || 2, // 1 = Soltero, 2 = Casado
-        occupationId: 0, // Valor de prueba
-        ethnicGroupId: 0, // Valor de prueba
-        religionId: 0, // Valor de prueba
+        maritalStatusId: 0,
+        occupationId: 0,
+        ethnicGroupId: 0,
+        religionId: 0,
         guardian: {
-          idGuardian: 0, // Valor de prueba
-          firstName: 'Maria', // Valor de prueba
-          lastName: 'Lopez', // Valor de prueba
-          phone: '9512345678', // Valor de prueba
-          email: 'maria.lopez@example.com' // Valor de prueba
+          idGuardian: 0,
+          firstName: "string",
+          lastName: "string",
+          phone: "string",
+          email: "string"
         }
       };
-
       console.log('Transformed Data:', transformedData);
 
       // Aquí puedes enviar `transformedData` a tu API o manejarlo como necesites

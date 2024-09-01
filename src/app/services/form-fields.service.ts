@@ -8,7 +8,7 @@ import { PatientService } from './patient/patient.service';
     providedIn: 'root'
 })
 export class FormFieldsService {
-        patientService = inject(PatientService);
+    patientService = inject(PatientService);
     private personalDataFields: FormField[] = [
         {
             type: 'input',
@@ -106,59 +106,17 @@ export class FormFieldsService {
 
     private addressFields: FormField[] = [
         {
-            type: 'input',
-            label: 'Número Exterior',
-            name: 'exteriorNumber',
+            type: 'autocomplete',
+            label: 'Nombre de estado',
+            name: 'stateName',
+            value: this.patientService.state,
             required: true,
             validators: [Validators.required],
             errorMessages: {
-                required: 'El campo Número Exterior es requerido.'
-            }
-        },
-        {
-            type: 'input',
-            label: 'Número Interior',
-            name: 'interiorNumber',
-            required: false,
-            errorMessages: {
-                required: 'El campo Número Interior es opcional.'
-            }
-        },
-        {
-            type: 'select',
-            label: 'Categoría de vivienda',
-            name: 'housingCategory',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Categoría de vivienda es requerido.'
+                required: 'El campo Nombre de estado es requerido.'
             },
-            onClick: this.handleHousingClick.bind(this)
+            onClick: this.handleStateClick.bind(this)
         },
-        {
-            type: 'select',
-            label: 'Nombre de calle',
-            name: 'streetName',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Nombre de calle es requerido.'
-            },
-            onClick: this.handleStretClick.bind(this)
-
-        },
-        {
-            type: 'select',
-            label: 'Nombre de colonia',
-            name: 'neighborhoodName',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Nombre de colonia es requerido.'
-            },
-            onClick: this.handleNeighborhoodClick.bind(this)
-        },
-        
         {
             type: 'inputEvent',
             label: 'Código postal',
@@ -197,17 +155,58 @@ export class FormFieldsService {
             onClick: this.handleMunicipalityClick.bind(this)
         },
         {
-            type: 'autocomplete',
-            label: 'Nombre de estado',
-            name: 'stateName',
-            value: this.patientService.state,
+            type: 'select',
+            label: 'Nombre de calle',
+            name: 'streetName',
             required: true,
             validators: [Validators.required],
             errorMessages: {
-                required: 'El campo Nombre de estado es requerido.'
+                required: 'El campo Nombre de calle es requerido.'
             },
-            onClick: this.handleStateClick.bind(this)
+            onClick: this.handleStretClick.bind(this)
+
         },
+        {
+            type: 'select',
+            label: 'Nombre de colonia',
+            name: 'neighborhoodName',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Nombre de colonia es requerido.'
+            },
+            onClick: this.handleNeighborhoodClick.bind(this)
+        },
+        {
+            type: 'input',
+            label: 'Número Exterior',
+            name: 'exteriorNumber',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Número Exterior es requerido.'
+            }
+        },
+        {
+            type: 'input',
+            label: 'Número Interior',
+            name: 'interiorNumber',
+            required: false,
+            errorMessages: {
+                required: 'El campo Número Interior es opcional.'
+            }
+        },
+        {
+            type: 'select',
+            label: 'Categoría de vivienda',
+            name: 'housingCategory',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Categoría de vivienda es requerido.'
+            },
+            onClick: this.handleHousingClick.bind(this)
+        }
     ];
 
     private otherDataFields: FormField[] = [
@@ -294,7 +293,7 @@ export class FormFieldsService {
                 required: 'El campo Motivo de Consulta es requerido.'
             }
         },
- 
+
     ];
 
 

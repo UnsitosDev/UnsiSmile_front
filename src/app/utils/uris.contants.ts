@@ -126,9 +126,9 @@ export class UriConstants {
     public static readonly POST_VITAL_SIGNS = basePath + '/medical-histories/vital-signs'
     // religion-controller
     public static readonly GETID_RELIGION = basePath + '/patients/religion/'
-    public static readonly GET_RELIGION =  basePath + '/patients/religion'  
+    public static readonly GET_RELIGION =  basePath + '/patients/religions'  
     // nationality-controller
-    public static readonly GET_NACIONALITY = basePath + '/patients/nationality'
+    public static readonly GET_NACIONALITY = basePath + '/patients/nationalities'
     // occupation-controller
     public static readonly GET_OCUPATION = basePath + '/patients/occupations'
     // marital-status-controller
