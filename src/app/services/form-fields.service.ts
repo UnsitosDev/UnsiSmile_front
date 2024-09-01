@@ -3,6 +3,8 @@ import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
 import { curpValidator, phoneNumberValidator } from '../utils/validators';
 import { PatientService } from './patient/patient.service';
+import { FieldNames } from '../models/form-fields/form-utils';
+
 
 @Injectable({
     providedIn: 'root'
@@ -298,79 +300,82 @@ export class FormFieldsService {
 
 
     // Eventos
-
-    constructor() {
-        // this.handleGenderClick({} as MouseEvent);
-        // this.handleHousingClick({}as MouseEvent);
-        // this.handleStretClick({}as MouseEvent);
-        // this.handleNeighborhoodClick({} as MouseEvent);
-    }
+    
     private handleGenderClick(event: MouseEvent): void {
         this.patientService.getGender();
-        // Acceder a genderOptions después de que se cargo
-        const genderField = this.personalDataFields.find(field => field.name === 'gender');
+        const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);
         genderField && (genderField.options = this.patientService.genderOptions);
     }
+
     private handleHousingClick(event: MouseEvent): void {
         this.patientService.getHousingData();
-        const housingField = this.addressFields.find(field => field.name === 'housingCategory');
+        const housingField = this.addressFields.find(field => field.name === FieldNames.HOUSING_CATEGORY);
         housingField && (housingField.options = this.patientService.housingOptions);
     }
+
     private handleStretClick(event: MouseEvent): void {
         this.patientService.getStreets();
-        const streetsField = this.addressFields.find(field => field.name === 'streetName');
+        const streetsField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
         streetsField && (streetsField.options = this.patientService.streetsOptions);
     }
+
     private handleNeighborhoodClick(event: MouseEvent): void {
         this.patientService.getNeighborhoodData();
-        const neighborhoodField = this.addressFields.find(field => field.name === 'neighborhoodName');
+        const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
         neighborhoodField && (neighborhoodField.options = this.patientService.neighborhoodOptions);
     }
+
     private handleLocalityClick(param: string): void {
         this.patientService.getLocality(param);
-        const localityField = this.addressFields.find(field => field.name === 'localityName');
+        const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
         localityField && (localityField.options = this.patientService.localityOptions);
     }
+
     private handleMunicipalityClick(event: MouseEvent): void {
         this.patientService.getMunicipalityData();
-        const municipalityField = this.addressFields.find(field => field.name === 'municipalityName');
+        const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
         municipalityField && (municipalityField.options = this.patientService.municipalityOptions);
     }
+
     private handleStateClick(event: MouseEvent): void {
         this.patientService.getStateData();
-        const stateField = this.addressFields.find(field => field.name === 'stateName');
+        const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
         stateField && (stateField.options = this.patientService.stateOptions);
     }
+
     private handleNacionalityClick(event: MouseEvent): void {
         this.patientService.getNacionalityData();
-        const nationalityField = this.otherDataFields.find(field => field.name === 'nationality');
+        const nationalityField = this.otherDataFields.find(field => field.name === FieldNames.NATIONALITY);
         nationalityField && (nationalityField.options = this.patientService.nationalityOptions);
     }
+
     private handleMaritalStatusClick(event: MouseEvent): void {
         this.patientService.getMaritalStatusData();
-        const maritalStatusField = this.otherDataFields.find(field => field.name === 'maritalStatus');
+        const maritalStatusField = this.otherDataFields.find(field => field.name === FieldNames.MARITAL_STATUS);
         maritalStatusField && (maritalStatusField.options = this.patientService.maritalStatusOptions);
     }
+
     private handleOcupationClick(event: MouseEvent): void {
         this.patientService.getOcupationData();
-        const occupationField = this.otherDataFields.find(field => field.name === 'occupation');
+        const occupationField = this.otherDataFields.find(field => field.name === FieldNames.OCCUPATION);
         occupationField && (occupationField.options = this.patientService.occupationOptions);
     }
+
     private handleEthnicGroupClick(event: MouseEvent): void {
         this.patientService.getEthnicGroupData();
-        const ethnicGroupField = this.otherDataFields.find(field => field.name === 'ethnicGroup');
+        const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
         ethnicGroupField && (ethnicGroupField.options = this.patientService.ethnicGroupOptions);
     }
+
     private handleReligionClick(event: MouseEvent): void {
         this.patientService.getReligionData();
-        const religionField = this.otherDataFields.find(field => field.name === 'religion');
+        const religionField = this.otherDataFields.find(field => field.name === FieldNames.RELIGION);
         religionField && (religionField.options = this.patientService.religionOptions);
     }
 
     private handlePostalCodeClick(param: string): void {
         this.patientService.getPostalCode(param);
     }
-
     // Formularios
     getPersonalDataFields(): FormField[] {
         return this.personalDataFields;

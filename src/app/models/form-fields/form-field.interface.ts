@@ -22,13 +22,13 @@ export interface FormField {
     value?: any;
     errorMessages?: { [key: string]: string };
     fields?: FormField[]; // Campos anidados para 'group'
-    onClick?: (event: MouseEvent) => void; // Función opcional para manejar clics
+    onClick?: (event: MouseEvent) => void; 
     onInputChange?: {
         changeFunction: (param: string) => void;
         length: number
     } 
     onInputAutocomplete?: {
-        changeFunction: (param: string) => void; // Modificado para aceptar formGroup
+        changeFunction: (param: string) => void;
         length: number;
     };
 

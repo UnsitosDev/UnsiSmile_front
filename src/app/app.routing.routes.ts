@@ -53,11 +53,7 @@ const routes: Routes = [
       {
         path: 'addPatient',
         component: FormPatientPersonalDataComponent
-      }, 
-      {
-        path: 'addPatientv1',
-        component: HistoryPersonalDataComponent
-      }, 
+      },   
       {
         path: '**',
         pathMatch: 'full',
