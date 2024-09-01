@@ -156,6 +156,17 @@ export class FormFieldsService {
         },
         {
             type: 'select',
+            label: 'Nombre de colonia',
+            name: 'neighborhoodName',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Nombre de colonia es requerido.'
+            },
+            onClick: this.handleNeighborhoodClick.bind(this)
+        },
+        {
+            type: 'select',
             label: 'Nombre de calle',
             name: 'streetName',
             required: true,
@@ -165,17 +176,6 @@ export class FormFieldsService {
             },
             onClick: this.handleStretClick.bind(this)
 
-        },
-        {
-            type: 'select',
-            label: 'Nombre de colonia',
-            name: 'neighborhoodName',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Nombre de colonia es requerido.'
-            },
-            onClick: this.handleNeighborhoodClick.bind(this)
         },
         {
             type: 'input',

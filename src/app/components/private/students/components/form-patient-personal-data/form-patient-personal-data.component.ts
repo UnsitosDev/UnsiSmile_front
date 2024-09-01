@@ -21,6 +21,11 @@ import { Validators } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AlertModel } from '@mean/models';
 import { PatientService } from 'src/app/services/patient/patient.service';
+import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
+import { ApiService } from '@mean/services';
+import { HttpHeaders } from '@angular/common/http';
+import { UriConstants } from '@mean/utils';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -38,7 +43,8 @@ import { PatientService } from 'src/app/services/patient/patient.service';
 
 export class FormPatientPersonalDataComponent {
   private _formBuilder = inject(FormBuilder);
-  private patientService = inject(PatientService); // Asegúrate de inyectar el servicio aquí
+  private apiService = inject(ApiService<religionRequest>);
+  private patientService = inject(PatientService);
 
 
   firstFormGroup = this._formBuilder.group({
@@ -56,7 +62,8 @@ export class FormPatientPersonalDataComponent {
     private fb: FormBuilder,
     private personalDataFields: FormFieldsService,
     private addressDataFields: FormFieldsService,
-    private otherDataFields: FormFieldsService
+    private otherDataFields: FormFieldsService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -84,6 +91,7 @@ export class FormPatientPersonalDataComponent {
       this.handlePostalCodeClick(value);
     }
   }
+  
   localityId: string = '';
   municipalityNameId: string = '';
   stateNameId: string = '';
@@ -124,80 +132,110 @@ export class FormPatientPersonalDataComponent {
 
   onSubmit() {
     if (this.formGroup.valid) {
-      console.log('Todos los datos del formulario:', this.formGroup.value);
       const formValues = this.formGroup.value;
 
-
-      const transformedData = {
-        idPatient: 0, // Valor de prueba
-        admissionDate: "2024-08-31",
-        isMinor: true,
+      const patientData = {
+        idPatient: 0, 
+        admissionDate: formValues.admissionDate,
+        isMinor: false,
         hasDisability: true,
-        nationalityId: 0,
+        nationalityId: +formValues.nationality,
         person: {
-          curp: "stringstringstring",
-          firstName: "string",
-          secondName: "string",
-          firstLastName: "string",
-          secondLastName: "string",
-          phone: "6804661135",
-          birthDate: "2024-08-31",
-          email: "string",
+          curp: formValues.curp,
+          firstName: formValues.firstLastName,
+          secondName: formValues.secondName,
+          firstLastName: formValues.firstLastName,
+          secondLastName: formValues.secondLastName,
+          phone: formValues.phone,
+          birthDate: formValues.birthDate,
+          email: formValues.email,
           gender: {
-            idGender: 0,
-            gender: "string"
+            idGender: +formValues.gender,
+            gender: ""
           }
         },
         address: {
           idAddress: 0,
-          streetNumber: "st",
-          interiorNumber: "st",
+          streetNumber: formValues.exteriorNumber,
+          interiorNumber: formValues.interiorNumber,
           housing: {
-            idHousing: "st",
-            category: "string"
+            idHousing: +formValues.housingCategory,
+            category: ""
           },
           street: {
-            idStreet: 0,
-            name: "string",
+            idStreet: +formValues.streetName,
+            name: '',
             neighborhood: {
-              idNeighborhood: 0,
-              name: "string",
+              idNeighborhood: +formValues.neighborhoodName,
+              name: '',
               locality: {
-                idLocality: "strin",
-                name: "string",
-                postalCode: "strin",
+                idLocality: +this.localityId,
+                name: "",
+                postalCode: formValues.postalCode,
                 municipality: {
-                  idMunicipality: "stri",
-                  name: "string",
+                  idMunicipality: +this.municipalityNameId,
+                  name: "",
                   state: {
-                    idState: "st",
-                    name: "string"
+                    idState: +this.stateNameId,
+                    name: ""
                   }
                 }
               }
             }
           }
         },
-        maritalStatusId: 0,
-        occupationId: 0,
-        ethnicGroupId: 0,
-        religionId: 0,
-        guardian: {
-          idGuardian: 0,
-          firstName: "string",
-          lastName: "string",
-          phone: "string",
-          email: "string"
-        }
+        maritalStatusId: +formValues.maritalStatus,
+        occupationId: +formValues.occupation,
+        ethnicGroupId: +formValues.ethnicGroup,
+        religionId: +formValues.religion,
+        guardian: null,
       };
-      console.log('Transformed Data:', transformedData);
+      this.apiService
+        .postService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.POST_PATIENT}`,
+          data: patientData,
+        })
+        .subscribe({
+          next: (response) => {
+            console.log(response);
+            console.log('solicitudpost');
+            this.alertConfiguration('SUCCESS', "Se ha insertado correctamente el usuario.");
+            this.openAlert();
 
-      // Aquí puedes enviar `transformedData` a tu API o manejarlo como necesites
+            this.router.navigate(['/students/patients']);
+          },
+          error: (error) => {
+            console.error('Error en la autenticación:', error);
+            this.alertConfiguration('ERROR', error);
+            this.openAlert();
+          },
+        });
+
     } else {
       this.alertMessage = 'Por favor, completa todos los campos correctamente.';
       this.showAlert = true;
     }
   }
 
+  public alertConfiguration(severity: 'ERROR' | 'SUCCESS', msg: string) {
+    this.alertConfig.severity = AlertModel.AlertSeverity[severity];
+    this.alertConfig.singleMessage = msg;
+  }
+  alertConfig = new AlertModel.AlertaClass(
+    false,
+    'Ha ocurrido un error',
+    AlertModel.AlertSeverity.ERROR
+  );
+
+  public openAlert() {
+    this.alertConfig.open = true;
+  }
+
+  public closeAlert() {
+    this.alertConfig.open = false;
+  }
 
 }
