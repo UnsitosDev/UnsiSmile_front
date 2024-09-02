@@ -129,9 +129,9 @@ export class UriConstants {
     public static readonly POST_VITAL_SIGNS = basePath + '/medical-histories/vital-signs'
     // religion-controller
     public static readonly GETID_RELIGION = basePath + '/patients/religion/'
-    public static readonly GET_RELIGION =  basePath + '/patients/religion'  
+    public static readonly GET_RELIGION =  basePath + '/patients/religions'  
     // nationality-controller
-    public static readonly GET_NACIONALITY = basePath + '/patients/nationality'
+    public static readonly GET_NACIONALITY = basePath + '/patients/nationalities'
     // occupation-controller
     public static readonly GET_OCUPATION = basePath + '/patients/occupations'
     // marital-status-controller
@@ -140,6 +140,8 @@ export class UriConstants {
     public static readonly GET_ETHNIC_GROUP = basePath + '/patients/ethnic-groups'
     // locality-controller
     public static readonly GET_LOCALITIES = basePath + '/address/locality'
+    public static readonly GET_LOCALITIES_NAME = basePath + '/address/locality/name/'
+
     // housing-controller
     public static readonly GET_HOUSING = basePath + '/address/housing'
     // street-controller
@@ -147,13 +149,13 @@ export class UriConstants {
     // neighborhood-controller
     public static readonly GET_NEIGHBORHOODS = basePath + '/addresses/neighborhoods'
     // municipality-controller
-    public static readonly GET_MUNICIPALITY = basePath + '/address/municipalities'
+          public static readonly GET_MUNICIPALITY = basePath + '/address/municipalities?page=0&size=10&order=name&asc=true'
     // state-controller
     public static readonly GET_STATE = basePath + '/address/states'
     // Patient controller
     public static readonly POST_PATIENT = basePath + '/patients'
     
     public static readonly GET_USER_INFO = basePath + '/users/userInformation'
-
-
+    // get postalCode
+    public static readonly GET_POSTAL_CODE = basePath + '/address/locality/postal-code/'
 }

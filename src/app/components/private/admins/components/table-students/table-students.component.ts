@@ -10,9 +10,9 @@ import {
   Accion,
   getEntityPropiedades,
 } from 'src/app/models/tabla/tabla-columna';
-import { TablaDataComponent } from 'src/app/shared/tabla-data/tabla-data.component';
+import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { StudentsGeneralHistoryComponent } from '../../../students/pages/history-clinics/general/students-general-history.component';
-import { studentRequest } from 'src/app/shared/interfaces/student/student';
+import { studentRequest } from 'src/app/shared/components/interfaces/student/student';
 
 @Component({
   selector: 'app-table-students',

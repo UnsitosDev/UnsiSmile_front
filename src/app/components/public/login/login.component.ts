@@ -11,7 +11,7 @@ import { BaseComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
-import { AlertComponent } from 'src/app/shared/alert/alert.component';
+import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 
 @Component({
   selector: 'app-login',
