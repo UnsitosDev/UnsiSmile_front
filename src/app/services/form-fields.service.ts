@@ -117,7 +117,11 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Nombre de estado es requerido.'
             },
-            onClick: this.handleStateClick.bind(this)
+//            onClick: this.handleStateClick.bind(this),
+            onInputChange: {
+                changeFunction: this.handleStateClick.bind(this),
+                length: 5
+            }
         },
         {
             type: 'inputEvent',
@@ -278,7 +282,11 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Religión es opcional.'
             },
-            onClick: this.handleReligionClick.bind(this)
+            onClick: this.handleReligionClick.bind(this),
+            // onInputChange: {
+            //     changeFunction: this.handleReligionClick.bind(this),
+            //     length: 5
+            // }
 
         },
         {
@@ -313,12 +321,12 @@ export class FormFieldsService {
         this.handleStretClick({}as MouseEvent);
         this.handleNeighborhoodClick({} as MouseEvent);
         this.handleMunicipalityClick({} as MouseEvent);
-        this.handleStateClick({} as MouseEvent);
+        //this.handleStateClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
         this.handleOcupationClick({} as MouseEvent);
         this.handleEthnicGroupClick({} as MouseEvent);
-        this.handleReligionClick({} as MouseEvent);
+        // this.handleReligionClick({} as MouseEvent);
     }
 
     private handleGenderClick(event: MouseEvent): void {
@@ -357,8 +365,8 @@ export class FormFieldsService {
         municipalityField && (municipalityField.options = this.patientService.municipalityOptions);
     }
 
-    private handleStateClick(event: MouseEvent): void {
-        this.patientService.getStateData();
+    private handleStateClick(searchTerm: string): void {
+        this.patientService.getStateData(searchTerm);
         const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
         stateField && (stateField.options = this.patientService.stateOptions);
     }

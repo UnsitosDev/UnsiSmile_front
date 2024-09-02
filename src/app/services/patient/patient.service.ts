@@ -215,13 +215,13 @@ export class PatientService {
     // Estados
     stateResponseData: PaginatedData<stateRequest>[] = [];
     stateOptions: Array<{ value: string; label: string }> = [];
-    getStateData() {
+    getStateData(searchTerm: string) {
         this.apiService
             .getService({
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
                 }),
-                url: `${UriConstants.GET_STATE}`,
+                url: `${UriConstants.GET_STATE}?search=${searchTerm}`,
                 data: {},
             })
             .subscribe({
@@ -337,6 +337,7 @@ export class PatientService {
                         value: item.idReligion.toString(),
                         label: item.religion
                     }));
+                    console.log(this.religionOptions)
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);

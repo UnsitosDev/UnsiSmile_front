@@ -52,11 +52,15 @@
       </mat-form-field>
     }
     @case ('autocomplete') {
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>{{ field.label }}</mat-label>
-          <input matInput [formControlName]="field.name"  (input)="onInputAutocomplete($event)">               
-      </mat-form-field>
-      
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>{{field.label}}</mat-label>
+          <input type="text" matInput [formControlName]="field.name" [matAutocomplete]="auto" (input)="onInputAutocomplete($event)">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            @for (option of field.options; track option.value) {
+              <mat-option [value]="option.label">{{ option.label }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>      
     }
     @default {
       <p>Tipo de campo no soportado.</p>

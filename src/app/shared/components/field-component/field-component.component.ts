@@ -16,7 +16,7 @@ import { map, Observable, startWith } from 'rxjs';
 @Component({
   selector: 'app-field-component',
   standalone: true,
-  imports: [ MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
+  imports: [MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
   templateUrl: './field-component.component.html',
   styleUrl: './field-component.component.scss',
   providers: [provideNativeDateAdapter(), DatePipe],
@@ -34,9 +34,7 @@ export class FieldComponentComponent {
 
   typeElement: string = '';
   datePipe = inject(DatePipe);
-  onSelectionChange(event: any) {
 
-  }
   myControl = new FormControl('');
   filteredOptions!: Observable<{ value: string; label: string }[]>;
 
@@ -57,7 +55,7 @@ export class FieldComponentComponent {
       this.myControl.setValue(changes['fieldValue'].currentValue);
     }
   }
-  
+
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const value = inputElement.value;
@@ -70,8 +68,16 @@ export class FieldComponentComponent {
   }
 
   onInputAutocomplete(event: Event): void {
-    const inputValue = (event.target as HTMLInputElement).value;
-    this.setFieldValue.emit({ name: this.field.name, value: inputValue });
+
+    const inputElement = event.target as HTMLInputElement;
+    const value = inputElement.value;
+
+    if (this.field.onInputChange) {
+      this.field.onInputChange.changeFunction?.(value);
+    }
+
+    this.setFieldValue.emit({ field: this.field.name, value: value });
+
   }
 
   private _filter(value: string): { value: string; label: string }[] {
@@ -80,6 +86,7 @@ export class FieldComponentComponent {
       option.label.toLowerCase().includes(filterValue)
     );
   }
+
   onSelectionChange2(event: any) {
     const selectedValue2 = event.value;
 
@@ -88,22 +95,16 @@ export class FieldComponentComponent {
     this.setFieldValue.emit({ field: this.field.name, value: selectedOption });
   }
 
-
-
   onValueChange(event: any) {
     // Emite el valor para todos los tipos de eventos
     const value = event.target ? event.target.value : event.value;
     this.setFieldValue.emit({ field: this.field.name, value: value });
   }
 
-
-
   handleSelectChange(event: any) {
-
     const value = event.target ? event.target.value : event.value;
     this.setFieldValue.emit({ field: this.field.name, value: value });
   }
-  showDate: any; // Para almacenar la fecha formateada
 
   onValueChangeDate(event: any) {
     const value = event.value as Date;
@@ -120,4 +121,5 @@ export class FieldComponentComponent {
     // Considera cualquier error que no sea 'required' como un 'lastError'
     return Object.keys(errors).some(errorKey => errorKey !== 'required');
   }
+
 }
