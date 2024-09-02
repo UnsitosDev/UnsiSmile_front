@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
-import { curpValidator, phoneNumberValidator } from '../utils/validators';
+import { addressesNumber, curpValidator, phoneNumberValidator } from '../utils/validators';
 import { PatientService } from './patient/patient.service';
 import { FieldNames } from '../models/form-fields/form-utils';
 
@@ -184,18 +184,21 @@ export class FormFieldsService {
             label: 'Número Exterior',
             name: 'exteriorNumber',
             required: true,
-            validators: [Validators.required],
+            validators: [Validators.required, addressesNumber()],
             errorMessages: {
-                required: 'El campo Número Exterior es requerido.'
+                required: 'El campo Número Exterior es requerido.',
+                lastError: 'El campo Número Exterior debe contener solo números.'
             }
         },
         {
             type: 'input',
             label: 'Número Interior',
             name: 'interiorNumber',
-            required: false,
+            required: true,
+            validators: [Validators.required, addressesNumber()],
             errorMessages: {
-                required: 'El campo Número Interior es opcional.'
+                required: 'El campo Número Interior es opcional.',
+                lastError: 'El campo Número Interior debe contener solo números.'
             }
         },
         {
@@ -259,7 +262,8 @@ export class FormFieldsService {
             type: 'select',
             label: 'Grupo étnico',
             name: 'ethnicGroup',
-            required: false,
+            required: true,
+            validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Grupo étnico es opcional.'
             },
@@ -269,7 +273,8 @@ export class FormFieldsService {
             type: 'select',
             label: 'Religión',
             name: 'religion',
-            required: false,
+            required: true,
+            validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Religión es opcional.'
             },
@@ -280,7 +285,8 @@ export class FormFieldsService {
             type: 'datepicker',
             label: 'Última Consulta',
             name: 'lastConsultation',
-            required: false,
+            required: true,
+            validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Última Consulta es opcional.'
             }
