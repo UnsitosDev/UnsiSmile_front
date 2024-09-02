@@ -33,7 +33,7 @@ export function addressesNumber(): ValidatorFn {
     if (!control.value) {
       return null; 
     }
-    const phonePattern = /^\d{8}$/; 
+    const phonePattern = /^\d{1,8}$/; 
     const valid = phonePattern.test(control.value);
     return valid ? null : { lastError: { value: control.value } };
   };
