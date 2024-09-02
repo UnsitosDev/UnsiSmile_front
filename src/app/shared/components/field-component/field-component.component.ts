@@ -16,7 +16,7 @@ import { map, Observable, startWith } from 'rxjs';
 @Component({
   selector: 'app-field-component',
   standalone: true,
-  imports: [MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
+  imports: [ MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
   templateUrl: './field-component.component.html',
   styleUrl: './field-component.component.scss',
   providers: [provideNativeDateAdapter(), DatePipe],
@@ -52,42 +52,12 @@ export class FieldComponentComponent {
     );
   }
 
-  // onInputChange(event: Event) {
-  //   if (this.field.onInputChange) {
-  //     const inputElement = event.target as HTMLInputElement;
-  //     const value = inputElement.value;
-
-  //     // Verifica si la longitud del valor es igual a la longitud esperada
-  //     if (value.length === this.field.onInputChange.length) {
-  //       this.field.onInputChange.changeFunction?.(value); // Pasa el valor del input
-  //     }
-  //   }
-  // }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['fieldValue']) {
       this.myControl.setValue(changes['fieldValue'].currentValue);
     }
   }
   
-
-  // onInputChange(event: Event) {
-  //   const inputElement = event.target as HTMLInputElement;
-  //   const value = inputElement.value;
-
-  //   if (this.field.onInputChange) {
-  //     this.field.onInputChange.changeFunction?.(value);
-  //   }
-
-  //   // Emitir el valor del campo al componente padre
-  //   this.setFieldValue.emit({ name: this.field.name, value });
-  // }
-
-  // onInputAutocomplete(event: Event): void {
-  //   const inputValue = (event.target as HTMLInputElement).value;
-  //   // Aquí puedes realizar la lógica para manejar el valor del autocomplete
-  //   this.setFieldValue.emit({ name: this.field.name, value: inputValue });
-  // }
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const value = inputElement.value;
