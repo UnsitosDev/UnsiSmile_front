@@ -23,6 +23,7 @@ $on-background-color: #1F2937; // Color del texto sobre el fondo claro
   --on-primary: #FFFFFF; // Texto blanco sobre el color primario
   --secondary: #FFFFFF;
   --on-secondary:#151d26;
+  --on-secondary-rgb: 21, 29, 38;
   --background: #FFFFFF; // Fondo claro para la sección principal
   --on-background: #1F2937; // Texto oscuro sobre el fondo claro
 }
@@ -32,6 +33,7 @@ $on-background-color: #1F2937; // Color del texto sobre el fondo claro
   --on-primary: #FFFFFF; // Texto claro sobre el color primario en tema oscuro
   --secondary: #151d26;
   --on-secondary:#FFFFFF;
+  --on-secondary-rgb: 255, 255, 255; /* Valor RGB */
   --background: #0C151C; // Fondo más oscuro para el tema oscuro
   --on-background: #E5E7EB; // Texto claro sobre fondo oscuro
 }

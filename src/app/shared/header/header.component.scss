@@ -2,7 +2,7 @@
 
 .header-container {
   background-color: var(--secondary);
-  border-color: var(--on-secondary);
+  border-bottom: 1px solid rgba(var(--on-secondary-rgb), 0.5);
 
   .header-left {
     .menu-button {
@@ -36,3 +36,4 @@
     }
   }
 }
+
