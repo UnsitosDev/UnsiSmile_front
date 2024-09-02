@@ -231,7 +231,6 @@ export class PatientService {
                         value: item.idState.toString(),
                         label: item.name
                     }));
-
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);
@@ -337,7 +336,6 @@ export class PatientService {
                         value: item.idReligion.toString(),
                         label: item.religion
                     }));
-                    console.log(this.religionOptions)
                 },
                 error: (error) => {
                     console.error('Error en la autenticación:', error);

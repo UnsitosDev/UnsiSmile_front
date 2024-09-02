@@ -179,12 +179,9 @@ export class FormPatientPersonalDataComponent {
         })
         .subscribe({
           next: (response) => {
-            console.log(response);
-            console.log('solicitudpost');
+            this.router.navigate(['/students/patients']);
             this.alertConfiguration('SUCCESS', "Se ha insertado correctamente el usuario.");
             this.openAlert();
-
-            this.router.navigate(['/students/patients']);
           },
           error: (error) => {
             console.error('Error en la autenticación:', error);
