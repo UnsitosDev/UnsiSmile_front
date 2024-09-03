@@ -2,18 +2,18 @@ import { Component, ViewChild } from '@angular/core';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { ExplorationOralComponent } from '../../../components/form-exploration-oral/exploration-oral.component';
 import { IdentificationFileComponent } from '../../../components/form-identification-file-oral-surgery/identification-file.component';
-import { InterrogationComponent } from '../../../components/form-interrogation-periodontics/interrogation.component';
+import { InterrogationPeriodonticsComponent } from '../../../components/form-interrogation-periodontics/interrogation-periodontics.component';
 import { PerodontalExamComponent } from '../../../components/table-perodontal-exam/perodontal-exam.component';
 import { TreatmentPlanComponent } from '../../../components/form-treatment-plan/treatment-plan.component';
-import { VitalSingsComponent } from '../../../components/form-vital-sings-periodontics/vital-sings.component';
+import { VitalSingsPeriodonticsComponent } from '../../../components/form-vital-sings-periodontics/vital-sings-periodontics.component';
 import { EvaluacionPerodonciaComponent } from '../../../components/table-periodontic-evaluation/periodontic-evaluation.component';
 
 @Component({
   selector: 'app-students-periodontics-history',
   standalone: true,
   imports: [MatTabsModule,ExplorationOralComponent,
-    IdentificationFileComponent,InterrogationComponent, PerodontalExamComponent, TreatmentPlanComponent,
-    VitalSingsComponent,EvaluacionPerodonciaComponent],
+    IdentificationFileComponent,InterrogationPeriodonticsComponent, PerodontalExamComponent, TreatmentPlanComponent,
+    VitalSingsPeriodonticsComponent,EvaluacionPerodonciaComponent],
   templateUrl: './students-periodontics-history.component.html',
   styleUrl: './students-periodontics-history.component.scss'
 })

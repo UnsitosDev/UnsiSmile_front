@@ -4,13 +4,12 @@ import { CurrentConditionComponent } from '../../../components/form-current-cond
 import { FamilyHistoryComponent } from '../../../components/form-family-history/family-history.component';
 import { IdentificationFileComponent } from '../../../components/form-identification-file-oral-surgery/identification-file.component';
 import { InterrogationDivicesSystemsComponent } from '../../../components/form-interrogation-divices-systems/interrogation-divices-systems.component';
-import { VitalSingsComponent } from '../../../components/form-vital-sings-oral-surgery/vital-sings.component';
+import { VitalSingsComponent } from '../../../components/form-vital-sings/vital-sings.component';
 
 @Component({
   selector: 'app-students-oral-surgery-history',
   standalone: true,
-  imports: [MatTabsModule, CurrentConditionComponent, FamilyHistoryComponent,IdentificationFileComponent
-    ,InterrogationDivicesSystemsComponent,VitalSingsComponent],
+  imports: [MatTabsModule, CurrentConditionComponent, FamilyHistoryComponent,IdentificationFileComponent ,InterrogationDivicesSystemsComponent,VitalSingsComponent],
   templateUrl: './students-oral-surgery-history.component.html',
   styleUrl: './students-oral-surgery-history.component.scss'
 })
