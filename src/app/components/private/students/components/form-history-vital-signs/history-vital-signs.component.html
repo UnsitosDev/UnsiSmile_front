@@ -1,145 +1,21 @@
-<div class="mx-4">
-  <form (submit)="postVitalSigns()">
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-16"
-    >
-      <!-- Peso -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Peso</label
-        >
-        <input
-          id="weight"
-          name="weight"
-          [(ngModel)]="weight"
-          type="number"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-
-      <!-- Estatura -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Estatura</label
-        >
-        <input
-          id="height"
-          name="height"
-          [(ngModel)]="height"
-          type="number"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-
-      <!-- heartRate -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Temperatura</label
-        >
-        <input
-          id="temperature"
-          name="temperature"
-          [(ngModel)]="temperature"
-          type="number"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-
-      <!-- Frecuencia Cardiaca -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Frecuncia Cardiaca</label
-        >
-        <input
-          id="heartRate"
-          name="heartRate"
-          [(ngModel)]="heartRate"
-          type="number"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-
-      <!-- Frecuencia Respiratoria -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Frecuencia Respiratoria</label
-        >
-        <input
-          id="respiratoryRate"
-          name="respiratoryRate"
-          [(ngModel)]="respiratoryRate"
-          type="number"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-
-      <!-- Presion Arterial -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Presion Arterial</label
-        >
-        <input
-          id="bloodPressure"
-          name="bloodPressure"
-          [(ngModel)]="bloodPressure"
-          type="number"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      <!-- Saturacion de oxigeno -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Saturacion de oxigeno</label
-        >
-        <input
-          id="oxygenSaturation"
-          name="oxygenSaturation"
-          [(ngModel)]="oxygenSaturation"
-          type="number"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-
-      <!-- Glucosa -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Glucosa</label
-        >
-        <input
-          id="glucose"
-          name="glucose"
-          [(ngModel)]="glucose"
-          type="number"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-
-      <!-- Pulso -->
-      <div class="relative flex-grow w-full">
-        <label
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-          >Pulso</label
-        >
-        <input
-          id="pulse"
-          name="pulse"
-          [(ngModel)]="pulse"
-          type="number"
-          class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
+<div class="mx-8 pb-8">
+  <form [formGroup]="formGroup" (submit)="postVitalSigns()">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+      @for (field of vitalSigns; track $index) {
+      <app-field-component
+        [field]="field"
+        [formGroup]="formGroup"
+        [errors]="field.errorMessages"
+        [fieldValue]="getFieldValue(field.name)"
+      >
+      </app-field-component>
+      }
     </div>
-    <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
-      <button type="submit" mat-raised-button color="primary">Siguiente</button>
+    <div class="button-container">
+      <div></div>
+      <button type="submit" mat-button matStepperNext>
+        SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
+      </button>
     </div>
   </form>
 </div>
-
