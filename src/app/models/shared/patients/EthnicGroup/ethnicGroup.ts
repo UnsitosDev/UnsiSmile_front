@@ -1,5 +1,4 @@
 export interface ethnicGroupRequest {
-
     "idEthnicGroup": number|null,
     "ethnicGroup": string
 }

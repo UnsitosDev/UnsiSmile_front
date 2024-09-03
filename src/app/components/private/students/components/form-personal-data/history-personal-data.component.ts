@@ -22,7 +22,7 @@ import {
 } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
-import { AlertComponent } from 'src/app/shared/alert/alert.component';
+import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { AlertModel } from '@mean/models';
 import { Router, RouterModule } from '@angular/router';
 import { inputClass, labelClass } from 'src/app/utils/inputs';
