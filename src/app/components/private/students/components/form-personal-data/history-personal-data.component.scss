@@ -16,10 +16,8 @@ i{
 
   /* Estilos específicos del div con clase "block" */
 .block {
-  background-color: var(--background);
-  border: 1px solid var(--on-secondary);
-  border-radius: 0.5rem; // rounded-lg
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // shadow
+  background-color: var(--secondary);
+  
 }
 
 .text-on-background {
