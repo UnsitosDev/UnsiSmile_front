@@ -5,10 +5,10 @@
         <app-identification-file  (eventoEmitido)="vitalSignsEvent($event)"  (cambiarTab)="recibirTab($event)"></app-identification-file>
     </mat-tab>
     <mat-tab label="SIGNOS VITALES"  [disabled]="vitalSigns">
-        <app-vital-sings (eventoEmitido)="interrogationEvent($event)"  (cambiarTab)="recibirTab($event)"></app-vital-sings>
+        <app-vital-sings-periodontics (eventoEmitido)="interrogationEvent($event)"  (cambiarTab)="recibirTab($event)"></app-vital-sings-periodontics>
     </mat-tab>
     <mat-tab label="INTERROGATORIO" [disabled]="interrogation">
-        <app-interrogation (eventoEmitido)="perodontalExamEvent($event)"  (cambiarTab)="recibirTab($event)"></app-interrogation>
+        <app-interrogation-periodontics (eventoEmitido)="perodontalExamEvent($event)"  (cambiarTab)="recibirTab($event)"></app-interrogation-periodontics>
     </mat-tab>
     <mat-tab label="EXAMEN PARODONTAL" [disabled]="perodontalExam">
         <app-perodontal-exam (eventoEmitido)="explorationOralEvent($event)"  (cambiarTab)="recibirTab($event)"></app-perodontal-exam>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VitalSingsComponent } from './vital-sings.component';
+import { VitalSingsPeriodonticsComponent } from './vital-sings-periodontics.component';
 
 describe('VitalSingsComponent', () => {
-  let component: VitalSingsComponent;
-  let fixture: ComponentFixture<VitalSingsComponent>;
+  let component: VitalSingsPeriodonticsComponent;
+  let fixture: ComponentFixture<VitalSingsPeriodonticsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VitalSingsComponent]
+      imports: [VitalSingsPeriodonticsComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(VitalSingsComponent);
+    fixture = TestBed.createComponent(VitalSingsPeriodonticsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

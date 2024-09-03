@@ -7,13 +7,13 @@ import { MatSelectModule } from '@angular/material/select';
 
 
 @Component({
-  selector: 'app-vital-sings',
+  selector: 'app-interrogation-periodontics',
   standalone: true,
   imports: [MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule, MatButtonModule],
-  templateUrl: './vital-sings.component.html',
-  styleUrl: './vital-sings.component.scss'
+  templateUrl: './interrogation-periodontics.component.html',
+  styleUrl: './interrogation-periodontics.component.scss'
 })
-export class VitalSingsComponent {
+export class InterrogationPeriodonticsComponent {
   
   @Output() eventoEmitido = new EventEmitter<boolean>();
   pageNumber: number = 1;
