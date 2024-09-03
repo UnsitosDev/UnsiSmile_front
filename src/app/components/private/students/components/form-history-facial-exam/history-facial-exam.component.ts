@@ -1,8 +1,3 @@
-import { facialProfilesResponse } from '../../../../../models/models-students/facialProfiles/facialProfiles';
-import { facialFrontResponse } from '../../../../../models/models-students/facialFront/facialFront';
-import { ApiService } from '../../../../../services/api.service';
-
-import { HttpHeaders } from '@angular/common/http';
 import {
   Component,
   EventEmitter,
@@ -21,9 +16,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { AuthService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
+
 import { ReactiveFormsModule } from '@angular/forms';
+import { PatientService } from 'src/app/services/patient/patient.service';
+import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { faciealExamService } from 'src/app/services/history-clinics/general/facialExam.service';
+import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
+
 
 interface FacialFrontData {
   idFacialFront: number;
@@ -34,6 +33,7 @@ interface FacialFrontData {
   selector: 'app-history-facial-exam',
   standalone: true,
   imports: [
+    FieldComponentComponent,
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
@@ -45,88 +45,39 @@ interface FacialFrontData {
   styleUrl: './history-facial-exam.component.scss',
 })
 export class HistoryFacialExamComponent implements OnInit {
-  /**
-   * Constructor del componente.
-   * @param authService Servicio de autenticación para la gestión de la sesión del usuario.
-   * @param apiService Servicio para realizar llamadas a la API para obtener o enviar datos.
-   * @param fb Constructor de FormBuilder para la creación de formularios reactivos.
-   */
+  private patientService = inject(PatientService);
+  formGroup!: FormGroup;
+  faciealExam: FormField[] = [];
 
-  public apiService = inject(ApiService);
-  constructor(private authService: AuthService, private fb: FormBuilder) {
-    console.log('Componente receptor creado');
-  }
+  constructor(
+    private fb: FormBuilder,
+    private faciealExamFields: faciealExamService,
+
+  ) { }
 
   ngOnInit(): void {
-    this.fetchFacialFronts();
-    this.fetchFacialProfile();
+    // Obtener los campos del formulario del servicio
+    this.faciealExam = this.faciealExamFields.getfacialExamFields();
+
+
+    // Construcción del formulario
+    this.formGroup = this.fb.group({}); // Inicializar el FormGroup
+    [...this.faciealExam].forEach(field => {
+      this.formGroup.addControl(
+        field.name,
+        this.fb.control(field.value || '', field.validators || [])
+      );
+    });
+  }
+  getFieldValue(fieldName: string) {
+    return this.formGroup.get(fieldName)?.value;
   }
 
-  onSubmit() {
+  postFacialExam(){
     this.emitirEvento();
     this.irSiguienteTab();
-    const token = this.authService.getToken();
-    this.apiService
-      .postService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        }),
-        url: `${UriConstants.POST_FACIAL_EXAM}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          // console.log('enviado');
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
   }
-
-  namefacialFront: facialFrontResponse[] = [];
-  fetchFacialFronts() {
-    this.apiService
-      .getListService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_FACIAL_FRONT}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.namefacialFront = response;
-          // console.log('Facial front + ', this.namefacialFront);
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
-  }
-
-  nameFacialProfile: facialProfilesResponse[] = [];
-  fetchFacialProfile() {
-    this.apiService
-      .getListService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_FACIAL_PROFILE}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.nameFacialProfile = response;
-          // console.log('facial profile =>', this.nameFacialProfile);
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
-  }
-
+  
   @Output() eventoEmitido = new EventEmitter<boolean>();
   pageNumber: number = 1;
   emitirEvento() {

@@ -1,47 +1,21 @@
-<div class="mx-4">
-  <form (ngSubmit)="onSubmit()">
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 mb-16"
-    >
-          <!-- Perfil -->
-          <div class="relative flex-grow w-full">
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Perfil Recto</label>
-            <select
-              class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              > <!-- Vinculando con idFacialProfile -->
-              <option></option>
-              @for (item of nameFacialProfile; track $index) {
-                <option [value]="item.idFacialProfile">{{ item.facialProfile }}</option>
-              }     
-            </select>
-          </div>
-
-      <!-- Frente Braquifacial -->
-      <div class="relative flex-grow w-full">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Frente Braquifacial</label>
-          <select
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            >
-            <option></option>
-            @for (item of namefacialFront; track $index) {
-              <option [value]="item.idFacialFront">{{item.facialFront}}</option>
-
-            }
-          </select>
-      </div>
-
-      <!-- Señas particulares -->
-      <div class="relative flex-grow w-full">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Señas particulares</label>
-          <input
-            id="distinguishingFeatures"
-            type="text"
-            class="bg-gray-50 border h-11 border-gray-300 text-black-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            />
-      </div>
+<div class="mx-8 pb-8">
+  <form [formGroup]="formGroup" (submit)="postFacialExam()">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+      @for (field of faciealExam; track $index) {
+      <app-field-component
+        [field]="field"
+        [formGroup]="formGroup"
+        [errors]="field.errorMessages"
+        [fieldValue]="getFieldValue(field.name)"
+      >
+      </app-field-component>
+      }
     </div>
-    <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
-      <button type="submit" mat-raised-button color="primary">Siguiente</button>
+    <div class="button-container">
+      <div></div>
+      <button type="submit" mat-button matStepperNext>
+        SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
+      </button>
     </div>
   </form>
 </div>
