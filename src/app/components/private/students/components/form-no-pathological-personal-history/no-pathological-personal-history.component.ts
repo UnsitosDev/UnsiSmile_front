@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-no-pathological-personal-history',
   standalone: true,
-  imports: [MatCheckboxModule, MatButtonModule],
+  imports: [MatCheckboxModule, MatButtonModule, MatInputModule, MatFormFieldModule, FormsModule],
   templateUrl: './no-pathological-personal-history.component.html',
   styleUrl: './no-pathological-personal-history.component.scss',
 })

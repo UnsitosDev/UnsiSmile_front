@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 
@@ -14,7 +14,29 @@ import { HistoryMultidiciplinaryEvaluationComponent } from '../../../components/
 import { NoPathologicalPersonalHistoryComponent } from '../../../components/form-no-pathological-personal-history/no-pathological-personal-history.component';
 import { PathologicalPersonalHistoryComponent } from '../../../components/form-pathological-personal-history/pathological-personal-history.component';
 import { StudentsPatientDetailComponent } from '../../../components/form-patient-detail/students-patient-detail.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { Patient } from 'src/app/models/shared/patients/patient/patient';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { Dialog } from '@angular/cdk/dialog';
+import { DialogPersonalDataComponent } from '../../../components/dialog-personal-data/dialog-personal-data.component';
 
+
+export interface PatientSummary {
+  fullName: string;
+  gender: string;
+  birthDate: string;
+  phone: string;
+  address: string;
+  email: string;
+  admissionDate: string;
+  curp: string
+}
+
+export interface DialogData {
+  animal: 'panda' | 'unicorn' | 'lion';
+}
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
@@ -34,10 +56,14 @@ import { StudentsPatientDetailComponent } from '../../../components/form-patient
     MatDialogModule,
     MatTabsModule,
     MatDialogModule,
-    StudentsPatientDetailComponent
-],
+    StudentsPatientDetailComponent,
+    MatCardModule,
+    MatButtonModule
+  ],
 })
 export class StudentsGeneralHistoryComponent implements OnInit {
+
+
   public id!: number;
   vitalSigns = true;
   facialExam = true;
@@ -92,15 +118,78 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   }
 
   nextpage: boolean = true;
-  constructor(private router: ActivatedRoute) {}
+  constructor(private router: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.router.params.subscribe((params) => {
       this.id = params['id'];
 
       console.log('id del paciente: ', this.id);
+      this.fetchPatientData();
+
     });
   }
+  dialog = inject(Dialog);
+
+  openDialog() {
+    this.dialog.open(DialogPersonalDataComponent, {
+      minWidth: '300px',
+      data: {
+        patient: this.patient,
+        patientSummary: this.patientSummary,
+      },
+    });
+  }
+
+  @Input() idPatient: number = 0;
+  public patient!: Patient;
+  private patientService = inject(ApiService<Patient, {}>);
+  year?: number;
+  month?: number;
+  day?: number;
+  public patientSummary: PatientSummary[] = []; // Array of PatientSummary objects
+
+  fetchPatientData() {
+    this.patientService
+      .getService({
+        url: `${UriConstants.GET_PATIENTS + '/' + this.id}`,
+      })
+      .subscribe({
+        next: (data) => {
+          this.patient = data;
+          // Extraer year, month y day del objeto Date
+          const birthDate = new Date(this.patient.person.birthDate);
+          const year = birthDate.getFullYear();
+          const month = birthDate.getMonth() + 1; // getMonth() devuelve el mes (0-11), sumamos 1 para obtener el mes (1-12)
+          const day = birthDate.getDate();
+          // Asignar los valores a las propiedades
+          this.year = year;
+          this.month = month;
+          this.day = day;
+
+          const summary: PatientSummary = {
+            fullName: `${data.person.firstName} ${data.person.secondName} ${data.person.firstLastName} ${data.person.secondLastName}`,
+            gender: data.person.gender.gender,
+            birthDate: this.formatDate(data.person.birthDate),
+            phone: data.person.phone,
+            address: `${data.address.street.name} # ${data.address.streetNumber}, ${data.address.street.neighborhood.name}, ${data.address.street.neighborhood.locality.name}, ${data.address.street.neighborhood.locality.municipality.name}, ${data.address.street.neighborhood.locality.municipality.state.name}`,
+            email: data.person.email,
+            admissionDate: this.formatDate(data.admissionDate),
+            curp: data.person.curp
+          };
+          console.log(data)
+
+          this.patientSummary.push(summary);
+        },
+        error: (error) => { },
+      });
+  }
+
+  formatDate(dateArray: number[]): string {
+    const [year, month, day] = dateArray;
+    return `${day}/${month}/${year}`;
+  }
+
 
   stopPropagation(event: MouseEvent) {
     event.stopPropagation();
@@ -119,3 +208,4 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     }
   }
 }
+

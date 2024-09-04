@@ -121,7 +121,7 @@ export class FormPatientPersonalDataComponent {
         nationalityId: +formValues.nationality,
         person: {
           curp: formValues.curp,
-          firstName: formValues.firstLastName,
+          firstName: formValues.firstName,
           secondName: formValues.secondName,
           firstLastName: formValues.firstLastName,
           secondLastName: formValues.secondLastName,
