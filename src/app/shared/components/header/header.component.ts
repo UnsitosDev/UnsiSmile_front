@@ -44,20 +44,35 @@ export class HeaderComponent {
     const savedTheme = localStorage.getItem('theme');
     this.isDarkTheme = savedTheme === 'dark';
     this.applyTheme();
+    this.applyGlobalTheme(); // Aplica el tema global que afecta a toda la aplicación
+
   }
 
-  // Método para alternar entre temas
-  toggleTheme(): void {
-    this.isDarkTheme = !this.isDarkTheme;
-    this.applyTheme();
-  }
+ toggleTheme(): void {
+  this.isDarkTheme = !this.isDarkTheme;
+  this.applyGlobalTheme(); // Aplica el tema global que afecta a toda la aplicación
+  this.applyTheme(); // Aplica el tema de Angular Material
+}
 
-  // Método para aplicar el tema
-  private applyTheme(): void {
-    const themeClass = this.isDarkTheme ? 'dark-theme' : '';
-    document.documentElement.className = themeClass;
+// Método para aplicar el tema de Angular Material
+private applyTheme(): void {
+  const themeClass = this.isDarkTheme ? 'dark-theme' : '';
+  document.documentElement.className = themeClass;
 
-    // Guardar la preferencia del usuario en localStorage
-    localStorage.setItem('theme', this.isDarkTheme ? 'dark' : 'light');
+  // Guardar la preferencia del usuario en localStorage
+  localStorage.setItem('theme', this.isDarkTheme ? 'dark' : 'light');
+}
+
+// Método para aplicar el tema global
+private applyGlobalTheme(): void {
+  const body = document.body;
+
+  if (this.isDarkTheme) {
+    body.classList.add('dark-theme-material');
+    body.classList.remove('light-theme-material');
+  } else {
+    body.classList.add('light-theme-material');
+    body.classList.remove('dark-theme-material');
   }
+}
 }

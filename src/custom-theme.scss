@@ -173,7 +173,7 @@ $tertiary-color-light: mat.define-palette((
 
 
 // Crear tema claro
-$theme: mat.define-light-theme((
+$theme-light: mat.define-light-theme((
   color: (
     primary: $primary-color-light,
     accent: $secondary-color-light,
@@ -181,9 +181,19 @@ $theme: mat.define-light-theme((
   )
 ));
 
-// Aplicar el tema global
-@include mat.all-component-themes($theme);
+$theme-dark: mat.define-dark-theme((
+  color: (
+    primary: $primary-color-dark,
+    accent: $secondary-color-dark,
+    warn: $tertiary-color-light,
+  )
+));
 
-::ng-deep .mat-step-header .mat-step-label {
-  color: var(--on-primary); // Usa la variable de color del tema para el texto
+.light-theme-material {
+  @include mat.all-component-themes($theme-light);
+}
+
+// Tema oscuro (se aplica cuando el cuerpo tiene la clase 'dark-theme')
+.dark-theme-material {
+  @include mat.all-component-themes($theme-dark);
 }
