@@ -10,6 +10,7 @@ import { StudentsDentalOperationComponent } from './components/private/students/
 import { FormPatientPersonalDataComponent } from './components/private/students/components/form-patient-personal-data/form-patient-personal-data.component';
 import { TableStudentsComponent } from './components/private/admins/components/table-students/table-students.component';
 import { LayoutAdminComponent } from './components/private/admins/components/layout-admin/layout-admin.component';
+import { PruebaComponent } from './components/prueba/prueba.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'patients',
         component: StudentsPatientsComponent,
+      },
+      {
+        path: 'prueba',
+        component: PruebaComponent,
       },
       {
         path: 'odontogram',
