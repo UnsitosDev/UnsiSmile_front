@@ -39,35 +39,35 @@ $primary-color-light: mat.define-palette((
 )); 
 
 $primary-color-dark: mat.define-palette((
-  50 : #e0e0e0,
-  100 : #b0b0b0,
-  200 : #8a8e93,
-  300 : #606060,
-  400 : #404040,
-  500 : #151d26,
-  600 : #121a21,
-  700 : #0f151c,
-  800 : #0c1218,
-  900 : #0a0d14,
-  A100 : #ffffff,
-  A200 : #f0f0f0,
-  A400 : #c0c0c0,
-  A700 : #a0a0a0,
+  50 : #e5eaf4,
+  100 : #bec9e3,
+  200 : #93a6d1,
+  300 : #6882be,
+  400 : #4767b0,
+  500 : #274ca2,
+  600 : #23459a,
+  700 : #1d3c90,
+  800 : #173386,
+  900 : #0e2475,
+  A100 : #a7b7ff,
+  A200 : #748dff,
+  A400 : #4163ff,
+  A700 : #284eff,
   contrast: (
-    50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #ffffff,
-    400 : #ffffff,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
-    800 : #ffffff,
-    900 : #ffffff,
-    A100 : #000000,
-    A200 : #000000,
-    A400 : #000000,
-    A700 : #000000,
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #ffffff,
+      A700 : #ffffff,
   )
 ));
 
@@ -188,6 +188,7 @@ $theme-dark: mat.define-dark-theme((
     warn: $tertiary-color-light,
   )
 ));
+
 
 .light-theme-material {
   @include mat.all-component-themes($theme-light);
