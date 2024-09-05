@@ -50,8 +50,9 @@ export class HeaderComponent {
 
  toggleTheme(): void {
   this.isDarkTheme = !this.isDarkTheme;
-  this.applyGlobalTheme(); // Aplica el tema global que afecta a toda la aplicación
   this.applyTheme(); // Aplica el tema de Angular Material
+  this.applyGlobalTheme(); // Aplica el tema global que afecta a toda la aplicación
+
 }
 
 // Método para aplicar el tema de Angular Material
