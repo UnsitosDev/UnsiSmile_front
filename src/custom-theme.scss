@@ -173,7 +173,7 @@ $tertiary-color-light: mat.define-palette((
 
 
 // Crear tema claro
-$theme-light: mat.define-light-theme((
+$theme-light-mat: mat.define-light-theme((
   color: (
     primary: $primary-color-light,
     accent: $secondary-color-light,
@@ -181,7 +181,7 @@ $theme-light: mat.define-light-theme((
   )
 ));
 
-$theme-dark: mat.define-dark-theme((
+$theme-dark-mat: mat.define-dark-theme((
   color: (
     primary: $primary-color-dark,
     accent: $secondary-color-dark,
@@ -189,12 +189,10 @@ $theme-dark: mat.define-dark-theme((
   )
 ));
 
+@include mat.all-component-themes($theme-light-mat);
 
-.light-theme-material {
-  @include mat.all-component-themes($theme-light);
-}
 
-// Tema oscuro (se aplica cuando el cuerpo tiene la clase 'dark-theme')
+// Aplicar el tema oscuro solo para los colores
 .dark-theme-material {
-  @include mat.all-component-themes($theme-dark);
+  @include mat.all-component-colors($theme-dark-mat);
 }
