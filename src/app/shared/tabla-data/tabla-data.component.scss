@@ -4,28 +4,28 @@ table {
   border-collapse: collapse;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-  th, td {
+  th,
+  td {
     padding: 12px 15px;
     text-align: left;
     font-size: 14px;
-    color: #4a5568; // Texto más oscuro
+    color: var(--on-secondary); // Texto más oscuro
   }
 
   th {
-    background-color: #f7fafc; // Fondo suave para los encabezados
+    background-color: var(--secondary); // Fondo suave para los encabezados
     font-weight: 600;
     text-transform: uppercase;
   }
 
-  tbody tr:hover {
-    background-color: #edf2f7; // Color de fondo más claro al hacer hover
-  }
 
-  tbody tr:last-child td {
-    border-bottom: none; // Eliminar borde inferior de la última fila
-  }
+}
+
+.input {
+  background-color: var(--background);
+  color: var(--on-background);
+  border-color: var(--primary-container);
 }
 
 // Estilo para el botón de "Exportar a Excel"
@@ -34,24 +34,6 @@ button {
     margin-right: 0.5rem;
   }
 
-  &:hover {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); // Añadir sombra al hacer hover
-  }
-}
-
-// Input de búsqueda
-input[type="text"] {
-  border: 1px solid #cbd5e0; // Color de borde más claro
-  border-radius: 4px;
-  padding: 8px 12px;
-  width: 100%;
-  max-width: 300px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-
-  &:focus {
-    border-color: #3182ce; // Color de borde al enfocar
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); // Sombra azul al enfocar
-  }
 }
 
 /* Estilos para el selector de páginas */
@@ -60,22 +42,12 @@ input[type="text"] {
   padding: 0.5rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
-  color: #4a5568;
-  border: 1px solid #cbd5e0;
+  color: var(--on-secondary);
+  border: 1px solid var(--on-secondary);
   border-radius: 0.375rem;
-  background-color: #f7fafc;
+  background-color: var(--secondary);
   transition: background-color 0.2s ease, border-color 0.2s ease;
 
-  &:hover {
-    background-color: #edf2f7;
-    border-color: #a0aec0;
-  }
-
-  &:focus {
-    outline: none;
-    border-color: #63b3ed;
-    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5);
-  }
 }
 
 /* Mejora la apariencia de las opciones en el selector */
@@ -89,45 +61,14 @@ input[type="text"] {
 label[for="pageSize"] {
   margin-right: 0.5rem;
   font-weight: 600;
-  color: #2d3748;
+  color: var(--on-secondary);
 }
 
-
-// Estilos para la paginación
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  padding-top: 20px;
-
-  a {
-    color: #3182ce; // Color de texto para los links
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 4px;
-    transition: background-color 0.2s, color 0.2s;
-
-    &:hover {
-      background-color: #ebf8ff; // Fondo suave al hacer hover
-    }
-  }
-
-  .current {
-    background-color: #3182ce;
-    color: #fff;
-    border: none;
-  }
-
-  .disabled {
-    color: #a0aec0; // Color gris para elementos desactivados
-  }
-}
 
 // Estilos para contenedor principal
 main {
   padding: 20px;
-  background-color: #fff;
+  background-color: var(--secondary);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -168,4 +109,40 @@ main {
 
 .rounded-lg {
   border-radius: 0.5rem;
+}
+
+.custom-table td {
+  color: var(--on-secondary);
+  background-color: var(--secondary); // Color de fondo}
+  border: 1px var(--on-secondary);
+
+}
+
+
+
+
+.search-input {
+  background-color: var(--secondary); // Fondo del cuadro de búsqueda
+  color: var(--on-secondary); // Color del texto dentro del cuadro de búsqueda
+  border: 1px solid var(--on-secondary); // Borde del cuadro de búsqueda
+  opacity: 0.5;
+}
+
+.search-input::placeholder {
+  color: var(--on-secondary); // Color del texto placeholder
+  opacity: 0.7; // Ajusta la opacidad del placeholder si es necesario
+}
+
+.search-input::placeholder {
+  color: var(--on-secondary); // Color del texto placeholder
+  opacity: 0.7; // Ajusta la opacidad del placeholder si es necesario
+}
+
+.title {
+  color: var(--on-secondary);
+  /* Reemplaza --secondary por la variable que desees utilizar */
+}
+
+::ng-deep .ngx-pagination .current {
+  background: #274CA2 !important;
 }

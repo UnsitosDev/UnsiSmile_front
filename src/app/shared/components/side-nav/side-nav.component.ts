@@ -7,6 +7,7 @@ import {
 } from '../interfaces/student/student';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
+import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
 
 @Component({
   selector: 'app-side-nav',
@@ -20,12 +21,14 @@ export class SideNavComponent implements OnInit {
 
   private userService = inject(ApiService<studentResponse, {}>);
 
-  user!: studentUserResponse;
+  user!: studentUserResponse | AdminResponse;
 
   @Input() isSidebarOpen = false;
 
   ngOnInit() {
+   
     this.fetchUserData();
+
   }
 
   fetchUserData() {
@@ -36,7 +39,7 @@ export class SideNavComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.user = data;
-          this.setMenuItems();
+          this.setMenuItems();          
           console.log('user data: ', data);
         },
         error: (error) => {
@@ -48,8 +51,8 @@ export class SideNavComponent implements OnInit {
   setMenuItems() {
     if (this.user.user.role.role === 'ROLE_STUDENT') {
       this.menuItems = StudentItems;
-    } else if (this.user.user.role.role === 'ROLE_ADMIN') {
+    } else if (this.user.user.role.role === 'ROLE_ADMIN')
+      console.log("heres")
       this.menuItems = AdminItems;
     }
-  }
 }
