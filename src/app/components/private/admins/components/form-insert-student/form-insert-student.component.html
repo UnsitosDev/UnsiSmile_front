@@ -1,0 +1,24 @@
+<main class="p-10 bg-white shadow-md rounded-lg rounded-lg">
+<h1><i class="fas fa-hospital-user"></i><b>Datos personales</b></h1>
+<div class="mx-8 pb-8">
+    <form [formGroup]="formGroup">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        @for (field of student; track $index) {
+        <app-field-component
+          [field]="field"
+          [formGroup]="formGroup"
+          [errors]="field.errorMessages"
+          [fieldValue]="getFieldValue(field.name)"
+        >
+        </app-field-component>
+        }
+      </div>
+      <div class="button-container">
+        <div></div>
+        <button type="submit" mat-button matStepperNext>
+          Guarda <i class="fas fa-long-arrow-alt-right"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
