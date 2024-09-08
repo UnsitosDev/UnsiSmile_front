@@ -6,73 +6,50 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UriConstants } from '@mean/utils';
 import { closedQuestionPathologicalAntecedentsRequest } from '../../../../../models/models-students/closedQuestionPathologicalAntecedents/closedQuestionPathologicalAntecedents';
 import { openQuestionPathologicalAntecedentsRequest } from '../../../../../models/models-students/openQuestionPathologicalAntecedents/openQuestionPathologicalAntecedents';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { personalPathologicalHistoryFormService } from 'src/app/services/history-clinics/general/personalPathological.service';
+import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pathological-personal-history',
   standalone: true,
-  imports: [MatCheckboxModule, MatButtonModule],
+  imports: [MatCheckboxModule, MatButtonModule, FieldComponentComponent, ReactiveFormsModule],
   templateUrl: './pathological-personal-history.component.html',
   styleUrl: './pathological-personal-history.component.scss',
 })
 export class PathologicalPersonalHistoryComponent implements OnInit {
-  private apiService = inject(
-    ApiService<closedQuestionPathologicalAntecedentsRequest>
-  );
 
-  constructor() {}
+  formGroup!: FormGroup;
+  noPathologicalPersonData: FormField[] = [];
+
+  constructor(
+    private fb: FormBuilder,
+    private fields: personalPathologicalHistoryFormService,
+
+  ) { }
 
   ngOnInit(): void {
-    this.getPathologicalPersonHistory();
-    this.getQuestionsPathologicalPersonHistory();
-  }
+    // Obtener los campos del formulario del servicio
+    this.noPathologicalPersonData = this.fields.getpathologicalHistoryFields();
 
-  questionsPathologicalPersonData: closedQuestionPathologicalAntecedentsRequest[] =
-    [];
-  getPathologicalPersonHistory() {
-    this.apiService
-      .getListService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_CLOSED_QUESTION_PATHOLOGICAL_ANTECEDENTS}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.questionsPathologicalPersonData = response;
-          // console.log(this.questionsPathologicalPersonData);
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
-  }
 
-  getOpenQuestionsPhatologicalData: openQuestionPathologicalAntecedentsRequest[] =
-    [];
-  getQuestionsPathologicalPersonHistory() {
-    this.apiService
-      .getListService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_PATHOLOGICAL_ANTECEDENTS}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.getOpenQuestionsPhatologicalData = response;
-          // console.log(this.getOpenQuestionsPhatologicalData);
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
+    // Construcción del formulario
+    this.formGroup = this.fb.group({}); // Inicializar el FormGroup
+    [...this.noPathologicalPersonData].forEach(field => {
+      this.formGroup.addControl(
+        field.name,
+        this.fb.control(field.value || '', field.validators || [])
+      );
+    });
+  }
+  getFieldValue(fieldName: string) {
+    return this.formGroup.get(fieldName)?.value;
   }
 
   sendData() {
-    this.emitirEvento();
-    this.irSiguienteTab();
+    this.nextTab();
   }
 
   @Output() eventoEmitido = new EventEmitter<boolean>();
@@ -81,8 +58,8 @@ export class PathologicalPersonalHistoryComponent implements OnInit {
     this.eventoEmitido.emit(false);
     console.log(false);
   }
-  @Output() cambiarTab = new EventEmitter<number>();
-  irSiguienteTab() {
-    this.cambiarTab.emit(0);
+  @Output() nextMatTab = new EventEmitter<number>();
+  nextTab() {
+    this.nextMatTab.emit(0);
   }
 }

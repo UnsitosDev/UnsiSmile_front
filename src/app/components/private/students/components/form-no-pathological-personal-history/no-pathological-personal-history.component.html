@@ -1,70 +1,70 @@
 <div class="mx-8 pb-8">
-    <table>
-        <tr>
-          <th>PREGUNTA</th>
-          <th>SI / NO</th>
-        </tr>
-        <tr>
-          <td>Come frutas y verduras</td>
+  <table>
+      <tr>
+        <th>PREGUNTA</th>
+        <th>SI / NO</th>
+      </tr>
+      <tr>
+        <td>Come frutas y verduras</td>
+        <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
+      </tr>
+      <tr>
+         <td>Come carnes (Res, puerco o pollo)</td>
+         <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
+      </tr>
+      <tr>
+          <td>Come cereales (Pan, Cereal, etc.)</td>
           <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
-        </tr>
-        <tr>
-           <td>Come carnes (Res, puerco o pollo)</td>
-           <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
-        </tr>
-        <tr>
-            <td>Come cereales (Pan, Cereal, etc.)</td>
-            <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
-        </tr>
-        <tr>
-            <td>Come alimentos chatarra (Dulces, botanas, etc.)</td>
-            <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
-        </tr>
-        <tr>
-            <td>Toma o bebe 2 litros de agua al día</td>
-            <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
-        </tr>
-        <tr>
-            <td>Toma o bebe uno o más refrescos al día</td>
-            <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
-        </tr>
-        <tr>
-            <td>Su vivienda tiene piso</td>
-            <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
-        </tr>       
-      </table>
-      <div class="mx-4">
-        <form>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 mb-16">
-            <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Horas que duerme al dia</mat-label>
-                <input matInput>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Cuantas veces a la semana se baña</mat-label>
-                <input matInput>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Cuantas veces al día cepilla sus dientes</mat-label>
-                <input matInput>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Su vivienda tiene Piso</mat-label>
-                <input matInput>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Material de la Vivienda</mat-label>
-                <input matInput>
-            </mat-form-field>
-          </div>
-        </form>
-      </div> 
-      <div class="button-container">
-        <div></div>
-        <button (click)="sendData()" mat-button matStepperNext>
-          SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
-        </button>
-      </div>    
-  </div>
- 
+      </tr>
+      <tr>
+          <td>Come alimentos chatarra (Dulces, botanas, etc.)</td>
+          <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
+      </tr>
+      <tr>
+          <td>Toma o bebe 2 litros de agua al día</td>
+          <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
+      </tr>
+      <tr>
+          <td>Toma o bebe uno o más refrescos al día</td>
+          <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
+      </tr>
+      <tr>
+          <td>Su vivienda tiene piso</td>
+          <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
+      </tr>       
+    </table>
+    <div class="mx-4">
+      <form>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 mb-16">
+          <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Horas que duerme al dia</mat-label>
+              <input matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Cuantas veces a la semana se baña</mat-label>
+              <input matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Cuantas veces al día cepilla sus dientes</mat-label>
+              <input matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Su vivienda tiene Piso</mat-label>
+              <input matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Material de la Vivienda</mat-label>
+              <input matInput>
+          </mat-form-field>
+        </div>
+      </form>
+    </div> 
+    <div class="button-container">
+      <div></div>
+      <button (click)="sendData()" mat-button matStepperNext>
+        SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
+      </button>
+    </div>    
+</div>
+
 

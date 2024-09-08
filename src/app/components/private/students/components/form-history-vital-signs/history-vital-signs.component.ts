@@ -30,7 +30,6 @@ import { FieldComponentComponent } from "../../../../../shared/components/field-
   styleUrl: './history-vital-signs.component.scss',
 })
 export class HistoryVitalSignsComponent implements OnInit {
-  private patientService = inject(PatientService);
   formGroup!: FormGroup;
   vitalSigns: FormField[] = [];
 
@@ -59,19 +58,12 @@ export class HistoryVitalSignsComponent implements OnInit {
   }
 
   postVitalSigns(){
-
-    this.emitirEvento();
-    this.irSiguienteTab();
+    this.nextTab();
   }
   
-  @Output() eventoEmitido = new EventEmitter<boolean>();
-  pageNumber: number = 1;
-  emitirEvento() {
-    this.eventoEmitido.emit(false);
-    console.log(false);
-  }
-  @Output() cambiarTab = new EventEmitter<number>();
-  irSiguienteTab() {
-    this.cambiarTab.emit(0);
+
+  @Output() nextMatTab = new EventEmitter<number>();
+  nextTab() {
+    this.nextMatTab.emit(0);
   }
 }

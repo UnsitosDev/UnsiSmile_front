@@ -1,15 +1,5 @@
 
-
-::ng-deep .mat-tab-group .mat-tab-label {
-    background-color: lightgray; /* Color de fondo para tabs no seleccionados */
-  }
-  
-  ::ng-deep .mat-tab-group .mat-tab-label.mat-tab-label-active {
-    background-color: lightblue; /* Color de fondo para el tab seleccionado */
-  }
-  
-
-  button{
+button{
     background-color: #07437a !important;
     color: white !important;
 }
@@ -34,7 +24,6 @@ i{
   color: rgb(78, 78, 78);
 }
 
-/* src/app/students-general-history/students-general-history.component.scss */
 
 ::ng-deep .mat-mdc-card-title {
   background-color: #07437a; /* Cambia este color al que desees */

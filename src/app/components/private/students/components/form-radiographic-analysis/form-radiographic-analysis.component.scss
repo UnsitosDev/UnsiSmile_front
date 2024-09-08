@@ -1,3 +1,8 @@
+button{
+    background-color: #07437a !important;
+    color: white !important;
+}
+
 .button-container {
     display: flex;
     justify-content: space-between; /* Distribuye el espacio entre los botones */
@@ -9,7 +14,4 @@
     flex: 0 0 auto; /* Evita que los botones crezcan para ocupar el espacio disponible */
     margin: 0 5px; /* Espacio entre los botones */
 }
-button{
-    background-color: #07437a !important;
-    color: white !important;
-}
+    

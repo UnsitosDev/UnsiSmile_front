@@ -1,7 +1,7 @@
 <div class="mx-8 pb-8">
-    <form [formGroup]="formGroup" (click)="sendData()">
+    <form [formGroup]="formGroup" (click)="onSubmit()">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-        @for (field of noPathologicalPersonData; track $index) {
+        @for (field of laboratoryStudyAndBiopsyFields; track $index) {
         <app-field-component
           [field]="field"
           [formGroup]="formGroup"
@@ -19,4 +19,3 @@
       </div>
     </form>
   </div>
-  

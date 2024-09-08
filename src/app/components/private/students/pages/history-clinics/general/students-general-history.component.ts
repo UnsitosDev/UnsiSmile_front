@@ -10,7 +10,6 @@ import { StudentsOdontogramComponent } from '../../../components/odontogram/stud
 import { HistoryFacialExamComponent } from '../../../components/form-history-facial-exam/history-facial-exam.component';
 import { HistoryFamilyHistoryComponent } from '../../../components/form-history-family-history/history-family-history.component';
 import { HistoryInitialBagComponent } from '../../../components/form-history-initial-bag/history-initial-bag.component';
-import { HistoryMultidiciplinaryEvaluationComponent } from '../../../components/form-history-multidiciplinary-evaluation/history-multidiciplinary-evaluation.component';
 import { NoPathologicalPersonalHistoryComponent } from '../../../components/form-no-pathological-personal-history/no-pathological-personal-history.component';
 import { PathologicalPersonalHistoryComponent } from '../../../components/form-pathological-personal-history/pathological-personal-history.component';
 import { StudentsPatientDetailComponent } from '../../../components/form-patient-detail/students-patient-detail.component';
@@ -21,6 +20,14 @@ import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { Dialog } from '@angular/cdk/dialog';
 import { DialogPersonalDataComponent } from '../../../components/dialog-personal-data/dialog-personal-data.component';
+import { clinicalExamComponent } from "../../../components/form-clinical-exam/form-clinical-exam.component";
+import { FormFunctionalAnalisisComponent } from "../../../components/form-functional-analisis/form-functional-analisis.component";
+import { FormPatientPostureComponent } from "../../../components/form-patient-posture/form-patient-posture.component";
+import { FormBucalExamComponent } from "../../../components/form-bucal-exam/form-bucal-exam.component";
+import { FormRadiographicAnalysisComponent } from "../../../components/form-radiographic-analysis/form-radiographic-analysis.component";
+import { FormStudyModelsAndPhotographsComponent } from "../../../components/form-study-models-and-photographs/form-study-models-and-photographs.component";
+import { FormLaboratoryStudyAndBiopsyComponent } from "../../../components/form-laboratory-study-and-biopsy/form-laboratory-study-and-biopsy.component";
+import { FormMedicalConsultationComponent } from "../../../components/form-medical-consultation/form-medical-consultation.component";
 
 
 export interface PatientSummary {
@@ -52,14 +59,21 @@ export interface DialogData {
     PathologicalPersonalHistoryComponent,
     StudentsOdontogramComponent,
     HistoryInitialBagComponent,
-    HistoryMultidiciplinaryEvaluationComponent,
     MatDialogModule,
     MatTabsModule,
     MatDialogModule,
     StudentsPatientDetailComponent,
     MatCardModule,
-    MatButtonModule
-  ],
+    MatButtonModule,
+    clinicalExamComponent,
+    FormFunctionalAnalisisComponent,
+    FormPatientPostureComponent,
+    FormBucalExamComponent,
+    FormRadiographicAnalysisComponent,
+    FormStudyModelsAndPhotographsComponent,
+    FormLaboratoryStudyAndBiopsyComponent,
+    FormMedicalConsultationComponent
+],
 })
 export class StudentsGeneralHistoryComponent implements OnInit {
 
@@ -74,6 +88,13 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   ontogramaFinal = true;
   medicionDeBolsasInicial = true;
   evaluacion = true;
+  analisisFuncional = true;
+  posturaDelPaciente = true;
+  examenBucal = true;
+  analisisRadiografico = true;
+  modelosDeEstudioyFotografias = true;
+  estudiosDeLaboratorio= true;
+  interconsultaMedica = true;
 
   facialExamEvent(evento: boolean) {
     this.facialExam = evento;
@@ -112,8 +133,34 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     this.evaluacion = evento;
   }
 
-  recibirTab(evento: number) {
-    console.log('pagina recibida', evento);
+  analisisFuncionalEvent(evento: boolean) {
+    this.evaluacion = evento;
+  }
+
+  posturaDelPacienteEvent(evento: boolean) {
+    this.evaluacion = evento;
+  }
+
+  examenBucalEvent(evento: boolean) {
+    this.evaluacion = evento;
+  }
+
+  analisisRadiograficoEvent(evento: boolean) {
+    this.evaluacion = evento;
+  }
+
+  modelosDeEstudioyFotografiasEvent(evento: boolean) {
+    this.evaluacion = evento;
+  }
+
+  estudiosDeLaboratorioEvent(evento: boolean) {
+    this.evaluacion = evento;
+  }
+
+  interconsultaMedicaEvent(evento: boolean) {
+    this.evaluacion = evento;
+  }
+  recibirTab() {
     this.irSiguienteTab();
   }
 
