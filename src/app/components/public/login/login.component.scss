@@ -1,8 +1,13 @@
 
+.form-content{
+  background-color: var(--secondary);
+
+}
+
 .container {
   position: relative;
   width: 100%;
-  background-color: #fff;
+  background-color: var(--secondary);
   min-height: 100vh;
   overflow: hidden;
 }
@@ -13,6 +18,7 @@
   height: 100%;
   top: 0;
   left: 0;
+  
 }
 
 .signin-signup {
@@ -50,7 +56,7 @@ form.sign-in-form {
 
 .title {
   font-size: 2.2rem;
-  color: #444;
+  color: var(--on-secondary);
   margin-bottom: 10px;
 }
 
@@ -107,9 +113,9 @@ form.sign-in-form {
   justify-content: center;
   align-items: center;
   margin: 0 0.45rem;
-  color: #333;
+  color: var(--on-secondary);
   border-radius: 50%;
-  border: 1px solid #333;
+  border: 1px solid var(--on-secondary);
   text-decoration: none;
   font-size: 1.1rem;
   transition: 0.3s;
@@ -137,7 +143,7 @@ form.sign-in-form {
 }
 
 .btn:hover {
-  background-color: #4d84e2;
+  background-color: var(--tertiary);
 }
 .panels-container {
   position: absolute;
@@ -157,7 +163,7 @@ form.sign-in-form {
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
-  background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%);
+  background-image: linear-gradient( var(--tertiary),var(--tertiary));
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
