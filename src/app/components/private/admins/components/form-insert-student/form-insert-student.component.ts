@@ -9,6 +9,7 @@ import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
 import { studentService } from 'src/app/services/student.service';
 import { MatStep } from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 
 
 @Component({
@@ -20,13 +21,14 @@ import { MatStep } from '@angular/material/stepper';
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FieldComponentComponent,MatStep],
+    FieldComponentComponent,MatStep,MatStepperModule],
   templateUrl: './form-insert-student.component.html',
   styleUrl: './form-insert-student.component.scss'
 })
 export class FormInsertStudentComponent {
   formGroup!: FormGroup;
   student: FormField[] = [];
+  accountStudent: FormField[]=[];
 
   constructor(
     private fb: FormBuilder,
@@ -37,6 +39,7 @@ export class FormInsertStudentComponent {
   ngOnInit(): void {
     // Obtener los campos del formulario del servicio
     this.student = this.studentFields.getPersonalDataFields();
+    this.accountStudent = this.studentFields.getaccountDataFields();
 
 
     // Construcción del formulario
