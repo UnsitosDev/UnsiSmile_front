@@ -41,8 +41,14 @@ export class FormLaboratoryStudyAndBiopsyComponent {
 
   onSubmit(){
     this.nextTab();
+    this.emitNextTabEvent();
   }
 
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  emitNextTabEvent() {
+      this.nextTabEventEmitted.emit(false);
+  }
+  
   @Output() nextMatTab = new EventEmitter<number>();
   nextTab() {
     this.nextMatTab.emit(0);

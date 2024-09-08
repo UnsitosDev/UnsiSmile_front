@@ -45,8 +45,14 @@ export class HistoryFamilyHistoryComponent implements OnInit {
 
   sendData() {
     this.nextTab();
+    this,this.emitNextTabEvent();
   }
 
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  emitNextTabEvent() {
+      this.nextTabEventEmitted.emit(false);
+  }
+  
   @Output() nextMatTab = new EventEmitter<number>();
   nextTab() {
     this.nextMatTab.emit(0);

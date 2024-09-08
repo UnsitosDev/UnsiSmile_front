@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
@@ -38,4 +38,10 @@ export class FormMedicalConsultationComponent {
   getFieldValue(fieldName: string) {
     return this.formGroup.get(fieldName)?.value;
   }
+
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  emitNextTabEvent() {
+      this.nextTabEventEmitted.emit(false);
+  }
+  
 }

@@ -43,7 +43,14 @@ export class FormBucalExamComponent {
 
   onSubmit(){
     this.nextTab();
+    this.emitNextTabEvent();
   }
+
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  emitNextTabEvent() {
+      this.nextTabEventEmitted.emit(false);
+  }
+  
 
   @Output() nextMatTab = new EventEmitter<number>();
   nextTab() {

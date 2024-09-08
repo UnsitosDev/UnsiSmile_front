@@ -50,14 +50,14 @@ export class PathologicalPersonalHistoryComponent implements OnInit {
 
   sendData() {
     this.nextTab();
+    this.emitNextTabEvent();
   }
 
-  @Output() eventoEmitido = new EventEmitter<boolean>();
-  pageNumber: number = 1;
-  emitirEvento() {
-    this.eventoEmitido.emit(false);
-    console.log(false);
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  emitNextTabEvent() {
+      this.nextTabEventEmitted.emit(false);
   }
+  
   @Output() nextMatTab = new EventEmitter<number>();
   nextTab() {
     this.nextMatTab.emit(0);

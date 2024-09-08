@@ -75,6 +75,12 @@ export class HistoryFacialExamComponent implements OnInit {
 
   postFacialExam(){
     this.nextTab();
+    this.emitNextTabEvent();
+  }
+
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  emitNextTabEvent() {
+      this.nextTabEventEmitted.emit(false);
   }
   
   @Output() nextMatTab = new EventEmitter<number>();

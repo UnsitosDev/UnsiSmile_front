@@ -73,7 +73,7 @@ export interface DialogData {
     FormStudyModelsAndPhotographsComponent,
     FormLaboratoryStudyAndBiopsyComponent,
     FormMedicalConsultationComponent
-],
+  ],
 })
 export class StudentsGeneralHistoryComponent implements OnInit {
 
@@ -81,85 +81,85 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public id!: number;
   vitalSigns = true;
   facialExam = true;
-  atecedentesHeredofamiliares = true;
-  antecedentesPersonalesNoPatologicos = true;
-  antecedentesPersonalesPatologicos = true;
-  ontogramaInicial = true;
-  ontogramaFinal = true;
-  medicionDeBolsasInicial = true;
-  evaluacion = true;
-  analisisFuncional = true;
-  posturaDelPaciente = true;
-  examenBucal = true;
-  analisisRadiografico = true;
-  modelosDeEstudioyFotografias = true;
-  estudiosDeLaboratorio= true;
-  interconsultaMedica = true;
+  familyMedicalHistory = true;
+  personalNonPathologicalHistory = true;
+  personalPathologicalHistory = true;
+  initialOntogram = true;
+  finalOntogram = true;
+  initialBagMeasurement = true;
+  evaluation = true;
+  functionalAnalysis = true;
+  patientPosture = true;
+  oralExam = true;
+  radiographicAnalysis = true;
+  studyModelsAndPhotographs = true;
+  laboratoryStudies = true;
+  medicalConsultation = true;
 
-  facialExamEvent(evento: boolean) {
-    this.facialExam = evento;
-    this.irSiguienteTab();
+  facialExamEvent(event: boolean) {
+    this.facialExam = event;
   }
 
-  vitalSignsEvent(evento: boolean) {
-    this.vitalSigns = evento;
+  vitalSignsEvent(event: boolean) {
+    this.vitalSigns = event;
   }
 
-  atecedentesHeredofamiliaresEvent(evento: boolean) {
-    this.atecedentesHeredofamiliares = evento;
+  familyMedicalHistoryEvent(event: boolean) {
+    this.familyMedicalHistory = event;
   }
 
-  antecedentesPersonalesNoPatologicosEvent(evento: boolean) {
-    this.antecedentesPersonalesNoPatologicos = evento;
+  personalNonPathologicalHistoryEvent(event: boolean) {
+    this.personalNonPathologicalHistory = event;
   }
 
-  antecedentesPersonalesPatologicosEvent(evento: boolean) {
-    this.antecedentesPersonalesPatologicos = evento;
+  personalPathologicalHistoryEvent(event: boolean) {
+    this.personalPathologicalHistory = event;
   }
 
-  ontogramaInicialEvent(evento: boolean) {
-    this.ontogramaInicial = evento;
+  initialOntogramEvent(event: boolean) {
+    this.initialOntogram = event;
   }
 
-  ontogramaFinalEvent(evento: boolean) {
-    this.ontogramaFinal = evento;
+  finalOntogramEvent(event: boolean) {
+    this.finalOntogram = event;
   }
 
-  medicionDeBolsasIniciallEvent(evento: boolean) {
-    this.medicionDeBolsasInicial = evento;
+  initialBagMeasurementEvent(event: boolean) {
+    this.initialBagMeasurement = event;
   }
 
-  evaluacionEvent(evento: boolean) {
-    this.evaluacion = evento;
+  evaluationEvent(event: boolean) {
+    this.evaluation = event;
   }
 
-  analisisFuncionalEvent(evento: boolean) {
-    this.evaluacion = evento;
+  functionalAnalysisEvent(event: boolean) {
+    this.functionalAnalysis = event;
   }
 
-  posturaDelPacienteEvent(evento: boolean) {
-    this.evaluacion = evento;
+  patientPostureEvent(event: boolean) {
+    this.patientPosture = event;
   }
 
-  examenBucalEvent(evento: boolean) {
-    this.evaluacion = evento;
+  oralExamEvent(event: boolean) {
+    this.oralExam = event;
   }
 
-  analisisRadiograficoEvent(evento: boolean) {
-    this.evaluacion = evento;
+  radiographicAnalysisEvent(event: boolean) {
+    this.radiographicAnalysis  = event;
   }
 
-  modelosDeEstudioyFotografiasEvent(evento: boolean) {
-    this.evaluacion = evento;
+  studyModelsAndPhotographsEvent(event: boolean) {
+    this.studyModelsAndPhotographs = event;
   }
 
-  estudiosDeLaboratorioEvent(evento: boolean) {
-    this.evaluacion = evento;
+  laboratoryStudiesEvent(event: boolean) {
+    this.laboratoryStudies = event;
   }
 
-  interconsultaMedicaEvent(evento: boolean) {
-    this.evaluacion = evento;
+  medicalConsultationEvent(event: boolean) {
+    this.medicalConsultation = event;
   }
+
   recibirTab() {
     this.irSiguienteTab();
   }
@@ -251,7 +251,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   irSiguienteTab() {
     if (this.tabGroup) {
       this.tabGroup.selectedIndex = (this.tabGroup.selectedIndex ?? 0) + 1;
-      console.log('tab', this.tabGroup.selectedIndex);
     }
   }
 }

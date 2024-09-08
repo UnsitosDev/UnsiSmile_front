@@ -111,11 +111,17 @@ export class StudentsOdontogramComponent implements OnInit {
     return normalConditions.includes(condition.condition);
   }
 
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  emitNextTabEvent() {
+      this.nextTabEventEmitted.emit(false);
+  }
+  
   @Output() nextMatTab = new EventEmitter<number>();
   nextTab() {
     this.nextMatTab.emit(0);
   }
   store() {
     this.nextTab();
+    this.emitNextTabEvent();
   }
 }
