@@ -69,7 +69,11 @@ const routes: Routes = [
         path:'students',
         component: TableStudentsComponent,
 
-      }
+      },
+      {
+        path: 'patients',
+        component: StudentsPatientsComponent,
+      },
     ]
 
   },
