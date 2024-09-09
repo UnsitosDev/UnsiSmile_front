@@ -33,38 +33,25 @@
           <td><p><mat-checkbox color="primary"></mat-checkbox></p></td>
       </tr>       
     </table>
-    <div class="mx-4">
-      <form>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 mb-16">
-          <mat-form-field appearance="fill" class="w-full">
-              <mat-label>Horas que duerme al dia</mat-label>
-              <input matInput>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-              <mat-label>Cuantas veces a la semana se baña</mat-label>
-              <input matInput>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-              <mat-label>Cuantas veces al día cepilla sus dientes</mat-label>
-              <input matInput>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-              <mat-label>Su vivienda tiene Piso</mat-label>
-              <input matInput>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="w-full">
-              <mat-label>Material de la Vivienda</mat-label>
-              <input matInput>
-          </mat-form-field>
+      <form [formGroup]="formGroup" (submit)="sendData()">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+          @for (field of noPathologicalPersonData; track $index) {
+          <app-field-component
+            [field]="field"
+            [formGroup]="formGroup"
+            [errors]="field.errorMessages"
+            [fieldValue]="getFieldValue(field.name)"
+          >
+          </app-field-component>
+          }
+        </div>
+        <div class="button-container">
+          <div></div>
+          <button type="submit" mat-button matStepperNext>
+            SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
+          </button>
         </div>
       </form>
-    </div> 
-    <div class="button-container">
-      <div></div>
-      <button (click)="sendData()" mat-button matStepperNext>
-        SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
-      </button>
-    </div>    
 </div>
 
 

@@ -10,6 +10,7 @@ import { FieldComponentComponent } from "../../../../../shared/components/field-
 import { ReactiveFormsModule } from '@angular/forms';
 
 
+
 @Component({
   selector: 'app-no-pathological-personal-history',
   standalone: true,
@@ -29,7 +30,7 @@ export class NoPathologicalPersonalHistoryComponent {
 
   ngOnInit(): void {
     // Obtener los campos del formulario del servicio
-    this.noPathologicalPersonData = this.fields.getpathologicalHistoryFields();
+    this.noPathologicalPersonData = this.fields.getnoPathologicalHistoryFields();
 
 
     // Construcción del formulario

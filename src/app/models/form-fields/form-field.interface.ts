@@ -13,20 +13,21 @@ export interface InputChangeConfig {
 }
 
 export interface FormField {
-    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete'; 
+    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber';
     name: string;
     label: string;
     required?: boolean;
     options?: FormFieldOption[]; // Opcional para campos select
     validators?: ValidatorFn[]; // Validadores personalizados
     value?: any;
+    placeholder?: string;
     errorMessages?: { [key: string]: string };
     fields?: FormField[]; // Campos anidados para 'group'
-    onClick?: (event: MouseEvent) => void; 
+    onClick?: (event: MouseEvent) => void;
     onInputChange?: {
         changeFunction: (param: string) => void;
         length: number
-    } 
+    }
     onInputAutocomplete?: {
         changeFunction: (param: string) => void;
         length: number;

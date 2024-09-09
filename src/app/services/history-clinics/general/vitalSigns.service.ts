@@ -8,9 +8,10 @@ import { FormField } from 'src/app/models/form-fields/form-field.interface';
 export class VitalSignsFormService {
     private vitalSignsFields: FormField[] = [
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Peso',
             name: 'weight',
+            placeholder: 'EJ: 70', // Placeholder añadido
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -19,9 +20,10 @@ export class VitalSignsFormService {
             value: null // Valor inicial
         },
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Estatura',
             name: 'height',
+            placeholder: 'EJ: 1.75', // Placeholder añadido
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -30,9 +32,10 @@ export class VitalSignsFormService {
             value: null // Valor inicial
         },
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Temperatura',
             name: 'temperature',
+            placeholder: 'EJ: 36.5', // Placeholder añadido
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -41,9 +44,10 @@ export class VitalSignsFormService {
             value: null // Valor inicial
         },
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Frecuencia Cardiaca',
             name: 'heartRate',
+            placeholder: 'EJ: 72', // Placeholder añadido
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -52,9 +56,10 @@ export class VitalSignsFormService {
             value: null // Valor inicial
         },
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Frecuencia Respiratoria',
             name: 'respiratoryRate',
+            placeholder: 'EJ: 15', // Placeholder añadido
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -66,6 +71,7 @@ export class VitalSignsFormService {
             type: 'input',
             label: 'Presión Arterial',
             name: 'bloodPressure',
+            placeholder: 'EJ: 120/80', // Placeholder añadido
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -74,9 +80,10 @@ export class VitalSignsFormService {
             value: null // Valor inicial
         },
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Saturación de Oxígeno',
             name: 'oxygenSaturation',
+            placeholder: 'EJ: 98', // Placeholder añadido
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -85,9 +92,10 @@ export class VitalSignsFormService {
             value: null // Valor inicial
         },
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Glucosa',
             name: 'glucose',
+            placeholder: 'EJ: 90', // Placeholder añadido
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -96,9 +104,10 @@ export class VitalSignsFormService {
             value: null // Valor inicial
         },
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Pulso',
             name: 'pulse',
+            placeholder: 'EJ: 72', // Placeholder añadido
             required: true,
             validators: [Validators.required],
             errorMessages: {
