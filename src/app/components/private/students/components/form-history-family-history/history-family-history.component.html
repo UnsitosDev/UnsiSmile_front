@@ -22,7 +22,9 @@
     </table>
   
     <div class="button-container">
-        <div></div>
+      <button (click)="previousTab()" type="button" mat-button matStepperNext>
+        <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR 
+      </button>
         <button (click)="sendData()" mat-button matStepperNext>
           SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
         </button>

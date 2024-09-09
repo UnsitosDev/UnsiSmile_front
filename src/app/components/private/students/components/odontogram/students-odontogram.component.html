@@ -56,10 +56,18 @@
         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
       ></textarea>
     </div>
-    <br /><br />
-    <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
-      <button color="primary" (click)="store()">Siguiente</button>
-    </div>
+    <div>
   </div>
-  <br /><br />
+</div>
+
+
+<div class="button-container">
+  <div>
+    <button  type="button" (click)="previousTab()" mat-button matStepperNext>
+      <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR 
+    </button>
+  </div>
+  <button type="button" (click)="store()" mat-button matStepperNext>
+    SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
+  </button>
 </div>

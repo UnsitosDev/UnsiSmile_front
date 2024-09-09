@@ -74,7 +74,7 @@ export interface DialogData {
     FormLaboratoryStudyAndBiopsyComponent,
     FormMedicalConsultationComponent,
     CardPatientDataComponent
-],
+  ],
 })
 export class StudentsGeneralHistoryComponent implements OnInit {
 
@@ -146,7 +146,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   }
 
   radiographicAnalysisEvent(event: boolean) {
-    this.radiographicAnalysis  = event;
+    this.radiographicAnalysis = event;
   }
 
   studyModelsAndPhotographsEvent(event: boolean) {
@@ -164,6 +164,12 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   recibirTab() {
     this.irSiguienteTab();
   }
+
+  prevTab() {
+    this.previousTab();
+  }
+
+
 
   nextpage: boolean = true;
   constructor(private router: ActivatedRoute) { }
@@ -195,21 +201,21 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       })
       .subscribe({
         next: (data) => {
-          this.patient = data; 
-  
+          this.patient = data;
+
           // obtener datos del paciente
           const { person, address, admissionDate } = data;
           const { firstName, secondName, firstLastName, secondLastName, gender, birthDate, phone, email, curp } = person;
-  
+
           // Formatear la fecha de nacimiento
           const formattedBirthDate = this.formatDate(birthDate);
-          
+
           // Asignar año, mes y día
           const birthDateObj = new Date(birthDate);
           this.year = birthDateObj.getFullYear();
           this.month = birthDateObj.getMonth() + 1; // getMonth() devuelve el mes (0-11), sumamos 1 para obtener el mes (1-12)
           this.day = birthDateObj.getDate();
-  
+
           // Crear un resumen del paciente
           const summary: PatientSummary = {
             fullName: this.getFullName(firstName, secondName, firstLastName, secondLastName),
@@ -221,7 +227,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
             admissionDate: this.formatDate(admissionDate),
             curp: curp
           };
-  
+
           // Agregar el resumen a la lista
           this.patientSummary.push(summary);
         },
@@ -230,12 +236,12 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         },
       });
   }
-  
+
   // Método auxiliar para obtener el nombre completo
   private getFullName(firstName: string, secondName: string, firstLastName: string, secondLastName: string): string {
     return `${firstName} ${secondName} ${firstLastName} ${secondLastName}`.trim();
   }
-  
+
   // Método auxiliar para formatear la dirección
   private formatAddress(address: any): string {
     const { street } = address;
@@ -261,6 +267,12 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   irSiguienteTab() {
     if (this.tabGroup) {
       this.tabGroup.selectedIndex = (this.tabGroup.selectedIndex ?? 0) + 1;
+    }
+  }
+
+  previousTab() {
+    if (this.tabGroup) {
+      this.tabGroup.selectedIndex = Math.max((this.tabGroup.selectedIndex ?? 0) - 1, 0);
     }
   }
 }

@@ -123,4 +123,16 @@ export class StudentsOdontogramComponent implements OnInit {
     this.nextTab();
     this.emitNextTabEvent();
   }
+
+  sendData() {
+    this.nextTab();
+    this.emitNextTabEvent();
+  }
+
+  currentTabIndex: number = 0; // Índice del tab actual
+  @Output() previousMatTab = new EventEmitter<number>();
+  previousTab() {
+      this.currentTabIndex = Math.max(this.currentTabIndex - 1, 0); // Decrementa el índice, asegurando que no sea menor que 0
+      this.previousMatTab.emit(this.currentTabIndex); // Emite el índice del tab anterior
+  }
 }

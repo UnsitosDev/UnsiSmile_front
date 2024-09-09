@@ -11,48 +11,48 @@
         <app-history-vital-signs (nextTabEventEmitted)="facialExamEvent($event)" (nextMatTab)="recibirTab()"></app-history-vital-signs>
     </mat-tab>
     <mat-tab  label="Examen Facial" [disabled]="facialExam">    
-         <app-history-facial-exam (nextTabEventEmitted)="familyMedicalHistoryEvent($event)" (nextMatTab)="recibirTab()"></app-history-facial-exam>
+         <app-history-facial-exam (nextTabEventEmitted)="familyMedicalHistoryEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-history-facial-exam>
     </mat-tab>
     <mat-tab label="Antecedentes Heredofamiliares" [disabled]="familyMedicalHistory">
-        <app-history-family-history (nextTabEventEmitted)="personalNonPathologicalHistoryEvent($event)" (nextMatTab)="recibirTab()" ></app-history-family-history>
+        <app-history-family-history (nextTabEventEmitted)="personalNonPathologicalHistoryEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-history-family-history>
     </mat-tab>
     <mat-tab label="Antecedentes Personales no Patologicos" [disabled]="personalNonPathologicalHistory">
-        <app-no-pathological-personal-history (nextTabEventEmitted)="personalPathologicalHistoryEvent($event)" (nextMatTab)="recibirTab()"></app-no-pathological-personal-history>
+        <app-no-pathological-personal-history (nextTabEventEmitted)="personalPathologicalHistoryEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-no-pathological-personal-history>
     </mat-tab>
     <mat-tab label="Antecedentes Personales Patologicos" [disabled]="personalPathologicalHistory" >
-        <app-pathological-personal-history (nextTabEventEmitted)="initialOntogramEvent($event)" (nextMatTab)="recibirTab()"></app-pathological-personal-history>
+        <app-pathological-personal-history (nextTabEventEmitted)="initialOntogramEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-pathological-personal-history>
     </mat-tab>
     <mat-tab label="Odontograma Inicial" [disabled]="initialOntogram">
-        <app-students-odontogram (nextTabEventEmitted)="finalOntogramEvent($event)" (nextMatTab)="recibirTab()"></app-students-odontogram>
+        <app-students-odontogram (nextTabEventEmitted)="finalOntogramEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-students-odontogram>
     </mat-tab>
     <mat-tab label="Odontograma Final" [disabled]="finalOntogram">
-        <app-students-odontogram (nextTabEventEmitted)="initialBagMeasurementEvent($event)" (nextMatTab)="recibirTab()"></app-students-odontogram>
+        <app-students-odontogram (nextTabEventEmitted)="initialBagMeasurementEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-students-odontogram>
     </mat-tab>
     <mat-tab label="Medicion de Bolsas Inicial" >
-        <app-history-initial-bag (nextTabEventEmitted)="evaluationEvent($event)" (nextMatTab)="recibirTab()"></app-history-initial-bag>
+        <app-history-initial-bag (nextTabEventEmitted)="evaluationEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-history-initial-bag>
     </mat-tab>
     <mat-tab label="Examen clinico" [disabled]="evaluation">
-        <app-clinical-exam (nextTabEventEmitted)="functionalAnalysisEvent($event)" (nextMatTab)="recibirTab()"></app-clinical-exam>
+        <app-clinical-exam (nextTabEventEmitted)="functionalAnalysisEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-clinical-exam>
     </mat-tab>
     <mat-tab label="Analisis Funcional" [disabled]="functionalAnalysis">
-        <app-form-functional-analisis (nextTabEventEmitted)="patientPostureEvent($event)" (nextMatTab)="recibirTab()"></app-form-functional-analisis>
+        <app-form-functional-analisis (nextTabEventEmitted)="patientPostureEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-form-functional-analisis>
     </mat-tab>
     <mat-tab label="Postura del paciente" [disabled]="patientPosture">
-        <app-form-patient-posture (nextTabEventEmitted)="oralExamEvent($event)" (nextMatTab)="recibirTab()"></app-form-patient-posture>
+        <app-form-patient-posture (nextTabEventEmitted)="oralExamEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-form-patient-posture>
     </mat-tab>
     <mat-tab label="Examen Bucal" [disabled]="oralExam">
-        <app-form-bucal-exam (nextTabEventEmitted)="radiographicAnalysisEvent($event)" (nextMatTab)="recibirTab()"></app-form-bucal-exam>
+        <app-form-bucal-exam (nextTabEventEmitted)="radiographicAnalysisEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-form-bucal-exam>
     </mat-tab>
     <mat-tab label="Analisis Radiografico" [disabled]="radiographicAnalysis">
-        <app-form-radiographic-analysis (nextTabEventEmitted)="studyModelsAndPhotographsEvent($event)" (nextMatTab)="recibirTab()"></app-form-radiographic-analysis>
+        <app-form-radiographic-analysis (nextTabEventEmitted)="studyModelsAndPhotographsEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-form-radiographic-analysis>
     </mat-tab>
     <mat-tab label="Modelos de estudio y fotografias" [disabled]="studyModelsAndPhotographs">
-        <app-form-study-models-and-photographs (nextTabEventEmitted)="laboratoryStudiesEvent($event)" (nextMatTab)="recibirTab()"></app-form-study-models-and-photographs>
+        <app-form-study-models-and-photographs (nextTabEventEmitted)="laboratoryStudiesEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-form-study-models-and-photographs>
     </mat-tab>
     <mat-tab label="Estudio de Laboratorio/Biopsia" [disabled]="laboratoryStudies">
-        <app-form-laboratory-study-and-biopsy (nextTabEventEmitted)="medicalConsultationEvent($event)" (nextMatTab)="recibirTab()"></app-form-laboratory-study-and-biopsy>
+        <app-form-laboratory-study-and-biopsy (nextTabEventEmitted)="medicalConsultationEvent($event)" (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-form-laboratory-study-and-biopsy>
     </mat-tab>
     <mat-tab label="Interconsulta Medica" [disabled]="medicalConsultation">
-        <app-form-medical-consultation (nextMatTab)="recibirTab()"></app-form-medical-consultation>
+        <app-form-medical-consultation (nextMatTab)="recibirTab()" (previousMatTab)="prevTab()"></app-form-medical-consultation>
     </mat-tab>
 </mat-tab-group>

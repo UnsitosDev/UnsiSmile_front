@@ -66,8 +66,9 @@ export class personalPathologicalHistoryFormService {
 
     private noPersonalPathologicalHistoryFields: FormField[] = [
         {
-            type: "inputNumber",
+            type: "input",
             label: "Horas que duerme al día",
+            typeInput: 'number',
             name: "sleepHours",
             required: true,
             validators: [Validators.required],
@@ -78,8 +79,9 @@ export class personalPathologicalHistoryFormService {
             value: ""
         },
         {
-            type: "inputNumber",
+            type: "input",
             label: "Cuántas veces a la semana se baña",
+            typeInput: 'number',
             name: "bathingFrequency",
             required: true,
             validators: [Validators.required],
@@ -90,8 +92,9 @@ export class personalPathologicalHistoryFormService {
             value: ""
         },
         {
-            type: "inputNumber",
+            type: "input",
             label: "Cuántas veces al día cepilla sus dientes",
+            typeInput: 'number',
             name: "teethBrushingFrequency",
             required: true,
             validators: [Validators.required],

@@ -73,6 +73,9 @@ export class HistoryFacialExamComponent implements OnInit {
     return this.formGroup.get(fieldName)?.value;
   }
 
+  prev(){
+    this.previousTab();
+  }
   postFacialExam(){
     this.nextTab();
     this.emitNextTabEvent();
@@ -86,5 +89,12 @@ export class HistoryFacialExamComponent implements OnInit {
   @Output() nextMatTab = new EventEmitter<number>();
   nextTab() {
     this.nextMatTab.emit(0);
+  }
+
+  currentTabIndex: number = 0; // Índice del tab actual
+  @Output() previousMatTab = new EventEmitter<number>();
+  previousTab() {
+      this.currentTabIndex = Math.max(this.currentTabIndex - 1, 0); // Decrementa el índice, asegurando que no sea menor que 0
+      this.previousMatTab.emit(this.currentTabIndex); // Emite el índice del tab anterior
   }
 }
