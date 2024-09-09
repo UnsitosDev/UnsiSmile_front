@@ -1,5 +1,5 @@
 @for (item of patientSummary; track $index) {
-    <mat-card appearance="outlined">
+    <mat-card appearance="outlined" class="fondo">
         <mat-card-title><strong>DATOS DEL PACIENTE</strong></mat-card-title>             
         <mat-card-content>
             <div class="mx-8">
@@ -48,7 +48,7 @@
 <br>
 
 <mat-card-title><strong>HISTORIA CLÍNICA GENERAL</strong></mat-card-title>             
-<mat-tab-group mat-stretch-tabs class="bg-white border border-gray-300 rounded">
+<mat-tab-group mat-stretch-tabs class="bg-white border-gray-100 rounded fondo">
     <mat-tab label="Signos Vitales">
         <app-history-vital-signs (nextTabEventEmitted)="facialExamEvent($event)" (nextMatTab)="recibirTab()"></app-history-vital-signs>
     </mat-tab>
