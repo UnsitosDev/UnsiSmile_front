@@ -1,48 +1,26 @@
+<mat-stepper class="fondo" linear #stepper>
+  <mat-step>
 
-  <mat-stepper class="fondo" linear #stepper>
-    <mat-step>
-  
-      <form [formGroup]="formGroup">
-        
-        <ng-template matStepLabel>DATOS PERSONALES</ng-template>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          @for (field of student; track $index) {
-            <app-field-component
-              [field]="field"
-              [formGroup]="formGroup"
-              [errors]="field.errorMessages"
-              [fieldValue]="getFieldValue(field.name)"
-            >
-            </app-field-component>
-            }    
-        </div>
+    <form [formGroup]="formGroup">
+
+      <ng-template matStepLabel>DATOS PERSONALES</ng-template>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        @for (field of student; track $index) {
+        <app-field-component 
+         [field]="field"
+         [formGroup]="formGroup" 
+         [errors]="field.errorMessages"
+         [fieldValue]="getFieldValue(field.name)">
+        </app-field-component>
+        }
+      </div>
+      <div class="button-container">
+        <div></div>
         <div class="button-container">
-          <div></div>
-          <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+          <button mat-flat-button color="primary" (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
         </div>
-      </form>
-    </mat-step>
-  
-    <mat-step>
-      <form [formGroup]="formGroup">
-        <ng-template matStepLabel>CUENTA</ng-template>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          @for (field of accountStudent; track $index) {
-            <app-field-component
-              [field]="field"
-              [formGroup]="formGroup"
-              [errors]="field.errorMessages"
-              [fieldValue]="getFieldValue(field.name)"
-            >
-            </app-field-component>
-            }
-        </div>
-        <div class="button-container">
-          <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
-          <button mat-flat-button color="primary">GUARDAR <i class="fas fa-save"></i></button>
-        </div>
-      </form>
-    </mat-step>
-  </mat-stepper>
-  
-  
+      </div>
+    </form>
+  </mat-step>
+</mat-stepper>
+

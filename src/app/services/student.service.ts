@@ -53,6 +53,13 @@ export class studentService {
         },
         {
             type: 'input',
+            label: 'Matrícula',
+            name: 'enrollment',
+            required: true,
+           
+        },
+        {
+            type: 'input',
             label: 'CURP',
             name: 'curp',
             required: true,
@@ -106,28 +113,6 @@ export class studentService {
         },
     ];
 
-    private accountDataFields: FormField[] = [
-        {
-            type: 'input',
-            label: 'Nombre de usuario',
-            name: 'username',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Primer Nombre es requerido.'
-            }
-        },
-        {
-            type: 'input',
-            label: 'Contraseña',
-            name: 'password',
-            required: true,
-            errorMessages: {
-                required: 'El campo Segundo Nombre es requerido.'
-            }
-        }
-    ];
-
 
     // Eventos
 
@@ -147,8 +132,4 @@ export class studentService {
         return this.personalDataFields;
     }
     
-      // Formularios
-      getaccountDataFields(): FormField[] {
-        return this.accountDataFields;
-    }
 }

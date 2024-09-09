@@ -75,6 +75,10 @@ const routes: Routes = [
         path: 'addStudient',
         component: FormInsertStudentComponent,
       },
+      {
+        path: 'addPatient',
+        component: FormPatientPersonalDataComponent
+      }, 
     ]
 
   },
