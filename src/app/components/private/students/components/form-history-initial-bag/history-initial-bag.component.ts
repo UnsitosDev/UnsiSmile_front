@@ -1,11 +1,12 @@
 
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, MatCardModule],
   templateUrl: './history-initial-bag.component.html',
   styleUrl: './history-initial-bag.component.scss',
 })
@@ -37,9 +38,6 @@ export class HistoryInitialBagComponent {
 
     this.registros.push(registro); // Almacenar el objeto en el arreglo de registros
     this.Coordenadas = [...this.registros]; // Asignar el arreglo de registros al arreglo de coordenadas
-
-    console.log('Registro agregado:', registro);
-    console.log('Coordenadas:', this.Coordenadas);
   }
 
   getColumnLabel(index: number): string {

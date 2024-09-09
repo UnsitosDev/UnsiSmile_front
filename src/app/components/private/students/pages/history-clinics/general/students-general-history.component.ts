@@ -224,7 +224,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
             admissionDate: this.formatDate(data.admissionDate),
             curp: data.person.curp
           };
-          console.log(data)
 
           this.patientSummary.push(summary);
         },

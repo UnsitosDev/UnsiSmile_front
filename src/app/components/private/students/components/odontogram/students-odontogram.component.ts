@@ -39,7 +39,6 @@ export class StudentsOdontogramComponent implements OnInit {
 
   ngOnInit() {
     this.odontogramData.getToothCondition().subscribe((options) => {
-      console.log('options: ', options);
       this.toolbar = { options: options };
     });
 

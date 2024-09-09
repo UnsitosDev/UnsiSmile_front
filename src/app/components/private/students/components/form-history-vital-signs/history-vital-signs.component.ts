@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PatientService } from 'src/app/services/patient/patient.service';
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
-import { VitalSignsFormService } from 'src/app/services/history-clinics/general/general.service';
+import { VitalSignsFormService } from 'src/app/services/history-clinics/general/vitalSigns.service';
 import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
 
 

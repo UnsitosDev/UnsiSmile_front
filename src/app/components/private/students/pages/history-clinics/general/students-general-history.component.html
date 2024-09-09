@@ -1,7 +1,6 @@
 @for (item of patientSummary; track $index) {
     <mat-card appearance="outlined">
         <mat-card-title><strong>DATOS DEL PACIENTE</strong></mat-card-title>             
-
         <mat-card-content>
             <div class="mx-8">
                 <br>
@@ -18,8 +17,7 @@
                         </div>
                         <div>
                             <i class="far fa-calendar"></i>&nbsp; Fecha de Nacimiento - {{item.birthDate}}
-                        </div> 
-                              
+                        </div>                  
                     </div>
                     <div>
                         <div>
@@ -50,7 +48,6 @@
 <br>
 
 <mat-card-title><strong>HISTORIA CLÍNICA GENERAL</strong></mat-card-title>             
-
 <mat-tab-group mat-stretch-tabs class="bg-white border border-gray-300 rounded">
     <mat-tab label="Signos Vitales">
         <app-history-vital-signs (nextTabEventEmitted)="facialExamEvent($event)" (nextMatTab)="recibirTab()"></app-history-vital-signs>
@@ -73,7 +70,7 @@
     <mat-tab label="Odontograma Final" [disabled]="finalOntogram">
         <app-students-odontogram (nextTabEventEmitted)="initialBagMeasurementEvent($event)" (nextMatTab)="recibirTab()"></app-students-odontogram>
     </mat-tab>
-    <mat-tab label="Medicion de Bolsas Inicial" [disabled]="initialBagMeasurement">
+    <mat-tab label="Medicion de Bolsas Inicial" >
         <app-history-initial-bag (nextTabEventEmitted)="evaluationEvent($event)" (nextMatTab)="recibirTab()"></app-history-initial-bag>
     </mat-tab>
     <mat-tab label="Examen clinico" [disabled]="evaluation">

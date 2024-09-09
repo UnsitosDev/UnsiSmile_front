@@ -4,10 +4,15 @@ import { FieldComponentComponent } from 'src/app/shared/components/field-compone
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { MatButtonModule } from '@angular/material/button';
 import { radiographicAnalisisService } from 'src/app/services/history-clinics/general/radiographicAnalisis.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+
 @Component({
   selector: 'app-form-radiographic-analysis',
   standalone: true,
-  imports: [ReactiveFormsModule,FieldComponentComponent,MatButtonModule],
+  imports: [ReactiveFormsModule,FieldComponentComponent,MatButtonModule, MatFormFieldModule, MatInputModule,MatIconModule],
   templateUrl: './form-radiographic-analysis.component.html',
   styleUrl: './form-radiographic-analysis.component.scss'
 })

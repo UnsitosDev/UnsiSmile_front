@@ -1,249 +1,238 @@
-<br />
-<div class="mx-4 mb-8">
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <h1>VESTIBULARES SUPERIORES</h1>
-    <table
-      class="w-full text-sm text-left rtl:text-right text-black border-collapse"
-      >
-      <thead>
-        <tr>
-          <th class="border border-gray-400"></th>
-          @for (item of etiquetasColumnasDerecha; track $index) {
-            <ng-container>
-              <th class="border border-gray-400">1 <br />{{ item }}</th>
-            </ng-container>
-          }
-          <th class="border border-gray-400"></th>
-          <!-- Columna adicional -->
-          @for (item of etiquetasColumnasIzquierda; track $index) {
-            <ng-container>
-              <th class="border border-gray-400">2 <br />{{ item }}</th>
-            </ng-container>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (fila of filasDatos; track fila; let i = $index) {
-          <tr class="border border-gray-400">
-            {{
-            fila
-            }}
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-400"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-            <!-- Columna adicional -->
-            <td
-              class="border border-gray-400"
-              (input)="onCellInput($event, i, 'additional')"
-              >
-              {{ columnasAdicionales[i] }}
-            </td>
-            <!-- Fin de la columna adicional -->
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-400"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <br />
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <h1>PALATINAS</h1>
-    <table
-      class="w-full text-sm text-left rtl:text-right text-black border-collapse"
-      >
-      <thead>
-        <tr>
-          <th class="border border-gray-400"></th>
-          @for (item of etiquetasColumnasDerecha; track $index) {
-            <ng-container>
-              <th class="border border-gray-400">1 <br />{{ item }}</th>
-            </ng-container>
-          }
-          <th class="border border-gray-400"></th>
-          <!-- Columna adicional -->
-          @for (item of etiquetasColumnasIzquierda; track $index) {
-            <ng-container>
-              <th class="border border-gray-400">2 <br />{{ item }}</th>
-            </ng-container>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (fila of filasDatos; track fila; let i = $index) {
-          <tr class="border border-gray-400">
-            {{
-            fila
-            }}
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-400"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-            <!-- Columna adicional -->
-            <td
-              class="border border-gray-400"
-              (input)="onCellInput($event, i, 'additional')"
-              >
-              {{ columnasAdicionales[i] }}
-            </td>
-            <!-- Fin de la columna adicional -->
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-400"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <br />
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <h1>VESTIBULARES INFERIORES</h1>
-    <table
-      class="w-full text-sm text-left rtl:text-right text-black border-collapse"
-      >
-      <thead>
-        <tr>
-          <th class="border border-gray-400"></th>
-          @for (item of etiquetasColumnasDerecha; track $index) {
-            <ng-container>
-              <th class="border border-gray-400">1 <br />{{ item }}</th>
-            </ng-container>
-          }
-          <th class="border border-gray-400"></th>
-          <!-- Columna adicional -->
-          @for (item of etiquetasColumnasIzquierda; track $index) {
-            <ng-container>
-              <th class="border border-gray-400">2 <br />{{ item }}</th>
-            </ng-container>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (fila of filasDatos; track fila; let i = $index) {
-          <tr class="border border-gray-400">
-            {{
-            fila
-            }}
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-400"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-            <!-- Columna adicional -->
-            <td
-              class="border border-gray-400"
-              (input)="onCellInput($event, i, 'additional')"
-              >
-              {{ columnasAdicionales[i] }}
-            </td>
-            <!-- Fin de la columna adicional -->
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-400"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <br />
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <h1>LINGUALES</h1>
-    <table
-      class="w-full text-sm text-left rtl:text-right text-black border-collapse"
-      >
-      <thead>
-        <tr>
-          <th class="border border-gray-400"></th>
-          @for (item of etiquetasColumnasDerecha; track $index) {
-            <ng-container>
-              <th class="border border-gray-400">1 <br />{{ item }}</th>
-            </ng-container>
-          }
-          <th class="border border-gray-400"></th>
-          <!-- Columna adicional -->
-          @for (item of etiquetasColumnasIzquierda; track $index) {
-            <ng-container>
-              <th class="border border-gray-400">2 <br />{{ item }}</th>
-            </ng-container>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (fila of filasDatos; track fila; let i = $index) {
-          <tr class="border border-gray-400">
-            {{
-            fila
-            }}
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-400"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-            <!-- Columna adicional -->
-            <td
-              class="border border-gray-400"
-              (input)="onCellInput($event, i, 'additional')"
-              >
-              {{ columnasAdicionales[i] }}
-            </td>
-            <!-- Fin de la columna adicional -->
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-400"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <br /><br />
 
-  <div class="mx-4 mt-10">
-    <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
-      <button (click)="sendData()" mat-raised-button color="primary">Siguiente</button>
-    </div>
+<div class="mx-8 pb-8 mt-4">
+    <mat-card-title>VESTIBULARES SUPERIORES</mat-card-title>    
+             
+    <table class="w-full">
+
+      <thead>
+        <tr>
+          <th class="border border-gray-300"></th>
+          @for (item of etiquetasColumnasDerecha; track $index) {
+            <ng-container>
+              <th class="border border-gray-300">1 <br />{{ item }}</th>
+            </ng-container>
+          }
+          <th class="border border-gray-300"></th>
+          <!-- Columna adicional -->
+          @for (item of etiquetasColumnasIzquierda; track $index) {
+            <ng-container>
+              <th class="border border-gray-300">2 <br />{{ item }}</th>
+            </ng-container>
+          }
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (fila of filasDatos; track fila; let i = $index) {
+          <tr class="border border-gray-300">
+            {{
+            fila
+            }}
+            @for (
+              etiqueta of etiquetasColumnasDerecha; track
+              etiqueta; let colIndex = $index) {
+              <td
+                class="border border-gray-300"
+                contenteditable="true"
+                (input)="onCellInput($event, i, colIndex)"
+              ></td>
+            }
+            <!-- Columna adicional -->
+            <td
+              class="border border-gray-300"
+              (input)="onCellInput($event, i, 'additional')"
+              >
+              {{ columnasAdicionales[i] }}
+            </td>
+            <!-- Fin de la columna adicional -->
+            @for (
+              etiqueta of etiquetasColumnasDerecha; track
+              etiqueta; let colIndex = $index) {
+              <td
+                class="border border-gray-300"
+                contenteditable="true"
+                (input)="onCellInput($event, i, colIndex)"
+              ></td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+
+  
+    <mat-card-title>PALATINAS</mat-card-title>             
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th class="border border-gray-300"></th>
+          @for (item of etiquetasColumnasDerecha; track $index) {
+            <ng-container>
+              <th class="border border-gray-300">1 <br />{{ item }}</th>
+            </ng-container>
+          }
+          <th class="border border-gray-300"></th>
+          <!-- Columna adicional -->
+          @for (item of etiquetasColumnasIzquierda; track $index) {
+            <ng-container>
+              <th class="border border-gray-300">2 <br />{{ item }}</th>
+            </ng-container>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (fila of filasDatos; track fila; let i = $index) {
+          <tr class="border border-gray-300">
+            {{
+            fila
+            }}
+            @for (
+              etiqueta of etiquetasColumnasDerecha; track
+              etiqueta; let colIndex = $index) {
+              <td
+                class="border border-gray-300"
+                contenteditable="true"
+                (input)="onCellInput($event, i, colIndex)"
+              ></td>
+            }
+            <!-- Columna adicional -->
+            <td
+              class="border border-gray-300"
+              (input)="onCellInput($event, i, 'additional')"
+              >
+              {{ columnasAdicionales[i] }}
+            </td>
+            <!-- Fin de la columna adicional -->
+            @for (
+              etiqueta of etiquetasColumnasDerecha; track
+              etiqueta; let colIndex = $index) {
+              <td
+                class="border border-gray-300"
+                contenteditable="true"
+                (input)="onCellInput($event, i, colIndex)"
+              ></td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <mat-card-title>VESTIBULARES INFERIORES</mat-card-title>             
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th class="border border-gray-300"></th>
+          @for (item of etiquetasColumnasDerecha; track $index) {
+            <ng-container>
+              <th class="border border-gray-300">1 <br />{{ item }}</th>
+            </ng-container>
+          }
+          <th class="border border-gray-300"></th>
+          <!-- Columna adicional -->
+          @for (item of etiquetasColumnasIzquierda; track $index) {
+            <ng-container>
+              <th class="border border-gray-300">2 <br />{{ item }}</th>
+            </ng-container>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (fila of filasDatos; track fila; let i = $index) {
+          <tr class="border border-gray-300">
+            {{
+            fila
+            }}
+            @for (
+              etiqueta of etiquetasColumnasDerecha; track
+              etiqueta; let colIndex = $index) {
+              <td
+                class="border border-gray-300"
+                contenteditable="true"
+                (input)="onCellInput($event, i, colIndex)"
+              ></td>
+            }
+            <!-- Columna adicional -->
+            <td
+              class="border border-gray-300"
+              (input)="onCellInput($event, i, 'additional')"
+              >
+              {{ columnasAdicionales[i] }}
+            </td>
+            <!-- Fin de la columna adicional -->
+            @for (
+              etiqueta of etiquetasColumnasDerecha; track
+              etiqueta; let colIndex = $index) {
+              <td
+                class="border border-gray-300"
+                contenteditable="true"
+                (input)="onCellInput($event, i, colIndex)"
+              ></td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <mat-card-title>LINGUALES</mat-card-title>             
+
+     <table  class="w-full">
+      <thead>
+        <tr>
+          <th class="border border-gray-300"></th>
+          @for (item of etiquetasColumnasDerecha; track $index) {
+            <ng-container>
+              <th class="border border-gray-300">1 <br />{{ item }}</th>
+            </ng-container>
+          }
+          <th class="border border-gray-300"></th>
+          <!-- Columna adicional -->
+          @for (item of etiquetasColumnasIzquierda; track $index) {
+            <ng-container>
+              <th class="border border-gray-300">2 <br />{{ item }}</th>
+            </ng-container>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (fila of filasDatos; track fila; let i = $index) {
+          <tr class="border border-gray-300">
+            {{
+            fila
+            }}
+            @for (
+              etiqueta of etiquetasColumnasDerecha; track
+              etiqueta; let colIndex = $index) {
+              <td
+                class="border border-gray-300"
+                contenteditable="true"
+                (input)="onCellInput($event, i, colIndex)"
+              ></td>
+            }
+            <!-- Columna adicional -->
+            <td
+              class="border border-gray-300"
+              (input)="onCellInput($event, i, 'additional')"
+              >
+              {{ columnasAdicionales[i] }}
+            </td>
+            <!-- Fin de la columna adicional -->
+            @for (
+              etiqueta of etiquetasColumnasDerecha; track
+              etiqueta; let colIndex = $index) {
+              <td
+                class="border border-gray-300"
+                contenteditable="true"
+                (input)="onCellInput($event, i, colIndex)"
+              ></td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+
+  <div class="button-container">
+    <div></div>
+    <button (click)="sendData()" mat-button matStepperNext>
+      SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
+    </button>
   </div>
 </div>

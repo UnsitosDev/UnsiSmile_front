@@ -34,7 +34,6 @@ export class HistoryFamilyHistoryComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.questionData = response;
-          console.log('QUESTION', this.questionData)
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
