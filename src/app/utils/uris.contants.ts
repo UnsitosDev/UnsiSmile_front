@@ -123,6 +123,8 @@ export class UriConstants {
     public static readonly GET_STUDENTS = basePath + '/students'
 
 
+    public static readonly POST_ADMIN = basePath + '/administrators'
+
     // vital-signs-controller
     public static readonly GETID_VITAL_SIGNS = basePath + '/medical-histories/vital-signs/{id}'
     public static readonly GET_VITAL_SIGNS = basePath + '/medical-histories/vital-signs'
