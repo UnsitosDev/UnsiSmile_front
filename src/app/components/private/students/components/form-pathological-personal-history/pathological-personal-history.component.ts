@@ -44,6 +44,7 @@ export class PathologicalPersonalHistoryComponent implements OnInit {
       );
     });
   }
+  
   getFieldValue(fieldName: string) {
     return this.formGroup.get(fieldName)?.value;
   }

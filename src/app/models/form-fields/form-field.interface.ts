@@ -20,6 +20,7 @@ export interface FormField {
     options?: FormFieldOption[]; // Opcional para campos select
     validators?: ValidatorFn[]; // Validadores personalizados
     value?: any;
+    typeInput?: string;
     placeholder?: string;
     errorMessages?: { [key: string]: string };
     fields?: FormField[]; // Campos anidados para 'group'

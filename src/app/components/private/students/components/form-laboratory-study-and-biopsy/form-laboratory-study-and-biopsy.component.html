@@ -1,5 +1,5 @@
 <div class="mx-8 pb-8">
-    <form [formGroup]="formGroup" (click)="onSubmit()">
+    <form [formGroup]="formGroup">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
         @for (field of laboratoryStudyAndBiopsyFields; track $index) {
         <app-field-component
@@ -13,7 +13,7 @@
       </div>
       <div class="button-container">
         <div></div>
-        <button type="submit" mat-button matStepperNext>
+        <button type="button" (click)="onSubmit()" mat-button matStepperNext>
           SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
         </button>
       </div>
