@@ -1,33 +1,39 @@
-<!-- app-header.component.html -->
-<div class="flex items-center justify-between h-16 bg-white border-b border-gray-200">
+<div class="header-container  flex items-center justify-between h-16 ">
   <!-- Sección izquierda con botón de menú y campo de búsqueda -->
-  <div class="flex items-center px-4">
-    <button (click)="toggleSidebar()" class="text-gray-500 focus:outline-none focus:text-gray-700">
+  <div class="header-left flex items-center px-4">
+    <button (click)="toggleSidebar()" class="menu-button focus:outline-none">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
-    <input class="mx-4 w-full border rounded-md px-4 py-2" type="text" placeholder="Buscar">
   </div>
-  
+
   <!-- Sección derecha con otro botón (posiblemente para alguna acción específica) -->
-  <div class="flex items-center pr-4">
-    <button class="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700" [matMenuTriggerFor]="menu" type="button"
-    class="inline-flex items-center relative px-2 border rounded-full hover:shadow-lg">
+  <div class="header-right flex items-center pr-4">
+    <button (click)="toggleTheme()" class="theme-toggle-button">
+      <!-- Imagen del sol para el tema claro -->
+      <img *ngIf="!isDarkTheme" src="assets/icons/sol.png" alt="Tema claro" class="icon" />
+    
+      <!-- Imagen de la luna para el tema oscuro -->
+      <img *ngIf="isDarkTheme" src="assets/icons/luna.png" alt="Tema oscuro" class="icon" />
+    </button>
+    
+
+    <button class="user-button flex items-center focus:outline-none"
+      [matMenuTriggerFor]="menu" type="button">
       <div class="block flex-grow-0 flex-shrink-0 h-10 w-12 pl-5">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-            role="presentation" focusable="false"
-            style="display: block; height: 100%; width: 100%; fill: currentcolor;">
-            <path
-                d="m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z">
-            </path>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation"
+          focusable="false" style="display: block; height: 100%; width: 100%; fill: currentcolor;">
+          <path
+            d="m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z">
+          </path>
         </svg>
       </div>
       <mat-menu #menu="matMenu">
-        <button (click)="logout()" mat-menu-item class="menu-button"><i class="fas fa-sign-out-alt"></i>
-            Salir
+        <button (click)="logout()" mat-menu-item class="menu-button">
+          <i class="fas fa-sign-out-alt"></i> Salir
         </button>
-    </mat-menu>
+      </mat-menu>
     </button>
   </div>
 </div>

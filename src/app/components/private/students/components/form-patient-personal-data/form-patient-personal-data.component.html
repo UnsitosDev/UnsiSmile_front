@@ -1,4 +1,4 @@
-<mat-stepper linear #stepper>
+<mat-stepper class="fondo" linear #stepper>
   <mat-step>
 
     <form [formGroup]="formGroup">
@@ -17,7 +17,7 @@
       </div>
       <div class="button-container">
         <div></div>
-        <button mat-button matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+        <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
       </div>
     </form>
   </mat-step>
@@ -37,8 +37,8 @@
         }
       </div>
       <div class="button-container">
-        <button mat-button matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
-        <button mat-button matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+        <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
+        <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
       </div>
     </form>
   </mat-step>
@@ -58,8 +58,8 @@
         }
       </div>
       <div class="button-container">
-        <button mat-button matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
-        <button mat-button (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
+        <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
+        <button mat-flat-button color="primary" (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
       </div>
     </form>
   </mat-step>

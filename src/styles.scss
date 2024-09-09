@@ -9,9 +9,42 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
   }
-  
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// Variables de colores primarios
+$primary-color: #1F2937; // Fondo de la barra lateral
+$on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
+
+// Otros colores
+$background-color: #F3F4F6; // Fondo gris claro de la sección principal
+$on-background-color: #1F2937; // Color del texto sobre el fondo claro
+
+@mixin light-theme {
+  --primary: #0A0B2B; // Fondo de la barra lateral
+  --on-primary: #f1f1f1; // Fondo del contenido principal
+  --secondary: #FFFFFF;
+  --on-secondary:#151d26;
+  --on-secondary-rgb: 21, 29, 38;
+  --tertiary: #274CA2; //botones
+  --background: #FFFFFF; // Fondo claro para la sección principal
+  --on-background: #1F2937; // Texto oscuro sobre el fondo claro
+}
+
+@mixin dark-theme {
+  --primary: #151d26; // Fondo de la barra lateral
+  --on-primary: #0C151C; // Fondo del contenido principal
+  --secondary: #151d26;
+  --on-secondary:#FFFFFF;
+  --on-secondary-rgb: 255, 255, 255; /* Valor RGB */
+  --tertiary: #274CA2; //botones
+  --background: #0C151C; // Fondo más oscuro para el tema oscuro
+  --on-background: #E5E7EB; // Texto claro sobre fondo oscuro
+}
+
+:root {
+  @include light-theme;
+}
+
+.dark-theme {
+  @include dark-theme;
+}
+

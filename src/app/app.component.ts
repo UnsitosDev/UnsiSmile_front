@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 
-
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,9 +11,12 @@ import { initFlowbite } from 'flowbite';
     RouterModule
   ]
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'odonto_front';
+
   ngOnInit(): void {
     initFlowbite();
+
+
   }
 }

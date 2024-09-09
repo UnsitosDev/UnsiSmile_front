@@ -13,3 +13,38 @@ i{
     width: 350px;
   }
   
+
+  /* Estilos específicos del div con clase "block" */
+.block {
+  background-color: var(--secondary);
+  
+}
+
+.text-on-background {
+  color: var(--on-background);
+}
+
+.input-field {
+  background-color: var(--background);
+  color: var(--on-background);
+  border: 1px solid var(--on-secondary);
+  border-radius: 0.25rem; // rounded
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.input-field::placeholder {
+  color: var(--on-background);
+}
+
+.text-red-600 {
+  color: #e53e3e; // Color rojo para el mensaje de error
+}
+
+.text{
+    color: var(--on-secondary);
+}
+
+h1 {
+    color: var(--on-secondary); // Color del título
+  }

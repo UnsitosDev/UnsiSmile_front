@@ -1,6 +1,5 @@
-button{
-    background-color: #07437a !important;
-    color: white !important;
+.fondo{
+    background: var(--secondary);
 }
 
 .button-container {
@@ -14,3 +13,7 @@ button{
     flex: 0 0 auto; /* Evita que los botones crezcan para ocupar el espacio disponible */
     margin: 0 5px; /* Espacio entre los botones */
 }
+
+::ng-deep .mat-step-header .mat-step-label {
+    color: var(--on-primary); // Usa la variable de color del tema para el texto
+  }
