@@ -74,7 +74,7 @@ export class VitalSignsFormService {
         },
         {
             type: 'input',
-            typeInput: 'number',
+            typeInput: 'text',
             label: 'Presión Arterial',
             name: 'bloodPressure',
             placeholder: 'EJ: 120/80', // Placeholder añadido

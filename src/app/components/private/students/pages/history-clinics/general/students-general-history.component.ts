@@ -19,7 +19,6 @@ import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { Dialog } from '@angular/cdk/dialog';
-import { DialogPersonalDataComponent } from '../../../components/dialog-personal-data/dialog-personal-data.component';
 import { clinicalExamComponent } from "../../../components/form-clinical-exam/form-clinical-exam.component";
 import { FormFunctionalAnalisisComponent } from "../../../components/form-functional-analisis/form-functional-analisis.component";
 import { FormPatientPostureComponent } from "../../../components/form-patient-posture/form-patient-posture.component";
@@ -28,6 +27,7 @@ import { FormRadiographicAnalysisComponent } from "../../../components/form-radi
 import { FormStudyModelsAndPhotographsComponent } from "../../../components/form-study-models-and-photographs/form-study-models-and-photographs.component";
 import { FormLaboratoryStudyAndBiopsyComponent } from "../../../components/form-laboratory-study-and-biopsy/form-laboratory-study-and-biopsy.component";
 import { FormMedicalConsultationComponent } from "../../../components/form-medical-consultation/form-medical-consultation.component";
+import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 
 
 export interface PatientSummary {
@@ -72,8 +72,9 @@ export interface DialogData {
     FormRadiographicAnalysisComponent,
     FormStudyModelsAndPhotographsComponent,
     FormLaboratoryStudyAndBiopsyComponent,
-    FormMedicalConsultationComponent
-  ],
+    FormMedicalConsultationComponent,
+    CardPatientDataComponent
+],
 })
 export class StudentsGeneralHistoryComponent implements OnInit {
 
@@ -178,15 +179,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   }
   dialog = inject(Dialog);
 
-  openDialog() {
-    this.dialog.open(DialogPersonalDataComponent, {
-      minWidth: '300px',
-      data: {
-        patient: this.patient,
-        patientSummary: this.patientSummary,
-      },
-    });
-  }
 
   @Input() idPatient: number = 0;
   public patient!: Patient;
@@ -199,36 +191,55 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   fetchPatientData() {
     this.patientService
       .getService({
-        url: `${UriConstants.GET_PATIENTS + '/' + this.id}`,
+        url: `${UriConstants.GET_PATIENTS}/${this.id}`, // Uso de plantilla literal
       })
       .subscribe({
         next: (data) => {
-          this.patient = data;
-          // Extraer year, month y day del objeto Date
-          const birthDate = new Date(this.patient.person.birthDate);
-          const year = birthDate.getFullYear();
-          const month = birthDate.getMonth() + 1; // getMonth() devuelve el mes (0-11), sumamos 1 para obtener el mes (1-12)
-          const day = birthDate.getDate();
-          // Asignar los valores a las propiedades
-          this.year = year;
-          this.month = month;
-          this.day = day;
-
+          this.patient = data; 
+  
+          // obtener datos del paciente
+          const { person, address, admissionDate } = data;
+          const { firstName, secondName, firstLastName, secondLastName, gender, birthDate, phone, email, curp } = person;
+  
+          // Formatear la fecha de nacimiento
+          const formattedBirthDate = this.formatDate(birthDate);
+          
+          // Asignar año, mes y día
+          const birthDateObj = new Date(birthDate);
+          this.year = birthDateObj.getFullYear();
+          this.month = birthDateObj.getMonth() + 1; // getMonth() devuelve el mes (0-11), sumamos 1 para obtener el mes (1-12)
+          this.day = birthDateObj.getDate();
+  
+          // Crear un resumen del paciente
           const summary: PatientSummary = {
-            fullName: `${data.person.firstName} ${data.person.secondName} ${data.person.firstLastName} ${data.person.secondLastName}`,
-            gender: data.person.gender.gender,
-            birthDate: this.formatDate(data.person.birthDate),
-            phone: data.person.phone,
-            address: `${data.address.street.name} # ${data.address.streetNumber}, ${data.address.street.neighborhood.name}, ${data.address.street.neighborhood.locality.name}, ${data.address.street.neighborhood.locality.municipality.name}, ${data.address.street.neighborhood.locality.municipality.state.name}`,
-            email: data.person.email,
-            admissionDate: this.formatDate(data.admissionDate),
-            curp: data.person.curp
+            fullName: this.getFullName(firstName, secondName, firstLastName, secondLastName),
+            gender: gender.gender,
+            birthDate: formattedBirthDate,
+            phone: phone,
+            address: this.formatAddress(address),
+            email: email,
+            admissionDate: this.formatDate(admissionDate),
+            curp: curp
           };
-
+  
+          // Agregar el resumen a la lista
           this.patientSummary.push(summary);
         },
-        error: (error) => { },
+        error: (error) => {
+          console.error('Error fetching patient data:', error);
+        },
       });
+  }
+  
+  // Método auxiliar para obtener el nombre completo
+  private getFullName(firstName: string, secondName: string, firstLastName: string, secondLastName: string): string {
+    return `${firstName} ${secondName} ${firstLastName} ${secondLastName}`.trim();
+  }
+  
+  // Método auxiliar para formatear la dirección
+  private formatAddress(address: any): string {
+    const { street } = address;
+    return `${street.name} # ${street.streetNumber}, ${street.neighborhood.name}, ${street.neighborhood.locality.name}, ${street.neighborhood.locality.municipality.name}, ${street.neighborhood.locality.municipality.state.name}`;
   }
 
   formatDate(dateArray: number[]): string {
