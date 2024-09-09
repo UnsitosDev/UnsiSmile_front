@@ -72,8 +72,8 @@ export class FormInsertAdminComponent {
     if (this.formGroup.valid) {
       const formValues = this.formGroup.value;
   
-      const studentData = {
-        employeeNumber: formValues.enrollment,  // Matrícula del estudiante
+      const AdminData = {
+        employeeNumber: formValues.employeeNumber,  // Matrícula del estudiante
         person: {
           curp: formValues.curp,
           firstName: formValues.firstName,
@@ -88,8 +88,10 @@ export class FormInsertAdminComponent {
             gender: ''  // Se podría rellenar con el valor correspondiente más adelante
           }
         },
-        guardian: null,  // Suponiendo que no hay datos de un tutor en este caso
       };
+  
+      // Imprimir en consola los datos que se enviarán
+      console.log('Datos enviados:', AdminData);
   
       this.apiService
         .postService({
@@ -97,7 +99,7 @@ export class FormInsertAdminComponent {
             'Content-Type': 'application/json',
           }),
           url: `${UriConstants.POST_ADMIN}`,  // Define la URL para el endpoint de estudiantes
-          data: studentData,
+          data: AdminData,
         })
         .subscribe({
           next: (response) => {
@@ -117,6 +119,7 @@ export class FormInsertAdminComponent {
       this.showAlert = true;
     }
   }
+  
   
   public alertConfiguration(severity: 'ERROR' | 'SUCCESS', msg: string) {
     this.alertConfig.severity = AlertModel.AlertSeverity[severity];
