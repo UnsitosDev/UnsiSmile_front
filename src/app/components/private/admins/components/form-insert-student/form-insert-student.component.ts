@@ -103,7 +103,7 @@ export class FormInsertStudentComponent {
         })
         .subscribe({
           next: (response) => {
-            this.router.navigate(['/admin']);  // Redirige después de un éxito
+            this.router.navigate(['/admin/students']);  // Redirige después de un éxito
             this.alertConfiguration('SUCCESS', "El estudiante ha sido registrado correctamente.");
             this.openAlert();
           },

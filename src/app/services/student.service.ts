@@ -56,6 +56,11 @@ export class studentService {
             label: 'Matrícula',
             name: 'enrollment',
             required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Matrícula es requerido.',
+                
+            }
            
         },
         {
