@@ -1,0 +1,26 @@
+<mat-stepper class="fondo" linear #stepper>
+  <mat-step>
+
+    <form [formGroup]="formGroup">
+
+      <ng-template matStepLabel>DATOS PERSONALES</ng-template>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        @for (field of student; track $index) {
+        <app-field-component 
+         [field]="field"
+         [formGroup]="formGroup" 
+         [errors]="field.errorMessages"
+         [fieldValue]="getFieldValue(field.name)">
+        </app-field-component>
+        }
+      </div>
+      <div class="button-container">
+        <div></div>
+        <div class="button-container">
+          <button mat-flat-button color="primary" (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
+        </div>
+      </div>
+    </form>
+  </mat-step>
+</mat-stepper>
+
