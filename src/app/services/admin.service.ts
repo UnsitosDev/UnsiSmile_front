@@ -56,6 +56,10 @@ export class adminService {
             label: 'Numero de trabajador',
             name: 'employeeNumber',
             required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Numero de trabajador es requerido.'
+            },
            
         },
         {

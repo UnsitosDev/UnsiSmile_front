@@ -36,6 +36,12 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/
         buttonDescription: 'Ver estudiantes',
         routerlink: '/admin/students'
       },
+      {
+        fontAwesomeIcon: faHospitalUser,
+        buttonText: 'Nuevo administrador',
+        buttonDescription: 'Insertar administrador',
+        routerlink: '/admin/addAdmin'
+      },
     ];
     
   
