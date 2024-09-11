@@ -7,7 +7,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
-import { studentService } from 'src/app/services/student.service';
 import { MatStep } from '@angular/material/stepper';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
@@ -17,14 +16,12 @@ import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { Router } from '@angular/router';
 import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
-
-
-
+import { adminService } from 'src/app/services/admin.service';
 
 
 
 @Component({
-  selector: 'app-form-insert-student',
+  selector: 'app-form-insert-admin',
   standalone: true,
   imports: [MatFormFieldModule,
     MatSelectModule,
@@ -33,18 +30,19 @@ import { religionRequest } from 'src/app/models/shared/patients/Religion/religio
     MatButtonModule,
     ReactiveFormsModule,
     FieldComponentComponent,MatStep,MatStepperModule,AlertComponent],
-  templateUrl: './form-insert-student.component.html',
-  styleUrl: './form-insert-student.component.scss'
+  templateUrl: './form-insert-admin.component.html',
+  styleUrl: './form-insert-admin.component.scss'
 })
-export class FormInsertStudentComponent {
+export class FormInsertAdminComponent {
+
   private apiService = inject(ApiService<religionRequest>);
   formGroup!: FormGroup;
-  student: FormField[] = [];
+  admin: FormField[] = [];
   accountStudent: FormField[]=[];
 
   constructor(
     private fb: FormBuilder,
-    private studentFields: studentService,
+    private adminFields: adminService,
     private router: Router
   ) { }
 
@@ -54,12 +52,12 @@ export class FormInsertStudentComponent {
 
   ngOnInit(): void {
     // Obtener los campos del formulario del servicio
-    this.student = this.studentFields.getPersonalDataFields();
+    this.admin = this.adminFields.getPersonalDataFields();
 
 
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
-    [...this.student].forEach(field => {
+    [...this.admin].forEach(field => {
       this.formGroup.addControl(
         field.name,
         this.fb.control(field.value || '', field.validators || [])
@@ -74,8 +72,8 @@ export class FormInsertStudentComponent {
     if (this.formGroup.valid) {
       const formValues = this.formGroup.value;
   
-      const studentData = {
-        enrollment: formValues.enrollment,  // Matrícula del estudiante
+      const AdminData = {
+        employeeNumber: formValues.employeeNumber,  // Matrícula del estudiante
         person: {
           curp: formValues.curp,
           firstName: formValues.firstName,
@@ -90,21 +88,23 @@ export class FormInsertStudentComponent {
             gender: ''  // Se podría rellenar con el valor correspondiente más adelante
           }
         },
-        guardian: null,  // Suponiendo que no hay datos de un tutor en este caso
       };
+  
+      // Imprimir en consola los datos que se enviarán
+      console.log('Datos enviados:', AdminData);
   
       this.apiService
         .postService({
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
           }),
-          url: `${UriConstants.POST_STUDENTS}`,  // Define la URL para el endpoint de estudiantes
-          data: studentData,
+          url: `${UriConstants.POST_ADMIN}`,  // Define la URL para el endpoint de estudiantes
+          data: AdminData,
         })
         .subscribe({
           next: (response) => {
-            this.router.navigate(['/admin/students']);  // Redirige después de un éxito
-            this.alertConfiguration('SUCCESS', "El estudiante ha sido registrado correctamente.");
+            this.router.navigate(['/admin']);  // Redirige después de un éxito
+            this.alertConfiguration('SUCCESS', "El administrador ha sido registrado correctamente.");
             this.openAlert();
           },
           error: (error) => {
@@ -119,6 +119,7 @@ export class FormInsertStudentComponent {
       this.showAlert = true;
     }
   }
+  
   
   public alertConfiguration(severity: 'ERROR' | 'SUCCESS', msg: string) {
     this.alertConfig.severity = AlertModel.AlertSeverity[severity];

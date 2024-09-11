@@ -23,4 +23,4 @@
     </form>
   </mat-step>
 </mat-stepper>
-
+<app-alert [singleMessage]="alertMessage" [severity]="alertSeverity" [open]="showAlert" (eventCloseToast)="showAlert = false"></app-alert>

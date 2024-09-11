@@ -18,14 +18,14 @@ import { StudentsGeneralHistoryComponent } from '../../../students/pages/history
   selector: 'app-admin-table-patients',
   standalone: true,
   imports: [TablaDataComponent, MatButtonModule, RouterLink],
-  templateUrl: './admin-table-patients.component.html',
-  styleUrl: './admin-table-patients.component.scss'
+  templateUrl: './table-patients.component.html',
+  styleUrl: './table-patients.component.scss'
 })
 export class AdminTablePatientsComponent {
   patientsList: patientsTableData[] = [];
   columnas: string[] = [];
   title: string = 'Pacientes';
-  currentPage = 1;
+  currentPage = 0;
   itemsPerPage = 10;
   private apiService = inject(ApiService<PatientResponse>);
 
@@ -42,7 +42,7 @@ export class AdminTablePatientsComponent {
 
   onPageSizeChange(newSize: number) {
     this.itemsPerPage = newSize;
-    this.currentPage = 1;  // Opcionalmente, reinicia a la primera página
+    this.currentPage = 0;  // Opcionalmente, reinicia a la primera página
     this.getPacientes(this.currentPage, this.itemsPerPage);
   }
 
@@ -54,43 +54,42 @@ export class AdminTablePatientsComponent {
 
   onAction(accion: Accion) {
     if (accion.accion == 'Editar') {
-      this.editar(accion.fila);
+      this.edit(accion.fila);
     } else if (accion.accion == 'Eliminar') {
-      this.eliminar(accion.fila.nombre);
+      this.delete(accion.fila.nombre);
     } else if (accion.accion == 'MostrarAlerta') {
-      this.mostrarAlerta();
+      this.showAlert();
     }
   }
 
   // Id paciente
-  editar(objeto: any) {
+  edit(objeto: any) {
     // console.log('osddsfsdf',objeto.patientID);
     this.router.navigate(['/students', 'historyClinic', objeto.patientID]);
   }
 
-  eliminar(nombre: string) {
+  delete(nombre: string) {
     console.log('eliminar', nombre);
   }
 
-  mostrarAlerta() {
+  showAlert() {
     alert('¡Haz clic en un icono!');
   }
 
   idPatientx: number = 0;
   patients!: Patient[];
   getPacientes(page: number, size: number) {
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.patients = response.content;
-          this.patientsList = this.patients.map((patient: Patient) => {
+    this.apiService.getService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url: `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}`, // Mantén los parámetros de paginación en la URL
+      data: {},
+    }).subscribe({
+      next: (response) => {  
+        if (Array.isArray(response.content)) {
+          // Imprimir el contenido específico de la respuesta
+          this.patientsList = response.content.map((patient: Patient) => {
             const person = patient.person;
             const medicalHistory = patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
             return {
@@ -102,11 +101,19 @@ export class AdminTablePatientsComponent {
               patientID: patient.idPatient,
             };
           });
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
+  
+        } else {
+          console.error('La respuesta no contiene un array en content.');
+        }
+      },
+      error: (error) => {
+        console.error('Error en la autenticación o en la solicitud:', error);
+        // Si la API devuelve un error específico en su cuerpo, puedes imprimirlo
+        if (error.error) {
+          console.error('Detalle del error:', error.error);
+        }
+      }
+    });
   }
   //filtar datos
 }
