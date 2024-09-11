@@ -52,7 +52,6 @@ export class SideNavComponent implements OnInit {
     if (this.user.user.role.role === 'ROLE_STUDENT') {
       this.menuItems = StudentItems;
     } else if (this.user.user.role.role === 'ROLE_ADMIN')
-      console.log("heres")
       this.menuItems = AdminItems;
     }
 }
