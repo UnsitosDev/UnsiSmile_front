@@ -5,7 +5,7 @@
   
         <ng-template matStepLabel>DATOS PERSONALES</ng-template>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          @for (field of student; track $index) {
+          @for (field of admin; track $index) {
           <app-field-component 
            [field]="field"
            [formGroup]="formGroup" 

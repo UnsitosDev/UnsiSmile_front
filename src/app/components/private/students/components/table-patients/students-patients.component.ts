@@ -25,7 +25,7 @@ export class StudentsPatientsComponent implements OnInit {
   patientsList: patientsTableData[] = [];
   columnas: string[] = [];
   title: string = 'Pacientes';
-  currentPage = 1;
+  currentPage = 0;
   itemsPerPage = 10;
   private apiService = inject(ApiService<PatientResponse>);
 
@@ -42,7 +42,7 @@ export class StudentsPatientsComponent implements OnInit {
 
   onPageSizeChange(newSize: number) {
     this.itemsPerPage = newSize;
-    this.currentPage = 1;  // Opcionalmente, reinicia a la primera página
+    this.currentPage = 0;  // Opcionalmente, reinicia a la primera página
     this.getPacientes(this.currentPage, this.itemsPerPage);
   }
 
@@ -79,18 +79,17 @@ export class StudentsPatientsComponent implements OnInit {
   idPatientx: number = 0;
   patients!: Patient[];
   getPacientes(page: number, size: number) {
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.patients = response.content;
-          this.patientsList = this.patients.map((patient: Patient) => {
+    this.apiService.getService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url: `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}`, // Mantén los parámetros de paginación en la URL
+      data: {},
+    }).subscribe({
+      next: (response) => {
+        if (Array.isArray(response.content)) {
+  
+          this.patientsList = response.content.map((patient: Patient) => {
             const person = patient.person;
             const medicalHistory = patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
             return {
@@ -102,11 +101,18 @@ export class StudentsPatientsComponent implements OnInit {
               patientID: patient.idPatient,
             };
           });
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
+          } else {
+          console.error('La respuesta no contiene un array en content.');
+        }
+      },
+      error: (error) => {
+        console.error('Error en la autenticación o en la solicitud:', error);
+        // Si la API devuelve un error específico en su cuerpo, puedes imprimirlo
+        if (error.error) {
+          console.error('Detalle del error:', error.error);
+        }
+      }
+    });
   }
   //filtar datos
 }

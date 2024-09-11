@@ -37,7 +37,7 @@ export class FormInsertAdminComponent {
 
   private apiService = inject(ApiService<religionRequest>);
   formGroup!: FormGroup;
-  student: FormField[] = [];
+  admin: FormField[] = [];
   accountStudent: FormField[]=[];
 
   constructor(
@@ -52,12 +52,12 @@ export class FormInsertAdminComponent {
 
   ngOnInit(): void {
     // Obtener los campos del formulario del servicio
-    this.student = this.adminFields.getPersonalDataFields();
+    this.admin = this.adminFields.getPersonalDataFields();
 
 
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
-    [...this.student].forEach(field => {
+    [...this.admin].forEach(field => {
       this.formGroup.addControl(
         field.name,
         this.fb.control(field.value || '', field.validators || [])
