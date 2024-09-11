@@ -38,9 +38,9 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/
       },
       {
         fontAwesomeIcon: faHospitalUser,
-        buttonText: 'Nuevo administrador',
-        buttonDescription: 'Insertar administrador',
-        routerlink: '/admin/addAdmin'
+        buttonText: 'Pacientes',
+        buttonDescription: 'Ver pacientes',
+        routerlink: '/admin/patients'
       },
     ];
     

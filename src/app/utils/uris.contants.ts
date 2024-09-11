@@ -121,6 +121,8 @@ export class UriConstants {
 
     
     public static readonly GET_STUDENTS = basePath + '/students'
+    public static readonly POST_STUDENTS = basePath + '/students'
+
 
 
     public static readonly POST_ADMIN = basePath + '/administrators'
