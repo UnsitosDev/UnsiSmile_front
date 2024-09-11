@@ -18,8 +18,8 @@ import { StudentsGeneralHistoryComponent } from '../../../students/pages/history
   selector: 'app-admin-table-patients',
   standalone: true,
   imports: [TablaDataComponent, MatButtonModule, RouterLink],
-  templateUrl: './admin-table-patients.component.html',
-  styleUrl: './admin-table-patients.component.scss'
+  templateUrl: './table-patients.component.html',
+  styleUrl: './table-patients.component.scss'
 })
 export class AdminTablePatientsComponent {
   patientsList: patientsTableData[] = [];
@@ -54,25 +54,25 @@ export class AdminTablePatientsComponent {
 
   onAction(accion: Accion) {
     if (accion.accion == 'Editar') {
-      this.editar(accion.fila);
+      this.edit(accion.fila);
     } else if (accion.accion == 'Eliminar') {
-      this.eliminar(accion.fila.nombre);
+      this.delete(accion.fila.nombre);
     } else if (accion.accion == 'MostrarAlerta') {
-      this.mostrarAlerta();
+      this.showAlert();
     }
   }
 
   // Id paciente
-  editar(objeto: any) {
+  edit(objeto: any) {
     // console.log('osddsfsdf',objeto.patientID);
     this.router.navigate(['/students', 'historyClinic', objeto.patientID]);
   }
 
-  eliminar(nombre: string) {
+  delete(nombre: string) {
     console.log('eliminar', nombre);
   }
 
-  mostrarAlerta() {
+  showAlert() {
     alert('¡Haz clic en un icono!');
   }
 

@@ -11,7 +11,7 @@ import { FormPatientPersonalDataComponent } from './components/private/students/
 import { TableStudentsComponent } from './components/private/admins/components/table-students/table-students.component';
 import { LayoutAdminComponent } from './components/private/admins/components/layout-admin/layout-admin.component';
 import { FormInsertStudentComponent } from './components/private/admins/components/form-insert-student/form-insert-student.component';
-import { AdminTablePatientsComponent } from './components/private/admins/components/admin-table-patients/admin-table-patients.component';
+import { AdminTablePatientsComponent } from './components/private/admins/components/admin-table-patients/table-patients.component';
 import { FormInsertAdminComponent } from './components/private/admins/components/form-insert-admin/form-insert-admin.component';
 
 const routes: Routes = [

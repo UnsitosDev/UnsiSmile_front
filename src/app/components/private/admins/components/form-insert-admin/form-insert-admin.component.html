@@ -1,4 +1,4 @@
-<mat-stepper class="fondo" linear #stepper>
+<mat-stepper class="background" linear #stepper>
     <mat-step>
   
       <form [formGroup]="formGroup">
@@ -23,4 +23,4 @@
       </form>
     </mat-step>
   </mat-stepper>
-  
+  <app-alert [singleMessage]="alertMessage" [severity]="alertSeverity" [open]="showAlert" (eventCloseToast)="showAlert = false"></app-alert>

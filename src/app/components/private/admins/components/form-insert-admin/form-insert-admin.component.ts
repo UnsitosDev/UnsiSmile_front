@@ -29,7 +29,7 @@ import { adminService } from 'src/app/services/admin.service';
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FieldComponentComponent,MatStep,MatStepperModule],
+    FieldComponentComponent,MatStep,MatStepperModule,AlertComponent],
   templateUrl: './form-insert-admin.component.html',
   styleUrl: './form-insert-admin.component.scss'
 })

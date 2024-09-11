@@ -32,7 +32,7 @@ import { religionRequest } from 'src/app/models/shared/patients/Religion/religio
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FieldComponentComponent,MatStep,MatStepperModule],
+    FieldComponentComponent,MatStep,MatStepperModule,AlertComponent],
   templateUrl: './form-insert-student.component.html',
   styleUrl: './form-insert-student.component.scss'
 })
