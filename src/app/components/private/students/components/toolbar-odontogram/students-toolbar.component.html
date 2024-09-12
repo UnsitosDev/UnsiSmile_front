@@ -6,7 +6,7 @@
         @for (symbol of toolbar.options; track $index) {
           @if (isNormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
-            <div class="symbol-icon" (click)="selectSymbol(symbol)">
+            <div class="symbol-icon " (click)="selectSymbol(symbol)">
               <svg width="30" height="35" viewBox="0 0 30 35">
                 <!-- Representación del diente con cinco caras -->
                 <polygon stroke="black" points="1,1 7,9 21,9 28,1" fill="none" stroke-width="0.5"/>
