@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { bloodPressureValidator } from 'src/app/utils/validators';
 
 @Injectable({
     providedIn: 'root'
@@ -79,9 +80,10 @@ export class VitalSignsFormService {
             name: 'bloodPressure',
             placeholder: 'EJ: 120/80', // Placeholder añadido
             required: true,
-            validators: [Validators.required],
+            validators: [Validators.required, bloodPressureValidator()],
             errorMessages: {
-                required: 'El campo Presión Arterial es requerido.'
+                required: 'El campo Presión Arterial es requerido.',
+                lastError: 'Formato inválido. Ejemplo: 120/80.'
             },
             value: null // Valor inicial
         },
