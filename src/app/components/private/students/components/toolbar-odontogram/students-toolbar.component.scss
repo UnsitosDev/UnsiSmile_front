@@ -40,9 +40,6 @@
   font-size: 12px;
 }
 
-.custom-text g {
-  color: var(--on-secondary);
-  background-color: var(--secondary); // Color de fondo}
-  border: 1px var(--on-secondary);
-
+.custom-text {
+  color: var(--on-secondary);  
 }

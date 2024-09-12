@@ -2,7 +2,7 @@
   <!-- Primera fila: condiciones normales -->
   <div class="row">
     <div class="col-4">
-      <h1>Código normal (azul)</h1>
+      <h1 class="custom-text">Código normal (azul)</h1>
         @for (symbol of toolbar.options; track $index) {
           @if (isNormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
@@ -79,7 +79,7 @@
                 }                               
               </div>
             </div>
-            <div class="symbol-name">{{ symbol.condition }}</div>
+            <div class="symbol-name custom-text">{{ symbol.condition }}</div>
           </div>
         }
       }
@@ -89,7 +89,7 @@
   <!-- Segunda fila: condiciones anormales -->
   <div class="row">
     <div class="col-4">
-      <h1>Código anormal (rojo)</h1>
+      <h1 class="custom-text">Código anormal (rojo)</h1>
         @for (symbol of toolbar.options; track $index) {
           @if (isAbnormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
@@ -165,7 +165,7 @@
                 }
               </div>
             </div>
-            <div class="symbol-name">{{ symbol.condition }}</div>
+            <div class="symbol-name custom-text">{{ symbol.condition }}</div>
           </div>
         }
       }
