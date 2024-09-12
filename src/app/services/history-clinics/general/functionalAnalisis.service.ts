@@ -53,9 +53,10 @@ export class functionalAnalisisService {
             value: ''
         },
         {
-            type: 'input',
+            type: 'textArea',
             label: 'Observaciones',
             name: 'observations',
+            placeholder: 'Anotar Observaciones',
             required: false, // Este campo no es obligatorio
             validators: [],
             errorMessages: {},

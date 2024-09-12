@@ -13,7 +13,7 @@ export interface InputChangeConfig {
 }
 
 export interface FormField {
-    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber';
+    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea';
     name: string;
     label: string;
     required?: boolean;

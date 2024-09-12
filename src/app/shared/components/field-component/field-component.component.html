@@ -62,6 +62,21 @@
           </mat-autocomplete>
         </mat-form-field>      
     }
+    @case ('inputFile') {
+      <div>
+        <input type="file" multiple="true" [formControlName]="field.name" class="w-full text-gray-600 text-sm border-b border-black focus:border-blue-500 py-2" />
+        <p class="text-xs text-gray-500 mt-1"> {{field.label}} en formato: {{field.placeholder}}</p>
+
+      </div>     
+    }
+    @case ('textArea') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{field.label}}</mat-label>
+        <textarea matInput [formControlName]="field.name"  [placeholder]="field.placeholder"></textarea>
+      </mat-form-field>   
+    }
+
+   
     @default {
       <p>Tipo de campo no soportado.</p>
     }
