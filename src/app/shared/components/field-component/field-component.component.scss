@@ -3,3 +3,8 @@ input:focus {
     box-shadow: none;
   }
   
+  .custom {
+    color: var(--on-secondary);
+    background-color: var(--secondary); // Color de fondo}
+  
+  }

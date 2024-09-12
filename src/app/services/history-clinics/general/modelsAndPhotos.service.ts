@@ -34,12 +34,9 @@ export class modelsAndPhotosService {
             type: 'inputFile',
             label: 'Fotografías',
             name: 'photographs',
-            placeholder: 'PNG, JPG.',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'Ingresa información sobre las fotografías.'
-            },
+            accept: 'img',
+            placeholder: 'PNG, JPG, GIF, BMP, TIFF, WEBP.',
+            required: false,
             value: ''
         },
 
