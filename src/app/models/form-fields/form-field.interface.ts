@@ -12,6 +12,13 @@ export interface InputChangeConfig {
     minLength: number;
 }
 
+
+export interface formSectionFields {
+    title: string;
+    childFormSection: formSectionFields | null;
+    seccion: FormField[] | null;    
+}
+
 export interface FormField {
     // Tipo de campo de formulario. Puede ser 'input', 'datepicker', 'checkbox', 
     // 'select', 'group', 'inputEvent', 'autocomplete', 'inputNumber', 

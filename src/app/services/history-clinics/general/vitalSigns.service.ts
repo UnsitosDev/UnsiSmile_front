@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
 import { bloodPressureValidator } from 'src/app/utils/validators';
 
 @Injectable({
     providedIn: 'root'
 })
 export class VitalSignsFormService {
+    
     private vitalSignsFields: FormField[] = [
         {
             type: 'input',
@@ -128,7 +129,19 @@ export class VitalSignsFormService {
         },
     ];
 
+    // private seccionVitalSignsFields: formSectionFields[]=[
+    //     {
+    //         title: 'Signos Vitales',
+    //         seccion: this.vitalSignsFields
+    //     }
+    // ]
+    
+
     getVitalSignsFields(): FormField[] {
         return this.vitalSignsFields;
     }
+
+    // getSeccionVitalSignsFields(): formSectionFields [] {
+    //     return this.seccionVitalSignsFields;
+    // }
 }

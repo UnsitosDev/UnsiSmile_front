@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
 import { MatButtonModule } from '@angular/material/button';
 import { bucalExamService } from 'src/app/services/history-clinics/general/bucalExamFields.service';
 
@@ -14,7 +14,7 @@ import { bucalExamService } from 'src/app/services/history-clinics/general/bucal
 })
 export class FormBucalExamComponent {
   formGroup!: FormGroup;
-  bucalExamFields : FormField[] = [];
+  bucalExamFields : formSectionFields[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -24,17 +24,22 @@ export class FormBucalExamComponent {
 
   ngOnInit(): void {
     //Obtener los campos del formulario del servicio
-    this.bucalExamFields = this.bucalExam.getbucalExamFields();
+    // this.bucalExamFields = this.bucalExam.getOralExamFields();
 
 
-    // Construcción del formulario
-    this.formGroup = this.fb.group({}); // Inicializar el FormGroup
-    [...this.bucalExamFields].forEach(field => {
-      this.formGroup.addControl(
-        field.name,
-        this.fb.control(field.value || '', field.validators || [])
-      );
-    });
+    // // Construcción del formulario
+    //  this.formGroup = this.fb.group({});
+    //  this.bucalExamFields.forEach(tab => {
+    //   if (tab.seccion) {  // Verificamos que `seccion` no es null
+    //     tab.seccion.forEach(sectionField => {
+    //       this.formGroup.addControl(
+    //         sectionField.name,
+    //         this.fb.control(sectionField.value || '', sectionField.validators || [])
+    //       );
+    //     });
+    //   }
+    // });
+    
   }
   
   getFieldValue(fieldName: string) {

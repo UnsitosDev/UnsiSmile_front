@@ -1,64 +1,65 @@
-  <!-- <div class="mx-8 pb-8">
-      <form [formGroup]="formGroup">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
-          @for (field of bucalExamFields; track $index) {
-          <app-field-component
+<!-- <mat-tab>
+<div class="mx-8 pb-8">
+    <form [formGroup]="formGroup">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+        @for (field of fields; track $index) {
+            <app-field-component
             [field]="field"
             [formGroup]="formGroup"
             [errors]="field.errorMessages"
             [fieldValue]="getFieldValue(field.name)"
           >
           </app-field-component>
-          }
-        </div>
-        <div class="button-container">
-          <button (click)="previousTab()" type="button" mat-button matStepperNext>
-            <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR 
-          </button>
-          <button type="button" (click)="onSubmit()" mat-button matStepperNext>
-            SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
-          </button>
-        </div>
-      </form>
-    </div> -->
+        }
+        
+      </div>
+      <div class="button-container">
+        <button (click)="previousTab()" type="button" mat-button matStepperNext>
+          <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR
+        </button>
+        <button type="button" (click)="onSubmit()" mat-button matStepperNext>
+          SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</mat-tab> -->
 
+
+
+
+  <mat-tab label="{{fieldsTab.title}}">
     <div class="mx-8 pb-8">
       <form [formGroup]="formGroup">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
           <!-- Recorremos los campos usando *ngFor -->
-           @for (tab of bucalExamFields; track $index) {
-            <span>{{tab.title}}</span>
+          
+            <span>{{fieldsTab.title}}</span>
               <!-- Verificamos si hay secciones -->
-               @if (tab.seccion) {
+              @if (fieldsTab.seccion) {
                   <!-- Recorremos cada campo de la sección -->
-                   @for (field of tab.seccion; track $index) {
+                  @for (field of fieldsTab.seccion; track $index) {
                     <app-field-component
                     [field]="field"
                     [formGroup]="formGroup"
                     [errors]="field.errorMessages"
                   >
                   </app-field-component>
-                   }
-                  
-               }
-              
-              @if (tab.childFormSection) {
-                  @for (childField of tab.childFormSection.seccion; track $index) {
+                  }  
+              } 
+              @if (fieldsTab.childFormSection) {
+                  @for (childField of fieldsTab.childFormSection.seccion; track $index) {
                       <app-field-component
                         [field]="childField"
                         [formGroup]="formGroup"
                         [errors]="childField.errorMessages"
                       >
                       </app-field-component>
-                  }
-                  
+                  }          
               }
-              <!-- Si hay subsección, también la renderizamos -->
-              
-           }
+              <!-- Si hay subsección, también la renderizamos -->        
           
         </div>
-    
         <div class="button-container">
           <button (click)="previousTab()" type="button" mat-button matStepperNext>
             <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR 
@@ -69,4 +70,6 @@
         </div>
       </form>
     </div>
-    
+  </mat-tab>
+
+

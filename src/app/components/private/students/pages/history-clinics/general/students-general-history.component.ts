@@ -28,7 +28,11 @@ import { FormStudyModelsAndPhotographsComponent } from "../../../components/form
 import { FormLaboratoryStudyAndBiopsyComponent } from "../../../components/form-laboratory-study-and-biopsy/form-laboratory-study-and-biopsy.component";
 import { FormMedicalConsultationComponent } from "../../../components/form-medical-consultation/form-medical-consultation.component";
 import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
-
+import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
+import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
+import { multidiciplinaryEvaluationService } from 'src/app/services/history-clinics/general/clinicalExamFields.service';
+import { VitalSignsFormService } from 'src/app/services/history-clinics/general/vitalSigns.service';
+import { bucalExamService } from 'src/app/services/history-clinics/general/bucalExamFields.service';
 
 export interface PatientSummary {
   fullName: string;
@@ -50,6 +54,7 @@ export interface DialogData {
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
   imports: [
+    TabFormComponent,
     MatTabsModule,
     HistoryPersonalDataComponent,
     HistoryVitalSignsComponent,
@@ -169,12 +174,20 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     this.previousTab();
   }
 
+  vitalSingsFields: formSectionFields[] = []; // Define tus campos aquí
 
+  bucalExamFields!: formSectionFields;
 
   nextpage: boolean = true;
-  constructor(private router: ActivatedRoute) { }
+  constructor(private router: ActivatedRoute, private bucalExam: bucalExamService,
+  ) {
+    this.bucalExamFields = this.bucalExam.getOralExamFields();
+
+  }
 
   ngOnInit(): void {
+    //this.vitalSingsFields = this.vitalSingsService.getSeccionVitalSignsFields();
+
     this.router.params.subscribe((params) => {
       this.id = params['id'];
 
@@ -274,6 +287,19 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     if (this.tabGroup) {
       this.tabGroup.selectedIndex = Math.max((this.tabGroup.selectedIndex ?? 0) - 1, 0);
     }
+  }
+
+
+  emitNextTabEvent() {
+    // Lógica para manejar el evento de siguiente pestaña
+  }
+
+  nextTab() {
+    // Lógica para avanzar a la siguiente pestaña
+  }
+
+  previoussTab(index: number) {
+    // Lógica para retroceder a la pestaña anterior
   }
 }
 
