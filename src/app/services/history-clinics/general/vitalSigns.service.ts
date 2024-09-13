@@ -129,19 +129,18 @@ export class VitalSignsFormService {
         },
     ];
 
-    // private seccionVitalSignsFields: formSectionFields[]=[
-    //     {
-    //         title: 'Signos Vitales',
-    //         seccion: this.vitalSignsFields
-    //     }
-    // ]
+    private seccionVitalSignsFields: formSectionFields = {
+        
+            title: 'Signos Vitales',
+            childFormSection: null,
+            seccion: this.vitalSignsFields
+            
+    }
     
 
-    getVitalSignsFields(): FormField[] {
-        return this.vitalSignsFields;
+    getVitalSignsFields(): formSectionFields {
+        return this.seccionVitalSignsFields;
     }
 
-    // getSeccionVitalSignsFields(): formSectionFields [] {
-    //     return this.seccionVitalSignsFields;
-    // }
+ 
 }

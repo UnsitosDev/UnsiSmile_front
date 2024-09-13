@@ -6,7 +6,7 @@ import { FormField, formSectionFields } from 'src/app/models/form-fields/form-fi
     providedIn: 'root'
 })
 export class bucalExamService {
-    
+
     private bucalExamFields: FormField[] = [
         {
             type: 'select',
@@ -75,7 +75,7 @@ export class bucalExamService {
 
     ];
 
-    private oralExamFields: formSectionFields[] = [
+    private oralExamFields: formSectionFields =
         {
             title: 'Examen Bucal',
             childFormSection: {
@@ -85,14 +85,10 @@ export class bucalExamService {
             },
             seccion: null
         }
-    ];
+        ;
 
     getOralExamFields(): formSectionFields {
-        return this.oralExamFields[0];
+        return this.oralExamFields;
     }
-    
 
-    // getbucalExamFields(): FormField[] {
-    //     return this.bucalExamFields;
-    // }
 }

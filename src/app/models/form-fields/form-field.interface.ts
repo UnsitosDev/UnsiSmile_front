@@ -12,6 +12,10 @@ export interface InputChangeConfig {
     minLength: number;
 }
 
+export interface dataTabs {
+    title: string;
+    tabs: formSectionFields[];
+}
 
 export interface formSectionFields {
     title: string;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
@@ -14,56 +14,36 @@ import { MatTabsModule } from '@angular/material/tabs';
 })
 export class TabFormComponent {
   @Input() fieldsTab!: formSectionFields;
-
   formGroup!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  private fb = inject(FormBuilder);
 
- ngOnInit(): void {
-  // Función recursiva para procesar secciones y subsecciones
-  const processSection = (section: formSectionFields) => {
-    // Verificamos que `seccion` no sea null antes de iterar sobre ella
-    if (section.seccion) {
-      section.seccion.forEach(sectionField => {
-        this.formGroup.addControl(
-          sectionField.name,
-          this.fb.control(sectionField.value || '', sectionField.validators || [])
-        );
-      });
-    }
-
-    // Si hay una subsección (childFormSection), llamamos a la función recursivamente
-    if (section.childFormSection) {
-      processSection(section.childFormSection);  // Llamada recursiva para la subsección
-    }
-  };
-
-  // Procesa directamente el objeto `fieldsTab`
-  processSection(this.fieldsTab);  
-}
-
-
-
-  // Inicializa el formulario con los campos
-  // private initializeForm() {
-  //   this.formGroup = this.fb.group({});
-  //   this.fieldsTab.forEach(tab => {
-  //     tab.seccion.forEach(sectionField => {
-  //       this.formGroup.addControl(
-  //         sectionField.name,
-  //         this.fb.control(sectionField.value || '', sectionField.validators || [])
-  //       );
-  //     });
-  //   });
-  // }
-  getFieldValue(fieldName: string) {
-    return this.formGroup.get(fieldName)?.value;
+  ngOnInit(): void {
+    this.section();
   }
 
-  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
-  emitNextTabEvent() {
-    this.nextTabEventEmitted.emit(false);
+  section() {
+    // Función recursiva para procesar secciones y subsecciones
+    const processSection = (section: formSectionFields) => {
+      // Verificamos que `seccion` no sea null antes de iterar sobre ella
+      if (section?.seccion) {
+        section.seccion.forEach(sectionField => {
+          this.formGroup.addControl(
+            sectionField.name,
+            this.fb.control(sectionField.value || '', sectionField.validators || [])
+          );
+        });
+      }
+      // Si hay una subsección (childFormSection), llamamos a la función recursivamente
+      if (section?.childFormSection) {
+        processSection(section.childFormSection);  // Llamada recursiva para la subsección
+      }
+    };
+    this.formGroup = this.fb.group({});
+    // Procesa directamente el objeto `fieldsTab`
+    processSection(this.fieldsTab);
   }
+
 
   @Output() nextMatTab = new EventEmitter<number>();
   nextTab() {
@@ -77,7 +57,7 @@ export class TabFormComponent {
     this.previousMatTab.emit(this.currentTabIndex);
   }
 
-  onSubmit(){
+  onSubmit() {
 
   }
 }

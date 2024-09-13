@@ -27,6 +27,9 @@ button{
   color: var(--on-primary); // Usa la variable de color del tema para el texto
 }
 
-.fondo{
-    background: var(--secondary);
-}
+.custom {
+    color: var(--on-secondary);
+    background-color: var(--secondary); // Color de fondo}
+    border: 1px var(--on-secondary);
+  
+  }

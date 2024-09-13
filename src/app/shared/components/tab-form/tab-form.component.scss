@@ -14,3 +14,10 @@ button{
     flex: 0 0 auto; /* Evita que los botones crezcan para ocupar el espacio disponible */
     margin: 0 5px; /* Espacio entre los botones */
 }
+
+.custom {
+    color: var(--on-secondary);
+    background-color: var(--secondary); // Color de fondo}
+    border: 1px var(--on-secondary);
+  
+  }

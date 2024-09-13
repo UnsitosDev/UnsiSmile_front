@@ -41,7 +41,7 @@ export class HistoryVitalSignsComponent implements OnInit {
 
   ngOnInit(): void {
     // Obtener los campos del formulario del servicio
-    this.vitalSigns = this.vitalSignsFields.getVitalSignsFields();
+    // this.vitalSigns = this.vitalSignsFields.getVitalSignsFields();
 
 
     // Construcción del formulario

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 
@@ -29,10 +29,11 @@ import { FormLaboratoryStudyAndBiopsyComponent } from "../../../components/form-
 import { FormMedicalConsultationComponent } from "../../../components/form-medical-consultation/form-medical-consultation.component";
 import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
+import { dataTabs, FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
 import { multidiciplinaryEvaluationService } from 'src/app/services/history-clinics/general/clinicalExamFields.service';
 import { VitalSignsFormService } from 'src/app/services/history-clinics/general/vitalSigns.service';
 import { bucalExamService } from 'src/app/services/history-clinics/general/bucalExamFields.service';
+import { TabViewModule } from 'primeng/tabview';
 
 export interface PatientSummary {
   fullName: string;
@@ -45,14 +46,12 @@ export interface PatientSummary {
   curp: string
 }
 
-export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
-}
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
+
   imports: [
     TabFormComponent,
     MatTabsModule,
@@ -78,139 +77,55 @@ export interface DialogData {
     FormStudyModelsAndPhotographsComponent,
     FormLaboratoryStudyAndBiopsyComponent,
     FormMedicalConsultationComponent,
-    CardPatientDataComponent
+    CardPatientDataComponent,
+    TabViewModule
   ],
 })
 export class StudentsGeneralHistoryComponent implements OnInit {
+  @Input() idPatient: number = 0;
 
+  private router = inject(ActivatedRoute);
+  private bucalExam = inject(bucalExamService);
+  private vitalSingsService = inject(VitalSignsFormService);
+  private patientService = inject(ApiService<Patient, {}>);
 
   public id!: number;
-  vitalSigns = true;
-  facialExam = true;
-  familyMedicalHistory = true;
-  personalNonPathologicalHistory = true;
-  personalPathologicalHistory = true;
-  initialOntogram = true;
-  finalOntogram = true;
-  initialBagMeasurement = true;
-  evaluation = true;
-  functionalAnalysis = true;
-  patientPosture = true;
-  oralExam = true;
-  radiographicAnalysis = true;
-  studyModelsAndPhotographs = true;
-  laboratoryStudies = true;
-  medicalConsultation = true;
+  public patient!: Patient;
+  public vitalSingsFields!: formSectionFields;
+  public bucalExamFields!: formSectionFields;
+  public data!: dataTabs;
+  public nextpage: boolean = true;
 
-  facialExamEvent(event: boolean) {
-    this.facialExam = event;
-  }
+  public year?: number;
+  public month?: number;
+  public day?: number;
 
-  vitalSignsEvent(event: boolean) {
-    this.vitalSigns = event;
-  }
+  public patientSummary: PatientSummary[] = []; 
 
-  familyMedicalHistoryEvent(event: boolean) {
-    this.familyMedicalHistory = event;
-  }
-
-  personalNonPathologicalHistoryEvent(event: boolean) {
-    this.personalNonPathologicalHistory = event;
-  }
-
-  personalPathologicalHistoryEvent(event: boolean) {
-    this.personalPathologicalHistory = event;
-  }
-
-  initialOntogramEvent(event: boolean) {
-    this.initialOntogram = event;
-  }
-
-  finalOntogramEvent(event: boolean) {
-    this.finalOntogram = event;
-  }
-
-  initialBagMeasurementEvent(event: boolean) {
-    this.initialBagMeasurement = event;
-  }
-
-  evaluationEvent(event: boolean) {
-    this.evaluation = event;
-  }
-
-  functionalAnalysisEvent(event: boolean) {
-    this.functionalAnalysis = event;
-  }
-
-  patientPostureEvent(event: boolean) {
-    this.patientPosture = event;
-  }
-
-  oralExamEvent(event: boolean) {
-    this.oralExam = event;
-  }
-
-  radiographicAnalysisEvent(event: boolean) {
-    this.radiographicAnalysis = event;
-  }
-
-  studyModelsAndPhotographsEvent(event: boolean) {
-    this.studyModelsAndPhotographs = event;
-  }
-
-  laboratoryStudiesEvent(event: boolean) {
-    this.laboratoryStudies = event;
-  }
-
-  medicalConsultationEvent(event: boolean) {
-    this.medicalConsultation = event;
-  }
-
-  recibirTab() {
-    this.irSiguienteTab();
-  }
-
-  prevTab() {
-    this.previousTab();
-  }
-
-  vitalSingsFields: formSectionFields[] = []; // Define tus campos aquí
-
-  bucalExamFields!: formSectionFields;
-
-  nextpage: boolean = true;
-  constructor(private router: ActivatedRoute, private bucalExam: bucalExamService,
-  ) {
+  constructor() {
     this.bucalExamFields = this.bucalExam.getOralExamFields();
-
+    this.vitalSingsFields = this.vitalSingsService.getVitalSignsFields();
   }
 
   ngOnInit(): void {
-    //this.vitalSingsFields = this.vitalSingsService.getSeccionVitalSignsFields();
-
     this.router.params.subscribe((params) => {
       this.id = params['id'];
-
-      console.log('id del paciente: ', this.id);
       this.fetchPatientData();
-
     });
+    this.initializeData();
   }
-  dialog = inject(Dialog);
 
-
-  @Input() idPatient: number = 0;
-  public patient!: Patient;
-  private patientService = inject(ApiService<Patient, {}>);
-  year?: number;
-  month?: number;
-  day?: number;
-  public patientSummary: PatientSummary[] = []; // Array of PatientSummary objects
+  private initializeData(): void {
+    this.data = {
+      title: 'HISTORIA CLINICA GENERAL',
+      tabs: [this.vitalSingsFields, this.bucalExamFields]
+    };
+  }
 
   fetchPatientData() {
     this.patientService
       .getService({
-        url: `${UriConstants.GET_PATIENTS}/${this.id}`, // Uso de plantilla literal
+        url: `${UriConstants.GET_PATIENTS}/${this.id}`,
       })
       .subscribe({
         next: (data) => {
@@ -266,40 +181,5 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
 
-
-  stopPropagation(event: MouseEvent) {
-    event.stopPropagation();
-  }
-
-  @ViewChild(MatTabGroup) tabGroup?: MatTabGroup;
-
-  ngAfterViewInit() {
-    this.tabGroup = this.tabGroup;
-  }
-
-  irSiguienteTab() {
-    if (this.tabGroup) {
-      this.tabGroup.selectedIndex = (this.tabGroup.selectedIndex ?? 0) + 1;
-    }
-  }
-
-  previousTab() {
-    if (this.tabGroup) {
-      this.tabGroup.selectedIndex = Math.max((this.tabGroup.selectedIndex ?? 0) - 1, 0);
-    }
-  }
-
-
-  emitNextTabEvent() {
-    // Lógica para manejar el evento de siguiente pestaña
-  }
-
-  nextTab() {
-    // Lógica para avanzar a la siguiente pestaña
-  }
-
-  previoussTab(index: number) {
-    // Lógica para retroceder a la pestaña anterior
-  }
 }
 
