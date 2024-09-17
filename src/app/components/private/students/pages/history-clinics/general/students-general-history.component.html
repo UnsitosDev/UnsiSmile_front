@@ -1,16 +1,15 @@
-@for (item of patientSummary; track $index) {
-    <mat-card appearance="outlined" class="custom">
-        <app-card-patient-data [data]="patientSummary[0]"></app-card-patient-data>
-    </mat-card>
-}
+<mat-card appearance="outlined" class="custom">
+  <app-card-patient-data [data]="patientData"></app-card-patient-data>
+</mat-card>
 <br>
-<mat-card-title><strong>{{data.title}}</strong></mat-card-title>             
+<mat-card-title><strong>{{history.title}}</strong></mat-card-title>             
 <mat-card class="custom">
     <mat-tab-group>
-            @for (tab of data.tabs; track tab) {
+            @for (tab of history.tabs; track tab) {
                 <mat-tab [label]="tab.title">
                     <app-tab-form [fieldsTab]="tab"></app-tab-form>  
                 </mat-tab>
             }
     </mat-tab-group>
 </mat-card>
+

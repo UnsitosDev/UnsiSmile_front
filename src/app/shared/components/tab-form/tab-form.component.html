@@ -12,7 +12,7 @@
       </div>
     } 
     @if (fieldsTab.childFormSection) {
-      <span>{{fieldsTab.title}}</span>
+      <span>{{fieldsTab.childFormSection.title}}</span>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
           @for (childField of fieldsTab.childFormSection.seccion; track $index) {
             <app-field-component

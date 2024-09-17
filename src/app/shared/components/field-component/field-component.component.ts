@@ -2,15 +2,14 @@ import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar ReactiveFormsModule
+import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { AsyncPipe, DatePipe, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { map, Observable, startWith } from 'rxjs';
 
 
 @Component({
@@ -36,26 +35,24 @@ export class FieldComponentComponent {
   datePipe = inject(DatePipe);
 
   myControl = new FormControl('');
-  filteredOptions!: Observable<{ value: string; label: string }[]>;
 
   ngOnInit() {
-    // Inicializar el control para el autocomplete
-    const control = this.formGroup.get(this.field.name);
-    this.myControl = control instanceof FormControl ? control : new FormControl('');
 
-    // Filtrar opciones basadas en el valor de entrada
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || ''))
-    );
+  }
+  // Input & select
+  onValueChange(event: any) {
+    // Emite el valor para todos los tipos de eventos
+    const value = event.target ? event.target.value : event.value;
+    this.setFieldValue.emit({ field: this.field.name, value: value });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['fieldValue']) {
-      this.myControl.setValue(changes['fieldValue'].currentValue);
-    }
+  // Date
+  onValueChangeDate(event: any) {
+    const value = event.value as Date;
+    this.setFieldValue.emit({ field: this.field.name, value: this.datePipe.transform(value, 'yyyy-MM-dd') });
   }
 
+  // Input Event
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const value = inputElement.value;
@@ -67,6 +64,7 @@ export class FieldComponentComponent {
     this.setFieldValue.emit({ name: this.field.name, value });
   }
 
+  // Autocomplete
   onInputAutocomplete(event: Event): void {
 
     const inputElement = event.target as HTMLInputElement;
@@ -80,35 +78,13 @@ export class FieldComponentComponent {
 
   }
 
-  private _filter(value: string): { value: string; label: string }[] {
-    const filterValue = value.toLowerCase();
-    return this.field.options.filter((option: any) =>
-      option.label.toLowerCase().includes(filterValue)
-    );
-  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['fieldValue']) {
+      this.myControl.setValue(changes['fieldValue'].currentValue);
+    }
 
-  onSelectionChange2(event: any) {
-    const selectedValue2 = event.value;
+    //llamar a una funcion que itere sobre la lista de validaciones
 
-    const selectedOption = this.field?.options?.find((option: any) => option.value === selectedValue2);
-
-    this.setFieldValue.emit({ field: this.field.name, value: selectedOption });
-  }
-
-  onValueChange(event: any) {
-    // Emite el valor para todos los tipos de eventos
-    const value = event.target ? event.target.value : event.value;
-    this.setFieldValue.emit({ field: this.field.name, value: value });
-  }
-
-  handleSelectChange(event: any) {
-    const value = event.target ? event.target.value : event.value;
-    this.setFieldValue.emit({ field: this.field.name, value: value });
-  }
-
-  onValueChangeDate(event: any) {
-    const value = event.value as Date;
-    this.setFieldValue.emit({ field: this.field.name, value: this.datePipe.transform(value, 'yyyy-MM-dd') });
   }
 
   hasLastError(fieldName: string): boolean {

@@ -3,7 +3,7 @@
     @case ('input') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-          <input [type]="field.typeInput" matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)" />
+          <input matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)" />
             @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
               <mat-error>{{ errors?.lastError }}</mat-error>
             }
@@ -20,9 +20,9 @@
               <mat-option [value]="option.value">{{ option.label }}</mat-option>
             }
           </mat-select>
-            <!-- @if (formGroup.get(field.name)?.hasError('required')) {
+            @if (formGroup.get(field.name)?.hasError('required')) {
               <mat-error>{{ errors?.required }}</mat-error>
-            } -->
+            }
       </mat-form-field>
     }
     @case('datepicker') {

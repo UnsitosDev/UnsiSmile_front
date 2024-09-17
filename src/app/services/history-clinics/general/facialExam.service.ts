@@ -1,11 +1,13 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
+
 
 @Injectable({
     providedIn: 'root'
 })
-export class faciealExamService {
+export class facialExamService {
+
     private facialProfileFields: FormField[] = [
         {
             type: 'select',
@@ -50,7 +52,16 @@ export class faciealExamService {
         },
     ];
 
-    getfacialExamFields(): FormField[] {
-        return this.facialProfileFields;
+    private seccionFacialExamFields: formSectionFields = {
+
+        title: 'Examen Facial',
+        childFormSection: null,
+        seccion: this.facialProfileFields
+
     }
+
+    getfacialExamFields(): formSectionFields {
+        return this.seccionFacialExamFields;
+    }
+
 }

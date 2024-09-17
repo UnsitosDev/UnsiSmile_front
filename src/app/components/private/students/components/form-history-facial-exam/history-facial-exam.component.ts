@@ -20,7 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PatientService } from 'src/app/services/patient/patient.service';
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
-import { faciealExamService } from 'src/app/services/history-clinics/general/facialExam.service';
+import { facialExamService } from 'src/app/services/history-clinics/general/facialExam.service';
 import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
 
 
@@ -51,13 +51,13 @@ export class HistoryFacialExamComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private faciealExamFields: faciealExamService,
+    private faciealExamFields: facialExamService,
 
   ) { }
 
   ngOnInit(): void {
     // Obtener los campos del formulario del servicio
-    this.faciealExam = this.faciealExamFields.getfacialExamFields();
+//    this.faciealExam = this.faciealExamFields.getfacialExamFields();
 
 
     // Construcción del formulario
