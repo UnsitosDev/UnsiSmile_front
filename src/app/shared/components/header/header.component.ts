@@ -12,21 +12,26 @@ import { SessionStorageConstants } from 'src/app/utils/session.storage';
   standalone: true,
   imports: [MatMenuModule,CommonModule],
 })
+
 export class HeaderComponent {
   @Output() closeSidebar = new EventEmitter<void>();
+
+  isDarkTheme: boolean = false;
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    // Al iniciar, cargar el tema guardado o aplicar el tema claro por defecto
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkTheme = savedTheme === 'dark';
+    this.applyTheme(); // Aplica el tema de Angular Material
+    this.applyGlobalTheme(); // Aplica el tema global que afecta a toda la aplicación
+  }
 
   toggleSidebar() {
     this.closeSidebar.emit();
     console.log('emiting');
   }
-
-  constructor(private authService: AuthService, private router: Router) {}
-
-  /**
-   * Cierra la sesión del usuario.
-   * Si hay un token de sesión almacenado, lo elimina de la sesión.
-   * Luego redirige al usuario a la página principal.
-   */
 
   logout(): void {
     const token = this.authService.getToken();
@@ -36,44 +41,32 @@ export class HeaderComponent {
     this.router.navigate(['/']);
   }
 
-
-  isDarkTheme: boolean = false;
-
-  ngOnInit(): void {
-    // Aplicar el tema guardado al iniciar la aplicación
-    const savedTheme = localStorage.getItem('theme');
-    this.isDarkTheme = savedTheme === 'dark';
-    this.applyTheme();
+  // Método para alternar el tema claro/oscuro
+  toggleTheme(): void {
+    this.isDarkTheme = !this.isDarkTheme;
+    this.applyTheme(); // Aplica el tema de Angular Material
     this.applyGlobalTheme(); // Aplica el tema global que afecta a toda la aplicación
 
+    // Guardar la preferencia del usuario en localStorage
+    localStorage.setItem('theme', this.isDarkTheme ? 'dark' : 'light');
   }
 
- toggleTheme(): void {
-  this.isDarkTheme = !this.isDarkTheme;
-  this.applyTheme(); // Aplica el tema de Angular Material
-  this.applyGlobalTheme(); // Aplica el tema global que afecta a toda la aplicación
-
-}
-
-// Método para aplicar el tema de Angular Material
-private applyTheme(): void {
-  const themeClass = this.isDarkTheme ? 'dark-theme' : '';
-  document.documentElement.className = themeClass;
-
-  // Guardar la preferencia del usuario en localStorage
-  localStorage.setItem('theme', this.isDarkTheme ? 'dark' : 'light');
-}
-
-// Método para aplicar el tema global
-private applyGlobalTheme(): void {
-  const body = document.body;
-
-  if (this.isDarkTheme) {
-    body.classList.add('dark-theme-material');
-    body.classList.remove('light-theme-material');
-  } else {
-    body.classList.add('light-theme-material');
-    body.classList.remove('dark-theme-material');
+  // Método para aplicar el tema de Angular Material
+  private applyTheme(): void {
+    const themeClass = this.isDarkTheme ? 'dark-theme' : '';
+    document.documentElement.className = themeClass;
   }
-}
+
+  // Método para aplicar el tema global
+  private applyGlobalTheme(): void {
+    const body = document.body;
+
+    if (this.isDarkTheme) {
+      body.classList.add('dark-theme-material');
+      body.classList.remove('light-theme-material');
+    } else {
+      body.classList.add('light-theme-material');
+      body.classList.remove('dark-theme-material');
+    }
+  }
 }
