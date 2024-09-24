@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -197,12 +197,13 @@ export class multidiciplinaryEvaluationService {
         }
     ];
 
-
-    getClinicExamFields(): FormField[] {
-        return this.clinicExamFields;
+    seccionClinicalExamFields: formSectionFields = {
+        title : 'Examen Clinico',
+        childFormSection: null,
+        seccion: this.clinicExamFields
     }
 
-    getFunctionalAnalisisFields(): FormField[] {
-        return this.functionalAnalisisFields;
+    getClinicalExamFields(): formSectionFields{
+        return this.seccionClinicalExamFields;
     }
 }

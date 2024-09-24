@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges, OnChanges } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
@@ -23,7 +23,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 })
-export class FieldComponentComponent {
+export class FieldComponentComponent implements OnChanges {
 
   @Input() field: any;
   @Input() formGroup!: FormGroup;
@@ -79,9 +79,7 @@ export class FieldComponentComponent {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['fieldValue']) {
-      this.myControl.setValue(changes['fieldValue'].currentValue);
-    }
+ 
 
     //llamar a una funcion que itere sobre la lista de validaciones
 

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -43,7 +43,13 @@ export class radiographicAnalisisService {
         },
     ];
 
-    getRadiographicAnalisisFields(): FormField[] {
-        return this.radiographicAnalisisFields;
+    public seccionRadiographicAnalisis: formSectionFields = {
+        title: 'Analisis Radiografico',
+        childFormSection: null,
+        seccion: this.radiographicAnalisisFields
+    }
+    
+    getRadiographicAnalisisFields(): formSectionFields {
+        return this.seccionRadiographicAnalisis
     }
 }

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -54,7 +54,13 @@ export class medicalInterconsultationService {
         }
     ];
 
-    getMedicalInterconsultationFields(): FormField[] {
-        return this.medicalInterconsultationFields;
+    public seccionMedicalInterconsultation: formSectionFields = {
+        title: 'Interconsulta Médica',
+        childFormSection: null,
+        seccion: this.medicalInterconsultationFields
+    }
+
+    getMedicalInterconsultationFields(): formSectionFields {
+        return this.seccionMedicalInterconsultation;
     }
 }

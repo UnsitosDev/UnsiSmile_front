@@ -10,8 +10,7 @@
             [field]="field" 
             [formGroup]="formGroup" 
             [errors]="field.errorMessages"
-            [fieldValue]="getFieldValue(field.name)"
-          (setFieldValue)="onFieldValueChange($event)">
+            (setFieldValue)="onFieldValueChange($event)">
           </app-field-component>
         }      
       </div>
@@ -31,7 +30,6 @@
           [field]="field" 
           [formGroup]="formGroup" 
           [errors]="field.errorMessages"
-          [fieldValue]="getFieldValue(field.name)"
           (setFieldValue)="onFieldValueChange($event)">
           </app-field-component>
         }
@@ -52,7 +50,6 @@
           [field]="field" 
           [formGroup]="formGroup" 
           [errors]="field.errorMessages"
-          [fieldValue]="getFieldValue(field.name)"
           (setFieldValue)="onFieldValueChange($event)">
           </app-field-component>
         }

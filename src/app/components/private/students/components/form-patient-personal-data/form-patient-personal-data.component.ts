@@ -101,10 +101,6 @@ export class FormPatientPersonalDataComponent {
     });
   }
 
-  getFieldValue(fieldName: string) {
-    return this.formGroup.get(fieldName)?.value;
-  }
-
   alertMessage: string = '';
   alertSeverity: string = AlertModel.AlertSeverity.ERROR;
   showAlert: boolean = false;

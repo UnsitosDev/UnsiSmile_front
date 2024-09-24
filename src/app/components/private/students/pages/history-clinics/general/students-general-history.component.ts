@@ -12,7 +12,8 @@ import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.co
 
 // Servicios
 import { ApiService } from '@mean/services';
-import { GeneralHistoryService, HistoryData } from 'src/app/services/history-clinics/general/general-history.service';
+import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
+import { HistoryData } from 'src/app/models/history-clinic/historyClinic';
 
 // Modelos
 import { Patient } from 'src/app/models/shared/patients/patient/patient';

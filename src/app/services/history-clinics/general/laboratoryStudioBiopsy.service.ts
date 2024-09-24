@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -54,7 +54,13 @@ export class laboratoryStudioBiopsyService {
         },
     ];
 
-    getLaboratoryStudioBiopsyFields(): FormField[] {
-        return this.laboratoryStudioBiopsyFields;
+    public seccionlaboratoryStudioBiopsy: formSectionFields = {
+        title: 'Estudio de Laboratorio / Biopsia',
+        childFormSection: null,
+        seccion: this.laboratoryStudioBiopsyFields
+    }
+
+    getLaboratoryStudioBiopsyFields(): formSectionFields {
+        return this.seccionlaboratoryStudioBiopsy;
     }
 }

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -42,7 +42,13 @@ export class modelsAndPhotosService {
 
     ];
 
-    getModelsAndPhotosFields(): FormField[] {
-        return this.modelsAndPhotosFields;
+    public seccionModelsAndPhotosFields: formSectionFields = {
+        title: 'Modelos de Estudio y Fotografias',
+        childFormSection: null,
+        seccion: this.modelsAndPhotosFields
+    }
+
+    getModelsAndPhotosFields(): formSectionFields {
+        return this.seccionModelsAndPhotosFields;
     }
 }

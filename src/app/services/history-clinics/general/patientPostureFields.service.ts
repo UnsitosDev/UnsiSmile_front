@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormField, formSectionFields } from 'src/app/models/form-fields/form-field.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -21,9 +21,13 @@ export class patientPostureService {
         },
     ];
 
+    public seccionPatientPosture: formSectionFields = {
+        title: 'Postura del Paciente',
+        childFormSection: null,
+        seccion: this.patientPostureFields
+    }
 
-
-    getPatientPosture(): FormField[] {
-        return this.patientPostureFields;
+    getPatientPosture(): formSectionFields {
+        return this.seccionPatientPosture;
     }
 }

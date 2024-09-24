@@ -136,7 +136,6 @@ export class VitalSignsFormService {
             seccion: this.vitalSignsFields
             
     }
-    
 
     getVitalSignsFields(): formSectionFields {
         return this.seccionVitalSignsFields;
