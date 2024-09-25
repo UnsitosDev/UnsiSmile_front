@@ -4,12 +4,15 @@
 <br>
 <mat-card-title><strong>{{history.title}}</strong></mat-card-title>             
 <mat-card class="custom">
-    <mat-tab-group>
-            @for (tab of history.tabs; track tab) {
-                <mat-tab [label]="tab.title">
-                    <app-tab-form [fieldsTab]="tab"></app-tab-form>  
-                </mat-tab>
-            }
+    <mat-tab-group [(selectedIndex)]="currentIndex">
+        @for (tab of history.tabs; track tab) {
+            <mat-tab [label]="tab.title">
+                <app-tab-form 
+                    [fieldsTab]="tab" 
+                    (nextMatTab)="onNextTab()"
+                    (previousMatTab)="onPreviousTab()"
+                    ></app-tab-form>  
+            </mat-tab>
+        }
     </mat-tab-group>
 </mat-card>
-

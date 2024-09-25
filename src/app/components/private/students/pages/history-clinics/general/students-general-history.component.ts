@@ -31,6 +31,7 @@ import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 
 export class StudentsGeneralHistoryComponent implements OnInit {
   @Input() idPatient: number = 0;
+  
   private router = inject(ActivatedRoute);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
@@ -43,6 +44,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public data!: dataTabs;
   public patientData!: cardPatient;
   public history: HistoryData;
+  public currentIndex: number = 0; // Índice del tab activo
 
   constructor() {
     this.history = this.historyData.getHistory();
@@ -108,5 +110,18 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
 
+  onNextTab(): void {
+      this.currentIndex++; // Incrementar el índice del tab activo
+      if (this.currentIndex >= this.history.tabs.length) {
+          this.currentIndex = this.history.tabs.length - 1; // Limitar el índice si excede la cantidad de tabs
+      }
+  }
+
+  onPreviousTab(): void {
+    this.currentIndex--; // Decrementar el índice del tab activo
+    if (this.currentIndex < 0) {
+      this.currentIndex = 0; // Limitar el índice si es menor que cero
+    }
+  }
 }
 

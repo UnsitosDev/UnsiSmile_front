@@ -14,6 +14,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 })
 export class TabFormComponent {
   @Input() fieldsTab!: formSectionFields;
+  @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
+  @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
+
   formGroup!: FormGroup;
 
   private fb = inject(FormBuilder);
@@ -44,20 +47,12 @@ export class TabFormComponent {
     processSection(this.fieldsTab);
   }
 
-
-  @Output() nextMatTab = new EventEmitter<number>();
-  nextTab() {
-    this.nextMatTab.emit(0);
-  }
-
-  currentTabIndex: number = 0;
-  @Output() previousMatTab = new EventEmitter<number>();
   previousTab() {
-    this.currentTabIndex = Math.max(this.currentTabIndex - 1, 0);
-    this.previousMatTab.emit(this.currentTabIndex);
+      this.previousMatTab.emit(); // Emitir evento para volver al tab anterior
   }
 
   onSubmit() {
-
+    this.nextMatTab.emit(); // Emitir evento para cambiar al siguiente tab
   }
+
 }
