@@ -13,6 +13,7 @@ import {
 } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { StudentsGeneralHistoryComponent } from '../../pages/history-clinics/general/students-general-history.component';
+import { DialogHistoryClinicsComponent } from '../dialog-history-clinics/dialog-history-clinics.component';
 
 @Component({
   selector: 'app-students-patients',
@@ -62,11 +63,12 @@ export class StudentsPatientsComponent implements OnInit {
     }
   }
 
-  // Id paciente
   editar(objeto: any) {
-    // console.log('osddsfsdf',objeto.patientID);
-    this.router.navigate(['/students', 'historyClinic', objeto.patientID]);
+    this.dialog.open(DialogHistoryClinicsComponent, {
+      data: objeto, // Asegúrate de que `objeto` contenga la información que necesitas
+    });
   }
+  
 
   eliminar(nombre: string) {
     console.log('eliminar', nombre);
