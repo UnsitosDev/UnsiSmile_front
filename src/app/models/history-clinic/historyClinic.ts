@@ -6,8 +6,7 @@ export interface HistoryData {
 }
 
 export interface ClinicalHistoryCatalog {
-    idClinicalHistoryCatalog: number;
-    clinicalHistoryName: string;
-    formSections: any;
-  }
-  
+    idClinicalHistoryCatalog: number; // ID del catálogo de historia clínica
+    clinicalHistoryName: string;       // Nombre de la historia clínica
+    formSections: any[];               
+  } 

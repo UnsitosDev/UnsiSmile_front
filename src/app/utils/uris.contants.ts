@@ -2,6 +2,10 @@ import { isDevMode } from '@angular/core';
 
 const host = isDevMode() ? 'http://localhost:8080/unsismile/api/v1' : 'otherdomain.com';
 const basePath = host;
+
+
+const hostforms = isDevMode() ? 'http://localhost:8080/api' : 'otherdomain.com';
+const basePathForms = hostforms;
 export class UriConstants {
   public static readonly HOST = host;
   public static readonly MESSAGES = basePath + '/messages';
@@ -163,5 +167,5 @@ export class UriConstants {
     // get postalCode
     public static readonly GET_POSTAL_CODE = basePath + '/address/locality/postal-code/'
     // Historias Clinicas
-    public static readonly GET_HISTORY_CLINICS = basePath + '/clinical-history-catalog'
+    public static readonly GET_HISTORY_CLINICS = basePathForms + '/clinical-history-catalog'
 }    

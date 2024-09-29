@@ -1,11 +1,10 @@
 <mat-list>
-    <div mat-subheader>Historias Clinicas</div>
-    @for (folder of folders; track folder) {
-      <mat-list-item>
-        <mat-icon matListItemIcon>folder</mat-icon>
-        <div matListItemTitle>{{folder.name}}</div>
-        <div matListItemLine>{{folder.updated | date}}</div>
-      </mat-list-item>
-    }
-  </mat-list>
-  
+  <div mat-subheader class="custom"><strong>HISTORIA CLINICA</strong></div>
+  <mat-divider></mat-divider>
+  @for (history of historyClinics; track history) {
+    <mat-list-item class="list-item">
+      <mat-icon matListItemIcon>folder</mat-icon>
+      <div matListItemTitle>{{ history.clinicalHistoryName }}</div>
+    </mat-list-item>
+  }
+</mat-list>

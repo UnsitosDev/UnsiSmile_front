@@ -65,6 +65,7 @@ export class StudentsPatientsComponent implements OnInit {
 
   editar(objeto: any) {
     this.dialog.open(DialogHistoryClinicsComponent, {
+      width: '650px',
       data: objeto, // Asegúrate de que `objeto` contenga la información que necesitas
     });
   }
