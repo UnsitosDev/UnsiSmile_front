@@ -76,19 +76,20 @@ export class TableStudentsComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
-        if (Array.isArray(response)) {
-          this.studentsList = response.map((student: studentRequest) => {
+        if (Array.isArray(response.content)) {
+          this.studentsList = response.content.map((student: studentRequest) => {
             const person = student.person;
             const user = student.user;
+            const studen = student;
             return {
               nombre: person.firstName,
               apellido: `${person.firstLastName} ${person.secondLastName}`,
               correo: person.email,
-              matricula: user.username
+              matricula: studen.enrollment,
             };
           });
         } else {
-          console.error('La respuesta no es un array.');
+          console.error('La respuesta no contiene un array en content.');
         }
       },
       error: (error) => {
@@ -96,4 +97,6 @@ export class TableStudentsComponent implements OnInit {
       },
     });
   }
+  
+  
 }

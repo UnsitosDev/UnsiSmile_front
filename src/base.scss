@@ -1,0 +1,54 @@
+// src/styles/base.scss
+
+
+body {
+    font-family: $font-family-primary;
+    font-size: $font-size-paragraph;
+    line-height: $line-height-base;
+}
+
+h1 {
+    font-size: $font-size-h1;
+    font-weight: $font-weight-bold;
+    line-height: $line-height-heading;
+}
+
+h2 {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+}
+
+h3 {
+    font-size: $font-size-h3;
+    font-weight: $font-weight-normal;
+}
+
+h4 {
+    font-size: $font-size-h4;
+    font-weight: $font-weight-normal;
+}
+
+h5 {
+    font-size: $font-size-h5;
+    font-weight: $font-weight-normal;
+}
+
+h6 {
+    font-size: $font-size-h6;
+    font-weight: $font-weight-normal;
+}
+
+.title {
+    font-size: $font-size-title;
+    font-weight: $font-weight-bold;
+}
+
+.section {
+    font-size: $font-size-section;
+    font-weight: $font-weight-normal;
+}
+
+.caption {
+    font-size: $font-size-caption;
+    font-weight: $font-weight-normal;
+}
