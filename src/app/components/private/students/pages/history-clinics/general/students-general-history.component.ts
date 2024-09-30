@@ -20,6 +20,7 @@ import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-students-general-history',
@@ -31,11 +32,11 @@ import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 
 export class StudentsGeneralHistoryComponent implements OnInit {
   @Input() idPatient: number = 0;
-  
   private router = inject(ActivatedRoute);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
   public id!: number;
+  public idpatient!: number;
   public year?: number;
   public month?: number;
   public day?: number;
@@ -45,6 +46,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public patientData!: cardPatient;
   public history: HistoryData;
   public currentIndex: number = 0; // Índice del tab activo
+  
 
   constructor() {
     this.history = this.historyData.getHistory();
@@ -53,9 +55,10 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.router.params.subscribe((params) => {
       this.id = params['id'];
-      this.fetchPatientData();
-    });
-    this.history;
+      this.idpatient = params['patientID']; 
+      this.fetchPatientData();   
+      this.historyData.getHistoryClinics(this.id, this.idpatient)
+    });    
   }
 
   fetchPatientData(): void {
@@ -92,6 +95,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       });
     }
   }
+
+
 
   // Método auxiliar para obtener el nombre completo
   private getFullName(firstName: string, secondName: string, firstLastName: string, secondLastName: string): string {

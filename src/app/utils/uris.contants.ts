@@ -170,4 +170,6 @@ export class UriConstants {
     public static readonly GET_HISTORY_CLINICS = basePathForms + '/clinical-history-catalog'
     // Crear Historia Clinica del paciente
     public static readonly POST_CLINICAL_HISTORY = basePathForms + '/clinical-history-catalog/patient-clinical-history'
+    // Obtener la configuracion de la historia clinica: 
+    public static readonly GET_HISTORY_CONFIG = basePathForms + '/clinical-history-catalog'
 }    

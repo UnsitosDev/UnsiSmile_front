@@ -15,21 +15,21 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog'; // Importa MAT_DIALO
 @Component({
   selector: 'app-dialog-history-clinics',
   standalone: true,
-  imports: [ MatGridListModule, MatIconModule, MatDividerModule, DatePipe, MatListModule],
+  imports: [MatGridListModule, MatIconModule, MatDividerModule, DatePipe, MatListModule],
   templateUrl: './dialog-history-clinics.component.html',
   styleUrl: './dialog-history-clinics.component.scss'
 })
 export class DialogHistoryClinicsComponent implements OnInit {
   private apiService = inject(ApiService<ClinicalHistoryCatalog>);
   private router = inject(Router);
-  private dialogRef = inject(MatDialogRef<DialogHistoryClinicsComponent>); 
+  private dialogRef = inject(MatDialogRef<DialogHistoryClinicsComponent>);
   private data = inject(MAT_DIALOG_DATA);
 
   ngOnInit(): void {
     this.getHistoryClinics();
   }
 
-  historyClinics: ClinicalHistoryCatalog[]=[]
+  historyClinics: ClinicalHistoryCatalog[] = []
 
   getHistoryClinics() {
     this.apiService
@@ -49,12 +49,30 @@ export class DialogHistoryClinicsComponent implements OnInit {
         },
       });
   }
+
   selectHistory(history: ClinicalHistoryCatalog) {
     this.postClinicalHistory(history);
-  
-    // this.router.navigate(['/students/historyClinic', history.idClinicalHistoryCatalog]);
-    this.dialogRef.close(); 
-  } 
+    this.dialogRef.close();
+    const patientID = this.data.patientID; 
+    // Navegar a la ruta correspondiente según el nombre de la historia clínica
+    switch (history.clinicalHistoryName) {
+      case 'General':
+        this.router.navigate(['/students/historyClinic', history.idClinicalHistoryCatalog, { patientID: patientID }]); // General
+        break;
+      case 'Prótesis bucal':
+        this.router.navigate(['/students/OralSurgery']); // Cirugía bucal
+        break;
+      case 'Periodoncia':
+        this.router.navigate(['/students/periodontics']); // Periodoncia
+        break;
+      case 'Operatoria dental':
+        this.router.navigate(['/students/DentalOperation']); // Operatoria dental
+        break;
+      case 'Cirugía bucal':
+        this.router.navigate(['/students/OralSurgery']); // Cirugía bucal
+        break;
+    }
+  }
 
   postClinicalHistory(history: ClinicalHistoryCatalog) {
     this.apiService
@@ -62,8 +80,8 @@ export class DialogHistoryClinicsComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.POST_CLINICAL_HISTORY}?idPatient=${this.data.patientID}&idClinicalHistory=${history.idClinicalHistoryCatalog}`, 
-        data: {}, 
+        url: `${UriConstants.POST_CLINICAL_HISTORY}?idPatient=${this.data.patientID}&idClinicalHistory=${history.idClinicalHistoryCatalog}`,
+        data: {},
       })
       .subscribe({
         next: (response) => {

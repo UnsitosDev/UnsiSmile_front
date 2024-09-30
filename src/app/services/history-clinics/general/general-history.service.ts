@@ -9,6 +9,9 @@ import { radiographicAnalisisService } from './radiographicAnalisis.service';
 import { modelsAndPhotosService } from './modelsAndPhotos.service';
 import { laboratoryStudioBiopsyService } from './laboratoryStudioBiopsy.service';
 import { medicalInterconsultationService } from './medicalInterconsultation.service';
+import { ApiService } from '../../api.service';
+import { HttpHeaders } from '@angular/common/http';
+import { UriConstants } from '@mean/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +27,8 @@ export class GeneralHistoryService {
   private modelsAndPhotosFieldsService = inject(modelsAndPhotosService);
   private laboratoryStudioBiopsyService = inject(laboratoryStudioBiopsyService);
   private medicalInterconsultationService = inject(medicalInterconsultationService);
+  private apiService = inject(ApiService);
+
   constructor() { }
 
   getHistory(): HistoryData {
@@ -42,4 +47,25 @@ export class GeneralHistoryService {
       tabs: [vitalSignsFields, facialExamFields, clinicalExam, patientPosture, bucalExam, radiographicAnalisis, modelsAndPhotos, laboratoryStudioBiopsy, seccionMedicalInterconsultation]
     };
   }
+
+
+  getHistoryClinics(id: number, idpatient: number): void {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_HISTORY_CONFIG}/${id}?patientClinicalHistoryId=${idpatient}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
 }
+
