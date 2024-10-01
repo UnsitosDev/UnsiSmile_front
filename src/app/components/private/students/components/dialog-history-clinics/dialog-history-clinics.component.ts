@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ApiService } from '@mean/services';
-import { ClinicalHistoryCatalog, HistoryData } from 'src/app/models/history-clinic/historyClinic';
+import { ClinicalHistory, ClinicalHistoryCatalog, HistoryData } from 'src/app/models/history-clinic/historyClinic';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { Router } from '@angular/router';
@@ -27,6 +27,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHistoryClinics();
+    this.getPatientHistories();
   }
 
   historyClinics: ClinicalHistoryCatalog[] = []
@@ -51,9 +52,20 @@ export class DialogHistoryClinicsComponent implements OnInit {
   }
 
   selectHistory(history: ClinicalHistoryCatalog) {
-    this.postClinicalHistory(history);
+    // Verifica si la historia clínica ya está creada para el paciente
+    const exists = this.patientHistories.some(
+      (pxHistory) =>
+        pxHistory.patientId === this.data.patientID && // Verifica si el ID del paciente coincide
+        pxHistory.patientClinicalHistoryId === history.idClinicalHistoryCatalog // Verifica si el ID de la historia clínica coincide
+    );
+
+    // Si no existe, crea la historia clínica
+    if (!exists) {
+      this.postClinicalHistory(history);
+    }
+
     this.dialogRef.close();
-    const patientID = this.data.patientID; 
+    const patientID = this.data.patientID;
     // Navegar a la ruta correspondiente según el nombre de la historia clínica
     switch (history.clinicalHistoryName) {
       case 'General':
@@ -86,6 +98,26 @@ export class DialogHistoryClinicsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           console.log(response);
+        },
+        error: (error) => {
+          console.error('Error en la autenticación:', error);
+        },
+      });
+  }
+
+  patientHistories: ClinicalHistory[] = []
+  getPatientHistories() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_PATIENT_HISTORIES}?idPatient=${this.data.patientID}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.patientHistories = response;
         },
         error: (error) => {
           console.error('Error en la autenticación:', error);
