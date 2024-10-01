@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { VitalSignsFormService } from './vitalSigns.service';
 import { facialExamService } from './facialExam.service';
-import { HistoryData } from 'src/app/models/history-clinic/historyClinic';
+import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
 import { multidiciplinaryEvaluationService } from './clinicalExamFields.service';
 import { patientPostureService } from './patientPostureFields.service';
 import { bucalExamService } from './bucalExamFields.service';
@@ -12,6 +12,9 @@ import { medicalInterconsultationService } from './medicalInterconsultation.serv
 import { ApiService } from '../../api.service';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
+import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
+import { mapClinicalHistoryToDataTabs } from 'src/app/components/private/students/adapters/clinical-history.adapters'; // Asegúrate de que la ruta sea correcta
+import { HistoryData } from 'src/app/models/form-fields/form-field.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +31,7 @@ export class GeneralHistoryService {
   private laboratoryStudioBiopsyService = inject(laboratoryStudioBiopsyService);
   private medicalInterconsultationService = inject(medicalInterconsultationService);
   private apiService = inject(ApiService);
+
 
   constructor() { }
 
@@ -48,24 +52,31 @@ export class GeneralHistoryService {
     };
   }
 
-
-  getHistoryClinics(id: number, idpatient: number): void {
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_HISTORY_CONFIG}/${id}?patientClinicalHistoryId=${idpatient}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
+  historyData: ClinicalHistoryCatalog[] = [];
+  mappedHistoryData!: dataTabs; 
+  getHistoryClinics(id: number, idpatient: number) {
+      this.apiService
+          .getService({
+              headers: new HttpHeaders({
+                  'Content-Type': 'application/json',
+              }),
+              url: `${UriConstants.GET_HISTORY_CONFIG}/${id}/patients/${idpatient}`,
+              data: {},
+          })
+          .subscribe({
+              next: (response: ClinicalHistoryCatalog) => { // Tipo de respuesta ajustado a un objeto
+                  console.log('Response:', response);
+  
+                  this.mappedHistoryData = mapClinicalHistoryToDataTabs(response); 
+                  console.log('Mapped History Data: ', this.mappedHistoryData);
+              },
+              error: (error) => {
+                  console.error('Error en la autenticación:', error);
+              },
+          });
   }
+  
+
+
 }
 

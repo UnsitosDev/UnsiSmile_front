@@ -5,13 +5,13 @@ import { DatePipe } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ApiService } from '@mean/services';
-import { ClinicalHistory, ClinicalHistoryCatalog, HistoryData } from 'src/app/models/history-clinic/historyClinic';
+import { ClinicalHistory, ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog'; // Importa MAT_DIALOG_DATA
-
+import { HistoryData } from 'src/app/models/form-fields/form-field.interface';
 @Component({
   selector: 'app-dialog-history-clinics',
   standalone: true,

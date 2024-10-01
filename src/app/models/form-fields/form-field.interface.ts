@@ -1,15 +1,15 @@
 import { FormGroup, ValidatorFn } from '@angular/forms';
 
-export interface FormFieldOption {
-    value: any;
-    label: string;
-}
 
 // Interfaz para la configuración de onInputChange
 export interface InputChangeConfig {
     service: string;
     method: string;
     minLength: number;
+}
+export interface HistoryData {
+    title: string;
+    tabs: formSectionFields[];
 }
 
 export interface dataTabs {
@@ -20,7 +20,11 @@ export interface dataTabs {
 export interface formSectionFields {
     title: string;
     childFormSection: formSectionFields | null;
-    seccion: FormField[] | null;    
+    seccion: FormField[] | null;
+}
+export interface FormFieldOption {
+    value: any;
+    label: string;
 }
 
 export interface FormField {
@@ -29,36 +33,36 @@ export interface FormField {
     // 'inputFile' o 'textArea'.
     type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea';
     // Nombre del campo, utilizado para identificarlo en el formulario.
-    name: string; 
+    name: string;
     // Etiqueta que se muestra junto al campo.
-    label: string; 
+    label: string;
     // Indica si el campo es obligatorio.
-    required?: boolean; 
+    required?: boolean;
     // Opciones disponibles para campos de tipo 'select'.
     options?: FormFieldOption[];
     // Validadores personalizados que se aplican al campo. 
-    validators?: ValidatorFn[]; 
+    validators?: ValidatorFn[];
     // Valor actual del campo.
-    value?: any; 
+    value?: any;
     // Tipo de entrada HTML para campos de tipo 'input'.
     typeInput?: string;
     // Tipos de archivos permitidos en campos de tipo 'inputFile'. 
-    accept?: string; 
+    accept?: string;
     // Texto de marcador de posición que se muestra en el campo.
-    placeholder?: string; 
+    placeholder?: string;
     // Mensajes de error personalizados para diferentes validaciones.
-    errorMessages?: { [key: string]: string }; 
+    errorMessages?: { [key: string]: string };
     // Campos anidados para crear grupos de campos.
-    fields?: FormField[];  
+    fields?: FormField[];
     // Función que se ejecuta al hacer clic en el campo.
     onClick?: (event: MouseEvent) => void;
     // Función que se ejecuta al cambiar el valor del campo. 
-    onInputChange?: { 
+    onInputChange?: {
         changeFunction: (param: string) => void;
         length: number
     }
     // Función que se ejecuta al cambiar el valor en campos de autocompletado.
-    onInputAutocomplete?: { 
+    onInputAutocomplete?: {
         changeFunction: (param: string) => void;
         length: number;
     };

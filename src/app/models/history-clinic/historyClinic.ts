@@ -7,10 +7,6 @@ export interface ClinicalHistory {
     patientClinicalHistoryId: number;  
     patientId: number;                 
 }
-export interface HistoryData {
-    title: string;
-    tabs: formSectionFields[];
-}
 
 export interface ClinicalHistoryCatalog {
     idClinicalHistoryCatalog: number;
@@ -22,11 +18,14 @@ export interface FormSection {
     idFormSection: number;
     formName: string;
     isAnswered: boolean;
-    subSections: SubSection[];
+    subSections: SubSection[]; // Array de SubSection
     questions: Question[];
 }
 
 export interface SubSection {
+    idSubSection: number; // Identificador único para la subsección
+    subSectionName: string; // Nombre de la subsección
+    questions: Question[]; // Preguntas relacionadas con esta subsección
 }
 
 export interface Question {
