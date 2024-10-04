@@ -22,12 +22,14 @@ import { UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { HttpHeaders } from '@angular/common/http';
 
+import { MatInputModule } from '@angular/material/input';
+
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
-  imports: [TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule],
+  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule],
 })
 
 export class StudentsGeneralHistoryComponent implements OnInit {
@@ -44,18 +46,23 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public patient!: Patient;
   public data!: dataTabs;
   public patientData!: cardPatient;
-  public history: HistoryData;
   public currentIndex: number = 0; // Índice del tab activo
+  public mappedHistoryData!: dataTabs;
   
 
-  constructor() {
-    this.history = this.historyData.getHistory();
-  }
+  constructor() { }
 
   ngOnInit(): void {
     this.router.params.subscribe((params) => {
       this.id = params['id'];
       this.idpatient = params['patientID']; 
+       // Llamar al servicio y suscribirse a los datos
+       this.historyData.getHistoryClinics(this.id, this.idpatient).subscribe({
+        next: (mappedData: dataTabs) => {
+          this.mappedHistoryData = mappedData; // Asignar los datos mapeados a la variable
+          console.log('Datos mapeados en el componente:', this.mappedHistoryData);
+        }
+      });
       this.fetchPatientData();   
       this.historyData.getHistoryClinics(this.id, this.idpatient)
     });    
@@ -117,8 +124,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
   onNextTab(): void {
       this.currentIndex++; // Incrementar el índice del tab activo
-      if (this.currentIndex >= this.history.tabs.length) {
-          this.currentIndex = this.history.tabs.length - 1; // Limitar el índice si excede la cantidad de tabs
+      if (this.currentIndex >= this.mappedHistoryData.tabs.length) {
+          this.currentIndex = this.mappedHistoryData.tabs.length - 1; // Limitar el índice si excede la cantidad de tabs
       }
   }
 

@@ -19,8 +19,13 @@ export interface dataTabs {
 
 export interface formSectionFields {
     title: string;
-    childFormSection: formSectionFields | null;
+    childFormSection: subSeccion[] | null;
     seccion: FormField[] | null;
+}
+
+export interface subSeccion {
+    formName: string; // Nombre de la subsección
+    questions: FormField[] ; 
 }
 export interface FormFieldOption {
     value: any;
@@ -31,7 +36,7 @@ export interface FormField {
     // Tipo de campo de formulario. Puede ser 'input', 'datepicker', 'checkbox', 
     // 'select', 'group', 'inputEvent', 'autocomplete', 'inputNumber', 
     // 'inputFile' o 'textArea'.
-    type: 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea';
+    type: 'boolean' |'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea'| 'multivalued';
     // Nombre del campo, utilizado para identificarlo en el formulario.
     name: string;
     // Etiqueta que se muestra junto al campo.

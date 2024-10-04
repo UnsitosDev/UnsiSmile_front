@@ -10,12 +10,14 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { AsyncPipe, DatePipe, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 
 @Component({
   selector: 'app-field-component',
   standalone: true,
-  imports: [MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
+  imports: [MatCheckboxModule, MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
   templateUrl: './field-component.component.html',
   styleUrl: './field-component.component.scss',
   providers: [provideNativeDateAdapter(), DatePipe],
@@ -30,7 +32,11 @@ export class FieldComponentComponent implements OnChanges {
   @Input() errors: any;
   @Input() fieldValue: any;
   @Output() setFieldValue = new EventEmitter<any>();
+  isChecked: boolean = false;
 
+  check(event: any) {
+    this.isChecked = event.checked; // Actualiza el estado según el valor del checkbox
+  }
   typeElement: string = '';
   datePipe = inject(DatePipe);
 
@@ -46,6 +52,7 @@ export class FieldComponentComponent implements OnChanges {
     this.setFieldValue.emit({ field: this.field.name, value: value });
   }
 
+ 
   // Date
   onValueChangeDate(event: any) {
     const value = event.value as Date;

@@ -1,18 +1,21 @@
+
 <mat-card appearance="outlined" class="custom">
   <app-card-patient-data [data]="patientData"></app-card-patient-data>
 </mat-card>
 <br>
-<mat-card-title><strong>{{history.title}}</strong></mat-card-title>             
-<mat-card class="custom">
-    <mat-tab-group [(selectedIndex)]="currentIndex">
-        @for (tab of history.tabs; track tab) {
-            <mat-tab [label]="tab.title">
-                <app-tab-form 
-                    [fieldsTab]="tab" 
-                    (nextMatTab)="onNextTab()"
-                    (previousMatTab)="onPreviousTab()"
-                    ></app-tab-form>  
-            </mat-tab>
-        }
-    </mat-tab-group>
-</mat-card>
+@if (mappedHistoryData) {
+    <mat-card-title><strong>Historia clinica {{mappedHistoryData.title}}</strong></mat-card-title>             
+    <mat-card class="custom">
+        <mat-tab-group [(selectedIndex)]="currentIndex">
+            @for (tab of mappedHistoryData.tabs; track tab) {
+                <mat-tab [label]="tab.title">
+                    <app-tab-form 
+                        [fieldsTab]="tab" 
+                        (nextMatTab)="onNextTab()"
+                        (previousMatTab)="onPreviousTab()"
+                        ></app-tab-form>  
+                </mat-tab>
+            }
+        </mat-tab-group>
+    </mat-card>
+}

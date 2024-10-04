@@ -1,5 +1,43 @@
 <div [formGroup]="formGroup">
   @switch (field.type) {
+    @case ('multivalued') {
+      <div class="flex items-center space-x-4">
+        <table>
+          <tr>
+            <td>
+              <label>{{ field.label }}</label>
+            </td>
+            <td>
+              <section class="example-section">
+                <mat-checkbox class="example-margin"></mat-checkbox>
+              </section>
+            </td>
+            <td>
+              <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Ampliar Respuesta</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+      </div>      
+    }
+    @case ('boolean') {
+      <div class="flex items-center space-x-4">
+        <table>
+          <tr>
+            <td>
+              <label>{{ field.label }}</label>
+            </td>
+            <td>
+              <section class="example-section">
+                <mat-checkbox class="example-margin"></mat-checkbox>
+              </section>
+            </td>
+          </tr>
+        </table>
+      </div>      
+    }
     @case ('input') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
@@ -86,12 +124,12 @@
         
     }
     @case ('textArea') {
-     
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{field.label}}</mat-label>
         <textarea matInput [formControlName]="field.name"  [placeholder]="field.placeholder"></textarea>
       </mat-form-field>   
     }
+  
 
    
     @default {

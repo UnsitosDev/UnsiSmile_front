@@ -75,20 +75,20 @@ export class bucalExamService {
 
     ];
 
-    private oralExamFields: formSectionFields =
-        {
-            title: 'Examen Bucal',
-            childFormSection: {
-                title: 'Clasificacion de angle',
-                childFormSection: null,
-                seccion: this.bucalExamFields,
-            },
-            seccion: null
-        }
-        ;
+    // private oralExamFields: formSectionFields =
+    //     {
+    //         title: 'Examen Bucal',
+    //         childFormSection: {
+    //             title: 'Clasificacion de angle',
+    //             childFormSection: null,
+    //             seccion: this.bucalExamFields,
+    //         },
+    //         seccion: null
+    //     }
+    //     ;
 
-    getOralExamFields(): formSectionFields {
-        return this.oralExamFields;
-    }
+    // getOralExamFields(): formSectionFields {
+    //     return this.oralExamFields;
+    // }
 
 }

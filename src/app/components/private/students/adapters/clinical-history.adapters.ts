@@ -1,7 +1,7 @@
 // clinical-history.adapters.ts
 
-import { dataTabs, FormField, formSectionFields } from "src/app/models/form-fields/form-field.interface";
-import { AnswerType, ClinicalHistoryCatalog, FormSection, Question } from "src/app/models/history-clinic/historyClinic";
+import { dataTabs, FormField, formSectionFields, subSeccion } from "src/app/models/form-fields/form-field.interface";
+import { AnswerType, ClinicalHistoryCatalog, FormSection, Question, SubSection } from "src/app/models/history-clinic/historyClinic";
 
 export function mapClinicalHistoryToDataTabs(catalog: ClinicalHistoryCatalog): dataTabs {
     // Mapea la estructura del catálogo a la estructura de datos esperada en dataTabs
@@ -14,8 +14,19 @@ export function mapClinicalHistoryToDataTabs(catalog: ClinicalHistoryCatalog): d
 export function mapFormSectionToFormSectionFields(section: FormSection): formSectionFields {
     return {
         title: section.formName,
-        childFormSection: null,
-        seccion: section.questions.map((question) => mapQuestionToFormField(question)),
+        childFormSection: section.subSections.length > 0
+            ? section.subSections.map((subSection) => mapSubSectionToFormSectionFields(subSection))
+            : null, // Si no hay subsecciones, asigna null
+        seccion: section.questions.map((question) => mapQuestionToFormField(question)), // Mapea las preguntas de la sección principal
+    };
+}
+
+
+// Función recursiva para mapear subsecciones
+function mapSubSectionToFormSectionFields(subSection: SubSection): subSeccion {
+    return {
+        formName: subSection.formName,
+        questions: subSection.questions.map((question) => mapQuestionToFormField(question)), // Mapea las preguntas de la subsección
     };
 }
 
@@ -34,17 +45,24 @@ export function mapQuestionToFormField(question: Question): FormField {
     };
 }
 
-export function determineFieldType(answerType: AnswerType): 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea' {
-    switch (answerType.description) {
-        case 'text':
+export function determineFieldType(answerType: AnswerType): 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea' | 'multivalued' | 'boolean' {
+    switch (answerType.description.toUpperCase()) {
+        case 'TEXT':
             return 'input';
-        case 'date':
+        case 'DATE':
             return 'datepicker';
-        case 'checkbox':
-            return 'checkbox';
-        case 'select':
+        case 'CATALOG':
             return 'select';
+        case 'NUMERIC': // Corresponde a 'input' para valores numéricos
+            return 'input';
+        case 'MULTIVALUED':
+            return 'multivalued';
+        case 'BOOLEAN':
+            return 'boolean';
+        case 'SHORT_TEXT':
+            return 'input';
         default:
             return 'input'; // Valor por defecto
     }
 }
+

@@ -23,6 +23,7 @@ export interface FormSection {
 }
 
 export interface SubSection {
+    formName: string;
     idSubSection: number; // Identificador único para la subsección
     subSectionName: string; // Nombre de la subsección
     questions: Question[]; // Preguntas relacionadas con esta subsección
