@@ -31,7 +31,9 @@ function mapSubSectionToFormSectionFields(subSection: SubSection): subSeccion {
 }
 
 export function mapQuestionToFormField(question: Question): FormField {
+    const grids = determineFieldGrids(question.answerType); // No combinamos, solo usamos uno por pregunta
     return {
+        grids:grids || 'w-full', // Cambiar aquí para mapear a cada pregunta
         type: determineFieldType(question.answerType),
         name: question.questionText.replace(/\s+/g, '_').toLowerCase(),
         label: question.questionText,
@@ -44,6 +46,7 @@ export function mapQuestionToFormField(question: Question): FormField {
         errorMessages: {},
     };
 }
+
 
 export function determineFieldType(answerType: AnswerType): 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea' | 'multivalued' | 'boolean' {
     switch (answerType.description.toUpperCase()) {
@@ -66,3 +69,17 @@ export function determineFieldType(answerType: AnswerType): 'input' | 'datepicke
     }
 }
 
+export function determineFieldGrids(answerType: AnswerType): string {
+    switch (answerType.description) {
+        case 'MULTIVALUED':
+            return 'col-span-12'; // Ocupa todo el ancho
+        case 'BOOLEAN':
+            return 'col-span-12'; // Ocupa todo el ancho
+        case 'SHORT_TEXT':
+            return 'col-span-4'; // Ocupa un tercio
+        case 'NUMERIC':
+            return 'col-span-4'; // Ocupa un tercio
+        default:
+            return 'col-span-4'; // Valor por defecto
+    }
+}

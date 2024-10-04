@@ -1,14 +1,16 @@
 <div class="mx-8 pb-8 custom">
   <form [formGroup]="formGroup">
     @if (fieldsTab.seccion) {
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-        @for (field of fieldsTab.seccion; track $index) {
-          <app-field-component
-            [field]="field"
-            [formGroup]="formGroup"
-            [errors]="field.errorMessages">
-          </app-field-component>
-        }  
+      <div class="grid grid-cols-12 gap-4 mt-4"> <!-- Contenedor de la cuadrícula -->
+        @for (field of fieldsTab.seccion; track field) { <!-- Usando @for con track -->
+          <div class="{{ field.grids }}"> <!-- Aplica la clase de grid a cada campo -->
+            <app-field-component
+              [field]="field"
+              [formGroup]="formGroup"
+              [errors]="field.errorMessages">
+            </app-field-component>
+          </div>
+        }
       </div>
     } 
 

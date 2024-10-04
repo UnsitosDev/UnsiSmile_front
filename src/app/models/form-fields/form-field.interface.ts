@@ -36,6 +36,8 @@ export interface FormField {
     // Tipo de campo de formulario. Puede ser 'input', 'datepicker', 'checkbox', 
     // 'select', 'group', 'inputEvent', 'autocomplete', 'inputNumber', 
     // 'inputFile' o 'textArea'.
+    grids?: string;
+
     type: 'boolean' |'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea'| 'multivalued';
     // Nombre del campo, utilizado para identificarlo en el formulario.
     name: string;
