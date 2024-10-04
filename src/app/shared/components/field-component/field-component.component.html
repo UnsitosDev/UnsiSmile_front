@@ -1,42 +1,36 @@
 <div [formGroup]="formGroup">
   @switch (field.type) {
     @case ('multivalued') {
-      <div class="flex items-center space-x-4">
-        <table>
-          <tr>
-            <td>
-              <label>{{ field.label }}</label>
-            </td>
-            <td>
-              <section class="example-section">
-                <mat-checkbox class="example-margin"></mat-checkbox>
-              </section>
-            </td>
-            <td>
-              <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Ampliar Respuesta</mat-label>
-                <input matInput />
-              </mat-form-field>
-            </td>
-          </tr>
-        </table>
-      </div>      
+      <div class="grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-6 p-4">
+          <label>{{ field.label }}</label>
+        </div>
+        <div class="col-span-2 p-4">
+          <section class="example-section">
+            <mat-checkbox class="example-margin"></mat-checkbox>
+          </section>
+        </div>
+        <div class="col-span-4 p-4">
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Ampliar Respuesta</mat-label>
+            <input matInput />
+          </mat-form-field>
+        </div>
+      </div>
     }
     @case ('boolean') {
-      <div class="flex items-center space-x-4">
-        <table>
-          <tr>
-            <td>
-              <label>{{ field.label }}</label>
-            </td>
-            <td>
-              <section class="example-section">
-                <mat-checkbox class="example-margin"></mat-checkbox>
-              </section>
-            </td>
-          </tr>
-        </table>
-      </div>      
+      <div class="grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-9 p-4">
+          <label>{{ field.label }}</label>
+        </div>
+        <div class="col-span-3 p-4">
+          <section class="example-section">
+            <mat-checkbox class="example-margin"></mat-checkbox>
+          </section>
+        </div>
+      </div>
+      <hr>
+        
     }
     @case ('input') {
       <mat-form-field appearance="fill" class="w-full">
