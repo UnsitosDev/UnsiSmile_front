@@ -47,11 +47,12 @@ export class FieldComponentComponent implements OnChanges {
   }
   // Input & select
   onValueChange(event: any) {
-    // Emite el valor para todos los tipos de eventos
+    // Obtenemos el valor del evento
     const value = event.target ? event.target.value : event.value;
-    this.setFieldValue.emit({ field: this.field.name, value: value });
+    // Emitimos el evento con el valor y el questionID
+    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID});
   }
-
+  
  
   // Date
   onValueChangeDate(event: any) {

@@ -7,7 +7,8 @@
             <app-field-component
               [field]="field"
               [formGroup]="formGroup"
-              [errors]="field.errorMessages">
+              [errors]="field.errorMessages"
+              (setFieldValue)="handleFieldValue($event)">
             </app-field-component>
           </div>
         }
@@ -23,7 +24,8 @@
               <app-field-component
                 [field]="childField"
                 [formGroup]="formGroup"
-                [errors]="childField.errorMessages">
+                [errors]="childField.errorMessages"
+                (setFieldValue)="handleFieldValue($event)">
               </app-field-component>
             }
           </div>

@@ -41,17 +41,16 @@ export class TabFormComponent {
 
   ngOnInit(): void {
     this.section();
-    // Suscribirse a los parámetros de ruta
     this.route.paramMap.subscribe(params => {
-      // Asignar los valores de los parámetros de ruta a las variables
-      this.id = +params.get('id')!;           
-      this.patientID = +params.get('patientID')!; 
+      this.id = +params.get('id')!;
+      this.patientID = +params.get('patientID')!;
     });
   }
+
   section() {
     // Inicializamos el formGroup vacío
     this.formGroup = this.fb.group({});
-  
+
     // Procesamos la sección principal
     if (this.fieldsTab?.seccion) {
       this.fieldsTab.seccion.forEach(sectionField => {
@@ -61,7 +60,7 @@ export class TabFormComponent {
         );
       });
     }
-  
+
     // Procesamos los campos de childFormSection si existen
     if (this.fieldsTab?.childFormSection) {
       this.fieldsTab.childFormSection.forEach(childSection => {
@@ -76,6 +75,12 @@ export class TabFormComponent {
     }
   }
 
+  handleFieldValue(event: any) {
+    this.idQuestion = event.questionID;
+    const fieldValue = event.value;
+    this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específico
+  }
+
   idPatientClinicalHistory: number = 0;
   idQuestion: number = 0;
   answerBoolean: boolean = false;
@@ -85,39 +90,34 @@ export class TabFormComponent {
   idCatalogOption: number = 0;
   isFile: boolean = false;
 
-  // Tipa el arreglo send como FormData[]
   send: FormData[] = [];
 
+  questionIDs: { [key: string]: number } = {};  // Definimos questionIDs como un objeto que almacena números
   sendFormData() {
-    // Obtenemos los valores del formulario
     const formData = this.formGroup.value;
-  
-    // Iteramos sobre los campos del formulario
-    Object.keys(formData).forEach((fieldName, index) => {
+
+    Object.keys(formData).forEach((fieldName) => {
       const fieldValue = formData[fieldName];
-  
-      // Para cada campo, creamos un objeto con la estructura que necesitas
+      const questionID = this.questionIDs[fieldName]; // Recuperamos el questionID como un número
+
       const data: FormData = {
-        idPatientClinicalHistory: this.id,  // Valor constante o variable
-        idQuestion: index,                                        // Puedes usar el índice o un valor real según tu caso
-        answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : false, // Si el valor es booleano, lo asignamos
-        answerNumeric: typeof fieldValue === 'number' ? fieldValue : 0,      // Si el valor es numérico, lo asignamos
-        answerText: typeof fieldValue === 'string' ? fieldValue : '',        // Si es texto, lo asignamos
-        answerDate: this.answerDate || new Date().toISOString().split('T')[0], // Usamos la fecha actual como valor por defecto
-        idCatalogOption: formData.idCatalogOption || 0,                      // Valor por defecto o asignado
-        isFile: false                                                        // Por ahora, asumimos que no es archivo
+        idPatientClinicalHistory: this.id,
+        idQuestion: questionID,  // Usamos el questionID correspondiente
+        answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : false,  // Asignar false si no es booleano
+        answerNumeric: typeof fieldValue === 'number' ? fieldValue : 0,        // Asignar 0 si no es número
+        answerText: typeof fieldValue === 'string' ? fieldValue : '',          // Asignar cadena vacía si no es string
+        answerDate: this.answerDate ? this.answerDate : '',                    // Asignar cadena vacía si no hay fecha
+        idCatalogOption: formData.idCatalogOption || 0,                       // Asignar 0 si no hay idCatalogOption
+        isFile: false                                                          // Si quieres permitir archivos, puedes ajustar esto
       };
-  
-      // Añadimos el objeto al arreglo
+
       this.send.push(data);
     });
-  
-    // Mostramos el arreglo en consola para verificar los datos
     console.log('Datos a enviar:', this.send);
   }
-  
+
   previousTab() {
-      this.previousMatTab.emit(); // Emitir evento para volver al tab anterior
+    this.previousMatTab.emit(); // Emitir evento para volver al tab anterior
   }
 
   onSubmit() {
@@ -125,5 +125,4 @@ export class TabFormComponent {
     this.send = []; // Vaciamos el array después de enviar los datos
     this.nextMatTab.emit(); // Emitir evento para cambiar al siguiente tab
   }
-
 }
