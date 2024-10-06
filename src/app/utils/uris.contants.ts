@@ -171,4 +171,6 @@ export class UriConstants {
     public static readonly GET_HISTORY_CONFIG = basePath + '/clinical-histories'
     // Obtiene una lista de historías clínicas y su relación con el paciente.
     public static readonly GET_PATIENT_HISTORIES = basePath + '/clinical-histories/patient-clinical-histories'
+    // Enviar seccion del formulario
+    public static readonly POST_SECTION_FORM = basePath + '/answers/forms'
 }    
