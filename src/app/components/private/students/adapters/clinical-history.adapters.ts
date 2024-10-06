@@ -48,26 +48,27 @@ export function mapQuestionToFormField(question: Question): FormField {
 }
 
 
-export function determineFieldType(answerType: AnswerType): 'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea' | 'multivalued' | 'boolean' {
+export function determineFieldType(answerType: AnswerType): 'inputText' | 'inputNumber' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputFile' | 'textArea' | 'multivalued' | 'boolean' {
     switch (answerType.description.toUpperCase()) {
         case 'TEXT':
-            return 'input';
+            return 'inputText'; // Retorna input específico para texto
         case 'DATE':
             return 'datepicker';
         case 'CATALOG':
             return 'select';
-        case 'NUMERIC': // Corresponde a 'input' para valores numéricos
-            return 'input';
+        case 'NUMERIC': // Retorna input específico para números
+            return 'inputNumber';
         case 'MULTIVALUED':
             return 'multivalued';
         case 'BOOLEAN':
             return 'boolean';
         case 'SHORT_TEXT':
-            return 'input';
+            return 'inputText'; // Usa 'inputText' para textos cortos
         default:
-            return 'input'; // Valor por defecto
+            return 'inputText'; // Valor por defecto es inputText para manejar textos
     }
 }
+
 
 export function determineFieldGrids(answerType: AnswerType): string {
     switch (answerType.description) {

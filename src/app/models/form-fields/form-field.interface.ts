@@ -38,7 +38,7 @@ export interface FormField {
     // 'inputFile' o 'textArea'.
     grids?: string;
 
-    type: 'boolean' |'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea'| 'multivalued';
+    type:'inputText' | 'inputNumber' | 'boolean' |'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea'| 'multivalued';
     // Nombre del campo, utilizado para identificarlo en el formulario.
     name: string;
     // Etiqueta que se muestra junto al campo.

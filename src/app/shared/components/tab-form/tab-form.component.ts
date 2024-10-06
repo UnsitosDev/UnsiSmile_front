@@ -112,6 +112,7 @@ export class TabFormComponent {
 
   onSubmit() {
     this.sendFormData();
+    this.send = []; // Vaciamos el array después de enviar los datos
     this.nextMatTab.emit(); // Emitir evento para cambiar al siguiente tab
   }
 
