@@ -33,6 +33,7 @@ function mapSubSectionToFormSectionFields(subSection: SubSection): subSeccion {
 export function mapQuestionToFormField(question: Question): FormField {
     const grids = determineFieldGrids(question.answerType); // No combinamos, solo usamos uno por pregunta
     return {
+        questionID: question.idQuestion,
         grids:grids || 'w-full', // Cambiar aquí para mapear a cada pregunta
         type: determineFieldType(question.answerType),
         name: question.questionText.replace(/\s+/g, '_').toLowerCase(),

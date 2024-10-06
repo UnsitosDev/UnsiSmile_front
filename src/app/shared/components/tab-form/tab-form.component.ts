@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import { ActivatedRoute } from '@angular/router';
 
 interface FormData {
   idPatientClinicalHistory: number;
@@ -30,13 +31,22 @@ export class TabFormComponent {
   @Input() fieldsSubTab!: subSeccion;
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
+  route = inject(ActivatedRoute);
 
   formGroup!: FormGroup;
 
   private fb = inject(FormBuilder);
+  id: number = 0;           // Variable para el parámetro 'id'
+  patientID: number = 0;    // Variable para el parámetro 'patientID'
 
   ngOnInit(): void {
     this.section();
+    // Suscribirse a los parámetros de ruta
+    this.route.paramMap.subscribe(params => {
+      // Asignar los valores de los parámetros de ruta a las variables
+      this.id = +params.get('id')!;           
+      this.patientID = +params.get('patientID')!; 
+    });
   }
   section() {
     // Inicializamos el formGroup vacío
@@ -88,7 +98,7 @@ export class TabFormComponent {
   
       // Para cada campo, creamos un objeto con la estructura que necesitas
       const data: FormData = {
-        idPatientClinicalHistory: this.idPatientClinicalHistory,  // Valor constante o variable
+        idPatientClinicalHistory: this.id,  // Valor constante o variable
         idQuestion: index,                                        // Puedes usar el índice o un valor real según tu caso
         answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : false, // Si el valor es booleano, lo asignamos
         answerNumeric: typeof fieldValue === 'number' ? fieldValue : 0,      // Si el valor es numérico, lo asignamos
