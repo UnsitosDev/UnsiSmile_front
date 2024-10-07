@@ -13,7 +13,7 @@ export class FormFieldsService {
     patientService = inject(PatientService);
     private personalDataFields: FormField[] = [
         {
-            type: 'input',
+            type: 'inputText',
             label: 'Primer Nombre',
             name: 'firstName',
             required: true,
@@ -23,7 +23,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'inputText',
             label: 'Segundo Nombre',
             name: 'secondName',
             required: true,
@@ -32,7 +32,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'inputText',
             label: 'Apellido Paterno',
             name: 'firstLastName',
             required: true,
@@ -42,7 +42,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'inputText',
             label: 'Apellido Materno',
             name: 'secondLastName',
             required: true,
@@ -52,7 +52,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'inputText',
             label: 'CURP',
             name: 'curp',
             required: true,
@@ -63,7 +63,7 @@ export class FormFieldsService {
             },
         },
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Teléfono',
             name: 'phone',
             required: false,
@@ -83,7 +83,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'inputText',
             label: 'Correo electrónico',
             name: 'email',
             required: true,
@@ -184,7 +184,7 @@ export class FormFieldsService {
 
         },
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Número Exterior',
             name: 'exteriorNumber',
             required: true,
@@ -195,7 +195,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'inputNumber',
             label: 'Número Interior',
             name: 'interiorNumber',
             required: true,
@@ -300,7 +300,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'inputText',
             label: 'Motivo de Consulta',
             name: 'consultationReason',
             required: true,
