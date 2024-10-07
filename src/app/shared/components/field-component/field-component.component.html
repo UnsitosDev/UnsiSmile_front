@@ -1,5 +1,5 @@
 <div [formGroup]="formGroup">
-  @switch (field.type) {
+  @switch (field.type) {    
     @case ('multivalued') {
       <div class="grid grid-cols-12 gap-4 items-center">
         <div class="col-span-6 p-4">
@@ -48,7 +48,8 @@
     @case ('inputNumber') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <input matInput type="number" [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)" />
+        <input matInput type="number" [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric"
+        [formControlName]="field.name" (input)="onValueChange($event)" />
         @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
           <mat-error>{{ errors?.lastError }}</mat-error>
         }
@@ -57,7 +58,6 @@
         }
       </mat-form-field>
     }
-    
     
     @case ('select') {
       <mat-form-field  appearance="fill" class="w-full">

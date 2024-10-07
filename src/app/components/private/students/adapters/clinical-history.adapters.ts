@@ -1,7 +1,7 @@
 // clinical-history.adapters.ts
 
-import { dataTabs, FormField, formSectionFields, subSeccion } from "src/app/models/form-fields/form-field.interface";
-import { AnswerType, ClinicalHistoryCatalog, FormSection, Question, SubSection } from "src/app/models/history-clinic/historyClinic";
+import { AnswerField, dataTabs, FormField, formSectionFields, subSeccion } from "src/app/models/form-fields/form-field.interface";
+import { Answer, AnswerType, ClinicalHistoryCatalog, FormSection, Question, SubSection } from "src/app/models/history-clinic/historyClinic";
 
 export function mapClinicalHistoryToDataTabs(catalog: ClinicalHistoryCatalog): dataTabs {
     // Mapea la estructura del catálogo a la estructura de datos esperada en dataTabs
@@ -33,13 +33,14 @@ function mapSubSectionToFormSectionFields(subSection: SubSection): subSeccion {
 export function mapQuestionToFormField(question: Question): FormField {
     const grids = determineFieldGrids(question.answerType); // No combinamos, solo usamos uno por pregunta
     return {
+        answerField: mapAnswerToAnswerField(question.answer),
         questionID: question.idQuestion,
         grids:grids || 'w-full', // Cambiar aquí para mapear a cada pregunta
         type: determineFieldType(question.answerType),
         name: question.questionText.replace(/\s+/g, '_').toLowerCase(),
         label: question.questionText,
         required: question.required,
-        placeholder: question.placeholder || undefined,
+        placeholder: question.placeholder,
         options: question.catalog ? question.catalog.catalogOptions.map(option => ({
             value: option.idCatalogOption,
             label: option.optionName
@@ -48,6 +49,21 @@ export function mapQuestionToFormField(question: Question): FormField {
     };
 }
 
+// Función para mapear el objeto Answer a AnswerField
+function mapAnswerToAnswerField(answer: Answer | null): AnswerField | undefined {
+    if (!answer) {
+        return undefined;
+    }
+    return {
+        answerBoolean: answer.answerBoolean,
+        answerCatalogOption: answer.answerCatalogOption,
+        answerDate: answer.answerDate,
+        answerNumeric: answer.answerNumeric,
+        answerText: answer.answerText,
+        files: answer.files,
+        idAnswer: answer.idAnswer,
+    };
+}
 
 export function determineFieldType(answerType: AnswerType): 'inputText' | 'inputNumber' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputFile' | 'textArea' | 'multivalued' | 'boolean' {
     switch (answerType.description.toUpperCase()) {

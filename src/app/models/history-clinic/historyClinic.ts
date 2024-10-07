@@ -32,13 +32,23 @@ export interface SubSection {
 export interface Question {
     idQuestion: number;
     questionText: string;
-    placeholder: string | null;
+    placeholder: string | '';
     required: boolean;
     order: number;
     answerType: AnswerType;
     catalog: Catalog | null;
-    answer: string | null;
+    answer: Answer | null;
     questionValidations: Validation[];
+}
+
+export interface Answer {
+    answerBoolean: boolean | null;
+    answerCatalogOption: any | null;
+    answerDate: string | null;
+    answerNumeric: number | null;
+    answerText: string | null;
+    files: boolean | null;
+    idAnswer: number | null;
 }
 
 export interface AnswerType {

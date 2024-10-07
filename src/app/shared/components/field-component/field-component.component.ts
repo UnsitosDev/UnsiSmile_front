@@ -11,6 +11,7 @@ import { AsyncPipe, DatePipe, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormField } from 'src/app/models/form-fields/form-field.interface';
 
 
 
@@ -27,7 +28,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 })
 export class FieldComponentComponent implements OnChanges {
 
-  @Input() field: any;
+  @Input() field!: FormField;
   @Input() formGroup!: FormGroup;
   @Input() errors: any;
   @Input() fieldValue: any;
@@ -43,6 +44,10 @@ export class FieldComponentComponent implements OnChanges {
   myControl = new FormControl('');
 
   ngOnInit() {
+    // verifica si el campo tiene el valor antes de establecerlo
+    if (this.field.answerField?.answerNumeric != null) {
+      this.formGroup.get(this.field.name)?.setValue(this.field.answerField.answerNumeric);
+    }
 
   }
   // Input & select
@@ -50,10 +55,10 @@ export class FieldComponentComponent implements OnChanges {
     // Obtenemos el valor del evento
     const value = event.target ? event.target.value : event.value;
     // Emitimos el evento con el valor y el questionID
-    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID});
+    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID });
   }
-  
- 
+
+
   // Date
   onValueChangeDate(event: any) {
     const value = event.value as Date;
@@ -87,7 +92,7 @@ export class FieldComponentComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
- 
+
 
     //llamar a una funcion que itere sobre la lista de validaciones
 

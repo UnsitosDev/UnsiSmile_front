@@ -1,4 +1,5 @@
 import { FormGroup, ValidatorFn } from '@angular/forms';
+import { Answer } from '../history-clinic/historyClinic';
 
 
 // Interfaz para la configuración de onInputChange
@@ -32,11 +33,22 @@ export interface FormFieldOption {
     label: string;
 }
 
+export interface AnswerField {
+    answerBoolean: boolean | null;
+    answerCatalogOption: any | null;
+    answerDate: string | null;
+    answerNumeric: number | null;
+    answerText: string | null;
+    files: boolean | null;
+    idAnswer: number | null;
+}
+
 export interface FormField {
+    answerField?: AnswerField;
     questionID?: number;
     grids?: string;
     type:'inputText' | 'inputNumber' | 'boolean' |'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea'| 'multivalued';
-    name: string;
+    name: string ;
     label: string;
     required?: boolean;
     options?: FormFieldOption[];
@@ -44,7 +56,7 @@ export interface FormField {
     value?: any;
     typeInput?: string;
     accept?: string;
-    placeholder?: string;
+    placeholder?: any;
     errorMessages?: { [key: string]: string };
     fields?: FormField[];
     onClick?: (event: MouseEvent) => void;
