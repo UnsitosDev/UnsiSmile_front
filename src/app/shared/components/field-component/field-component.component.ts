@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges, OnChanges, model } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
@@ -35,26 +35,28 @@ export class FieldComponentComponent implements OnChanges {
   @Output() setFieldValue = new EventEmitter<any>();
   isChecked: boolean = false;
 
-  check(event: any) {
-    this.isChecked = event.checked; // Actualiza el estado según el valor del checkbox
-  }
   typeElement: string = '';
   datePipe = inject(DatePipe);
 
   myControl = new FormControl('');
 
   ngOnInit() {
-    // verifica si el campo tiene el valor antes de establecerlo
-    if (this.field.answerField?.answerNumeric != null) {
-      this.formGroup.get(this.field.name)?.setValue(this.field.answerField.answerNumeric);
+    // Verifica si alguno de los valores está presente antes de establecerlo
+    if (this.field.answerField) {
+      // Asignar el valor correspondiente según el tipo
+      const value = this.field.answerField.answerBoolean ?? this.field.answerField.answerNumeric ?? this.field.answerField.answerText;
+      
+      // Si el valor no es nulo, lo establece en el FormControl
+      if (value != null) {
+        this.formGroup.get(this.field.name)?.setValue(value);
+      }
     }
-
   }
+  
   // Input & select
   onValueChange(event: any) {
     // Obtenemos el valor del evento
     const value = event.target ? event.target.value : event.value;
-    // Emitimos el evento con el valor y el questionID
     this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID });
   }
 
@@ -64,6 +66,13 @@ export class FieldComponentComponent implements OnChanges {
     const value = event.value as Date;
     this.setFieldValue.emit({ field: this.field.name, value: this.datePipe.transform(value, 'yyyy-MM-dd') });
   }
+
+  // Check
+  onValueChangeCheck(event: any) {
+    const value = event.checked; // Extrae el valor booleano del checkbox    
+    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID });
+  }
+
 
   // Input Event
   onInputChange(event: Event) {

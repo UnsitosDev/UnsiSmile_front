@@ -25,17 +25,16 @@
         </div>
         <div class="col-span-3 p-4">
           <section class="example-section">
-            <mat-checkbox class="example-margin"></mat-checkbox>
+            <mat-checkbox class="example-margin" [formControlName]="field.name" (change)="onValueChangeCheck($event)" [checked]="field.answerField?.answerBoolean"></mat-checkbox>
           </section>
         </div>
       </div>
-      <hr>
-        
+      <hr> 
     }
-    @case ('inputText') {
+    @case ('input') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <input matInput type="text" [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)" />
+        <input matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)" />
         @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
           <mat-error>{{ errors?.lastError }}</mat-error>
         }
@@ -43,8 +42,19 @@
           <mat-error>{{ errors?.required }}</mat-error>
         }
       </mat-form-field>
-    }
-    
+    }   
+    @case ('inputText') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput type="text" [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric" [formControlName]="field.name" (input)="onValueChange($event)" />
+        @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+          <mat-error>{{ errors?.lastError }}</mat-error>
+        }
+        @if (formGroup.get(field.name)?.hasError('required')) {
+          <mat-error>{{ errors?.required }}</mat-error>
+        }
+      </mat-form-field>
+    }    
     @case ('inputNumber') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
@@ -58,7 +68,6 @@
         }
       </mat-form-field>
     }
-    
     @case ('select') {
       <mat-form-field  appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
@@ -129,8 +138,7 @@
             <p class="text-xs text-gray-500 mt-1"> {{field.label}} en formato: {{field.placeholder}}</p>
           </div>          
         }
-      }
-        
+      } 
     }
     @case ('textArea') {
       <mat-form-field appearance="fill" class="w-full">
@@ -138,9 +146,6 @@
         <textarea matInput [formControlName]="field.name"  [placeholder]="field.placeholder"></textarea>
       </mat-form-field>   
     }
-  
-
-   
     @default {
       <p>Tipo de campo no soportado.</p>
     }

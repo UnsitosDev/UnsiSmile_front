@@ -98,7 +98,7 @@ export class TabFormComponent {
   send: FormData[] = [];
 
   questionIDs: { [key: string]: number } = {};  // Definimos questionIDs como un objeto que almacena números
-  
+
   sendFormData() {
     const formData = this.formGroup.value;
   
@@ -109,19 +109,29 @@ export class TabFormComponent {
       const data: FormData = {
         idPatientClinicalHistory: this.id,
         idQuestion: questionID,  // Usamos el questionID correspondiente
-        answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,  // Asignar null si no es booleano
-        answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,   // Asignar null si no es número
-        answerText: typeof fieldValue === 'string' ? fieldValue : null,      // Asignar null si no es string
-        answerDate: this.answerDate ? this.answerDate : null,                // Asignar null si no hay fecha
+        answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,  // Si es booleano, asignar su valor, de lo contrario null
+        answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,   // Si es numérico, asignar su valor, de lo contrario null
+        answerText: typeof fieldValue === 'string' ? fieldValue : null,      // Si es string, asignar su valor, de lo contrario null
+        answerDate: this.answerDate || null,                                // Asignar null si no hay fecha
         idCatalogOption: formData.idCatalogOption || null,                   // Asignar null si no hay idCatalogOption
         isFile: null                                                         // Asignar null por defecto para archivos
       };
-      
   
-      this.send.push(data);
+      // Verificar si al menos uno de los campos tiene un valor válido (que no sea null o vacío)
+      const hasValidData = 
+        data.answerBoolean !== null ||
+        data.answerNumeric !== null ||
+        (typeof data.answerText === 'string' && data.answerText.trim() !== '') ||
+        data.answerDate !== null ||
+        data.idCatalogOption !== null;
+  
+      // Si tiene al menos un dato válido, agregar al arreglo
+      if (hasValidData) {
+        this.send.push(data);
+      }
     });
   
-    // Hacer la petición después de llenar el arreglo
+    // Hacer la petición después de llenar el arreglo con los datos válidos
     console.log('Datos a enviar:', this.send);
     
     this.apiService
@@ -141,13 +151,15 @@ export class TabFormComponent {
         },
         error: (error) => {
           this.alertConfiguration('ERROR', error);
-          console.log(this.send)
+          console.log(this.send);
           console.log('Error al guardar datos: ', error);
           this.openAlert();
         },
       });
   }
   
+  
+
 
   alertMessage: string = '';
   alertSeverity: string = AlertModel.AlertSeverity.ERROR;

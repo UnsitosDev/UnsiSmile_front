@@ -5,6 +5,7 @@
         Nuevo Paciente
     </button>
 </div>
+<br>
 
 <app-tabla-data
   [titulo]="title"
@@ -13,19 +14,3 @@
   (pageSizeChange)="onPageSizeChange($event)"
   (action)="onAction($event)">
 </app-tabla-data>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-  <mat-form-field appearance="fill" class="w-full">
-    <mat-label>example</mat-label>
-    <input matInput/>
-  </mat-form-field>    
-  <section class="example-section">
-    <mat-checkbox class="example-margin" [(ngModel)]="isChecked" (change)="check($event)">Check!</mat-checkbox>
-  </section>
-  @if (isChecked) {
-    <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Ampliar Respuesta</mat-label>
-      <input matInput />
-    </mat-form-field>
-  }
-</div>
