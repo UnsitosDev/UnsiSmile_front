@@ -68,7 +68,7 @@ function mapAnswerToAnswerField(answer: Answer | null): AnswerField | undefined 
 export function determineFieldType(answerType: AnswerType): 'inputText' | 'inputNumber' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputFile' | 'textArea' | 'multivalued' | 'boolean' {
     switch (answerType.description.toUpperCase()) {
         case 'TEXT':
-            return 'inputText'; // Retorna input específico para texto
+            return 'textArea'; // Retorna input específico para texto
         case 'DATE':
             return 'datepicker';
         case 'CATALOG':
@@ -81,6 +81,10 @@ export function determineFieldType(answerType: AnswerType): 'inputText' | 'input
             return 'boolean';
         case 'SHORT_TEXT':
             return 'inputText'; // Usa 'inputText' para textos cortos
+        case 'PHOTO':
+            return 'inputFile'
+        case 'LONG_TEXT':
+            return 'textArea'
         default:
             return 'inputText'; // Valor por defecto es inputText para manejar textos
     }
@@ -97,6 +101,10 @@ export function determineFieldGrids(answerType: AnswerType): string {
             return 'col-span-4'; // Ocupa un tercio
         case 'NUMERIC':
             return 'col-span-4'; // Ocupa un tercio
+        case 'PHOTO':
+            return 'col-span-12';
+        case 'LONG_TEXT':
+            return 'col-span-12'
         default:
             return 'col-span-4'; // Valor por defecto
     }

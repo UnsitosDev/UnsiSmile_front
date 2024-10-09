@@ -7,13 +7,14 @@
         </div>
         <div class="col-span-2 p-4">
           <section class="example-section">
-            <mat-checkbox class="example-margin"></mat-checkbox>
+            <mat-checkbox class="example-margin" [formControlName]="field.name" (change)="onValueChangeCheck($event)" [checked]="field.answerField?.answerBoolean"></mat-checkbox>
           </section>
         </div>
         <div class="col-span-4 p-4">
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>Ampliar Respuesta</mat-label>
-            <input matInput />
+            <input matInput [required]="!!field.required" 
+            [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric" [formControlName]="field.name" (input)="onValueChange($event)"  />
           </mat-form-field>
         </div>
       </div>
@@ -46,25 +47,20 @@
     @case ('inputText') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <input matInput type="text" [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric" [formControlName]="field.name" (input)="onValueChange($event)" />
-        @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.lastError }}</mat-error>
-        }
-        @if (formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.required }}</mat-error>
+        <input matInput type="text" [required]="!!field.required" 
+        [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric" [formControlName]="field.name" (input)="onValueChange($event)" />
+        @if (formGroup.get(field.name)?.hasError('required') && field.required) {
+          <mat-error>El campo {{ field.label }} es requerido</mat-error>
         }
       </mat-form-field>
     }    
     @case ('inputNumber') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <input matInput type="number" [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric"
+        <input matInput type="number" [required]="!!field.required" [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric"
         [formControlName]="field.name" (input)="onValueChange($event)" />
-        @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.lastError }}</mat-error>
-        }
         @if (formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.required }}</mat-error>
+          <mat-error>El campo {{ field.label }} es requerido</mat-error>
         }
       </mat-form-field>
     }
@@ -119,26 +115,10 @@
         </mat-form-field>      
     }
     @case ('inputFile') {
-      @switch (field.accept) {
-        @case ('img') {
-          <div>
-            <input type="file" multiple="true" accept="image/*"  [formControlName]="field.name" class="w-full text-gray-600 text-sm border-b border-black focus:border-blue-500 py-2 custom" />
-            <p class="text-xs text-gray-500 mt-1"> {{field.label}} en formato: {{field.placeholder}}</p>
-          </div>  
-        }
-        @case ('excel') {
-          <div>
-            <input type="file" multiple="true"  accept=".xlsx, .xls, .xlsm, .xlsb"  [formControlName]="field.name" class="w-full text-gray-600 text-sm border-b border-black focus:border-blue-500 py-2 custom" />
-            <p class="text-xs text-gray-500 mt-1"> {{field.label}} en formato: {{field.placeholder}}</p>
-          </div>   
-        }
-        @case ('pdf') {
-          <div>
-            <input type="file" multiple="true"  accept=".pdf"  [formControlName]="field.name" class="w-full text-gray-600 text-sm border-b border-black focus:border-blue-500 py-2 custom" />
-            <p class="text-xs text-gray-500 mt-1"> {{field.label}} en formato: {{field.placeholder}}</p>
-          </div>          
-        }
-      } 
+      <div>
+        <input type="file" multiple="true" accept="image/*"  [formControlName]="field.name" class="w-full text-gray-600 text-sm border-b border-black focus:border-blue-500 py-2 custom" />
+        <p class="text-xs text-gray-500 mt-1"> {{field.label}} en formato: {{field.placeholder}}</p>
+      </div> 
     }
     @case ('textArea') {
       <mat-form-field appearance="fill" class="w-full">

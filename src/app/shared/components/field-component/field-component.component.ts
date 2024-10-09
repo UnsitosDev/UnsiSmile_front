@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output, SimpleChanges, OnChanges, model } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -45,14 +45,25 @@ export class FieldComponentComponent implements OnChanges {
     if (this.field.answerField) {
       // Asignar el valor correspondiente según el tipo
       const value = this.field.answerField.answerBoolean ?? this.field.answerField.answerNumeric ?? this.field.answerField.answerText;
-      
+
       // Si el valor no es nulo, lo establece en el FormControl
       if (value != null) {
         this.formGroup.get(this.field.name)?.setValue(value);
       }
     }
+
+    // Agrega validaciones dinámicas basadas en el valor de `required`
+    const control = this.formGroup.get(this.field.name);
+    if (control) {
+      // Si `required` es undefined, se asume como `false`
+      const isRequired = !!this.field.required; // Convierte undefined a false
+      if (isRequired) {
+        control.setValidators([Validators.required]);  // Añade la validación de 'required'
+      }
+      control.updateValueAndValidity();
+    }
   }
-  
+
   // Input & select
   onValueChange(event: any) {
     // Obtenemos el valor del evento

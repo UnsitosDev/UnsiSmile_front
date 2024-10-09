@@ -34,8 +34,9 @@
     
     <div class="button-container">
       <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
-      <button type="button" (click)="onSubmit()" mat-button> SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+      <div>
+        <button type="button" (click)="onSubmit()" mat-button> SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+      </div>
     </div>
   </form>
 </div>
-<app-alert [singleMessage]="alertMessage" [severity]="alertSeverity" [open]="showAlert" (eventCloseToast)="showAlert = false"></app-alert>

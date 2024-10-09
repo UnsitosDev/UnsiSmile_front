@@ -13,6 +13,10 @@ import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { AlertModel } from '@mean/models';
 import { AlertComponent } from "../alert/alert.component";
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 interface FormData {
   idPatientClinicalHistory: number;
@@ -27,7 +31,7 @@ interface FormData {
 @Component({
   selector: 'app-tab-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FieldComponentComponent, MatButtonModule, MatTabsModule, MatCardModule, AlertComponent],
+  imports: [MatInputModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, FieldComponentComponent, MatButtonModule, MatTabsModule, MatCardModule, AlertComponent],
   templateUrl: './tab-form.component.html',
   styleUrl: './tab-form.component.scss'
 })
@@ -43,6 +47,20 @@ export class TabFormComponent {
   private fb = inject(FormBuilder);
   id: number = 0;           // Variable para el parámetro 'id'
   patientID: number = 0;    // Variable para el parámetro 'patientID'
+
+  // _snackBar
+  private _snackBar = inject(MatSnackBar);
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  durationInSeconds = 3;
+
+  openSnackBar() {
+    this._snackBar.openFromComponent(Alert, {
+      duration: this.durationInSeconds * 1000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
 
   ngOnInit(): void {
     this.section();
@@ -101,11 +119,11 @@ export class TabFormComponent {
 
   sendFormData() {
     const formData = this.formGroup.value;
-  
+
     Object.keys(formData).forEach((fieldName) => {
       const fieldValue = formData[fieldName];
       const questionID = this.questionIDs[fieldName]; // Recuperamos el questionID como un número
-  
+
       const data: FormData = {
         idPatientClinicalHistory: this.id,
         idQuestion: questionID,  // Usamos el questionID correspondiente
@@ -116,24 +134,24 @@ export class TabFormComponent {
         idCatalogOption: formData.idCatalogOption || null,                   // Asignar null si no hay idCatalogOption
         isFile: null                                                         // Asignar null por defecto para archivos
       };
-  
+
       // Verificar si al menos uno de los campos tiene un valor válido (que no sea null o vacío)
-      const hasValidData = 
+      const hasValidData =
         data.answerBoolean !== null ||
         data.answerNumeric !== null ||
         (typeof data.answerText === 'string' && data.answerText.trim() !== '') ||
         data.answerDate !== null ||
         data.idCatalogOption !== null;
-  
+
       // Si tiene al menos un dato válido, agregar al arreglo
       if (hasValidData) {
         this.send.push(data);
       }
     });
-  
+
     // Hacer la petición después de llenar el arreglo con los datos válidos
     console.log('Datos a enviar:', this.send);
-    
+
     this.apiService
       .postService({
         headers: new HttpHeaders({
@@ -144,44 +162,14 @@ export class TabFormComponent {
       })
       .subscribe({
         next: (response) => {
-          console.log('ok');
-          this.alertConfiguration('SUCCESS', "Datos guardados.");
-          this.openAlert();
+          this.openSnackBar();
           this.send = []; // Limpiar el arreglo si la petición es exitosa
         },
         error: (error) => {
-          this.alertConfiguration('ERROR', error);
-          console.log(this.send);
           console.log('Error al guardar datos: ', error);
-          this.openAlert();
+          
         },
       });
-  }
-  
-  
-
-
-  alertMessage: string = '';
-  alertSeverity: string = AlertModel.AlertSeverity.ERROR;
-  showAlert: boolean = false;
-
-  public alertConfiguration(severity: 'ERROR' | 'SUCCESS', msg: string) {
-    this.alertConfig.severity = AlertModel.AlertSeverity[severity];
-    this.alertConfig.singleMessage = msg;
-  }
-
-  alertConfig = new AlertModel.AlertaClass(
-    false,
-    'Ha ocurrido un error',
-    AlertModel.AlertSeverity.ERROR
-  );
-
-  public openAlert() {
-    this.alertConfig.open = true;
-  }
-
-  public closeAlert() {
-    this.alertConfig.open = false;
   }
 
   previousTab() {
@@ -193,4 +181,29 @@ export class TabFormComponent {
     this.send = []; // Vaciamos el array después de enviar los datos
     this.nextMatTab.emit(); // Emitir evento para cambiar al siguiente tab
   }
+
 }
+
+
+
+@Component({
+  selector: 'snack-bar-component-example-snack',
+  template: `
+    <span class="custom">
+    <i class="fas fa-check-circle"></i> Datos guardados correctamente.
+    </span>
+  `,
+  styles: [`
+    .custom {
+    color: black;
+    margin-top: 100px;
+    }
+    i{
+      color: green;
+      font-size: 20px;
+    }
+
+  `],
+  standalone: true,
+})
+export class Alert { }
