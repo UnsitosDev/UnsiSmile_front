@@ -37,10 +37,10 @@
         <mat-label>{{ field.label }}</mat-label>
         <input matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)" />
         @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.lastError }}</mat-error>
+          <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
         }
         @if (formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.required }}</mat-error>
+          <mat-error class="error-message">{{ errors?.required }}</mat-error>
         }
       </mat-form-field>
     }   
@@ -50,7 +50,7 @@
         <input matInput type="text" [required]="!!field.required" 
         [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric" [formControlName]="field.name" (input)="onValueChange($event)" />
         @if (formGroup.get(field.name)?.hasError('required') && field.required) {
-          <mat-error>El campo {{ field.label }} es requerido</mat-error>
+          <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
         }
       </mat-form-field>
     }    
@@ -60,7 +60,7 @@
         <input matInput type="number" [required]="!!field.required" [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric"
         [formControlName]="field.name" (input)="onValueChange($event)" />
         @if (formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>El campo {{ field.label }} es requerido</mat-error>
+          <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
         }
       </mat-form-field>
     }
@@ -72,9 +72,9 @@
               <mat-option [value]="option.value">{{ option.label }}</mat-option>
             }
           </mat-select>
-            @if (formGroup.get(field.name)?.hasError('required')) {
-              <mat-error>{{ errors?.required }}</mat-error>
-            }
+          @if (formGroup.get(field.name)?.hasError('required')) {
+            <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
+          }
       </mat-form-field>
     }
     @case('datepicker') {
@@ -84,10 +84,10 @@
           <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
           <mat-datepicker #datepicker></mat-datepicker>   
             @if (formGroup.get(field.name)?.hasError('required') && formGroup.get(field.name)?.touched) {
-              <mat-error>{{ errors?.required }}</mat-error>
+              <mat-error class="error-message">{{ errors?.required }}</mat-error>
             }
             @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-              <mat-error>{{ errors?.lastError }}</mat-error>
+              <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
             }
       </mat-form-field>
     }
@@ -96,10 +96,10 @@
         <mat-label>{{ field.label }}</mat-label>
           <input matInput [value]="fieldValue" [formControlName]="field.name" (input)="onInputChange($event)" />
             @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-              <mat-error>{{ errors?.lastError }}</mat-error>
+              <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
             }
             @if (formGroup.get(field.name)?.hasError('required')) {
-              <mat-error>{{ errors?.required }}</mat-error>
+              <mat-error class="error-message">{{ errors?.required }}</mat-error>
             }
       </mat-form-field>
     }
@@ -124,7 +124,10 @@
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{field.label}}</mat-label>
         <textarea matInput [formControlName]="field.name"  [placeholder]="field.placeholder"></textarea>
-      </mat-form-field>   
+      </mat-form-field>  
+      @if (formGroup.get(field.name)?.hasError('required')) {
+        <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
+      } 
     }
     @default {
       <p>Tipo de campo no soportado.</p>
