@@ -67,5 +67,16 @@ export interface CatalogOption {
     optionName: string;
 }
 
+// Interfaz para el tipo de validación
+export interface ValidationType {
+    idValidationType: number;  // ID del tipo de validación
+    validationCode: string;     // Código de la validación
+}
+
+// Interfaz para cada objeto de validación
 export interface Validation {
+    idValidation: number;        // ID de la validación
+    validationValue: string;     // Valor de validación (puede ser regex, min, max, etc.)
+    validationMessage: string;   // Mensaje asociado a la validación
+    validationType: ValidationType;  // Tipo de validación
 }

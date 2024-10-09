@@ -1,7 +1,7 @@
 // clinical-history.adapters.ts
 
-import { AnswerField, dataTabs, FormField, formSectionFields, subSeccion } from "src/app/models/form-fields/form-field.interface";
-import { Answer, AnswerType, ClinicalHistoryCatalog, FormSection, Question, SubSection } from "src/app/models/history-clinic/historyClinic";
+import { AnswerField, dataTabs, FormField, formSectionFields, subSeccion, ValidationField } from "src/app/models/form-fields/form-field.interface";
+import { Answer, AnswerType, ClinicalHistoryCatalog, FormSection, Question, SubSection, Validation } from "src/app/models/history-clinic/historyClinic";
 
 
 export function mapClinicalHistoryToDataTabs(catalog: ClinicalHistoryCatalog): dataTabs {
@@ -49,7 +49,17 @@ export function mapQuestionToFormField(question: Question): FormField {
             label: option.optionName
         })) : undefined,
         errorMessages: {},
+        validations: question.questionValidations ? question.questionValidations.map(mapValidations) : []
     };
+}
+
+export function mapValidations (validation: Validation): ValidationField {
+    return {
+        idValidation: validation.idValidation,
+        validationMessage: validation.validationMessage,
+        validationType: validation.validationType,
+        validationValue: validation.validationValue
+    }
 }
 
 // Función para mapear el objeto Answer a AnswerField

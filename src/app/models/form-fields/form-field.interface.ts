@@ -44,6 +44,18 @@ export interface AnswerField {
     idAnswer: number | null;
 }
 
+export interface validationTypeField {
+    idValidationType: number;  // ID del tipo de validación
+    validationCode: string;     // Código de la validación
+}
+
+export interface ValidationField {
+    idValidation: number;        // ID de la validación
+    validationValue: string;     // Valor de validación (puede ser regex, min, max, etc.)
+    validationMessage: string;   // Mensaje asociado a la validación
+    validationType: validationTypeField;  // Tipo de validación
+}
+
 export interface FormField {
     answerField?: AnswerField;
     questionID?: number;
@@ -51,6 +63,7 @@ export interface FormField {
     type:'inputText' | 'inputNumber' | 'boolean' |'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea'| 'multivalued';
     name: string ;
     label: string;
+    validations?: ValidationField[];
     required?: boolean;
     options?: FormFieldOption[];
     validators?: ValidatorFn[];
