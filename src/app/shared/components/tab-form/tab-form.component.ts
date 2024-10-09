@@ -17,6 +17,8 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { StudentsOdontogramComponent } from "../../../components/private/students/components/odontogram/students-odontogram.component";
+import { HistoryInitialBagComponent } from "../../../components/private/students/components/form-history-initial-bag/history-initial-bag.component";
 
 interface FormData {
   idPatientClinicalHistory: number;
@@ -31,7 +33,7 @@ interface FormData {
 @Component({
   selector: 'app-tab-form',
   standalone: true,
-  imports: [MatInputModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, FieldComponentComponent, MatButtonModule, MatTabsModule, MatCardModule, AlertComponent],
+  imports: [MatInputModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, FieldComponentComponent, MatButtonModule, MatTabsModule, MatCardModule, AlertComponent, StudentsOdontogramComponent, HistoryInitialBagComponent],
   templateUrl: './tab-form.component.html',
   styleUrl: './tab-form.component.scss'
 })

@@ -3,11 +3,13 @@
 import { AnswerField, dataTabs, FormField, formSectionFields, subSeccion } from "src/app/models/form-fields/form-field.interface";
 import { Answer, AnswerType, ClinicalHistoryCatalog, FormSection, Question, SubSection } from "src/app/models/history-clinic/historyClinic";
 
+
 export function mapClinicalHistoryToDataTabs(catalog: ClinicalHistoryCatalog): dataTabs {
     // Mapea la estructura del catálogo a la estructura de datos esperada en dataTabs
     return {
         title: catalog.clinicalHistoryName,
-        tabs: catalog.formSections.map(section => mapFormSectionToFormSectionFields(section))
+        tabs: catalog.formSections.map(section => mapFormSectionToFormSectionFields(section)),
+
     };
 }
 
@@ -18,6 +20,7 @@ export function mapFormSectionToFormSectionFields(section: FormSection): formSec
             ? section.subSections.map((subSection) => mapSubSectionToFormSectionFields(subSection))
             : null, // Si no hay subsecciones, asigna null
         seccion: section.questions.map((question) => mapQuestionToFormField(question)), // Mapea las preguntas de la sección principal
+        component: determineSeccion(section)
     };
 }
 
@@ -35,7 +38,7 @@ export function mapQuestionToFormField(question: Question): FormField {
     return {
         answerField: mapAnswerToAnswerField(question.answer),
         questionID: question.idQuestion,
-        grids:grids || 'w-full', // Cambiar aquí para mapear a cada pregunta
+        grids: grids || 'w-full', // Cambiar aquí para mapear a cada pregunta
         type: determineFieldType(question.answerType),
         name: question.questionText.replace(/\s+/g, '_').toLowerCase(),
         label: question.questionText,
@@ -107,5 +110,18 @@ export function determineFieldGrids(answerType: AnswerType): string {
             return 'col-span-12'
         default:
             return 'col-span-4'; // Valor por defecto
+    }
+}
+
+export function determineSeccion(seccionType: FormSection): string {
+    switch (seccionType.formName) {
+        case 'Odontograma inicial':
+            return 'odontograma'; // Devuelve el HTML del componente
+        case 'Odontograma final':
+            return 'odontogramaFinal'
+        case 'Medición de bolsas inicial':
+            return 'initialBag'
+        default:
+            return ''; // Retorna una cadena vacía si no se requiere un componente especial
     }
 }

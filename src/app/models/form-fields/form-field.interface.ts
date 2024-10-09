@@ -22,6 +22,7 @@ export interface formSectionFields {
     title: string;
     childFormSection: subSeccion[] | null;
     seccion: FormField[] | null;
+    component?: string
 }
 
 export interface subSeccion {

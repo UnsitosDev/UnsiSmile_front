@@ -1,5 +1,14 @@
 <div class="mx-8 pb-8 custom">
   <form [formGroup]="formGroup">
+    @if (fieldsTab.component === 'odontograma') {
+      <app-students-odontogram></app-students-odontogram>
+    }
+    @if (fieldsTab.component === 'odontogramaFinal') {
+      <app-students-odontogram></app-students-odontogram>
+    }
+    @if(fieldsTab.component === 'initialBag') {
+      <app-history-initial-bag></app-history-initial-bag>
+    }
     @if (fieldsTab.seccion) {
       <div class="grid grid-cols-12 gap-4 mt-4"> <!-- Contenedor de la cuadrícula -->
         @for (field of fieldsTab.seccion; track field) { <!-- Usando @for con track -->
