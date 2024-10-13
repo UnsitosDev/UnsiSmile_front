@@ -1,0 +1,79 @@
+<div class="profile-config">
+    <div class="profile-config__header">
+      <h2 class="profile-config__title">Configuración del Perfil</h2>
+      <p class="profile-config__description">Actualiza tu información personal y preferencias</p>
+    </div>
+  
+    <div class="profile-config__tabs">
+      <ul class="tab-list">
+        <li *ngFor="let tab of tabs; let i = index">
+          <a class="tab-link" 
+             [class.active]="i === activeTab()"
+             (click)="setActiveTab(i)">
+            {{ tab }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  
+    <div [ngSwitch]="activeTab()">
+      <!-- Datos Personales -->
+      <div *ngSwitchCase="0">
+        <form (ngSubmit)="actualizarDatosUsuario()" class="form">
+            <div class="photo-upload">
+                <div class="photo-preview">
+                  <img [src]="foto() || '/placeholder.svg?height=128&width=128'" 
+                       alt="Foto de perfil">
+                </div>
+                <label class="btn btn-primary">
+                  Subir nueva foto
+                  <input type="file" (change)="subirFoto($event)" accept="image/*" class="hidden">
+                </label>
+              </div>
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text"  name="nombre" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="email">Apellido</label>
+            <input id="email" type="email"  name="email" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="nombre">Email</label>
+            <input id="nombre" type="text"  name="nombre" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="email">Grupo</label>
+            <input id="email" type="email"  name="email" class="form-control">
+          </div>
+        </form>
+      </div>
+  
+      <!-- Cambiar Contraseña -->
+      <div *ngSwitchCase="1">
+        <form (ngSubmit)="actualizarContrasena()" class="form">
+          <div class="form-group">
+            <label for="contrasenaActual">Contraseña Actual</label>
+            <input id="contrasenaActual" type="password"  name="contrasenaActual" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="nuevaContrasena">Nueva Contraseña</label>
+            <input id="nuevaContrasena" type="password"  name="nuevaContrasena" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="confirmarContrasena">Confirmar Contraseña</label>
+            <input id="confirmarContrasena" type="password"  name="confirmarContrasena" class="form-control">
+          </div>
+        </form>
+      </div>
+  
+      <!-- Foto de Perfil -->
+     
+    </div>
+  
+    <div class="profile-config__footer">
+      <button class="btn btn-secondary">Cancelar</button>
+      <button class="btn btn-primary">Guardar Cambios</button>
+    </div>
+  </div>
+  
