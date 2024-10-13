@@ -39,7 +39,6 @@ export class StudentsOdontogramComponent implements OnInit {
 
   ngOnInit() {
     this.odontogramData.getToothCondition().subscribe((options) => {
-      console.log('options: ', options);
       this.toolbar = { options: options };
     });
 
@@ -111,22 +110,29 @@ export class StudentsOdontogramComponent implements OnInit {
     return normalConditions.includes(condition.condition);
   }
 
-  sendData() {
-    this.emitirEvento();
-    this.irSiguienteTab();
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  emitNextTabEvent() {
+      this.nextTabEventEmitted.emit(false);
   }
-
-  @Output() eventoEmitido = new EventEmitter<boolean>();
-  pageNumber: number = 1;
-  emitirEvento() {
-    this.eventoEmitido.emit(false);
-    console.log(false);
-  }
-  @Output() cambiarTab = new EventEmitter<number>();
-  irSiguienteTab() {
-    this.cambiarTab.emit(0);
+  
+  @Output() nextMatTab = new EventEmitter<number>();
+  nextTab() {
+    this.nextMatTab.emit(0);
   }
   store() {
-    console.log(this.data);
+    this.nextTab();
+    this.emitNextTabEvent();
+  }
+
+  sendData() {
+    this.nextTab();
+    this.emitNextTabEvent();
+  }
+
+  currentTabIndex: number = 0; // Índice del tab actual
+  @Output() previousMatTab = new EventEmitter<number>();
+  previousTab() {
+      this.currentTabIndex = Math.max(this.currentTabIndex - 1, 0); // Decrementa el índice, asegurando que no sea menor que 0
+      this.previousMatTab.emit(this.currentTabIndex); // Emite el índice del tab anterior
   }
 }

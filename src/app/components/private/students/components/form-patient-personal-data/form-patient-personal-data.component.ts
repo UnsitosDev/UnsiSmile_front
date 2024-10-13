@@ -101,10 +101,6 @@ export class FormPatientPersonalDataComponent {
     });
   }
 
-  getFieldValue(fieldName: string) {
-    return this.formGroup.get(fieldName)?.value;
-  }
-
   alertMessage: string = '';
   alertSeverity: string = AlertModel.AlertSeverity.ERROR;
   showAlert: boolean = false;
@@ -121,7 +117,7 @@ export class FormPatientPersonalDataComponent {
         nationalityId: +formValues.nationality,
         person: {
           curp: formValues.curp,
-          firstName: formValues.firstLastName,
+          firstName: formValues.firstName,
           secondName: formValues.secondName,
           firstLastName: formValues.firstLastName,
           secondLastName: formValues.secondLastName,

@@ -1,11 +1,12 @@
 
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, MatCardModule],
   templateUrl: './history-initial-bag.component.html',
   styleUrl: './history-initial-bag.component.scss',
 })
@@ -37,9 +38,6 @@ export class HistoryInitialBagComponent {
 
     this.registros.push(registro); // Almacenar el objeto en el arreglo de registros
     this.Coordenadas = [...this.registros]; // Asignar el arreglo de registros al arreglo de coordenadas
-
-    console.log('Registro agregado:', registro);
-    console.log('Coordenadas:', this.Coordenadas);
   }
 
   getColumnLabel(index: number): string {
@@ -57,18 +55,24 @@ export class HistoryInitialBagComponent {
   }
 
   sendData() {
-    this.emitirEvento();
-    this.irSiguienteTab();
+    this.nextTab();
+    this.emitNextTabEvent();
   }
 
-  @Output() eventoEmitido = new EventEmitter<boolean>();
-  pageNumber: number = 1;
-  emitirEvento() {
-    this.eventoEmitido.emit(false);
-    console.log(false);
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  emitNextTabEvent() {
+      this.nextTabEventEmitted.emit(false);
   }
-  @Output() cambiarTab = new EventEmitter<number>();
-  irSiguienteTab() {
-    this.cambiarTab.emit(0);
+
+  @Output() nextMatTab = new EventEmitter<number>();
+  nextTab() {
+    this.nextMatTab.emit(0);
+  }
+
+  currentTabIndex: number = 0; // Índice del tab actual
+  @Output() previousMatTab = new EventEmitter<number>();
+  previousTab() {
+      this.currentTabIndex = Math.max(this.currentTabIndex - 1, 0); // Decrementa el índice, asegurando que no sea menor que 0
+      this.previousMatTab.emit(this.currentTabIndex); // Emite el índice del tab anterior
   }
 }

@@ -13,11 +13,16 @@ import {
 } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { StudentsGeneralHistoryComponent } from '../../pages/history-clinics/general/students-general-history.component';
+import { DialogHistoryClinicsComponent } from '../dialog-history-clinics/dialog-history-clinics.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar estos módulos
+
 
 @Component({
   selector: 'app-students-patients',
   standalone: true,
-  imports: [TablaDataComponent, MatButtonModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule ,MatInputModule, TablaDataComponent, MatButtonModule, RouterLink],
   templateUrl: './students-patients.component.html',
   styleUrl: './students-patients.component.scss',
 })
@@ -28,12 +33,16 @@ export class StudentsPatientsComponent implements OnInit {
   currentPage = 0;
   itemsPerPage = 10;
   private apiService = inject(ApiService<PatientResponse>);
+  isChecked: boolean = false;
 
+  check(event: any) {
+    this.isChecked = event.checked; // Actualiza el estado según el valor del checkbox
+  }
   constructor(
     public dialog: MatDialog,
     public router: Router,
     public route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('patients');
@@ -62,10 +71,11 @@ export class StudentsPatientsComponent implements OnInit {
     }
   }
 
-  // Id paciente
   editar(objeto: any) {
-    // console.log('osddsfsdf',objeto.patientID);
-    this.router.navigate(['/students', 'historyClinic', objeto.patientID]);
+    this.dialog.open(DialogHistoryClinicsComponent, {
+      width: '650px',
+      data: objeto,
+    });
   }
 
   eliminar(nombre: string) {
@@ -88,7 +98,7 @@ export class StudentsPatientsComponent implements OnInit {
     }).subscribe({
       next: (response) => {
         if (Array.isArray(response.content)) {
-  
+
           this.patientsList = response.content.map((patient: Patient) => {
             const person = patient.person;
             const medicalHistory = patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
@@ -101,7 +111,7 @@ export class StudentsPatientsComponent implements OnInit {
               patientID: patient.idPatient,
             };
           });
-          } else {
+        } else {
           console.error('La respuesta no contiene un array en content.');
         }
       },

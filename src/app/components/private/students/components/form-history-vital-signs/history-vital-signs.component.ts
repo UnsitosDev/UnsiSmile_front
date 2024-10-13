@@ -7,9 +7,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ApiService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PatientService } from 'src/app/services/patient/patient.service';
+import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { VitalSignsFormService } from 'src/app/services/history-clinics/general/vitalSigns.service';
+import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
+
 
 @Component({
   selector: 'app-history-vital-signs',
@@ -20,74 +23,53 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     FormsModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FieldComponentComponent
 ],
   templateUrl: './history-vital-signs.component.html',
   styleUrl: './history-vital-signs.component.scss',
 })
 export class HistoryVitalSignsComponent implements OnInit {
-  vitalSings = false;
-  private apiService = inject(ApiService);
-  item: any;
+  formGroup!: FormGroup;
+  vitalSigns: FormField[] = [];
 
-  constructor() {}
+  constructor(
+    private fb: FormBuilder,
+    private vitalSignsFields: VitalSignsFormService,
 
-  ngOnInit(): void {}
+  ) { }
 
-  idVitalSigns: number = 0;
-  weight: number = 0;
-  height: number = 0;
-  temperature: number = 0;
-  heartRate: number = 0;
-  respiratoryRate: number = 0;
-  bloodPressure: number = 0;
-  oxygenSaturation: number = 0;
-  glucose: number = 0;
-  pulse: number = 0;
-  postVitalSigns() {
-    const vitalSigns = {
-      idVitalSigns: this.idVitalSigns,
-      weight: this.weight,
-      height: this.height,
-      temperature: this.temperature,
-      heartRate: this.heartRate,
-      respiratoryRate: this.respiratoryRate,
-      bloodPressure: this.bloodPressure,
-      oxygenSaturation: this.oxygenSaturation,
-      glucose: this.glucose,
-      pulse: this.pulse,
-    };
+  ngOnInit(): void {
+    // Obtener los campos del formulario del servicio
+    // this.vitalSigns = this.vitalSignsFields.getVitalSignsFields();
 
-    this.emitirEvento();
-    this.irSiguienteTab();
 
-    console.log(vitalSigns);
-    this.apiService
-      .postService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_VITAL_SIGNS}`,
-        data: vitalSigns,
-      })
-      .subscribe({
-        next: (response) => {
-          console.log('post');
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
+    // Construcción del formulario
+    this.formGroup = this.fb.group({}); // Inicializar el FormGroup
+    [...this.vitalSigns].forEach(field => {
+      this.formGroup.addControl(
+        field.name,
+        this.fb.control(field.value || '', field.validators || [])
+      );
+    });
+  }
+  getFieldValue(fieldName: string) {
+    return this.formGroup.get(fieldName)?.value;
   }
 
-  @Output() eventoEmitido = new EventEmitter<boolean>();
-  pageNumber: number = 1;
-  emitirEvento() {
-    this.eventoEmitido.emit(false);
-    console.log(false);
+  postVitalSigns(){
+    this.nextTab();
+    this.emitNextTabEvent();
   }
-  @Output() cambiarTab = new EventEmitter<number>();
-  irSiguienteTab() {
-    this.cambiarTab.emit(0);
+  
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+
+  emitNextTabEvent() {
+      this.nextTabEventEmitted.emit(false);
+  }
+
+  @Output() nextMatTab = new EventEmitter<number>();
+  nextTab() {
+    this.nextMatTab.emit(0);
   }
 }

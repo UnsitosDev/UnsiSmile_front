@@ -1,0 +1,24 @@
+<mat-form-field appearance="fill" class="w-full">
+  <mat-label>Field Label</mat-label>
+  <input matInput [formControl]="myControl" />
+
+  <!-- Mostrar errores de validación -->
+  @if (myControl.hasError('required')) {
+  <mat-error> Field is required </mat-error>
+  } 
+  @if(myControl.hasError('minlength')){
+  <mat-error>
+    Minimum length is {{ myControl.errors?.['minlength']?.requiredLength }}
+  </mat-error>
+  } 
+  @if (myControl.hasError('maxlength')) {
+  <mat-error>
+    Maximum length is {{ myControl.errors?.['maxlength']?.requiredLength }}
+  </mat-error>
+  } 
+  @if (myControl.hasError('pattern')) {
+  <mat-error> Invalid format </mat-error>
+  }
+</mat-form-field>
+
+<button mat-button color="primary">SAVE</button>

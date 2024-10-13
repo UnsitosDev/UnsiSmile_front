@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HistoryMultidiciplinaryEvaluationComponent } from './history-multidiciplinary-evaluation.component';
+import { clinicalExamComponent } from './form-clinical-exam.component';
 
 describe('HistoryMultidiciplinaryEvaluationComponent', () => {
-  let component: HistoryMultidiciplinaryEvaluationComponent;
-  let fixture: ComponentFixture<HistoryMultidiciplinaryEvaluationComponent>;
+  let component: clinicalExamComponent;
+  let fixture: ComponentFixture<clinicalExamComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HistoryMultidiciplinaryEvaluationComponent]
+      imports: [clinicalExamComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(HistoryMultidiciplinaryEvaluationComponent);
+    fixture = TestBed.createComponent(clinicalExamComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

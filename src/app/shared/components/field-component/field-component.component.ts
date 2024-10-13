@@ -1,22 +1,24 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges, OnChanges, model } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormGroup, FormsModule } from '@angular/forms';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar ReactiveFormsModule
+import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { AsyncPipe, DatePipe, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { map, Observable, startWith } from 'rxjs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormField } from 'src/app/models/form-fields/form-field.interface';
+
 
 
 @Component({
   selector: 'app-field-component',
   standalone: true,
-  imports: [MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
+  imports: [MatCheckboxModule, MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
   templateUrl: './field-component.component.html',
   styleUrl: './field-component.component.scss',
   providers: [provideNativeDateAdapter(), DatePipe],
@@ -24,38 +26,66 @@ import { map, Observable, startWith } from 'rxjs';
 
 
 })
-export class FieldComponentComponent {
+export class FieldComponentComponent implements OnChanges {
 
-  @Input() field: any;
+  @Input() field!: FormField;
   @Input() formGroup!: FormGroup;
   @Input() errors: any;
   @Input() fieldValue: any;
   @Output() setFieldValue = new EventEmitter<any>();
+  isChecked: boolean = false;
 
   typeElement: string = '';
   datePipe = inject(DatePipe);
 
   myControl = new FormControl('');
-  filteredOptions!: Observable<{ value: string; label: string }[]>;
 
   ngOnInit() {
-    // Inicializar el control para el autocomplete
+    // Verifica si alguno de los valores está presente antes de establecerlo
+    if (this.field.answerField) {
+      // Asignar el valor correspondiente según el tipo
+      const value = this.field.answerField.answerBoolean ?? this.field.answerField.answerNumeric ?? this.field.answerField.answerText;
+
+      // Si el valor no es nulo, lo establece en el FormControl
+      if (value != null) {
+        this.formGroup.get(this.field.name)?.setValue(value);
+      }
+    }
+
+    // Agrega validaciones dinámicas basadas en el valor de `required`
     const control = this.formGroup.get(this.field.name);
-    this.myControl = control instanceof FormControl ? control : new FormControl('');
-
-    // Filtrar opciones basadas en el valor de entrada
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || ''))
-    );
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['fieldValue']) {
-      this.myControl.setValue(changes['fieldValue'].currentValue);
+    if (control) {
+      // Si `required` es undefined, se asume como `false`
+      const isRequired = !!this.field.required; // Convierte undefined a false
+      if (isRequired) {
+        control.setValidators([Validators.required]);  // Añade la validación de 'required'
+      }
+      control.updateValueAndValidity();
     }
   }
 
+  // Input & select
+  onValueChange(event: any) {
+    // Obtenemos el valor del evento
+    const value = event.target ? event.target.value : event.value;
+    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID });
+  }
+
+
+  // Date
+  onValueChangeDate(event: any) {
+    const value = event.value as Date;
+    this.setFieldValue.emit({ field: this.field.name, value: this.datePipe.transform(value, 'yyyy-MM-dd') });
+  }
+
+  // Check
+  onValueChangeCheck(event: any) {
+    const value = event.checked; // Extrae el valor booleano del checkbox    
+    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID });
+  }
+
+
+  // Input Event
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const value = inputElement.value;
@@ -67,6 +97,7 @@ export class FieldComponentComponent {
     this.setFieldValue.emit({ name: this.field.name, value });
   }
 
+  // Autocomplete
   onInputAutocomplete(event: Event): void {
 
     const inputElement = event.target as HTMLInputElement;
@@ -80,35 +111,11 @@ export class FieldComponentComponent {
 
   }
 
-  private _filter(value: string): { value: string; label: string }[] {
-    const filterValue = value.toLowerCase();
-    return this.field.options.filter((option: any) =>
-      option.label.toLowerCase().includes(filterValue)
-    );
-  }
+  ngOnChanges(changes: SimpleChanges) {
 
-  onSelectionChange2(event: any) {
-    const selectedValue2 = event.value;
 
-    const selectedOption = this.field?.options?.find((option: any) => option.value === selectedValue2);
+    //llamar a una funcion que itere sobre la lista de validaciones
 
-    this.setFieldValue.emit({ field: this.field.name, value: selectedOption });
-  }
-
-  onValueChange(event: any) {
-    // Emite el valor para todos los tipos de eventos
-    const value = event.target ? event.target.value : event.value;
-    this.setFieldValue.emit({ field: this.field.name, value: value });
-  }
-
-  handleSelectChange(event: any) {
-    const value = event.target ? event.target.value : event.value;
-    this.setFieldValue.emit({ field: this.field.name, value: value });
-  }
-
-  onValueChangeDate(event: any) {
-    const value = event.value as Date;
-    this.setFieldValue.emit({ field: this.field.name, value: this.datePipe.transform(value, 'yyyy-MM-dd') });
   }
 
   hasLastError(fieldName: string): boolean {
