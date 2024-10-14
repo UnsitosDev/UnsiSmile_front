@@ -26,7 +26,6 @@
         }
       </div>
     } 
-
       @for (subSection of fieldsTab.childFormSection; track subSection) {
         <div class="mt-2">
           <span><strong></strong></span>
@@ -49,10 +48,10 @@
       <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
       <div>
         @if (fieldsTab.isAnswered) {
-          <button type="button" (click)="sendFormData()" mat-button> AVANZAR Y ACTUALIZAR <i class="fas fa-save"></i></button>
+          <button type="button" (click)="onSubmit()" mat-button> AVANZAR Y ACTUALIZAR <i class="fas fa-save"></i></button>
         }
         @if (!fieldsTab.isAnswered) {
-          <button type="button" (click)="sendFormData()" mat-button> AVANZAR Y GUARDAR <i class="fas fa-save"></i></button>
+          <button type="button" (click)="onSubmit()" mat-button> AVANZAR Y GUARDAR <i class="fas fa-save"></i></button>
         }
       </div>
     </div>

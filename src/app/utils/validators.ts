@@ -9,6 +9,7 @@ export function curpValidator(): ValidatorFn {
 }
 
 
+
 // Validador de presión arterial
 export function bloodPressureValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {

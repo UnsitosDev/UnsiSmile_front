@@ -36,8 +36,8 @@
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
         <input matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)" />
-        @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-          <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
+        @if (formGroup.get(field.name)?.hasError('lastError') && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+          <mat-error>{{ errors?.lastError }}</mat-error>
         }
         @if (formGroup.get(field.name)?.hasError('required')) {
           <mat-error class="error-message">{{ errors?.required }}</mat-error>
@@ -136,12 +136,19 @@
     }
     @case ('textArea') {
       <mat-form-field appearance="fill" class="w-full">
-        <mat-label>{{field.label}}</mat-label>
-        <textarea matInput [formControlName]="field.name"  [placeholder]="field.placeholder"></textarea>
-      </mat-form-field>  
-      @if (formGroup.get(field.name)?.hasError('required')) {
-        <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
-      } 
+        <mat-label>{{ field.label }}</mat-label>
+        <textarea matInput 
+          [required]="!!field.required" 
+          [placeholder]="field.placeholder" 
+          [value]="field.answerField?.answerText" 
+          [formControlName]="field.name" 
+          (input)="onValueChange($event)">
+        </textarea>
+    
+        @if (formGroup.get(field.name)?.hasError('required') && field.required) {
+          <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
+        }
+      </mat-form-field>
     }
     @default {
       <p>Tipo de campo no soportado.</p>

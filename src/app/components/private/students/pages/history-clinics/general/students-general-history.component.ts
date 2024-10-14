@@ -113,7 +113,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   // Método auxiliar para formatear la dirección
   private formatAddress(address: any): string {
     const { street } = address;
-    return `${street.name} # ${street.streetNumber}, ${street.neighborhood.name}, ${street.neighborhood.locality.name}, ${street.neighborhood.locality.municipality.name}, ${street.neighborhood.locality.municipality.state.name}`;
+    return `${street.name} , ${street.neighborhood.name}, ${street.neighborhood.locality.name}, ${street.neighborhood.locality.municipality.name}, ${street.neighborhood.locality.municipality.state.name}`;
   }
 
   // Método para formatear fecha
