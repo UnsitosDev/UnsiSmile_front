@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges, OnChanges, model } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges, OnChanges, model, signal } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
@@ -12,13 +12,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { ApiService } from '@mean/services';
+import { HttpHeaders } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 
 @Component({
   selector: 'app-field-component',
   standalone: true,
-  imports: [MatCheckboxModule, MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
+  imports: [MatExpansionModule, MatCardModule, MatIconModule, MatListModule, MatCheckboxModule, MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
   templateUrl: './field-component.component.html',
   styleUrl: './field-component.component.scss',
   providers: [provideNativeDateAdapter(), DatePipe],
@@ -27,6 +33,7 @@ import { FormField } from 'src/app/models/form-fields/form-field.interface';
 
 })
 export class FieldComponentComponent implements OnChanges {
+  readonly panelOpenState = signal(false);
 
   @Input() field!: FormField;
   @Input() formGroup!: FormGroup;
@@ -34,6 +41,8 @@ export class FieldComponentComponent implements OnChanges {
   @Input() fieldValue: any;
   @Output() setFieldValue = new EventEmitter<any>();
   @Output() setFileValue = new EventEmitter<any>();
+  apiService = inject(ApiService);
+
 
   isChecked: boolean = false;
 
@@ -146,5 +155,28 @@ export class FieldComponentComponent implements OnChanges {
     // Considera cualquier error que no sea 'required' como un 'lastError'
     return Object.keys(errors).some(errorKey => errorKey !== 'required');
   }
+
+  onFileClick(file: any) {
+    console.log('Archivo clickeado:', file.idFile);
+
+    const reqParams = {
+      headers: new HttpHeaders({
+        'Accept': '*/*',
+      }),
+      url: `http://localhost:8080/api/v1/files/file/${file.idFile}`,
+      responseType: 'blob' as 'blob', // << Usa 'blob' directamente, sin cast incorrecto
+    };
+
+    this.apiService.getService(reqParams).subscribe({
+      next: (response: Blob) => {
+        console.log('Respuesta de la descarga:', response);
+
+      },
+      error: (error) => {
+        console.error('Error en la descarga:', error);
+      },
+    });
+  }
+
 
 }

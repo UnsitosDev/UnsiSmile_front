@@ -177,4 +177,7 @@ export class UriConstants {
     public static readonly POST_SECTION_FORM = basePath + '/answers/forms'
     // Enviar archivos
     public static readonly POST_FILES = basePath2 + '/api/v1/files'
+    // Descargar archivo
+    public static readonly DOWLOAD_FILES = basePath2 + '/api/v1/files/file/'
+
 }    

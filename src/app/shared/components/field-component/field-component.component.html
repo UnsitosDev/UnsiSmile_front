@@ -119,10 +119,20 @@
         <mat-label>{{field.label}}</mat-label>
         <input type="file" multiple accept="image/*" class="w-full text-gray-600 text-sm border-b border-black focus:border-blue-500 py-2 custom"
                (change)="onValueChangeFile($event)" />
-        <p class="text-xs text-gray-500 mt-1">{{field.label}} en formato: {{field.placeholder}}</p>
+        <p class="text-xs text-gray-500 mt-1">{{field.label}} en formato: jpeg, jpg</p>
         <br>
       </div>
-      
+      @if (field.answerField?.files && field.answerField?.files.length > 0) {
+        <mat-label>Archivos: </mat-label>
+          <mat-list>
+            @for (file of field.answerField?.files; track file) {
+              <mat-list-item>
+                <mat-icon matListItemIcon><i class="fas fa-file-alt"></i></mat-icon>
+                <div (click)="onFileClick(file)" matListItemTitle>{{ file.fileName }}</div>
+              </mat-list-item>
+            }
+        </mat-list>
+      }
     }
     @case ('textArea') {
       <mat-form-field appearance="fill" class="w-full">

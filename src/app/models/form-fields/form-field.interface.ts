@@ -40,7 +40,7 @@ export interface AnswerField {
     answerDate: string | null;
     answerNumeric: number | null;
     answerText: string | null;
-    files: boolean | null;
+    files: any;
     idAnswer: number | null;
 }
 

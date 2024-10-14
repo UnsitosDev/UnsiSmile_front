@@ -149,7 +149,6 @@ export class TabFormComponent {
       return;
     }
 
-
     const formData = new FormData();
     
     // Agrega cada archivo al FormData
@@ -161,17 +160,16 @@ export class TabFormComponent {
     formData.append('idPatientClinicalHistory', this.id.toString()); // Cambia '1' por el valor adecuado
     formData.append('idQuestion', this.idQuestion.toString());
 
-
     this.apiService
       .postService({
         headers: new HttpHeaders({
         }),
-        url: `http://localhost:8080/api/v1/files`, // URL del backend
+        url: `${UriConstants.POST_FILES}`, // URL del backend
         data: formData,
       })
       .subscribe({
-        next: (data) => {
-          console.log('ok', data);
+        next: (response) => {
+          console.log('ok', response);
         },
         error: (error) => {
         
