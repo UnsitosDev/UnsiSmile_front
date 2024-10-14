@@ -115,10 +115,14 @@
         </mat-form-field>      
     }
     @case ('inputFile') {
-      <div>
-        <input type="file" multiple="true" accept="image/*"  [formControlName]="field.name" class="w-full text-gray-600 text-sm border-b border-black focus:border-blue-500 py-2 custom" />
-        <p class="text-xs text-gray-500 mt-1"> {{field.label}} en formato: {{field.placeholder}}</p>
-      </div> 
+      <div class="custom-text">
+        <mat-label>{{field.label}}</mat-label>
+        <input type="file" multiple accept="image/*" class="w-full text-gray-600 text-sm border-b border-black focus:border-blue-500 py-2 custom"
+               (change)="onValueChangeFile($event)" />
+        <p class="text-xs text-gray-500 mt-1">{{field.label}} en formato: {{field.placeholder}}</p>
+        <br>
+      </div>
+      
     }
     @case ('textArea') {
       <mat-form-field appearance="fill" class="w-full">

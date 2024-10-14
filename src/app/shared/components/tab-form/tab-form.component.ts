@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '@mean/services';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { AlertModel } from '@mean/models';
 import { AlertComponent } from "../alert/alert.component";
@@ -106,6 +106,10 @@ export class TabFormComponent {
     this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específico
   }
 
+
+
+
+
   idPatientClinicalHistory: number = 0;
   idQuestion: number = 0;
   answerBoolean: boolean = false;
@@ -119,7 +123,64 @@ export class TabFormComponent {
 
   questionIDs: { [key: string]: number } = {};  // Definimos questionIDs como un objeto que almacena números
 
+  sendFile!: boolean;
+
+  files: FileList | null = null; // Almacena el FileList
+
+   // Método para manejar el valor del archivo
+   handleFileValue(event: { value: FileList; questionID: number; type: string }) {
+    this.idQuestion = event.questionID; // Obtener el ID de la pregunta
+    this.files = event.value; // Almacenar el FileList
+
+    // Verificar si hay archivos
+    if (this.files && this.files.length > 0) {
+      console.log('Archivos recibidos del componente hijo:', this.files);
+      for (let i = 0; i < this.files.length; i++) {
+        const file = this.files[i];
+        console.log(`Archivo ${i + 1}:`, file.name, file.size, file.type);
+      }
+    } else {
+      console.error('No se recibieron archivos.');
+    }
+  }
+
+  sendFiles() {
+    if (!this.files || this.files.length === 0) {
+      return;
+    }
+
+
+    const formData = new FormData();
+    
+    // Agrega cada archivo al FormData
+    for (let i = 0; i < this.files.length; i++) {
+      formData.append('files', this.files[i]); // 'files' debe coincidir con el nombre del campo esperado en el backend
+    }
+
+    // Puedes agregar más datos al FormData si es necesario
+    formData.append('idPatientClinicalHistory', this.id.toString()); // Cambia '1' por el valor adecuado
+    formData.append('idQuestion', this.idQuestion.toString());
+
+
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+        }),
+        url: `http://localhost:8080/api/v1/files`, // URL del backend
+        data: formData,
+      })
+      .subscribe({
+        next: (data) => {
+          console.log('ok', data);
+        },
+        error: (error) => {
+        
+        },
+      });
+  }
+
   sendFormData() {
+
     const formData = this.formGroup.value;
 
     Object.keys(formData).forEach((fieldName) => {
@@ -169,7 +230,7 @@ export class TabFormComponent {
         },
         error: (error) => {
           console.log('Error al guardar datos: ', error);
-          
+
         },
       });
   }

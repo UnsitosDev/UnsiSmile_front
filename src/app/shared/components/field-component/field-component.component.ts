@@ -33,6 +33,8 @@ export class FieldComponentComponent implements OnChanges {
   @Input() errors: any;
   @Input() fieldValue: any;
   @Output() setFieldValue = new EventEmitter<any>();
+  @Output() setFileValue = new EventEmitter<any>();
+
   isChecked: boolean = false;
 
   typeElement: string = '';
@@ -109,6 +111,22 @@ export class FieldComponentComponent implements OnChanges {
 
     this.setFieldValue.emit({ field: this.field.name, value: value });
 
+  }
+
+  // Método para manejar el cambio de archivo
+  onValueChangeFile(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const files: FileList | null = input.files;
+
+    if (files && files.length > 0) {
+      this.setFileValue.emit({
+        value: files,
+        questionID: this.field.questionID,
+        type: 'file',
+      });
+    } else {
+      console.error('No se recibieron archivos.');
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {

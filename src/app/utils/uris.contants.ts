@@ -3,6 +3,8 @@ import { isDevMode } from '@angular/core';
 const host = isDevMode() ? 'http://localhost:8080/unsismile/api/v1' : 'otherdomain.com';
 const basePath = host;
 
+const host2 = isDevMode() ? 'http://localhost:8080' : 'otherdomain.com';
+const basePath2 = host2;
 export class UriConstants {
   public static readonly HOST = host;
   public static readonly MESSAGES = basePath + '/messages';
@@ -173,4 +175,6 @@ export class UriConstants {
     public static readonly GET_PATIENT_HISTORIES = basePath + '/clinical-histories/patient-clinical-histories'
     // Enviar seccion del formulario
     public static readonly POST_SECTION_FORM = basePath + '/answers/forms'
+    // Enviar archivos
+    public static readonly POST_FILES = basePath2 + '/api/v1/files'
 }    

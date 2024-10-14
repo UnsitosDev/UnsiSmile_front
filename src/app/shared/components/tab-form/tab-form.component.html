@@ -17,7 +17,10 @@
               [field]="field"
               [formGroup]="formGroup"
               [errors]="field.errorMessages"
-              (setFieldValue)="handleFieldValue($event)">
+              (setFieldValue)="handleFieldValue($event)"
+              (setFileValue)="handleFileValue($event)"
+              >
+
             </app-field-component>
           </div>
         }
@@ -44,7 +47,7 @@
     <div class="button-container">
       <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
       <div>
-        <button type="button" (click)="onSubmit()" mat-button> SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+        <button type="button" (click)="sendFiles()" mat-button> SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
       </div>
     </div>
   </form>
