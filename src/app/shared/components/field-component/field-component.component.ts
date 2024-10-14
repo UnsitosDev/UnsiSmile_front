@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { AsyncPipe, DatePipe, NgFor } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { map, Observable, startWith } from 'rxjs';

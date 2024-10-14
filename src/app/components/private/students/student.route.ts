@@ -58,6 +58,13 @@ export default [
                     ),
             },
             {
+                path: 'user',
+                loadComponent: () =>
+                    import('./components/form-user/form-user.component').then(
+                        (m) => m.FormUserComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
