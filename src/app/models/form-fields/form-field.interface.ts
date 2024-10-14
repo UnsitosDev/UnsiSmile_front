@@ -22,7 +22,8 @@ export interface formSectionFields {
     title: string;
     childFormSection: subSeccion[] | null;
     seccion: FormField[] | null;
-    component?: string
+    component?: string;
+    isAnswered?: boolean;
 }
 
 export interface subSeccion {

@@ -20,7 +20,8 @@ export function mapFormSectionToFormSectionFields(section: FormSection): formSec
             ? section.subSections.map((subSection) => mapSubSectionToFormSectionFields(subSection))
             : null, // Si no hay subsecciones, asigna null
         seccion: section.questions.map((question) => mapQuestionToFormField(question)), // Mapea las preguntas de la sección principal
-        component: determineSeccion(section)
+        component: determineSeccion(section),
+        isAnswered: section.isAnswered
     };
 }
 

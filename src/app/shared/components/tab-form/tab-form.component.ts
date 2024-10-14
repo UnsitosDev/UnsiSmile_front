@@ -127,8 +127,8 @@ export class TabFormComponent {
 
   files: FileList | null = null; // Almacena el FileList
 
-   // Método para manejar el valor del archivo
-   handleFileValue(event: { value: FileList; questionID: number; type: string }) {
+  // Método para manejar el valor del archivo
+  handleFileValue(event: { value: FileList; questionID: number; type: string }) {
     this.idQuestion = event.questionID; // Obtener el ID de la pregunta
     this.files = event.value; // Almacenar el FileList
 
@@ -150,7 +150,7 @@ export class TabFormComponent {
     }
 
     const formData = new FormData();
-    
+
     // Agrega cada archivo al FormData
     for (let i = 0; i < this.files.length; i++) {
       formData.append('files', this.files[i]); // 'files' debe coincidir con el nombre del campo esperado en el backend
@@ -172,7 +172,7 @@ export class TabFormComponent {
           console.log('ok', response);
         },
         error: (error) => {
-        
+
         },
       });
   }
@@ -209,6 +209,12 @@ export class TabFormComponent {
         this.send.push(data);
       }
     });
+
+    // Verificar si hay archivos antes de hacer la petición
+    if (this.files && this.files.length > 0) {
+      // Si hay archivos, primero ejecutamos sendFiles
+      this.sendFiles();
+    }
 
     // Hacer la petición después de llenar el arreglo con los datos válidos
     console.log('Datos a enviar:', this.send);
@@ -256,9 +262,9 @@ export class TabFormComponent {
   `,
   styles: [`
     .custom {
-    color: black;
-    margin-top: 100px;
-    }
+    color: var(--on-primary);
+  
+  }
     i{
       color: green;
       font-size: 20px;

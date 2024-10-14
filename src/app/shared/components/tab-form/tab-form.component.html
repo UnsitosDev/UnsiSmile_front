@@ -45,9 +45,15 @@
       }
     
     <div class="button-container">
+
       <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
       <div>
-        <button type="button" (click)="sendFiles()" mat-button> SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+        @if (fieldsTab.isAnswered) {
+          <button type="button" (click)="sendFormData()" mat-button> AVANZAR Y ACTUALIZAR <i class="fas fa-save"></i></button>
+        }
+        @if (!fieldsTab.isAnswered) {
+          <button type="button" (click)="sendFormData()" mat-button> AVANZAR Y GUARDAR <i class="fas fa-save"></i></button>
+        }
       </div>
     </div>
   </form>
