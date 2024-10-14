@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { permissionGuard } from './guards/permission.guard';
+import { studentGuard } from './guards/student.guard';
 import { loginGuard } from './guards/login.guard';
+import { adminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
 
@@ -13,13 +14,13 @@ const routes: Routes = [
   {
     path: 'students',
     loadChildren: () => import('./components/private/students/student.route'),
-    canActivate:[permissionGuard]
+    canActivate:[studentGuard]
   },
 
   {
     path: 'admin',
     loadChildren: () => import('./components/private/admins/admin.route'),
-    canActivate:[permissionGuard]
+    canActivate:[adminGuard]
   },
   
   {
