@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
@@ -30,6 +30,7 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
   imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule],
+
 })
 
 export class StudentsGeneralHistoryComponent implements OnInit {
@@ -56,11 +57,9 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     this.router.params.subscribe((params) => {
       this.id = params['id'];
       this.idpatient = params['patientID']; 
-       // Llamar al servicio y suscribirse a los datos
        this.historyData.getHistoryClinics(this.id, this.idpatient).subscribe({
         next: (mappedData: dataTabs) => {
-          this.mappedHistoryData = mappedData; // Asignar los datos mapeados a la variable
-          console.log('Datos mapeados en el componente:', this.mappedHistoryData);
+          this.mappedHistoryData = mappedData; 
         }
       });
       this.fetchPatientData();   

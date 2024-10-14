@@ -25,7 +25,7 @@ export class GeneralHistoryService {
   private apiService = inject(ApiService);
 
   historyData: ClinicalHistoryCatalog[] = [];
-  mappedHistoryData!: dataTabs; // Quiero acceder a estos datos en el componente
+  mappedHistoryData!: dataTabs; 
   getHistoryClinics(id: number, idpatient: number): Observable<dataTabs> {
     return this.apiService
       .getService({
@@ -37,7 +37,6 @@ export class GeneralHistoryService {
       })
       .pipe(
         map((response: ClinicalHistoryCatalog) => {
-          console.log('Service getHistoryClinics', response);
           return mapClinicalHistoryToDataTabs(response);
         })
       );

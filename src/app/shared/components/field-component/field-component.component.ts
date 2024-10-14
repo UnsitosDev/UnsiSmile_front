@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { UriConstants } from '@mean/utils';
 
 
 
@@ -157,26 +158,33 @@ export class FieldComponentComponent implements OnChanges {
   }
 
   onFileClick(file: any) {
-    console.log('Archivo clickeado:', file.idFile);
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.DOWLOAD_FILES}${file.idFile}`,
+        data: {},
+        responseType: 'blob' 
+      })
+      .subscribe({
+        next: (response) => {
+          const blob = new Blob([response], { type: response.type || 'application/octet-stream' });
 
-    const reqParams = {
-      headers: new HttpHeaders({
-        'Accept': '*/*',
-      }),
-      url: `http://localhost:8080/api/v1/files/file/${file.idFile}`,
-      responseType: 'blob' as 'blob', // << Usa 'blob' directamente, sin cast incorrecto
-    };
+          const link = document.createElement('a');
+          const url = window.URL.createObjectURL(blob);
+          link.href = url;
+          link.download = file.fileName || 'downloaded-file';
 
-    this.apiService.getService(reqParams).subscribe({
-      next: (response: Blob) => {
-        console.log('Respuesta de la descarga:', response);
-
-      },
-      error: (error) => {
-        console.error('Error en la descarga:', error);
-      },
-    });
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        },
+        error: (error) => {
+          console.error('Error al guardar datos: ', error);
+        },
+      });
   }
-
 
 }
