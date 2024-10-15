@@ -3,71 +3,74 @@
 import { AnswerField, dataTabs, FormField, formSectionFields, subSeccion, ValidationField, validationsFront } from "src/app/models/form-fields/form-field.interface";
 import { Answer, AnswerType, ClinicalHistoryCatalog, FormSection, Question, SubSection, Validation, ValidationType } from "src/app/models/history-clinic/historyClinic";
 
-
+// Mapea el catálogo de historia clínica a la estructura de datos de las pestañas (dataTabs)
 export function mapClinicalHistoryToDataTabs(catalog: ClinicalHistoryCatalog): dataTabs {
     // Mapea la estructura del catálogo a la estructura de datos esperada en dataTabs
     return {
-        title: catalog.clinicalHistoryName,
-        tabs: catalog.formSections.map(section => mapFormSectionToFormSectionFields(section)),
+        title: catalog.clinicalHistoryName, // Asigna el nombre de la historia clínica
+        tabs: catalog.formSections.map(section => mapFormSectionToFormSectionFields(section)), // Mapea las secciones del formulario
 
     };
 }
 
+// Mapea una sección del formulario a la estructura de campos de la sección
 export function mapFormSectionToFormSectionFields(section: FormSection): formSectionFields {
     return {
-        title: section.formName,
+        title: section.formName, 
         childFormSection: section.subSections.length > 0
-            ? section.subSections.map((subSection) => mapSubSectionToFormSectionFields(subSection))
+            ? section.subSections.map((subSection) => mapSubSectionToFormSectionFields(subSection)) 
             : null, // Si no hay subsecciones, asigna null
-        seccion: section.questions.map((question) => mapQuestionToFormField(question)), // Mapea las preguntas de la sección principal
-        component: determineSeccion(section),
-        isAnswered: section.isAnswered
+        seccion: section.questions.map((question) => mapQuestionToFormField(question)),
+        component: determineSeccion(section), 
+        isAnswered: section.isAnswered // Verifica si la sección ha sido respondida
     };
 }
 
-// Función recursiva para mapear subsecciones
+// Mapea una subsección a la estructura de campos de la subsección
 function mapSubSectionToFormSectionFields(subSection: SubSection): subSeccion {
     return {
-        formName: subSection.formName,
+        formName: subSection.formName, // Asigna el nombre de la subsección
         questions: subSection.questions.map((question) => mapQuestionToFormField(question)), // Mapea las preguntas de la subsección
     };
 }
 
+// Mapea una pregunta a un campo del formulario
 export function mapQuestionToFormField(question: Question): FormField {
-    const grids = determineFieldGrids(question.answerType); // No combinamos, solo usamos uno por pregunta
 
-    // Buscar las validaciones MIN_LENGHT,  MAX_LENGHT, REGEX
+    const grids = determineFieldGrids(question.answerType); 
+
+    // Busca las validaciones MIN_LENGHT, MAX_LENGHT y REGEX
     let minValidation = question.questionValidations?.find(v => v.validationType.validationCode === 'MIN_LENGHT');
     let maxValidation = question.questionValidations?.find(v => v.validationType.validationCode === 'MAX_LENGHT');
     let regexValidation = question.questionValidations?.find(v => v.validationType.validationCode === 'REGEX');
 
-    // Crear el objeto validationFnt para almacenar las validaciones
+    // Crea el objeto validationFnt para almacenar las validaciones de regex
     const validationFnt: validationsFront = {
-        regex: regexValidation ? regexValidation.validationValue : undefined, // Usar regex si está presente
-        message: regexValidation?.validationMessage || '' // Mensaje de validación de regex, si está disponible
+        regex: regexValidation ? regexValidation.validationValue : undefined,
+        message: regexValidation?.validationMessage || ''
     };
 
     return {
-        answerField: mapAnswerToAnswerField(question.answer),
-        questionID: question.idQuestion,
-        grids: grids || 'w-full', // Cambiar aquí para mapear a cada pregunta
-        type: determineFieldType(question.answerType),
-        name: question.questionText.replace(/\s+/g, '_').toLowerCase(),
-        label: question.questionText,
-        required: question.required,
+        answerField: mapAnswerToAnswerField(question.answer), 
+        questionID: question.idQuestion, 
+        grids: grids || 'w-full', 
+        type: determineFieldType(question.answerType), 
+        name: question.questionText.replace(/\s+/g, '_').toLowerCase(), 
+        label: question.questionText, 
+        required: question.required, 
         placeholder: question.placeholder,
         options: question.catalog ? question.catalog.catalogOptions.map(option => ({
             value: option.idCatalogOption,
             label: option.optionName
-        })) : undefined,
+        })) : undefined, // Mapea las opciones del catálogo
         errorMessages: {},
-        validations: question.questionValidations ? question.questionValidations.map(mapValidations) : [],
-        min: minValidation ? minValidation.validationValue : undefined, // Asignar min si existe MIN_LENGHT
-        max: maxValidation ? maxValidation.validationValue : undefined,  // Asignar max si existe MAX_LENGHT 
-        validationFnt: validationFnt // Asignar la función de validación
+        min: minValidation ? minValidation.validationValue : undefined, 
+        max: maxValidation ? maxValidation.validationValue : undefined,  
+        validationFnt: validationFnt
     };
 }
 
+// Mapea una validación a un campo de validación
 export function mapValidations(validation: Validation): ValidationField {
     return {
         idValidation: validation.idValidation,
@@ -77,8 +80,8 @@ export function mapValidations(validation: Validation): ValidationField {
     }
 }
 
-// Función para mapear el objeto Answer a AnswerField
-function mapAnswerToAnswerField(answer: Answer | null): AnswerField | undefined {
+// Mapea una respuesta a un campo de respuesta (AnswerField)
+ function mapAnswerToAnswerField(answer: Answer | null): AnswerField | undefined {
     if (!answer) {
         return undefined;
     }
@@ -93,22 +96,23 @@ function mapAnswerToAnswerField(answer: Answer | null): AnswerField | undefined 
     };
 }
 
+// Determina el tipo de campo basado en el tipo de respuesta (AnswerType)
 export function determineFieldType(answerType: AnswerType): 'inputText' | 'inputNumber' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputFile' | 'textArea' | 'multivalued' | 'boolean' {
     switch (answerType.description.toUpperCase()) {
         case 'TEXT':
-            return 'textArea'; // Retorna input específico para texto
+            return 'textArea';
         case 'DATE':
             return 'datepicker';
         case 'CATALOG':
             return 'select';
-        case 'NUMERIC': // Retorna input específico para números
+        case 'NUMERIC': 
             return 'inputNumber';
         case 'MULTIVALUED':
             return 'multivalued';
         case 'BOOLEAN':
             return 'boolean';
         case 'SHORT_TEXT':
-            return 'inputText'; // Usa 'inputText' para textos cortos
+            return 'inputText'; 
         case 'PHOTO':
             return 'inputFile'
         case 'LONG_TEXT':
@@ -118,6 +122,7 @@ export function determineFieldType(answerType: AnswerType): 'inputText' | 'input
     }
 }
 
+// Determina el tamaño del campo en la cuadrícula según el tipo de respuesta
 export function determineFieldGrids(answerType: AnswerType): string {
     switch (answerType.description) {
         case 'MULTIVALUED':
@@ -129,18 +134,19 @@ export function determineFieldGrids(answerType: AnswerType): string {
         case 'NUMERIC':
             return 'col-span-4'; // Ocupa un tercio
         case 'PHOTO':
-            return 'col-span-12';
+            return 'col-span-12'; // Ocupa todo el ancho
         case 'LONG_TEXT':
-            return 'col-span-12'
+            return 'col-span-12'  // Ocupa todo el ancho
         default:
             return 'col-span-4'; // Valor por defecto
     }
 }
 
+// Determina el componente de la sección basado en su nombre
 export function determineSeccion(seccionType: FormSection): string {
     switch (seccionType.formName) {
         case 'Odontograma inicial':
-            return 'odontograma'; // Devuelve el HTML del componente
+            return 'odontograma'; 
         case 'Odontograma final':
             return 'odontogramaFinal'
         case 'Medición de bolsas inicial':
