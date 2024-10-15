@@ -57,7 +57,14 @@ export interface ValidationField {
     validationType: validationTypeField;  // Tipo de validación
 }
 
+export interface validationsFront {
+    regex?: string;
+    message: string
+}
 export interface FormField {
+    min?: string;
+    max?: string;
+    validationFnt?: validationsFront;
     answerField?: AnswerField;
     questionID?: number;
     grids?: string;

@@ -35,7 +35,7 @@
     @case ('input') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <input matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)" />
+        <input matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)"/>
         @if (formGroup.get(field.name)?.hasError('lastError') && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
           <mat-error>{{ errors?.lastError }}</mat-error>
         }
@@ -47,20 +47,32 @@
     @case ('inputText') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <input matInput type="text" [required]="!!field.required" 
-        [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric" [formControlName]="field.name" (input)="onValueChange($event)" />
-        @if (formGroup.get(field.name)?.hasError('required') && field.required) {
-          <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
-        }
+        <input matInput type="text" [required]="!!field.required" [pattern]="field.validationFnt?.regex || ''"  [maxlength]="field.max ?? null" [placeholder]="field.placeholder" [value]="field.answerField?.answerText" [formControlName]="field.name" (input)="onValueChange($event)"/>
+          @if (formGroup.get(field.name)?.hasError('required')) {
+            <mat-error class="error-message">
+              El campo {{ field.label }} es requerido
+            </mat-error>
+          }
+          @if (formGroup.get(field.name)?.hasError('pattern')) {
+            <mat-error class="error-message">
+              {{ field.validationFnt?.message }}
+            </mat-error>
+          } 
       </mat-form-field>
     }    
     @case ('inputNumber') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <input matInput type="number" [required]="!!field.required" [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric"
-        [formControlName]="field.name" (input)="onValueChange($event)" />
+        <input matInput type="number" [required]="!!field.required" [pattern]="field.validationFnt?.regex || ''"  [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric" [formControlName]="field.name" (input)="onValueChange($event)"/>   
         @if (formGroup.get(field.name)?.hasError('required')) {
-          <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
+          <mat-error class="error-message">
+            El campo {{ field.label }} es requerido
+          </mat-error>
+        }
+        @if (formGroup.get(field.name)?.hasError('pattern')) {
+          <mat-error class="error-message">
+            {{ field.validationFnt?.message }}
+          </mat-error>
         }
       </mat-form-field>
     }
@@ -137,17 +149,12 @@
     @case ('textArea') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <textarea matInput 
-          [required]="!!field.required" 
-          [placeholder]="field.placeholder" 
-          [value]="field.answerField?.answerText" 
-          [formControlName]="field.name" 
-          (input)="onValueChange($event)">
-        </textarea>
+        <textarea matInput [required]="!!field.required" [placeholder]="field.placeholder" [value]="field.answerField?.answerText" [formControlName]="field.name" (input)="onValueChange($event)"></textarea>
     
         @if (formGroup.get(field.name)?.hasError('required') && field.required) {
           <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
         }
+
       </mat-form-field>
     }
     @default {

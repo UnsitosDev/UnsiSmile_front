@@ -1,7 +1,7 @@
 // clinical-history.adapters.ts
 
-import { AnswerField, dataTabs, FormField, formSectionFields, subSeccion, ValidationField } from "src/app/models/form-fields/form-field.interface";
-import { Answer, AnswerType, ClinicalHistoryCatalog, FormSection, Question, SubSection, Validation } from "src/app/models/history-clinic/historyClinic";
+import { AnswerField, dataTabs, FormField, formSectionFields, subSeccion, ValidationField, validationsFront } from "src/app/models/form-fields/form-field.interface";
+import { Answer, AnswerType, ClinicalHistoryCatalog, FormSection, Question, SubSection, Validation, ValidationType } from "src/app/models/history-clinic/historyClinic";
 
 
 export function mapClinicalHistoryToDataTabs(catalog: ClinicalHistoryCatalog): dataTabs {
@@ -25,7 +25,6 @@ export function mapFormSectionToFormSectionFields(section: FormSection): formSec
     };
 }
 
-
 // Función recursiva para mapear subsecciones
 function mapSubSectionToFormSectionFields(subSection: SubSection): subSeccion {
     return {
@@ -36,6 +35,18 @@ function mapSubSectionToFormSectionFields(subSection: SubSection): subSeccion {
 
 export function mapQuestionToFormField(question: Question): FormField {
     const grids = determineFieldGrids(question.answerType); // No combinamos, solo usamos uno por pregunta
+
+    // Buscar las validaciones MIN_LENGHT,  MAX_LENGHT, REGEX
+    let minValidation = question.questionValidations?.find(v => v.validationType.validationCode === 'MIN_LENGHT');
+    let maxValidation = question.questionValidations?.find(v => v.validationType.validationCode === 'MAX_LENGHT');
+    let regexValidation = question.questionValidations?.find(v => v.validationType.validationCode === 'REGEX');
+
+    // Crear el objeto validationFnt para almacenar las validaciones
+    const validationFnt: validationsFront = {
+        regex: regexValidation ? regexValidation.validationValue : undefined, // Usar regex si está presente
+        message: regexValidation?.validationMessage || '' // Mensaje de validación de regex, si está disponible
+    };
+
     return {
         answerField: mapAnswerToAnswerField(question.answer),
         questionID: question.idQuestion,
@@ -50,11 +61,14 @@ export function mapQuestionToFormField(question: Question): FormField {
             label: option.optionName
         })) : undefined,
         errorMessages: {},
-        validations: question.questionValidations ? question.questionValidations.map(mapValidations) : []
+        validations: question.questionValidations ? question.questionValidations.map(mapValidations) : [],
+        min: minValidation ? minValidation.validationValue : undefined, // Asignar min si existe MIN_LENGHT
+        max: maxValidation ? maxValidation.validationValue : undefined,  // Asignar max si existe MAX_LENGHT 
+        validationFnt: validationFnt // Asignar la función de validación
     };
 }
 
-export function mapValidations (validation: Validation): ValidationField {
+export function mapValidations(validation: Validation): ValidationField {
     return {
         idValidation: validation.idValidation,
         validationMessage: validation.validationMessage,
@@ -103,7 +117,6 @@ export function determineFieldType(answerType: AnswerType): 'inputText' | 'input
             return 'inputText'; // Valor por defecto es inputText para manejar textos
     }
 }
-
 
 export function determineFieldGrids(answerType: AnswerType): string {
     switch (answerType.description) {
