@@ -60,8 +60,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
        this.historyData.getHistoryClinics(this.id, this.idpatient).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData; 
-          console.log('Datos mapeados en el componente:', this.mappedHistoryData);
-
         }
       });
       this.fetchPatientData();   
