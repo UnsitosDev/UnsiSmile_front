@@ -69,7 +69,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
     // Navegar a la ruta correspondiente según el nombre de la historia clínica
     switch (history.clinicalHistoryName) {
       case 'General':
-        this.router.navigate(['/students/historyClinic', history.idClinicalHistoryCatalog, { patientID: patientID }]); // General
+        this.router.navigate(['/students/historyClinic', history.idClinicalHistoryCatalog, 'patient', patientID]); // General
         break;
       case 'Prótesis bucal':
         this.router.navigate(['/students/OralSurgery']); // Cirugía bucal

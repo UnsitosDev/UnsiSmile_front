@@ -23,7 +23,7 @@ export default [
                     ),
             },
             {
-                path: 'historyClinic/:id',
+                path: 'historyClinic/:id/patient/:patientID',
                 loadComponent: () =>
                     import('./pages/history-clinics/general/students-general-history.component').then(
                         (m) => m.StudentsGeneralHistoryComponent
