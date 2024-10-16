@@ -1,12 +1,12 @@
 // odontogram.interface.ts
 export interface ICondition {
-    idCondition: Number,
+    idCondition: number,
     condition: string,
     description: string
 }
 
 export interface IFace {
-    idFace: number,
+    idFace: string,
     conditions?: ICondition[]
 }
 

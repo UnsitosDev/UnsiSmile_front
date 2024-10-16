@@ -1,10 +1,16 @@
 <div class="mx-8 pb-8 custom">
   <form [formGroup]="formGroup">
     @if (fieldsTab.component === 'odontograma') {
-      <app-students-odontogram></app-students-odontogram>
+      <app-students-odontogram
+      [patientId]="patientID" 
+      [odontogramType]="'INITIAL_ODONTOGRAM'">
+      ></app-students-odontogram>
     }
     @if (fieldsTab.component === 'odontogramaFinal') {
-      <app-students-odontogram></app-students-odontogram>
+      <app-students-odontogram
+      [patientId]="patientID",
+      [odontogramType]="'FINAL_ODONTOGRAM'"
+      ></app-students-odontogram>
     }
     @if(fieldsTab.component === 'initialBag') {
       <app-history-initial-bag></app-history-initial-bag>
