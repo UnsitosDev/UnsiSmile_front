@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, input } from '@angular/core';
 import { StudentsToothComponent } from '../tooth/students-tooth.component';
 
 import { OnInit, inject } from '@angular/core';
@@ -27,6 +27,9 @@ import { StudentsToolbarComponent } from '../toolbar-odontogram/students-toolbar
   styleUrl: './students-odontogram.component.scss',
 })
 export class StudentsOdontogramComponent implements OnInit {
+  @Input({required : true}) patientId: number = 0;
+  @Input({required : true}) odontogramType: "INITIAL_ODONTOGRAM" | "FINAL_ODONTOGRAM" = "INITIAL_ODONTOGRAM";
+
   //define la estructura de una arcada (odontograma)
   adultArcade = store.adultArcade;
   childrenArcade = store.childrenArcade;

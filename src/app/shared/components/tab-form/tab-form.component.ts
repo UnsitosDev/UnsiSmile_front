@@ -38,6 +38,7 @@ interface FormData {
   styleUrl: './tab-form.component.scss'
 })
 export class TabFormComponent {
+
   @Input() fieldsTab!: formSectionFields;
   @Input() fieldsSubTab!: subSeccion;
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
