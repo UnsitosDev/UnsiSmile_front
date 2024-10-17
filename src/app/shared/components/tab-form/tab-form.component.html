@@ -1,20 +1,5 @@
 <div class="mx-8 pb-8 custom">
   <form [formGroup]="formGroup">
-    @if (fieldsTab.component === 'odontograma') {
-      <app-students-odontogram
-      [patientId]="patientID" 
-      [odontogramType]="'INITIAL_ODONTOGRAM'">
-      ></app-students-odontogram>
-    }
-    @if (fieldsTab.component === 'odontogramaFinal') {
-      <app-students-odontogram
-      [patientId]="patientID",
-      [odontogramType]="'FINAL_ODONTOGRAM'"
-      ></app-students-odontogram>
-    }
-    @if(fieldsTab.component === 'initialBag') {
-      <app-history-initial-bag></app-history-initial-bag>
-    }
     @if (fieldsTab.seccion) {
       <div class="grid grid-cols-12 gap-4 mt-4"> <!-- Contenedor de la cuadrícula -->
         @for (field of fieldsTab.seccion; track field) { <!-- Usando @for con track -->
@@ -26,7 +11,6 @@
               (setFieldValue)="handleFieldValue($event)"
               (setFileValue)="handleFileValue($event)"
               >
-
             </app-field-component>
           </div>
         }
@@ -48,9 +32,7 @@
           </div>
         </div>
       }
-    
     <div class="button-container">
-
       <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
       <div>
         @if (fieldsTab.isAnswered) {

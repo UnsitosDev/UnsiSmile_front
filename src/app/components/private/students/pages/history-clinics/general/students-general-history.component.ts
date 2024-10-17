@@ -9,6 +9,7 @@ import { TabViewModule } from 'primeng/tabview';
 // Componentes
 import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
+import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
 
 // Servicios
 import { ApiService } from '@mean/services';
@@ -20,16 +21,16 @@ import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
-import { HttpHeaders } from '@angular/common/http';
 
 import { MatInputModule } from '@angular/material/input';
+import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
 
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule],
+  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent],
 
 })
 
@@ -49,7 +50,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public patientData!: cardPatient;
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
-  
+  patientID: number = 0;    // Variable para el parámetro 'patientID'
+
 
   constructor() { }
 

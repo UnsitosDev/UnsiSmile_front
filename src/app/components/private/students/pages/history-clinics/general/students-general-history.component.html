@@ -9,6 +9,21 @@
         <mat-tab-group [(selectedIndex)]="currentIndex">
             @for (tab of mappedHistoryData.tabs; track tab) {
                 <mat-tab [label]="tab.title">
+                    @if (tab.title === 'Odontograma inicial') {
+                        <app-students-odontogram 
+                        [patientId]="patientID" 
+                        [odontogramType]="'INITIAL_ODONTOGRAM'">
+                        </app-students-odontogram>
+                    }
+                    @if (tab.title === 'Odontograma final') {
+                        <app-students-odontogram 
+                        [patientId]="patientID" 
+                        [odontogramType]="'FINAL_ODONTOGRAM'">
+                        </app-students-odontogram>
+                    }
+                    @if (tab.title === 'Medición de bolsas inicial') {
+                        <app-history-initial-bag></app-history-initial-bag>
+                    }
                     <app-tab-form 
                         [fieldsTab]="tab" 
                         (nextMatTab)="onNextTab()"
