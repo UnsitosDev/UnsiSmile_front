@@ -61,7 +61,6 @@ export class StudentsDentalOperationComponent {
   }
 
   fetchPatientData(): void {
-    console.log('Entrean')
     if (this.idpatient) {
       this.patientService.getService({
         url: `${UriConstants.GET_PATIENTS}/${this.idpatient}`,
