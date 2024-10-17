@@ -14,7 +14,6 @@ import { StudentsOdontogramComponent } from '../../../components/odontogram/stud
 // Servicios
 import { ApiService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
-import { HistoryData } from 'src/app/models/form-fields/form-field.interface';
 
 // Modelos
 import { Patient } from 'src/app/models/shared/patients/patient/patient';
