@@ -69,19 +69,19 @@ export class DialogHistoryClinicsComponent implements OnInit {
     // Navegar a la ruta correspondiente según el nombre de la historia clínica
     switch (history.clinicalHistoryName) {
       case 'General':
-        this.router.navigate(['/students/historyClinic', history.idClinicalHistoryCatalog, 'patient', patientID]); // General
+        this.router.navigate(['/students/general', history.idClinicalHistoryCatalog, 'patient', patientID]); // General
         break;
       case 'Prótesis bucal':
-        this.router.navigate(['/students/OralSurgery']); // Cirugía bucal
+        this.router.navigate(['/students/oralProsthesis', history.idClinicalHistoryCatalog, 'patient', patientID]); // Cirugía bucal
         break;
       case 'Periodoncia':
-        this.router.navigate(['/students/periodontics']); // Periodoncia
+        this.router.navigate(['/students/periodontics', history.idClinicalHistoryCatalog, 'patient', patientID]); // Periodoncia
         break;
       case 'Operatoria dental':
-        this.router.navigate(['/students/DentalOperation']); // Operatoria dental
+        this.router.navigate(['/students/dentalOperation', history.idClinicalHistoryCatalog, 'patient', patientID]); // Operatoria dental
         break;
       case 'Cirugía bucal':
-        this.router.navigate(['/students/OralSurgery']); // Cirugía bucal
+         this.router.navigate(['/students/oralSurgery', history.idClinicalHistoryCatalog, 'patient', patientID]); // Cirugía bucal
         break;
     }
   }
