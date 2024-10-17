@@ -1,15 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TabViewModule } from 'primeng/tabview';
+import { MatInputModule } from '@angular/material/input';
 
 // Componentes
 import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
 import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
+import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
 
 // Servicios
 import { ApiService } from '@mean/services';
@@ -21,8 +23,6 @@ import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 
-import { MatInputModule } from '@angular/material/input';
-import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
 
 @Component({
   selector: 'app-students-general-history',
@@ -71,7 +71,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   fetchPatientData(): void {
     if (this.id !== undefined) {
       this.patientService.getService({
-        url: `${UriConstants.GET_PATIENTS}/${this.id}`,
+        url: `${UriConstants.GET_PATIENTS}/${this.idpatient}`,
       }).subscribe({
         next: (data) => {
           this.patient = data;
