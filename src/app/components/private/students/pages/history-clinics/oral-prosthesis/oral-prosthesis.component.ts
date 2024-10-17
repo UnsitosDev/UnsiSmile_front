@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
@@ -47,6 +47,7 @@ export class OralProsthesisComponent {
   public mappedHistoryData!: dataTabs;
 
   constructor() { }
+
   ngOnInit(): void {
     this.router.params.subscribe((params) => {
       this.id = params['id'];
