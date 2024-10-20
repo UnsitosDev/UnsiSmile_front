@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
- // Importa CommonModule
 import { Router, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@mean/services';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
