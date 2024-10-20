@@ -3,15 +3,15 @@
   <main class="flex-1 overflow-y-auto bg-gray-100 p-4 sm:p-6 lg:p-8">
     <div class="space-y-6">
       <!-- Tarjeta principal de bienvenida -->
-      <div class="bg-white rounded-lg shadow overflow-hidden bg">
+      <div class="bg-white rounded-lg shadow overflow-hidden bg-1">
         <div class="p-8 sm:p-10 md:p-12 flex flex-col md:flex-row items-center justify-between">
           <div class="mb-6 md:mb-0 md:mr-6 text-center md:text-left">
-            <h2 class="text-4xl sm:text-5xl font-bold text-blue-600 mb-2">Bienvenido a UNSIS</h2>
-            <p class="text-gray-600 text-xl sm:text-2xl">Sistema Universitario de Salud Integral</p>
+            <h2 class="text-4xl sm:text-5xl font-bold tx mb-2">Bienvenido a UNSIS</h2>
+            <p class="text-gray-600 tx text-xl sm:text-2xl">Sistema Universitario de Salud Integral</p>
           </div>
-          <fa-icon [icon]="['fas', 'user-md']" 
-                   class="text-blue-600 rounded-full bg-gray-100 p-8" 
-                   style="font-size: 7rem;">
+          <fa-icon [icon]="['fas', 'user-md']"
+            class="text-blue-600 rounded-full bg-gray-100 p-8"
+            style="font-size: 7rem;">
           </fa-icon>
         </div>
       </div>
@@ -20,7 +20,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="bg rounded-lg shadow p-6 flex items-center justify-between">
           <div>
-            <h3 class="text-lg font-semibold text-gray-700">Pacientes Registrados</h3>
+            <h3 class="text-lg font-semibold tx">Pacientes Registrados</h3>
             <p class="text-3xl font-bold text-blue-600">1,235</p>
           </div>
           <i class="fas fa-users fa-3x text-gray-400"></i>
@@ -28,7 +28,7 @@
 
         <div class="bg rounded-lg shadow p-6 flex items-center justify-between">
           <div>
-            <h3 class="text-lg font-semibold text-gray-700">Consultas del Mes</h3>
+            <h3 class="text-lg font-semibold tx">Consultas del Mes</h3>
             <p class="text-3xl font-bold text-blue-600">678</p>
           </div>
           <i class="fas fa-calendar-check fa-3x text-gray-400"></i>
@@ -36,7 +36,7 @@
 
         <div class="bg rounded-lg shadow p-6 flex items-center justify-between">
           <div>
-            <h3 class="text-lg font-semibold text-gray-700">Doctores Disponibles</h3>
+            <h3 class="text-lg font-semibold tx">Doctores Disponibles</h3>
             <p class="text-3xl font-bold text-blue-600">45</p>
           </div>
           <i class="fas fa-user-md fa-3x text-gray-400"></i>
@@ -45,16 +45,18 @@
 
       <!-- Grid de tarjetas adicionales -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-        <div *ngFor="let card of cards; let i = index" class="bg-white rounded-lg shadow overflow-hidden">
-          <div class="bg p-6 flex flex-col h-full">
-            <div class="flex justify-between items-start mb-4">
-              <h2 class=" tt text-lg font-semibold">{{ card.title }}</h2>
-              <i [ngClass]="card.icon" class="h-6 w-6 fa-3x text-gray-400"></i>
+        @for (card of cards; track card; let i = $index) {
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="bg p-6 flex flex-col h-full">
+              <div class="flex justify-between items-start mb-4">
+                <h2 class=" tt text-lg font-semibold">{{ card.title }}</h2>
+                <i [ngClass]="card.icon" class="h-6 w-6 fa-3x text-gray-400"></i>
+              </div>
+              <p class="text-gray-600 flex-grow">Contenido del card {{ i + 2 }}</p>
+              <div class="h-2 mt-4 -mx-6 -mb-6" [ngClass]="card.color"></div>
             </div>
-            <p class="text-gray-600 flex-grow">Contenido del card {{ i + 2 }}</p>
-            <div class="h-2 mt-4 -mx-6 -mb-6" [ngClass]="card.color"></div>
           </div>
-        </div>
+        }
       </div>
     </div>
   </main>

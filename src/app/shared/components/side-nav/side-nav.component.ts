@@ -8,27 +8,25 @@ import {
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
+import { RouterModule } from '@angular/router'; 
 
 @Component({
   selector: 'app-side-nav',
   standalone: true,
-  imports: [ButtonMenuItemComponent],
+  imports: [ButtonMenuItemComponent, RouterModule],
   templateUrl: './side-nav.component.html',
   styleUrl: './side-nav.component.scss',
 })
 export class SideNavComponent implements OnInit {
+  userLink = '';  // Inicializamos vacía para luego asignarle el valor correcto
   public menuItems: MenuItem[] = [];
-
   private userService = inject(ApiService<studentResponse, {}>);
-
   user!: studentUserResponse | AdminResponse;
 
   @Input() isSidebarOpen = false;
 
   ngOnInit() {
-   
     this.fetchUserData();
-
   }
 
   fetchUserData() {
@@ -50,7 +48,10 @@ export class SideNavComponent implements OnInit {
   setMenuItems() {
     if (this.user.user.role.role === 'ROLE_STUDENT') {
       this.menuItems = StudentItems;
-    } else if (this.user.user.role.role === 'ROLE_ADMIN')
+      this.userLink = '/students/user';  
+    } else if (this.user.user.role.role === 'ROLE_ADMIN') {
       this.menuItems = AdminItems;
+      this.userLink = '/admin/user';  
     }
+  }
 }

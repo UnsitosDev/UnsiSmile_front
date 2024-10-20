@@ -12,16 +12,18 @@ import { UriConstants } from '@mean/utils';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
+import { CommonModule } from '@angular/common';  // Asegúrate de importar esto
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [BaseComponent, ReactiveFormsModule, FormsModule, AlertComponent],
+  imports: [BaseComponent, ReactiveFormsModule, FormsModule, AlertComponent, CommonModule],
 })
 export class LoginComponent extends BaseComponent<Get, PostLogin> {
   private userService = inject(AuthService);
+  showPassword: boolean = false;
 
   @Output() onSubmitLoginEvent = new EventEmitter();
   constructor(
@@ -71,4 +73,10 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
       });
     }
   }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  
 }
