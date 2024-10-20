@@ -38,7 +38,7 @@ export interface FormFieldOption {
 export interface AnswerField {
     answerBoolean: boolean | null;
     answerCatalogOption: any | null;
-    answerDate: string | null;
+    answerDate: string | number[] | null ;
     answerNumeric: number | null;
     answerText: string | null;
     files: any;

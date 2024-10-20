@@ -14,7 +14,7 @@
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>Ampliar Respuesta</mat-label>
             <input matInput [required]="!!field.required" 
-            [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric" [formControlName]="field.name" (input)="onValueChange($event)"  />
+            [placeholder]="field.placeholder" [value]="field.answerField?.answerText" [formControlName]="field.name" (input)="onValueChange($event)"  />
           </mat-form-field>
         </div>
       </div>
@@ -90,18 +90,24 @@
       </mat-form-field>
     }
     @case('datepicker') {
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>{{ field.label }}</mat-label>
-          <input matInput [matDatepicker]="datepicker" [formControlName]="field.name" (dateChange)="onValueChangeDate($event)"> 
-          <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-          <mat-datepicker #datepicker></mat-datepicker>   
-            @if (formGroup.get(field.name)?.hasError('required') && formGroup.get(field.name)?.touched) {
-              <mat-error class="error-message">{{ errors?.required }}</mat-error>
-            }
-            @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-              <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
-            }
-      </mat-form-field>
+      <!-- @if (field.answerField?.answerDate) {
+        <p>{{field.label}}: {{field.answerField?.answerDate[2]}}/{{field.answerField?.answerDate[1]}}/{{field.answerField?.answerDate[0]}}</p>
+      } -->
+        <mat-form-field appearance="fill" class="w-full"> 
+          <mat-label>{{ field.label }}</mat-label>
+          <input matInput [matDatepicker]="datepicker"   
+            [formControlName]="field.name" (dateChange)="onValueChangeDate($event)"> 
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker></mat-datepicker>   
+              @if (formGroup.get(field.name)?.hasError('required') && formGroup.get(field.name)?.touched) {
+                <mat-error class="error-message">{{ errors?.required }}</mat-error>
+              }
+              @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+                <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
+              }
+        </mat-form-field>
+      
+      
     }
     @case ('inputEvent') {
       <mat-form-field appearance="fill" class="w-full">

@@ -180,6 +180,7 @@ export class TabFormComponent {
     Object.keys(formData).forEach((fieldName) => {
       const fieldValue = formData[fieldName];
       const questionID = this.questionIDs[fieldName]; // Recuperamos el questionID como un número
+      const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
 
       const data: FormData = {
         idPatientClinicalHistory: this.patientID,
@@ -187,7 +188,7 @@ export class TabFormComponent {
         answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,  // Si es booleano, asignar su valor, de lo contrario null
         answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,   // Si es numérico, asignar su valor, de lo contrario null
         answerText: typeof fieldValue === 'string' ? fieldValue : null,      // Si es string, asignar su valor, de lo contrario null
-        answerDate: this.answerDate || null,                                // Asignar null si no hay fecha
+        answerDate: isDateField ? fieldValue : null,  // Si es una fecha válida, asignar su valor, de lo contrario null
         idCatalogOption: formData.idCatalogOption || null,                   // Asignar null si no hay idCatalogOption
       };
 

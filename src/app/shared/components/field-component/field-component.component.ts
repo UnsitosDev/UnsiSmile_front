@@ -74,6 +74,14 @@ export class FieldComponentComponent implements OnChanges {
       }
       control.updateValueAndValidity();
     }
+
+  }
+  
+
+  transform(value: number[] | undefined): string | null {
+    if (!value || value.length !== 3) return null;
+    const [year, month, day] = value;
+    return new Date(year, month - 1, day).toLocaleDateString();  // Meses en JavaScript son 0-indexados
   }
 
   // Input & select
@@ -87,8 +95,10 @@ export class FieldComponentComponent implements OnChanges {
   // Date
   onValueChangeDate(event: any) {
     const value = event.value as Date;
-    this.setFieldValue.emit({ field: this.field.name, value: this.datePipe.transform(value, 'yyyy-MM-dd') });
+    const formattedValue = this.datePipe.transform(value, 'yyyy-MM-dd');
+    this.setFieldValue.emit({ field: this.field.name, value: formattedValue ,questionID: this.field.questionID  });   
   }
+
 
   // Check
   onValueChangeCheck(event: any) {
