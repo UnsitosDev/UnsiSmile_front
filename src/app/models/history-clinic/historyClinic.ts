@@ -80,3 +80,33 @@ export interface Validation {
     validationMessage: string;   // Mensaje asociado a la validación
     validationType: ValidationType;  // Tipo de validación
 }
+
+export interface ClinicalHistoryCatalogRelation {
+    statusKey: string;
+    idClinicalHistoryCatalog: number;
+    clinicalHistoryName: string | null; // Puede ser null
+}
+
+export interface Patient {
+    statusKey: string;
+    idPatient: number;
+    admissionDate: string | null; // Puede ser null
+    isMinor: boolean | null; // Puede ser null
+    hasDisability: boolean | null; // Puede ser null
+    nationality: string | null; // Puede ser null
+    person: string | null; // Puede ser null
+    address: string | null; // Puede ser null
+    maritalStatus: string | null; // Puede ser null
+    occupation: string | null; // Puede ser null
+    ethnicGroup: string | null; // Puede ser null
+    religion: string | null; // Puede ser null
+    guardian: string | null; // Puede ser null
+}
+
+export interface RelationHistoryPatient {
+    statusKey: string;
+    idPatientClinicalHistory: number;
+    clinicalHistoryCatalog: ClinicalHistoryCatalogRelation; // Cambiado aquí
+    patient: Patient;
+    date: [number, number, number, number, number, number, number]; // Array de números
+}

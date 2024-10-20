@@ -166,18 +166,20 @@ export class UriConstants {
     // get postalCode
     public static readonly GET_POSTAL_CODE = basePath + '/address/locality/postal-code/'
     // Historias Clinicas
-    public static readonly GET_HISTORY_CLINICS = basePath + '/clinical-histories'
+    public static readonly GET_CONFIG_HISTORY_CLINICS = basePath + '/clinical-histories/patient-clinical-histories'
     // Crear Historia Clinica del paciente
     public static readonly POST_CLINICAL_HISTORY = basePath + '/clinical-histories/patient-clinical-history'
     // Obtener la configuracion de la historia clinica: 
     public static readonly GET_HISTORY_CONFIG = basePath + '/clinical-histories'
     // Obtiene una lista de historías clínicas y su relación con el paciente.
-    public static readonly GET_PATIENT_HISTORIES = basePath + '/clinical-histories/patient-clinical-histories'
+    public static readonly GET_PATIENT_HISTORIES = basePath + '/clinical-histories'
     // Enviar seccion del formulario
     public static readonly POST_SECTION_FORM = basePath + '/answers/forms'
     // Enviar archivos
     public static readonly POST_FILES = basePath2 + '/api/v1/files'
     // Descargar archivo
     public static readonly DOWLOAD_FILES = basePath2 + '/api/v1/files/file/'
+ 
+
 
 }    

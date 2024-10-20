@@ -50,6 +50,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
   patientID: number = 0;    // Variable para el parámetro 'patientID'
+  private idPatientClinicalHistory!: number;
 
 
   constructor() { }
@@ -57,8 +58,9 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.router.params.subscribe((params) => {
       this.id = params['id'];
-      this.idpatient = params['patientID']; 
-       this.historyData.getHistoryClinics(this.id, this.idpatient).subscribe({
+      this.idpatient = params['patient']; 
+      this.idPatientClinicalHistory = params ['patientID'];
+       this.historyData.getHistoryClinics(this.id, this.idPatientClinicalHistory).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData; 
         }

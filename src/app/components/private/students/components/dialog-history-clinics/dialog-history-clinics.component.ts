@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ApiService } from '@mean/services';
-import { ClinicalHistory, ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
+import { ClinicalHistory, ClinicalHistoryCatalog, RelationHistoryPatient } from 'src/app/models/history-clinic/historyClinic';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { Router } from '@angular/router';
@@ -20,108 +20,112 @@ import { HistoryData } from 'src/app/models/form-fields/form-field.interface';
   styleUrl: './dialog-history-clinics.component.scss'
 })
 export class DialogHistoryClinicsComponent implements OnInit {
+  idPatientClinicalHistory: number = 0;
+  patient: number = 0;
+  clinicalHistoryId: number = 0;
+  historyName: string = '';
   private apiService = inject(ApiService<ClinicalHistoryCatalog>);
   private router = inject(Router);
   private dialogRef = inject(MatDialogRef<DialogHistoryClinicsComponent>);
   private data = inject(MAT_DIALOG_DATA);
-
+  idClinicalHistoryCatalog!: 0;
   ngOnInit(): void {
-    this.getHistoryClinics();
-    this.getPatientHistories();
+    this.getConfigHistories();
   }
 
-  historyClinics: ClinicalHistoryCatalog[] = []
-
-  getHistoryClinics() {
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_HISTORY_CLINICS}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.historyClinics = response;
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
+  clinicalHistoryCatalogRelation!: RelationHistoryPatient;
+  postClinicalHistory(idClinicalHistoryCatalog: number): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.apiService
+        .postService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.POST_CLINICAL_HISTORY}?idPatient=${this.data.patientID}&idClinicalHistory=${idClinicalHistoryCatalog}`,
+          data: {},
+        })
+        .subscribe({
+          next: (response) => {
+            this.clinicalHistoryCatalogRelation = response;
+            const newHistoryId = this.clinicalHistoryCatalogRelation.idPatientClinicalHistory;
+            resolve(newHistoryId);
+          },
+          error: (error) => {
+            reject(error);
+          },
+        });
+    });
   }
 
-  selectHistory(history: ClinicalHistoryCatalog) {
-    // Verifica si la historia clínica ya está creada para el paciente
-    const exists = this.patientHistories.some(
-      (pxHistory) =>
-        pxHistory.patientId === this.data.patientID && // Verifica si el ID del paciente coincide
-        pxHistory.patientClinicalHistoryId === history.idClinicalHistoryCatalog // Verifica si el ID de la historia clínica coincide
-    );
-
-    // Si no existe, crea la historia clínica
-    if (!exists) {
-      this.postClinicalHistory(history);
-    }
-
+  selectHistory(history: ClinicalHistory) {
     this.dialogRef.close();
-    const patientID = this.data.patientID;
-    // Navegar a la ruta correspondiente según el nombre de la historia clínica
+    this.getConfigHistories();
+  
+    const existingHistory = this.patientConfigHistories.find(h =>
+      h.clinicalHistoryName === history.clinicalHistoryName &&
+      h.patientClinicalHistoryId !== 0 &&
+      h.patientId !== 0
+    );
+  
+    if (existingHistory) {
+      // Usar el ID de la historia clínica existente
+      this.idPatientClinicalHistory = existingHistory.patientClinicalHistoryId; 
+      // Navegar a la historia clínica existente
+      this.navigateToHistory(history, this.idPatientClinicalHistory);
+    } else {
+      // Crear una nueva historia clínica si no hay una existente
+      this.postClinicalHistory(history.id).then((newHistoryId) => {
+        this.idPatientClinicalHistory = newHistoryId; 
+        // Navegar a la historia clínica recién creada
+        this.navigateToHistory(history, this.idPatientClinicalHistory);
+      }).catch((error) => {
+        console.error('Error al crear la nueva historia clínica:', error);
+      });
+    }
+  }
+
+  navigateToHistory(history: ClinicalHistory, patientHistoryId: number) {
     switch (history.clinicalHistoryName) {
       case 'General':
-        this.router.navigate(['/students/general', history.idClinicalHistoryCatalog, 'patient', patientID]); // General
+        this.router.navigate(['/students/general', history.id, 'patient', this.data.patientID ,'patientHistoryId', patientHistoryId]);
         break;
       case 'Prótesis bucal':
-        this.router.navigate(['/students/oralProsthesis', history.idClinicalHistoryCatalog, 'patient', patientID]); // Cirugía bucal
+        this.router.navigate(['/students/oralProsthesis', history.id, 'patient', this.data.patientID, 'patientHistoryId', patientHistoryId]);
         break;
       case 'Periodoncia':
-        this.router.navigate(['/students/periodontics', history.idClinicalHistoryCatalog, 'patient', patientID]); // Periodoncia
+        this.router.navigate(['/students/periodontics', history.id, 'patient', this.data.patientID, 'patientHistoryId', patientHistoryId]);
         break;
       case 'Operatoria dental':
-        this.router.navigate(['/students/dentalOperation', history.idClinicalHistoryCatalog, 'patient', patientID]); // Operatoria dental
+        this.router.navigate(['/students/dentalOperation', history.id, 'patient', this.data.patientID,  'patientHistoryId', patientHistoryId]);
         break;
       case 'Cirugía bucal':
-         this.router.navigate(['/students/oralSurgery', history.idClinicalHistoryCatalog, 'patient', patientID]); // Cirugía bucal
+        this.router.navigate(['/students/oralSurgery', history.id, 'patient', this.data.patientID, 'patientHistoryId', patientHistoryId]);
+        break;
+      default:
+        console.error('Historia clínica no válida');
         break;
     }
   }
 
-  postClinicalHistory(history: ClinicalHistoryCatalog) {
-    this.apiService
-      .postService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_CLINICAL_HISTORY}?idPatient=${this.data.patientID}&idClinicalHistory=${history.idClinicalHistoryCatalog}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-        },
-        error: (error) => {
-          console.error('Error en la autenticación:', error);
-        },
-      });
-  }
-
-  patientHistories: ClinicalHistory[] = []
-  getPatientHistories() {
+  patientConfigHistories: ClinicalHistory[] = [];
+  getConfigHistories() {
     this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_PATIENT_HISTORIES}?idPatient=${this.data.patientID}`,
+        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.data.patientID}`,
         data: {},
       })
       .subscribe({
         next: (response) => {
-          this.patientHistories = response;
+          this.patientConfigHistories = response;
         },
         error: (error) => {
-          console.error('Error en la autenticación:', error);
+          console.error('Error al obtener las historias clínicas:', error);
         },
       });
   }
+
+
 }

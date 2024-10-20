@@ -44,14 +44,16 @@ export class StudentsDentalOperationComponent {
   public patientData!: cardPatient;
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
+  private idPatientClinicalHistory!: number;
 
   constructor() { }
 
   ngOnInit(): void {
     this.router.params.subscribe((params) => {
       this.id = params['id'];
-      this.idpatient = params['patientID'];
-      this.historyData.getHistoryClinics(this.id, this.idpatient).subscribe({
+      this.idpatient = params['patient'];
+      this.idPatientClinicalHistory = params ['patientID'];
+      this.historyData.getHistoryClinics(this.id, this.idPatientClinicalHistory).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
         }

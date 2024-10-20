@@ -36,6 +36,7 @@ export class StudentsOralSurgeryHistoryComponent {
   private patientService = inject(ApiService<Patient, {}>);
   private id!: number;
   private idpatient!: number;
+  private idPatientClinicalHistory!: number;
   private year?: number;
   private month?: number;
   private day?: number;
@@ -50,8 +51,9 @@ export class StudentsOralSurgeryHistoryComponent {
   ngOnInit(): void {
     this.router.params.subscribe((params) => {
       this.id = params['id'];
-      this.idpatient = params['patientID'];
-      this.historyData.getHistoryClinics(this.id, this.idpatient).subscribe({
+      this.idpatient = params['patient'];
+      this.idPatientClinicalHistory = params ['patientID'];
+      this.historyData.getHistoryClinics(this.id, this.idPatientClinicalHistory).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
         }

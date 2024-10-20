@@ -182,7 +182,7 @@ export class TabFormComponent {
       const questionID = this.questionIDs[fieldName]; // Recuperamos el questionID como un número
 
       const data: FormData = {
-        idPatientClinicalHistory: this.id,
+        idPatientClinicalHistory: this.patientID,
         idQuestion: questionID,  // Usamos el questionID correspondiente
         answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,  // Si es booleano, asignar su valor, de lo contrario null
         answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,   // Si es numérico, asignar su valor, de lo contrario null
