@@ -28,7 +28,6 @@ interface FormData {
   answerText: string | null;
   answerDate: string | null;
   idCatalogOption: any;
-  isFile: boolean | null;
 }
 @Component({
   selector: 'app-tab-form',
@@ -106,10 +105,6 @@ export class TabFormComponent {
     const fieldValue = event.value;
     this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específico
   }
-
-
-
-
 
   idPatientClinicalHistory: number = 0;
   idQuestion: number = 0;
@@ -194,7 +189,6 @@ export class TabFormComponent {
         answerText: typeof fieldValue === 'string' ? fieldValue : null,      // Si es string, asignar su valor, de lo contrario null
         answerDate: this.answerDate || null,                                // Asignar null si no hay fecha
         idCatalogOption: formData.idCatalogOption || null,                   // Asignar null si no hay idCatalogOption
-        isFile: null                                                         // Asignar null por defecto para archivos
       };
 
       // Verificar si al menos uno de los campos tiene un valor válido (que no sea null o vacío)
