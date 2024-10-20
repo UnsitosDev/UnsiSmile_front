@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { initFlowbite } from 'flowbite';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +14,11 @@ import { initFlowbite } from 'flowbite';
 })
 export class AppComponent implements OnInit {
   title = 'odonto_front';
+  
+  constructor(private themeService: ThemeService) {} // Inyecta el servicio de temas
 
   ngOnInit(): void {
     initFlowbite();
-
-
+    this.themeService.loadTheme(); // Cargar el tema guardado o aplicar el tema por defecto
   }
 }
