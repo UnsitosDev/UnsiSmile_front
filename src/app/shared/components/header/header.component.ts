@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { CommonModule } from '@angular/common'; // Importa CommonModule
+ // Importa CommonModule
 
 import { Router, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@mean/services';
@@ -10,7 +10,7 @@ import { SessionStorageConstants } from 'src/app/utils/session.storage';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [MatMenuModule,CommonModule],
+  imports: [MatMenuModule],
 })
 export class HeaderComponent {
   @Output() closeSidebar = new EventEmitter<void>();

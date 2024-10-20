@@ -9,9 +9,9 @@
             <h2 class="text-4xl sm:text-5xl font-bold tx mb-2">Bienvenido a UNSIS</h2>
             <p class="text-gray-600 tx text-xl sm:text-2xl">Sistema Universitario de Salud Integral</p>
           </div>
-          <fa-icon [icon]="['fas', 'user-md']" 
-                   class="text-blue-600 rounded-full bg-gray-100 p-8" 
-                   style="font-size: 7rem;">
+          <fa-icon [icon]="['fas', 'user-md']"
+            class="text-blue-600 rounded-full bg-gray-100 p-8"
+            style="font-size: 7rem;">
           </fa-icon>
         </div>
       </div>
@@ -45,16 +45,18 @@
 
       <!-- Grid de tarjetas adicionales -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-        <div *ngFor="let card of cards; let i = index" class="bg-white rounded-lg shadow overflow-hidden">
-          <div class="bg p-6 flex flex-col h-full">
-            <div class="flex justify-between items-start mb-4">
-              <h2 class=" tt text-lg font-semibold">{{ card.title }}</h2>
-              <i [ngClass]="card.icon" class="h-6 w-6 fa-3x text-gray-400"></i>
+        @for (card of cards; track card; let i = $index) {
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="bg p-6 flex flex-col h-full">
+              <div class="flex justify-between items-start mb-4">
+                <h2 class=" tt text-lg font-semibold">{{ card.title }}</h2>
+                <i [ngClass]="card.icon" class="h-6 w-6 fa-3x text-gray-400"></i>
+              </div>
+              <p class="text-gray-600 flex-grow">Contenido del card {{ i + 2 }}</p>
+              <div class="h-2 mt-4 -mx-6 -mb-6" [ngClass]="card.color"></div>
             </div>
-            <p class="text-gray-600 flex-grow">Contenido del card {{ i + 2 }}</p>
-            <div class="h-2 mt-4 -mx-6 -mb-6" [ngClass]="card.color"></div>
           </div>
-        </div>
+        }
       </div>
     </div>
   </main>
