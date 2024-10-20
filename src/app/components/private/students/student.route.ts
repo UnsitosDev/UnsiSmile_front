@@ -58,6 +58,13 @@ export default [
                     ),
             },
             {
+                path: 'dashboard',
+                loadComponent: () =>
+                    import('./components/dashboard/dashboard.component').then(
+                        (m) => m.DashboardComponent
+                    ),
+            },
+            {
                 path: 'user',
                 loadComponent: () =>
                     import('./components/form-user/form-user.component').then(

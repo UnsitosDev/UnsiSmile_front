@@ -1,0 +1,23 @@
+[
+    {
+      "title": "Pacientes",
+      "icon": "fas fa-user-injured",
+      "color": "bg-blue-500"
+    },
+    {
+      "title": "Reportes",
+      "icon": "fas fa-file-alt",
+      "color": "bg-green-500"
+    },
+    {
+      "title": "Citas",
+      "icon": "fas fa-calendar-alt",
+      "color": "bg-yellow-500"
+    },
+    {
+      "title": "Actividades",
+      "icon": "fas fa-bolt",
+      "color": "bg-purple-500"
+    }
+  ]
+  
