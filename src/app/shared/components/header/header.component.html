@@ -12,12 +12,16 @@
   <div class="header-right flex items-center pr-4">
     <button (click)="toggleTheme()" class="theme-toggle-button">
       <!-- Imagen del sol para el tema claro -->
-      <img *ngIf="!isDarkTheme" src="assets/icons/sol.png" alt="Tema claro" class="icon" />
-    
+      @if (!themeService.isDarkTheme) {
+        <img src="assets/icons/sol.png" alt="Tema claro" class="icon" />
+      }
+
       <!-- Imagen de la luna para el tema oscuro -->
-      <img *ngIf="isDarkTheme" src="assets/icons/luna.png" alt="Tema oscuro" class="icon" />
+      @if (themeService.isDarkTheme) {
+        <img src="assets/icons/luna.png" alt="Tema oscuro" class="icon" />
+      }
     </button>
-    
+
 
     <button class="user-button flex items-center focus:outline-none"
       [matMenuTriggerFor]="menu" type="button">
