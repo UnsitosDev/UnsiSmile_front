@@ -36,14 +36,16 @@
 form {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Cambiado de center a flex-start */
   flex-direction: column;
   padding: 0rem 5rem;
   transition: all 0.2s 0.7s;
   overflow: hidden;
   grid-column: 1 / 2;
   grid-row: 1 / 2;
+  margin-left: 100px; 
 }
+
 
 form.sign-up-form {
   opacity: 0;
@@ -150,7 +152,7 @@ form.sign-in-form {
   height: 100%;
   width: 100%;
   top: 0;
-  left: 0;
+  left: 110px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
@@ -199,6 +201,7 @@ form.sign-in-form {
   color: #fff;
   transition: transform 0.9s ease-in-out;
   transition-delay: 0.6s;
+  transform: translateX(-100px);
 }
 
 .panel h3 {
@@ -417,4 +420,21 @@ form.sign-in-form {
 .toggle-password i {
   font-size: 1.2rem;
   color: #818080; /* Puedes cambiar el color según tu diseño */
+}
+
+.sign-in-form {
+  .input-field {
+    margin-bottom: 20px; /* Aumenta el espacio entre los campos */
+    display: flex;
+    align-items: center;
+
+    input {
+      margin-left: 10px; /* Espacio entre el icono y el input */
+      flex: 1;
+    }
+  }
+
+  .btn {
+    margin-top: 20px; /* Espacio entre el último input y el botón */
+  }
 }
