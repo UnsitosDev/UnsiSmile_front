@@ -44,16 +44,20 @@ import { Router } from '@angular/router';
 export class FormPatientPersonalDataComponent {
   private apiService = inject(ApiService<religionRequest>);
   private patientService = inject(PatientService);
+  minorPatient: boolean = false;
+
   formGroup!: FormGroup;
   personal: FormField[] = [];
   address: FormField[] = [];
   other: FormField[] = [];
+  guardian: FormField[] = [];
 
   constructor(
     private fb: FormBuilder,
     private personalDataFields: FormFieldsService,
     private addressDataFields: FormFieldsService,
     private otherDataFields: FormFieldsService,
+    private guardianField: FormFieldsService,
     private router: Router
   ) { }
 
@@ -62,10 +66,11 @@ export class FormPatientPersonalDataComponent {
     this.personal = this.personalDataFields.getPersonalDataFields();
     this.address = this.addressDataFields.getAddressFields();
     this.other = this.otherDataFields.getOtherDataFields();
+    this.guardian = this.guardianField.getGuardianDataFields();
 
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
-    [...this.personal, ...this.address, ...this.other].forEach(field => {
+    [...this.personal, ...this.address, ...this.other, ...this.guardian].forEach(field => {
       this.formGroup.addControl(
         field.name,
         this.fb.control(field.value || '', field.validators || [])
@@ -82,7 +87,7 @@ export class FormPatientPersonalDataComponent {
       this.handlePostalCodeClick(value);
     }
   }
-  
+
   localityId: string = '';
   municipalityNameId: string = '';
   stateNameId: string = '';
@@ -101,27 +106,29 @@ export class FormPatientPersonalDataComponent {
     });
   }
 
-  getFieldValue(fieldName: string) {
-    return this.formGroup.get(fieldName)?.value;
-  }
-
   alertMessage: string = '';
   alertSeverity: string = AlertModel.AlertSeverity.ERROR;
   showAlert: boolean = false;
 
-  onSubmit() {
-    if (this.formGroup.valid) {
-      const formValues = this.formGroup.value;
 
+  onAgeStatusChange(isMinor: boolean) {
+    this.minorPatient = isMinor;
+  }
+
+
+  onSubmit() {
+    const formValues = this.formGroup.value;
+
+    if (this.formGroup.valid) {
       const patientData = {
-        idPatient: 0, 
+        idPatient: 0,
         admissionDate: formValues.admissionDate,
-        isMinor: false,
+        isMinor: this.minorPatient,
         hasDisability: true,
         nationalityId: +formValues.nationality,
         person: {
           curp: formValues.curp,
-          firstName: formValues.firstLastName,
+          firstName: formValues.firstName,
           secondName: formValues.secondName,
           firstLastName: formValues.firstLastName,
           secondLastName: formValues.secondLastName,
@@ -167,7 +174,13 @@ export class FormPatientPersonalDataComponent {
         occupationId: +formValues.occupation,
         ethnicGroupId: +formValues.ethnicGroup,
         religionId: +formValues.religion,
-        guardian: null,
+        guardian: this.minorPatient ? {
+          idGuardian: 0,
+          firstName: formValues.firstGuardianName,
+          lastName: formValues.lastGuardianName,
+          phone: formValues.phoneGuardian,
+          email: formValues.emailGuardian
+        } : null  
       };
       this.apiService
         .postService({
@@ -189,7 +202,6 @@ export class FormPatientPersonalDataComponent {
             this.openAlert();
           },
         });
-
     } else {
       this.alertMessage = 'Por favor, completa todos los campos correctamente.';
       this.showAlert = true;

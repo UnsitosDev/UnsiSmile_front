@@ -38,7 +38,6 @@ export class SideNavComponent implements OnInit {
         next: (data) => {
           this.user = data;
           this.setMenuItems();          
-          console.log('user data: ', data);
         },
         error: (error) => {
           console.error('Error fetching user data:', error);

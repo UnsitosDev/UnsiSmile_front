@@ -1,0 +1,54 @@
+<div class="mx-8 pb-8 custom">
+  <form [formGroup]="formGroup">
+    @if (fieldsTab.seccion) {
+      <div class="grid grid-cols-12 gap-4 mt-4"> <!-- Contenedor de la cuadrícula -->
+        @for (field of fieldsTab.seccion; track field) { <!-- Usando @for con track -->
+          <div class="{{ field.grids }}"> <!-- Aplica la clase de grid a cada campo -->
+            <app-field-component
+              [field]="field"
+              [formGroup]="formGroup"
+              [errors]="field.errorMessages"
+              (setFieldValue)="handleFieldValue($event)"
+              (setFileValue)="handleFileValue($event)"
+              >
+            </app-field-component>
+          </div>
+        }
+      </div>
+    } 
+      @for (subSection of fieldsTab.childFormSection; track subSection) {
+        <div class="mt-2">
+          <span><strong></strong></span>
+          <mat-card-title><strong>{{ subSection.formName }}</strong></mat-card-title> 
+          <!-- Here is where you want to place the odontogram -->
+          @if (subSection.formName === 'Odontograma') {
+            <app-students-odontogram 
+              [patientId]="patientID" 
+              [odontogramType]="'INITIAL_ODONTOGRAM'">
+            </app-students-odontogram>
+          }
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-4">
+            @for (childField of subSection.questions; track childField) {
+              <app-field-component
+                [field]="childField"
+                [formGroup]="formGroup"
+                [errors]="childField.errorMessages"
+                (setFieldValue)="handleFieldValue($event)">
+              </app-field-component>
+            }
+          </div>
+        </div>
+      }
+    <div class="button-container">
+      <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
+      <div>
+        @if (fieldsTab.isAnswered) {
+          <button type="button" (click)="onSubmit()" mat-button> AVANZAR Y ACTUALIZAR <i class="fas fa-save"></i></button>
+        }
+        @if (!fieldsTab.isAnswered) {
+          <button type="button" (click)="onSubmit()" mat-button> AVANZAR Y GUARDAR <i class="fas fa-save"></i></button>
+        }
+      </div>
+    </div>
+  </form>
+</div>

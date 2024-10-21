@@ -2,11 +2,11 @@
   <!-- Primera fila: condiciones normales -->
   <div class="row">
     <div class="col-4">
-      <h1>Código normal (azul)</h1>
+      <h1 class="custom-text">Código normal (azul)</h1>
         @for (symbol of toolbar.options; track $index) {
           @if (isNormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
-            <div class="symbol-icon" (click)="selectSymbol(symbol)">
+            <div class="symbol-icon " (click)="selectSymbol(symbol)">
               <svg width="30" height="35" viewBox="0 0 30 35">
                 <!-- Representación del diente con cinco caras -->
                 <polygon stroke="black" points="1,1 7,9 21,9 28,1" fill="none" stroke-width="0.5"/>
@@ -79,7 +79,7 @@
                 }                               
               </div>
             </div>
-            <div class="symbol-name">{{ symbol.condition }}</div>
+            <div class="symbol-name custom-text">{{ symbol.condition }}</div>
           </div>
         }
       }
@@ -89,7 +89,7 @@
   <!-- Segunda fila: condiciones anormales -->
   <div class="row">
     <div class="col-4">
-      <h1>Código anormal (rojo)</h1>
+      <h1 class="custom-text">Código anormal (rojo)</h1>
         @for (symbol of toolbar.options; track $index) {
           @if (isAbnormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
@@ -165,7 +165,7 @@
                 }
               </div>
             </div>
-            <div class="symbol-name">{{ symbol.condition }}</div>
+            <div class="symbol-name custom-text">{{ symbol.condition }}</div>
           </div>
         }
       }
