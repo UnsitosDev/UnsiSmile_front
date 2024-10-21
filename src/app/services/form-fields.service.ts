@@ -316,7 +316,7 @@ export class FormFieldsService {
         {
             type: 'input',
             label: 'Nombre',
-            name: 'firstName',
+            name: 'firstGuardianName',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -326,7 +326,7 @@ export class FormFieldsService {
         {
             type: 'input',
             label: 'Apellido',
-            name: 'lastName',
+            name: 'lastGuardianName',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -336,7 +336,7 @@ export class FormFieldsService {
         {
             type: 'input',
             label: 'Teléfono',
-            name: 'phone',
+            name: 'phoneGuardian',
             required: false,
             validators: [phoneNumberValidator()],
             errorMessages: {
@@ -346,7 +346,7 @@ export class FormFieldsService {
         {
             type: 'input',
             label: 'Correo Electrónico',
-            name: 'email',
+            name: 'emailGuardian',
             required: true,
             validators: [Validators.required, Validators.email],
             errorMessages: {
