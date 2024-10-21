@@ -51,13 +51,13 @@ export class FormPatientPersonalDataComponent {
   address: FormField[] = [];
   other: FormField[] = [];
   guardian: FormField[] = [];
-  private grd = inject(FormFieldsService)
 
   constructor(
     private fb: FormBuilder,
     private personalDataFields: FormFieldsService,
     private addressDataFields: FormFieldsService,
     private otherDataFields: FormFieldsService,
+    private guardianField: FormFieldsService,
     private router: Router
   ) { }
 
@@ -66,11 +66,11 @@ export class FormPatientPersonalDataComponent {
     this.personal = this.personalDataFields.getPersonalDataFields();
     this.address = this.addressDataFields.getAddressFields();
     this.other = this.otherDataFields.getOtherDataFields();
-    this.guardian = this.grd.getGuardianDataFields();
+    this.guardian = this.guardianField.getGuardianDataFields();
 
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
-    [...this.personal, ...this.address, ...this.other].forEach(field => {
+    [...this.personal, ...this.address, ...this.other, ...this.guardian].forEach(field => {
       this.formGroup.addControl(
         field.name,
         this.fb.control(field.value || '', field.validators || [])
@@ -178,10 +178,10 @@ export class FormPatientPersonalDataComponent {
         religionId: +formValues.religion,
         guardian: {
           idGuardian: 0,
-          firstName: formValues.firstName,
-          lastName: formValues.lastName,
-          phone: formValues.phone,
-          email: formValues.email
+          firstName: formValues.firstGuardianName,
+          lastName: formValues.lastGuardianName,
+          phone: formValues.phoneGuardian,
+          email: formValues.emailGuardian
         },
       };
       this.apiService
