@@ -55,7 +55,6 @@ export class FormFieldsService {
             type: 'input',
             label: 'CURP',
             name: 'curp',
-            required: true,
             validators: [Validators.required, curpValidator()],
             errorMessages: {
                 required: 'El campo CURP es requerido.',
@@ -86,7 +85,6 @@ export class FormFieldsService {
             type: 'input',
             label: 'Correo electrónico',
             name: 'email',
-            required: true,
             validators: [Validators.required, Validators.email],
             errorMessages: {
                 required: 'El campo Correo electrónico es requerido.',
