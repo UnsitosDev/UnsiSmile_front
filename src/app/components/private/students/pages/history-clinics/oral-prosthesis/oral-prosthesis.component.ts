@@ -8,7 +8,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { MatInputModule } from '@angular/material/input';
 
 // Componentes
-import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
+import { cardGuardian, CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
 import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
 import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
@@ -43,6 +43,7 @@ export class OralProsthesisComponent {
   private nextpage: boolean = true;
   private patient!: Patient;
   public patientData!: cardPatient;
+  public guardianData!: cardGuardian;
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
   private idPatientClinicalHistory!: number;
@@ -91,6 +92,12 @@ export class OralProsthesisComponent {
             admissionDate: this.formatDate(admissionDate),
             curp: curp
           };
+          this.guardianData = {
+            firstName: this.patient.guardian.firstName,
+            lastName: this.patient.guardian.lastName,
+            email: this.patient.guardian.email,
+            phone: this.patient.guardian.phone
+          }
         },
         error: (error) => {
           console.error('Error fetching patient data:', error);

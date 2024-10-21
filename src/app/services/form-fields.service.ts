@@ -317,8 +317,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Nombre',
             name: 'firstGuardianName',
-            required: true,
-            validators: [Validators.required],
+            required: false,
             errorMessages: {
                 required: 'El campo Nombre es requerido.'
             }
@@ -327,8 +326,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Apellido',
             name: 'lastGuardianName',
-            required: true,
-            validators: [Validators.required],
+            required: false,
             errorMessages: {
                 required: 'El campo Apellido es requerido.'
             }
@@ -347,8 +345,8 @@ export class FormFieldsService {
             type: 'input',
             label: 'Correo Electrónico',
             name: 'emailGuardian',
-            required: true,
-            validators: [Validators.required, Validators.email],
+            required: false,
+            validators: [ Validators.email],
             errorMessages: {
                 required: 'El campo Correo Electrónico es requerido.',
                 email: 'Ingrese un correo electrónico válido.'

@@ -21,7 +21,7 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
-import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
 
 
 @Component({
@@ -47,6 +47,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public patient!: Patient;
   public data!: dataTabs;
   public patientData!: cardPatient;
+  public guardianData!: cardGuardian;
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
   patientID: number = 0;    // Variable para el parámetro 'patientID'
@@ -97,6 +98,12 @@ export class StudentsGeneralHistoryComponent implements OnInit {
             admissionDate: this.formatDate(admissionDate),
             curp: curp
           };
+          this.guardianData = {
+            firstName: this.patient.guardian.firstName,
+            lastName: this.patient.guardian.lastName,
+            email: this.patient.guardian.email,
+            phone: this.patient.guardian.phone
+          }
         },
         error: (error) => {
           console.error('Error fetching patient data:', error);

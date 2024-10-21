@@ -18,4 +18,11 @@
   .custom-color{
     color: rgb(104, 104, 104);
   }
-  
+  p {
+    display: flex; /* Activar flexbox */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    background-color: #939393;
+    color: var(--on-primary); 
+    height: 30px;
+}

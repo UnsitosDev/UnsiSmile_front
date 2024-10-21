@@ -12,6 +12,12 @@ export interface PatientSummary {
   curp: string
 }
 
+export interface cardGuardian {
+  firstName: string,
+  lastName: string,
+  phone: string,
+  email: string
+}
 @Component({
   selector: 'app-card-patient-data',
   standalone: true,
@@ -21,4 +27,5 @@ export interface PatientSummary {
 })
 export class CardPatientDataComponent{
   @Input() data!: PatientSummary;
+  @Input() guardianData!: cardGuardian;
 }

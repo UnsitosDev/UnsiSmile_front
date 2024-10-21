@@ -37,5 +37,33 @@
                 </div>
             </div>
         </div>
+        <br>
+        @if (guardianData) {
+            <br>
+            <p><strong>Datos del tutor</strong></p>
+            <mat-card-content>
+                    <div class="mx-8">
+                        <br>
+                        <div class="grid grid-cols-3 gap-4 card-custom custom-color">
+                            <div>         
+                                <div>
+                                    <strong><i class="far fa-user"></i>&nbsp; {{guardianData.firstName}} {{guardianData.lastName}}</strong>
+                                </div>                 
+                            </div>
+                            <div>
+                                <div>
+                                    <i class="fas fa-phone"></i>&nbsp;  {{guardianData.phone}}
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <i class="fas fa-envelope"></i>&nbsp; 
+                                    <a href="mailto:{{ guardianData.email }}">{{ guardianData.email }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </mat-card-content>        
+        }          
     }
 </mat-card-content>

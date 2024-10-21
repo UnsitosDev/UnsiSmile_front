@@ -117,15 +117,13 @@ export class FormPatientPersonalDataComponent {
 
 
   onSubmit() {
+    const formValues = this.formGroup.value;
+
     if (this.formGroup.valid) {
-      const formValues = this.formGroup.value;
-      if (formValues.birthDate) {
-        this.minorPatient = true
-      }
       const patientData = {
         idPatient: 0,
         admissionDate: formValues.admissionDate,
-        isMinor: false,
+        isMinor: this.minorPatient,
         hasDisability: true,
         nationalityId: +formValues.nationality,
         person: {
@@ -176,13 +174,13 @@ export class FormPatientPersonalDataComponent {
         occupationId: +formValues.occupation,
         ethnicGroupId: +formValues.ethnicGroup,
         religionId: +formValues.religion,
-        guardian: {
+        guardian: this.minorPatient ? {
           idGuardian: 0,
           firstName: formValues.firstGuardianName,
           lastName: formValues.lastGuardianName,
           phone: formValues.phoneGuardian,
           email: formValues.emailGuardian
-        },
+        } : null  
       };
       this.apiService
         .postService({
@@ -204,7 +202,6 @@ export class FormPatientPersonalDataComponent {
             this.openAlert();
           },
         });
-
     } else {
       this.alertMessage = 'Por favor, completa todos los campos correctamente.';
       this.showAlert = true;
