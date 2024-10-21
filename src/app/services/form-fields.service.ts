@@ -312,6 +312,50 @@ export class FormFieldsService {
 
     ];
 
+    private guardianFields: FormField[] = [
+        {
+            type: 'input',
+            label: 'Nombre',
+            name: 'firstName',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Nombre es requerido.'
+            }
+        },
+        {
+            type: 'input',
+            label: 'Apellido',
+            name: 'lastName',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Apellido es requerido.'
+            }
+        },
+        {
+            type: 'input',
+            label: 'Teléfono',
+            name: 'phone',
+            required: false,
+            validators: [phoneNumberValidator()],
+            errorMessages: {
+                lastError: 'Por favor, introduce un número de teléfono válido.'
+            }
+        },
+        {
+            type: 'input',
+            label: 'Correo Electrónico',
+            name: 'email',
+            required: true,
+            validators: [Validators.required, Validators.email],
+            errorMessages: {
+                required: 'El campo Correo Electrónico es requerido.',
+                email: 'Ingrese un correo electrónico válido.'
+            }
+        },
+    ];
+
 
     // Eventos
 
@@ -415,5 +459,9 @@ export class FormFieldsService {
 
     getOtherDataFields(): FormField[] {
         return this.otherDataFields;
+    }
+
+    getGuardianDataFields(): FormField[] {
+        return this.guardianFields;
     }
 }

@@ -44,10 +44,14 @@ import { Router } from '@angular/router';
 export class FormPatientPersonalDataComponent {
   private apiService = inject(ApiService<religionRequest>);
   private patientService = inject(PatientService);
+  minorPatient: boolean = false;
+
   formGroup!: FormGroup;
   personal: FormField[] = [];
   address: FormField[] = [];
   other: FormField[] = [];
+  guardian: FormField[] = [];
+  private grd = inject(FormFieldsService)
 
   constructor(
     private fb: FormBuilder,
@@ -62,6 +66,7 @@ export class FormPatientPersonalDataComponent {
     this.personal = this.personalDataFields.getPersonalDataFields();
     this.address = this.addressDataFields.getAddressFields();
     this.other = this.otherDataFields.getOtherDataFields();
+    this.guardian = this.grd.getGuardianDataFields();
 
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
@@ -82,7 +87,7 @@ export class FormPatientPersonalDataComponent {
       this.handlePostalCodeClick(value);
     }
   }
-  
+
   localityId: string = '';
   municipalityNameId: string = '';
   stateNameId: string = '';
@@ -105,12 +110,20 @@ export class FormPatientPersonalDataComponent {
   alertSeverity: string = AlertModel.AlertSeverity.ERROR;
   showAlert: boolean = false;
 
+
+  onAgeStatusChange(isMinor: boolean) {
+    this.minorPatient = isMinor;
+  }
+
+
   onSubmit() {
     if (this.formGroup.valid) {
       const formValues = this.formGroup.value;
-
+      if (formValues.birthDate) {
+        this.minorPatient = true
+      }
       const patientData = {
-        idPatient: 0, 
+        idPatient: 0,
         admissionDate: formValues.admissionDate,
         isMinor: false,
         hasDisability: true,
@@ -163,7 +176,13 @@ export class FormPatientPersonalDataComponent {
         occupationId: +formValues.occupation,
         ethnicGroupId: +formValues.ethnicGroup,
         religionId: +formValues.religion,
-        guardian: null,
+        guardian: {
+          idGuardian: 0,
+          firstName: formValues.firstName,
+          lastName: formValues.lastName,
+          phone: formValues.phone,
+          email: formValues.email
+        },
       };
       this.apiService
         .postService({

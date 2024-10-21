@@ -42,6 +42,7 @@ export class FieldComponentComponent implements OnChanges {
   @Input() fieldValue: any;
   @Output() setFieldValue = new EventEmitter<any>();
   @Output() setFileValue = new EventEmitter<any>();
+  @Output() ageStatusChange = new EventEmitter<boolean>(); 
   apiService = inject(ApiService);
 
 
@@ -76,7 +77,7 @@ export class FieldComponentComponent implements OnChanges {
     }
 
   }
-  
+
 
   transform(value: number[] | undefined): string | null {
     if (!value || value.length !== 3) return null;
@@ -96,7 +97,16 @@ export class FieldComponentComponent implements OnChanges {
   onValueChangeDate(event: any) {
     const value = event.value as Date;
     const formattedValue = this.datePipe.transform(value, 'yyyy-MM-dd');
-    this.setFieldValue.emit({ field: this.field.name, value: formattedValue ,questionID: this.field.questionID  });   
+    this.setFieldValue.emit({ field: this.field.name, value: formattedValue, questionID: this.field.questionID });
+
+    // Lógica para verificar si el usuario es menor de edad
+    const today = new Date();
+    const birthDate = new Date(value);
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const isMinor = age < 18 || (age === 18 && today < new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate()));
+
+    // Emitir el estado de edad
+    this.ageStatusChange.emit(isMinor);
   }
 
 
@@ -105,7 +115,6 @@ export class FieldComponentComponent implements OnChanges {
     const value = event.checked; // Extrae el valor booleano del checkbox    
     this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID });
   }
-
 
   // Input Event
   onInputChange(event: Event) {
@@ -175,7 +184,7 @@ export class FieldComponentComponent implements OnChanges {
         }),
         url: `${UriConstants.DOWLOAD_FILES}${file.idFile}`,
         data: {},
-        responseType: 'blob' 
+        responseType: 'blob'
       })
       .subscribe({
         next: (response) => {

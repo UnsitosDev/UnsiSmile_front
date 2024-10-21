@@ -10,7 +10,8 @@
             [field]="field" 
             [formGroup]="formGroup" 
             [errors]="field.errorMessages"
-            (setFieldValue)="onFieldValueChange($event)">
+            (setFieldValue)="onFieldValueChange($event)"
+            (ageStatusChange)="onAgeStatusChange($event)">
           </app-field-component>
         }      
       </div>
@@ -60,6 +61,29 @@
       </div>
     </form>
   </mat-step>
+
+  @if (minorPatient) {
+    <mat-step >
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <ng-template matStepLabel>DATOS DEL TUTOR</ng-template>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+          @for (field of guardian; track $index) {
+            <app-field-component 
+            [field]="field" 
+            [formGroup]="formGroup" 
+            [errors]="field.errorMessages"
+            (setFieldValue)="onFieldValueChange($event)">
+            </app-field-component>
+          }
+        </div>
+        <div class="button-container">
+          <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
+          <button mat-flat-button color="primary" (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
+        </div>
+      </form>
+    </mat-step>
+  }
+
 </mat-stepper>
 
 <app-alert [singleMessage]="alertMessage" [severity]="alertSeverity" [open]="showAlert" (eventCloseToast)="showAlert = false"></app-alert>
