@@ -13,9 +13,12 @@ main{
 .tx {
 
   color: var(--on-secondary);
-  text-align: center;
 }
 
 .tt{
   color: var(--on-background);
+ }
+
+ .ta{
+  text-align: center;
  }
