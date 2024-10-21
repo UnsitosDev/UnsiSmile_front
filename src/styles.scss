@@ -33,6 +33,8 @@ $on-background-color: #1F2937; // Color del texto sobre el fondo claro
   --tertiary: #274CA2; //botones
   --background: #FFFFFF; // Fondo claro para la sección principal
   --on-background: #1F2937; // Texto oscuro sobre el fondo claro
+  --on-tertiary: #5995fd;
+  --on-hover: #2b6cb0;
 }
 
 @mixin dark-theme {
@@ -44,6 +46,8 @@ $on-background-color: #1F2937; // Color del texto sobre el fondo claro
   --tertiary: #274CA2; //botones
   --background: #0C151C; // Fondo más oscuro para el tema oscuro
   --on-background: #E5E7EB; // Texto claro sobre fondo oscuro
+  --on-tertiary: #5995fd;
+  --on-hover: #2b6cb0;
 }
 
 :root {
