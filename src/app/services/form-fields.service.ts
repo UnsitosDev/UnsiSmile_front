@@ -196,10 +196,8 @@ export class FormFieldsService {
             type: 'input',
             label: 'Número Interior',
             name: 'interiorNumber',
-            required: true,
-            validators: [Validators.required, addressesNumber()],
+            validators: [addressesNumber()],
             errorMessages: {
-                required: 'El campo Número Interior es opcional.',
                 lastError: 'El campo Número Interior debe contener solo números.'
             }
         },
