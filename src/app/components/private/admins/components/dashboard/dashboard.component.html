@@ -1,0 +1,25 @@
+<div class="flex flex-1 flex-col overflow-hidden">
+  <!-- Main content area -->
+  <main class="flex-1 overflow-y-auto bg-gray-100 p-4 sm:p-6 lg:p-8">
+    <div class="space-y-6">
+      <!-- Tarjeta principal de bienvenida -->
+      <div class="bg-white rounded-lg shadow overflow-hidden bg-1">
+        <div class="p-8 sm:p-10 md:p-12 flex flex-col md:flex-row items-center justify-between">
+          <div class="mb-6 md:mb-0 md:mr-6 text-center md:text-left">
+            <h2 class="text-4xl sm:text-5xl font-bold tx mb-2">Bienvenido a UnsiSmile </h2>
+            <p class="text-gray-600 tx text-xl sm:text-2xl">Sistema Universitario de la clinica de odontología</p>
+          </div>
+          <!-- Imagen en lugar del icono -->
+          <img src="../../../assets/odonto14.png" alt="Imagen de ejemplo" style="width: 18rem; height: 12rem;">
+        </div>
+      </div>
+      
+      <br>
+      <!-- Nueva sección: Estadísticas rápidas -->
+      <app-dashboard-stats></app-dashboard-stats>
+      <br>
+      <!-- Grid de tarjetas adicionales -->
+      <app-additional-cards></app-additional-cards>
+    </div>
+  </main>
+</div>

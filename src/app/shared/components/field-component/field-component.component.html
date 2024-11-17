@@ -1,15 +1,79 @@
 <div [formGroup]="formGroup">
-  @switch (field.type) {
+  @switch (field.type) {    
+    @case ('multivalued') {
+      <div class="grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-6 p-4">
+          <label>{{ field.label }}</label>
+        </div>
+        <div class="col-span-2 p-4">
+          <section class="example-section">
+            <mat-checkbox class="example-margin" [formControlName]="field.name" (change)="onValueChangeCheck($event)" [checked]="field.answerField?.answerBoolean"></mat-checkbox>
+          </section>
+        </div>
+        <div class="col-span-4 p-4">
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Ampliar Respuesta</mat-label>
+            <input matInput [required]="!!field.required" 
+            [placeholder]="field.placeholder" [value]="field.answerField?.answerText" [formControlName]="field.name" (input)="onValueChange($event)"  />
+          </mat-form-field>
+        </div>
+      </div>
+    }
+    @case ('boolean') {
+      <div class="grid grid-cols-12 gap-4 items-center">
+        <div class="col-span-9 p-4">
+          <label>{{ field.label }}</label>
+        </div>
+        <div class="col-span-3 p-4">
+          <section class="example-section">
+            <mat-checkbox class="example-margin" [formControlName]="field.name" (change)="onValueChangeCheck($event)" [checked]="field.answerField?.answerBoolean"></mat-checkbox>
+          </section>
+        </div>
+      </div>
+      <hr> 
+    }
     @case ('input') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-          <input matInput [formControlName]="field.name" (input)="onValueChange($event)" />
-            @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-              <mat-error>{{ errors?.lastError }}</mat-error>
-            }
-            @if (formGroup.get(field.name)?.hasError('required')) {
-              <mat-error>{{ errors?.required }}</mat-error>
-            }
+        <input matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)"/>
+        @if (formGroup.get(field.name)?.hasError('lastError') && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+          <mat-error>{{ errors?.lastError }}</mat-error>
+        }
+        @if (formGroup.get(field.name)?.hasError('required')) {
+          <mat-error class="error-message">{{ errors?.required }}</mat-error>
+        }
+      </mat-form-field>
+    }   
+    @case ('inputText') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput type="text" [required]="!!field.required" [pattern]="field.validationFnt?.regex || ''"  [maxlength]="field.max ?? null" [placeholder]="field.placeholder" [value]="field.answerField?.answerText" [formControlName]="field.name" (input)="onValueChange($event)"/>
+          @if (formGroup.get(field.name)?.hasError('required')) {
+            <mat-error class="error-message">
+              El campo {{ field.label }} es requerido
+            </mat-error>
+          }
+          @if (formGroup.get(field.name)?.hasError('pattern')) {
+            <mat-error class="error-message">
+              {{ field.validationFnt?.message }}
+            </mat-error>
+          } 
+      </mat-form-field>
+    }    
+    @case ('inputNumber') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput type="number" [required]="!!field.required" [pattern]="field.validationFnt?.regex || ''"  [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric" [formControlName]="field.name" (input)="onValueChange($event)"/>   
+        @if (formGroup.get(field.name)?.hasError('required')) {
+          <mat-error class="error-message">
+            El campo {{ field.label }} es requerido
+          </mat-error>
+        }
+        @if (formGroup.get(field.name)?.hasError('pattern')) {
+          <mat-error class="error-message">
+            {{ field.validationFnt?.message }}
+          </mat-error>
+        }
       </mat-form-field>
     }
     @case ('select') {
@@ -20,34 +84,40 @@
               <mat-option [value]="option.value">{{ option.label }}</mat-option>
             }
           </mat-select>
-            @if (formGroup.get(field.name)?.hasError('required')) {
-              <mat-error>{{ errors?.required }}</mat-error>
-            }
+          @if (formGroup.get(field.name)?.hasError('required')) {
+            <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
+          }
       </mat-form-field>
     }
     @case('datepicker') {
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>{{ field.label }}</mat-label>
-          <input matInput [matDatepicker]="datepicker" [formControlName]="field.name" (dateChange)="onValueChangeDate($event)"> 
-          <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-          <mat-datepicker #datepicker></mat-datepicker>   
-            @if (formGroup.get(field.name)?.hasError('required') && formGroup.get(field.name)?.touched) {
-              <mat-error>{{ errors?.required }}</mat-error>
-            }
-            @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-              <mat-error>{{ errors?.lastError }}</mat-error>
-            }
-      </mat-form-field>
+      <!-- @if (field.answerField?.answerDate) {
+        <p>{{field.label}}: {{field.answerField?.answerDate[2]}}/{{field.answerField?.answerDate[1]}}/{{field.answerField?.answerDate[0]}}</p>
+      } -->
+        <mat-form-field appearance="fill" class="w-full"> 
+          <mat-label>{{ field.label }}</mat-label>
+          <input matInput [matDatepicker]="datepicker"   
+            [formControlName]="field.name" (dateChange)="onValueChangeDate($event)"> 
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker></mat-datepicker>   
+              @if (formGroup.get(field.name)?.hasError('required') && formGroup.get(field.name)?.touched) {
+                <mat-error class="error-message">{{ errors?.required }}</mat-error>
+              }
+              @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+                <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
+              }
+        </mat-form-field>
+      
+      
     }
     @case ('inputEvent') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
           <input matInput [value]="fieldValue" [formControlName]="field.name" (input)="onInputChange($event)" />
             @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-              <mat-error>{{ errors?.lastError }}</mat-error>
+              <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
             }
             @if (formGroup.get(field.name)?.hasError('required')) {
-              <mat-error>{{ errors?.required }}</mat-error>
+              <mat-error class="error-message">{{ errors?.required }}</mat-error>
             }
       </mat-form-field>
     }
@@ -61,6 +131,37 @@
             }
           </mat-autocomplete>
         </mat-form-field>      
+    }
+    @case ('inputFile') {
+      <div class="custom-text">
+        <mat-label>{{field.label}}</mat-label>
+        <input type="file" multiple accept="image/*" class="w-full text-gray-600 text-sm border-b border-black focus:border-blue-500 py-2 custom"
+               (change)="onValueChangeFile($event)" />
+        <p class="text-xs text-gray-500 mt-1">{{field.label}} en formato: jpeg, jpg</p>
+        <br>
+      </div>
+      @if (field.answerField?.files && field.answerField?.files.length > 0) {
+        <mat-label>Archivos: </mat-label>
+          <mat-list>
+            @for (file of field.answerField?.files; track file) {
+              <mat-list-item>
+                <mat-icon matListItemIcon><i class="fas fa-file-alt"></i></mat-icon>
+                <div (click)="onFileClick(file)" matListItemTitle>{{ file.fileName }}</div>
+              </mat-list-item>
+            }
+        </mat-list>
+      }
+    }
+    @case ('textArea') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ field.label }}</mat-label>
+        <textarea matInput [required]="!!field.required" [placeholder]="field.placeholder" [value]="field.answerField?.answerText" [formControlName]="field.name" (input)="onValueChange($event)"></textarea>
+    
+        @if (formGroup.get(field.name)?.hasError('required') && field.required) {
+          <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
+        }
+
+      </mat-form-field>
     }
     @default {
       <p>Tipo de campo no soportado.</p>

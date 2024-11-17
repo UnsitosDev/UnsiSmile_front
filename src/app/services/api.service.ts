@@ -17,6 +17,7 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
   getService(reqParams: ApiModel.ReqParams): Observable< GET> {
     const options = {
       params: reqParams.params ? reqParams.params : {},
+      responseType: reqParams.responseType || 'json'
     };
     return this.http.get<GET>(reqParams.url, options).pipe(
       map((res) => {

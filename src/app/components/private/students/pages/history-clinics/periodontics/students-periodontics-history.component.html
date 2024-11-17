@@ -1,25 +1,21 @@
-
+<mat-card appearance="outlined" class="custom">
+    <app-card-patient-data [data]="patientData" [guardianData]="guardianData"></app-card-patient-data>
+</mat-card>
 <br>
-<mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4 bg-white" >
-    <mat-tab label="FICHA DE IDENTIFICACIÓN">
-        <app-identification-file  (eventoEmitido)="vitalSignsEvent($event)"  (cambiarTab)="recibirTab($event)"></app-identification-file>
-    </mat-tab>
-    <mat-tab label="SIGNOS VITALES"  [disabled]="vitalSigns">
-        <app-vital-sings-periodontics (eventoEmitido)="interrogationEvent($event)"  (cambiarTab)="recibirTab($event)"></app-vital-sings-periodontics>
-    </mat-tab>
-    <mat-tab label="INTERROGATORIO" [disabled]="interrogation">
-        <app-interrogation-periodontics (eventoEmitido)="perodontalExamEvent($event)"  (cambiarTab)="recibirTab($event)"></app-interrogation-periodontics>
-    </mat-tab>
-    <mat-tab label="EXAMEN PARODONTAL" [disabled]="perodontalExam">
-        <app-perodontal-exam (eventoEmitido)="explorationOralEvent($event)"  (cambiarTab)="recibirTab($event)"></app-perodontal-exam>
-    </mat-tab>
-    <mat-tab label="EXPLORACIÓN DE LA CAVIDAD BUCAL" [disabled]="explorationOral">
-        <app-exploration-oral (eventoEmitido)="treatmentplanEvent($event)"  (cambiarTab)="recibirTab($event)"></app-exploration-oral>
-    </mat-tab>
-    <mat-tab label="PLAN DE TRATAMIENTO" [disabled]="treatmentplan">
-        <app-treatment-plan (eventoEmitido)="periodonticEvaluationEvent($event)"  (cambiarTab)="recibirTab($event)"></app-treatment-plan>
-    </mat-tab>
-    <mat-tab label="EVALUACIÓN DE PERIODONCIA" [disabled]="periodonticEvaluation" >
-        <app-evaluacion-perodoncia  (cambiarTab)="recibirTab($event)"></app-evaluacion-perodoncia>
-    </mat-tab>
-  </mat-tab-group>
+@if (mappedHistoryData) {
+    <mat-card-title><strong>Historia clinica {{mappedHistoryData.title}}</strong></mat-card-title>             
+        <mat-card class="custom">
+            <mat-tab-group [(selectedIndex)]="currentIndex">
+                @for (tab of mappedHistoryData.tabs; track tab) {
+                    <mat-tab [label]="tab.title">
+                        <app-tab-form 
+                          [fieldsTab]="tab" 
+                          (nextMatTab)="onNextTab()"
+                          (previousMatTab)="onPreviousTab()"
+                        ></app-tab-form>  
+                    </mat-tab>
+              }
+        </mat-tab-group>
+    </mat-card>
+}
+  

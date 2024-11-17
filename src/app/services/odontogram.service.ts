@@ -14,23 +14,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -41,23 +41,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -68,23 +68,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -95,23 +95,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -123,23 +123,23 @@ export const store: IOdontogramHandler = {
         //css: 'spaceRight',
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -150,23 +150,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -177,23 +177,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -204,23 +204,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -231,23 +231,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -259,23 +259,23 @@ export const store: IOdontogramHandler = {
         //css: 'noMarginRight',
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -287,23 +287,23 @@ export const store: IOdontogramHandler = {
         //css: 'clear',
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -314,23 +314,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -341,23 +341,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -368,23 +368,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -396,23 +396,23 @@ export const store: IOdontogramHandler = {
         //css: 'spaceRight',
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -423,23 +423,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -450,23 +450,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -477,23 +477,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -504,23 +504,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -532,23 +532,23 @@ export const store: IOdontogramHandler = {
         //css: 'noMarginRight',
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -563,23 +563,23 @@ export const store: IOdontogramHandler = {
         status: true,
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -590,23 +590,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -617,23 +617,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -644,23 +644,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -671,23 +671,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -698,23 +698,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -725,23 +725,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -753,23 +753,23 @@ export const store: IOdontogramHandler = {
         // css: 'spaceRight',
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -780,23 +780,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -807,23 +807,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -834,23 +834,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -861,23 +861,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -888,23 +888,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -915,23 +915,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -942,23 +942,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -970,23 +970,23 @@ export const store: IOdontogramHandler = {
         //css: 'noMarginRight',
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -998,23 +998,23 @@ export const store: IOdontogramHandler = {
         //css: 'clear',
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1025,23 +1025,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1052,23 +1052,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1079,23 +1079,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1106,23 +1106,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1133,23 +1133,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1160,23 +1160,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1188,23 +1188,23 @@ export const store: IOdontogramHandler = {
         //css: 'spaceRight',
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1215,23 +1215,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1242,23 +1242,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1269,23 +1269,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1296,23 +1296,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1323,23 +1323,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1350,23 +1350,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1377,23 +1377,23 @@ export const store: IOdontogramHandler = {
         conditions:[],
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],
@@ -1405,23 +1405,23 @@ export const store: IOdontogramHandler = {
         //css: 'noMarginRight',
         faces: [
           {
-            idFace: 1,
+            idFace: "1",
             conditions: [],
           },
           {
-            idFace: 2,
+            idFace: "2",
             conditions: [],
           },
           {
-            idFace: 3,
+            idFace: "3",
             conditions: [],
           },
           {
-            idFace: 4,
+            idFace: "4",
             conditions: [],
           },
           {
-            idFace: 5,
+            idFace: "5",
             conditions: [],
           },
         ],

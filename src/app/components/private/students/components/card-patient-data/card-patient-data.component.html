@@ -1,0 +1,69 @@
+<mat-card-title><strong>Datos del paciente</strong></mat-card-title>             
+<mat-card-content>
+    @if (data) {
+        <div class="mx-8">
+            <br>
+            <div class="grid grid-cols-3 gap-4 card-custom custom-color">
+                <div>         
+                    <div>
+                        <strong><i class="far fa-user"></i>&nbsp; {{data.fullName}}</strong>
+                    </div>
+                    <div>
+                        <i class="far fa-id-card"></i>&nbsp; {{data.curp}}
+                    </div>  
+                    <div>
+                        <i class="fas fa-venus-mars"></i> {{data.gender}}
+                    </div>
+                    <div>
+                        <i class="far fa-calendar"></i>&nbsp; Fecha de Nacimiento - {{data.birthDate}}
+                    </div>                  
+                </div>
+                <div>
+                    <div>
+                        <i class="fas fa-phone"></i>&nbsp;  {{data.phone}}
+                    </div>
+                    <div>
+                        <i class="fas fa-envelope"></i>&nbsp; 
+                        <a href="mailto:{{ data.email }}">{{ data.email }}</a>
+                    </div>
+                    <div>
+                        <i class="fas fa-map-marker-alt"></i> &nbsp;&nbsp;{{data.address}}
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <i class="far fa-calendar"></i>&nbsp; Fecha de Ingreso - {{data.admissionDate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        @if (guardianData) {
+            <br>
+            <p><strong>Datos del tutor</strong></p>
+            <mat-card-content>
+                    <div class="mx-8">
+                        <br>
+                        <div class="grid grid-cols-3 gap-4 card-custom custom-color">
+                            <div>         
+                                <div>
+                                    <strong><i class="far fa-user"></i>&nbsp; {{guardianData.firstName}} {{guardianData.lastName}}</strong>
+                                </div>                 
+                            </div>
+                            <div>
+                                <div>
+                                    <i class="fas fa-phone"></i>&nbsp;  {{guardianData.phone}}
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <i class="fas fa-envelope"></i>&nbsp; 
+                                    <a href="mailto:{{ guardianData.email }}">{{ guardianData.email }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </mat-card-content>        
+        }          
+    }
+</mat-card-content>
