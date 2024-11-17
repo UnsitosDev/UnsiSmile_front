@@ -1,0 +1,28 @@
+::ng-deep .mat-mdc-card-title {
+    background-color: #07437a; /* Cambia este color al que desees */
+    padding: 8px; /* Agrega un poco de padding si lo deseas */
+    border-radius: 2px; /* Opcional: agrega bordes redondeados */
+    color: white;
+  }
+  
+  ::ng-deep .mat-step-header .mat-step-label {
+    color: var(--on-primary); // Usa la variable de color del tema para el texto
+  }
+  
+  .fondo{
+      background: var(--secondary);
+  }
+  i{
+    color: #07437a;
+  }
+  .custom-color{
+    color: rgb(104, 104, 104);
+  }
+  p {
+    display: flex; /* Activar flexbox */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    background-color: #939393;
+    color: var(--on-primary); 
+    height: 30px;
+}

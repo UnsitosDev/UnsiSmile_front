@@ -26,3 +26,8 @@ li:hover {
 li.active {
   background-color: #670300;
 }
+
+
+.hover:hover {
+  background-color: var(--on-hover); 
+}

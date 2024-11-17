@@ -5,12 +5,12 @@
       "icon": "fas fa-users"
     },
     {
-      "title": "Consultas del Mes",
+      "title": "Pacientes integrales",
       "count": 678,
       "icon": "fas fa-calendar-check"
     },
     {
-      "title": "Doctores Disponibles",
+      "title": "Pacientes por mes",
       "count": 45,
       "icon": "fas fa-user-md"
     }
