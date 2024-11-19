@@ -34,6 +34,8 @@ export class StudentsPatientsComponent implements OnInit {
   itemsPerPage = 10;
   private apiService = inject(ApiService<PatientResponse>);
   isChecked: boolean = false;
+  searchTerm: string = ''; // Variable para almacenar el término de búsqueda
+
 
   check(event: any) {
     this.isChecked = event.checked; // Actualiza el estado según el valor del checkbox
@@ -88,17 +90,19 @@ export class StudentsPatientsComponent implements OnInit {
 
   idPatientx: number = 0;
   patients!: Patient[];
-  getPacientes(page: number, size: number) {
+  getPacientes(page: number, size: number, keyword: string = '') {
+    const url = `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}&keyword=${keyword}`;
+    console.log('URL de la solicitud:', url); // Debug
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}`, // Mantén los parámetros de paginación en la URL
+      url,
       data: {},
     }).subscribe({
       next: (response) => {
+        console.log('Respuesta del backend:', response); // Debug
         if (Array.isArray(response.content)) {
-
           this.patientsList = response.content.map((patient: Patient) => {
             const person = patient.person;
             const medicalHistory = patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
@@ -113,16 +117,22 @@ export class StudentsPatientsComponent implements OnInit {
           });
         } else {
           console.error('La respuesta no contiene un array en content.');
+          this.patientsList = []; // Limpia la tabla si no hay resultados
         }
       },
       error: (error) => {
         console.error('Error en la autenticación o en la solicitud:', error);
-        // Si la API devuelve un error específico en su cuerpo, puedes imprimirlo
-        if (error.error) {
-          console.error('Detalle del error:', error.error);
-        }
-      }
+      },
     });
+  }
+  
+
+  onSearch(keyword: string) {
+    console.log('Búsqueda recibida:', keyword); // Debug
+    if (keyword.length >= 2 || keyword.length === 0) {
+      this.currentPage = 0; // Reinicia la página a la primera
+      this.getPacientes(this.currentPage, this.itemsPerPage, keyword);
+    }
   }
   //filtar datos
 }
