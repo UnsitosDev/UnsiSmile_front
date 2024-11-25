@@ -147,6 +147,10 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Nombre de localidad es requerido.'
             },
+            onInputChange: {
+            changeFunction: this.handleLocalityClick.bind(this),
+            length: 5
+                        }
         },
         {
             type: 'autocomplete',
@@ -158,7 +162,10 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Nombre de municipio es requerido.'
             },
-            onClick: this.handleMunicipalityClick.bind(this)
+            onInputChange: {
+                changeFunction: this.handleMunicipalityClick.bind(this),
+                length: 5
+                            }
         },
         {
             type: 'select',
@@ -263,7 +270,7 @@ export class FormFieldsService {
             onClick: this.handleOcupationClick.bind(this)
         },
         {
-            type: 'select',
+            type: 'autocomplete',
             label: 'Grupo étnico',
             name: 'ethnicGroup',
             required: true,
@@ -271,10 +278,12 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Grupo étnico es opcional.'
             },
-            onClick: this.handleEthnicGroupClick.bind(this)
-        },
+            onInputChange: {
+                changeFunction: this.handleEthnicGroupClick.bind(this),
+                length: 5
+                            }        },
         {
-            type: 'select',
+            type: 'autocomplete',
             label: 'Religión',
             name: 'religion',
             required: true,
@@ -282,11 +291,10 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Religión es opcional.'
             },
-            onClick: this.handleReligionClick.bind(this),
-            // onInputChange: {
-            //     changeFunction: this.handleReligionClick.bind(this),
-            //     length: 5
-            // }
+            onInputChange: {
+                 changeFunction: this.handleReligionClick.bind(this),
+                 length: 5
+             }
 
         },
         {
@@ -362,12 +370,12 @@ export class FormFieldsService {
         this.handleHousingClick({}as MouseEvent);
         this.handleStretClick({}as MouseEvent);
         this.handleNeighborhoodClick({} as MouseEvent);
-        this.handleMunicipalityClick({} as MouseEvent);
+      //  this.handleMunicipalityClick({} as MouseEvent);
         //this.handleStateClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
         this.handleOcupationClick({} as MouseEvent);
-        this.handleEthnicGroupClick({} as MouseEvent);
+       // this.handleEthnicGroupClick({} as MouseEvent);
         // this.handleReligionClick({} as MouseEvent);
     }
 
@@ -395,14 +403,20 @@ export class FormFieldsService {
         neighborhoodField && (neighborhoodField.options = this.patientService.neighborhoodOptions);
     }
 
-    private handleLocalityClick(param: string): void {
-        this.patientService.getLocality(param);
+    private handleLocalityClick(searchTerm: string): void {
+        this.patientService.getLocality(searchTerm);
         const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
         localityField && (localityField.options = this.patientService.localityOptions);
     }
 
-    private handleMunicipalityClick(event: MouseEvent): void {
-        this.patientService.getMunicipalityData();
+    //private handleMunicipalityClick(event: MouseEvent): void {
+      //  this.patientService.getMunicipalityData();
+        //const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
+        //municipalityField && (municipalityField.options = this.patientService.municipalityOptions);
+   // }
+
+    private handleMunicipalityClick(searchTerm: string): void {
+        this.patientService.getMunicipalityData(searchTerm);
         const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
         municipalityField && (municipalityField.options = this.patientService.municipalityOptions);
     }
@@ -431,14 +445,14 @@ export class FormFieldsService {
         occupationField && (occupationField.options = this.patientService.occupationOptions);
     }
 
-    private handleEthnicGroupClick(event: MouseEvent): void {
-        this.patientService.getEthnicGroupData();
+    private handleEthnicGroupClick(param: string): void {
+        this.patientService.getEthnicGroupData(param);
         const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
         ethnicGroupField && (ethnicGroupField.options = this.patientService.ethnicGroupOptions);
     }
 
-    private handleReligionClick(event: MouseEvent): void {
-        this.patientService.getReligionData();
+    private handleReligionClick(searchTerm: string): void {
+        this.patientService.getReligionData(searchTerm);
         const religionField = this.otherDataFields.find(field => field.name === FieldNames.RELIGION);
         religionField && (religionField.options = this.patientService.religionOptions);
     }
