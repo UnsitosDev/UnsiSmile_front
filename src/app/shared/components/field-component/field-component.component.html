@@ -90,9 +90,6 @@
       </mat-form-field>
     }
     @case('datepicker') {
-      <!-- @if (field.answerField?.answerDate) {
-        <p>{{field.label}}: {{field.answerField?.answerDate[2]}}/{{field.answerField?.answerDate[1]}}/{{field.answerField?.answerDate[0]}}</p>
-      } -->
         <mat-form-field appearance="fill" class="w-full"> 
           <mat-label>{{ field.label }}</mat-label>
           <input matInput [matDatepicker]="datepicker"   
@@ -105,9 +102,7 @@
               @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
                 <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
               }
-        </mat-form-field>
-      
-      
+        </mat-form-field>   
     }
     @case ('inputEvent') {
       <mat-form-field appearance="fill" class="w-full">

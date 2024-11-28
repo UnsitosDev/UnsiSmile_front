@@ -29,6 +29,17 @@ interface FormData {
   answerDate: string | null;
   idCatalogOption: any;
 }
+
+interface updateFormData {
+  idPatientClinicalHistory: number;
+  idQuestion: number;
+  answerBoolean: boolean | null;
+  answerNumeric: number | null;
+  answerText: string | null;
+  answerDate: string | null;
+  idCatalogOption: any;
+  idAnswer: number
+}
 @Component({
   selector: 'app-tab-form',
   standalone: true,
@@ -102,9 +113,16 @@ export class TabFormComponent {
 
   handleFieldValue(event: any) {
     this.idQuestion = event.questionID;
-    const fieldValue = event.value;
+    this.idAnswer = event.idAnswer;
+    // Verificar que idAnswer no sea undefined 
+    if (event.idAnswer !== undefined) {
+      this.idAnswers[event.field] = event.idAnswer; // Guarda idAnswer para el campo específico
+    }   
     this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específico
+  
+    console.log('ID Answers:', this.idAnswers);
   }
+  
 
   idPatientClinicalHistory: number = 0;
   idQuestion: number = 0;
@@ -114,10 +132,12 @@ export class TabFormComponent {
   answerDate: string = '';
   idCatalogOption: number = 0;
   isFile: boolean = false;
+  idAnswer: number = 0;
 
   send: FormData[] = [];
 
   questionIDs: { [key: string]: number } = {};  // Definimos questionIDs como un objeto que almacena números
+  idAnswers: { [key: string]: number } = {};  // Definimos questionIDs como un objeto que almacena números
 
   sendFile!: boolean;
 
@@ -234,6 +254,67 @@ export class TabFormComponent {
         },
       });
   }
+
+  updateFormData() {
+    const formData = this.formGroup.value;
+  
+    Object.keys(formData).forEach((fieldName) => {
+      const fieldValue = formData[fieldName];
+      const questionID = this.questionIDs[fieldName];
+      const idAnswer = this.idAnswers[fieldName];
+      const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
+  
+      if (idAnswer) { 
+        const data: updateFormData = {
+          idPatientClinicalHistory: this.patientID,
+          idQuestion: questionID,
+          answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,
+          answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
+          answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
+          answerDate: isDateField ? fieldValue : null,
+          idCatalogOption: formData.idCatalogOption || null,
+          idAnswer: idAnswer,
+        };
+  
+        const hasValidData =
+          data.answerBoolean !== null ||
+          data.answerNumeric !== null ||
+          (data.answerText && data.answerText !== '') ||
+          data.answerDate !== null ||
+          data.idCatalogOption !== null;
+  
+        if (hasValidData) {
+          this.send.push(data);
+        }
+      }
+    });
+  
+    // Manejo de archivos (si los hay)
+    if (this.files && this.files.length > 0) {
+      this.sendFiles();
+    }
+    console.log('Datos a enviar:', this.send);
+
+    this.apiService
+      .patchService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_SECTION_FORM}`,
+        data: this.send,
+      })
+      .subscribe({
+        next: (response) => {
+          this.openSnackBar();
+          this.send = []; // Limpiar el arreglo si la petición es exitosa
+        },
+        error: (error) => {
+          console.log('Error al guardar datos: ', error);
+
+        },
+      });
+  }
+  
 
   previousTab() {
     this.previousMatTab.emit(); // Emitir evento para volver al tab anterior
