@@ -97,7 +97,7 @@ export class FieldComponentComponent implements OnChanges {
   onValueChangeDate(event: any) {
     const value = event.value as Date;
     const formattedValue = this.datePipe.transform(value, 'yyyy-MM-dd');
-    this.setFieldValue.emit({ field: this.field.name, value: formattedValue, questionID: this.field.questionID });
+    this.setFieldValue.emit({ field: this.field.name, value: formattedValue, questionID: this.field.questionID, idAnswer: this.field.answerField?.idAnswer });
 
     // Lógica para verificar si el usuario es menor de edad
     const today = new Date();
@@ -113,7 +113,7 @@ export class FieldComponentComponent implements OnChanges {
   // Check
   onValueChangeCheck(event: any) {
     const value = event.checked; // Extrae el valor booleano del checkbox    
-    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID });
+    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID, idAnswer: this.field.answerField?.idAnswer });
   }
 
   // Input Event
