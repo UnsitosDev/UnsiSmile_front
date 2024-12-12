@@ -28,8 +28,7 @@ export interface patientRequest {
 
 
 export interface Patient {
-
-  idPatient: number,
+    idPatient: string,
     admissionDate: Date,
     isMinor: boolean,
     hasDisability: boolean,
