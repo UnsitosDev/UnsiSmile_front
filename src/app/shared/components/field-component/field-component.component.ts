@@ -57,7 +57,7 @@ export class FieldComponentComponent implements OnChanges {
     // Verifica si alguno de los valores está presente antes de establecerlo
     if (this.field.answerField) {
       // Asignar el valor correspondiente según el tipo
-      const value = this.field.answerField.answerBoolean ?? this.field.answerField.answerNumeric ?? this.field.answerField.answerText;
+      const value = this.field.answerField.answerText ?? this.field.answerField.answerBoolean ?? this.field.answerField.answerNumeric ?? this.field.answerField.answerDate;
 
       // Si el valor no es nulo, lo establece en el FormControl
       if (value != null) {
