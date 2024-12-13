@@ -1,3 +1,4 @@
+import { AnswerField } from 'src/app/models/form-fields/form-field.interface';
 import { Component, inject } from '@angular/core';
 import { EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +20,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { StudentsOdontogramComponent } from "../../../components/private/students/components/odontogram/students-odontogram.component";
 import { HistoryInitialBagComponent } from "../../../components/private/students/components/form-history-initial-bag/history-initial-bag.component";
+import * as _moment from 'moment';
 
 interface FormData {
   idPatientClinicalHistory: number;
@@ -90,10 +92,7 @@ export class TabFormComponent {
     // Procesamos la sección principal
     if (this.fieldsTab?.seccion) {
       this.fieldsTab.seccion.forEach(sectionField => {
-        this.formGroup.addControl(
-          sectionField.name,
-          this.fb.control(sectionField.value || '', sectionField.validators || [])
-        );
+        this.formGroup.addControl(sectionField.name,this.fb.control(sectionField.value || '', sectionField.validators || []));
       });
     }
 
