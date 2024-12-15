@@ -12,7 +12,7 @@ import { UriConstants } from '@mean/utils';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
-import { CommonModule } from '@angular/common';  // Asegúrate de importar esto
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-login',
