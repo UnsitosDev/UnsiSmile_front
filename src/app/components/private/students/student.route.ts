@@ -23,31 +23,38 @@ export default [
                     ),
             },
             {
-                path: 'historyClinic/:id',
+                path: 'general/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para historia clinica general
                 loadComponent: () =>
                     import('./pages/history-clinics/general/students-general-history.component').then(
                         (m) => m.StudentsGeneralHistoryComponent
                     ),
             },
             {
-                path: 'periodontics',
+                path: 'periodontics/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para historia clinica periodoncia
                 loadComponent: () =>
                     import('./pages/history-clinics/periodontics/students-periodontics-history.component').then(
                         (m) => m.StudentsPeriodonticsHistoryComponent
                     ),
             },
             {
-                path: 'OralSurgery',
+                path: 'oralSurgery/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para la historia clinica cirujia bucal
                 loadComponent: () =>
                     import('./pages/history-clinics/oral-surgery/students-oral-surgery-history.component').then(
                         (m) => m.StudentsOralSurgeryHistoryComponent
                     ),
             },
             {
-                path: 'DentalOperation',
+                path: 'dentalOperation/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para operatoria dental
                 loadComponent: () =>
                     import('./pages/history-clinics/dental-operation/students-dental-operation.component').then(
                         (m) => m.StudentsDentalOperationComponent
+                    ),
+            },
+            {
+                path: 'oralProsthesis/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para operatoria dental
+                loadComponent: () =>
+                    import('./pages/history-clinics/oral-prosthesis/oral-prosthesis.component').then(
+                        (m) => m.OralProsthesisComponent
                     ),
             },
             {
@@ -55,6 +62,20 @@ export default [
                 loadComponent: () =>
                     import('./components/form-patient-personal-data/form-patient-personal-data.component').then(
                         (m) => m.FormPatientPersonalDataComponent
+                    ),
+            },
+            {
+                path: 'dashboard',
+                loadComponent: () =>
+                    import('./components/dashboard/dashboard.component').then(
+                        (m) => m.DashboardComponent
+                    ),
+            },
+            {
+                path: 'user',
+                loadComponent: () =>
+                    import('./components/form-user/form-user.component').then(
+                        (m) => m.FormUserComponent
                     ),
             },
             {

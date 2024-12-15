@@ -44,8 +44,16 @@ export default [
                     ),
             },
             {
+                path: 'dashboard',
+                loadComponent: () =>
+                    import('./components/dashboard/dashboard.component').then(
+                        (m) => m.DashboardComponent
+                    ),
+            },
+            {
                 path: '**',
-                redirectTo: 'students', // Redirige a una ruta válida dentro de `admin`
+                pathMatch: 'full',
+                redirectTo: 'dashboard',
             },
         ],
     },

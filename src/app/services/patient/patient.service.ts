@@ -137,19 +137,19 @@ export class PatientService {
     // Localidad
     localityData: localityRequest[] = [];
     localityOptions: Array<{ value: string; label: string }> = [];
-    getLocality(param: string) {
+    getLocality(searchTerm: string) {
         this.apiService
             .getService({
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
                 }),
-                url: `${UriConstants.GET_LOCALITIES_NAME}` + param,
+                url: `${UriConstants.GET_LOCALITIES}?keyword=${searchTerm}`,
                 data: {},
             })
             .subscribe({
                 next: (response) => {
-                    this.localityData = response;
-                    this.localityOptions = response.map((item: any) => ({
+                    this.localityData = response.content;
+                    this.localityOptions = response.content.map((item: any) => ({
                         value: item.idLocality.toString(),
                         label: item.name
                     }));
@@ -163,19 +163,19 @@ export class PatientService {
     // Municipios
     municipalityResponse: PaginatedData<municipalityRequest>[] = [];
     municipalityOptions: Array<{ value: string; label: string }> = [];
-    getMunicipalityData() {
+    getMunicipalityData(searchTerm: string) {
         this.apiService
             .getService({
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
                 }),
-                url: `${UriConstants.GET_MUNICIPALITY}`,
+                url: `${UriConstants.GET_MUNICIPALITY}?keyword=${searchTerm}`,
                 data: {},
             })
             .subscribe({
                 next: (response) => {
                     this.municipalityResponse = response.content;
-                    this.municipalityOptions = this.municipalityResponse.map((item: any) => ({
+                    this.municipalityOptions = response.content.map((item: any) => ({
                         value: item.idMunicipality.toString(),
                         label: item.name
                     }));
@@ -295,19 +295,19 @@ export class PatientService {
     // Grupo etnico
     ethnicGroupData: PaginatedData<ethnicGroupRequest>[] = [];
     ethnicGroupOptions: Array<{ value: string; label: string }> = [];
-    getEthnicGroupData() {
+    getEthnicGroupData(searchTerm: string) {
         this.apiService
             .getService({
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
                 }),
-                url: `${UriConstants.GET_ETHNIC_GROUP}`,
+                url: `${UriConstants.GET_ETHNIC_GROUP}?keyword=${searchTerm}`,
                 data: {},
             })
             .subscribe({
                 next: (response) => {
                     this.ethnicGroupData = response.content;
-                    this.ethnicGroupOptions = this.ethnicGroupData.map((item: any) => ({
+                    this.ethnicGroupOptions = response.content.map((item: any) => ({
                         value: item.idEthnicGroup.toString(),
                         label: item.ethnicGroup
                     }));
@@ -320,13 +320,13 @@ export class PatientService {
 
     religionData: PaginatedData<religionResponse>[] = [];
     religionOptions: Array<{ value: string; label: string }> = [];
-    getReligionData() {
+    getReligionData(searchTerm:string) {
         this.apiService
             .getService({
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
                 }),
-                url: `${UriConstants.GET_RELIGION}`,
+                url: `${UriConstants.GET_RELIGION}?keyword=${searchTerm}`,
                 data: {},
             })
             .subscribe({

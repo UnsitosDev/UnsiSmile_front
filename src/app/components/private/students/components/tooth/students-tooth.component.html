@@ -69,7 +69,7 @@
     />
 
     <!-- Simbologías -->
-    @for (face of data.faces; track face) {
+    @for (face of data.faces; track face; let idx = $index) {
     <ng-container>
       @for (condition of face.conditions; track condition) {
       <ng-container>
@@ -92,7 +92,7 @@
         @if (condition.condition === ToothConditionsConstant.DIENTE_OBTURADO) {
         <ng-container>
           <polygon
-            [attr.points]="getFacePoints(face.idFace - 1)"
+            [attr.points]="getFacePoints(idx)"
             fill="blue"
             opacity="0.8"
           />
@@ -183,7 +183,7 @@
         @if (condition.condition === ToothConditionsConstant.DIENTE_CARIADO) {
         <ng-container>
           <polygon
-            [attr.points]="getFacePoints(face.idFace - 1)"
+            [attr.points]="getFacePoints(idx)"
             fill="red"
             opacity="0.6"
           />
@@ -194,10 +194,10 @@
         ToothConditionsConstant.DIENTE_CON_FRACTURA) {
         <ng-container>
           <line
-            [attr.x1]="getFracturePoints(face.idFace - 1).x1"
-            [attr.y1]="getFracturePoints(face.idFace - 1).y1"
-            [attr.x2]="getFracturePoints(face.idFace - 1).x2"
-            [attr.y2]="getFracturePoints(face.idFace - 1).y2"
+            [attr.x1]="getFracturePoints(idx).x1"
+            [attr.y1]="getFracturePoints(idx).y1"
+            [attr.x2]="getFracturePoints(idx).x2"
+            [attr.y2]="getFracturePoints(idx).y2"
             stroke="red"
             stroke-width="2"
             stroke-dasharray="4"
@@ -210,9 +210,9 @@
           <svg width="29" height="34">
             <g>
               <circle
-                [attr.cx]="getFaceCirclePoints(face.idFace - 1).cx"
-                [attr.cy]="getFaceCirclePoints(face.idFace - 1).cy"
-                [attr.r]="getFaceCirclePoints(face.idFace - 1).r"
+                [attr.cx]="getFaceCirclePoints(idx).cx"
+                [attr.cy]="getFaceCirclePoints(idx).cy"
+                [attr.r]="getFaceCirclePoints(idx).r"
                 fill="red"
               />
             </g>
@@ -225,7 +225,7 @@
         ToothConditionsConstant.DIENTE_OBTURADO_CON_CARIES) {
         <ng-container>
           <polygon
-            [attr.points]="getFacePoints(face.idFace - 1)"
+            [attr.points]="getFacePoints(idx)"
             fill="blue"
             opacity="0.6"
             stroke="red"

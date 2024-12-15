@@ -1,11 +1,11 @@
 <div class="container">
   <main>
-    <div class="root">
+    <div class="root custom-text">
       <mat-tab-group [(selectedIndex)]="value">
         <mat-tab label="Adulto">
           <div>
-            @if (arcadaAdulto) { 
-              @for (item of arcadaAdulto.tooths; track $index) {
+            @if (adultArcade) { 
+              @for (item of adultArcade.tooths; track item) {
               <app-students-tooth
                 [data]="item"
                 [index]="$index"
@@ -18,8 +18,8 @@
         </mat-tab>
         <mat-tab label="Infantil">
           <div>
-            @if (arcadaInfantil) { 
-              @for (item of arcadaInfantil.tooths; track $index)
+            @if (childrenArcade) { 
+              @for (item of childrenArcade.tooths; track $index)
               {
               <app-students-tooth
                 [data]="item"
@@ -56,10 +56,6 @@
         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
       ></textarea>
     </div>
-    <br /><br />
-    <div class="absolute bottom-0 right-0 m-4 flex flex-row-reverse space-x-4">
-      <button color="primary" (click)="store()">Siguiente</button>
-    </div>
+    <div>
   </div>
-  <br /><br />
 </div>

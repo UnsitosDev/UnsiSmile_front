@@ -28,7 +28,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/
         fontAwesomeIcon: faHome,
         buttonText: 'Inicio',
         buttonDescription: 'Información del usuario',
-        routerlink: '/admin'
+        routerlink: '/admin/dashboard'
       },
       {
         fontAwesomeIcon: faHospitalUser,

@@ -17,6 +17,7 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
   getService(reqParams: ApiModel.ReqParams): Observable< GET> {
     const options = {
       params: reqParams.params ? reqParams.params : {},
+      responseType: reqParams.responseType || 'json'
     };
     return this.http.get<GET>(reqParams.url, options).pipe(
       map((res) => {
@@ -65,5 +66,15 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
   handleError(error: HttpErrorResponse) {
     return throwError(() => error.error.message || 'Ocurrió un error');
   }
-
+  
+  /** Para realizar las peticiones PATCH */
+  patchService(reqParams: ApiModel.ReqParams): Observable<PATCH> {
+    const options = {
+      params: reqParams.params ? reqParams.params : {},
+    };
+    return this.http.patch<PATCH>(reqParams.url, reqParams.data, options).pipe(
+      map((res) => res),
+      catchError(this.handleError)
+    );
+  }
 }

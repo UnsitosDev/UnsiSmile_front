@@ -8,6 +8,18 @@ export function curpValidator(): ValidatorFn {
   };
 }
 
+
+
+// Validador de presión arterial
+export function bloodPressureValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const bloodPressurePattern = /^\d{2,3}\/\d{2,3}$/;
+    const valid = bloodPressurePattern.test(control.value);
+    
+    return valid ? null : { lastError: { value: control.value } }; // Manejo de errores unificado
+  };
+}
+
 export function genderValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: boolean } | null => {
     if (control.value === null || control.value === undefined || control.value === '') {
@@ -16,6 +28,8 @@ export function genderValidator(): ValidatorFn {
     return null;
   };
 }
+
+
 
 export function phoneNumberValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {

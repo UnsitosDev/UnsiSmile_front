@@ -2,6 +2,9 @@ import { isDevMode } from '@angular/core';
 
 const host = isDevMode() ? 'http://localhost:8080/unsismile/api/v1' : 'otherdomain.com';
 const basePath = host;
+
+const host2 = isDevMode() ? 'http://localhost:8080' : 'otherdomain.com';
+const basePath2 = host2;
 export class UriConstants {
   public static readonly HOST = host;
   public static readonly MESSAGES = basePath + '/messages';
@@ -153,7 +156,8 @@ export class UriConstants {
     // neighborhood-controller
     public static readonly GET_NEIGHBORHOODS = basePath + '/addresses/neighborhoods'
     // municipality-controller
-          public static readonly GET_MUNICIPALITY = basePath + '/address/municipalities?page=0&size=10&order=name&asc=true'
+       //   public static readonly GET_MUNICIPALITY = basePath + '/address/municipalities?page=0&size=10&order=name&asc=true'
+          public static readonly GET_MUNICIPALITY = basePath + '/address/municipalities'
     // state-controller
     public static readonly GET_STATE = basePath + '/address/states'
     // Patient controller
@@ -162,4 +166,21 @@ export class UriConstants {
     public static readonly GET_USER_INFO = basePath + '/users/userInformation'
     // get postalCode
     public static readonly GET_POSTAL_CODE = basePath + '/address/locality/postal-code/'
-}
+    // Historias Clinicas
+    public static readonly GET_CONFIG_HISTORY_CLINICS = basePath + '/clinical-histories/patient-clinical-histories'
+    // Crear Historia Clinica del paciente
+    public static readonly POST_CLINICAL_HISTORY = basePath + '/clinical-histories/patient-clinical-history'
+    // Obtener la configuracion de la historia clinica: 
+    public static readonly GET_HISTORY_CONFIG = basePath + '/clinical-histories'
+    // Obtiene una lista de historías clínicas y su relación con el paciente.
+    public static readonly GET_PATIENT_HISTORIES = basePath + '/clinical-histories'
+    // Enviar seccion del formulario
+    public static readonly POST_SECTION_FORM = basePath + '/answers/forms'
+    // Enviar archivos
+    public static readonly POST_FILES = basePath2 + '/api/v1/files'
+    // Descargar archivo
+    public static readonly DOWLOAD_FILES = basePath2 + '/api/v1/files/file/'
+ 
+
+
+}    
