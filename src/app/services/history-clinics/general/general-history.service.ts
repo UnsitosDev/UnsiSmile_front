@@ -16,7 +16,7 @@ export class GeneralHistoryService {
 
   historyData: ClinicalHistoryCatalog[] = [];
   mappedHistoryData!: dataTabs;
- in  getHistoryClinics(idPatient: string, idClinicalHistory: number): Observable<dataTabs> {
+ getHistoryClinics(idPatient: string, idClinicalHistory: number): Observable<dataTabs> {
     return this.apiService
       .getService({
         headers: new HttpHeaders({
