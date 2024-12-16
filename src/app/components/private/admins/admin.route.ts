@@ -58,13 +58,6 @@ export default [
                     ),
             },
             {
-                path: 'uploadPatients',
-                loadComponent: () =>
-                    import('./components/admin-upload-patients/admin-upload-patients.component').then(
-                        (m) => m.AdminUploadPatientsComponent
-                    ),
-            },
-            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
