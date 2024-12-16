@@ -1,10 +1,8 @@
 import { isDevMode } from '@angular/core';
 
-const host = isDevMode() ? 'http://localhost:8080/unsismile/api/v1' : 'otherdomain.com';
+const host = isDevMode() ? 'http://localhost:8082/unsismile/api/v1' : 'https://unsismile-back.unsis.edu.mx/unsismile/api/v1';                    
 const basePath = host;
 
-const host2 = isDevMode() ? 'http://localhost:8080' : 'otherdomain.com';
-const basePath2 = host2;
 export class UriConstants {
   public static readonly HOST = host;
   public static readonly MESSAGES = basePath + '/messages';
@@ -136,15 +134,15 @@ export class UriConstants {
     public static readonly POST_VITAL_SIGNS = basePath + '/medical-histories/vital-signs'
     // religion-controller
     public static readonly GETID_RELIGION = basePath + '/patients/religion/'
-    public static readonly GET_RELIGION =  basePath + '/patients/religions'  
+    public static readonly GET_RELIGION =  basePath + '/religions'  
     // nationality-controller
-    public static readonly GET_NACIONALITY = basePath + '/patients/nationalities'
+    public static readonly GET_NACIONALITY = basePath + '/nationalities'
     // occupation-controller
-    public static readonly GET_OCUPATION = basePath + '/patients/occupations'
+    public static readonly GET_OCUPATION = basePath + '/occupations'
     // marital-status-controller
-    public static readonly GET_MARITAL_STATUS = basePath + '/patients/marital-status'
+    public static readonly GET_MARITAL_STATUS = basePath + '/marital-status'
     // ethnic-group-controller
-    public static readonly GET_ETHNIC_GROUP = basePath + '/patients/ethnic-groups'
+    public static readonly GET_ETHNIC_GROUP = basePath + '/ethnic-groups'
     // locality-controller
     public static readonly GET_LOCALITIES = basePath + '/address/locality'
     public static readonly GET_LOCALITIES_NAME = basePath + '/address/locality/name/'
@@ -177,10 +175,8 @@ export class UriConstants {
     // Enviar seccion del formulario
     public static readonly POST_SECTION_FORM = basePath + '/answers/forms'
     // Enviar archivos
-    public static readonly POST_FILES = basePath2 + '/api/v1/files'
+    public static readonly POST_FILES = basePath + '/files'
     // Descargar archivo
-    public static readonly DOWLOAD_FILES = basePath2 + '/api/v1/files/file/'
- 
+    public static readonly DOWLOAD_FILES = basePath + '/files/file/'
 
-
-}    
+}     

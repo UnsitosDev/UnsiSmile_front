@@ -92,7 +92,6 @@ export class StudentsPatientsComponent implements OnInit {
   patients!: Patient[];
   getPacientes(page: number, size: number, keyword: string = '') {
     const url = `${UriConstants.GET_PATIENTS}?keyword=${keyword}`;
-    console.log('URL de la solicitud:', url); // Debug
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
