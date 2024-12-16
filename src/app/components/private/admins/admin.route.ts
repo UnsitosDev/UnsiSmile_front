@@ -51,7 +51,7 @@ export default [
                     ),
             },
             {
-                path: 'uploadPatients',
+                path: 'upload-patients',
                 loadComponent: () =>
                     import('./components/admin-upload-patients/admin-upload-patients.component').then(
                         (m) => m.AdminUploadPatientsComponent
