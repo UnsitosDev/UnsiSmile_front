@@ -1,3 +1,5 @@
+
+
 .form-content {
   background-color: var(--secondary);
 }
@@ -56,7 +58,7 @@ form.sign-in-form {
 .input-field {
   max-width: 380px;
   width: 100%;
-  background-color: #f0f0f0;
+  background-color: var(--background-color);
   margin: 10px 0;
   height: 55px;
   border-radius: 55px;
@@ -69,7 +71,7 @@ form.sign-in-form {
 .input-field i {
   text-align: center;
   line-height: 55px;
-  color: #acacac;
+  color: var(--input-icon-color);
   transition: 0.5s;
   font-size: 1.1rem;
 }
@@ -81,22 +83,22 @@ form.sign-in-form {
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #333;
+  color: var(--input-text-color);
 }
 
 .input-field input::placeholder {
-  color: #aaa;
+  color: var(--input-placeholder-color);
   font-weight: 500;
 }
 
 .btn {
   width: 150px;
-  background-color: #5995fd;
+  background-color: var(--btn-background-color);
   border: none;
   outline: none;
   height: 49px;
   border-radius: 49px;
-  color: #fff;
+  color: var(--btn-border-color);
   text-transform: uppercase;
   font-weight: 600;
   margin: 10px 0;
@@ -160,7 +162,7 @@ form.sign-in-form {
 }
 
 .panel .content {
-  color: #fff;
+  color: var(--btn-border-color);
   transition: transform 0.9s ease-in-out;
   transition-delay: 0.6s;
   transform: translateX(-100px);
@@ -183,7 +185,7 @@ form.sign-in-form {
 .btn.transparent {
   margin: 0;
   background: none;
-  border: 2px solid #fff;
+  border: 2px solid var(--btn-border-color);
   width: 130px;
   height: 41px;
   font-weight: 600;
@@ -341,7 +343,7 @@ form.sign-in-form {
 
 .toggle-password i {
   font-size: 1.2rem;
-  color: #818080;
+  color: var(--toggle-password-icon-color);
 }
 
 .sign-in-form {
