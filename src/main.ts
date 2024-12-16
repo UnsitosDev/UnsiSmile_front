@@ -7,6 +7,7 @@ import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@an
 import routes from './app/app.routing.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AuthInterceptor } from './app/core';
+import { LoadingInterceptor } from './app/services/loadingInterceptor.service';
 
 
 bootstrapApplication(
@@ -14,7 +15,7 @@ bootstrapApplication(
   {providers:[
     importProvidersFrom(BrowserModule),
     provideAnimations(),
-    provideHttpClient(withInterceptorsFromDi(), withInterceptors([AuthInterceptor])),
+    provideHttpClient(withInterceptorsFromDi(), withInterceptors([AuthInterceptor, LoadingInterceptor])),
     provideRouter(routes), provideAnimationsAsync(), provideAnimationsAsync('noop'),
   ]},
   )
