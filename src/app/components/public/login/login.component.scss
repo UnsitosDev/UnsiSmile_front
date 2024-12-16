@@ -1,4 +1,3 @@
-
 .form-content{
   background-color: var(--secondary);
 
@@ -25,7 +24,7 @@
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  left: 75%;
+  left: 80%; /* Mover más a la derecha */
   width: 50%;
   transition: 1s 0.7s ease-in-out;
   display: grid;
@@ -46,11 +45,6 @@ form {
   margin-left: 100px; 
 }
 
-
-form.sign-up-form {
-  opacity: 0;
-  z-index: 1;
-}
 
 form.sign-in-form {
   z-index: 2;
@@ -98,35 +92,6 @@ form.sign-in-form {
   font-weight: 500;
 }
 
-.social-text {
-  padding: 0.7rem 0;
-  font-size: 1rem;
-}
-
-.social-media {
-  display: flex;
-  justify-content: center;
-}
-
-.social-icon {
-  height: 46px;
-  width: 46px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 0.45rem;
-  color: var(--on-secondary);
-  border-radius: 50%;
-  border: 1px solid var(--on-secondary);
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: 0.3s;
-}
-
-.social-icon:hover {
-  color: #4481eb;
-  border-color: #4481eb;
-}
 
 .btn {
   width: 150px;
@@ -202,6 +167,9 @@ form.sign-in-form {
   transition: transform 0.9s ease-in-out;
   transition-delay: 0.6s;
   transform: translateX(-100px);
+  max-width: 400px; /* Limitar el ancho máximo */
+  margin: 0 auto; /* Centrar horizontalmente */
+  padding: 0 20px; /* Añadir padding para mejor espaciado */
 }
 
 .panel h3 {
@@ -230,43 +198,22 @@ form.sign-in-form {
   transform: translateX(800px);
 }
 
-/* Animacion */
-
-.container.sign-up-mode:before {
-  transform: translate(100%, -50%);
-  right: 52%;
+.panel .image {
+  width: 100%;
+  max-width: 500px; /* Aumentar el ancho máximo */
+  margin: 20px auto; /* Centrar horizontalmente y añadir margen */
+  transition: transform 1.1s ease-in-out;
+  transition-delay: 0.4s;
 }
 
-.container.sign-up-mode .left-panel .image,
-.container.sign-up-mode .left-panel .content {
-  transform: translateX(-800px);
-}
-
-.container.sign-up-mode .signin-signup {
-  left: 25%;
-}
-
-.container.sign-up-mode form.sign-up-form {
-  opacity: 1;
-  z-index: 2;
-}
-
-.container.sign-up-mode form.sign-in-form {
-  opacity: 0;
-  z-index: 1;
-}
-
-.container.sign-up-mode .right-panel .image,
-.container.sign-up-mode .right-panel .content {
-  transform: translateX(0%);
-}
-
-.container.sign-up-mode .left-panel {
-  pointer-events: none;
-}
-
-.container.sign-up-mode .right-panel {
-  pointer-events: all;
+.sign-in-form {
+  width: 100%;
+  max-width: 500px; /* Aumentar el ancho máximo */
+  margin: 0 auto; /* Centrar horizontalmente */
+  padding: 30px; /* Añadir padding para mejor espaciado */
+  box-shadow: none; /* Eliminar sombra */
+  background-color: transparent; /* Fondo transparente */
+  border-radius: 0; /* Eliminar bordes redondeados */
 }
 
 @media (max-width: 870px) {
@@ -292,11 +239,30 @@ form.sign-in-form {
   }
 
   .panel {
-    flex-direction: row;
+    flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+    align-items: center; /* Centrar los elementos */
     justify-content: space-around;
     align-items: center;
     padding: 2.5rem 8%;
     grid-column: 1 / 2;
+  }
+
+  .panel .content {
+    order: 1; /* Asegurar que el contenido esté primero */
+    padding: 0 10px; /* Reducir padding en pantallas pequeñas */
+    transition: transform 0.9s ease-in-out;
+    transition-delay: 0.8s;
+    font-size: 1.1rem; /* Aumentar tamaño de letra */
+  }
+
+  .panel .image {
+    order: 2; /* Asegurar que la imagen esté después del contenido */
+    max-width: 350px; /* Aumentar tamaño máximo en pantallas pequeñas */
+    width: 250px;
+    margin: 20px auto 0; /* Centrar horizontalmente y añadir margen superior */
+    transition: transform 0.9s ease-in-out;
+    transition-delay: 0.6s;
+    transform: translate(-80px, 40px); /* Mover más a la izquierda y más abajo */
   }
 
   .right-panel {
@@ -307,24 +273,12 @@ form.sign-in-form {
     grid-row: 1 / 2;
   }
 
-  .image {
-    width: 200px;
-    transition: transform 0.9s ease-in-out;
-    transition-delay: 0.6s;
-  }
-
-  .panel .content {
-    padding-right: 15%;
-    transition: transform 0.9s ease-in-out;
-    transition-delay: 0.8s;
-  }
-
   .panel h3 {
     font-size: 1.2rem;
   }
 
   .panel p {
-    font-size: 0.7rem;
+    font-size: 0.9rem; /* Aumentar tamaño de letra */
     padding: 0.5rem 0;
   }
 
@@ -345,22 +299,6 @@ form.sign-in-form {
     transition: 2s ease-in-out;
   }
 
-  .container.sign-up-mode:before {
-    transform: translate(-50%, 100%);
-    bottom: 32%;
-    right: initial;
-  }
-
-  .container.sign-up-mode .left-panel .image,
-  .container.sign-up-mode .left-panel .content {
-    transform: translateY(-300px);
-  }
-
-  .container.sign-up-mode .right-panel .image,
-  .container.sign-up-mode .right-panel .content {
-    transform: translateY(0px);
-  }
-
   .right-panel .image,
   .right-panel .content {
     transform: translateY(300px);
@@ -370,31 +308,18 @@ form.sign-in-form {
     top: 5%;
     transform: translate(-50%, 0);
   }
-}
 
-@media (max-width: 570px) {
-  form {
-    padding: 0 1.5rem;
-  }
-
-  .image {
-    display: none;
-  }
   .panel .content {
-    padding: 0.5rem 1rem;
-  }
-  .container {
-    padding: 1.5rem;
+    padding: 0 10px; /* Reducir padding en pantallas pequeñas */
   }
 
-  .container:before {
-    bottom: 72%;
-    left: 50%;
+  .panel .image {
+    max-width: 800px; /* Aumentar tamaño máximo en pantallas pequeñas */
   }
 
-  .container.sign-up-mode:before {
-    bottom: 28%;
-    left: 50%;
+  .sign-in-form {
+    padding: 10px; /* Reducir padding en pantallas pequeñas */
+    max-width: 400px; /* Reducir tamaño máximo en pantallas pequeñas */
   }
 }
 
