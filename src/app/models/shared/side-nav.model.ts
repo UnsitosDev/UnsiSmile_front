@@ -52,7 +52,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
         fontAwesomeIcon: faFileUpload,
         buttonText: 'Cargar Alumnos',
         buttonDescription: 'Subir Excel de Alumnos.',
-        routerlink: '/admin/uploadStudents'
+        routerlink: '/admin/upload-students'
       }
     ];
     
