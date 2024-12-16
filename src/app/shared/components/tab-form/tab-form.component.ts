@@ -1,26 +1,20 @@
-import { AnswerField } from 'src/app/models/form-fields/form-field.interface';
-import { Component, inject } from '@angular/core';
-import { EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
-import { FormField, formSectionFields, subSeccion } from 'src/app/models/form-fields/form-field.interface';
+import { HttpHeaders } from '@angular/common/http';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
-import { faL } from '@fortawesome/free-solid-svg-icons';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '@mean/services';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
-import { AlertModel } from '@mean/models';
-import { AlertComponent } from "../alert/alert.component";
-import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { StudentsOdontogramComponent } from "../../../components/private/students/components/odontogram/students-odontogram.component";
+import { formSectionFields, subSeccion } from 'src/app/models/form-fields/form-field.interface';
+import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
 import { HistoryInitialBagComponent } from "../../../components/private/students/components/form-history-initial-bag/history-initial-bag.component";
-import * as _moment from 'moment';
+import { StudentsOdontogramComponent } from "../../../components/private/students/components/odontogram/students-odontogram.component";
+import { AlertComponent } from "../alert/alert.component";
 
 interface FormData {
   idPatientClinicalHistory: number;
@@ -45,7 +39,7 @@ interface updateFormData {
 @Component({
   selector: 'app-tab-form',
   standalone: true,
-  imports: [MatInputModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, FieldComponentComponent, MatButtonModule, MatTabsModule, MatCardModule, AlertComponent, StudentsOdontogramComponent, HistoryInitialBagComponent],
+  imports: [MatInputModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, FieldComponentComponent, MatButtonModule, MatTabsModule, MatCardModule, StudentsOdontogramComponent],
   templateUrl: './tab-form.component.html',
   styleUrl: './tab-form.component.scss'
 })
