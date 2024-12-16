@@ -51,6 +51,7 @@ export class FormPatientPersonalDataComponent {
   address: FormField[] = [];
   other: FormField[] = [];
   guardian: FormField[] = [];
+  private currentPage: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -224,6 +225,14 @@ export class FormPatientPersonalDataComponent {
 
   public closeAlert() {
     this.alertConfig.open = false;
+  }
+
+  onScroll(event: any): void {
+    const element = event.target;
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      this.currentPage++;
+      this.personalDataFields.handleStateClick('', this.currentPage);
+    }
   }
 
 }

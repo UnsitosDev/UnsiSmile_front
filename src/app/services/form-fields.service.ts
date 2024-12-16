@@ -403,28 +403,43 @@ export class FormFieldsService {
         neighborhoodField && (neighborhoodField.options = this.patientService.neighborhoodOptions);
     }
 
-    private handleLocalityClick(searchTerm: string): void {
-        this.patientService.getLocality(searchTerm);
-        const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
-        localityField && (localityField.options = this.patientService.localityOptions);
+    private handleLocalityClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        this.patientService.getLocalityDataPaginated(searchTerm, page, size).subscribe(response => {
+            const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
+            if (localityField) {
+                const newOptions = response.content.map(item => ({
+                    value: item.idLocality ? item.idLocality.toString() : '',
+                    label: item.name
+                }));
+                localityField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+            }
+        });
     }
 
-    //private handleMunicipalityClick(event: MouseEvent): void {
-      //  this.patientService.getMunicipalityData();
-        //const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
-        //municipalityField && (municipalityField.options = this.patientService.municipalityOptions);
-   // }
-
-    private handleMunicipalityClick(searchTerm: string): void {
-        this.patientService.getMunicipalityData(searchTerm);
-        const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
-        municipalityField && (municipalityField.options = this.patientService.municipalityOptions);
+    private handleMunicipalityClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        this.patientService.getMunicipalityDataPaginated(searchTerm, page, size).subscribe(response => {
+            const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
+            if (municipalityField) {
+                const newOptions = response.content.map(item => ({
+                    value: item.idMunicipality ? item.idMunicipality.toString() : '',
+                    label: item.name
+                }));
+                municipalityField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+            }
+        });
     }
 
-    private handleStateClick(searchTerm: string): void {
-        this.patientService.getStateData(searchTerm);
-        const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
-        stateField && (stateField.options = this.patientService.stateOptions);
+    public handleStateClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        this.patientService.getStateDataPaginated(searchTerm, page, size).subscribe(response => {
+            const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
+            if (stateField) {
+                const newOptions = response.content.map(item => ({
+                    value: item.idState ? item.idState.toString() : '',
+                    label: item.name
+                }));
+                stateField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+            }
+        });
     }
 
     private handleNacionalityClick(event: MouseEvent): void {
@@ -445,16 +460,30 @@ export class FormFieldsService {
         occupationField && (occupationField.options = this.patientService.occupationOptions);
     }
 
-    private handleEthnicGroupClick(param: string): void {
-        this.patientService.getEthnicGroupData(param);
-        const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
-        ethnicGroupField && (ethnicGroupField.options = this.patientService.ethnicGroupOptions);
+    private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        this.patientService.getEthnicGroupDataPaginated(searchTerm, page, size).subscribe(response => {
+            const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
+            if (ethnicGroupField) {
+                const newOptions = response.content.map(item => ({
+                    value: item.idEthnicGroup ? item.idEthnicGroup.toString() : '',
+                    label: item.ethnicGroup
+                }));
+                ethnicGroupField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+            }
+        });
     }
 
-    private handleReligionClick(searchTerm: string): void {
-        this.patientService.getReligionData(searchTerm);
-        const religionField = this.otherDataFields.find(field => field.name === FieldNames.RELIGION);
-        religionField && (religionField.options = this.patientService.religionOptions);
+    private handleReligionClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        this.patientService.getReligionDataPaginated(searchTerm, page, size).subscribe(response => {
+            const religionField = this.otherDataFields.find(field => field.name === FieldNames.RELIGION);
+            if (religionField) {
+                const newOptions = response.content.map(item => ({
+                    value: item.idReligion ? item.idReligion.toString() : '',
+                    label: item.religion
+                }));
+                religionField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+            }
+        });
     }
 
     private handlePostalCodeClick(param: string): void {
