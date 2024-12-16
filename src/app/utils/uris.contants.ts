@@ -1,10 +1,8 @@
 import { isDevMode } from '@angular/core';
 
-const host = isDevMode() ? 'http://localhost:8080/unsismile/api/v1' : 'otherdomain.com';
+const host = isDevMode() ? 'http://localhost:8082/unsismile/api/v1' : 'https://unsismile-back.unsis.edu.mx/';                    
 const basePath = host;
 
-const host2 = isDevMode() ? 'http://localhost:8080' : 'otherdomain.com';
-const basePath2 = host2;
 export class UriConstants {
   public static readonly HOST = host;
   public static readonly MESSAGES = basePath + '/messages';
@@ -177,10 +175,8 @@ export class UriConstants {
     // Enviar seccion del formulario
     public static readonly POST_SECTION_FORM = basePath + '/answers/forms'
     // Enviar archivos
-    public static readonly POST_FILES = basePath2 + '/api/v1/files'
+    public static readonly POST_FILES = basePath + '/files'
     // Descargar archivo
-    public static readonly DOWLOAD_FILES = basePath2 + '/api/v1/files/file/'
- 
+    public static readonly DOWLOAD_FILES = basePath + '/files/file/'
 
-
-}    
+}     

@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: unsismile_frontend
+    ports:
+      - "8081:8081" # Cambia el puerto si es necesario
+    networks:
+      - unsismile_network
+
+networks:
+  unsismile_network:
+    driver: bridge
