@@ -16,13 +16,13 @@ export class GeneralHistoryService {
 
   historyData: ClinicalHistoryCatalog[] = [];
   mappedHistoryData!: dataTabs;
-  getHistoryClinics(id: number, idpatient: number): Observable<dataTabs> {
+ in  getHistoryClinics(idPatient: string, idClinicalHistory: number): Observable<dataTabs> {
     return this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_HISTORY_CONFIG}/${id}/patients/${idpatient}`,
+        url: `${UriConstants.GET_HISTORY_CONFIG}/${idClinicalHistory}/patients/${idPatient}`,
         data: {},
       })
       .pipe(
