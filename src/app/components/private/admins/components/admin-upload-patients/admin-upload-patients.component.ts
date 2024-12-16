@@ -3,11 +3,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardTitle } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
 
 @Component({
   selector: 'app-admin-upload-patients',
   standalone: true,
-  imports: [MatIconModule, MatDividerModule, MatButtonModule, MatCardTitle],
+  imports: [MatIconModule, MatDividerModule, MatButtonModule, MatCardTitle, LoadingComponent],
   templateUrl: './admin-upload-patients.component.html',
   styleUrl: './admin-upload-patients.component.scss'
 })
