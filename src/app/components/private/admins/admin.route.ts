@@ -51,13 +51,6 @@ export default [
                     ),
             },
             {
-                path: 'uploadStudents',
-                loadComponent: () =>
-                    import('./components/admin-upload-students/admin-upload-students.component').then(
-                        (m) => m.AdminUploadStudentsComponent
-                    ),
-            },
-            {
                 path: 'uploadPatients',
                 loadComponent: () =>
                     import('./components/admin-upload-patients/admin-upload-patients.component').then(
