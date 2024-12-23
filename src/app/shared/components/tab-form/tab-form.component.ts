@@ -366,7 +366,7 @@ export class TabFormComponent {
       }
   
       // Verificación para insertar (cuando no existe idAnswer)
-      if (idAnswer === null || idAnswer === undefined) {
+      if (idAnswer === null || idAnswer === undefined && questionID != undefined)   {
         const hasValidData =
           insert.answerBoolean !== null ||
           insert.answerNumeric !== null ||
@@ -383,8 +383,54 @@ export class TabFormComponent {
     console.log('Actualizar:', updateData);
     console.log('Insertar:', send);
   
-    // Aquí puedes hacer lo que necesites con los arreglos send y updateData, 
-    // como enviarlos en las peticiones correspondientes.
+    // Manejo de archivos (si los hay)
+    if (this.files && this.files.length > 0) {
+      this.sendFiles();
+    }
+
+    if (updateData.length > 0) {
+      this.apiService
+      .patchService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_SECTION_FORM}`,
+        data: updateData,
+      })
+      .subscribe({
+        next: (response) => {
+          this.openSnackBar();
+          console.log('updateData: ', updateData);
+          updateData.length = 0; 
+        },
+        error: (error) => {
+          console.log('Error al guardar datos: ', error);
+
+        },
+      });
+    }
+
+    if(send.length > 0){
+      this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_SECTION_FORM}`,
+        data: send,
+      })
+      .subscribe({
+        next: (response) => {
+          this.openSnackBar();
+          send.length = 0
+        },
+        error: (error) => {
+          console.log('Error al guardar datos: ', error);
+
+        },
+      });
+    }
+    
   }
   
 
