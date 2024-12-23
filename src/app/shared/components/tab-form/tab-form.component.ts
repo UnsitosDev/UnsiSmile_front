@@ -56,6 +56,7 @@ export class TabFormComponent {
   private fb = inject(FormBuilder);
   id: number = 0;           // Variable para el parámetro 'id'
   patientID: number = 0;    // Variable para el parámetro 'patientID'
+  patientUuid!: string;
 
   // _snackBar
   private _snackBar = inject(MatSnackBar);
@@ -76,6 +77,7 @@ export class TabFormComponent {
     this.route.paramMap.subscribe(params => {
       this.id = +params.get('id')!;
       this.patientID = +params.get('patientID')!;
+      this.patientUuid = params.get('patient')!; 
     });
   }
 
@@ -166,9 +168,10 @@ export class TabFormComponent {
     }
 
     // Puedes agregar más datos al FormData si es necesario
-    formData.append('idPatientClinicalHistory', this.id.toString()); // Cambia '1' por el valor adecuado
+    formData.append('idPatient', this.patientUuid); // Cambia '1' por el valor adecuado
     formData.append('idQuestion', this.idQuestion.toString());
 
+    console.log('formData', this.patientID);
     this.apiService
       .postService({
         headers: new HttpHeaders({
@@ -178,7 +181,6 @@ export class TabFormComponent {
       })
       .subscribe({
         next: (response) => {
-          console.log('ok', response);
         },
         error: (error) => {
 
