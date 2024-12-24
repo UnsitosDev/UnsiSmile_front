@@ -163,6 +163,7 @@ export class TabFormComponent {
       })
       .subscribe({
         next: (response) => {
+          this.openSnackBar();
         },
         error: (error) => {
           console.log('Error al guardar archivos: ', error);
@@ -252,7 +253,6 @@ export class TabFormComponent {
         .subscribe({
           next: (response) => {
             this.openSnackBar();
-            console.log('updateData: ', updateData);
             updateData.length = 0;
           },
           error: (error) => {
