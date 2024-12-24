@@ -16,7 +16,6 @@ import { HistoryInitialBagComponent } from "../../../components/private/students
 import { StudentsOdontogramComponent } from "../../../components/private/students/components/odontogram/students-odontogram.component";
 import { AlertComponent } from "../alert/alert.component";
 
-
 interface FormData {
   idPatientClinicalHistory: number;
   idQuestion: number;
@@ -37,6 +36,7 @@ interface updateFormData {
   idCatalogOption: any;
   idAnswer: number
 }
+
 @Component({
   selector: 'app-tab-form',
   standalone: true,
@@ -51,20 +51,21 @@ export class TabFormComponent {
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
   route = inject(ActivatedRoute);
-  formGroup!: FormGroup;
   apiService = inject(ApiService);
-  private router = inject(Router);
   private fb = inject(FormBuilder);
+  formGroup!: FormGroup;
   id: number = 0;           // Variable para el parámetro 'id'
   patientID: number = 0;    // Variable para el parámetro 'patientID'
   patientUuid!: string;
+  sendFile!: boolean;
 
-  // _snackBar
+  // snackBar
   private _snackBar = inject(MatSnackBar);
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   durationInSeconds = 3;
 
+  // Abrir snackbar
   openSnackBar() {
     this._snackBar.openFromComponent(Alert, {
       duration: this.durationInSeconds * 1000,
@@ -82,17 +83,16 @@ export class TabFormComponent {
     });
   }
 
+  // Construcción de secciones
   section() {
     // Inicializamos el formGroup vacío
     this.formGroup = this.fb.group({});
-
     // Procesamos la sección principal
     if (this.fieldsTab?.seccion) {
       this.fieldsTab.seccion.forEach(sectionField => {
         this.formGroup.addControl(sectionField.name, this.fb.control(sectionField.value || '', sectionField.validators || []));
       });
     }
-
     // Procesamos los campos de childFormSection si existen
     if (this.fieldsTab?.childFormSection) {
       this.fieldsTab.childFormSection.forEach(childSection => {
@@ -107,35 +107,20 @@ export class TabFormComponent {
     }
   }
 
+  idQuestion!: number;
+  idAnswer!: number;
+
   handleFieldValue(event: any) {
     this.idQuestion = event.questionID;
-    this.idAnswer = event.idAnswer;
-    // Verificar que idAnswer no sea undefined 
-    if (event.idAnswer !== undefined) {
+    this.idAnswer = event.idAnswer; 
+    if (event.idAnswer !== undefined) { 
       this.idAnswers[event.field] = event.idAnswer; // Guarda idAnswer para el campo específico
     }
     this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específico
-
-    console.log('ID Answers:', this.idAnswers);
   }
 
-
-  idPatientClinicalHistory: number = 0;
-  idQuestion: number = 0;
-  answerBoolean: boolean = false;
-  answerNumeric: number = 0;
-  answerText: string = '';
-  answerDate: string = '';
-  idCatalogOption: number = 0;
-  isFile: boolean = false;
-  idAnswer: number = 0;
-
-
-
-  questionIDs: { [key: string]: number } = {};  // Definimos questionIDs como un objeto que almacena números
-  idAnswers: { [key: string]: number } = {};  // Definimos questionIDs como un objeto que almacena números
-
-  sendFile!: boolean;
+  questionIDs: { [key: string]: number } = {};  // Definimos questionIDs como un objeto que almacena questionID
+  idAnswers: { [key: string]: number } = {};  // Definimos idAnswers como un objeto que almacena idAnswer
 
   files: FileList | null = null; // Almacena el FileList
 
@@ -146,30 +131,26 @@ export class TabFormComponent {
 
     // Verificar si hay archivos
     if (this.files && this.files.length > 0) {
-      console.log('Archivos recibidos del componente hijo:', this.files);
       for (let i = 0; i < this.files.length; i++) {
         const file = this.files[i];
-        console.log(`Archivo ${i + 1}:`, file.name, file.size, file.type);
       }
     } else {
       console.error('No se recibieron archivos.');
     }
   }
 
+  // Función para enviar archivos
   sendFiles() {
     if (!this.files || this.files.length === 0) {
       return;
     }
-
     const formData = new FormData();
-
     // Agrega cada archivo al FormData
     for (let i = 0; i < this.files.length; i++) {
-      formData.append('files', this.files[i]); // 'files' debe coincidir con el nombre del campo esperado en el backend
+      formData.append('files', this.files[i]);
     }
 
-    // Puedes agregar más datos al FormData si es necesario
-    formData.append('idPatient', this.patientUuid); // Cambia '1' por el valor adecuado
+    formData.append('idPatient', this.patientUuid);
     formData.append('idQuestion', this.idQuestion.toString());
 
     console.log('formData', this.patientID);
@@ -177,157 +158,31 @@ export class TabFormComponent {
       .postService({
         headers: new HttpHeaders({
         }),
-        url: `${UriConstants.POST_FILES}`, // URL del backend
+        url: `${UriConstants.POST_FILES}`,
         data: formData,
       })
       .subscribe({
         next: (response) => {
         },
         error: (error) => {
-
+          console.log('Error al guardar archivos: ', error);
         },
       });
   }
 
-  send: FormData[] = [];
-  updateData: updateFormData[] = [];
-
-  sendFormData() {
-
-    const formData = this.formGroup.value;
-
-    Object.keys(formData).forEach((fieldName) => {
-      const fieldValue = formData[fieldName];
-      const questionID = this.questionIDs[fieldName]; // Recuperamos el questionID como un número
-      const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
-
-      const data: FormData = {
-        idPatientClinicalHistory: this.patientID,
-        idQuestion: questionID,  // Usamos el questionID correspondiente
-        answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,  // Si es booleano, asignar su valor, de lo contrario null
-        answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,   // Si es numérico, asignar su valor, de lo contrario null
-        answerText: typeof fieldValue === 'string' ? fieldValue : null,      // Si es string, asignar su valor, de lo contrario null
-        answerDate: isDateField ? fieldValue : null,  // Si es una fecha válida, asignar su valor, de lo contrario null
-        idCatalogOption: formData.idCatalogOption || null,                   // Asignar null si no hay idCatalogOption
-      };
-
-      // Verificar si al menos uno de los campos tiene un valor válido (que no sea null o vacío)
-      const hasValidData =
-        data.answerBoolean !== null ||
-        data.answerNumeric !== null ||
-        (typeof data.answerText === 'string' && data.answerText.trim() !== '') ||
-        data.answerDate !== null ||
-        data.idCatalogOption !== null;
-
-      // Si tiene al menos un dato válido, agregar al arreglo
-      if (hasValidData) {
-        this.send.push(data);
-      }
-    });
-
-    // Verificar si hay archivos antes de hacer la petición
-    if (this.files && this.files.length > 0) {
-      // Si hay archivos, primero ejecutamos sendFiles
-      this.sendFiles();
-    }
-
-    // Hacer la petición después de llenar el arreglo con los datos válidos
-    console.log('Datos a enviar:', this.send);
-
-    this.apiService
-      .postService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_SECTION_FORM}`,
-        data: this.send,
-      })
-      .subscribe({
-        next: (response) => {
-          this.openSnackBar();
-          this.send = []; // Limpiar el arreglo si la petición es exitosa
-        },
-        error: (error) => {
-          console.log('Error al guardar datos: ', error);
-
-        },
-      });
-  }
-
-  updateFormData() {
-    const formData = this.formGroup.value;
-
-    Object.keys(formData).forEach((fieldName) => {
-      const fieldValue = formData[fieldName];
-      const questionID = this.questionIDs[fieldName];
-      const idAnswer = this.idAnswers[fieldName];
-      const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
-
-      if (idAnswer) {
-        const data: updateFormData = {
-          idPatientClinicalHistory: this.patientID,
-          idQuestion: questionID,
-          answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,
-          answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
-          answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
-          answerDate: isDateField ? fieldValue : null,
-          idCatalogOption: formData.idCatalogOption || null,
-          idAnswer: idAnswer,
-        };
-
-        const hasValidData =
-          data.answerBoolean !== null ||
-          data.answerNumeric !== null ||
-          (data.answerText && data.answerText !== '') ||
-          data.answerDate !== null ||
-          data.idCatalogOption !== null;
-
-        if (hasValidData) {
-          this.updateData.push(data);
-        }
-      }
-    });
-
-    // Manejo de archivos (si los hay)
-    if (this.files && this.files.length > 0) {
-      this.sendFiles();
-    }
-    console.log('Datos a enviar:', this.send);
-
-    this.apiService
-      .patchService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_SECTION_FORM}`,
-        data: this.updateData,
-      })
-      .subscribe({
-        next: (response) => {
-          this.openSnackBar();
-          console.log('updateData: ', this.updateData);
-          this.updateData = []; // Limpiar el arreglo si la petición es exitosa
-        },
-        error: (error) => {
-          console.log('Error al guardar datos: ', error);
-
-        },
-      });
-  }
-
+  // Función para insertar y actualizar
   sendAndUpdateData() {
     const formData = this.formGroup.value;
-  
     // Arreglos para almacenar los datos que tienen y no tienen idAnswer
     const send: FormData[] = [];
     const updateData: updateFormData[] = [];
-  
+
     Object.keys(formData).forEach((fieldName) => {
       const fieldValue = formData[fieldName];
       const questionID = this.questionIDs[fieldName]; // Recuperamos el questionID como un número
       const idAnswer = this.idAnswers[fieldName];
       const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
-  
+
       // Datos para insertar (cuando no existe idAnswer)
       const insert: FormData = {
         idPatientClinicalHistory: this.patientID,
@@ -336,9 +191,9 @@ export class TabFormComponent {
         answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
         answerText: typeof fieldValue === 'string' ? fieldValue : null,
         answerDate: isDateField ? fieldValue : null,
-        idCatalogOption: formData.idCatalogOption || null, 
+        idCatalogOption: formData.idCatalogOption || null,
       };
-  
+
       // Datos para actualizar (cuando existe idAnswer)
       const update: updateFormData = {
         idPatientClinicalHistory: this.patientID,
@@ -350,39 +205,36 @@ export class TabFormComponent {
         idCatalogOption: formData.idCatalogOption || null,
         idAnswer: idAnswer,
       };
-  
+
       // Verificación para actualizar (cuando existe idAnswer)
       if (idAnswer) {
-        const hasValidData = 
+        const hasValidData =
           update.answerBoolean !== null ||
           update.answerNumeric !== null ||
           (update.answerText && update.answerText !== '') ||
           update.answerDate !== null ||
           update.idCatalogOption !== null;
-  
+
         if (hasValidData) {
           updateData.push(update);
         }
       }
-  
+
       // Verificación para insertar (cuando no existe idAnswer)
-      if (idAnswer === null || idAnswer === undefined && questionID != undefined)   {
+      if (idAnswer === null || idAnswer === undefined && questionID != undefined) {
         const hasValidData =
           insert.answerBoolean !== null ||
           insert.answerNumeric !== null ||
           (typeof insert.answerText === 'string' && insert.answerText.trim() !== '') ||
           insert.answerDate !== null ||
           insert.idCatalogOption !== null;
-  
+
         if (hasValidData) {
           send.push(insert);
         }
       }
     });
 
-    console.log('Actualizar:', updateData);
-    console.log('Insertar:', send);
-  
     // Manejo de archivos (si los hay)
     if (this.files && this.files.length > 0) {
       this.sendFiles();
@@ -390,63 +242,59 @@ export class TabFormComponent {
 
     if (updateData.length > 0) {
       this.apiService
-      .patchService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_SECTION_FORM}`,
-        data: updateData,
-      })
-      .subscribe({
-        next: (response) => {
-          this.openSnackBar();
-          console.log('updateData: ', updateData);
-          updateData.length = 0; 
-        },
-        error: (error) => {
-          console.log('Error al guardar datos: ', error);
+        .patchService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.POST_SECTION_FORM}`,
+          data: updateData,
+        })
+        .subscribe({
+          next: (response) => {
+            this.openSnackBar();
+            console.log('updateData: ', updateData);
+            updateData.length = 0;
+          },
+          error: (error) => {
+            console.log('Error al guardar datos: ', error);
 
-        },
-      });
+          },
+        });
     }
 
-    if(send.length > 0){
+    if (send.length > 0) {
       this.apiService
-      .postService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_SECTION_FORM}`,
-        data: send,
-      })
-      .subscribe({
-        next: (response) => {
-          this.openSnackBar();
-          send.length = 0
-        },
-        error: (error) => {
-          console.log('Error al guardar datos: ', error);
-
-        },
-      });
+        .postService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.POST_SECTION_FORM}`,
+          data: send,
+        })
+        .subscribe({
+          next: (response) => {
+            this.openSnackBar();
+            send.length = 0
+          },
+          error: (error) => {
+            console.log('Error al guardar datos: ', error);
+          },
+        });
     }
-    
-  }
-  
 
+  }
+
+  // Emitir evento para volver al tab anterior
   previousTab() {
-    this.previousMatTab.emit(); // Emitir evento para volver al tab anterior
+    this.previousMatTab.emit();
   }
 
+  // Emitir evento para cambiar al siguiente tab
   onSubmit() {
-    this.sendFormData();
-    this.send = []; // Vaciamos el array después de enviar los datos
-    this.nextMatTab.emit(); // Emitir evento para cambiar al siguiente tab
+    this.sendAndUpdateData();
+    this.nextMatTab.emit();
   }
-
 }
-
-
 
 @Component({
   selector: 'snack-bar-component-example-snack',
