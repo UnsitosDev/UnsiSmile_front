@@ -254,6 +254,7 @@ export class TabFormComponent {
           next: (response) => {
             this.openSnackBar();
             updateData.length = 0;
+            this.nextMatTab.emit();
           },
           error: (error) => {
             console.log('Error al guardar datos: ', error);
@@ -275,6 +276,7 @@ export class TabFormComponent {
           next: (response) => {
             this.openSnackBar();
             send.length = 0
+            this.nextMatTab.emit();
           },
           error: (error) => {
             console.log('Error al guardar datos: ', error);
@@ -289,11 +291,6 @@ export class TabFormComponent {
     this.previousMatTab.emit();
   }
 
-  // Emitir evento para cambiar al siguiente tab
-  onSubmit() {
-    this.sendAndUpdateData();
-    this.nextMatTab.emit();
-  }
 }
 
 @Component({
