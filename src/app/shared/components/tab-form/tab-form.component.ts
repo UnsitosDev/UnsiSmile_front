@@ -164,6 +164,7 @@ export class TabFormComponent {
       .subscribe({
         next: (response) => {
           this.openSnackBar();
+          this.nextMatTab.emit();
         },
         error: (error) => {
           console.log('Error al guardar archivos: ', error);
