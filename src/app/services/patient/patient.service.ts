@@ -340,7 +340,7 @@ export class PatientService {
             });
     }
 
-    getEthnicGroupDataPaginated(searchTerm: string, page: number, size: number): Observable<PaginatedData<ethnicGroupRequest>> {
+    getEthnicGroupDataPaginated(searchTerm: string, page: number, size: number): Observable<any[]> {
         return this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -348,16 +348,24 @@ export class PatientService {
             url: `${UriConstants.GET_ETHNIC_GROUP}?keyword=${searchTerm}&page=${page}&size=${size}`,
             data: {},
         }).pipe(
-            catchError((error) => {
-                console.error('Error en la autenticación:', error);
-                return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
-            })
+            map((response) => {
+                console.log('key:', searchTerm);
+                // Mapea las opciones de la respuesta
+                this.ethnicGroupOptions = response.content.map((item: any) => ({
+                    value: item.idEthnicGroup.toString(),
+                    label: item.ethnicGroup,  // Asegúrate de incluir 'label' aquí
+                }));
+    
+                console.log('Opción mapeada:', this.ethnicGroupOptions);
+                return this.ethnicGroupOptions;  // Devuelve las opciones mapeadas
+            }),
         );
     }
+    
 
     religionData: PaginatedData<religionResponse>[] = [];
     religionOptions: Array<{ value: string; label: string }> = [];
-    getReligionData(searchTerm:string) {
+    getReligionData(searchTerm: string) {
         this.apiService
             .getService({
                 headers: new HttpHeaders({

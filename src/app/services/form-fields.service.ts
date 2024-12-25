@@ -456,18 +456,13 @@ export class FormFieldsService {
         occupationField && (occupationField.options = this.patientService.occupationOptions);
     }
 
-    private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 3): void {
+    private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 1): void {
         this.patientService.getEthnicGroupDataPaginated(searchTerm, page, size).subscribe(response => {
-            const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
-            if (ethnicGroupField) {
-                const newOptions = response.content.map(item => ({
-                    value: item.idEthnicGroup ? item.idEthnicGroup.toString() : '',
-                    label: item.ethnicGroup
-                }));
-                ethnicGroupField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
-            }
+        const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
+        ethnicGroupField && (ethnicGroupField.options = this.patientService.ethnicGroupOptions);
         });
     }
+
 
     private handleReligionClick(searchTerm: string, page: number = 0, size: number = 3): void {
         this.patientService.getReligionDataPaginated(searchTerm, page, size).subscribe(response => {
