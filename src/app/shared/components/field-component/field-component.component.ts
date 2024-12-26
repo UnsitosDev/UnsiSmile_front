@@ -73,7 +73,10 @@ export class FieldComponentComponent implements OnChanges {
     }
 
   }
-
+  
+  // Retorna una función que, dado un valor, devuelve la etiqueta (`label`) asociada 
+  // de las opciones de un campo. Si no se encuentra la opción o los datos son inválidos, retorna una cadena vacía.
+  
   getOptionLabel(field: any): (value: any) => string {
     return (value: any): string => {
       if (!value || !field || !field.options) {
