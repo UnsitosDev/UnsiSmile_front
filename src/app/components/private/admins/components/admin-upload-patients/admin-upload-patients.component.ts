@@ -3,14 +3,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardTitle } from '@angular/material/card';
+
 @Component({
-  selector: 'app-admin-upload-students',
+  selector: 'app-admin-upload-patients',
   standalone: true,
   imports: [MatIconModule, MatDividerModule, MatButtonModule, MatCardTitle],
-  templateUrl: './admin-upload-students.component.html',
-  styleUrl: './admin-upload-students.component.scss'
+  templateUrl: './admin-upload-patients.component.html',
+  styleUrl: './admin-upload-patients.component.scss'
 })
-export class AdminUploadStudentsComponent {
+export class AdminUploadPatientsComponent {
   fileName: string | null = null;
 
   onFileSelected(event: Event): void {
