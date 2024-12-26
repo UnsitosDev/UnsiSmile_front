@@ -115,7 +115,7 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Nombre de estado es requerido.'
             },
-//            onClick: this.handleStateClick.bind(this),
+            //            onClick: this.handleStateClick.bind(this),
             onInputChange: {
                 changeFunction: this.handleStateClick.bind(this),
                 length: 5
@@ -146,9 +146,9 @@ export class FormFieldsService {
                 required: 'El campo Nombre de localidad es requerido.'
             },
             onInputChange: {
-            changeFunction: this.handleLocalityClick.bind(this),
-            length: 5
-                        }
+                changeFunction: this.handleLocalityClick.bind(this),
+                length: 5
+            }
         },
         {
             type: 'autocomplete',
@@ -163,7 +163,7 @@ export class FormFieldsService {
             onInputChange: {
                 changeFunction: this.handleMunicipalityClick.bind(this),
                 length: 5
-                            }
+            }
         },
         {
             type: 'select',
@@ -277,7 +277,8 @@ export class FormFieldsService {
             onInputChange: {
                 changeFunction: this.handleEthnicGroupClick.bind(this),
                 length: 5
-                            }        },
+            }
+        },
         {
             type: 'autocompleteoptions',
             label: 'Religión',
@@ -288,9 +289,9 @@ export class FormFieldsService {
                 required: 'El campo Religión es opcional.'
             },
             onInputChange: {
-                 changeFunction: this.handleReligionClick.bind(this),
-                 length: 5
-             }
+                changeFunction: this.handleReligionClick.bind(this),
+                length: 5
+            }
 
         },
         {
@@ -350,7 +351,7 @@ export class FormFieldsService {
             label: 'Correo Electrónico',
             name: 'emailGuardian',
             required: false,
-            validators: [ Validators.email],
+            validators: [Validators.email],
             errorMessages: {
                 required: 'El campo Correo Electrónico es requerido.',
                 email: 'Ingrese un correo electrónico válido.'
@@ -361,17 +362,17 @@ export class FormFieldsService {
 
     // Eventos
 
-    constructor(){
+    constructor() {
         this.handleGenderClick({} as MouseEvent);
-        this.handleHousingClick({}as MouseEvent);
-        this.handleStretClick({}as MouseEvent);
+        this.handleHousingClick({} as MouseEvent);
+        this.handleStretClick({} as MouseEvent);
         this.handleNeighborhoodClick({} as MouseEvent);
-      //  this.handleMunicipalityClick({} as MouseEvent);
+        //  this.handleMunicipalityClick({} as MouseEvent);
         //this.handleStateClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
         this.handleOcupationClick({} as MouseEvent);
-       // this.handleEthnicGroupClick({} as MouseEvent);
+        // this.handleEthnicGroupClick({} as MouseEvent);
         // this.handleReligionClick({} as MouseEvent);
     }
 
@@ -454,13 +455,12 @@ export class FormFieldsService {
         this.patientService.getOcupationData();
         const occupationField = this.otherDataFields.find(field => field.name === FieldNames.OCCUPATION);
         occupationField && (occupationField.options = this.patientService.occupationOptions);
-        console.log('ocupation: ', occupationField);
     }
 
-    private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 1): void {
+    private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 3): void {
         this.patientService.getEthnicGroupDataPaginated(searchTerm, page, size).subscribe(response => {
-        const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
-        ethnicGroupField && (ethnicGroupField.options = this.patientService.ethnicGroupOptions);
+            const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
+            ethnicGroupField && (ethnicGroupField.options = this.patientService.ethnicGroupOptions);
         });
     }
 
@@ -468,13 +468,7 @@ export class FormFieldsService {
     private handleReligionClick(searchTerm: string, page: number = 0, size: number = 3): void {
         this.patientService.getReligionDataPaginated(searchTerm, page, size).subscribe(response => {
             const religionField = this.otherDataFields.find(field => field.name === FieldNames.RELIGION);
-            if (religionField) {
-                const newOptions = response.content.map(item => ({
-                    value: item.idReligion ? item.idReligion.toString() : '',
-                    label: item.religion
-                }));
-                religionField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
-            }
+            religionField && (religionField.options = this.patientService.religionOptions);
         });
     }
 
