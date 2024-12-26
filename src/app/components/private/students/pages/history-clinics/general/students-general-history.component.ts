@@ -47,7 +47,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public patient!: Patient;
   public data!: dataTabs;
   public patientData!: cardPatient;
-  public guardianData!: cardGuardian;
+  public guardianData: cardGuardian | null = null;
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
   patientID: number = 0;    // Variable para el parámetro 'patientID'
@@ -97,11 +97,16 @@ export class StudentsGeneralHistoryComponent implements OnInit {
             admissionDate: this.formatDate(admissionDate),
             curp: curp
           };
-          this.guardianData = {
-            firstName: this.patient.guardian.firstName,
-            lastName: this.patient.guardian.lastName,
-            email: this.patient.guardian.email,
-            phone: this.patient.guardian.phone
+          // Asignar datos del tutor solo si están disponibles
+          if (this.patient.guardian) {
+            this.guardianData = {
+              firstName: this.patient.guardian.firstName,
+              lastName: this.patient.guardian.lastName,
+              email: this.patient.guardian.email,
+              phone: this.patient.guardian.phone
+            };
+          } else {
+            this.guardianData = null;  
           }
         },
         error: (error) => {

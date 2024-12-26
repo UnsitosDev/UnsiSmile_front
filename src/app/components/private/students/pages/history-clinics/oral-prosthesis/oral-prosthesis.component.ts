@@ -43,7 +43,7 @@ export class OralProsthesisComponent {
   private nextpage: boolean = true;
   private patient!: Patient;
   public patientData!: cardPatient;
-  public guardianData!: cardGuardian;
+  public guardianData: cardGuardian | null = null;
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
   private idPatientClinicalHistory!: number;
@@ -71,7 +71,6 @@ export class OralProsthesisComponent {
       }).subscribe({
         next: (data) => {
           this.patient = data;
-          console.log('Paciente', this.patient);
           const { person, address, admissionDate } = data;
           const { firstName, secondName, firstLastName, secondLastName, gender, birthDate, phone, email, curp } = person;
           // Formatear la fecha de nacimiento
@@ -92,11 +91,16 @@ export class OralProsthesisComponent {
             admissionDate: this.formatDate(admissionDate),
             curp: curp
           };
-          this.guardianData = {
-            firstName: this.patient.guardian.firstName,
-            lastName: this.patient.guardian.lastName,
-            email: this.patient.guardian.email,
-            phone: this.patient.guardian.phone
+          // Asignar datos del tutor solo si están disponibles
+          if (this.patient.guardian) {
+            this.guardianData = {
+              firstName: this.patient.guardian.firstName,
+              lastName: this.patient.guardian.lastName,
+              email: this.patient.guardian.email,
+              phone: this.patient.guardian.phone
+            };
+          } else {
+            this.guardianData = null;  
           }
         },
         error: (error) => {
