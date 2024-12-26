@@ -1,6 +1,12 @@
 <p-toast
+  key="mainToast"
   position="top-right"
-  [life]="30000"
+  [life]="life"
   (onClose)="eventCloseToast.emit()"
+  [baseZIndex]="1000"
+  [showTransformOptions]="'translateX(100%)'"
+  [showTransitionOptions]="'300ms ease-out'"
+  [hideTransitionOptions]="'300ms ease-in'"
+  styleClass="custom-toast"
 >
 </p-toast>

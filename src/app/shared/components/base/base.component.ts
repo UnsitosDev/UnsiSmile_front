@@ -32,6 +32,8 @@ export class BaseComponent<
     AlertModel.AlertSeverity.ERROR
   );
 
+  alertDuration = 2000; // Duración por defecto de 2 segundos
+
   public formGroup: FormGroup = new FormGroup({});
   host = UriConstants.HOST;
 
@@ -130,8 +132,11 @@ export class BaseComponent<
     this.alertConfig.singleMessage = msg;
   }
 
-  public openAlert() {
+  public openAlert(duration: number = this.alertDuration) {
     this.alertConfig.open = true;
+    setTimeout(() => {
+      this.closeAlert();
+    }, duration);
   }
 
   public closeAlert() {

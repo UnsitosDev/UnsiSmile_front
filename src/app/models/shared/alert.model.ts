@@ -19,11 +19,15 @@ export namespace AlertModel {
   }
   export enum AlertSeverity {
     ERROR = 'error',
-    SUCCESS = 'success'
+    SUCCESS = 'success',
+    INFO = 'info',
+    WARN = 'warn'
   }
   export enum AlertMessage {
     ERROR = 'Error',
-    SUCCESS = 'Éxito'
+    SUCCESS = 'Éxito',
+    INFO = 'Información',
+    WARN = 'Advertencia'
   }
 
   export enum AlertType {
