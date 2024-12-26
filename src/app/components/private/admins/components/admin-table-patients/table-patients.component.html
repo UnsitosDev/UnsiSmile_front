@@ -11,5 +11,6 @@
   [columns]="columnas"
   [data]="patientsList"
   (pageSizeChange)="onPageSizeChange($event)"
-  (action)="onAction($event)">
+  (action)="onAction($event)"
+  (searchChange)="onSearch($event)">
 </app-tabla-data>

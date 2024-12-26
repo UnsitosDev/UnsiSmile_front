@@ -39,6 +39,9 @@ export class TablaDataComponent {
 
   @Output() pageSizeChange = new EventEmitter<number>();
 
+  @Output() searchChange: EventEmitter<string> = new EventEmitter();
+
+
 
   onAction(accion: string, row?: any) {
     this.action.emit({ accion: accion, fila: row });
@@ -64,12 +67,10 @@ export class TablaDataComponent {
   }
 
   filterData() {
-    this.filteredData = this.dataSource.filter(item => {
-      return this.columnas.some(column => {
-        return item[column].toString().toLowerCase().includes(this.searchText.toLowerCase());
-      });
-    });
-    this.updatePaginatedData();
+    if (this.searchText.length >= 2 || this.searchText.length === 0) {
+      console.log('Texto de búsqueda:', this.searchText); // Debug
+      this.searchChange.emit(this.searchText);
+    }
   }
 
   // Método para exportar los datos filtrados y paginados a Excel

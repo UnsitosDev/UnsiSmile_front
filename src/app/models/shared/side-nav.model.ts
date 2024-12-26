@@ -1,4 +1,4 @@
-import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from '@fortawesome/free-solid-svg-icons';
 
 
     export interface MenuItem {
@@ -48,6 +48,12 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome} from '@fortawesome/
         buttonDescription: 'Insertar Administrador',
         routerlink: '/admin/addAdmin'
       },
+      {
+        fontAwesomeIcon: faFileUpload,
+        buttonText: 'Cargar Alumnos',
+        buttonDescription: 'Subir Excel de Alumnos.',
+        routerlink: '/admin/upload-students'
+      }
     ];
     
   

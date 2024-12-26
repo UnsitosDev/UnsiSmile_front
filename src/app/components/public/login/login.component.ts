@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -9,17 +10,17 @@ import { Router } from '@angular/router';
 import { ApiService, AuthService } from '@mean/services';
 import { BaseComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
+import { LoadingComponent } from 'src/app/models/shared/loading/loading.component';
+import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
-import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
-import { CommonModule } from '@angular/common';  // Asegúrate de importar esto
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [BaseComponent, ReactiveFormsModule, FormsModule, AlertComponent, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, AlertComponent, CommonModule, LoadingComponent],
 })
 export class LoginComponent extends BaseComponent<Get, PostLogin> {
   private userService = inject(AuthService);
