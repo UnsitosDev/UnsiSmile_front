@@ -20,8 +20,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UriConstants } from '@mean/utils';
 
-
-
 @Component({
   selector: 'app-field-component',
   standalone: true,
@@ -34,9 +32,7 @@ import { UriConstants } from '@mean/utils';
 
 })
 export class FieldComponentComponent implements OnChanges {
-  readonly panelOpenState = signal(false);
-
-  @Input() field!: FormField;
+   @Input() field!: FormField;
   @Input() formGroup!: FormGroup;
   @Input() errors: any;
   @Input() fieldValue: any;
@@ -57,7 +53,7 @@ export class FieldComponentComponent implements OnChanges {
     // Verifica si alguno de los valores está presente antes de establecerlo
     if (this.field.answerField) {
       // Asignar el valor correspondiente según el tipo
-      const value = this.field.answerField.answerBoolean ?? this.field.answerField.answerNumeric ?? this.field.answerField.answerText;
+        const value = this.field.answerField.answerDate ?? this.field.answerField.answerText ?? this.field.answerField.answerBoolean ?? this.field.answerField.answerNumeric ;
 
       // Si el valor no es nulo, lo establece en el FormControl
       if (value != null) {
@@ -78,26 +74,48 @@ export class FieldComponentComponent implements OnChanges {
 
   }
 
-
+  getFormattedDate(dateValue: string | number[] | null | undefined): Date | null {
+    // Si el valor es nulo o indefinido, devolver null
+    if (!dateValue) {
+      return null;
+    }
+  
+    // Si el valor es un array de números, conviértelo a Date
+    if (Array.isArray(dateValue) && dateValue.length === 3) {
+      const [year, month, day] = dateValue;
+      return new Date(year, month - 1, day); // Ajuste del mes basado en 0
+    }
+  
+    // Si el valor es un string, intenta convertirlo a un objeto Date
+    if (typeof dateValue === 'string') {
+      return new Date(dateValue); // Suponiendo que el string esté en un formato compatible con Date
+    }
+  
+    // Si el valor no es compatible, devuelve null
+    return null;
+  }
+  
+  
   transform(value: number[] | undefined): string | null {
     if (!value || value.length !== 3) return null;
     const [year, month, day] = value;
     return new Date(year, month - 1, day).toLocaleDateString();  // Meses en JavaScript son 0-indexados
   }
 
+
   // Input & select
   onValueChange(event: any) {
     // Obtenemos el valor del evento
     const value = event.target ? event.target.value : event.value;
-    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID });
-  }
+    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID, idAnswer: this.field.answerField?.idAnswer });
+    }
 
 
   // Date
   onValueChangeDate(event: any) {
     const value = event.value as Date;
     const formattedValue = this.datePipe.transform(value, 'yyyy-MM-dd');
-    this.setFieldValue.emit({ field: this.field.name, value: formattedValue, questionID: this.field.questionID });
+    this.setFieldValue.emit({ field: this.field.name, value: formattedValue, questionID: this.field.questionID, idAnswer: this.field.answerField?.idAnswer });
 
     // Lógica para verificar si el usuario es menor de edad
     const today = new Date();
@@ -113,7 +131,7 @@ export class FieldComponentComponent implements OnChanges {
   // Check
   onValueChangeCheck(event: any) {
     const value = event.checked; // Extrae el valor booleano del checkbox    
-    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID });
+    this.setFieldValue.emit({ field: this.field.name, value: value, questionID: this.field.questionID, idAnswer: this.field.answerField?.idAnswer });
   }
 
   // Input Event

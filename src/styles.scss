@@ -11,76 +11,83 @@
 @import "primeicons/primeicons.css";
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
 
 // Variables de colores primarios
 $primary-color: #1F2937; // Fondo de la barra lateral
 $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
 
-// Otros colores
-$background-color: #F3F4F6; // Fondo gris claro de la sección principal
-$on-background-color: #1F2937; // Color del texto sobre el fondo claro
-
 @mixin light-theme {
   --primary: #0A0B2B; // Fondo de la barra lateral
   --on-primary: #f1f1f1; // Fondo del contenido principal
   --secondary: #FFFFFF;
-  --on-secondary:#151d26;
+  --on-secondary: #151d26;
   --on-secondary-rgb: 21, 29, 38;
-  --tertiary: #274CA2; //botones
+  --tertiary: #274CA2; // Botones
   --background: #FFFFFF; // Fondo claro para la sección principal
   --on-background: #1F2937; // Texto oscuro sobre el fondo claro
   --on-tertiary: #5995fd;
   --on-hover: #2b6cb0;
-  //colores de alertas
+  --background-color: #f0f0f0;
+  // Colores de alertas
   --message-success: #e4f8f0;
   --message-success-border: 6px solid #34c38f;
-  --message-success-border-icon:#34c38f;
+  --message-success-border-icon: #34c38f;
   --message-error: #fff1f1;
   --message-error-border: 6px solid #f46a6a;
-  --message-success-border-icon:#f46a6a;
+  --message-error-border-icon: #f46a6a;
   --message-info: #e8f4fd;
   --message-info-border: 6px solid #3b82f6;
-  --message-success-border-icon: #3b82f6;
+  --message-info-border-icon: #3b82f6;
   --message-warn: #fff7e6;
   --message-warn-border: 6px solid #f59e0b;
-  --message-success-border-icon: #f59e0b;
+  --message-warn-border-icon: #f59e0b;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-
-
+  // Colores login
+  --input-icon-color: #acacac;
+  --input-text-color: #333;
+  --input-placeholder-color: #aaa;
+  --btn-background-color: #5995fd;
+  --btn-border-color: #fff;
+  --toggle-password-icon-color: #818080;
 }
 
 @mixin dark-theme {
   --primary: #151d26; // Fondo de la barra lateral
   --on-primary: #0C151C; // Fondo del contenido principal
   --secondary: #151d26;
-  --on-secondary:#FFFFFF;
-  --on-secondary-rgb: 255, 255, 255; /* Valor RGB */
-  --tertiary: #274CA2; //botones
+  --on-secondary: #FFFFFF;
+  --on-secondary-rgb: 255, 255, 255;
+  --tertiary: #274CA2; // Botones
   --background: #0C151C; // Fondo más oscuro para el tema oscuro
   --on-background: #E5E7EB; // Texto claro sobre fondo oscuro
   --on-tertiary: #0A0B2B;
   --on-hover: #0A0B2B;
-   //colores de alertas
-   --message-success: #e4f8f0;
-   --message-success-border: 6px solid #34c38f;
-   --message-success-border-icon:#34c38f;
-   --message-error: #fff1f1;
-   --message-error-border: 6px solid #f46a6a;
-   --message-success-border-icon:#f46a6a;
-   --message-info: #e8f4fd;
-   --message-info-border: 6px solid #3b82f6;
-   --message-success-border-icon: #3b82f6;
-   --message-warn: #fff7e6;
-   --message-warn-border: 6px solid #f59e0b;
-   --message-success-border-icon: #f59e0b;
-   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
+  // Colores de alertas
+  --message-success: #e4f8f0;
+  --message-success-border: 6px solid #34c38f;
+  --message-success-border-icon: #34c38f;
+  --message-error: #fff1f1;
+  --message-error-border: 6px solid #f46a6a;
+  --message-error-border-icon: #f46a6a;
+  --message-info: #e8f4fd;
+  --message-info-border: 6px solid #3b82f6;
+  --message-info-border-icon: #3b82f6;
+  --message-warn: #fff7e6;
+  --message-warn-border: 6px solid #f59e0b;
+  --message-warn-border-icon: #f59e0b;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  // Colores login
+  --input-icon-color: #acacac;
+  --input-text-color: #333;
+  --input-placeholder-color: #aaa;
+  --btn-background-color: #5995fd;
+  --btn-border-color: #fff;
+  --toggle-password-icon-color: #818080;
 }
 
 :root {
@@ -90,4 +97,3 @@ $on-background-color: #1F2937; // Color del texto sobre el fondo claro
 .dark-theme {
   @include dark-theme;
 }
-

@@ -39,7 +39,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
   public id!: number;
-  public idpatient!: number;
+  public idpatient!: string;
   public year?: number;
   public month?: number;
   public day?: number;
@@ -58,17 +58,16 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.params.subscribe((params) => {
-      this.id = params['id'];
-      this.idpatient = params['patient']; 
-      this.idPatientClinicalHistory = params ['patientID'];
-       this.historyData.getHistoryClinics(this.id, this.idPatientClinicalHistory).subscribe({
+      this.id = params['id']; // Id Historia Clinica
+      this.idpatient = params['patient']; // Id Paciente
+      this.idPatientClinicalHistory = params ['patientID']; // idPatientClinicalHistory
+      this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
-          this.mappedHistoryData = mappedData; 
+          this.mappedHistoryData = mappedData;
         }
       });
-      this.fetchPatientData();   
-      this.historyData.getHistoryClinics(this.id, this.idpatient)
-    });    
+      this.fetchPatientData();
+    });
   }
 
   fetchPatientData(): void {
