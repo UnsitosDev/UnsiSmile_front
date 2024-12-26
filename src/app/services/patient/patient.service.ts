@@ -395,7 +395,6 @@ export class PatientService {
             data: {},
         }).pipe(
             map((response: { content: religionResponse[] }) => {
-                console.log('key:', response);
                 // Mapea las opciones de la respuesta
                 this.religionOptions = response.content.map((item: religionResponse) => ({
                     value: item.idReligion.toString(),

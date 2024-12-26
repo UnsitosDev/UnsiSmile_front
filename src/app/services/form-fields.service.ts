@@ -115,7 +115,6 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Nombre de estado es requerido.'
             },
-            //            onClick: this.handleStateClick.bind(this),
             onInputChange: {
                 changeFunction: this.handleStateClick.bind(this),
                 length: 5
@@ -367,13 +366,9 @@ export class FormFieldsService {
         this.handleHousingClick({} as MouseEvent);
         this.handleStretClick({} as MouseEvent);
         this.handleNeighborhoodClick({} as MouseEvent);
-        //  this.handleMunicipalityClick({} as MouseEvent);
-        //this.handleStateClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
         this.handleOcupationClick({} as MouseEvent);
-        // this.handleEthnicGroupClick({} as MouseEvent);
-        // this.handleReligionClick({} as MouseEvent);
     }
 
     private handleGenderClick(event: MouseEvent): void {
