@@ -10,44 +10,58 @@
 @import "@fontsource/poppins/400-italic.css"; // Specify weight and style
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
 
 // Variables de colores primarios
 $primary-color: #1F2937; // Fondo de la barra lateral
 $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
 
-// Otros colores
-$background-color: #F3F4F6; // Fondo gris claro de la sección principal
-$on-background-color: #1F2937; // Color del texto sobre el fondo claro
 
 @mixin light-theme {
   --primary: #0A0B2B; // Fondo de la barra lateral
   --on-primary: #f1f1f1; // Fondo del contenido principal
   --secondary: #FFFFFF;
-  --on-secondary:#151d26;
+  --on-secondary: #151d26;
   --on-secondary-rgb: 21, 29, 38;
   --tertiary: #274CA2; //botones
   --background: #FFFFFF; // Fondo claro para la sección principal
   --on-background: #1F2937; // Texto oscuro sobre el fondo claro
   --on-tertiary: #5995fd;
   --on-hover: #2b6cb0;
+  --background-color: #f0f0f0;
+  //colores login
+ --input-icon-color: #acacac;
+  --input-text-color: #333;
+  --input-placeholder-color: #aaa;
+  --btn-background-color: #5995fd;
+  --btn-border-color: #fff;
+  --toggle-password-icon-color: #818080;
+
 }
 
 @mixin dark-theme {
   --primary: #151d26; // Fondo de la barra lateral
   --on-primary: #0C151C; // Fondo del contenido principal
   --secondary: #151d26;
-  --on-secondary:#FFFFFF;
-  --on-secondary-rgb: 255, 255, 255; /* Valor RGB */
+  --on-secondary: #FFFFFF;
+  --on-secondary-rgb: 255, 255, 255;
+  /* Valor RGB */
   --tertiary: #274CA2; //botones
   --background: #0C151C; // Fondo más oscuro para el tema oscuro
   --on-background: #E5E7EB; // Texto claro sobre fondo oscuro
   --on-tertiary: #0A0B2B;
   --on-hover: #0A0B2B;
+  //colores login
+  --input-icon-color: #acacac;
+  --input-text-color: #333;
+  --input-placeholder-color: #aaa;
+  --btn-background-color: #5995fd;
+  --btn-border-color: #fff;
+  --toggle-password-icon-color: #818080;
 }
 
 :root {
@@ -57,4 +71,3 @@ $on-background-color: #1F2937; // Color del texto sobre el fondo claro
 .dark-theme {
   @include dark-theme;
 }
-

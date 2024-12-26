@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { initFlowbite } from 'flowbite';
-import { LoadingComponent } from './models/shared/loading/loading.component';
 import { ThemeService } from './services/theme.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { ThemeService } from './services/theme.service';
   styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [
-    RouterModule,LoadingComponent
+    RouterModule
   ]
 })
 export class AppComponent implements OnInit {

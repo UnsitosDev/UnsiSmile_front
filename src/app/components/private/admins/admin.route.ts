@@ -51,10 +51,10 @@ export default [
                     ),
             },
             {
-                path: 'upload-patients',
+                path: 'upload-students',
                 loadComponent: () =>
-                    import('./components/admin-upload-patients/admin-upload-patients.component').then(
-                        (m) => m.AdminUploadPatientsComponent
+                    import('./components/admin-upload-students/admin-upload-students.component').then(
+                        (m) => m.AdminUploadStudentsComponent
                     ),
             },
             {
