@@ -74,6 +74,16 @@ export class FieldComponentComponent implements OnChanges {
 
   }
 
+  getOptionLabel(field: any): (value: any) => string {
+    return (value: any): string => {
+      if (!value || !field || !field.options) {
+        return '';
+      }
+      const selectedOption = field.options.find((option: any) => option.value === value);
+      return selectedOption ? selectedOption.label : '';
+    };
+  }
+  
   getFormattedDate(dateValue: string | number[] | null | undefined): Date | null {
     // Si el valor es nulo o indefinido, devolver null
     if (!dateValue) {

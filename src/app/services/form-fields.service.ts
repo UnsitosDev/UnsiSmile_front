@@ -266,7 +266,7 @@ export class FormFieldsService {
             onClick: this.handleOcupationClick.bind(this)
         },
         {
-            type: 'autocomplete',
+            type: 'autocompleteoptions',
             label: 'Grupo étnico',
             name: 'ethnicGroup',
             required: true,
@@ -279,7 +279,7 @@ export class FormFieldsService {
                 length: 5
                             }        },
         {
-            type: 'autocomplete',
+            type: 'autocompleteoptions',
             label: 'Religión',
             name: 'religion',
             required: true,
@@ -454,6 +454,7 @@ export class FormFieldsService {
         this.patientService.getOcupationData();
         const occupationField = this.otherDataFields.find(field => field.name === FieldNames.OCCUPATION);
         occupationField && (occupationField.options = this.patientService.occupationOptions);
+        console.log('ocupation: ', occupationField);
     }
 
     private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 1): void {
