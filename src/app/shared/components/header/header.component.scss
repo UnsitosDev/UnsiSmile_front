@@ -2,9 +2,11 @@
 
 .header-container {
     background-color: var(--secondary);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
     
-    
-  
     .header-left {
       .menu-button {
         color: var(--on-secondary);
@@ -39,23 +41,50 @@
   }
   
   .theme-toggle-button {
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    padding: 10px;
-    border: none;
+    position: relative;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background-color: var(--button-background);
+    border: none;
+    background: transparent;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
     &:hover {
-      background-color: var(--button-hover-background);
-      transform: scale(1.1);
+      transform: rotate(12deg) scale(1.1);
+      background-color: rgba(var(--primary-rgb), 0.1);
+    }
+  
+    &:active {
+      transform: scale(0.95);
     }
   
     .icon {
-      width: 24px; /* Ajusta el tamaño según sea necesario */
-      height: 24px; /* Ajusta el tamaño según sea necesario */
-      display: block;
-      transition: opacity 0.3s ease;
+      width: 24px;
+      height: 24px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+      &.enter {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+      }
+  
+      &.exit {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(90deg) scale(0.5);
+      }
+    }
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }

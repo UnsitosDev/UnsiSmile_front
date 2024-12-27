@@ -1,12 +1,13 @@
 <!-- app.component.html -->
 <div class="flex h-screen bg-gray-100">
-    <app-side-nav [isSidebarOpen]="isSidebarOpen"></app-side-nav>
-    <!-- Main content -->
-    <div class=" content flex flex-col flex-1 overflow-y-auto">
+  <app-side-nav [isSidebarOpen]="isSidebarOpen"></app-side-nav>
+  <!-- Main content -->
+  <div class="content flex flex-col flex-1">
+    <div class="sticky-header">
       <app-header (closeSidebar)="onSidebarToggle()"></app-header>
-      <div class="p-4">
-        <router-outlet></router-outlet>
-      </div>
+    </div>
+    <div class="overflow-y-auto flex-1 p-4">
+      <router-outlet></router-outlet>
     </div>
   </div>
-  
+</div>
