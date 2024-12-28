@@ -130,6 +130,7 @@ export class StudentsOdontogramComponent implements OnInit {
       ToothConditionsConstants.PROTESIS_REMOVIBLE,
       ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
       ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
+      ToothConditionsConstants.FISTULA,
     ];
     return normalConditions.includes(condition.condition);
   }
