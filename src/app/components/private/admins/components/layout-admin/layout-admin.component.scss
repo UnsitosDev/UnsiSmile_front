@@ -1,10 +1,21 @@
 .content {
   background-color: var(--on-primary);
   position: relative;
+  max-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .sticky-header {
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
+}
+
+.content-wrapper {
+  max-width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
