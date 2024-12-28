@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { dentalCodeResponse } from '../models/models-students/dentalCode/dentalCode';
-import { UriConstants } from '../utils/uris.contants';
-import { toothConditionResponse } from '../models/models-students/toothCondition/toothCondition';
-import { ApiService } from './api.service';
 import { Observable, map } from 'rxjs';
+import { dentalCodeResponse } from '../models/models-students/dentalCode/dentalCode';
+import { toothConditionResponse } from '../models/models-students/toothCondition/toothCondition';
 import { ICondition } from '../models/shared/odontogram';
+import { UriConstants } from '../utils/uris.contants';
+import { ApiService } from './api.service';
+import { toothFaceConditionResponse } from '../models/models-students/toothFaceCondition/toothCondition';
 
 @Injectable({
   providedIn: 'root',
@@ -13,17 +14,26 @@ export class OdontogramData {
   constructor() {}
 
   private dentalCodeService = inject(ApiService<dentalCodeResponse>);
-  private tootConditionService = inject(ApiService<toothConditionResponse>);
+  private toothConditionService = inject(ApiService<toothConditionResponse>);
+  private toothFaceConditionService = inject(ApiService<toothFaceConditionResponse>);
 
   getToothCondition(): Observable<ICondition[]> {
-    return this.tootConditionService
+    return this.toothConditionService
       .getListService({
         url: UriConstants.GET_TOOTH_CONDITION,
       })
-      .pipe(map((data) => this.mapOptions(data)));
+      .pipe(map((data) => this.mapToothConditionsToOptions(data)));
   }
+  
+  getToothFaceCondition(): Observable<ICondition[]> {
+    return this.toothFaceConditionService
+      .getListService({
+        url: UriConstants.GET_TOOTH_FACE_CONDITION,
+      })
+      .pipe(map((data) => this.mapToothFaceConditionsToOptions(data)));
+  }   
 
-  private mapOptions(conditions: toothConditionResponse[]): ICondition[] {
+  private mapToothConditionsToOptions(conditions: toothConditionResponse[]): ICondition[] {
     return conditions.map((condition) => {
       return {
         idCondition: condition.idToothCondition,
@@ -33,26 +43,14 @@ export class OdontogramData {
     });
   }
 
-  private getCssById(id: String): string {
-    switch (id) {
-      case '41':
-      case '51':
-      case '81':
-      case '11':
-      case '31':
-      case '71':
-        return 'spaceRight';
-      case '65':
-      case '28':
-      case '48':
-        return 'noMarginRight';
-
-      case '75':
-      case '38':
-        return 'clear';
-
-      default:
-        return '';
-    }
+  private mapToothFaceConditionsToOptions(conditions: toothFaceConditionResponse[]): ICondition[] {
+    return conditions.map((condition) => {
+      return {
+        idCondition: condition.idToothFaceCondition,
+        condition: condition.description,
+        description: ""
+      };
+    });
   }
+  
 }

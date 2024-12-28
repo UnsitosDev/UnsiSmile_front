@@ -14,6 +14,7 @@ import {
 import { OdontogramData } from 'src/app/services/odontogram-data.service';
 import { ToothConditionsConstants } from 'src/app/utils/ToothConditions.constant';
 import { StudentsToolbarComponent } from '../toolbar-odontogram/students-toolbar.component';
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-students-odontogram',
   standalone: true,
@@ -49,13 +50,21 @@ export class StudentsOdontogramComponent implements OnInit {
   private odontogramData = inject(OdontogramData);
 
   ngOnInit() {
-    // obtener el catalogo de tooth conditions
-    this.odontogramData.getToothCondition().subscribe((options) => {
-      this.toolbar = { options: options };
+    this.toolbar = { options: [] };
+  
+    forkJoin({
+      toothConditions: this.odontogramData.getToothCondition(),
+      toothFaceConditions: this.odontogramData.getToothFaceCondition()
+    }).subscribe({
+      next: ({ toothConditions, toothFaceConditions }) => {
+        this.toolbar.options = [...toothConditions, ...toothFaceConditions];
+      },
+      error: (err) => {
+        console.error('Error al obtener datos:', err);
+      }
     });
-
-    // Obtener el catálogo de caras del backend
   }
+  
 
   /**
    * Función invocada cuando cambia el valor del odontograma.

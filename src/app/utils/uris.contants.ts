@@ -23,6 +23,7 @@ export class UriConstants {
   // tooth-condition-controller
   public static readonly GETID_TOOTH_CONDITION = basePath + '/medical-histories/tooth-conditions/'
   public static readonly GET_TOOTH_CONDITION = basePath + '/medical-histories/tooth-conditions'
+  public static readonly GET_TOOTH_FACE_CONDITION = basePath + '/medical-histories/tooth-face-conditions'
   public static readonly POST_TOOTH_CONDITION = basePath + '/medical-histories/tooth-conditions'
   // open-question-pathological-antecedents-controller
   public static readonly GETID_PATHOLOGICAL_ANTECEDENTS = basePath + '/medical-histories/open-question-pathological-antecedents/'
