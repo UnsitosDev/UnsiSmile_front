@@ -111,13 +111,15 @@ export class PatientService {
     // Colonias
     neighborhoodResponseData: neighborhoodRequest[] = [];
     neighborhoodOptions: Array<{ value: string; label: string }> = [];
-    getNeighborhoodData() {
+    getNeighborhoodData(municipalityId?: string) {
         this.apiService
             .getService({
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
                 }),
-                url: `${UriConstants.GET_NEIGHBORHOODS}`,
+                url: municipalityId
+                    ? `${UriConstants.GET_NEIGHBORHOODS}?municipalityId=${municipalityId}`
+                    : `${UriConstants.GET_NEIGHBORHOODS}`,
                 data: {},
             })
             .subscribe({
@@ -160,12 +162,12 @@ export class PatientService {
             });
     }
 
-    getLocalityDataPaginated(searchTerm: string, page: number, size: number): Observable<PaginatedData<localityRequest>> {
+    getLocalityDataPaginated(searchTerm: string, page: number, size: number, municipalityId?: string): Observable<PaginatedData<localityRequest>> {
         return this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            url: `${UriConstants.GET_LOCALITIES}?keyword=${searchTerm}&page=${page}&size=${size}`,
+            url: `${UriConstants.GET_LOCALITIES}?keyword=${searchTerm}&page=${page}&size=${size}${ municipalityId ? '&municipalityId='+municipalityId : ''}`,
             data: {},
         }).pipe(
             catchError((error) => {
@@ -201,12 +203,12 @@ export class PatientService {
             });
     }
 
-    getMunicipalityDataPaginated(searchTerm: string, page: number, size: number): Observable<PaginatedData<municipalityRequest>> {
+    getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, stateId?: string): Observable<PaginatedData<municipalityRequest>> {
         return this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            url: `${UriConstants.GET_MUNICIPALITY}?keyword=${searchTerm}&page=${page}&size=${size}`,
+            url: `${UriConstants.GET_MUNICIPALITY}?keyword=${searchTerm}&page=${page}&size=${size}${ stateId ? '&stateId='+stateId : ''}`,
             data: {},
         }).pipe(
             catchError((error) => {
@@ -314,87 +316,57 @@ export class PatientService {
             });
     }
 
-    // Grupo etnico
-    ethnicGroupData: PaginatedData<ethnicGroupRequest>[] = [];
-    ethnicGroupOptions: Array<{ value: string; label: string }> = [];
-    getEthnicGroupData(searchTerm: string) {
-        this.apiService
-            .getService({
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                }),
-                url: `${UriConstants.GET_ETHNIC_GROUP}?keyword=${searchTerm}`,
-                data: {},
-            })
-            .subscribe({
-                next: (response) => {
-                    this.ethnicGroupData = response.content;
-                    this.ethnicGroupOptions = response.content.map((item: any) => ({
-                        value: item.idEthnicGroup.toString(),
-                        label: item.ethnicGroup
-                    }));
-                },
-                error: (error) => {
-                    console.error('Error en la autenticación:', error);
-                },
-            });
-    }
-
-    getEthnicGroupDataPaginated(searchTerm: string, page: number, size: number): Observable<PaginatedData<ethnicGroupRequest>> {
-        return this.apiService.getService({
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-            }),
-            url: `${UriConstants.GET_ETHNIC_GROUP}?keyword=${searchTerm}&page=${page}&size=${size}`,
-            data: {},
-        }).pipe(
-            catchError((error) => {
-                console.error('Error en la autenticación:', error);
-                return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
-            })
-        );
-    }
-
-    religionData: PaginatedData<religionResponse>[] = [];
-    religionOptions: Array<{ value: string; label: string }> = [];
-    getReligionData(searchTerm:string) {
-        this.apiService
-            .getService({
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                }),
-                url: `${UriConstants.GET_RELIGION}?keyword=${searchTerm}`,
-                data: {},
-            })
-            .subscribe({
-                next: (response) => {
-                    this.religionData = response.content;
-                    this.religionOptions = this.religionData.map((item: any) => ({
-                        value: item.idReligion.toString(),
-                        label: item.religion
-                    }));
-                },
-                error: (error) => {
-                    console.error('Error en la autenticación:', error);
-
-                },
-            });
-    }
-
-    getReligionDataPaginated(searchTerm: string, page: number, size: number): Observable<PaginatedData<religionResponse>> {
-        return this.apiService.getService({
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-            }),
-            url: `${UriConstants.GET_RELIGION}?keyword=${searchTerm}&page=${page}&size=${size}`,
-            data: {},
-        }).pipe(
-            catchError((error) => {
-                console.error('Error en la autenticación:', error);
-                return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
-            })
-        );
-    }
+     // Grupo etnico
+     ethnicGroupData: PaginatedData<ethnicGroupRequest>[] = [];
+     ethnicGroupOptions: Array<{ value: string; label: string }> = [];
+     getEthnicGroupData() {
+         this.apiService
+             .getService({
+                 headers: new HttpHeaders({
+                     'Content-Type': 'application/json',
+                 }),
+                 url: `${UriConstants.GET_ETHNIC_GROUP}`,
+                 data: {},
+             })
+             .subscribe({
+                 next: (response) => {
+                     this.ethnicGroupData = response.content;
+                     this.ethnicGroupOptions = this.ethnicGroupData.map((item: any) => ({
+                         value: item.idEthnicGroup.toString(),
+                         label: item.ethnicGroup
+                     }));
+                 },
+                 error: (error) => {
+                     console.error('Error en la autenticación:', error);
+                 },
+             });
+     }
+ 
+     religionData: PaginatedData<religionResponse>[] = [];
+     religionOptions: Array<{ value: string; label: string }> = [];
+     getReligionData() {
+         this.apiService
+             .getService({
+                 headers: new HttpHeaders({
+                     'Content-Type': 'application/json',
+                 }),
+                 url: `${UriConstants.GET_RELIGION}`,
+                 data: {},
+             })
+             .subscribe({
+                 next: (response) => {
+                     this.religionData = response.content;
+                     this.religionOptions = this.religionData.map((item: any) => ({
+                         value: item.idReligion.toString(),
+                         label: item.religion
+                     }));
+                 },
+                 error: (error) => {
+                     console.error('Error en la autenticación:', error);
+ 
+                 },
+             });
+     }
     // Buscar por codigo postal
     locality: string = '';
     municipality: string = '';

@@ -183,6 +183,9 @@ export class FormPatientPersonalDataComponent {
           email: formValues.emailGuardian
         } : null  
       };
+
+      console.log('Datos del paciente:', patientData);
+
       this.apiService
         .postService({
           headers: new HttpHeaders({
@@ -232,6 +235,7 @@ export class FormPatientPersonalDataComponent {
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       this.currentPage++;
       this.personalDataFields.handleStateClick('', this.currentPage);
+      this.personalDataFields.handleMunicipalityClick('', this.currentPage);
     }
   }
 
