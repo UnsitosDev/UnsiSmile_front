@@ -174,6 +174,18 @@ export class TabFormComponent {
 
   // Función para insertar y actualizar
   sendAndUpdateData() {
+    
+    // Validar si el furmulario es valido 
+    if (!this.formGroup.valid) {
+      // Marcar todos los campos como tocados para mostrar errores
+      Object.keys(this.formGroup.controls).forEach((fieldName) => {
+        const control = this.formGroup.get(fieldName);
+        control?.markAllAsTouched();
+      });
+      console.log('El formulario contiene errores');
+      return; // Salir si el formulario no es valido
+    }
+
     const formData = this.formGroup.value;
     // Arreglos para almacenar los datos que tienen y no tienen idAnswer
     const send: FormData[] = [];
