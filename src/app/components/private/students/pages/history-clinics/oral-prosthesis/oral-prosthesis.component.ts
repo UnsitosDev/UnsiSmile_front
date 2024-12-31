@@ -22,12 +22,13 @@ import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 
 
 @Component({
   selector: 'app-oral-prosthesis',
   standalone: true,
-  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent],
+  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent],
   templateUrl: './oral-prosthesis.component.html',
   styleUrl: './oral-prosthesis.component.scss'
 })
@@ -47,6 +48,7 @@ export class OralProsthesisComponent {
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
   private idPatientClinicalHistory!: number;
+  public hasAnyFlagTrue!: boolean;
 
   constructor() { }
 
@@ -58,10 +60,6 @@ export class OralProsthesisComponent {
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
-          // Validar si al menos una sección tiene isAnswered como true
-          const hasAnyFlagTrue = mappedData.tabs.some(tab =>
-            tab.isAnswered || (tab.childFormSection?.some(child => child.isAnswered) ?? false)
-          );
         }
       });
       this.fetchPatientData();

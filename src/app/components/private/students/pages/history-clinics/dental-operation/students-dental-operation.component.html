@@ -8,11 +8,16 @@
             <mat-tab-group [(selectedIndex)]="currentIndex">
                 @for (tab of mappedHistoryData.tabs; track tab) {
                     <mat-tab [label]="tab.title">
-                        <app-tab-form 
-                          [fieldsTab]="tab" 
-                          (nextMatTab)="onNextTab()"
-                          (previousMatTab)="onPreviousTab()"
-                        ></app-tab-form>  
+                        @if (tab.isAnswered) {
+                            <app-tab-form-update></app-tab-form-update>
+                        }
+                        @if (!tab.isAnswered) {
+                            <app-tab-form 
+                            [fieldsTab]="tab" 
+                            (nextMatTab)="onNextTab()"
+                            (previousMatTab)="onPreviousTab()"
+                        ></app-tab-form>
+                        }
                     </mat-tab>
               }
         </mat-tab-group>

@@ -22,6 +22,7 @@ import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
 import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 
 
 @Component({
@@ -29,7 +30,7 @@ import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPa
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
-  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent],
+  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent],
 
 })
 
@@ -53,7 +54,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   patientID: number = 0;    // Variable para el parámetro 'patientID'
   private idPatientClinicalHistory!: number;
 
-
   constructor() { }
 
   ngOnInit(): void {
@@ -64,10 +64,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
-          // Validar si al menos una sección tiene isAnswered como true
-          const hasAnyFlagTrue = mappedData.tabs.some(tab =>
-            tab.isAnswered || (tab.childFormSection?.some(child => child.isAnswered) ?? false)
-          );
         }
       });
       this.fetchPatientData();

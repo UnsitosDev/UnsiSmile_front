@@ -24,11 +24,16 @@
                     @if (tab.title === 'Medición de bolsas inicial') {
                         <app-history-initial-bag></app-history-initial-bag>
                     }
-                    <app-tab-form 
+                    @if (tab.isAnswered) {
+                        <app-tab-form-update></app-tab-form-update>
+                    }
+                    @if (!tab.isAnswered) {
+                        <app-tab-form 
                         [fieldsTab]="tab" 
                         (nextMatTab)="onNextTab()"
                         (previousMatTab)="onPreviousTab()"
-                        ></app-tab-form>  
+                    ></app-tab-form>
+                    }
                 </mat-tab>
             }
         </mat-tab-group>
