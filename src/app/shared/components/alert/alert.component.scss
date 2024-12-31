@@ -9,7 +9,7 @@
       .p-toast-message-icon {
         color: var(--message-success-border-icon);
         font-size: 1.5rem;
-        margin-right: 0.5rem;
+        margin-right: 1rem; // Cambiado de 0.5rem a 1rem
       }
     }
     
@@ -19,7 +19,7 @@
       .p-toast-message-icon {
         color: var(--message-error-border-icon);
         font-size: 1.5rem;
-        margin-right: 0.5rem;
+        margin-right: 1rem; // Cambiado de 0.5rem a 1rem
       }
     }
 
@@ -29,7 +29,7 @@
       .p-toast-message-icon {
         color: var(--message-info-border-icon);
         font-size: 1.5rem;
-        margin-right: 0.5rem;
+        margin-right: 1rem; // Cambiado de 0.5rem a 1rem
       }
     }
 
@@ -39,7 +39,7 @@
       .p-toast-message-icon {
         color: var(--message-warn-border-icon);
         font-size: 1.5rem;
-        margin-right: 0.5rem;
+        margin-right: 1rem; // Cambiado de 0.5rem a 1rem
       }
     }
 
@@ -56,7 +56,7 @@
       .p-toast-message-icon {
         animation: scaleIn 0.3s ease-in-out;
         font-size: 1.5rem;
-        margin-right: 0.5rem;
+        margin-right: 1rem; // Cambiado de 0.5rem a 1rem
       }
     }
   }
