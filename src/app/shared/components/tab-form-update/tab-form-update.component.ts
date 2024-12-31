@@ -6,8 +6,21 @@ import { MatCardModule } from '@angular/material/card';
 import { StudentsOdontogramComponent } from "../../../components/private/students/components/odontogram/students-odontogram.component";
 import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { FieldNames } from 'src/app/models/form-fields/form-utils';
+import { ApiService } from '@mean/services';
+import { HttpHeaders } from '@angular/common/http';
+import { UriConstants } from '@mean/utils';
 
-
+interface updateFormData {
+  idPatientClinicalHistory: number;
+  idQuestion: number;
+  answerBoolean: boolean | null;
+  answerNumeric: number | null;
+  answerText: string | null;
+  answerDate: string | null;
+  idCatalogOption: any;
+  idAnswer: number
+}
 
 @Component({
   selector: 'app-tab-form-update',
@@ -24,6 +37,7 @@ export class TabFormUpdateComponent {
 
   fb = inject(FormBuilder);
   route = inject(ActivatedRoute);
+  apiService = inject(ApiService);
   formGroup!: FormGroup;
   id: number = 0;           // Variable para el parámetro 'id'
   patientID: number = 0;    // Variable para el parámetro 'patientID'
@@ -97,8 +111,56 @@ export class TabFormUpdateComponent {
     this.previousMatTab.emit();
   }
 
-  sendAndUpdateData(){
-    this.nextMatTab.emit();
+  sendAndUpdateData() {
+
+    // Validar si el formulario es valido
+    if (!this.formGroup.valid) {
+      console.log('El formulario contiene errores');
+      return;
+    }
+
+    const formData = this.formGroup.value;
+    const updateData: updateFormData[] = [];
+    
+    Object.keys(formData).forEach((fieldName) => {
+      const fieldValue = formData[fieldName];
+      const questionID = this.questionIDs[fieldName];
+      const idAnswer = this.idAnswers[fieldName];
+      const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
+
+      const update: updateFormData = {
+        idPatientClinicalHistory: this.patientID,
+        idQuestion: questionID,
+        answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,
+        answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
+        answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
+        answerDate: isDateField ? fieldValue : null,
+        idCatalogOption: formData.idCatalogOption || null,
+        idAnswer: idAnswer,
+      }
+      if (update.idQuestion) {
+        updateData.push(update);  
+      }
+      
+    });
+    console.log(updateData);
+    this.apiService
+            .patchService({
+              headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+              }),
+              url: `${UriConstants.POST_SECTION_FORM}`,
+              data: updateData,
+            })
+            .subscribe({
+              next: (response) => {
+                updateData.length = 0
+                this.nextMatTab.emit();
+              },
+              error: (error) => {
+                console.log('Error al guardar datos: ', error);
+              },
+            });
   }
 
 }
