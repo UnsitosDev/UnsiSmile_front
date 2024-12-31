@@ -48,15 +48,19 @@ export class StudentsPeriodonticsHistoryComponent {
   public mappedHistoryData!: dataTabs;
 
   constructor() { }
-  
+
   ngOnInit(): void {
     this.router.params.subscribe((params) => {
       this.id = params['id']; // Id Historia Clinica
       this.idpatient = params['patient']; // Id Paciente
-      this.idPatientClinicalHistory = params ['patientID']; // idPatientClinicalHistory
+      this.idPatientClinicalHistory = params['patientID']; // idPatientClinicalHistory
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
+          // Validar si al menos una sección tiene isAnswered como true
+          const hasAnyFlagTrue = mappedData.tabs.some(tab =>
+            tab.isAnswered || (tab.childFormSection?.some(child => child.isAnswered) ?? false)
+          );
         }
       });
       this.fetchPatientData();
@@ -99,7 +103,7 @@ export class StudentsPeriodonticsHistoryComponent {
               phone: this.patient.guardian.phone
             };
           } else {
-            this.guardianData = null;  
+            this.guardianData = null;
           }
         },
         error: (error) => {
