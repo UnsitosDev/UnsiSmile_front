@@ -25,7 +25,11 @@
                         <app-history-initial-bag></app-history-initial-bag>
                     }
                     @if (tab.isAnswered) {
-                        <app-tab-form-update></app-tab-form-update>
+                        <app-tab-form-update
+                        [fieldsTab]="tab" 
+                        (nextMatTab)="onNextTab()"
+                        (previousMatTab)="onPreviousTab()"
+                        ></app-tab-form-update>
                     }
                     @if (!tab.isAnswered) {
                         <app-tab-form 
