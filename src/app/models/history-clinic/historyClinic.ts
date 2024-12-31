@@ -27,6 +27,7 @@ export interface SubSection {
     idSubSection: number; // Identificador único para la subsección
     subSectionName: string; // Nombre de la subsección
     questions: Question[]; // Preguntas relacionadas con esta subsección
+    isAnswered: boolean | boolean;
 }
 
 export interface Question {

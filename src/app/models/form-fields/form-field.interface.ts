@@ -29,6 +29,7 @@ export interface formSectionFields {
 export interface subSeccion {
     formName: string; // Nombre de la subsección
     questions: FormField[] ; 
+    isAnswered?: boolean;
 }
 export interface FormFieldOption {
     value: any;

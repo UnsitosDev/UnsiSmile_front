@@ -31,6 +31,7 @@ function mapSubSectionToFormSectionFields(subSection: SubSection): subSeccion {
     return {
         formName: subSection.formName, // Asigna el nombre de la subsección
         questions: subSection.questions.map((question) => mapQuestionToFormField(question)), // Mapea las preguntas de la subsección
+        isAnswered: subSection.isAnswered
     };
 }
 
