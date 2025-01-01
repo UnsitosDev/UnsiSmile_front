@@ -236,6 +236,8 @@ export class FormPatientPersonalDataComponent {
       this.currentPage++;
       this.personalDataFields.handleStateClick('', this.currentPage);
       this.personalDataFields.handleMunicipalityClick('', this.currentPage);
+      this.personalDataFields.handleLocalityClick('', this.currentPage);
+
     }
   }
 
