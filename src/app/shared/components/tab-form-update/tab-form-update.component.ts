@@ -107,10 +107,6 @@ export class TabFormUpdateComponent {
     }
   }
 
-  previousTab() {
-    this.previousMatTab.emit();
-  }
-
   sendAndUpdateData() {
 
     // Validar si el formulario es valido
@@ -163,4 +159,7 @@ export class TabFormUpdateComponent {
       });
   }
 
+  previousTab() {
+    this.previousMatTab.emit();
+  }
 }
