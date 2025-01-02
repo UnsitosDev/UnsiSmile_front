@@ -121,11 +121,11 @@ export class TabFormUpdateComponent {
 
     const formData = this.formGroup.value;
     const updateData: updateFormData[] = [];
-    
+
     Object.keys(formData).forEach((fieldName) => {
       const fieldValue = formData[fieldName];
       const questionID = this.questionIDs[fieldName];
-      const idAnswer = this.idAnswers[fieldName];
+      const idAnswer = this.idAnswers[fieldName] ?? 0;
       const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
 
       const update: updateFormData = {
@@ -139,28 +139,28 @@ export class TabFormUpdateComponent {
         idAnswer: idAnswer,
       }
       if (update.idQuestion) {
-        updateData.push(update);  
+        updateData.push(update);
       }
-      
+
     });
     console.log(updateData);
     this.apiService
-            .patchService({
-              headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-              }),
-              url: `${UriConstants.POST_SECTION_FORM}`,
-              data: updateData,
-            })
-            .subscribe({
-              next: (response) => {
-                updateData.length = 0
-                this.nextMatTab.emit();
-              },
-              error: (error) => {
-                console.log('Error al guardar datos: ', error);
-              },
-            });
+      .patchService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_SECTION_FORM}`,
+        data: updateData,
+      })
+      .subscribe({
+        next: (response) => {
+          updateData.length = 0
+          this.nextMatTab.emit();
+        },
+        error: (error) => {
+          console.log('Error al guardar datos: ', error);
+        },
+      });
   }
 
 }
