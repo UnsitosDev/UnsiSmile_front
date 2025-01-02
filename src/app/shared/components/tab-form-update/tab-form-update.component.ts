@@ -107,7 +107,7 @@ export class TabFormUpdateComponent {
     }
   }
 
-  sendAndUpdateData() {
+  updateHc() {
 
     // Validar si el formulario es valido
     if (!this.formGroup.valid) {

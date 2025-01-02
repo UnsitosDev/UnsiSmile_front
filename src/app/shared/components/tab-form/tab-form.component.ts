@@ -161,8 +161,8 @@ export class TabFormComponent {
       });
   }
 
-  // Función para insertar y actualizar
-  sendAndUpdateData() {
+  // Función para insertar
+  postHc() {
  
      // Validar si el formulario es valido
      if (!this.formGroup.valid) {
