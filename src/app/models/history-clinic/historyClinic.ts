@@ -28,6 +28,7 @@ export interface SubSection {
     subSectionName: string; // Nombre de la subsección
     questions: Question[]; // Preguntas relacionadas con esta subsección
     isAnswered: boolean | boolean;
+    order: number;
 }
 
 export interface Question {

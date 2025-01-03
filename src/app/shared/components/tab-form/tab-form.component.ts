@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -42,6 +42,7 @@ export class TabFormComponent {
   route = inject(ActivatedRoute);
   apiService = inject(ApiService);
   private fb = inject(FormBuilder);
+  private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
   formGroup!: FormGroup;
   id: number = 0;           // Variable para el parámetro 'id'
   patientID: number = 0;    // Variable para el parámetro 'patientID'
@@ -69,29 +70,50 @@ export class TabFormComponent {
       this.id = +params.get('id')!;
       this.patientID = +params.get('patientID')!;
       this.patientUuid = params.get('patient')!;
+      this.cdr.detectChanges(); // Fuerza la detección de cambios
     });
   }
 
-  // Construcción de secciones
+  // Construcción de secciones y campos dinámicos en el formulario
   section() {
-    // Inicializamos el formGroup vacío
+    // Inicializamos el formGroup vacío para agregar controles dinámicamente
     this.formGroup = this.fb.group({});
-    // Procesamos la sección principal
+    // Procesamos la sección principal (campos raíz de la estructura)
     if (this.fieldsTab?.seccion) {
-      this.fieldsTab.seccion.forEach(sectionField => {
-        this.formGroup.addControl(sectionField.name, this.fb.control(sectionField.value || '', sectionField.validators || []));
+      // Ordenamos los campos de la sección principal según la propiedad 'order'
+      const sortedSections = this.fieldsTab.seccion.sort((a, b) => (a.order! - b.order!));
+      // Iteramos sobre los campos ordenados y los agregamos al formGroup
+      sortedSections.forEach(sectionField => {
+        this.formGroup.addControl(
+          sectionField.name,
+          this.fb.control(sectionField.value || '', // Valor inicial del control (vacío si no está definido)
+            sectionField.validators || [] // Validaciones asociadas al campo
+          )
+        );
       });
     }
-    // Procesamos los campos de childFormSection si existen
+
+    // Procesamos las subsecciones definidas en 'childFormSection', si existen
     if (this.fieldsTab?.childFormSection) {
-      this.fieldsTab.childFormSection.forEach(childSection => {
-        // Iteramos sobre las preguntas de la subsección
-        childSection.questions.forEach(questionField => {
-          this.formGroup.addControl(
-            questionField.name,
-            this.fb.control(questionField.value || '', questionField.validators || [])
-          );
-        });
+      // Ordenamos las subsecciones según la propiedad 'order'
+      const sortedChildSections = this.fieldsTab.childFormSection.sort((a, b) => (a.order! - b.order!));
+      // Iteramos sobre cada subsección ordenada
+      sortedChildSections.forEach(childSection => {
+        // Verificamos si la subsección tiene preguntas asociadas
+        if (childSection.questions) {
+          // Ordenamos las preguntas dentro de la subsección según la propiedad 'order'
+          const sortedQuestions = childSection.questions.sort((a, b) => (a.order! - b.order!));
+          // Iteramos sobre las preguntas ordenadas y las agregamos al formGroup
+          sortedQuestions.forEach(questionField => {
+            // Agregamos los controles de las preguntas al formulario
+            this.formGroup.addControl(
+              questionField.name,// Nombre del control, único por cada pregunta
+              this.fb.control(questionField.value || '',// Valor inicial de la pregunta (vacío si no está definido)
+                questionField.validators || [] // Validaciones asociadas a la pregunta
+              )
+            );
+          });
+        }
       });
     }
   }
@@ -103,14 +125,14 @@ export class TabFormComponent {
 
   handleFieldValue(event: any) {
     this.idQuestion = event.questionID;
-    this.idAnswer = event.idAnswer; 
-    if (event.idAnswer !== undefined) { 
+    this.idAnswer = event.idAnswer;
+    if (event.idAnswer !== undefined) {
       this.idAnswers[event.field] = event.idAnswer; // Guarda idAnswer para el campo específico
     }
     this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específico
   }
 
-  
+
   files: FileList | null = null; // Almacena el FileList
 
   // Método para manejar el valor del archivo
@@ -163,56 +185,56 @@ export class TabFormComponent {
 
   // Función para insertar
   postHc() {
- 
-     // Validar si el formulario es valido
-     if (!this.formGroup.valid) {
-       console.log('El formulario contiene errores');
-       return;
-     }
- 
-     const formData = this.formGroup.value;
-     const sendData: FormData[] = [];
- 
-     Object.keys(formData).forEach((fieldName) => {
-       const fieldValue = formData[fieldName];
-       const questionID = this.questionIDs[fieldName];
-       const idAnswer = this.idAnswers[fieldName] ?? 0;
-       const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
- 
-       const hcData: FormData = {
-         idPatientClinicalHistory: this.patientID,
-         idQuestion: questionID,
-         answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,
-         answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
-         answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
-         answerDate: isDateField ? fieldValue : null,
-         idCatalogOption: formData.idCatalogOption || null,
-       }
-       if (hcData.idQuestion) {
+
+    // Validar si el formulario es valido
+    if (!this.formGroup.valid) {
+      console.log('El formulario contiene errores');
+      return;
+    }
+
+    const formData = this.formGroup.value;
+    const sendData: FormData[] = [];
+
+    Object.keys(formData).forEach((fieldName) => {
+      const fieldValue = formData[fieldName];
+      const questionID = this.questionIDs[fieldName];
+      const idAnswer = this.idAnswers[fieldName] ?? 0;
+      const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
+
+      const hcData: FormData = {
+        idPatientClinicalHistory: this.patientID,
+        idQuestion: questionID,
+        answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,
+        answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
+        answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
+        answerDate: isDateField ? fieldValue : null,
+        idCatalogOption: formData.idCatalogOption || null,
+      }
+      if (hcData.idQuestion) {
         sendData.push(hcData);
-       }
- 
-     });
-     console.log(sendData);
-     this.apiService
-       .patchService({
-         headers: new HttpHeaders({
-           'Content-Type': 'application/json',
-         }),
-         url: `${UriConstants.POST_SECTION_FORM}`,
-         data: sendData,
-       })
-       .subscribe({
-         next: (response) => {
+      }
+
+    });
+    console.log(sendData);
+    this.apiService
+      .patchService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_SECTION_FORM}`,
+        data: sendData,
+      })
+      .subscribe({
+        next: (response) => {
           this.openSnackBar();
           sendData.length = 0
           this.nextMatTab.emit();
-         },
-         error: (error) => {
-           console.log('Error al guardar datos: ', error);
-         },
-       });
-   }
+        },
+        error: (error) => {
+          console.log('Error al guardar datos: ', error);
+        },
+      });
+  }
 
   // Emitir evento para volver al tab anterior
   previousTab() {

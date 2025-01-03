@@ -1,4 +1,4 @@
-import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { formSectionFields, subSeccion } from 'src/app/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from "../field-component/field-component.component";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -38,6 +38,7 @@ export class TabFormUpdateComponent {
   fb = inject(FormBuilder);
   route = inject(ActivatedRoute);
   apiService = inject(ApiService);
+  private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
   formGroup!: FormGroup;
   id: number = 0;           // Variable para el parámetro 'id'
   patientID: number = 0;    // Variable para el parámetro 'patientID'
@@ -49,29 +50,50 @@ export class TabFormUpdateComponent {
       this.id = +params.get('id')!;
       this.patientID = +params.get('patientID')!;
       this.patientUuid = params.get('patient')!;
+      this.cdr.detectChanges(); // Fuerza la detección de cambios
     });
   }
 
-  // Construcción de secciones
+  // Construcción de secciones y campos dinámicos en el formulario
   section() {
-    // Inicializamos el formGroup vacío
+    // Inicializamos el formGroup vacío para agregar controles dinámicamente
     this.formGroup = this.fb.group({});
-    // Procesamos la sección principal
+    // Procesamos la sección principal (campos raíz de la estructura)
     if (this.fieldsTab?.seccion) {
-      this.fieldsTab.seccion.forEach(sectionField => {
-        this.formGroup.addControl(sectionField.name, this.fb.control(sectionField.value || '', sectionField.validators || []));
+      // Ordenamos los campos de la sección principal según la propiedad 'order'
+      const sortedSections = this.fieldsTab.seccion.sort((a, b) => (a.order! - b.order!));
+      // Iteramos sobre los campos ordenados y los agregamos al formGroup
+      sortedSections.forEach(sectionField => {
+        this.formGroup.addControl(
+          sectionField.name,
+          this.fb.control(sectionField.value || '', // Valor inicial del control (vacío si no está definido)
+            sectionField.validators || [] // Validaciones asociadas al campo
+          )
+        );
       });
     }
-    // Procesamos los campos de childFormSection si existen
+
+    // Procesamos las subsecciones definidas en 'childFormSection', si existen
     if (this.fieldsTab?.childFormSection) {
-      this.fieldsTab.childFormSection.forEach(childSection => {
-        // Iteramos sobre las preguntas de la subsección
-        childSection.questions.forEach(questionField => {
-          this.formGroup.addControl(
-            questionField.name,
-            this.fb.control(questionField.value || '', questionField.validators || [])
-          );
-        });
+      // Ordenamos las subsecciones según la propiedad 'order'
+      const sortedChildSections = this.fieldsTab.childFormSection.sort((a, b) => (a.order! - b.order!));
+      // Iteramos sobre cada subsección ordenada
+      sortedChildSections.forEach(childSection => {
+        // Verificamos si la subsección tiene preguntas asociadas
+        if (childSection.questions) {
+          // Ordenamos las preguntas dentro de la subsección según la propiedad 'order'
+          const sortedQuestions = childSection.questions.sort((a, b) => (a.order! - b.order!));
+          // Iteramos sobre las preguntas ordenadas y las agregamos al formGroup
+          sortedQuestions.forEach(questionField => {
+            // Agregamos los controles de las preguntas al formulario
+            this.formGroup.addControl(
+              questionField.name,// Nombre del control, único por cada pregunta
+              this.fb.control(questionField.value || '',// Valor inicial de la pregunta (vacío si no está definido)
+                questionField.validators || [] // Validaciones asociadas a la pregunta
+              )
+            );
+          });
+        }
       });
     }
   }
