@@ -71,7 +71,7 @@ export interface FormField {
     answerField?: AnswerField;
     questionID?: number;
     grids?: string;
-    type:'inputText' | 'inputNumber' | 'boolean' |'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea'| 'multivalued';
+    type:'autocompleteoptions'| 'inputText' | 'inputNumber' | 'boolean' |'input' | 'datepicker' | 'checkbox' | 'select' | 'group' | 'inputEvent' | 'autocomplete' | 'inputNumber' | 'inputFile' | 'textArea'| 'multivalued';
     name: string ;
     label: string;
     validations?: ValidationField[];
