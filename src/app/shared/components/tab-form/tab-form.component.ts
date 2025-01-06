@@ -215,6 +215,10 @@ export class TabFormComponent {
       }
 
     });
+    // Manejo de archivos (si los hay)
+    if (this.files && this.files.length > 0) {
+      this.sendFiles();
+    }
     console.log(sendData);
     this.apiService
       .patchService({

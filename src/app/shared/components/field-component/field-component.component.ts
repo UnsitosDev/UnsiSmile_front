@@ -184,6 +184,7 @@ export class FieldComponentComponent implements OnChanges {
         questionID: this.field.questionID,
         type: 'file',
       });
+      this.formGroup.get(this.field.name)?.setValue(files);
     } else {
       console.error('No se recibieron archivos.');
     }

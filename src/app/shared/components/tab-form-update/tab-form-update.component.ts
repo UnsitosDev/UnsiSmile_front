@@ -129,6 +129,38 @@ export class TabFormUpdateComponent {
     }
   }
 
+  // Función para enviar archivos
+  sendFiles() {
+    if (!this.files || this.files.length === 0) {
+      return;
+    }
+    const formData = new FormData();
+    // Agrega cada archivo al FormData
+    for (let i = 0; i < this.files.length; i++) {
+      formData.append('files', this.files[i]);
+    }
+
+    formData.append('idPatient', this.patientUuid);
+    formData.append('idQuestion', this.idQuestion.toString());
+
+    console.log('formData', this.patientID);
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+        }),
+        url: `${UriConstants.POST_FILES}`,
+        data: formData,
+      })
+      .subscribe({
+        next: (response) => {
+          this.nextMatTab.emit();
+        },
+        error: (error) => {
+          console.log('Error al guardar archivos: ', error);
+        },
+      });
+  }
+
   updateHc() {
 
     // Validar si el formulario es valido
@@ -161,6 +193,10 @@ export class TabFormUpdateComponent {
       }
 
     });
+    // Manejo de archivos (si los hay)
+    if (this.files && this.files.length > 0) {
+      this.sendFiles();
+    }
     console.log(updateData);
     this.apiService
       .patchService({
