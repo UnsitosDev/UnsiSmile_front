@@ -127,6 +127,17 @@
           </mat-autocomplete>
         </mat-form-field>      
     }
+    @case ('autocompleteoptions') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{field.label}}</mat-label>
+        <input type="text" matInput [formControlName]="field.name" [matAutocomplete]="auto" (input)="onInputAutocomplete($event)">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionLabel(field)">
+          @for (option of field.options; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>      
+    }
     @case ('inputFile') {
       <div class="custom-text">
         <mat-label>{{field.label}}</mat-label>
