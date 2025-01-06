@@ -58,6 +58,7 @@ export class StudentsOdontogramComponent implements OnInit {
     }).subscribe({
       next: ({ toothConditions, toothFaceConditions }) => {
         this.toolbar.options = [...toothConditions, ...toothFaceConditions];
+        this.options = [...toothConditions, ...toothFaceConditions];
       },
       error: (err) => {
         console.error('Error al obtener datos:', err);
