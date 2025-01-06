@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from '../api.service';
-import { religionRequest, religionResponse } from 'src/app/models/shared/patients/Religion/religion';
+import { religionOptions, religionRequest, religionResponse } from 'src/app/models/shared/patients/Religion/religion';
 import { UriConstants } from '@mean/utils';
 import { genderRequest } from 'src/app/models/models-students/genders/genders';
 import { housingRequest } from 'src/app/models/shared/addresses/housing/housing';
@@ -13,7 +13,7 @@ import { stateRequest } from 'src/app/models/shared/addresses/state/state';
 import { nationalityRequest } from 'src/app/models/shared/patients/Nationality/Nationality';
 import { maritalStatusRequest } from 'src/app/models/shared/patients/MaritalStatus/maritalStatus';
 import { occupationRequest } from 'src/app/models/shared/patients/Occupation/occupation';
-import { ethnicGroupRequest } from 'src/app/models/shared/patients/EthnicGroup/ethnicGroup';
+import { ethnicGroupOptions, ethnicGroupRequest } from 'src/app/models/shared/patients/EthnicGroup/ethnicGroup';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
@@ -471,57 +471,97 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             });
     }
 
-     // Grupo etnico
-     ethnicGroupData: PaginatedData<ethnicGroupRequest>[] = [];
-     ethnicGroupOptions: Array<{ value: string; label: string }> = [];
-     getEthnicGroupData() {
-         this.apiService
-             .getService({
-                 headers: new HttpHeaders({
-                     'Content-Type': 'application/json',
-                 }),
-                 url: `${UriConstants.GET_ETHNIC_GROUP}`,
-                 data: {},
-             })
-             .subscribe({
-                 next: (response) => {
-                     this.ethnicGroupData = response.content;
-                     this.ethnicGroupOptions = this.ethnicGroupData.map((item: any) => ({
-                         value: item.idEthnicGroup.toString(),
-                         label: item.ethnicGroup
-                     }));
-                 },
-                 error: (error) => {
-                     console.error('Error en la autenticación:', error);
-                 },
-             });
-     }
- 
-     religionData: PaginatedData<religionResponse>[] = [];
-     religionOptions: Array<{ value: string; label: string }> = [];
-     getReligionData() {
-         this.apiService
-             .getService({
-                 headers: new HttpHeaders({
-                     'Content-Type': 'application/json',
-                 }),
-                 url: `${UriConstants.GET_RELIGION}`,
-                 data: {},
-             })
-             .subscribe({
-                 next: (response) => {
-                     this.religionData = response.content;
-                     this.religionOptions = this.religionData.map((item: any) => ({
-                         value: item.idReligion.toString(),
-                         label: item.religion
-                     }));
-                 },
-                 error: (error) => {
-                     console.error('Error en la autenticación:', error);
- 
-                 },
-             });
-     }
+    // Grupo etnico
+    ethnicGroupData: PaginatedData<ethnicGroupRequest>[] = [];
+    ethnicGroupOptions: Array<{ value: string; label: string }> = [];
+    getEthnicGroupData(searchTerm: string) {
+        this.apiService
+            .getService({
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                }),
+                url: `${UriConstants.GET_ETHNIC_GROUP}?keyword=${searchTerm}`,
+                data: {},
+            })
+            .subscribe({
+                next: (response) => {
+                    this.ethnicGroupData = response.content;
+                    this.ethnicGroupOptions = response.content.map((item: any) => ({
+                        value: item.idEthnicGroup.toString(),
+                        label: item.ethnicGroup
+                    }));
+                },
+                error: (error) => {
+                    console.error('Error en la autenticación:', error);
+                },
+            });
+    }
+
+    etnichGroupDataOptions: ethnicGroupOptions[]=[];
+    getEthnicGroupDataPaginated(searchTerm: string, page: number, size: number): Observable<ethnicGroupOptions[]> {
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.GET_ETHNIC_GROUP}?keyword=${searchTerm}&page=${page}&size=${size}`,
+            data: {},
+        }).pipe(
+            map((response) => {
+                // Mapea las opciones de la respuesta
+                    this.ethnicGroupOptions = response.content.map((item: ethnicGroupRequest) => ({
+                        value: item.idEthnicGroup.toString(),
+                        label: item.ethnicGroup, 
+                    }));
+                    return this.ethnicGroupOptions;  
+            }),
+        );
+    }
+
+    religionData: PaginatedData<religionResponse>[] = [];
+    getReligionData(searchTerm: string) {
+        this.apiService
+            .getService({
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                }),
+                url: `${UriConstants.GET_RELIGION}?keyword=${searchTerm}`,
+                data: {},
+            })
+            .subscribe({
+                next: (response) => {
+                    this.religionData = response.content;
+                    this.religionOptions = this.religionData.map((item: any) => ({
+                        value: item.idReligion.toString(),
+                        label: item.religion
+                    }));
+                },
+                error: (error) => {
+                    console.error('Error en la autenticación:', error);
+
+                },
+            });
+    }
+
+    religionOptions: religionOptions[] = [];    
+    getReligionDataPaginated(searchTerm: string, page: number, size: number): Observable<religionOptions[]> {
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.GET_RELIGION}?keyword=${searchTerm}&page=${page}&size=${size}`,
+            data: {},
+        }).pipe(
+            map((response: { content: religionResponse[] }) => {
+                // Mapea las opciones de la respuesta
+                this.religionOptions = response.content.map((item: religionResponse) => ({
+                    value: item.idReligion.toString(),
+                    label: item.religion, 
+                }));
+                return this.religionOptions;  
+            }),
+        );
+    }
+    
     // Buscar por codigo postal
     locality: string = '';
     municipality: string = '';
