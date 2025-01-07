@@ -1,24 +1,101 @@
 .container {
-    width: 960px;
-    margin: 0 auto;
-}
-
-.button-container {
-    display: flex;
-    justify-content: space-between; /* Distribuye el espacio entre los botones */
-    margin-top: 20px; /* Espacio superior opcional */
-}
+    width: 100%;
+    min-height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
   
-.button-container button {
-    max-width: 400px; /* Limita el ancho máximo de los botones */
-    flex: 0 0 auto; /* Evita que los botones crezcan para ocupar el espacio disponible */
-    margin: 0 5px; /* Espacio entre los botones */
-}
-
-button{
-    background-color: #07437a !important;
-    color: white !important;
-}
-.custom-text {
-    color: var(--on-secondary);  
+  .odontogram-container {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow: hidden; // Previene scroll horizontal
+  }
+  
+  .quadrants {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .upper-row,
+  .lower-row {
+    display: flex;
+    justify-content: space-between; // Cambio de center a space-between
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .quadrant {
+    display: flex;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0; // Importante para evitar overflow
+  
+    &.right-quadrant {
+      justify-content: flex-end;
+    }
+  
+    &.left-quadrant {
+      justify-content: flex-start;
+    }
+  
+    // Ajusta el tamaño de los dientes para que quepan en la pantalla
+    ::ng-deep app-students-tooth {
+      flex: 0 0 auto;
+      width: calc(100% / 8); // Para 8 dientes por cuadrante en adultos
+      min-width: 60px; // Mínimo tamaño para mantener legibilidad
+      max-width: 100px; // Máximo tamaño para mantener proporciones
+    }
+  }
+  
+  // Ajustes para dentadura infantil (5 dientes por cuadrante)
+  :host-context(mat-tab-panel:nth-child(2)) {
+    .quadrant ::ng-deep app-students-tooth {
+      width: calc(100% / 5); // Para 5 dientes por cuadrante en niños
+    }
+  }
+  
+  :host ::ng-deep .mat-tab-body-wrapper {
+    min-height: 500px;
+  }
+  
+  // Ajustes responsive
+  @media (max-width: 768px) {
+    .odontogram-container {
+      padding: 0.5rem;
+    }
+  
+    .quadrants {
+      gap: 1rem;
+    }
+  
+    .upper-row,
+    .lower-row {
+      gap: 0.5rem;
+    }
+  
+    .quadrant {
+      gap: 0.25rem;
+  
+      ::ng-deep app-students-tooth {
+        min-width: 40px; // Tamaño mínimo más pequeño para móviles
+      }
+    }
+  }
+  
+  // Asegura que el contenedor de mat-tab-group sea full width
+  :host ::ng-deep .mat-tab-body-wrapper {
+    width: 100%;
+  }
+  
+  :host ::ng-deep .mat-tab-body {
+    width: 100%;
+  }
+  
+  :host ::ng-deep .mat-tab-body-content {
+    width: 100%;
+    overflow-x: hidden; // Previene scroll horizontal
   }

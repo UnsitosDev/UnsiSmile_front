@@ -1,20 +1,28 @@
-import { Component, EventEmitter, Input, Output, input } from '@angular/core';
-import { StudentsToothComponent } from '../tooth/students-tooth.component';
-
-import { OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
+import { forkJoin } from 'rxjs';
+
 import { store } from '@mean/services';
+import { OdontogramData } from 'src/app/services/odontogram-data.service';
+import { ToothConditionsConstants } from 'src/app/utils/ToothConditions.constant';
+import { StudentsToolbarComponent } from '../toolbar-odontogram/students-toolbar.component';
+import { StudentsToothComponent } from '../tooth/students-tooth.component';
+
 import {
   ICondition,
   IFace,
   IOdontogram,
-  ITooth,
+  IOdontogramHandler,
+  ITooth
 } from 'src/app/models/shared/odontogram';
-import { OdontogramData } from 'src/app/services/odontogram-data.service';
-import { ToothConditionsConstants } from 'src/app/utils/ToothConditions.constant';
-import { StudentsToolbarComponent } from '../toolbar-odontogram/students-toolbar.component';
-import { forkJoin } from 'rxjs';
+
+interface ToothEvent {
+  faceId: string;
+  index: number;
+  tooth: ITooth;
+}
+
 @Component({
   selector: 'app-students-odontogram',
   standalone: true,
@@ -28,30 +36,36 @@ import { forkJoin } from 'rxjs';
   styleUrl: './students-odontogram.component.scss',
 })
 export class StudentsOdontogramComponent implements OnInit {
-  @Input({required : true}) patientId: number = 0;
-  @Input({required : true}) odontogramType: "INITIAL_ODONTOGRAM" | "FINAL_ODONTOGRAM" = "INITIAL_ODONTOGRAM";
+  @Input({ required: true }) patientId!: number;
+  @Input({ required: true }) odontogramType: "INITIAL_ODONTOGRAM" | "FINAL_ODONTOGRAM" = "INITIAL_ODONTOGRAM";
+  
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  @Output() nextMatTab = new EventEmitter<number>();
 
-  //define la estructura de una arcada (odontograma)
-  adultArcade = store.adultArcade;
-  childrenArcade = store.childrenArcade;
-  odontogram: IOdontogram = { tooths: [] }; //to insert
-  options!: ICondition[];
-  faces!: IFace[];
+  private readonly odontogramData = inject(OdontogramData);
+  private readonly normalConditions = new Set([
+    ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA,
+    ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA,
+    ToothConditionsConstants.PUENTE,
+    ToothConditionsConstants.PROTESIS_REMOVIBLE,
+    ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
+    ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
+    ToothConditionsConstants.FISTULA,
+  ]);
 
-  data = store;
-
-  toolbar!: { options: ICondition[] }; // Utiliza el servicio para obtener los datos
-
+  data: IOdontogramHandler = store;
+  odontogram: IOdontogram = { tooths: [] };
+  options: ICondition[] = [];
+  faces: IFace[] = [];
+  toolbar: { options: ICondition[] } = { options: [] };
   marked!: ICondition;
   value = 0;
 
-  constructor() {}
+  ngOnInit(): void {
+    this.loadConditions();
+  }
 
-  private odontogramData = inject(OdontogramData);
-
-  ngOnInit() {
-    this.toolbar = { options: [] };
-  
+  private loadConditions(): void {
     forkJoin({
       toothConditions: this.odontogramData.getToothCondition(),
       toothFaceConditions: this.odontogramData.getToothFaceCondition()
@@ -60,160 +74,183 @@ export class StudentsOdontogramComponent implements OnInit {
         this.toolbar.options = [...toothConditions, ...toothFaceConditions];
         this.options = [...toothConditions, ...toothFaceConditions];
       },
-      error: (err) => {
-        console.error('Error al obtener datos:', err);
+      error: (error) => {
+        console.error('Error loading conditions:', error);
       }
     });
   }
-  
 
-  /**
-   * Función invocada cuando cambia el valor del odontograma.
-   * @param event Evento del cambio.
-   * @param value Nuevo valor del odontograma.
-   */
-  handleChange(event: any, value: number) {
+  handleChange(event: unknown, value: number): void {
     this.value = value;
   }
 
-  /**
-   * Función invocada cuando se realiza una acción en un diente del odontograma.
-   * @param cor Color del diente seleccionado.
-   * @param nome Nombre del diente seleccionado.
-   * @param all Información adicional sobre el diente seleccionado.
-   */
-  handleAction(event: any): void {
-    const { description, condition, idCondition } = event;
+  handleAction(event: { description: string; condition: string; idCondition: number }): void {
     this.marked = {
-      idCondition: idCondition,
-      condition: condition,
-      description: description,
+      idCondition: event.idCondition,
+      condition: event.condition,
+      description: event.description,
     };
   }
 
-  /**
+    /**
    * Función para cambiar el estado de un diente (marcado/desmarcado).
    * @param data Información del diente.
    */
-  toggleTooth(data: any) {
-    data.status = !data.status;
-  }
+    toggleTooth(data: any) {
+      data.status = !data.status;
+    }
 
-  /**
-   * Función para configurar la cara del estudiante según el diente seleccionado.
-   * @param event Información del evento que contiene información del diente
-   */
-  setFace(event: { faceId: string; index: number; tooth: ITooth }) {
-    const { index, tooth, faceId } = event;
+  setFace(event: ToothEvent): void {
+    const { tooth, faceId } = event;
 
-    //se verifica que el la condicion se inserte a nivel del diente o de las caras
     if (this.isNotAFaceCondition(this.marked)) {
-      tooth.conditions?.push(this.marked);
       this.addConditionToTooth(tooth.idTooth, this.marked.idCondition);
     } else {
-      tooth.faces[index].conditions?.push(this.marked);
       this.addConditionToFace(tooth.idTooth, faceId, this.marked.idCondition);
     }
-
-    if (this.marked.condition === ToothConditionsConstants.PUENTE) {
-      this.addConditionToFace(tooth.idTooth, faceId, this.marked.idCondition);
-      tooth.faces[index].conditions?.push(this.marked);
-    }
-
-    console.log('emiting faces data: ', this.odontogram);
   }
 
-  isNotAFaceCondition(condition: ICondition): Boolean {
-    const normalConditions = [
-      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA,
-      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA,
-      ToothConditionsConstants.PUENTE,
-      ToothConditionsConstants.PROTESIS_REMOVIBLE,
-      ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
-      ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
-      ToothConditionsConstants.FISTULA,
-    ];
-    return normalConditions.includes(condition.condition);
+  private isNotAFaceCondition(condition: ICondition): boolean {
+    return this.normalConditions.has(condition.condition);
   }
 
-  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
-  emitNextTabEvent() {
-      this.nextTabEventEmitted.emit(false);
-  }
-  
-  @Output() nextMatTab = new EventEmitter<number>();
-  nextTab() {
-    this.nextMatTab.emit(0);
-  }
-  store() {
-    this.nextTab();
-    this.emitNextTabEvent();
+  private getTargetArcade(toothId: number): IOdontogram {
+    // Determinar si el diente pertenece a la arcada adulta o infantil
+    // Esta lógica puede variar según tu implementación específica
+    const isAdultTooth = toothId >= 11 && toothId <= 48; // Ajusta según tu lógica de numeración
+    return isAdultTooth ? this.data.adultArcade : this.data.childrenArcade;
   }
 
-  addConditionToTooth(toothId: number, conditionId: number) {
-    // Buscar el diente correspondiente
-    let tooth = this.odontogram.tooths.find((t) => t.idTooth === toothId);
-
-    // Si el diente no existe, lo creamos
-    if (!tooth) {
-      tooth = { idTooth: toothId, conditions: [], faces: [], status: true };
-      this.odontogram.tooths.push(tooth);
-      console.log(`Tooth with id ${toothId} created`);
-    }
-
-    // Verificar si la condición ya está presente en el diente
-    const existingCondition = tooth.conditions?.find(
-      (c) => c.idCondition === conditionId
-    );
-
-    if (!existingCondition) {
-      const condition = this.options.find((c) => c.idCondition === conditionId);
-      if (condition) {
-        tooth.conditions.push(condition); // Agregar condición al diente
-      }
+  private findOrCreateTooth(toothId: number, inStore: boolean = false): ITooth {
+    let targetTooths: ITooth[];
+    
+    if (inStore) {
+      const targetArcade = this.getTargetArcade(toothId);
+      targetTooths = targetArcade.tooths;
     } else {
-      console.log('Condition already exists in the tooth');
+      targetTooths = this.odontogram.tooths;
+    }
+
+    let tooth = targetTooths.find(t => t.idTooth === toothId);
+    
+    if (!tooth) {
+      tooth = {
+        idTooth: toothId,
+        conditions: [],
+        faces: [],
+        status: true
+      };
+      targetTooths.push(tooth);
+    }
+    
+    return tooth;
+  }
+
+  private addConditionToTooth(toothId: number, conditionId: number): void {
+    // Agregar al odontogram para el POST
+    const toothForPost = this.findOrCreateTooth(toothId);
+    // Agregar al data para la visualización
+    const toothForDisplay = this.findOrCreateTooth(toothId, true);
+    
+    const condition = this.options.find(c => c.idCondition === conditionId);
+    if (condition) {
+      // Agregar al odontogram si no existe
+      if (!toothForPost.conditions.some(c => c.idCondition === conditionId)) {
+        toothForPost.conditions.push({ ...condition });
+      }
+      
+      // Agregar al data si no existe
+      if (!toothForDisplay.conditions.some(c => c.idCondition === conditionId)) {
+        toothForDisplay.conditions.push({ ...condition });
+      }
     }
   }
 
-  addConditionToFace(toothId: number, faceId: string, conditionId: number) {
-    // Buscar el diente correspondiente
-    let tooth = this.odontogram.tooths.find((t) => t.idTooth === toothId);
+  private addConditionToFace(toothId: number, faceId: string, conditionId: number): void {
+    // Preparar dientes tanto para POST como para visualización
+    const toothForPost = this.findOrCreateTooth(toothId);
+    const toothForDisplay = this.findOrCreateTooth(toothId, true);
 
-    // Si el diente no existe, lo creamos
-    if (!tooth) {
-      tooth = { idTooth: toothId, conditions: [], faces: [], status: true };
-      this.odontogram.tooths.push(tooth);
-      console.log(`Tooth with id ${toothId} created`);
+    // Preparar caras para POST
+    let faceForPost = toothForPost.faces.find(f => f.idFace === faceId);
+    if (!faceForPost) {
+      faceForPost = { idFace: faceId, conditions: [] };
+      toothForPost.faces.push(faceForPost);
     }
 
-    // Buscar la cara correspondiente en el diente
-    let face = tooth.faces.find((f) => f.idFace === faceId);
-
-    // Si la cara no existe, la creamos
-    if (!face) {
-      face = { idFace: faceId };
-      tooth.faces.push({ ...face, conditions: [] });
-      face = tooth.faces.find((f) => f.idFace === faceId); // Actualizar la referencia a la nueva cara
+    // Preparar caras para visualización
+    let faceForDisplay = toothForDisplay.faces.find(f => f.idFace === faceId);
+    if (!faceForDisplay) {
+      faceForDisplay = { idFace: faceId, conditions: [] };
+      toothForDisplay.faces.push(faceForDisplay);
     }
 
-    // Verificar si la condición ya está presente en la cara
-    const existingCondition = face?.conditions?.find(
-      (c) => c.idCondition === conditionId
-    );
+    if (!faceForPost.conditions?.some(c => c.idCondition === conditionId)) {
+      this.odontogramData.getToothCondition().subscribe({
+        next: (options) => {
+          const condition = options.find(c => c.idCondition === conditionId);
+          if (condition) {
+            // Agregar condición al odontogram para POST
+            faceForPost!.conditions = faceForPost!.conditions || [];
+            faceForPost!.conditions.push({ ...condition });
 
-    if (!existingCondition) {
-      // Obtener el catálogo de condiciones del backend
-      this.odontogramData.getToothCondition().subscribe((options) => {
-        const condition = options.find((c) => c.idCondition === conditionId);
-        if (condition) {
-          // Inicializar la lista de condiciones si es undefined
-          face!.conditions = face!.conditions || [];
-          face!.conditions.push(condition); // Agregar la condición a la cara
+            // Agregar condición al data para visualización
+            faceForDisplay!.conditions = faceForDisplay!.conditions || [];
+            faceForDisplay!.conditions.push({ ...condition });
+          }
+        },
+        error: (error) => {
+          console.error('Error adding condition to face:', error);
         }
       });
-    } else {
-      console.log('Condition already exists in the face');
     }
+  }
+
+  public getQuadrantTeeth(teeth: ITooth[], quadrant: number): ITooth[] {
+    // Para dientes adultos
+    if (quadrant >= 1 && quadrant <= 4) {
+      return teeth.filter(tooth => {
+        const id = tooth.idTooth;
+        switch (quadrant) {
+          case 1: return id >= 11 && id <= 18;
+          case 2: return id >= 21 && id <= 28;
+          case 3: return id >= 31 && id <= 38;
+          case 4: return id >= 41 && id <= 48;
+          default: return false;
+        }
+      }).sort((a, b) => {
+        // Ordenar dientes de manera apropiada según el cuadrante
+        if (quadrant === 1 || quadrant === 4) {
+          return a.idTooth - b.idTooth; // orden ascendente para cuadrantes derechos
+        } else {
+          return b.idTooth - a.idTooth; // orden descendente para cuadrantes izquierdos
+        }
+      });
+    }
+    // Para dientes infantiles
+    else {
+      return teeth.filter(tooth => {
+        const id = tooth.idTooth;
+        switch (quadrant) {
+          case 5: return id >= 51 && id <= 55;
+          case 6: return id >= 61 && id <= 65;
+          case 7: return id >= 71 && id <= 75;
+          case 8: return id >= 81 && id <= 85;
+          default: return false;
+        }
+      }).sort((a, b) => {
+        // Ordenar dientes de manera apropiada según el cuadrante
+        if (quadrant === 5 || quadrant === 8) {
+          return a.idTooth - b.idTooth; // orden ascendente para cuadrantes derechos
+        } else {
+          return b.idTooth - a.idTooth; // orden descendente para cuadrantes izquierdos
+        }
+      });
+    }
+  }
+
+  store(): void {
+    this.nextMatTab.emit(0);
+    this.nextTabEventEmitted.emit(false);
   }
 }
