@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faUserMd } from '@fortawesome/free-solid-svg-icons'; // Ícono de doctor
@@ -9,7 +9,7 @@ import { AdditionalCardsComponent } from 'src/app/shared/additional-cards/additi
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule,DashboardStatsComponent, AdditionalCardsComponent],
+  imports: [FontAwesomeModule, DashboardStatsComponent, AdditionalCardsComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'] // Corrige styleUrl a styleUrls
 })

@@ -1,3 +1,5 @@
+<div class="tooth-container">
+
 <div class="boxTooth">
   @if (data.status) {
   <button class="removeButton" (click)="toggleTooth.emit(data)">-</button>
@@ -204,21 +206,6 @@
           />
         </ng-container>
         }
-        <!-- Fístula -->
-        @if (condition.condition === ToothConditionsConstant.FISTULA) {
-        <ng-container>
-          <svg width="29" height="34">
-            <g>
-              <circle
-                [attr.cx]="getFaceCirclePoints(idx).cx"
-                [attr.cy]="getFaceCirclePoints(idx).cy"
-                [attr.r]="getFaceCirclePoints(idx).r"
-                fill="red"
-              />
-            </g>
-          </svg>
-        </ng-container>
-        }
 
         <!-- Diente obturado con caries -->
         @if (condition.condition ===
@@ -242,6 +229,25 @@
   <!-- Contenedor de simbologías debajo del diente -->
   <div class="tooth-symbols-below">
     @for (condition of data.conditions; track condition) {
+
+    <!-- Fístula -->
+    @if (condition.condition === ToothConditionsConstant.FISTULA) {
+    <ng-container>
+      <svg width="29" height="34">
+        <g>
+          <circle
+            cx="14"
+            cy="30"
+            r="4"
+            stroke="black"
+            stroke-width="2"
+            fill="red"
+          />
+        </g>
+      </svg>
+    </ng-container>
+    }
+
     <!-- Diente con fluorosis -->
     @if (condition.condition === ToothConditionsConstant.DIENTE_CON_FLUOROSIS) {
     <svg width="29" height="10">
@@ -316,4 +322,5 @@
     </span>
     } }
   </div>
+</div>
 </div>

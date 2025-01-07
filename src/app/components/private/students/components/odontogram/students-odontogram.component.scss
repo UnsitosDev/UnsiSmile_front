@@ -1,24 +1,71 @@
-.container {
-    width: 960px;
-    margin: 0 auto;
+.odontogram-container {
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
-.button-container {
-    display: flex;
-    justify-content: space-between; /* Distribuye el espacio entre los botones */
-    margin-top: 20px; /* Espacio superior opcional */
-}
-  
-.button-container button {
-    max-width: 400px; /* Limita el ancho máximo de los botones */
-    flex: 0 0 auto; /* Evita que los botones crezcan para ocupar el espacio disponible */
-    margin: 0 5px; /* Espacio entre los botones */
+.quadrants {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  margin: 0 auto;
 }
 
-button{
-    background-color: #07437a !important;
-    color: white !important;
+.upper-row,
+.lower-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
 }
-.custom-text {
-    color: var(--on-secondary);  
+
+.quadrant {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  justify-content: space-between;
+}
+
+:host ::ng-deep .mat-tab-body-wrapper {
+  min-height: 500px;
+}
+
+.tooth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.boxTooth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.symbol-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.symbol {
+  margin: 0.2rem;
+  padding: 0.2rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 0.2rem;
+  font-size: 0.8rem;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .quadrant {
+    flex-wrap: wrap;
+    justify-content: center;
   }
+}           
