@@ -70,14 +70,17 @@ export class PatientService {
             })
             .subscribe({
                 next: (response) => {
-                    this.housingResponseData = response;
-                    this.housingOptions = response.map((item: any) => ({
+                    // Verificar si la respuesta es un array o tiene propiedad content
+                    const data = Array.isArray(response) ? response : response.content;
+                    this.housingResponseData = data;
+                    this.housingOptions = data?.map((item: any) => ({
                         value: item.idHousing.toString(),
                         label: item.category
-                    }));
+                    })) || [];
                 },
                 error: (error) => {
-                    console.error('Error en la autenticación:', error);
+                    console.error('Error al obtener tipos de vivienda:', error);
+                    this.housingOptions = []; // Asegurar que siempre haya un array aunque sea vacío
                 },
             });
     }
@@ -96,8 +99,8 @@ export class PatientService {
             })
             .subscribe({
                 next: (response) => {
-                    this.streetsData = response;
-                    this.streetsOptions = response.map((item: any) => ({
+                    this.streetsData = response.content;
+                    this.streetsOptions = response.content.map((item: any) => ({
                         value: item.idStreet.toString(),
                         label: item.name
                     }));
@@ -108,113 +111,267 @@ export class PatientService {
             });
     }
 
-    // Colonias
-    neighborhoodResponseData: neighborhoodRequest[] = [];
-    neighborhoodOptions: Array<{ value: string; label: string }> = [];
-    getNeighborhoodData() {
-        this.apiService
-            .getService({
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                }),
-                url: `${UriConstants.GET_NEIGHBORHOODS}`,
-                data: {},
-            })
-            .subscribe({
-                next: (response) => {
-                    this.neighborhoodResponseData = response;
-                    this.neighborhoodOptions = response.map((item: any) => ({
-                        value: item.idNeighborhood.toString(),
-                        label: item.name
-                    }));
-                },
-                error: (error) => {
-                    console.error('Error en la autenticación:', error);
-                },
-            });
-    }
+   // Colonias
+neighborhoodResponse: PaginatedData<neighborhoodRequest>[] = [];
+neighborhoodOptions: Array<{ value: string; label: string }> = [];
 
-    // Localidad
-    localityData: localityRequest[] = [];
-    localityOptions: Array<{ value: string; label: string }> = [];
-    getLocality(searchTerm: string) {
-        this.apiService
-            .getService({
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                }),
-                url: `${UriConstants.GET_LOCALITIES}?keyword=${searchTerm}`,
-                data: {},
-            })
-            .subscribe({
-                next: (response) => {
-                    this.localityData = response.content;
-                    this.localityOptions = response.content.map((item: any) => ({
-                        value: item.idLocality.toString(),
-                        label: item.name
-                    }));
-                },
-                error: (error) => {
-                    console.error('Error en la autenticación:', error);
-                },
-            });
-    }
-
-    getLocalityDataPaginated(searchTerm: string, page: number, size: number): Observable<PaginatedData<localityRequest>> {
-        return this.apiService.getService({
+getNeighborhoodData(searchTerm: string) {
+    this.apiService
+        .getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            url: `${UriConstants.GET_LOCALITIES}?keyword=${searchTerm}&page=${page}&size=${size}`,
+            url: `${UriConstants.GET_NEIGHBORHOODS}?keyword=${searchTerm}`,
             data: {},
-        }).pipe(
-            catchError((error) => {
-                console.error('Error en la autenticación:', error);
-                return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
-            })
-        );
+        })
+        .subscribe({
+            next: (response) => {
+                this.neighborhoodResponse = response.content;
+                this.neighborhoodOptions = response.content.map((item: any) => ({
+                    value: item.idNeighborhood.toString(),
+                    label: item.name,
+                }));
+            },
+            error: (error) => {
+                console.error('Error al obtener colonias:', error);
+            },
+        });
+}
+
+getNeighborhoodDataPaginated(searchTerm: string, page: number, size: number, localityId?: string): Observable<PaginatedData<neighborhoodRequest>> {
+    if (!localityId) {
+        console.log('Se requiere ID de localidad para buscar colonias');
+        return of({
+            content: [],
+            totalElements: 0,
+            totalPages: 0,
+            number: 0,
+            pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false },
+            last: true,
+            size: 0,
+            sort: { sorted: false, empty: true, unsorted: true },
+            numberOfElements: 0,
+            first: true,
+            empty: true,
+        });
     }
 
-    // Municipios
-    municipalityResponse: PaginatedData<municipalityRequest>[] = [];
-    municipalityOptions: Array<{ value: string; label: string }> = [];
-    getMunicipalityData(searchTerm: string) {
-        this.apiService
-            .getService({
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                }),
-                url: `${UriConstants.GET_MUNICIPALITY}?keyword=${searchTerm}`,
-                data: {},
-            })
-            .subscribe({
-                next: (response) => {
-                    this.municipalityResponse = response.content;
-                    this.municipalityOptions = response.content.map((item: any) => ({
-                        value: item.idMunicipality.toString(),
-                        label: item.name
-                    }));
-                },
-                error: (error) => {
-                    console.error('Error en la autenticación:', error);
-                },
+    const url = `${UriConstants.GET_NEIGHBORHOODS_LOCALITY}${localityId}?page=0&size=1000`;
+
+    return this.apiService.getService({
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+        }),
+        url: url,
+        data: {},
+    }).pipe(
+        map(response => {
+            console.log('Respuesta inicial de colonias por localidad:', response);
+
+            let filteredContent = response.content;
+
+            if (searchTerm && searchTerm.trim() !== '') {
+                const searchTermLower = searchTerm.toLowerCase();
+                filteredContent = response.content.filter((item: neighborhoodRequest) => 
+                    item.name.toLowerCase().includes(searchTermLower)
+                );
+            }
+
+            const startIndex = page * size;
+            const endIndex = startIndex + size;
+            const paginatedContent = filteredContent.slice(startIndex, endIndex);
+
+            return {
+                content: paginatedContent,
+                totalElements: filteredContent.length,
+                totalPages: Math.ceil(filteredContent.length / size),
+                number: page,
+                size: size,
+                pageable: response.pageable,
+                last: endIndex >= filteredContent.length,
+                first: page === 0,
+                empty: paginatedContent.length === 0,
+                numberOfElements: paginatedContent.length,
+                sort: response.sort,
+            };
+        }),
+        catchError(error => {
+            console.error('Error en la petición de colonias:', error);
+            return of({
+                content: [],
+                totalElements: 0,
+                totalPages: 0,
+                number: 0,
+                pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false },
+                last: true,
+                size: 0,
+                sort: { sorted: false, empty: true, unsorted: true },
+                numberOfElements: 0,
+                first: true,
+                empty: true,
             });
-    }
+        })
+    );
+}
 
-    getMunicipalityDataPaginated(searchTerm: string, page: number, size: number): Observable<PaginatedData<municipalityRequest>> {
-        return this.apiService.getService({
+
+   // Localidad
+localityResponse: PaginatedData<localityRequest>[] = [];
+localityOptions: Array<{ value: string; label: string }> = [];
+
+getLocalityData(searchTerm: string) {
+    this.apiService
+        .getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            url: `${UriConstants.GET_MUNICIPALITY}?keyword=${searchTerm}&page=${page}&size=${size}`,
+            url: `${UriConstants.GET_LOCALITIES}?keyword=${searchTerm}`,
             data: {},
-        }).pipe(
-            catchError((error) => {
-                console.error('Error en la autenticación:', error);
-                return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
-            })
-        );
+        })
+        .subscribe({
+            next: (response) => {
+                this.localityResponse = response.content;
+                this.localityOptions = response.content.map((item: any) => ({
+                    value: item.idLocality.toString(),
+                    label: item.name,
+                }));
+            },
+            error: (error) => {
+                console.error('Error en la obtención de localidades:', error);
+            },
+        });
+}
+
+getLocalityDataPaginated(searchTerm: string, page: number, size: number, municipalityId?: string): Observable<PaginatedData<localityRequest>> {
+    if (!municipalityId) {
+        console.log('Se requiere ID de municipio para buscar localidades');
+        return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
     }
+
+    const url = `${UriConstants.GET_LOCALITIES_MUNICIPALITY}${municipalityId}?page=0&size=1000`;
+    
+    return this.apiService.getService({
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+        }),
+        url: url,
+        data: {},
+    }).pipe(
+        map(response => {
+            console.log('Respuesta inicial de localidades por municipio:', response);
+            
+            let filteredContent = response.content;
+            
+            if (searchTerm && searchTerm.trim() !== '') {
+                const searchTermLower = searchTerm.toLowerCase();
+                filteredContent = response.content.filter((item: localityRequest) => 
+                    item.name.toLowerCase().includes(searchTermLower)
+                );
+            }
+            
+            const startIndex = page * size;
+            const endIndex = startIndex + size;
+            const paginatedContent = filteredContent.slice(startIndex, endIndex);
+            
+            return {
+                content: paginatedContent,
+                totalElements: filteredContent.length,
+                totalPages: Math.ceil(filteredContent.length / size),
+                number: page,
+                size: size,
+                pageable: response.pageable,
+                last: endIndex >= filteredContent.length,
+                first: page === 0,
+                empty: paginatedContent.length === 0,
+                numberOfElements: paginatedContent.length,
+                sort: response.sort
+            };
+        }),
+        catchError(error => {
+            console.error('Error en la petición de localidades:', error);
+            return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
+        })
+    );
+}
+
+
+// Municipios
+municipalityResponse: PaginatedData<municipalityRequest>[] = [];
+municipalityOptions: Array<{ value: string; label: string }> = [];
+getMunicipalityData(searchTerm: string) {
+    this.apiService
+        .getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.GET_MUNICIPALITY}?keyword=${searchTerm}`,
+            data: {},
+        })
+        .subscribe({
+            next: (response) => {
+                this.municipalityResponse = response.content;
+                this.municipalityOptions = response.content.map((item: any) => ({
+                    value: item.idMunicipality.toString(),
+                    label: item.name
+                }));
+            },
+            error: (error) => {
+                console.error('Error en la autenticación:', error);
+            },
+        });
+}
+
+getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, stateId?: string): Observable<PaginatedData<municipalityRequest>> {
+    if (!stateId) {
+        console.log('Se requiere ID de estado para buscar municipios');
+        return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
+    }
+
+    const url = `${UriConstants.GET_MUNICIPALITY_STATE}${stateId}?page=0&size=1000`;
+    
+    return this.apiService.getService({
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+        }),
+        url: url,
+        data: {},
+    }).pipe(
+        map(response => {
+            console.log('Respuesta inicial de municipios por estado:', response);
+            
+            let filteredContent = response.content;
+            
+            if (searchTerm && searchTerm.trim() !== '') {
+                const searchTermLower = searchTerm.toLowerCase();
+                filteredContent = response.content.filter((item: municipalityRequest) => 
+                    item.name.toLowerCase().includes(searchTermLower)
+                );
+            }
+            
+            const startIndex = page * size;
+            const endIndex = startIndex + size;
+            const paginatedContent = filteredContent.slice(startIndex, endIndex);
+            
+            return {
+                content: paginatedContent,
+                totalElements: filteredContent.length,
+                totalPages: Math.ceil(filteredContent.length / size),
+                number: page,
+                size: size,
+                pageable: response.pageable,
+                last: endIndex >= filteredContent.length,
+                first: page === 0,
+                empty: paginatedContent.length === 0,
+                numberOfElements: paginatedContent.length,
+                sort: response.sort
+            };
+        }),
+        catchError(error => {
+            console.error('Error en la petición de municipios:', error);
+            return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
+        })
+    );
+}
 
     // Nacionalidad
     nationalityRequest: PaginatedData<nationalityRequest>[] = [];

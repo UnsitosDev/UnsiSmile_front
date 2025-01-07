@@ -11,6 +11,12 @@ import { FieldNames } from '../models/form-fields/form-utils';
 })
 export class FormFieldsService {
     patientService = inject(PatientService);
+    // Agregar variable para mantener el ID del estado seleccionado
+    private selectedStateId: string | undefined;
+    private selectedMunicipalityId: string | undefined;
+    private selectedLocalitId: string | undefined;
+    private selectedNeighborhoodId: string | undefined;
+
     private personalDataFields: FormField[] = [
         {
             type: 'input',
@@ -165,7 +171,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'select',
+            type: 'autocomplete',
             label: 'Nombre de colonia',
             name: 'neighborhoodName',
             required: true,
@@ -173,7 +179,10 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Nombre de colonia es requerido.'
             },
-            onClick: this.handleNeighborhoodClick.bind(this)
+            onInputChange: {
+            changeFunction: this.handleNeighborhoodClick.bind(this),
+            length: 5
+                     }
         },
         {
             type: 'select',
@@ -365,7 +374,7 @@ export class FormFieldsService {
         this.handleGenderClick({} as MouseEvent);
         this.handleHousingClick({} as MouseEvent);
         this.handleStretClick({} as MouseEvent);
-        this.handleNeighborhoodClick({} as MouseEvent);
+        //this.handleNeighborhoodClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
         this.handleOcupationClick({} as MouseEvent);
@@ -389,14 +398,68 @@ export class FormFieldsService {
         streetsField && (streetsField.options = this.patientService.streetsOptions);
     }
 
-    private handleNeighborhoodClick(event: MouseEvent): void {
-        this.patientService.getNeighborhoodData();
-        const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
-        neighborhoodField && (neighborhoodField.options = this.patientService.neighborhoodOptions);
+    public handleNeighborhoodClick(searchTerm: string, page: number = 0, size: number = 3, localityId?: string): void {
+        // Limpiar la colonia seleccionada si el término de búsqueda está vacío
+        if (!searchTerm || searchTerm.trim() === '') {
+            this.selectedNeighborhoodId = undefined;
+            return;
+        }
+    
+        const effectiveLocalityId = localityId || this.selectedLocalitId;
+        console.log('Búsqueda de colonias - Parámetros:', { searchTerm, page, size, localityId: effectiveLocalityId });
+    
+        this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, effectiveLocalityId).subscribe(response => {
+            console.log('Respuesta de colonias filtrada:', response);
+    
+            const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
+            if (neighborhoodField) {
+                const newOptions = response.content.map(item => ({
+                    value: item.idNeighborhood ? item.idNeighborhood.toString() : '',
+                    label: item.name
+                }));
+                neighborhoodField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+    
+                // Si hay una única colonia o si hay un término de búsqueda exacto
+                const exactMatch = response.content.find(item => 
+                    item.name.toLowerCase() === searchTerm.toLowerCase()
+                );
+    
+                // Limpiar la colonia anterior si no hay coincidencia exacta
+                if (!exactMatch && this.selectedNeighborhoodId) {
+                    this.selectedNeighborhoodId = undefined;
+                }
+    
+                if (response.content.length === 1 || exactMatch) {
+                    const selectedNeighborhood = exactMatch || response.content[0];
+                    const newNeighborhoodId = selectedNeighborhood.idNeighborhood?.toString();
+    
+                    // Solo actualizar si la colonia ha cambiado
+                    if (this.selectedNeighborhoodId !== newNeighborhoodId) {
+                        this.selectedNeighborhoodId = newNeighborhoodId;
+                        if (this.selectedNeighborhoodId) {
+                            console.log('Colonia seleccionada, ID:', this.selectedNeighborhoodId);
+                        }
+                    }
+                }
+            }
+        });
     }
-
-    private handleLocalityClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        this.patientService.getLocalityDataPaginated(searchTerm, page, size).subscribe(response => {
+    
+    
+    public handleLocalityClick(searchTerm: string, page: number = 0, size: number = 3, municipalityId?: string): void {
+        // Limpiar la localidad seleccionada y las colonias si el término de búsqueda está vacío
+        if (!searchTerm || searchTerm.trim() === '') {
+            this.selectedLocalitId = undefined;
+            this.clearNeighborhoodOptions();
+            return;
+        }
+    
+        const effectiveMunicipalityId = municipalityId || this.selectedMunicipalityId;
+        console.log('Búsqueda de localidades - Parámetros:', { searchTerm, page, size, municipalityId: effectiveMunicipalityId });
+    
+        this.patientService.getLocalityDataPaginated(searchTerm, page, size, effectiveMunicipalityId).subscribe(response => {
+            console.log('Respuesta de localidades filtrada:', response);
+    
             const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
             if (localityField) {
                 const newOptions = response.content.map(item => ({
@@ -404,12 +467,62 @@ export class FormFieldsService {
                     label: item.name
                 }));
                 localityField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+    
+                // Si hay una única localidad o si hay un término de búsqueda exacto
+                const exactMatch = response.content.find(item => 
+                    item.name.toLowerCase() === searchTerm.toLowerCase()
+                );
+    
+                // Limpiar la localidad anterior si no hay coincidencia exacta
+                if (!exactMatch && this.selectedLocalitId) {
+                    this.selectedLocalitId = undefined;
+                    this.clearNeighborhoodOptions();
+                }
+    
+                if (response.content.length === 1 || exactMatch) {
+                    const selectedLocality = exactMatch || response.content[0];
+                    const newLocalityId = selectedLocality.idLocality?.toString();
+                    
+                    // Solo actualizar si la localidad ha cambiado
+                    if (this.selectedLocalitId !== newLocalityId) {
+                        this.selectedLocalitId = newLocalityId;
+                        if (this.selectedLocalitId) {
+                            console.log('Localidad seleccionada, ID:', this.selectedLocalitId);
+                            this.clearNeighborhoodOptions();
+                            // Cargar las colonias usando el ID de la localidad
+                            this.handleNeighborhoodClick('',0,1000, this.selectedLocalitId);
+                        }
+                    }
+                }
             }
         });
     }
-
-    private handleMunicipalityClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        this.patientService.getMunicipalityDataPaginated(searchTerm, page, size).subscribe(response => {
+    
+    private clearNeighborhoodOptions(): void {
+        const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
+        if (neighborhoodField) {
+            neighborhoodField.options = [];
+            // También limpiar el valor seleccionado si existe
+            if (neighborhoodField.value) {
+                neighborhoodField.value = '';
+            }
+        }
+    }
+    
+    public handleMunicipalityClick(searchTerm: string, page: number = 0, size: number = 3, stateId?: string): void {
+        const effectiveStateId = stateId || this.selectedStateId;
+        console.log('Búsqueda de municipios - Parámetros:', { searchTerm, page, size, stateId: effectiveStateId });
+    
+        // Limpiar el municipio seleccionado y las localidades si el término de búsqueda está vacío
+        if (!searchTerm || searchTerm.trim() === '') {
+            this.selectedMunicipalityId = undefined;
+            this.clearLocalityOptions();
+            return;
+        }
+    
+        this.patientService.getMunicipalityDataPaginated(searchTerm, page, size, effectiveStateId).subscribe(response => {
+            console.log('Respuesta de municipios filtrada:', response);
+    
             const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
             if (municipalityField) {
                 const newOptions = response.content.map(item => ({
@@ -417,12 +530,53 @@ export class FormFieldsService {
                     label: item.name
                 }));
                 municipalityField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+    
+                // Si hay un único municipio o si hay un término de búsqueda exacto
+                const exactMatch = response.content.find(item => 
+                    item.name.toLowerCase() === searchTerm.toLowerCase()
+                );
+    
+                // Limpiar el municipio anterior si no hay coincidencia exacta
+                if (!exactMatch && this.selectedMunicipalityId) {
+                    this.selectedMunicipalityId = undefined;
+                    this.clearLocalityOptions();
+                }
+    
+                if (response.content.length === 1 || exactMatch) {
+                    const selectedMunicipality = exactMatch || response.content[0];
+                    const newMunicipalityId = selectedMunicipality.idMunicipality?.toString();
+                    
+                    // Solo actualizar si el municipio ha cambiado
+                    if (this.selectedMunicipalityId !== newMunicipalityId) {
+                        this.selectedMunicipalityId = newMunicipalityId;
+                        if (this.selectedMunicipalityId) {
+                            console.log('Municipio seleccionado, ID:', this.selectedMunicipalityId);
+                            this.clearLocalityOptions();
+                            this.handleLocalityClick('', 0, 1000, this.selectedMunicipalityId);
+                        }
+                    }
+                }
             }
         });
     }
+    
+    private clearLocalityOptions(): void {
+        const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
+        if (localityField) {
+            localityField.options = [];
+            // También limpiar el valor seleccionado si existe
+            if (localityField.value) {
+                localityField.value = '';
+            }
+        }
+    }
 
     public handleStateClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        console.log('Búsqueda de estado - Parámetros:', { searchTerm, page, size });
+        
         this.patientService.getStateDataPaginated(searchTerm, page, size).subscribe(response => {
+            console.log('Respuesta de estados:', response);
+            
             const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
             if (stateField) {
                 const newOptions = response.content.map(item => ({
@@ -430,6 +584,16 @@ export class FormFieldsService {
                     label: item.name
                 }));
                 stateField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+                
+                // Cuando se selecciona un estado, actualizar municipios
+                if (response.content.length === 1) {
+                    this.selectedStateId = response.content[0].idState?.toString();
+                    if (this.selectedStateId) {
+                        console.log('Estado seleccionado, ID:', this.selectedStateId);
+                        // Aumentamos el tamaño a 1000 para asegurar que traemos todos los municipios
+                        this.handleMunicipalityClick('', 0, 1000, this.selectedStateId);
+                    }
+                }
             }
         });
     }
