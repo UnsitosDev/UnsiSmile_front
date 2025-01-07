@@ -164,7 +164,6 @@ export class TabFormComponent {
     formData.append('idPatient', this.patientUuid);
     formData.append('idQuestion', this.idQuestion.toString());
 
-    console.log('formData', this.patientID);
     this.apiService
       .postService({
         headers: new HttpHeaders({
@@ -188,7 +187,6 @@ export class TabFormComponent {
 
     // Validar si el formulario es valido
     if (!this.formGroup.valid) {
-      console.log('El formulario contiene errores');
       return;
     }
 
@@ -219,7 +217,6 @@ export class TabFormComponent {
     if (this.files && this.files.length > 0) {
       this.sendFiles();
     }
-    console.log(sendData);
     this.apiService
       .patchService({
         headers: new HttpHeaders({
