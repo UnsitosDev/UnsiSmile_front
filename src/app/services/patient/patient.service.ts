@@ -6,10 +6,10 @@ import { UriConstants } from '@mean/utils';
 import { genderRequest } from 'src/app/models/models-students/genders/genders';
 import { housingRequest } from 'src/app/models/shared/addresses/housing/housing';
 import { streetRequest } from 'src/app/models/shared/addresses/street/street';
-import { neighborhoodRequest } from 'src/app/models/shared/addresses/neighborhood/neighborhood';
-import { localityRequest } from 'src/app/models/shared/addresses/locality/locality';
-import { municipalityRequest } from 'src/app/models/shared/addresses/municipality/municipality';
-import { stateRequest } from 'src/app/models/shared/addresses/state/state';
+import { neighborhoodOptions, neighborhoodRequest } from 'src/app/models/shared/addresses/neighborhood/neighborhood';
+import { localityOptions, localityRequest } from 'src/app/models/shared/addresses/locality/locality';
+import { municipalityOptions, municipalityRequest } from 'src/app/models/shared/addresses/municipality/municipality';
+import { stateOptions, stateRequest } from 'src/app/models/shared/addresses/state/state';
 import { nationalityRequest } from 'src/app/models/shared/patients/Nationality/Nationality';
 import { maritalStatusRequest } from 'src/app/models/shared/patients/MaritalStatus/maritalStatus';
 import { occupationRequest } from 'src/app/models/shared/patients/Occupation/occupation';
@@ -138,22 +138,10 @@ getNeighborhoodData(searchTerm: string) {
         });
 }
 
-getNeighborhoodDataPaginated(searchTerm: string, page: number, size: number, localityId?: string): Observable<PaginatedData<neighborhoodRequest>> {
+getNeighborhoodDataPaginated(searchTerm: string, page: number, size: number, localityId?: string): Observable<neighborhoodOptions[]> {
     if (!localityId) {
         console.log('Se requiere ID de localidad para buscar colonias');
-        return of({
-            content: [],
-            totalElements: 0,
-            totalPages: 0,
-            number: 0,
-            pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false },
-            last: true,
-            size: 0,
-            sort: { sorted: false, empty: true, unsorted: true },
-            numberOfElements: 0,
-            first: true,
-            empty: true,
-        });
+        return of([]);
     }
 
     const url = `${UriConstants.GET_NEIGHBORHOODS_LOCALITY}${localityId}?page=0&size=1000`;
@@ -165,51 +153,25 @@ getNeighborhoodDataPaginated(searchTerm: string, page: number, size: number, loc
         url: url,
         data: {},
     }).pipe(
-        map(response => {
-            console.log('Respuesta inicial de colonias por localidad:', response);
-
+        map((response) => {
             let filteredContent = response.content;
-
+            
             if (searchTerm && searchTerm.trim() !== '') {
                 const searchTermLower = searchTerm.toLowerCase();
                 filteredContent = response.content.filter((item: neighborhoodRequest) => 
                     item.name.toLowerCase().includes(searchTermLower)
                 );
             }
-
-            const startIndex = page * size;
-            const endIndex = startIndex + size;
-            const paginatedContent = filteredContent.slice(startIndex, endIndex);
-
-            return {
-                content: paginatedContent,
-                totalElements: filteredContent.length,
-                totalPages: Math.ceil(filteredContent.length / size),
-                number: page,
-                size: size,
-                pageable: response.pageable,
-                last: endIndex >= filteredContent.length,
-                first: page === 0,
-                empty: paginatedContent.length === 0,
-                numberOfElements: paginatedContent.length,
-                sort: response.sort,
-            };
+            
+            this.neighborhoodOptions = filteredContent.map((item: neighborhoodRequest) => ({
+                value: item.idNeighborhood?.toString() || '',
+                label: item.name
+            }));
+            return this.neighborhoodOptions;
         }),
         catchError(error => {
             console.error('Error en la petición de colonias:', error);
-            return of({
-                content: [],
-                totalElements: 0,
-                totalPages: 0,
-                number: 0,
-                pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false },
-                last: true,
-                size: 0,
-                sort: { sorted: false, empty: true, unsorted: true },
-                numberOfElements: 0,
-                first: true,
-                empty: true,
-            });
+            return of([]);
         })
     );
 }
@@ -242,10 +204,10 @@ getLocalityData(searchTerm: string) {
         });
 }
 
-getLocalityDataPaginated(searchTerm: string, page: number, size: number, municipalityId?: string): Observable<PaginatedData<localityRequest>> {
+getLocalityDataPaginated(searchTerm: string, page: number, size: number, municipalityId?: string): Observable<localityOptions[]> {
     if (!municipalityId) {
         console.log('Se requiere ID de municipio para buscar localidades');
-        return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
+        return of([]);
     }
 
     const url = `${UriConstants.GET_LOCALITIES_MUNICIPALITY}${municipalityId}?page=0&size=1000`;
@@ -257,9 +219,7 @@ getLocalityDataPaginated(searchTerm: string, page: number, size: number, municip
         url: url,
         data: {},
     }).pipe(
-        map(response => {
-            console.log('Respuesta inicial de localidades por municipio:', response);
-            
+        map((response) => {
             let filteredContent = response.content;
             
             if (searchTerm && searchTerm.trim() !== '') {
@@ -269,27 +229,15 @@ getLocalityDataPaginated(searchTerm: string, page: number, size: number, municip
                 );
             }
             
-            const startIndex = page * size;
-            const endIndex = startIndex + size;
-            const paginatedContent = filteredContent.slice(startIndex, endIndex);
-            
-            return {
-                content: paginatedContent,
-                totalElements: filteredContent.length,
-                totalPages: Math.ceil(filteredContent.length / size),
-                number: page,
-                size: size,
-                pageable: response.pageable,
-                last: endIndex >= filteredContent.length,
-                first: page === 0,
-                empty: paginatedContent.length === 0,
-                numberOfElements: paginatedContent.length,
-                sort: response.sort
-            };
+            this.localityOptions = filteredContent.map((item: localityRequest) => ({
+                value: item.idLocality?.toString() || '',
+                label: item.name
+            }));
+            return this.localityOptions;
         }),
         catchError(error => {
             console.error('Error en la petición de localidades:', error);
-            return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
+            return of([]);
         })
     );
 }
@@ -321,10 +269,10 @@ getMunicipalityData(searchTerm: string) {
         });
 }
 
-getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, stateId?: string): Observable<PaginatedData<municipalityRequest>> {
+getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, stateId?: string): Observable<municipalityOptions[]> {
     if (!stateId) {
         console.log('Se requiere ID de estado para buscar municipios');
-        return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
+        return of([]);
     }
 
     const url = `${UriConstants.GET_MUNICIPALITY_STATE}${stateId}?page=0&size=1000`;
@@ -336,9 +284,7 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
         url: url,
         data: {},
     }).pipe(
-        map(response => {
-            console.log('Respuesta inicial de municipios por estado:', response);
-            
+        map((response) => {
             let filteredContent = response.content;
             
             if (searchTerm && searchTerm.trim() !== '') {
@@ -348,27 +294,15 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
                 );
             }
             
-            const startIndex = page * size;
-            const endIndex = startIndex + size;
-            const paginatedContent = filteredContent.slice(startIndex, endIndex);
-            
-            return {
-                content: paginatedContent,
-                totalElements: filteredContent.length,
-                totalPages: Math.ceil(filteredContent.length / size),
-                number: page,
-                size: size,
-                pageable: response.pageable,
-                last: endIndex >= filteredContent.length,
-                first: page === 0,
-                empty: paginatedContent.length === 0,
-                numberOfElements: paginatedContent.length,
-                sort: response.sort
-            };
+            this.municipalityOptions = filteredContent.map((item: municipalityRequest) => ({
+                value: item.idMunicipality?.toString() || '',
+                label: item.name
+            }));
+            return this.municipalityOptions;
         }),
         catchError(error => {
             console.error('Error en la petición de municipios:', error);
-            return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
+            return of([]);
         })
     );
 }
@@ -400,9 +334,33 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             });
     }
     // Estados
-    stateResponseData: PaginatedData<stateRequest>[] = [];
-    stateOptions: Array<{ value: string; label: string }> = [];
-    getStateDataPaginated(searchTerm: string, page: number, size: number): Observable<PaginatedData<stateRequest>> {
+    stateData: PaginatedData<stateRequest>[] = [];
+    stateOptions: stateOptions[] = [];
+    
+    getStateData(searchTerm: string) {
+        this.apiService
+            .getService({
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                }),
+                url: `${UriConstants.GET_STATE}?keyword=${searchTerm}`,
+                data: {},
+            })
+            .subscribe({
+                next: (response) => {
+                    this.stateData = response.content;
+                    this.stateOptions = response.content.map((item: any) => ({
+                        value: item.idState.toString(),
+                        label: item.name
+                    }));
+                },
+                error: (error) => {
+                    console.error('Error al obtener estados:', error);
+                },
+            });
+    }
+
+    getStateDataPaginated(searchTerm: string, page: number, size: number): Observable<stateOptions[]> {
         return this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -410,14 +368,19 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             url: `${UriConstants.GET_STATE}?search=${searchTerm}&page=${page}&size=${size}`,
             data: {},
         }).pipe(
+            map((response) => {
+                this.stateOptions = response.content.map((item: stateRequest) => ({
+                    value: item.idState.toString(),
+                    label: item.name
+                }));
+                return this.stateOptions;
+            }),
             catchError((error) => {
-                console.error('Error en la autenticación:', error);
-                return of({ content: [], totalElements: 0, totalPages: 0, number: 0, pageable: { pageNumber: 0, pageSize: 0, sort: { sorted: false, empty: true, unsorted: true }, offset: 0, paged: true, unpaged: false }, last: true, size: 0, sort: { sorted: false, empty: true, unsorted: true }, numberOfElements: 0, first: true, empty: true });
+                console.error('Error al obtener estados:', error);
+                return of([]);
             })
         );
     }
-
-
 
     // Estado civil
     maritalStatusData: PaginatedData<maritalStatusRequest>[] = [];
