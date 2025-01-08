@@ -8,11 +8,13 @@ export interface localityRequest {
 }
 
 export interface localityResponse {
-
-
     "idLocality": string,
     "name": string,
     "postalCode": string,
     "municipality": municipalityResponse
+}
 
+export interface localityOptions {
+    value: string;
+    label: string;
 }

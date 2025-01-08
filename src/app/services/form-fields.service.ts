@@ -406,39 +406,22 @@ export class FormFieldsService {
         }
     
         const effectiveLocalityId = localityId || this.selectedLocalitId;
-        console.log('Búsqueda de colonias - Parámetros:', { searchTerm, page, size, localityId: effectiveLocalityId });
     
         this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, effectiveLocalityId).subscribe(response => {
-            console.log('Respuesta de colonias filtrada:', response);
     
             const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
             if (neighborhoodField) {
-                const newOptions = response.content.map(item => ({
-                    value: item.idNeighborhood ? item.idNeighborhood.toString() : '',
-                    label: item.name
-                }));
-                neighborhoodField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+                neighborhoodField.options = response;
     
-                // Si hay una única colonia o si hay un término de búsqueda exacto
-                const exactMatch = response.content.find(item => 
-                    item.name.toLowerCase() === searchTerm.toLowerCase()
+                // Si hay una coincidencia exacta o solo una opción
+                const exactMatch = response.find(option => 
+                    option.label.toLowerCase() === searchTerm.toLowerCase()
                 );
     
-                // Limpiar la colonia anterior si no hay coincidencia exacta
-                if (!exactMatch && this.selectedNeighborhoodId) {
-                    this.selectedNeighborhoodId = undefined;
-                }
-    
-                if (response.content.length === 1 || exactMatch) {
-                    const selectedNeighborhood = exactMatch || response.content[0];
-                    const newNeighborhoodId = selectedNeighborhood.idNeighborhood?.toString();
-    
-                    // Solo actualizar si la colonia ha cambiado
-                    if (this.selectedNeighborhoodId !== newNeighborhoodId) {
-                        this.selectedNeighborhoodId = newNeighborhoodId;
-                        if (this.selectedNeighborhoodId) {
-                            console.log('Colonia seleccionada, ID:', this.selectedNeighborhoodId);
-                        }
+                if (response.length === 1 || exactMatch) {
+                    const selectedNeighborhood = exactMatch || response[0];
+                    this.selectedNeighborhoodId = selectedNeighborhood.value;
+                    if (this.selectedNeighborhoodId) {
                     }
                 }
             }
@@ -455,43 +438,24 @@ export class FormFieldsService {
         }
     
         const effectiveMunicipalityId = municipalityId || this.selectedMunicipalityId;
-        console.log('Búsqueda de localidades - Parámetros:', { searchTerm, page, size, municipalityId: effectiveMunicipalityId });
     
         this.patientService.getLocalityDataPaginated(searchTerm, page, size, effectiveMunicipalityId).subscribe(response => {
-            console.log('Respuesta de localidades filtrada:', response);
     
             const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
             if (localityField) {
-                const newOptions = response.content.map(item => ({
-                    value: item.idLocality ? item.idLocality.toString() : '',
-                    label: item.name
-                }));
-                localityField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+                localityField.options = response;
     
-                // Si hay una única localidad o si hay un término de búsqueda exacto
-                const exactMatch = response.content.find(item => 
-                    item.name.toLowerCase() === searchTerm.toLowerCase()
+                // Si hay una coincidencia exacta o solo una opción
+                const exactMatch = response.find(option => 
+                    option.label.toLowerCase() === searchTerm.toLowerCase()
                 );
     
-                // Limpiar la localidad anterior si no hay coincidencia exacta
-                if (!exactMatch && this.selectedLocalitId) {
-                    this.selectedLocalitId = undefined;
-                    this.clearNeighborhoodOptions();
-                }
-    
-                if (response.content.length === 1 || exactMatch) {
-                    const selectedLocality = exactMatch || response.content[0];
-                    const newLocalityId = selectedLocality.idLocality?.toString();
-                    
-                    // Solo actualizar si la localidad ha cambiado
-                    if (this.selectedLocalitId !== newLocalityId) {
-                        this.selectedLocalitId = newLocalityId;
-                        if (this.selectedLocalitId) {
-                            console.log('Localidad seleccionada, ID:', this.selectedLocalitId);
-                            this.clearNeighborhoodOptions();
-                            // Cargar las colonias usando el ID de la localidad
-                            this.handleNeighborhoodClick('',0,1000, this.selectedLocalitId);
-                        }
+                if (response.length === 1 || exactMatch) {
+                    const selectedLocality = exactMatch || response[0];
+                    this.selectedLocalitId = selectedLocality.value;
+                    if (this.selectedLocalitId) {
+                        this.clearNeighborhoodOptions();
+                        this.handleNeighborhoodClick('', 0, 1000, this.selectedLocalitId);
                     }
                 }
             }
@@ -510,9 +474,6 @@ export class FormFieldsService {
     }
     
     public handleMunicipalityClick(searchTerm: string, page: number = 0, size: number = 3, stateId?: string): void {
-        const effectiveStateId = stateId || this.selectedStateId;
-        console.log('Búsqueda de municipios - Parámetros:', { searchTerm, page, size, stateId: effectiveStateId });
-    
         // Limpiar el municipio seleccionado y las localidades si el término de búsqueda está vacío
         if (!searchTerm || searchTerm.trim() === '') {
             this.selectedMunicipalityId = undefined;
@@ -520,40 +481,25 @@ export class FormFieldsService {
             return;
         }
     
+        const effectiveStateId = stateId || this.selectedStateId;
+    
         this.patientService.getMunicipalityDataPaginated(searchTerm, page, size, effectiveStateId).subscribe(response => {
-            console.log('Respuesta de municipios filtrada:', response);
     
             const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
             if (municipalityField) {
-                const newOptions = response.content.map(item => ({
-                    value: item.idMunicipality ? item.idMunicipality.toString() : '',
-                    label: item.name
-                }));
-                municipalityField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+                municipalityField.options = response;
     
-                // Si hay un único municipio o si hay un término de búsqueda exacto
-                const exactMatch = response.content.find(item => 
-                    item.name.toLowerCase() === searchTerm.toLowerCase()
+                // Si hay una coincidencia exacta o solo una opción
+                const exactMatch = response.find(option => 
+                    option.label.toLowerCase() === searchTerm.toLowerCase()
                 );
     
-                // Limpiar el municipio anterior si no hay coincidencia exacta
-                if (!exactMatch && this.selectedMunicipalityId) {
-                    this.selectedMunicipalityId = undefined;
-                    this.clearLocalityOptions();
-                }
-    
-                if (response.content.length === 1 || exactMatch) {
-                    const selectedMunicipality = exactMatch || response.content[0];
-                    const newMunicipalityId = selectedMunicipality.idMunicipality?.toString();
-                    
-                    // Solo actualizar si el municipio ha cambiado
-                    if (this.selectedMunicipalityId !== newMunicipalityId) {
-                        this.selectedMunicipalityId = newMunicipalityId;
-                        if (this.selectedMunicipalityId) {
-                            console.log('Municipio seleccionado, ID:', this.selectedMunicipalityId);
-                            this.clearLocalityOptions();
-                            this.handleLocalityClick('', 0, 1000, this.selectedMunicipalityId);
-                        }
+                if (response.length === 1 || exactMatch) {
+                    const selectedMunicipality = exactMatch || response[0];
+                    this.selectedMunicipalityId = selectedMunicipality.value;
+                    if (this.selectedMunicipalityId) {
+                        this.clearLocalityOptions();
+                        this.handleLocalityClick('', 0, 1000, this.selectedMunicipalityId);
                     }
                 }
             }
@@ -572,25 +518,22 @@ export class FormFieldsService {
     }
 
     public handleStateClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        console.log('Búsqueda de estado - Parámetros:', { searchTerm, page, size });
-        
         this.patientService.getStateDataPaginated(searchTerm, page, size).subscribe(response => {
-            console.log('Respuesta de estados:', response);
             
             const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
             if (stateField) {
-                const newOptions = response.content.map(item => ({
-                    value: item.idState ? item.idState.toString() : '',
-                    label: item.name
-                }));
-                stateField.options = [...new Map(newOptions.map(item => [item.value, item])).values()];
+                stateField.options = response;
                 
-                // Cuando se selecciona un estado, actualizar municipios
-                if (response.content.length === 1) {
-                    this.selectedStateId = response.content[0].idState?.toString();
+                // Si hay una coincidencia exacta o solo una opción
+                const exactMatch = response.find(option => 
+                    option.label.toLowerCase() === searchTerm.toLowerCase()
+                );
+                
+                if (response.length === 1 || exactMatch) {
+                    const selectedState = exactMatch || response[0];
+                    this.selectedStateId = selectedState.value;
                     if (this.selectedStateId) {
-                        console.log('Estado seleccionado, ID:', this.selectedStateId);
-                        // Aumentamos el tamaño a 1000 para asegurar que traemos todos los municipios
+                        // Cargar municipios al seleccionar estado
                         this.handleMunicipalityClick('', 0, 1000, this.selectedStateId);
                     }
                 }

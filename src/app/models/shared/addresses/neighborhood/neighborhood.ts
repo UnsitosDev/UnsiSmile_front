@@ -7,10 +7,12 @@ export interface neighborhoodRequest {
 }
 
 export interface neighborhoodResponse {
-
-
     "idNeighborhood": number,
     "name": string,
     "locality": localityResponse
+}
 
+export interface neighborhoodOptions {
+    value: string;
+    label: string;
 }

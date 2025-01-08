@@ -7,10 +7,12 @@ export interface municipalityRequest {
 }
 
 export interface municipalityResponse {
-
-
     "idMunicipality": string,
     "name": string,
     "state": stateResponse
+}
 
+export interface municipalityOptions {
+    value: string;
+    label: string;
 }
