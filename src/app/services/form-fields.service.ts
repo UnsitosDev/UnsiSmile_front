@@ -518,6 +518,8 @@ export class FormFieldsService {
     }
 
     public handleStateClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        console.log('Búsqueda de estado - Parámetros:', { searchTerm, page, size });
+        
         this.patientService.getStateDataPaginated(searchTerm, page, size).subscribe(response => {
             
             const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);

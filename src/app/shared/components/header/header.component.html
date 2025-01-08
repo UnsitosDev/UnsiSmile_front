@@ -10,18 +10,22 @@
 
   <!-- Sección derecha con otro botón (posiblemente para alguna acción específica) -->
   <div class="header-right flex items-center pr-4">
-    <button (click)="toggleTheme()" class="theme-toggle-button">
-      <!-- Imagen del sol para el tema claro -->
-     @if (!themeService.isDarkTheme) {
-        <img src="assets/icons/sol.png" alt="Tema claro" class="icon" />
-      }
-
-      <!-- Imagen de la luna para el tema oscuro -->
-      @if (themeService.isDarkTheme) {
-        <img src="assets/icons/luna.png" alt="Tema oscuro" class="icon" />
-      }
+    <button (click)="toggleTheme()" class="theme-toggle-button" [attr.aria-label]="themeService.isDarkTheme ? 'Activar modo claro' : 'Activar modo oscuro'">
+      <img 
+        src="assets/icons/sol.png" 
+        alt="Tema claro" 
+        class="icon" 
+        [class.enter]="!themeService.isDarkTheme"
+        [class.exit]="themeService.isDarkTheme"
+      />
+      <img 
+        src="assets/icons/luna.png" 
+        alt="Tema oscuro" 
+        class="icon" 
+        [class.enter]="themeService.isDarkTheme"
+        [class.exit]="!themeService.isDarkTheme"
+      />
     </button>
-
 
     <button class="user-button flex items-center focus:outline-none"
       [matMenuTriggerFor]="menu" type="button">
