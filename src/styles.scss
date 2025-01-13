@@ -9,6 +9,7 @@
 @import "@fontsource/poppins/400.css"; // Specify weight
 @import "@fontsource/poppins/400-italic.css"; // Specify weight and style
 @import "primeicons/primeicons.css";
+@import 'ngx-toastr/toastr';
 
 * {
   margin: 0;
@@ -33,20 +34,7 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --on-tertiary: #5995fd;
   --on-hover: #2b6cb0;
   --background-color: #f0f0f0;
-  // Colores de alertas
-  --message-success: #e4f8f0;
-  --message-success-border: 6px solid #34c38f;
-  --message-success-border-icon: #34c38f;
-  --message-error: #fff1f1;
-  --message-error-border: 6px solid #f46a6a;
-  --message-error-border-icon: #f46a6a;
-  --message-info: #e8f4fd;
-  --message-info-border: 6px solid #3b82f6;
-  --message-info-border-icon: #3b82f6;
-  --message-warn: #fff7e6;
-  --message-warn-border: 6px solid #f59e0b;
-  --message-warn-border-icon: #f59e0b;
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
   // Colores login
   --input-icon-color: #acacac;
   --input-text-color: #333;
@@ -67,20 +55,7 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --on-background: #E5E7EB; // Texto claro sobre fondo oscuro
   --on-tertiary: #0A0B2B;
   --on-hover: #0A0B2B;
-  // Colores de alertas
-  --message-success: #e4f8f0;
-  --message-success-border: 6px solid #34c38f;
-  --message-success-border-icon: #34c38f;
-  --message-error: #ebaaaa;
-  --message-error-border: 6px solid #f46a6a;
-  --message-error-border-icon: #f46a6a;
-  --message-info: #e8f4fd;
-  --message-info-border: 6px solid #3b82f6;
-  --message-info-border-icon: #3b82f6;
-  --message-warn: #fff7e6;
-  --message-warn-border: 6px solid #f59e0b;
-  --message-warn-border-icon: #f59e0b;
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+ 
   // Colores login
   --input-icon-color: #acacac;
   --input-text-color: #333;

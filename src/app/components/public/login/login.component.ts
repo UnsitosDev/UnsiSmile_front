@@ -14,6 +14,7 @@ import { LoadingComponent } from 'src/app/models/shared/loading/loading.componen
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,8 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
     private readonly api: ApiService<Get, PostLogin>,
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly authServise: AuthService
+    private readonly authServise: AuthService,
+    private toastr: ToastrService 
   ) {
     super(api);
     this.formGroup = this.fb.group({
@@ -62,13 +64,15 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
           // Decodifica el token JWT proporcionado para obtener los datos asociados del usuario.
           const tokenData = this.userService.getTokenDataUser(token);
 
+          // Mostrar mensaje de éxito
+          this.toastr.success('Inicio de sesión exitoso', 'Éxito');
+
           // Redirige al usuario según el rol obtenido del token decodificado.
           this.userService.redirectByRole(tokenData.role[0].authority);
 
         },
         error: (error) => {
-          this.alertConfiguration('ERROR', error);
-          this.openAlert();
+          this.toastr.error(error, 'Error'); // Forma simplificada
           this.loading = false;
         },
       });
