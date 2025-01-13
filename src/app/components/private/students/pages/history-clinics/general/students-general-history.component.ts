@@ -1,5 +1,5 @@
-import { Component, HostListener, inject, Input, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,6 +24,8 @@ import { UriConstants } from '@mean/utils';
 import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
+import { Subscription } from 'rxjs';
+import { MenuService } from 'src/app/services/menu.service';
 
 
 @Component({
@@ -40,6 +42,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private router = inject(ActivatedRoute);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
+  private menuService = inject(MenuService);
+  private routeSubscription!: Subscription;
   public id!: number;
   public idpatient!: string;
   public year?: number;
@@ -57,30 +61,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   readonly dialog = inject(MatDialog);
 
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(DialogConfirmLeaveComponent, {
-      width: '250px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
-  }
 
-  message = 'Click inside or outside this component!';
-  private inside = false;
-
-  @HostListener('click')
-  clickedInside() {
-    this.inside = true; // Marca que se hizo clic dentro del componente
-  }
-
-  @HostListener('document:click')
-  clickedOutside() {
-    // Actualiza el mensaje dependiendo de si el clic fue dentro o fuera
-    this.message = this.inside
-      ? 'You clicked inside the component!'
-      : 'You clicked outside the component!';
-    this.inside = false; // Reinicia el estado
-  }
   constructor() { }
 
   ngOnInit(): void {
@@ -95,7 +76,32 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       });
       this.fetchPatientData();
     });
+
+    this.menuService.resetRoute();
+
+    this.routeSubscription = this.menuService.currentRoute$.subscribe((currentRoute) => {
+      console.log(currentRoute);
+      if (currentRoute === '/students/dashboard' || currentRoute === '/students/patients') {
+        console.log('Ruta recibida en StudentsGeneralHistoryComponent:', currentRoute);
+        this.openDialog('300ms', '200ms');
+      }
+    });
   }
+
+  ngOnDestroy(): void {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(DialogConfirmLeaveComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+  }
+
 
   fetchPatientData(): void {
     if (this.id !== undefined) {

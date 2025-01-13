@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -18,4 +18,10 @@ export class ButtonMenuItemComponent {
   @Input() description: string = '';
   @Input() fontAwesomeIcon: any = faUser;
   @Input() link: string='/studets/dashboard';
+
+  @Output() itemClicked = new EventEmitter<string>();
+
+  onButtonClick() {
+    this.itemClicked.emit(this.link); 
+  }
 }
