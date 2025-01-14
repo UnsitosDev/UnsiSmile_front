@@ -32,7 +32,6 @@ export class FormFieldsService {
             type: 'input',
             label: 'Segundo Nombre',
             name: 'secondName',
-            required: true,
             errorMessages: {
                 required: 'El campo Segundo Nombre es requerido.'
             }
@@ -230,16 +229,6 @@ export class FormFieldsService {
     ];
 
     private otherDataFields: FormField[] = [
-        {
-            type: 'datepicker',
-            label: 'Fecha de admisión',
-            name: 'admissionDate',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Fecha de admisión es requerido.'
-            }
-        },
         {
             type: 'select',
             label: 'Nacionalidad',
