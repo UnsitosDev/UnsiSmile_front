@@ -171,7 +171,7 @@ export class UriConstants {
     
     public static readonly GET_USER_INFO = basePath + '/users/userInformation'
     // get postalCode
-    public static readonly GET_POSTAL_CODE = basePath + '/address/locality/postal-code/'
+    public static readonly GET_POSTAL_CODE = basePath + '/locality/postal-code/'
     // Historias Clinicas
     public static readonly GET_CONFIG_HISTORY_CLINICS = basePath + '/clinical-histories/patient-clinical-histories'
     // Crear Historia Clinica del paciente
