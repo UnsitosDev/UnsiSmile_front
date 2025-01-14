@@ -46,50 +46,56 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
   }
 
   // Maneja el inicio de sesión del usuario, guarda el token de sesión y redirige según el rol.
-  handleLogin() {
-    if (this.isFormValid()) {
-      const { user, password } = this.formGroup.value;
+// En tu LoginComponent
+handleLogin() {
+  if (this.isFormValid()) {
+    const { user, password } = this.formGroup.value;
 
-      this.createService({
-        url: `${UriConstants.USER_LOGIN}`,
-        data: {
-          username: user,
-          password: password,
-        },
-      }).subscribe({
-        next: (data) => {
-          const { token } = data.response;
-          this.authServise.saveToSession(
-            SessionStorageConstants.USER_TOKEN,
-            token
-          );
+    this.createService({
+      url: `${UriConstants.USER_LOGIN}`,
+      data: {
+        username: user,
+        password: password,
+      },
+    }).subscribe({
+      next: (data) => {
+        const { token } = data.response;
+        this.authServise.saveToSession(
+          SessionStorageConstants.USER_TOKEN,
+          token
+        );
 
-          // Decodifica el token JWT proporcionado para obtener los datos asociados del usuario.
-          const tokenData = this.userService.getTokenDataUser(token);
+        const tokenData = this.userService.getTokenDataUser(token);
 
-          // Mostrar mensaje de éxito
-          this.toastr.success('Inicio de sesión exitoso', 'Éxito');
+        // Crear y mostrar toast de éxito
+        const successAlert = new AlertModel.AlertaClass(
+          true,
+          'Inicio de sesión exitoso',
+          AlertModel.AlertSeverity.SUCCESS,
+          AlertModel.AlertIcon.SUCCESS
+        );
+        successAlert.showToast(this.toastr);
 
-          // Redirige al usuario según el rol obtenido del token decodificado.
-          this.userService.redirectByRole(tokenData.role[0].authority);
+        this.userService.redirectByRole(tokenData.role[0].authority);
+      },
+      error: (error) => {
+        // Crear y mostrar toast de error
+        const errorAlert = new AlertModel.AlertaClass(
+          true,
+          error,
+          AlertModel.AlertSeverity.ERROR,
+          AlertModel.AlertIcon.EMAIL
+        );
+        errorAlert.showToast(this.toastr, {
+          positionClass: 'toast-bottom-right',
+          timeOut: 5000
+        });
 
-        },
-        error: (error) => {
-          this.toastr.error(error, 'Error',{
-            positionClass: 'toast-bottom-right',
-            
-          }); // Forma simplificada
-          this.alertConfig = new AlertModel.AlertaClass(
-            true,
-            'Se ha enviado un correo con las instrucciones',
-            AlertModel.AlertSeverity.INFO,
-            AlertModel.AlertIcon.ERROR
-          );
-          this.loading = false;
-        },
-      });
-    }
+        this.loading = false;
+      },
+    });
   }
+}
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
