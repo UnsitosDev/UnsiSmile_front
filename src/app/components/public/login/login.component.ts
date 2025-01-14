@@ -66,30 +66,15 @@ handleLogin() {
         );
 
         const tokenData = this.userService.getTokenDataUser(token);
-
         // Crear y mostrar toast de éxito
-        const successAlert = new AlertModel.AlertaClass(
-          true,
-          'Inicio de sesión exitoso',
-          AlertModel.AlertSeverity.SUCCESS,
-          AlertModel.AlertIcon.SUCCESS
-        );
-        successAlert.showToast(this.toastr);
+        this.toastr.success('Inicio de seción', 'Exito');
+
 
         this.userService.redirectByRole(tokenData.role[0].authority);
       },
       error: (error) => {
         // Crear y mostrar toast de error
-        const errorAlert = new AlertModel.AlertaClass(
-          true,
-          error,
-          AlertModel.AlertSeverity.ERROR,
-          AlertModel.AlertIcon.EMAIL
-        );
-        errorAlert.showToast(this.toastr, {
-          positionClass: 'toast-bottom-right',
-          timeOut: 5000
-        });
+        this.toastr.error(error,'Error');
 
         this.loading = false;
       },
