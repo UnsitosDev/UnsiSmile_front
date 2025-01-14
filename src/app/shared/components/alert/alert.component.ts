@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-alert',
-  template: '', 
+  template: '',
   standalone: true
 })
 export class AlertComponent implements OnChanges {
@@ -13,6 +13,7 @@ export class AlertComponent implements OnChanges {
   @Input() open = false;
   @Input() life: number = 2000;
   @Input() multipleMessages: { severity: string; summary: string; detail: string; life?: number }[] = [];
+  @Input() icon?: string;
   @Output() eventCloseToast = new EventEmitter();
 
   constructor(private toastr: ToastrService) {}
@@ -37,19 +38,40 @@ export class AlertComponent implements OnChanges {
     }
   }
 
-  private showSingleToast(severity: string, message: string, title?: string) {
+  private getDefaultIcon(severity: string): string {
     switch (severity) {
       case AlertModel.AlertSeverity.SUCCESS:
-        this.toastr.success(message, title || 'Éxito');
+        return AlertModel.AlertIcon.SUCCESS;
+      case AlertModel.AlertSeverity.ERROR:
+        return AlertModel.AlertIcon.ERROR;
+      case AlertModel.AlertSeverity.INFO:
+        return AlertModel.AlertIcon.INFO;
+      case AlertModel.AlertSeverity.WARN:
+        return AlertModel.AlertIcon.WARNING;
+      default:
+        return AlertModel.AlertIcon.INFO;
+    }
+  }
+
+  private showSingleToast(severity: string, message: string, title?: string) {
+    const iconClass = this.icon || this.getDefaultIcon(severity);
+    const toastConfig = {
+      enableHtml: true,
+      icon: `<i class="fas ${iconClass}"></i>`
+    };
+
+    switch (severity) {
+      case AlertModel.AlertSeverity.SUCCESS:
+        this.toastr.success(message, title || 'Éxito', toastConfig);
         break;
       case AlertModel.AlertSeverity.ERROR:
-        this.toastr.error(message, title || 'Error');
+        this.toastr.error(message, title || 'Error', toastConfig);
         break;
       case AlertModel.AlertSeverity.INFO:
-        this.toastr.info(message, title || 'Información');
+        this.toastr.info(message, title || 'Información', toastConfig);
         break;
       case AlertModel.AlertSeverity.WARN:
-        this.toastr.warning(message, title || 'Advertencia');
+        this.toastr.warning(message, title || 'Advertencia', toastConfig);
         break;
     }
     this.eventCloseToast.emit();

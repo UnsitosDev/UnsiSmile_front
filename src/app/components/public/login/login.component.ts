@@ -15,6 +15,7 @@ import { AlertComponent } from 'src/app/shared/components/alert/alert.component'
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
 import { ToastrService } from 'ngx-toastr';
+import { AlertModel } from '@mean/models';
 
 @Component({
   selector: 'app-login',
@@ -28,12 +29,14 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
   showPassword: boolean = false;
 
   @Output() onSubmitLoginEvent = new EventEmitter();
+  private toastr=inject (ToastrService);
+
   constructor(
     private readonly api: ApiService<Get, PostLogin>,
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly authServise: AuthService,
-    private toastr: ToastrService 
+   // private toastr: ToastrService 
   ) {
     super(api);
     this.formGroup = this.fb.group({
@@ -72,7 +75,16 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
 
         },
         error: (error) => {
-          this.toastr.error(error, 'Error'); // Forma simplificada
+          this.toastr.error(error, 'Error',{
+            positionClass: 'toast-bottom-right',
+            
+          }); // Forma simplificada
+          this.alertConfig = new AlertModel.AlertaClass(
+            true,
+            'Se ha enviado un correo con las instrucciones',
+            AlertModel.AlertSeverity.INFO,
+            AlertModel.AlertIcon.ERROR
+          );
           this.loading = false;
         },
       });

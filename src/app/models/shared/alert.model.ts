@@ -8,13 +8,16 @@ export namespace AlertModel {
     open: boolean;
     singleMessage: string;
     severity: string;
+    icon?: string;
     constructor(
       openp: boolean, singleMessagep: string,
-      severityp = AlertSeverity.ERROR
+      severityp = AlertSeverity.ERROR,
+      iconp?: string
     ) {
       this.open = openp;
       this.singleMessage = singleMessagep;
       this.severity = severityp;
+      this.icon = iconp;
     }
   }
   export enum AlertSeverity {
@@ -32,6 +35,16 @@ export namespace AlertModel {
 
   export enum AlertType {
     TOAST = 'TOAST'
+  }
+
+  export enum AlertIcon {
+    EMAIL = 'fa-envelope',
+    PASSWORD = 'fa-key',
+    USER = 'fa-user',
+    SUCCESS = 'fa-check-circle',
+    ERROR = 'fa-exclamation-circle',
+    INFO = 'fa-info-circle',
+    WARNING = 'fa-exclamation-triangle'
   }
 
 }
