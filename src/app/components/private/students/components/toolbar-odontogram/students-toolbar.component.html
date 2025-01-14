@@ -35,11 +35,6 @@
                         <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6"/>
                       </g>
                     }
-                    @case (ToothConditionsConstants.PUENTE) {
-                      <g>
-                        <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6"/>
-                      </g>
-                    }
                     <!-- Mantenedor de espacio con corona -->
                     @case (ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
                       <g>
@@ -73,7 +68,7 @@
                 @if (symbol.condition === ToothConditionsConstants.PUENTE) {
                   <span>
                     <svg width="29" height="10">
-                      <rect x="0" y="5" width="25" height="5" fill="none" stroke-width="2" stroke="blue" />
+                      <rect x="0" y="5" width="25" height="5" fill="none" stroke-width="2" stroke="green" />
                     </svg>
                   </span>
                 }                               
@@ -116,12 +111,6 @@
                         <line x1="21" y1="9" x2="28" y2="33" stroke="red" stroke-width="2" stroke-dasharray="4"/>
                       </g>
                     }
-                    <!-- Fístula -->
-                    @case (ToothConditionsConstants.FISTULA) {
-                      <g>
-                        <circle cx="14.5" cy="17" r="4" fill="red"/>
-                      </g>
-                    }
                     <!-- Diente obturado con caries -->
                     @case (ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES) {
                       <g>
@@ -139,6 +128,19 @@
                       <text x="10" y="8" fill="black" font-size="10px" font-family="sans-serif">F</text>
                     </svg>
                   </span>
+                }
+                <!-- Fístula -->
+                @if(symbol.condition === ToothConditionsConstants.FISTULA) {
+                  <svg width="29" height="10">
+                    <g>
+                      <circle
+                        cx="15"
+                        cy="6"
+                        r="4"
+                        fill="red"
+                      />
+                    </g>
+                  </svg>
                 }
                 <!-- Diente con fluorosis -->
                 @if (symbol.condition === ToothConditionsConstants.DIENTE_CON_HIPOPLASIA) {

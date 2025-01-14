@@ -22,7 +22,7 @@
   >
     <!-- Face 1 (Top) -->
     <polygon
-      stroke="blue"
+      stroke="black"
       points="1,1 7,9 21,9 28,1"
       [attr.id]="data.faces[0].idFace"
       fill="white"
@@ -32,7 +32,7 @@
 
     <!-- Face 2 (Right) -->
     <polygon
-      stroke="blue"
+      stroke="black"
       points="21,9 21,25 28,33 28,1"
       [attr.id]="data.faces[1].idFace"
       fill="white"
@@ -42,7 +42,7 @@
 
     <!-- Face 3 (Bottom) -->
     <polygon
-      stroke="blue"
+      stroke="black"
       points="21,25 28,33 1,33 7,25"
       [attr.id]="data.faces[2].idFace"
       fill="white"
@@ -52,7 +52,7 @@
 
     <!-- Face 4 (Left) -->
     <polygon
-      stroke="blue"
+      stroke="black"
       points="1,1 1,33 7,25 7,9"
       [attr.id]="data.faces[3].idFace"
       fill="white"
@@ -62,7 +62,7 @@
 
     <!-- Face 5 (Center) -->
     <polygon
-      stroke="blue"
+      stroke="black"
       points="7,9 21,9 21,25 7,25"
       [attr.id]="data.faces[4].idFace"
       fill="white"
@@ -98,12 +98,6 @@
             fill="blue"
             opacity="0.8"
           />
-        </ng-container>
-        }
-        <!-- Puente -->
-        @if (condition.condition === ToothConditionsConstant.PUENTE) {
-        <ng-container>
-          <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
         </ng-container>
         }
         <!-- Diente con corona -->
@@ -301,23 +295,17 @@
       />
     </svg>
     } @if (condition.condition === ToothConditionsConstant.PUENTE) {
-    <span>
-      <svg>
-        <ng-container>
-          <svg width="29" height="10">
-            <rect
-              x="0"
-              y="5"
-              width="25"
-              height="5"
-              fill="none"
-              stroke-width="2"
-              stroke="blue"
-            />
-          </svg>
-        </ng-container>
+      <svg width="29" height="10">
+        <rect
+          x="0"
+          y="5"
+          width="25"
+          height="5"
+          fill="none"
+          stroke-width="2"
+          stroke="green"
+        />
       </svg>
-    </span>
     } }
   </div>
 </div>
