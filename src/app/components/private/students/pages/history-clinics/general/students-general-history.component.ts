@@ -1,5 +1,5 @@
 import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -40,10 +40,10 @@ import { MenuService } from 'src/app/services/menu.service';
 export class StudentsGeneralHistoryComponent implements OnInit {
   @Input() idPatient: number = 0;
   private router = inject(ActivatedRoute);
+  private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
   private menuService = inject(MenuService);
-  private routeSubscription!: Subscription;
   public id!: number;
   public idpatient!: string;
   public year?: number;
@@ -59,7 +59,12 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   patientID: number = 0;    // Variable para el parámetro 'patientID'
   private idPatientClinicalHistory!: number;
   readonly dialog = inject(MatDialog);
-
+  // Variables para navegación
+  private navigationSubscription!: Subscription;
+  private navigationTarget: string = ''; // Ruta de navegación cancelada
+  private navigationInProgress: boolean = false; // Variable para controlar la navegación
+  private isNavigationPrevented: boolean = true; // Variable para evitar navegación inicialmente
+  private navigationComplete: boolean = false; // Flag para manejar la navegación completada
 
 
   constructor() { }
@@ -77,31 +82,52 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       this.fetchPatientData();
     });
 
-    this.menuService.resetRoute();
+    // Interceptamos la navegación antes de que se realice
+    this.navigationSubscription = this.route.events.subscribe((event) => {
+      if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
+        const targetUrl = event.url;
+        // Verifica si la ruta es una de las que queremos prevenir
+        if (targetUrl === '/students/dashboard' || targetUrl === '/students/patients' || targetUrl === '/students/user') {
+          this.navigationTarget = targetUrl;
+          // Detenemos la navegación y mostramos el diálogo
+          this.openDialog('300ms', '200ms');
+        }
+      }
+    });
+  }
 
-    this.routeSubscription = this.menuService.currentRoute$.subscribe((currentRoute) => {
-      console.log(currentRoute);
-      if (currentRoute === '/students/dashboard' || currentRoute === '/students/patients') {
-        console.log('Ruta recibida en StudentsGeneralHistoryComponent:', currentRoute);
-        this.openDialog('300ms', '200ms');
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    // Inicialmente, mantenemos al usuario en la misma página si no se ha aceptado la navegación
+    if (this.isNavigationPrevented) {
+      // Mantiene al usuario en el componente StudentsGeneralHistoryComponent
+      this.route.navigateByUrl(this.route.url);
+    }
+
+    const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
+      width: '400px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.navigationInProgress = false; // Restablecemos la variable cuando el diálogo se cierra
+      if (result) {
+        // Desactivamos la prevención de la navegación después de aceptar
+        this.isNavigationPrevented = false;
+        // Marca que la navegación se completó
+        this.navigationComplete = true;
+        setTimeout(() => {
+          this.route.navigateByUrl(this.navigationTarget); // Navegar a la ruta almacenada
+        }, 0);
       }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
     }
   }
-
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(DialogConfirmLeaveComponent, {
-      width: '400px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
-  }
-
 
   fetchPatientData(): void {
     if (this.id !== undefined) {
