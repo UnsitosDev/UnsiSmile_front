@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MatDialogModule } from '@angular/material/dialog';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -22,18 +22,24 @@ import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
 import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
+import { Subscription } from 'rxjs';
+import { StudentItems } from '@mean/models';
+import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 
 @Component({
   selector: 'app-students-periodontics-history',
   standalone: true,
-  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent],
+  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent],
   templateUrl: './students-periodontics-history.component.html',
   styleUrl: './students-periodontics-history.component.scss'
 })
 export class StudentsPeriodonticsHistoryComponent {
   private router = inject(ActivatedRoute);
+  private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
+  readonly dialog = inject(MatDialog);
   private id!: number;
   private idpatient!: string;
   private idPatientClinicalHistory!: number;
@@ -43,17 +49,24 @@ export class StudentsPeriodonticsHistoryComponent {
   private nextpage: boolean = true;
   private patient!: Patient;
   public patientData!: cardPatient;
-  public guardianData!: cardGuardian;
+  public guardianData: cardGuardian | null = null;
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
+  // Variables para navegación
+  private navigationSubscription!: Subscription;
+  private navigationTarget: string = ''; // Ruta de navegación cancelada
+  private navigationInProgress: boolean = false; // Variable para controlar la navegación
+  private isNavigationPrevented: boolean = true; // Variable para evitar navegación inicialmente
+  private navigationComplete: boolean = false; // Flag para manejar la navegación completada
+  private additionalRoutes = ['/students/user'];
 
   constructor() { }
-  
+
   ngOnInit(): void {
     this.router.params.subscribe((params) => {
       this.id = params['id']; // Id Historia Clinica
       this.idpatient = params['patient']; // Id Paciente
-      this.idPatientClinicalHistory = params ['patientID']; // idPatientClinicalHistory
+      this.idPatientClinicalHistory = params['patientID']; // idPatientClinicalHistory
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
@@ -61,6 +74,60 @@ export class StudentsPeriodonticsHistoryComponent {
       });
       this.fetchPatientData();
     });
+
+    // Combina las rutas de StudentItems y las adicionales
+    const allRoutes = [
+      ...StudentItems.map(item => item.routerlink),
+      ...this.additionalRoutes
+    ];
+
+    // Interceptamos la navegación antes de que se realice
+    this.navigationSubscription = this.route.events.subscribe((event) => {
+      if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
+        const targetUrl = event.url;
+
+        // Verifica si la ruta es una de las que queremos prevenir
+        if (allRoutes.includes(targetUrl)) {
+          this.navigationTarget = targetUrl;
+
+          // Detiene la navegación y mostramos el diálogo
+          this.openDialog('300ms', '200ms');
+        }
+      }
+    });
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    // Inicialmente, mantenemos al usuario en la misma página si no se ha aceptado la navegación
+    if (this.isNavigationPrevented) {
+      // Mantiene al usuario en el componente StudentsGeneralHistoryComponent
+      this.route.navigateByUrl(this.route.url);
+    }
+
+    const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
+      width: '400px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.navigationInProgress = false; // Restablecemos la variable cuando el diálogo se cierra
+      if (result) {
+        // Desactivamos la prevención de la navegación después de aceptar
+        this.isNavigationPrevented = false;
+        // Marca que la navegación se completó
+        this.navigationComplete = true;
+        setTimeout(() => {
+          this.route.navigateByUrl(this.navigationTarget); // Navegar a la ruta almacenada
+        }, 0);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
   }
 
   fetchPatientData(): void {
@@ -70,7 +137,6 @@ export class StudentsPeriodonticsHistoryComponent {
       }).subscribe({
         next: (data) => {
           this.patient = data;
-          console.log('Paciente', this.patient);
           const { person, address, admissionDate } = data;
           const { firstName, secondName, firstLastName, secondLastName, gender, birthDate, phone, email, curp } = person;
           // Formatear la fecha de nacimiento
@@ -91,11 +157,16 @@ export class StudentsPeriodonticsHistoryComponent {
             admissionDate: this.formatDate(admissionDate),
             curp: curp
           };
-          this.guardianData = {
-            firstName: this.patient.guardian.firstName,
-            lastName: this.patient.guardian.lastName,
-            email: this.patient.guardian.email,
-            phone: this.patient.guardian.phone
+          // Asignar datos del tutor solo si están disponibles
+          if (this.patient.guardian) {
+            this.guardianData = {
+              firstName: this.patient.guardian.firstName,
+              lastName: this.patient.guardian.lastName,
+              email: this.patient.guardian.email,
+              phone: this.patient.guardian.phone
+            };
+          } else {
+            this.guardianData = null;
           }
         },
         error: (error) => {

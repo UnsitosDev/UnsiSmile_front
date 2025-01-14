@@ -1,22 +1,17 @@
-import { HttpHeaders } from '@angular/common/http';
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { MatTabsModule } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
+import { Component, inject, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { formSectionFields, subSeccion } from 'src/app/models/form-fields/form-field.interface';
-import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
-import { HistoryInitialBagComponent } from "../../../components/private/students/components/form-history-initial-bag/history-initial-bag.component";
+import { FieldComponentComponent } from "../field-component/field-component.component";
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { StudentsOdontogramComponent } from "../../../components/private/students/components/odontogram/students-odontogram.component";
-import { AlertComponent } from "../alert/alert.component";
+import { ActivatedRoute } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { FieldNames } from 'src/app/models/form-fields/form-utils';
+import { ApiService } from '@mean/services';
+import { HttpHeaders } from '@angular/common/http';
+import { UriConstants } from '@mean/utils';
 
-interface FormData {
+interface updateFormData {
   idPatientClinicalHistory: number;
   idQuestion: number;
   answerBoolean: boolean | null;
@@ -24,45 +19,30 @@ interface FormData {
   answerText: string | null;
   answerDate: string | null;
   idCatalogOption: any;
+  idAnswer: number
 }
 
 @Component({
-  selector: 'app-tab-form',
+  selector: 'app-tab-form-update',
   standalone: true,
-  imports: [MatInputModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, FieldComponentComponent, MatButtonModule, MatTabsModule, MatCardModule, AlertComponent, StudentsOdontogramComponent, HistoryInitialBagComponent],
-  templateUrl: './tab-form.component.html',
-  styleUrl: './tab-form.component.scss'
+  imports: [FieldComponentComponent, FormsModule, ReactiveFormsModule, MatCardModule, StudentsOdontogramComponent, MatButtonModule],
+  templateUrl: './tab-form-update.component.html',
+  styleUrl: './tab-form-update.component.scss'
 })
-export class TabFormComponent {
-
+export class TabFormUpdateComponent {
   @Input() fieldsTab!: formSectionFields;
   @Input() fieldsSubTab!: subSeccion;
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
+
+  fb = inject(FormBuilder);
   route = inject(ActivatedRoute);
   apiService = inject(ApiService);
-  private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
   formGroup!: FormGroup;
   id: number = 0;           // Variable para el parámetro 'id'
   patientID: number = 0;    // Variable para el parámetro 'patientID'
   patientUuid!: string;
-  sendFile!: boolean;
-
-  // snackBar
-  private _snackBar = inject(MatSnackBar);
-  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
-  durationInSeconds = 3;
-
-  // Abrir snackbar
-  openSnackBar() {
-    this._snackBar.openFromComponent(Alert, {
-      duration: this.durationInSeconds * 1000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
 
   ngOnInit(): void {
     this.section();
@@ -132,7 +112,6 @@ export class TabFormComponent {
     this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específico
   }
 
-
   files: FileList | null = null; // Almacena el FileList
 
   // Método para manejar el valor del archivo
@@ -173,7 +152,6 @@ export class TabFormComponent {
       })
       .subscribe({
         next: (response) => {
-          this.openSnackBar();
           this.nextMatTab.emit();
         },
         error: (error) => {
@@ -182,8 +160,7 @@ export class TabFormComponent {
       });
   }
 
-  // Función para insertar
-  postHc() {
+  updateHc() {
 
     // Validar si el formulario es valido
     if (!this.formGroup.valid) {
@@ -191,7 +168,7 @@ export class TabFormComponent {
     }
 
     const formData = this.formGroup.value;
-    const sendData: FormData[] = [];
+    const updateData: updateFormData[] = [];
 
     Object.keys(formData).forEach((fieldName) => {
       const fieldValue = formData[fieldName];
@@ -199,7 +176,7 @@ export class TabFormComponent {
       const idAnswer = this.idAnswers[fieldName] ?? 0;
       const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
 
-      const hcData: FormData = {
+      const update: updateFormData = {
         idPatientClinicalHistory: this.patientID,
         idQuestion: questionID,
         answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,
@@ -207,9 +184,10 @@ export class TabFormComponent {
         answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
         answerDate: isDateField ? fieldValue : null,
         idCatalogOption: formData.idCatalogOption || null,
+        idAnswer: idAnswer,
       }
-      if (hcData.idQuestion) {
-        sendData.push(hcData);
+      if (update.idQuestion) {
+        updateData.push(update);
       }
 
     });
@@ -223,12 +201,11 @@ export class TabFormComponent {
           'Content-Type': 'application/json',
         }),
         url: `${UriConstants.POST_SECTION_FORM}`,
-        data: sendData,
+        data: updateData,
       })
       .subscribe({
         next: (response) => {
-          this.openSnackBar();
-          sendData.length = 0
+          updateData.length = 0
           this.nextMatTab.emit();
         },
         error: (error) => {
@@ -237,31 +214,7 @@ export class TabFormComponent {
       });
   }
 
-  // Emitir evento para volver al tab anterior
   previousTab() {
     this.previousMatTab.emit();
   }
-
 }
-
-@Component({
-  selector: 'snack-bar-component-example-snack',
-  template: `
-    <span class="custom">
-    <i class="fas fa-check-circle"></i> Datos guardados correctamente.
-    </span>
-  `,
-  styles: [`
-    .custom {
-    color: var(--on-primary);
-  
-  }
-    i{
-      color: green;
-      font-size: 20px;
-    }
-
-  `],
-  standalone: true,
-})
-export class Alert { }

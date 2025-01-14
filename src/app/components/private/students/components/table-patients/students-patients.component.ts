@@ -100,7 +100,6 @@ export class StudentsPatientsComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
-        console.log('Respuesta del backend:', response); // Debug
         if (Array.isArray(response.content)) {
           this.patientsList = response.content.map((patient: Patient) => {
             const person = patient.person;

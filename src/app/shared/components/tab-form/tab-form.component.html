@@ -42,12 +42,7 @@
     <div class="button-container">
       <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
       <div>
-        @if (fieldsTab.isAnswered) {
-          <button type="button" (click)="updateFormData()" mat-button> AVANZAR Y ACTUALIZAR <i class="fas fa-save"></i></button>
-        }
-        @if (!fieldsTab.isAnswered) {
-          <button type="button" (click)="onSubmit()" mat-button> AVANZAR Y GUARDAR <i class="fas fa-save"></i></button>
-        }
+          <button type="button" (click)="postHc()" mat-button [disabled]="!formGroup.valid"> AVANZAR Y GUARDAR <i class="fas fa-save"></i></button>
       </div>
     </div>
   </form>

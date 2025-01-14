@@ -29,6 +29,8 @@ export interface formSectionFields {
 export interface subSeccion {
     formName: string; // Nombre de la subsección
     questions: FormField[] ; 
+    isAnswered?: boolean;
+    order?: number;
 }
 export interface FormFieldOption {
     value: any;
@@ -62,6 +64,7 @@ export interface validationsFront {
     message: string
 }
 export interface FormField {
+    order?: number;
     min?: string;
     max?: string;
     validationFnt?: validationsFront;
