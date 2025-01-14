@@ -25,7 +25,6 @@ import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPa
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Subscription } from 'rxjs';
-import { MenuService } from 'src/app/services/menu.service';
 
 
 @Component({
@@ -43,7 +42,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
-  private menuService = inject(MenuService);
   public id!: number;
   public idpatient!: string;
   public year?: number;

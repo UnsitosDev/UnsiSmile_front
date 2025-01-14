@@ -18,10 +18,4 @@ export class ButtonMenuItemComponent {
   @Input() description: string = '';
   @Input() fontAwesomeIcon: any = faUser;
   @Input() link: string='/studets/dashboard';
-
-  @Output() itemClicked = new EventEmitter<string>();
-
-  onButtonClick() {
-    this.itemClicked.emit(this.link); 
-  }
 }

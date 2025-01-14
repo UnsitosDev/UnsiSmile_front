@@ -9,7 +9,6 @@ import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
 import { RouterModule } from '@angular/router'; 
-import { MenuService } from 'src/app/services/menu.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -22,7 +21,6 @@ export class SideNavComponent implements OnInit {
   userLink = '';  // Inicializamos vacía para luego asignarle el valor correcto
   public menuItems: MenuItem[] = [];
   private userService = inject(ApiService<studentResponse, {}>);
-  private menuService = inject(MenuService);
   user!: studentUserResponse | AdminResponse;
 
   @Input() isSidebarOpen = false;
@@ -55,9 +53,5 @@ export class SideNavComponent implements OnInit {
       this.menuItems = AdminItems;
       this.userLink = '/admin/user';  
     }
-  }
-
-  onMenuItemClicked(link: string) {
-    this.menuService.emitRoute(link); // Emitir ruta seleccionada
   }
 }
