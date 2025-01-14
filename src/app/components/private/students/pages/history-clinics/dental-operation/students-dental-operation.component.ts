@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MatDialogModule } from '@angular/material/dialog';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -23,6 +23,9 @@ import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
+import { StudentItems } from '@mean/models';
+import { Subscription } from 'rxjs';
+import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 
 @Component({
   selector: 'app-students-dental-operation',
@@ -33,8 +36,10 @@ import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-
 })
 export class StudentsDentalOperationComponent {
   private router = inject(ActivatedRoute);
+  private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
+  readonly dialog = inject(MatDialog);
   private id!: number;
   private idpatient!: string;
   private year?: number;
@@ -47,6 +52,13 @@ export class StudentsDentalOperationComponent {
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
   private idPatientClinicalHistory!: number;
+  // Variables para navegación
+  private navigationSubscription!: Subscription;
+  private navigationTarget: string = ''; // Ruta de navegación cancelada
+  private navigationInProgress: boolean = false; // Variable para controlar la navegación
+  private isNavigationPrevented: boolean = true; // Variable para evitar navegación inicialmente
+  private navigationComplete: boolean = false; // Flag para manejar la navegación completada
+  private additionalRoutes = ['/students/user'];
 
   constructor() { }
 
@@ -62,6 +74,60 @@ export class StudentsDentalOperationComponent {
       });
       this.fetchPatientData();
     });
+
+    // Combina las rutas de StudentItems y las adicionales
+    const allRoutes = [
+      ...StudentItems.map(item => item.routerlink),
+      ...this.additionalRoutes
+    ];
+
+    // Interceptamos la navegación antes de que se realice
+    this.navigationSubscription = this.route.events.subscribe((event) => {
+      if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
+        const targetUrl = event.url;
+
+        // Verifica si la ruta es una de las que queremos prevenir
+        if (allRoutes.includes(targetUrl)) {
+          this.navigationTarget = targetUrl;
+
+          // Detiene la navegación y mostramos el diálogo
+          this.openDialog('300ms', '200ms');
+        }
+      }
+    });
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    // Inicialmente, mantenemos al usuario en la misma página si no se ha aceptado la navegación
+    if (this.isNavigationPrevented) {
+      // Mantiene al usuario en el componente StudentsGeneralHistoryComponent
+      this.route.navigateByUrl(this.route.url);
+    }
+
+    const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
+      width: '400px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.navigationInProgress = false; // Restablecemos la variable cuando el diálogo se cierra
+      if (result) {
+        // Desactivamos la prevención de la navegación después de aceptar
+        this.isNavigationPrevented = false;
+        // Marca que la navegación se completó
+        this.navigationComplete = true;
+        setTimeout(() => {
+          this.route.navigateByUrl(this.navigationTarget); // Navegar a la ruta almacenada
+        }, 0);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
   }
 
   fetchPatientData(): void {

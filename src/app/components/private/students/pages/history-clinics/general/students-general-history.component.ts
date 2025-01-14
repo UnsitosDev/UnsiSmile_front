@@ -25,6 +25,7 @@ import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPa
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Subscription } from 'rxjs';
+import { StudentItems } from '@mean/models';
 
 
 @Component({
@@ -42,6 +43,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
+  readonly dialog = inject(MatDialog);
   public id!: number;
   public idpatient!: string;
   public year?: number;
@@ -56,14 +58,13 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public mappedHistoryData!: dataTabs;
   patientID: number = 0;    // Variable para el parámetro 'patientID'
   private idPatientClinicalHistory!: number;
-  readonly dialog = inject(MatDialog);
   // Variables para navegación
   private navigationSubscription!: Subscription;
   private navigationTarget: string = ''; // Ruta de navegación cancelada
   private navigationInProgress: boolean = false; // Variable para controlar la navegación
   private isNavigationPrevented: boolean = true; // Variable para evitar navegación inicialmente
   private navigationComplete: boolean = false; // Flag para manejar la navegación completada
-
+  private additionalRoutes = ['/students/user'];
 
   constructor() { }
 
@@ -80,14 +81,22 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       this.fetchPatientData();
     });
 
+    // Combina las rutas de StudentItems y las adicionales
+    const allRoutes = [
+      ...StudentItems.map(item => item.routerlink),
+      ...this.additionalRoutes
+    ];
+    
     // Interceptamos la navegación antes de que se realice
     this.navigationSubscription = this.route.events.subscribe((event) => {
       if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
         const targetUrl = event.url;
+
         // Verifica si la ruta es una de las que queremos prevenir
-        if (targetUrl === '/students/dashboard' || targetUrl === '/students/patients' || targetUrl === '/students/user') {
+        if (allRoutes.includes(targetUrl)) {
           this.navigationTarget = targetUrl;
-          // Detenemos la navegación y mostramos el diálogo
+
+          // Detiene la navegación y mostramos el diálogo
           this.openDialog('300ms', '200ms');
         }
       }
