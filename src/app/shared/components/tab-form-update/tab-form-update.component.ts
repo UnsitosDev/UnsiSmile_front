@@ -167,10 +167,9 @@ export class TabFormUpdateComponent {
         },
       });
   }
-  // Modificar postHc para separar la lógica de envío de preguntas
+
   postHcData() {
 
-    // Validar si el formulario es valido
     if (this.formGroup.valid) {
       return;
     }
