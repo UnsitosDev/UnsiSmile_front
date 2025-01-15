@@ -21,6 +21,12 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
         buttonDescription: 'Ver pacientes',
         routerlink: '/students/patients'
       },
+      {
+        fontAwesomeIcon: faFileUpload,
+        buttonText: 'Cargar Pacientes',
+        buttonDescription: 'Subir Excel de Alumnos.',
+        routerlink: '/students/upload-patients'
+      }
     ];
     
     export const AdminItems: MenuItem[] = [
