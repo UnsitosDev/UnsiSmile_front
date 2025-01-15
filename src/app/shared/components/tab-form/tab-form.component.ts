@@ -150,6 +150,14 @@ export class TabFormComponent {
     }
   }
 
+  handleSubmission() {
+    const hasFiles = this.files && this.files.length > 0; 
+    if (hasFiles) {
+      this.sendFiles();
+      this.postHcData();
+    }
+  }
+
   // Función para enviar archivos
   sendFiles() {
     if (!this.files || this.files.length === 0) {
@@ -183,10 +191,10 @@ export class TabFormComponent {
   }
 
   // Función para insertar
-  postHc() {
+  postHcData() {
 
     // Validar si el formulario es valido
-    if (!this.formGroup.valid) {
+    if (this.formGroup.valid) {
       return;
     }
 

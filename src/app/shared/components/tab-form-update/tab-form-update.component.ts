@@ -130,6 +130,14 @@ export class TabFormUpdateComponent {
   }
 
   // Función para enviar archivos
+  handleSubmission() {
+    const hasFiles = this.files && this.files.length > 0; 
+    if (hasFiles) {
+      this.sendFiles();
+      this.postHcData();
+    }
+  }
+
   sendFiles() {
     if (!this.files || this.files.length === 0) {
       return;
@@ -159,11 +167,11 @@ export class TabFormUpdateComponent {
         },
       });
   }
-
-  updateHc() {
+  // Modificar postHc para separar la lógica de envío de preguntas
+  postHcData() {
 
     // Validar si el formulario es valido
-    if (!this.formGroup.valid) {
+    if (this.formGroup.valid) {
       return;
     }
 
