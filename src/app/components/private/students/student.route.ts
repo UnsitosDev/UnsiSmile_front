@@ -79,6 +79,13 @@ export default [
                     ),
             },
             {
+                path: 'upload-patients', 
+                loadComponent: () => 
+                    import('./components/upload-patients/upload-patients.component').then(
+                    (m) => m.UploadPatientsComponent
+                ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
