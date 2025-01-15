@@ -126,8 +126,6 @@ export class FormPatientPersonalDataComponent {
 
     if (this.formGroup.valid) {
       const patientData = {
-        idPatient: 0,
-        admissionDate: formValues.admissionDate,
         isMinor: this.minorPatient,
         hasDisability: true,
         nationalityId: +formValues.nationality,
