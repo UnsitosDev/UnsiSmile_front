@@ -50,7 +50,7 @@ export class StudentsOdontogramComponent implements OnInit {
     ToothConditionsConstants.PROTESIS_REMOVIBLE,
     ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
     ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
-    ToothConditionsConstants.FISTULA,
+    ToothConditionsConstants.FISTULA
   ]);
 
   data: IOdontogramHandler = store;
@@ -186,7 +186,7 @@ export class StudentsOdontogramComponent implements OnInit {
     }
 
     if (!faceForPost.conditions?.some(c => c.idCondition === conditionId)) {
-      this.odontogramData.getToothCondition().subscribe({
+      this.odontogramData.getToothFaceCondition().subscribe({
         next: (options) => {
           const condition = options.find(c => c.idCondition === conditionId);
           if (condition) {

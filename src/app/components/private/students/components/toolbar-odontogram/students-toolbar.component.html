@@ -2,7 +2,7 @@
   <!-- Primera fila: condiciones normales -->
   <div class="row">
     <div class="col-4">
-      <h1 class="custom-text">Código normal (azul)</h1>
+      <h1 class="custom-text">Código normal</h1>
         @for (symbol of toolbar.options; track $index) {
           @if (isNormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
@@ -84,7 +84,7 @@
   <!-- Segunda fila: condiciones anormales -->
   <div class="row">
     <div class="col-4">
-      <h1 class="custom-text">Código anormal (rojo)</h1>
+      <h1 class="custom-text">Código anormal</h1>
         @for (symbol of toolbar.options; track $index) {
           @if (isAbnormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
@@ -153,16 +153,12 @@
                 <!-- Diente en mal posición -->
                 @if (symbol.condition === ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA) {
                   <span>
-                    <svg width="29" height="10">
-                      <path d="M5,10 C10,5 20,5 25,10" stroke="blue" stroke-width="2" fill="none"/>
-                    </svg>
-                  </span>
+                    <img src="../../../../../../assets/svg/flecha derecha.svg" alt="SVG local" />
+                  </span>                  
                 }
                 @if (symbol.condition === ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
                   <span>
-                    <svg width="29" height="10">
-                      <path d="M5,0 C10,5 20,5 25,0" stroke="blue" stroke-width="2" fill="none"/>
-                    </svg>
+                    <img src="../../../../../../assets/svg/flecha izquierda.svg" alt="SVG local" />
                   </span>
                 }
               </div>
