@@ -26,6 +26,7 @@ import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -44,6 +45,7 @@ import { Router } from '@angular/router';
 export class FormPatientPersonalDataComponent {
   private apiService = inject(ApiService<religionRequest>);
   private patientService = inject(PatientService);
+  private toastr = inject(ToastrService);
   minorPatient: boolean = false;
 
   formGroup!: FormGroup;
@@ -99,7 +101,7 @@ export class FormPatientPersonalDataComponent {
         this.formGroup.get('localityName')?.setValue(response[0].name);
         this.formGroup.get('municipalityName')?.setValue(response[0].municipality.name);
         this.formGroup.get('stateName')?.setValue(response[0].municipality.state.name);
-        
+
         // Guardar los ids
         this.localityId = response[0].idLocality;
         this.municipalityNameId = response[0].municipality.idMunicipality;
@@ -183,7 +185,7 @@ export class FormPatientPersonalDataComponent {
           lastName: formValues.lastGuardianName,
           phone: formValues.phoneGuardian,
           email: formValues.emailGuardian
-        } : null  
+        } : null
       };
 
 
@@ -202,9 +204,9 @@ export class FormPatientPersonalDataComponent {
             this.openAlert();
           },
           error: (error) => {
-            console.error('Error en la autenticación:', error);
             this.alertConfiguration('ERROR', error);
             this.openAlert();
+            this.toastr.error(error, 'Error');
           },
         });
     } else {
