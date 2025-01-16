@@ -2,7 +2,7 @@
   <!-- Primera fila: condiciones normales -->
   <div class="row">
     <div class="col-4">
-      <h1 class="custom-text">Código normal (azul)</h1>
+      <h1 class="custom-text">Código normal</h1>
         @for (symbol of toolbar.options; track $index) {
           @if (isNormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
@@ -31,11 +31,6 @@
                     }
                     <!-- Diente con corona -->
                     @case (ToothConditionsConstants.DIENTE_CON_CORONA) {
-                      <g>
-                        <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6"/>
-                      </g>
-                    }
-                    @case (ToothConditionsConstants.PUENTE) {
                       <g>
                         <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6"/>
                       </g>
@@ -73,7 +68,7 @@
                 @if (symbol.condition === ToothConditionsConstants.PUENTE) {
                   <span>
                     <svg width="29" height="10">
-                      <rect x="0" y="5" width="25" height="5" fill="none" stroke-width="2" stroke="blue" />
+                      <rect x="0" y="5" width="25" height="5" fill="none" stroke-width="2" stroke="green" />
                     </svg>
                   </span>
                 }                               
@@ -89,7 +84,7 @@
   <!-- Segunda fila: condiciones anormales -->
   <div class="row">
     <div class="col-4">
-      <h1 class="custom-text">Código anormal (rojo)</h1>
+      <h1 class="custom-text">Código anormal</h1>
         @for (symbol of toolbar.options; track $index) {
           @if (isAbnormalCondition(symbol.condition)) {
           <div class="d-inline-block toolbar-item">
@@ -116,12 +111,6 @@
                         <line x1="21" y1="9" x2="28" y2="33" stroke="red" stroke-width="2" stroke-dasharray="4"/>
                       </g>
                     }
-                    <!-- Fístula -->
-                    @case (ToothConditionsConstants.FISTULA) {
-                      <g>
-                        <circle cx="14.5" cy="17" r="4" fill="red"/>
-                      </g>
-                    }
                     <!-- Diente obturado con caries -->
                     @case (ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES) {
                       <g>
@@ -140,6 +129,19 @@
                     </svg>
                   </span>
                 }
+                <!-- Fístula -->
+                @if(symbol.condition === ToothConditionsConstants.FISTULA) {
+                  <svg width="29" height="10">
+                    <g>
+                      <circle
+                        cx="15"
+                        cy="6"
+                        r="4"
+                        fill="red"
+                      />
+                    </g>
+                  </svg>
+                }
                 <!-- Diente con fluorosis -->
                 @if (symbol.condition === ToothConditionsConstants.DIENTE_CON_HIPOPLASIA) {
                   <span>
@@ -151,16 +153,12 @@
                 <!-- Diente en mal posición -->
                 @if (symbol.condition === ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA) {
                   <span>
-                    <svg width="29" height="10">
-                      <path d="M5,10 C10,5 20,5 25,10" stroke="blue" stroke-width="2" fill="none"/>
-                    </svg>
-                  </span>
+                    <img src="../../../../../../assets/svg/flecha derecha.svg" alt="SVG local" />
+                  </span>                  
                 }
                 @if (symbol.condition === ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
                   <span>
-                    <svg width="29" height="10">
-                      <path d="M5,0 C10,5 20,5 25,0" stroke="blue" stroke-width="2" fill="none"/>
-                    </svg>
+                    <img src="../../../../../../assets/svg/flecha izquierda.svg" alt="SVG local" />
                   </span>
                 }
               </div>
