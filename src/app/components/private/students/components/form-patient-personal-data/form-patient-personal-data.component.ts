@@ -30,6 +30,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmLeaveComponent } from '../dialog-confirm-leave/dialog-confirm-leave.component';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 
 @Component({
@@ -108,7 +109,7 @@ export class FormPatientPersonalDataComponent {
           this.navigationTarget = targetUrl;
 
           // Detiene la navegación y mostramos el diálogo
-          this.openDialog('300ms', '200ms', 'paciente');
+          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_CREATE_PATIENT );
         }
       }
     });

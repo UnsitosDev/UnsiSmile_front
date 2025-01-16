@@ -26,6 +26,7 @@ import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-
 import { Subscription } from 'rxjs';
 import { StudentItems } from '@mean/models';
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 @Component({
   selector: 'app-students-oral-surgery-history',
@@ -90,13 +91,13 @@ export class StudentsOralSurgeryHistoryComponent {
           this.navigationTarget = targetUrl;
 
           // Detiene la navegación y mostramos el diálogo
-          this.openDialog('300ms', '200ms');
+          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_ORAL_SURGERY);
         }
       }
     });
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
     // Inicialmente, mantenemos al usuario en la misma página si no se ha aceptado la navegación
     if (this.isNavigationPrevented) {
       // Mantiene al usuario en el componente StudentsGeneralHistoryComponent
@@ -107,6 +108,7 @@ export class StudentsOralSurgeryHistoryComponent {
       width: '400px',
       enterAnimationDuration,
       exitAnimationDuration,
+      data: {message}
     });
 
     dialogRef.afterClosed().subscribe((result) => {

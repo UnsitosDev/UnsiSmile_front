@@ -26,6 +26,7 @@ import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-
 import { Subscription } from 'rxjs';
 import { StudentItems } from '@mean/models';
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 @Component({
   selector: 'app-students-periodontics-history',
@@ -91,13 +92,13 @@ export class StudentsPeriodonticsHistoryComponent {
           this.navigationTarget = targetUrl;
 
           // Detiene la navegación y mostramos el diálogo
-          this.openDialog('300ms', '200ms');
+          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_PERIODONTICS);
         }
       }
     });
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
     // Inicialmente, mantenemos al usuario en la misma página si no se ha aceptado la navegación
     if (this.isNavigationPrevented) {
       // Mantiene al usuario en el componente StudentsGeneralHistoryComponent
@@ -108,6 +109,7 @@ export class StudentsPeriodonticsHistoryComponent {
       width: '400px',
       enterAnimationDuration,
       exitAnimationDuration,
+      data: {message}
     });
 
     dialogRef.afterClosed().subscribe((result) => {

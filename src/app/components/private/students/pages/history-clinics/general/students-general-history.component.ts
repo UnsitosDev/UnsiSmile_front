@@ -26,6 +26,7 @@ import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Subscription } from 'rxjs';
 import { StudentItems } from '@mean/models';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 
 @Component({
@@ -97,7 +98,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
           this.navigationTarget = targetUrl;
 
           // Detiene la navegación y mostramos el diálogo
-          this.openDialog('300ms', '200ms', 'Historia clinica ' + this.mappedHistoryData.title);
+          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_GENERAL);
         }
       }
     });
