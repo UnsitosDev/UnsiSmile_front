@@ -97,13 +97,13 @@ export class StudentsGeneralHistoryComponent implements OnInit {
           this.navigationTarget = targetUrl;
 
           // Detiene la navegación y mostramos el diálogo
-          this.openDialog('300ms', '200ms');
+          this.openDialog('300ms', '200ms', 'Historia clinica ' + this.mappedHistoryData.title);
         }
       }
     });
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
     // Inicialmente, mantenemos al usuario en la misma página si no se ha aceptado la navegación
     if (this.isNavigationPrevented) {
       // Mantiene al usuario en el componente StudentsGeneralHistoryComponent
@@ -114,6 +114,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       width: '400px',
       enterAnimationDuration,
       exitAnimationDuration,
+      data: { message }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
