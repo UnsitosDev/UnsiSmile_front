@@ -200,38 +200,17 @@ export class FormPatientPersonalDataComponent {
         .subscribe({
           next: (response) => {
             this.router.navigate(['/students/patients']);
-            this.alertConfiguration('SUCCESS', "Se ha insertado correctamente el usuario.");
-            this.openAlert();
+            this.toastr.success('Paciente creado.', 'Éxito');
           },
           error: (error) => {
-            this.alertConfiguration('ERROR', error);
-            this.openAlert();
             this.toastr.error(error, 'Error');
           },
         });
     } else {
-      this.alertMessage = 'Por favor, completa todos los campos correctamente.';
-      this.showAlert = true;
-    }
+      this.toastr.warning('Completa correctamente todos los campos para registrar al paciente', 'Advertencia');    }
   }
 
-  public alertConfiguration(severity: 'ERROR' | 'SUCCESS', msg: string) {
-    this.alertConfig.severity = AlertModel.AlertSeverity[severity];
-    this.alertConfig.singleMessage = msg;
-  }
-  alertConfig = new AlertModel.AlertaClass(
-    false,
-    'Ha ocurrido un error',
-    AlertModel.AlertSeverity.ERROR
-  );
 
-  public openAlert() {
-    this.alertConfig.open = true;
-  }
-
-  public closeAlert() {
-    this.alertConfig.open = false;
-  }
 
   onScroll(event: any): void {
     const element = event.target;
