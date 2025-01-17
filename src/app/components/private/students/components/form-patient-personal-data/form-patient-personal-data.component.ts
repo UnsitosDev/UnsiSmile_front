@@ -109,7 +109,7 @@ export class FormPatientPersonalDataComponent {
           this.navigationTarget = targetUrl;
 
           // Detiene la navegación y mostramos el diálogo
-          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_CREATE_PATIENT );
+          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_CREATE_PATIENT);
         }
       }
     });
@@ -267,6 +267,8 @@ export class FormPatientPersonalDataComponent {
         })
         .subscribe({
           next: (response) => {
+            this.isNavigationPrevented = false;
+            this.navigationComplete = true;
             this.router.navigate(['/students/patients']);
             this.toastr.success('Paciente creado.', 'Éxito');
           },
