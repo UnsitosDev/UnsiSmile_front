@@ -7,7 +7,7 @@
       @if (mappedHistoryData) {
           <mat-card-title><strong>Historia clinica {{mappedHistoryData.title}}</strong></mat-card-title>             
           <mat-card class="custom">
-              <mat-tab-group [(selectedIndex)]="currentIndex">
+              <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
                   @for (tab of mappedHistoryData.tabs; track tab) {
                       <mat-tab [label]="tab.title">
                           @if (tab.title === 'Odontograma inicial') {
@@ -36,7 +36,7 @@
                               <app-tab-form 
                               [fieldsTab]="tab" 
                               (nextMatTab)="onNextTab()"
-                              (previousMatTab)="onPreviousTab()"
+                              (previousMatTab)="onPreviousTab()"                      
                           ></app-tab-form>
                           }
                       </mat-tab>

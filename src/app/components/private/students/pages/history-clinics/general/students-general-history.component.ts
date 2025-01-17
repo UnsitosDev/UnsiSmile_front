@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
@@ -27,6 +27,7 @@ import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-
 import { Subscription } from 'rxjs';
 import { StudentItems } from '@mean/models';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -40,11 +41,13 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 export class StudentsGeneralHistoryComponent implements OnInit {
   @Input() idPatient: number = 0;
+  @Output() tabChange = new EventEmitter<{ firstLabel: string, previousLabel: string }>();
   private router = inject(ActivatedRoute);
   private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
   readonly dialog = inject(MatDialog);
+  private toastr = inject(ToastrService);
   public id!: number;
   public idpatient!: string;
   public year?: number;
@@ -55,7 +58,10 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public data!: dataTabs;
   public patientData!: cardPatient;
   public guardianData: cardGuardian | null = null;
-  public currentIndex: number = 0; // Índice del tab activo
+  currentIndex = 0;
+  previousIndex = -1;  // Inicializa un índice anterior fuera de rango
+  isFormValid: boolean = true;
+  // Inicializa un índice anterior fuera de rango.
   public mappedHistoryData!: dataTabs;
   patientID: number = 0;    // Variable para el parámetro 'patientID'
   private idPatientClinicalHistory!: number;
@@ -66,6 +72,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private isNavigationPrevented: boolean = true; // Variable para evitar navegación inicialmente
   private navigationComplete: boolean = false; // Flag para manejar la navegación completada
   private additionalRoutes = ['/students/user'];
+  firstLabel: string = '';
+  previousLabel: string = '';
 
   constructor() { }
 
@@ -87,7 +95,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       ...StudentItems.map(item => item.routerlink),
       ...this.additionalRoutes
     ];
-    
+
     // Interceptamos la navegación antes de que se realice
     this.navigationSubscription = this.route.events.subscribe((event) => {
       if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
@@ -203,6 +211,24 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
 
+    onTabChange(index: number): void {
+    if (this.previousIndex >= 0) {
+      this.previousLabel = this.mappedHistoryData.tabs[this.previousIndex]?.title || '';
+      this.toastr.warning(`No has completado ${this.previousLabel}`, 'Formulario incompleto');
+    } 
+    if (this.previousIndex < 0) {
+      this.firstLabel = this.mappedHistoryData.tabs[0]?.title || '';
+      this.toastr.warning(`No has completado ${this.firstLabel}`, 'Formulario incompleto');
+    }
+
+    // Emitir el evento al hijo con las etiquetas
+    this.tabChange.emit({ firstLabel: this.firstLabel, previousLabel: this.previousLabel });
+
+    // Actualiza el índice anterior a la pestaña actual
+    this.previousIndex = index;
+  }
+
+  
   onNextTab(): void {
     this.currentIndex++; // Incrementar el índice del tab activo
     if (this.currentIndex >= this.mappedHistoryData.tabs.length) {
