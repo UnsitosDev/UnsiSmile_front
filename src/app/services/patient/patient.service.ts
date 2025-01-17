@@ -206,7 +206,6 @@ getLocalityData(searchTerm: string) {
 
 getLocalityDataPaginated(searchTerm: string, page: number, size: number, municipalityId?: string): Observable<localityOptions[]> {
     if (!municipalityId) {
-        console.log('Se requiere ID de municipio para buscar localidades');
         return of([]);
     }
 
@@ -271,7 +270,6 @@ getMunicipalityData(searchTerm: string) {
 
 getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, stateId?: string): Observable<municipalityOptions[]> {
     if (!stateId) {
-        console.log('Se requiere ID de estado para buscar municipios');
         return of([]);
     }
 

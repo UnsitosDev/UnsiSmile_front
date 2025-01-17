@@ -27,5 +27,5 @@ export interface cardGuardian {
 })
 export class CardPatientDataComponent{
   @Input() data!: PatientSummary;
-  @Input() guardianData!: cardGuardian;
+  @Input() guardianData: cardGuardian | null = null;
 }

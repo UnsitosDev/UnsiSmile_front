@@ -99,10 +99,14 @@ export class FormPatientPersonalDataComponent {
         this.formGroup.get('localityName')?.setValue(response[0].name);
         this.formGroup.get('municipalityName')?.setValue(response[0].municipality.name);
         this.formGroup.get('stateName')?.setValue(response[0].municipality.state.name);
+        
         // Guardar los ids
         this.localityId = response[0].idLocality;
         this.municipalityNameId = response[0].municipality.idMunicipality;
         this.stateNameId = response[0].municipality.state.idState;
+
+        // Cargar las colonias usando el ID de localidad
+        this.personalDataFields.handleNeighborhoodClick('', 0, 1000, this.localityId);
       }
     });
   }
@@ -122,8 +126,6 @@ export class FormPatientPersonalDataComponent {
 
     if (this.formGroup.valid) {
       const patientData = {
-        idPatient: 0,
-        admissionDate: formValues.admissionDate,
         isMinor: this.minorPatient,
         hasDisability: true,
         nationalityId: +formValues.nationality,
@@ -184,7 +186,6 @@ export class FormPatientPersonalDataComponent {
         } : null  
       };
 
-      console.log('Datos del paciente:', patientData);
 
       this.apiService
         .postService({

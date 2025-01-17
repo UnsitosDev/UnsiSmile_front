@@ -8,15 +8,29 @@ import routes from './app/app.routing.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AuthInterceptor } from './app/core';
 import { LoadingInterceptor } from './app/services/loadingInterceptor.service';
-
+import { ToastrModule } from 'ngx-toastr';
 
 bootstrapApplication(
   AppComponent,
   {providers:[
-    importProvidersFrom(BrowserModule),
+    importProvidersFrom(BrowserModule, ToastrModule.forRoot({
+      timeOut: 3000,
+      progressBar: true,
+      closeButton: true,
+      positionClass: 'toast-top-right',
+      preventDuplicates: false,    // permitir duplicados
+      enableHtml: true,
+      tapToDismiss: true,
+      maxOpened: 0,        // sin límite de notificaciones
+      autoDismiss: false,  // No cerrar automáticamente cuando se abre una nueva
+      newestOnTop: false,  // Las nuevas aparecerán abajo
+      messageClass: 'toast-message',
+      easing: 'ease-in',
+      easeTime: 300 // tiempo de animación
+    })),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi(), withInterceptors([AuthInterceptor, LoadingInterceptor])),
     provideRouter(routes), provideAnimationsAsync(), provideAnimationsAsync('noop'),
   ]},
-  )
-  .catch(err => console.error(err));
+)
+.catch(err => console.error(err));

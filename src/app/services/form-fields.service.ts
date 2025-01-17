@@ -32,7 +32,6 @@ export class FormFieldsService {
             type: 'input',
             label: 'Segundo Nombre',
             name: 'secondName',
-            required: true,
             errorMessages: {
                 required: 'El campo Segundo Nombre es requerido.'
             }
@@ -142,21 +141,6 @@ export class FormFieldsService {
         },
         {
             type: 'autocomplete',
-            label: 'Nombre de localidad',
-            name: 'localityName',
-            value: this.patientService.locality,
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Nombre de localidad es requerido.'
-            },
-            onInputChange: {
-                changeFunction: this.handleLocalityClick.bind(this),
-                length: 5
-            }
-        },
-        {
-            type: 'autocomplete',
             label: 'Nombre de municipio',
             name: 'municipalityName',
             value: this.patientService.municipality,
@@ -167,6 +151,21 @@ export class FormFieldsService {
             },
             onInputChange: {
                 changeFunction: this.handleMunicipalityClick.bind(this),
+                length: 5
+            }
+        },
+        {
+            type: 'autocomplete',
+            label: 'Nombre de localidad',
+            name: 'localityName',
+            value: this.patientService.locality,
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Nombre de localidad es requerido.'
+            },
+            onInputChange: {
+                changeFunction: this.handleLocalityClick.bind(this),
                 length: 5
             }
         },
@@ -230,16 +229,6 @@ export class FormFieldsService {
     ];
 
     private otherDataFields: FormField[] = [
-        {
-            type: 'datepicker',
-            label: 'Fecha de admisión',
-            name: 'admissionDate',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Fecha de admisión es requerido.'
-            }
-        },
         {
             type: 'select',
             label: 'Nacionalidad',
@@ -399,35 +388,40 @@ export class FormFieldsService {
     }
 
     public handleNeighborhoodClick(searchTerm: string, page: number = 0, size: number = 3, localityId?: string): void {
-        // Limpiar la colonia seleccionada si el término de búsqueda está vacío
-        if (!searchTerm || searchTerm.trim() === '') {
-            this.selectedNeighborhoodId = undefined;
+        // Si no hay localityId, no hacer nada
+        if (!localityId) {
+            this.clearNeighborhoodOptions();
             return;
         }
     
-        const effectiveLocalityId = localityId || this.selectedLocalitId;
-    
-        this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, effectiveLocalityId).subscribe(response => {
-    
+        this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, localityId).subscribe(response => {
             const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
             if (neighborhoodField) {
                 neighborhoodField.options = response;
-    
-                // Si hay una coincidencia exacta o solo una opción
-                const exactMatch = response.find(option => 
-                    option.label.toLowerCase() === searchTerm.toLowerCase()
-                );
-    
-                if (response.length === 1 || exactMatch) {
-                    const selectedNeighborhood = exactMatch || response[0];
-                    this.selectedNeighborhoodId = selectedNeighborhood.value;
-                    if (this.selectedNeighborhoodId) {
+                
+                // Limpiar el valor seleccionado si hay un término de búsqueda
+                if (searchTerm && searchTerm.trim() !== '') {
+                    const exactMatch = response.find(option => 
+                        option.label.toLowerCase() === searchTerm.toLowerCase()
+                    );
+                    
+                    if (exactMatch) {
+                        neighborhoodField.value = exactMatch.value;
                     }
                 }
             }
         });
     }
     
+    private clearNeighborhoodOptions(): void {
+        const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
+        if (neighborhoodField) {
+            neighborhoodField.options = [];
+            if (neighborhoodField.value) {
+                neighborhoodField.value = '';
+            }
+        }
+    }
     
     public handleLocalityClick(searchTerm: string, page: number = 0, size: number = 3, municipalityId?: string): void {
         // Limpiar la localidad seleccionada y las colonias si el término de búsqueda está vacío
@@ -462,16 +456,16 @@ export class FormFieldsService {
         });
     }
     
-    private clearNeighborhoodOptions(): void {
-        const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
-        if (neighborhoodField) {
-            neighborhoodField.options = [];
+   // private clearNeighborhoodOptions(): void {
+     //   const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
+       // if (neighborhoodField) {
+         //   neighborhoodField.options = [];
             // También limpiar el valor seleccionado si existe
-            if (neighborhoodField.value) {
-                neighborhoodField.value = '';
-            }
-        }
-    }
+           // if (neighborhoodField.value) {
+             //   neighborhoodField.value = '';
+            //}
+        //}
+   // }
     
     public handleMunicipalityClick(searchTerm: string, page: number = 0, size: number = 3, stateId?: string): void {
         // Limpiar el municipio seleccionado y las localidades si el término de búsqueda está vacío
@@ -518,7 +512,6 @@ export class FormFieldsService {
     }
 
     public handleStateClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        console.log('Búsqueda de estado - Parámetros:', { searchTerm, page, size });
         
         this.patientService.getStateDataPaginated(searchTerm, page, size).subscribe(response => {
             

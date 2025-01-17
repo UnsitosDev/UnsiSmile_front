@@ -1,36 +1,46 @@
 
-<mat-card appearance="outlined" class="custom">
-  <app-card-patient-data [data]="patientData" [guardianData]="guardianData"></app-card-patient-data>
-</mat-card>
-<br>
-@if (mappedHistoryData) {
-    <mat-card-title><strong>Historia clinica {{mappedHistoryData.title}}</strong></mat-card-title>             
-    <mat-card class="custom">
-        <mat-tab-group [(selectedIndex)]="currentIndex">
-            @for (tab of mappedHistoryData.tabs; track tab) {
-                <mat-tab [label]="tab.title">
-                    @if (tab.title === 'Odontograma inicial') {
-                        <app-students-odontogram 
-                        [patientId]="patientID" 
-                        [odontogramType]="'INITIAL_ODONTOGRAM'">
-                        </app-students-odontogram>
-                    }
-                    @if (tab.title === 'Odontograma final') {
-                        <app-students-odontogram 
-                        [patientId]="patientID" 
-                        [odontogramType]="'FINAL_ODONTOGRAM'">
-                        </app-students-odontogram>
-                    }
-                    @if (tab.title === 'Medición de bolsas inicial') {
-                        <app-history-initial-bag></app-history-initial-bag>
-                    }
-                    <app-tab-form 
-                        [fieldsTab]="tab" 
-                        (nextMatTab)="onNextTab()"
-                        (previousMatTab)="onPreviousTab()"
-                        ></app-tab-form>  
-                </mat-tab>
-            }
-        </mat-tab-group>
-    </mat-card>
-}
+
+    <mat-card appearance="outlined" class="custom">
+        <app-card-patient-data [data]="patientData" [guardianData]="guardianData"></app-card-patient-data>
+      </mat-card>
+      <br>
+      @if (mappedHistoryData) {
+          <mat-card-title><strong>Historia clinica {{mappedHistoryData.title}}</strong></mat-card-title>             
+          <mat-card class="custom">
+              <mat-tab-group [(selectedIndex)]="currentIndex">
+                  @for (tab of mappedHistoryData.tabs; track tab) {
+                      <mat-tab [label]="tab.title">
+                          @if (tab.title === 'Odontograma inicial') {
+                              <app-students-odontogram 
+                              [patientId]="patientID" 
+                              [odontogramType]="'INITIAL_ODONTOGRAM'">
+                              </app-students-odontogram>
+                          }
+                          @if (tab.title === 'Odontograma final') {
+                              <app-students-odontogram 
+                              [patientId]="patientID" 
+                              [odontogramType]="'FINAL_ODONTOGRAM'">
+                              </app-students-odontogram>
+                          }
+                          @if (tab.title === 'Medición de bolsas inicial') {
+                              <app-history-initial-bag></app-history-initial-bag>
+                          }
+                          @if (tab.isAnswered) {
+                              <app-tab-form-update
+                              [fieldsTab]="tab" 
+                              (nextMatTab)="onNextTab()"
+                              (previousMatTab)="onPreviousTab()"
+                              ></app-tab-form-update>
+                          }
+                          @if (!tab.isAnswered) {
+                              <app-tab-form 
+                              [fieldsTab]="tab" 
+                              (nextMatTab)="onNextTab()"
+                              (previousMatTab)="onPreviousTab()"
+                          ></app-tab-form>
+                          }
+                      </mat-tab>
+                  }
+              </mat-tab-group>
+          </mat-card>
+      }

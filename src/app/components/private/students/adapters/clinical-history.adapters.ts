@@ -31,6 +31,8 @@ function mapSubSectionToFormSectionFields(subSection: SubSection): subSeccion {
     return {
         formName: subSection.formName, // Asigna el nombre de la subsección
         questions: subSection.questions.map((question) => mapQuestionToFormField(question)), // Mapea las preguntas de la subsección
+        isAnswered: subSection.isAnswered,
+        order: subSection.order
     };
 }
 
@@ -58,6 +60,7 @@ export function mapQuestionToFormField(question: Question): FormField {
         name: question.questionText.replace(/\s+/g, '_').toLowerCase(), 
         label: question.questionText, 
         required: question.required, 
+        order: question.order,
         placeholder: question.placeholder,
         options: question.catalog ? question.catalog.catalogOptions.map(option => ({
             value: option.idCatalogOption,
