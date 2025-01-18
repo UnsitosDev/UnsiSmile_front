@@ -89,6 +89,7 @@ export class UriConstants {
   // auth-controller
   public static readonly POST_AUTH = basePath + '/auth/register'
   public static readonly POSTB_AUTH = basePath + '/auth/register'
+  public static readonly PATCH_UPDATE_PASSWORD = basePath + '/auth/updatePassword';
   //person controller
   public static readonly GETID_PERSON = basePath + '/persons/'
   public static readonly GET_PERSON = basePath + '/persons'
@@ -187,4 +188,4 @@ export class UriConstants {
     // Descargar archivo
     public static readonly DOWLOAD_FILES = basePath + '/files/file/'
 
-}     
+}
