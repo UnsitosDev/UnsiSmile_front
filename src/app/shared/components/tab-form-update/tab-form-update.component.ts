@@ -131,11 +131,11 @@ export class TabFormUpdateComponent {
 
   // Función para enviar archivos
   handleSubmission() {
-    const hasFiles = this.files && this.files.length > 0; 
+    const hasFiles = this.files && this.files.length > 0;
     if (hasFiles) {
       this.sendFiles();
-      this.postHcData();
     }
+    this.postHcData();
   }
 
   sendFiles() {
@@ -150,6 +150,7 @@ export class TabFormUpdateComponent {
 
     formData.append('idPatient', this.patientUuid);
     formData.append('idQuestion', this.idQuestion.toString());
+
 
     this.apiService
       .postService({
@@ -169,10 +170,6 @@ export class TabFormUpdateComponent {
   }
 
   postHcData() {
-
-    if (this.formGroup.valid) {
-      return;
-    }
 
     const formData = this.formGroup.value;
     const updateData: updateFormData[] = [];
@@ -198,27 +195,26 @@ export class TabFormUpdateComponent {
       }
 
     });
-    // Manejo de archivos (si los hay)
-    if (this.files && this.files.length > 0) {
-      this.sendFiles();
+
+    if (updateData.length > 0) {
+      this.apiService
+        .patchService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.POST_SECTION_FORM}`,
+          data: updateData,
+        })
+        .subscribe({
+          next: (response) => {
+            updateData.length = 0
+            this.nextMatTab.emit();
+          },
+          error: (error) => {
+            console.log('Error al guardar datos: ', error);
+          },
+        });
     }
-    this.apiService
-      .patchService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_SECTION_FORM}`,
-        data: updateData,
-      })
-      .subscribe({
-        next: (response) => {
-          updateData.length = 0
-          this.nextMatTab.emit();
-        },
-        error: (error) => {
-          console.log('Error al guardar datos: ', error);
-        },
-      });
   }
 
   previousTab() {
