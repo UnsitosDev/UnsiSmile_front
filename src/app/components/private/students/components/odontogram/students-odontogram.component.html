@@ -1,5 +1,4 @@
 <div>
-  <main>
     <div class="root custom-text">
       <mat-tab-group [(selectedIndex)]="value" (selectedIndexChange)="handleChange($event, value)">
         <mat-tab label="Adulto">
@@ -135,5 +134,11 @@
         (handleAction)="handleAction($event)"
       />
     }
-  </main>
+
+    <div class="button-container">
+      <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
+      <div>
+          <button type="button" (click)="store()" mat-button [disabled]="false"> AVANZAR Y GUARDAR <i class="fas fa-save"></i></button>
+      </div>
+    </div>
 </div>

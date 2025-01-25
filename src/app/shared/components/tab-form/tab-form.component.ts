@@ -1,20 +1,37 @@
 import { HttpHeaders } from '@angular/common/http';
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-import { formSectionFields, subSeccion } from 'src/app/models/form-fields/form-field.interface';
+import {
+  formSectionFields,
+  subSeccion,
+} from 'src/app/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
-import { HistoryInitialBagComponent } from "../../../components/private/students/components/form-history-initial-bag/history-initial-bag.component";
-import { StudentsOdontogramComponent } from "../../../components/private/students/components/odontogram/students-odontogram.component";
-import { AlertComponent } from "../alert/alert.component";
+import { TabsHandler } from '../interfaces/tabs_handler';
 
 interface FormData {
   idPatientClinicalHistory: number;
@@ -29,12 +46,20 @@ interface FormData {
 @Component({
   selector: 'app-tab-form',
   standalone: true,
-  imports: [MatInputModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, FieldComponentComponent, MatButtonModule, MatTabsModule, MatCardModule, AlertComponent, StudentsOdontogramComponent, HistoryInitialBagComponent],
+  imports: [
+    MatInputModule,
+    FormsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    FieldComponentComponent,
+    MatButtonModule,
+    MatTabsModule,
+    MatCardModule
+  ],
   templateUrl: './tab-form.component.html',
-  styleUrl: './tab-form.component.scss'
+  styleUrl: './tab-form.component.scss',
 })
-export class TabFormComponent {
-
+export class TabFormComponent implements TabsHandler {
   @Input() fieldsTab!: formSectionFields;
   @Input() fieldsSubTab!: subSeccion;
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
@@ -44,8 +69,8 @@ export class TabFormComponent {
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
   formGroup!: FormGroup;
-  id: number = 0;           // Variable para el parámetro 'id'
-  patientID: number = 0;    // Variable para el parámetro 'patientID'
+  id: number = 0; // Variable para el parámetro 'id'
+  patientID: number = 0; // Variable para el parámetro 'patientID'
   patientUuid!: string;
   sendFile!: boolean;
 
@@ -66,7 +91,7 @@ export class TabFormComponent {
 
   ngOnInit(): void {
     this.section();
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.id = +params.get('id')!;
       this.patientID = +params.get('patientID')!;
       this.patientUuid = params.get('patient')!;
@@ -81,12 +106,15 @@ export class TabFormComponent {
     // Procesamos la sección principal (campos raíz de la estructura)
     if (this.fieldsTab?.seccion) {
       // Ordenamos los campos de la sección principal según la propiedad 'order'
-      const sortedSections = this.fieldsTab.seccion.sort((a, b) => (a.order! - b.order!));
+      const sortedSections = this.fieldsTab.seccion.sort(
+        (a, b) => a.order! - b.order!
+      );
       // Iteramos sobre los campos ordenados y los agregamos al formGroup
-      sortedSections.forEach(sectionField => {
+      sortedSections.forEach((sectionField) => {
         this.formGroup.addControl(
           sectionField.name,
-          this.fb.control(sectionField.value || '', // Valor inicial del control (vacío si no está definido)
+          this.fb.control(
+            sectionField.value || '', // Valor inicial del control (vacío si no está definido)
             sectionField.validators || [] // Validaciones asociadas al campo
           )
         );
@@ -96,19 +124,24 @@ export class TabFormComponent {
     // Procesamos las subsecciones definidas en 'childFormSection', si existen
     if (this.fieldsTab?.childFormSection) {
       // Ordenamos las subsecciones según la propiedad 'order'
-      const sortedChildSections = this.fieldsTab.childFormSection.sort((a, b) => (a.order! - b.order!));
+      const sortedChildSections = this.fieldsTab.childFormSection.sort(
+        (a, b) => a.order! - b.order!
+      );
       // Iteramos sobre cada subsección ordenada
-      sortedChildSections.forEach(childSection => {
+      sortedChildSections.forEach((childSection) => {
         // Verificamos si la subsección tiene preguntas asociadas
         if (childSection.questions) {
           // Ordenamos las preguntas dentro de la subsección según la propiedad 'order'
-          const sortedQuestions = childSection.questions.sort((a, b) => (a.order! - b.order!));
+          const sortedQuestions = childSection.questions.sort(
+            (a, b) => a.order! - b.order!
+          );
           // Iteramos sobre las preguntas ordenadas y las agregamos al formGroup
-          sortedQuestions.forEach(questionField => {
+          sortedQuestions.forEach((questionField) => {
             // Agregamos los controles de las preguntas al formulario
             this.formGroup.addControl(
-              questionField.name,// Nombre del control, único por cada pregunta
-              this.fb.control(questionField.value || '',// Valor inicial de la pregunta (vacío si no está definido)
+              questionField.name, // Nombre del control, único por cada pregunta
+              this.fb.control(
+                questionField.value || '', // Valor inicial de la pregunta (vacío si no está definido)
                 questionField.validators || [] // Validaciones asociadas a la pregunta
               )
             );
@@ -120,8 +153,8 @@ export class TabFormComponent {
 
   idQuestion!: number;
   idAnswer!: number;
-  questionIDs: { [key: string]: number } = {};  // Definimos questionIDs como un objeto que almacena questionID
-  idAnswers: { [key: string]: number } = {};  // Definimos idAnswers como un objeto que almacena idAnswer
+  questionIDs: { [key: string]: number } = {}; // Definimos questionIDs como un objeto que almacena questionID
+  idAnswers: { [key: string]: number } = {}; // Definimos idAnswers como un objeto que almacena idAnswer
 
   handleFieldValue(event: any) {
     this.idQuestion = event.questionID;
@@ -132,11 +165,14 @@ export class TabFormComponent {
     this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específico
   }
 
-
   files: FileList | null = null; // Almacena el FileList
 
   // Método para manejar el valor del archivo
-  handleFileValue(event: { value: FileList; questionID: number; type: string }) {
+  handleFileValue(event: {
+    value: FileList;
+    questionID: number;
+    type: string;
+  }) {
     this.idQuestion = event.questionID; // Obtener el ID de la pregunta
     this.files = event.value; // Almacenar el FileList
 
@@ -151,7 +187,7 @@ export class TabFormComponent {
   }
 
   handleSubmission() {
-    const hasFiles = this.files && this.files.length > 0; 
+    const hasFiles = this.files && this.files.length > 0;
     if (hasFiles) {
       this.sendFiles();
       this.postHcData();
@@ -174,8 +210,7 @@ export class TabFormComponent {
 
     this.apiService
       .postService({
-        headers: new HttpHeaders({
-        }),
+        headers: new HttpHeaders({}),
         url: `${UriConstants.POST_FILES}`,
         data: formData,
       })
@@ -192,7 +227,6 @@ export class TabFormComponent {
 
   // Función para insertar
   postHcData() {
-
     // Validar si el formulario es valido
     if (this.formGroup.valid) {
       return;
@@ -205,7 +239,9 @@ export class TabFormComponent {
       const fieldValue = formData[fieldName];
       const questionID = this.questionIDs[fieldName];
       const idAnswer = this.idAnswers[fieldName] ?? 0;
-      const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
+      const isDateField =
+        fieldName.toLowerCase().includes('fecha') &&
+        !isNaN(Date.parse(fieldValue));
 
       const hcData: FormData = {
         idPatientClinicalHistory: this.patientID,
@@ -215,11 +251,10 @@ export class TabFormComponent {
         answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
         answerDate: isDateField ? fieldValue : null,
         idCatalogOption: formData.idCatalogOption || null,
-      }
+      };
       if (hcData.idQuestion) {
         sendData.push(hcData);
       }
-
     });
     // Manejo de archivos (si los hay)
     if (this.files && this.files.length > 0) {
@@ -236,7 +271,7 @@ export class TabFormComponent {
       .subscribe({
         next: (response) => {
           this.openSnackBar();
-          sendData.length = 0
+          sendData.length = 0;
           this.nextMatTab.emit();
         },
         error: (error) => {
@@ -249,27 +284,26 @@ export class TabFormComponent {
   previousTab() {
     this.previousMatTab.emit();
   }
-
 }
 
 @Component({
   selector: 'snack-bar-component-example-snack',
   template: `
     <span class="custom">
-    <i class="fas fa-check-circle"></i> Datos guardados correctamente.
+      <i class="fas fa-check-circle"></i> Datos guardados correctamente.
     </span>
   `,
-  styles: [`
-    .custom {
-    color: var(--on-primary);
-  
-  }
-    i{
-      color: green;
-      font-size: 20px;
-    }
-
-  `],
+  styles: [
+    `
+      .custom {
+        color: var(--on-primary);
+      }
+      i {
+        color: green;
+        font-size: 20px;
+      }
+    `,
+  ],
   standalone: true,
 })
-export class Alert { }
+export class Alert {}

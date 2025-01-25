@@ -16,6 +16,7 @@ import {
   IOdontogramHandler,
   ITooth
 } from 'src/app/models/shared/odontogram';
+import { TabsHandler } from 'src/app/shared/components/interfaces/tabs_handler';
 
 interface ToothEvent {
   faceId: string;
@@ -35,22 +36,20 @@ interface ToothEvent {
   templateUrl: './students-odontogram.component.html',
   styleUrl: './students-odontogram.component.scss',
 })
-export class StudentsOdontogramComponent implements OnInit {
+export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   @Input({ required: true }) patientId!: number;
-  @Input({ required: true }) odontogramType: "INITIAL_ODONTOGRAM" | "FINAL_ODONTOGRAM" = "INITIAL_ODONTOGRAM";
+  @Input({ required: true }) idFormSection!: number;
   
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
-  @Output() nextMatTab = new EventEmitter<number>();
+  @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
+  @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
 
   private readonly odontogramData = inject(OdontogramData);
-  private readonly normalConditions = new Set([
-    ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA,
-    ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA,
-    ToothConditionsConstants.PUENTE,
-    ToothConditionsConstants.PROTESIS_REMOVIBLE,
-    ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
-    ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
-    ToothConditionsConstants.FISTULA
+  private readonly toothFaceConditions = new Set([
+    ToothConditionsConstants.DIENTE_CARIADO,
+    ToothConditionsConstants.DIENTE_OBTURADO,
+    ToothConditionsConstants.DIENTE_CON_FRACTURA,
+    ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES
   ]);
 
   data: IOdontogramHandler = store;
@@ -103,15 +102,15 @@ export class StudentsOdontogramComponent implements OnInit {
   setFace(event: ToothEvent): void {
     const { tooth, faceId } = event;
 
-    if (this.isNotAFaceCondition(this.marked)) {
-      this.addConditionToTooth(tooth.idTooth, this.marked.idCondition);
-    } else {
+    if (this.isAFaceCondition(this.marked)) {
       this.addConditionToFace(tooth.idTooth, faceId, this.marked.idCondition);
+    } else {
+      this.addConditionToTooth(tooth.idTooth, this.marked.idCondition);
     }
   }
 
-  private isNotAFaceCondition(condition: ICondition): boolean {
-    return this.normalConditions.has(condition.condition);
+  private isAFaceCondition(condition: ICondition): boolean {
+    return this.toothFaceConditions.has(condition.condition);
   }
 
   private getTargetArcade(toothId: number): IOdontogram {
@@ -250,7 +249,12 @@ export class StudentsOdontogramComponent implements OnInit {
   }
 
   store(): void {
-    this.nextMatTab.emit(0);
+    console.log('Storing odontogram:', this.odontogram);
+    this.nextMatTab.emit();
     this.nextTabEventEmitted.emit(false);
+  }
+
+  previousTab() {
+    this.previousMatTab.emit();
   }
 }

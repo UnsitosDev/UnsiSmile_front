@@ -13,26 +13,32 @@
                           @if (tab.title === 'Odontograma inicial') {
                               <app-students-odontogram 
                               [patientId]="patientID" 
-                              [odontogramType]="'INITIAL_ODONTOGRAM'">
+                              [idFormSection]=6
+                              (nextMatTab)="onNextTab()"
+                              (previousMatTab)="onPreviousTab()"
+                              >
                               </app-students-odontogram>
                           }
                           @if (tab.title === 'Odontograma final') {
                               <app-students-odontogram 
                               [patientId]="patientID" 
-                              [odontogramType]="'FINAL_ODONTOGRAM'">
+                              [idFormSection]=7
+                              (nextMatTab)="onNextTab()"
+                              (previousMatTab)="onPreviousTab()"
+                              >
                               </app-students-odontogram>
                           }
                           @if (tab.title === 'Medición de bolsas inicial') {
                               <app-history-initial-bag></app-history-initial-bag>
                           }
-                          @if (tab.isAnswered) {
+                          @if (tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial') {
                               <app-tab-form-update
                               [fieldsTab]="tab" 
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"
                               ></app-tab-form-update>
                           }
-                          @if (!tab.isAnswered) {
+                          @if (!tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial') {
                               <app-tab-form 
                               [fieldsTab]="tab" 
                               (nextMatTab)="onNextTab()"
