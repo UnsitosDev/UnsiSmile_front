@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { forkJoin } from 'rxjs';
 
-import { store } from '@mean/services';
+import { ApiService, store } from '@mean/services';
 import { OdontogramData } from 'src/app/services/odontogram-data.service';
 import { ToothConditionsConstants } from 'src/app/utils/ToothConditions.constant';
 import { StudentsToolbarComponent } from '../toolbar-odontogram/students-toolbar.component';
@@ -17,6 +17,9 @@ import {
   ITooth
 } from 'src/app/models/shared/odontogram';
 import { TabsHandler } from 'src/app/shared/components/interfaces/tabs_handler';
+import { OdontogramPost } from 'src/app/models/shared/odontogram/odontogram.model';
+import { UriConstants } from '@mean/utils';
+import { HttpHeaders } from '@angular/common/http';
 
 interface ToothEvent {
   faceId: string;
@@ -37,8 +40,9 @@ interface ToothEvent {
   styleUrl: './students-odontogram.component.scss',
 })
 export class StudentsOdontogramComponent implements OnInit, TabsHandler {
-  @Input({ required: true }) patientId!: number;
-  @Input({ required: true }) idFormSection!: number;
+  private odontogramService = inject(ApiService<{}, OdontogramPost>);
+  @Input({ required: true }) patientId!: string;
+  @Input({ required: true })  idFormSection!: number;
   
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
@@ -53,7 +57,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   ]);
 
   data: IOdontogramHandler = store;
-  odontogram: IOdontogram = { tooths: [] };
+  odontogram: IOdontogram = { teeth: [] };
   options: ICondition[] = [];
   faces: IFace[] = [];
   toolbar: { options: ICondition[] } = { options: [] };
@@ -125,9 +129,9 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
     
     if (inStore) {
       const targetArcade = this.getTargetArcade(toothId);
-      targetTooths = targetArcade.tooths;
+      targetTooths = targetArcade.teeth;
     } else {
-      targetTooths = this.odontogram.tooths;
+      targetTooths = this.odontogram.teeth;
     }
 
     let tooth = targetTooths.find(t => t.idTooth === toothId);
@@ -252,6 +256,43 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
     console.log('Storing odontogram:', this.odontogram);
     this.nextMatTab.emit();
     this.nextTabEventEmitted.emit(false);
+  }
+
+  storeOdontogram(): void {
+
+    const odontogramStore: OdontogramPost = {
+      idFormSection: this.idFormSection.toString(),
+      idPatient: this.patientId,
+      teeth: this.odontogram.teeth.map(tooth => ({
+        ...tooth,
+        faces: tooth.faces.map(face => ({
+          ...face,
+          idFace: Number(face.idFace),
+          conditions: (face.conditions || []).map(condition => ({
+            idToothFaceCondition: condition.idCondition,
+            condition: condition.condition,
+            description: condition.description
+          }))
+        }))
+      }))
+    };
+
+    console.log('Storing odontogram:', odontogramStore);
+
+    this.odontogramService.postService({
+      headers: new HttpHeaders({
+                  'Content-Type': 'application/json',
+                }),
+      url: `${UriConstants.POST_ODONTOGRAM}`,
+      data: this.odontogram,
+    }).subscribe({
+      next: (response) => {
+        console.log('Odontogram stored:', response);
+      },
+      error: (error) => {
+        console.error('Error storing odontogram:', error);
+      }
+    });
   }
 
   previousTab() {
