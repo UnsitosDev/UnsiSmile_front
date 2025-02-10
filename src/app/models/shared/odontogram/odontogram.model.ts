@@ -26,3 +26,21 @@ export interface FaceCondition {
     condition:            string;
     description:          string;
 }
+ 
+export interface OdontogramResponse {
+    idOdontogram: number;
+    adultArcade:  Arcade[];
+    childArcade:  Arcade[];
+}
+
+export interface Arcade {
+    idTooth:    string;
+    faces:      Face[];
+    conditions: Condition[];
+}
+
+export interface Condition {
+    idCondition: number;
+    condition:   string;
+    description: string;
+}
