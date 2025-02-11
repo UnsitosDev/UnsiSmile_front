@@ -1,7 +1,4 @@
-import { Component, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatCardModule } from '@angular/material/card';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -29,6 +26,9 @@ import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPa
 import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
+import { ToastrService } from 'ngx-toastr';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
+
 
 
 @Component({
@@ -211,24 +211,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     const [year, month, day] = dateArray;
     return `${day}/${month}/${year}`;
   }
-
-    onTabChange(index: number): void {
-    if (this.previousIndex >= 0) {
-      this.previousLabel = this.mappedHistoryData.tabs[this.previousIndex]?.title || '';
-      this.toastr.warning(`No has completado ${this.previousLabel}`, 'Formulario incompleto');
-    } 
-    if (this.previousIndex < 0) {
-      this.firstLabel = this.mappedHistoryData.tabs[0]?.title || '';
-      this.toastr.warning(`No has completado ${this.firstLabel}`, 'Formulario incompleto');
-    }
-
-    // Emitir el evento al hijo con las etiquetas
-    this.tabChange.emit({ firstLabel: this.firstLabel, previousLabel: this.previousLabel });
-
-    // Actualiza el índice anterior a la pestaña actual
-    this.previousIndex = index;
-  }
-
   
   onNextTab(): void {
     this.currentIndex++; // Incrementar el índice del tab activo
