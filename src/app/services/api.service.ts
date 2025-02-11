@@ -70,7 +70,7 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
   /** Para realizar las peticiones PATCH */
   patchService(reqParams: ApiModel.ReqParams): Observable<PATCH> {
     const options = {
-      params: reqParams.params ? reqParams.params : {},
+      params: reqParams.params ? reqParams.params : {}
     };
     return this.http.patch<PATCH>(reqParams.url, reqParams.data, options).pipe(
       map((res) => res),
