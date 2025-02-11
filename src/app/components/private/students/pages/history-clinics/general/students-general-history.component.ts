@@ -3,31 +3,32 @@ import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTabsModule } from '@angular/material/tabs';
-import { TabViewModule } from 'primeng/tabview';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { TabViewModule } from 'primeng/tabview';
 
 // Componentes
-import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
+import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
+import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
 
 // Servicios
 import { ApiService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
-import { Patient } from 'src/app/models/shared/patients/patient/patient';
-import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
+import { StudentItems } from '@mean/models';
 import { UriConstants } from '@mean/utils';
+import { Subscription } from 'rxjs';
+import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
-import { Subscription } from 'rxjs';
-import { StudentItems } from '@mean/models';
-import { Messages } from 'src/app/utils/messageConfirmLeave';
-import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -63,8 +64,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   isFormValid: boolean = true;
   // Inicializa un índice anterior fuera de rango.
   public mappedHistoryData!: dataTabs;
-  patientID: number = 0;    // Variable para el parámetro 'patientID'
-  private idPatientClinicalHistory!: number;
+  patientID: string = "";    // Variable para el parámetro 'patientID'
+  private idPatientClinicalHistory!: string;
   // Variables para navegación
   private navigationSubscription!: Subscription;
   private navigationTarget: string = ''; // Ruta de navegación cancelada
