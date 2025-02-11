@@ -21,13 +21,6 @@
                 <div class="mt-2">
                   <span><strong></strong></span>
                   <mat-card-title><strong>{{ subSection.formName }}</strong></mat-card-title> 
-                  <!-- Here is where you want to place the odontogram -->
-                  @if (subSection.formName === 'Odontograma') {
-                    <app-students-odontogram 
-                      [patientId]="patientID" 
-                      [odontogramType]="'INITIAL_ODONTOGRAM'">
-                    </app-students-odontogram>
-                  }
                   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-4">
                     @for (childField of subSection.questions; track childField) {
                       <app-field-component
@@ -43,7 +36,7 @@
             <div class="button-container">
               <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
               <div>
-                  <button type="button" (click)="handleSubmission()" mat-button [disabled]="!formGroup.valid"> AVANZAR Y ACTUALIZAR <i class="fas fa-save"></i></button>
+                <button type="button" (click)="handleSubmission()" mat-button> AVANZAR Y ACTUALIZAR <i class="fas fa-save"></i></button>
               </div>
             </div>
           </form>

@@ -4,7 +4,8 @@ import { studentResponse, studentUserResponse } from 'src/app/shared/components/
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-
+import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form-user',
@@ -24,6 +25,9 @@ export class FormUserComponent {
   confirmarContrasena = signal('');
   foto = signal<string | null>(null);
   user!: studentUserResponse | AdminResponse;
+  successMessage = signal<string | null>(null);
+  private toastr=inject (ToastrService);
+  
 
   ngOnInit() {
     this.fetchUserData();
@@ -40,11 +44,33 @@ export class FormUserComponent {
 
   actualizarContrasena() {
     if (this.nuevaContrasena() !== this.confirmarContrasena()) {
-      alert('Las contraseñas no coinciden');
+      this.toastr.warning('Las contraseñas no coinciden');
       return;
     }
-    console.log('Actualizando contraseña');
-    //lógica para actualizar la contraseña en el backend
+
+    const payload = {
+      oldPassword: this.contrasenaActual(),
+      newPassword: this.nuevaContrasena(),
+      confirmPassword: this.confirmarContrasena()
+    };
+
+    console.log('Payload:', payload); // Verificar el payload
+
+    this.userService
+      .patchService({
+        url: `${UriConstants.PATCH_UPDATE_PASSWORD}`,
+        data: payload 
+      })
+      .subscribe({
+        next: () => {
+          this.contrasenaActual.set('');
+          this.nuevaContrasena.set('');
+          this.confirmarContrasena.set('');
+          this.toastr.success('Contraseña actualizada exitosamente');
+        },
+        error: (error) => {
+        this.toastr.error(error,'Error');        }
+      });
   }
 
   subirFoto(event: Event) {

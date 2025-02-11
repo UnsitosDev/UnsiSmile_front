@@ -4,6 +4,12 @@
   max-width: 100%;
   width: 100%;
   overflow-x: hidden;
+  margin-left: 250px; // Margen fijo
+  transition: margin-left 0.3s ease-in-out;
+  
+  &.sidebar-closed {
+    margin-left: 0;
+  }
 }
 
 .sticky-header {

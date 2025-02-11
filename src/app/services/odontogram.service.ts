@@ -7,7 +7,7 @@ export const store: IOdontogramHandler = {
     description: '',
   },
   childrenArcade: {
-    tooths: [
+    teeth: [
       {
         idTooth: 55,
         status: true,
@@ -556,7 +556,7 @@ export const store: IOdontogramHandler = {
     ],
   },
   adultArcade: {
-    tooths: [
+    teeth: [
       {
         idTooth: 18,
         conditions: [],

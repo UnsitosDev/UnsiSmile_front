@@ -77,4 +77,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-}                 
+}
+
+.idTooth{
+  text-align: center; 
+  display: block; 
+  clear: both;
+  color: --on-secondary;
+}
