@@ -18,7 +18,7 @@ export interface ITooth {
 }
 
 export interface IOdontogram {
-    tooths: ITooth[]
+    teeth: ITooth[]
 }
 
 export interface IOdontogramHandler {

@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { forkJoin } from 'rxjs';
 
-import { store } from '@mean/services';
+import { ApiService, store } from '@mean/services';
 import { OdontogramData } from 'src/app/services/odontogram-data.service';
 import { ToothConditionsConstants } from 'src/app/utils/ToothConditions.constant';
 import { StudentsToolbarComponent } from '../toolbar-odontogram/students-toolbar.component';
@@ -16,6 +16,10 @@ import {
   IOdontogramHandler,
   ITooth
 } from 'src/app/models/shared/odontogram';
+import { TabsHandler } from 'src/app/shared/components/interfaces/tabs_handler';
+import { OdontogramPost } from 'src/app/models/shared/odontogram/odontogram.model';
+import { UriConstants } from '@mean/utils';
+import { HttpHeaders } from '@angular/common/http';
 
 interface ToothEvent {
   faceId: string;
@@ -35,26 +39,25 @@ interface ToothEvent {
   templateUrl: './students-odontogram.component.html',
   styleUrl: './students-odontogram.component.scss',
 })
-export class StudentsOdontogramComponent implements OnInit {
-  @Input({ required: true }) patientId!: number;
-  @Input({ required: true }) odontogramType: "INITIAL_ODONTOGRAM" | "FINAL_ODONTOGRAM" = "INITIAL_ODONTOGRAM";
+export class StudentsOdontogramComponent implements OnInit, TabsHandler {
+  private odontogramService = inject(ApiService<{}, OdontogramPost>);
+  @Input({ required: true }) patientId!: string;
+  @Input({ required: true })  idFormSection!: number;
   
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
-  @Output() nextMatTab = new EventEmitter<number>();
+  @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
+  @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
 
   private readonly odontogramData = inject(OdontogramData);
-  private readonly normalConditions = new Set([
-    ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA,
-    ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA,
-    ToothConditionsConstants.PUENTE,
-    ToothConditionsConstants.PROTESIS_REMOVIBLE,
-    ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
-    ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
-    ToothConditionsConstants.FISTULA
+  private readonly toothFaceConditions = new Set([
+    ToothConditionsConstants.DIENTE_CARIADO,
+    ToothConditionsConstants.DIENTE_OBTURADO,
+    ToothConditionsConstants.DIENTE_CON_FRACTURA,
+    ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES
   ]);
 
   data: IOdontogramHandler = store;
-  odontogram: IOdontogram = { tooths: [] };
+  odontogram: IOdontogram = { teeth: [] };
   options: ICondition[] = [];
   faces: IFace[] = [];
   toolbar: { options: ICondition[] } = { options: [] };
@@ -103,15 +106,15 @@ export class StudentsOdontogramComponent implements OnInit {
   setFace(event: ToothEvent): void {
     const { tooth, faceId } = event;
 
-    if (this.isNotAFaceCondition(this.marked)) {
-      this.addConditionToTooth(tooth.idTooth, this.marked.idCondition);
-    } else {
+    if (this.isAFaceCondition(this.marked)) {
       this.addConditionToFace(tooth.idTooth, faceId, this.marked.idCondition);
+    } else {
+      this.addConditionToTooth(tooth.idTooth, this.marked.idCondition);
     }
   }
 
-  private isNotAFaceCondition(condition: ICondition): boolean {
-    return this.normalConditions.has(condition.condition);
+  private isAFaceCondition(condition: ICondition): boolean {
+    return this.toothFaceConditions.has(condition.condition);
   }
 
   private getTargetArcade(toothId: number): IOdontogram {
@@ -126,9 +129,9 @@ export class StudentsOdontogramComponent implements OnInit {
     
     if (inStore) {
       const targetArcade = this.getTargetArcade(toothId);
-      targetTooths = targetArcade.tooths;
+      targetTooths = targetArcade.teeth;
     } else {
-      targetTooths = this.odontogram.tooths;
+      targetTooths = this.odontogram.teeth;
     }
 
     let tooth = targetTooths.find(t => t.idTooth === toothId);
@@ -250,7 +253,53 @@ export class StudentsOdontogramComponent implements OnInit {
   }
 
   store(): void {
-    this.nextMatTab.emit(0);
-    this.nextTabEventEmitted.emit(false);
+    console.log('Storing odontogram:', this.odontogram);
+    this.storeOdontogram();
+  }
+
+  storeOdontogram(): void {
+
+    const odontogramStore: OdontogramPost = this.mapOdontogramToPost();
+    console.log('Storing odontogram:', odontogramStore);
+
+    this.odontogramService.postService({
+      headers: new HttpHeaders({
+                  'Content-Type': 'application/json',
+                }),
+      url: `${UriConstants.POST_ODONTOGRAM}`,
+      data: this.odontogram,
+    }).subscribe({
+      next: (response) => {
+        console.log('Odontogram stored:', response);
+        this.nextMatTab.emit();
+        this.nextTabEventEmitted.emit(false);
+      },
+      error: (error) => {
+        console.error('Error storing odontogram:', error);
+      }
+    });
+  }
+
+  previousTab() {
+    this.previousMatTab.emit();
+  }
+
+  private mapOdontogramToPost(): OdontogramPost {
+    return {
+      idFormSection: this.idFormSection.toString(),
+      idPatient: this.patientId,
+      teeth: this.odontogram.teeth.map((tooth: ITooth) => ({
+        ...tooth,
+        faces: tooth.faces.map((face: IFace) => ({
+          ...face,
+          idFace: Number(face.idFace),
+          conditions: (face.conditions || []).map((condition: ICondition) => ({
+            idToothFaceCondition: condition.idCondition,
+            condition: condition.condition,
+            description: condition.description
+          }))
+        }))
+      }))
+    };
   }
 }

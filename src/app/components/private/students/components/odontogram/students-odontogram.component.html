@@ -1,16 +1,15 @@
 <div>
-  <main>
     <div class="root custom-text">
       <mat-tab-group [(selectedIndex)]="value" (selectedIndexChange)="handleChange($event, value)">
         <mat-tab label="Adulto">
           <div class="odontogram-container">
-            @if (data.adultArcade.tooths) {
+            @if (data.adultArcade.teeth) {
               <div class="quadrants">
                 <!-- Superior Row -->
                 <div class="upper-row">
                   <!-- Cuadrante 1 (Superior Derecho) -->
                   <div class="quadrant right-quadrant">
-                    @for (tooth of getQuadrantTeeth(data.adultArcade.tooths, 1); track tooth.idTooth) {
+                    @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 1); track tooth.idTooth) {
                       <app-students-tooth
                         [data]="tooth"
                         [index]="$index"
@@ -22,7 +21,7 @@
                   </div>
                   <!-- Cuadrante 2 (Superior Izquierdo) -->
                   <div class="quadrant left-quadrant">
-                    @for (tooth of getQuadrantTeeth(data.adultArcade.tooths, 2); track tooth.idTooth) {
+                    @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 2); track tooth.idTooth) {
                       <app-students-tooth
                         [data]="tooth"
                         [index]="$index"
@@ -37,7 +36,7 @@
                 <div class="lower-row">
                   <!-- Cuadrante 4 (Inferior Derecho) -->
                   <div class="quadrant right-quadrant">
-                    @for (tooth of getQuadrantTeeth(data.adultArcade.tooths, 4); track tooth.idTooth) {
+                    @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 4); track tooth.idTooth) {
                       <app-students-tooth
                         [data]="tooth"
                         [index]="$index"
@@ -49,7 +48,7 @@
                   </div>
                   <!-- Cuadrante 3 (Inferior Izquierdo) -->
                   <div class="quadrant left-quadrant">
-                    @for (tooth of getQuadrantTeeth(data.adultArcade.tooths, 3); track tooth.idTooth) {
+                    @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 3); track tooth.idTooth) {
                       <app-students-tooth
                         [data]="tooth"
                         [index]="$index"
@@ -66,13 +65,13 @@
         </mat-tab>
         <mat-tab label="Infantil">
           <div class="odontogram-container">
-            @if (data.childrenArcade.tooths) {
+            @if (data.childrenArcade.teeth) {
               <div class="quadrants">
                 <!-- Superior Row -->
                 <div class="upper-row">
                   <!-- Cuadrante 1 (Superior Derecho) -->
                   <div class="quadrant right-quadrant">
-                    @for (tooth of getQuadrantTeeth(data.childrenArcade.tooths, 5); track tooth.idTooth) {
+                    @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 5); track tooth.idTooth) {
                       <app-students-tooth
                         [data]="tooth"
                         [index]="$index"
@@ -84,7 +83,7 @@
                   </div>
                   <!-- Cuadrante 2 (Superior Izquierdo) -->
                   <div class="quadrant left-quadrant">
-                    @for (tooth of getQuadrantTeeth(data.childrenArcade.tooths, 6); track tooth.idTooth) {
+                    @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 6); track tooth.idTooth) {
                       <app-students-tooth
                         [data]="tooth"
                         [index]="$index"
@@ -99,7 +98,7 @@
                 <div class="lower-row">
                   <!-- Cuadrante 4 (Inferior Derecho) -->
                   <div class="quadrant right-quadrant">
-                    @for (tooth of getQuadrantTeeth(data.childrenArcade.tooths, 8); track tooth.idTooth) {
+                    @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 8); track tooth.idTooth) {
                       <app-students-tooth
                         [data]="tooth"
                         [index]="$index"
@@ -111,7 +110,7 @@
                   </div>
                   <!-- Cuadrante 3 (Inferior Izquierdo) -->
                   <div class="quadrant left-quadrant">
-                    @for (tooth of getQuadrantTeeth(data.childrenArcade.tooths, 7); track tooth.idTooth) {
+                    @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 7); track tooth.idTooth) {
                       <app-students-tooth
                         [data]="tooth"
                         [index]="$index"
@@ -135,5 +134,11 @@
         (handleAction)="handleAction($event)"
       />
     }
-  </main>
+
+    <div class="button-container">
+      <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
+      <div>
+          <button type="button" (click)="store()" mat-button [disabled]="false"> AVANZAR Y GUARDAR <i class="fas fa-save"></i></button>
+      </div>
+    </div>
 </div>
