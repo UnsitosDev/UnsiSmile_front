@@ -270,14 +270,14 @@ export class FormPatientPersonalDataComponent {
             this.isNavigationPrevented = false;
             this.navigationComplete = true;
             this.router.navigate(['/students/patients']);
-            this.toastr.success('Paciente creado.', 'Éxito');
+            this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
           },
           error: (error) => {
             this.toastr.error(error, 'Error');
           },
         });
     } else {
-      this.toastr.warning('Completa correctamente todos los campos para registrar al paciente', 'Advertencia');
+      this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
   }
 

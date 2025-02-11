@@ -16,4 +16,8 @@ export class Messages {
     public static readonly WARNING_NO_DATA_TO_UPDATE = 'No se detectaron cambios para guardar'; 
     public static readonly SUCCESS_DATA_UPDATED = 'Sección actualizada correctamente';
 
+    // Mensajes para insertar pacientes
+    public static readonly WARNING_INSERT_PATIENT = 'Completa correctamente todos los campos para registrar al paciente'
+    public static readonly SUCCES_INSERT_PATIENT = 'Paciente creado'
+
 }
