@@ -254,29 +254,12 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
 
   store(): void {
     console.log('Storing odontogram:', this.odontogram);
-    this.nextMatTab.emit();
-    this.nextTabEventEmitted.emit(false);
+    this.storeOdontogram();
   }
 
   storeOdontogram(): void {
 
-    const odontogramStore: OdontogramPost = {
-      idFormSection: this.idFormSection.toString(),
-      idPatient: this.patientId,
-      teeth: this.odontogram.teeth.map(tooth => ({
-        ...tooth,
-        faces: tooth.faces.map(face => ({
-          ...face,
-          idFace: Number(face.idFace),
-          conditions: (face.conditions || []).map(condition => ({
-            idToothFaceCondition: condition.idCondition,
-            condition: condition.condition,
-            description: condition.description
-          }))
-        }))
-      }))
-    };
-
+    const odontogramStore: OdontogramPost = this.mapOdontogramToPost();
     console.log('Storing odontogram:', odontogramStore);
 
     this.odontogramService.postService({
@@ -288,6 +271,8 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
     }).subscribe({
       next: (response) => {
         console.log('Odontogram stored:', response);
+        this.nextMatTab.emit();
+        this.nextTabEventEmitted.emit(false);
       },
       error: (error) => {
         console.error('Error storing odontogram:', error);
@@ -297,5 +282,24 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
 
   previousTab() {
     this.previousMatTab.emit();
+  }
+
+  private mapOdontogramToPost(): OdontogramPost {
+    return {
+      idFormSection: this.idFormSection.toString(),
+      idPatient: this.patientId,
+      teeth: this.odontogram.teeth.map((tooth: ITooth) => ({
+        ...tooth,
+        faces: tooth.faces.map((face: IFace) => ({
+          ...face,
+          idFace: Number(face.idFace),
+          conditions: (face.conditions || []).map((condition: ICondition) => ({
+            idToothFaceCondition: condition.idCondition,
+            condition: condition.condition,
+            description: condition.description
+          }))
+        }))
+      }))
+    };
   }
 }

@@ -12,7 +12,7 @@
                       <mat-tab [label]="tab.title">
                           @if (tab.title === 'Odontograma inicial') {
                               <app-students-odontogram 
-                              [patientId]="patientID" 
+                              [patientId]="idpatient" 
                               [idFormSection]=6
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"
@@ -21,7 +21,7 @@
                           }
                           @if (tab.title === 'Odontograma final') {
                               <app-students-odontogram 
-                              [patientId]="patientID" 
+                              [patientId]="idpatient" 
                               [idFormSection]=7
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"
