@@ -175,7 +175,6 @@ export class TabFormComponent implements TabsHandler {
   }
 
   handleSubmission() {
-    console.log('Entrando a la funcion');
     const hasFiles = this.files && this.files.length > 0;
     if (hasFiles) {
       this.sendFiles();
