@@ -187,11 +187,12 @@ export class TabFormComponent implements TabsHandler {
   }
 
   handleSubmission() {
+    console.log('Entrando a la funcion');
     const hasFiles = this.files && this.files.length > 0;
     if (hasFiles) {
       this.sendFiles();
-      this.postHcData();
     }
+    this.postHcData();
   }
 
   // Función para enviar archivos
@@ -210,7 +211,8 @@ export class TabFormComponent implements TabsHandler {
 
     this.apiService
       .postService({
-        headers: new HttpHeaders({}),
+        headers: new HttpHeaders({
+        }),
         url: `${UriConstants.POST_FILES}`,
         data: formData,
       })
@@ -227,57 +229,57 @@ export class TabFormComponent implements TabsHandler {
 
   // Función para insertar
   postHcData() {
-    // Validar si el formulario es valido
+
+    
     if (this.formGroup.valid) {
-      return;
-    }
+      const formData = this.formGroup.value;
+      const sendData: FormData[] = [];
 
-    const formData = this.formGroup.value;
-    const sendData: FormData[] = [];
+      Object.keys(formData).forEach((fieldName) => {
+        const fieldValue = formData[fieldName];
+        const questionID = this.questionIDs[fieldName];
+        const idAnswer = this.idAnswers[fieldName] ?? 0;
+        const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
 
-    Object.keys(formData).forEach((fieldName) => {
-      const fieldValue = formData[fieldName];
-      const questionID = this.questionIDs[fieldName];
-      const idAnswer = this.idAnswers[fieldName] ?? 0;
-      const isDateField =
-        fieldName.toLowerCase().includes('fecha') &&
-        !isNaN(Date.parse(fieldValue));
+        const hcData: FormData = {
+          idPatientClinicalHistory: this.patientID,
+          idQuestion: questionID,
+          answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,
+          answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
+          answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
+          answerDate: isDateField ? fieldValue : null,
+          idCatalogOption: formData.idCatalogOption || null,
+        }
+        if (hcData.idQuestion) {
+          sendData.push(hcData);
+        }
 
-      const hcData: FormData = {
-        idPatientClinicalHistory: this.patientID,
-        idQuestion: questionID,
-        answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,
-        answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
-        answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
-        answerDate: isDateField ? fieldValue : null,
-        idCatalogOption: formData.idCatalogOption || null,
-      };
-      if (hcData.idQuestion) {
-        sendData.push(hcData);
-      }
-    });
-    // Manejo de archivos (si los hay)
-    if (this.files && this.files.length > 0) {
-      this.sendFiles();
-    }
-    this.apiService
-      .patchService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_SECTION_FORM}`,
-        data: sendData,
-      })
-      .subscribe({
-        next: (response) => {
-          this.openSnackBar();
-          sendData.length = 0;
-          this.nextMatTab.emit();
-        },
-        error: (error) => {
-          console.log('Error al guardar datos: ', error);
-        },
       });
+
+      if (sendData.length > 0) {
+        this.apiService
+          .patchService({
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.POST_SECTION_FORM}`,
+            data: sendData,
+          })
+          .subscribe({
+            next: (response) => {
+              this.openSnackBar();
+              sendData.length = 0
+              this.nextMatTab.emit();
+            },
+            error: (error) => {
+              console.log('Error al guardar datos: ', error);
+            },
+          });
+      }
+
+    } else {
+      
+    }
   }
 
   // Emitir evento para volver al tab anterior
@@ -306,4 +308,4 @@ export class TabFormComponent implements TabsHandler {
   ],
   standalone: true,
 })
-export class Alert {}
+export class Alert { }
