@@ -12,7 +12,7 @@ import { HeaderComponent, SideNavComponent } from '@mean/shared';
   styleUrl: './students-layout.component.scss'
 })
 export class StudentsLayoutComponent {
-  isSidebarOpen = false;
+  isSidebarOpen = true; // Cambiamos el valor inicial a true
 
   onSidebarToggle() {
     this.isSidebarOpen = !this.isSidebarOpen;

@@ -10,10 +10,9 @@ import { HeaderComponent, SideNavComponent } from '@mean/shared';
   styleUrl: './layout-admin.component.scss'
 })
 export class LayoutAdminComponent {
-  isSidebarOpen = false;
+  isSidebarOpen = true; // Cambiamos el valor inicial a true
 
   onSidebarToggle() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
-
 }
