@@ -42,6 +42,11 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --btn-background-color: #5995fd;
   --btn-border-color: #fff;
   --toggle-password-icon-color: #818080;
+  --input-color: #f5f5f5;
+
+  //colores texto
+  --text:#1F2937;
+  --side-text:#eaeaea ;
 }
 
 @mixin dark-theme {
@@ -49,13 +54,13 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --on-primary: #0C151C; // Fondo del contenido principal
   --secondary: #151d26;
   --on-secondary: #FFFFFF;
-  --on-secondary-rgb: 255, 255, 255;
+  --on-secondary-rgb: 255, 255, 255; 
   --tertiary: #274CA2; // Botones
   --background: #0C151C; // Fondo más oscuro para el tema oscuro
   --on-background: #E5E7EB; // Texto claro sobre fondo oscuro
   --on-tertiary: #0A0B2B;
   --on-hover: #0A0B2B;
- 
+  
   // Colores login
   --input-icon-color: #acacac;
   --input-text-color: #333;
@@ -63,6 +68,12 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --btn-background-color: #5995fd;
   --btn-border-color: #fff;
   --toggle-password-icon-color: #818080;
+  --input-color: #4a4a4a;
+
+  //colores texto
+  --text:#eaeaea;
+  --side-text:#eaeaea  ;
+
 }
 
 :root {
