@@ -10,7 +10,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
@@ -73,6 +73,34 @@ export class FieldComponentComponent implements OnChanges {
     }
 
   }
+
+    // Definir la estructura para almacenar los valores combinados
+    combinedValues = {
+      checkboxValue: false,
+      textValue: ''
+    };
+  
+    onFieldChange(fieldType: 'checkbox' | 'text', fieldName: string, event: Event | MatCheckboxChange) {
+      // Verificar el tipo de campo
+      if (fieldType === 'checkbox') {
+        const checkboxEvent = event as MatCheckboxChange; // Hacer el cast a MatCheckboxChange
+        this.combinedValues.checkboxValue = checkboxEvent.checked; // Usar 'checked' de MatCheckboxChange
+      } else if (fieldType === 'text') {
+        const inputEvent = event as InputEvent; // Hacer el cast a InputEvent para campos de texto
+        const target = inputEvent.target as HTMLInputElement; // Obtener el valor del campo de texto
+        this.combinedValues.textValue = target?.value || ''; // Actualizar el valor de texto
+      }
+  
+      const emittedValue = {
+        field: fieldName, // El nombre del campo
+        value: this.combinedValues, // Los valores combinados
+        questionID: this.field.questionID, // ID de la pregunta
+        idAnswer: this.field.answerField?.idAnswer // ID de la respuesta
+      };
+  
+      console.log('Emitted Value:', emittedValue); // Imprimir para depuración
+      this.setFieldValue.emit(emittedValue); // Emitir el valor combinado
+    }
   
   // Retorna una función que, dado un valor, devuelve la etiqueta (`label`) asociada 
   // de las opciones de un campo. Si no se encuentra la opción o los datos son inválidos, retorna una cadena vacía.

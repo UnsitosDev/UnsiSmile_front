@@ -154,8 +154,8 @@ export class TabFormComponent {
     const hasFiles = this.files && this.files.length > 0; 
     if (hasFiles) {
       this.sendFiles();
-      this.postHcData();
     }
+    this.postHcData();
   }
 
   // Función para enviar archivos
@@ -193,11 +193,6 @@ export class TabFormComponent {
   // Función para insertar
   postHcData() {
 
-    // Validar si el formulario es valido
-    if (this.formGroup.valid) {
-      return;
-    }
-
     const formData = this.formGroup.value;
     const sendData: FormData[] = [];
 
@@ -221,10 +216,7 @@ export class TabFormComponent {
       }
 
     });
-    // Manejo de archivos (si los hay)
-    if (this.files && this.files.length > 0) {
-      this.sendFiles();
-    }
+    
     this.apiService
       .patchService({
         headers: new HttpHeaders({

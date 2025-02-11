@@ -134,8 +134,9 @@ export class TabFormUpdateComponent {
     const hasFiles = this.files && this.files.length > 0; 
     if (hasFiles) {
       this.sendFiles();
-      this.postHcData();
+      
     }
+    this.postHcData();
   }
 
   sendFiles() {
@@ -170,10 +171,6 @@ export class TabFormUpdateComponent {
 
   postHcData() {
 
-    if (this.formGroup.valid) {
-      return;
-    }
-
     const formData = this.formGroup.value;
     const updateData: updateFormData[] = [];
 
@@ -193,15 +190,12 @@ export class TabFormUpdateComponent {
         idCatalogOption: formData.idCatalogOption || null,
         idAnswer: idAnswer,
       }
+      
       if (update.idQuestion) {
         updateData.push(update);
       }
-
     });
-    // Manejo de archivos (si los hay)
-    if (this.files && this.files.length > 0) {
-      this.sendFiles();
-    }
+    
     this.apiService
       .patchService({
         headers: new HttpHeaders({
