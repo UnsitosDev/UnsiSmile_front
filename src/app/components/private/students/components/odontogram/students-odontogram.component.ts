@@ -9,17 +9,11 @@ import { ToothConditionsConstants } from 'src/app/utils/ToothConditions.constant
 import { StudentsToolbarComponent } from '../toolbar-odontogram/students-toolbar.component';
 import { StudentsToothComponent } from '../tooth/students-tooth.component';
 
-import {
-  ICondition,
-  IFace,
-  IOdontogram,
-  IOdontogramHandler,
-  ITooth
-} from 'src/app/models/shared/odontogram';
-import { TabsHandler } from 'src/app/shared/components/interfaces/tabs_handler';
-import { OdontogramPost } from 'src/app/models/shared/odontogram/odontogram.model';
-import { UriConstants } from '@mean/utils';
 import { HttpHeaders } from '@angular/common/http';
+import { UriConstants } from '@mean/utils';
+import { OdontogramPost } from 'src/app/models/shared/odontogram/odontogram.model';
+import { TabsHandler } from 'src/app/shared/components/interfaces/tabs_handler';
+import { ICondition, IFace, IOdontogram, IOdontogramHandler, ITooth } from '@mean/models';
 
 interface ToothEvent {
   faceId: string;
@@ -43,6 +37,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   private odontogramService = inject(ApiService<{}, OdontogramPost>);
   @Input({ required: true }) patientId!: string;
   @Input({ required: true })  idFormSection!: number;
+  @Input({ required: true })  idClinicalHistoryPatient!: number;
   
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
@@ -267,7 +262,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
                   'Content-Type': 'application/json',
                 }),
       url: `${UriConstants.POST_ODONTOGRAM}`,
-      data: this.odontogram,
+      data: odontogramStore,
     }).subscribe({
       next: (response) => {
         console.log('Odontogram stored:', response);
@@ -286,8 +281,9 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
 
   private mapOdontogramToPost(): OdontogramPost {
     return {
-      idFormSection: this.idFormSection.toString(),
+      idFormSection: this.idFormSection,
       idPatient: this.patientId,
+      idPatientClinicalHistory: this.idClinicalHistoryPatient,
       teeth: this.odontogram.teeth.map((tooth: ITooth) => ({
         ...tooth,
         faces: tooth.faces.map((face: IFace) => ({

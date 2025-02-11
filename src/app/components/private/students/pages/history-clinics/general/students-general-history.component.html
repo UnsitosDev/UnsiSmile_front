@@ -14,6 +14,7 @@
                               <app-students-odontogram 
                               [patientId]="idpatient" 
                               [idFormSection]=6
+                              [idClinicalHistoryPatient]=idPatientClinicalHistory
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"
                               >
@@ -21,7 +22,8 @@
                           }
                           @if (tab.title === 'Odontograma final') {
                               <app-students-odontogram 
-                              [patientId]="idpatient" 
+                              [patientId]="idpatient"
+                              [idClinicalHistoryPatient]=idPatientClinicalHistory
                               [idFormSection]=7
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"

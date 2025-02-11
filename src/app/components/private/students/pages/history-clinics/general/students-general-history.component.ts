@@ -57,7 +57,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
   patientID: string = "";    // Variable para el parámetro 'patientID'
-  private idPatientClinicalHistory!: string;
+  public idPatientClinicalHistory!: number;
   // Variables para navegación
   private navigationSubscription!: Subscription;
   private navigationTarget: string = ''; // Ruta de navegación cancelada

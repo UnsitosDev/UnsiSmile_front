@@ -6,7 +6,7 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { ICondition, IOdontogram, ITooth } from 'src/app/models/shared/odontogram';
+import { ICondition, IOdontogram, ITooth } from 'src/app/models/shared/odontogram/odontogram';
 
 @Component({
   selector: 'app-students-tooth',

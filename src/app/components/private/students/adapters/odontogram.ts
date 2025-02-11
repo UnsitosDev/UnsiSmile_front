@@ -1,5 +1,5 @@
 import { OdontogramResponse } from '@mean/models';
-import { IOdontogramHandler } from 'src/app/models/shared/odontogram';
+import { IOdontogramHandler } from 'src/app/models/shared/odontogram/odontogram';
 //map a odotogram response to a IOdontogramHandler
 function mapOdontogramResponseToOdontogramData(
   response: OdontogramResponse
