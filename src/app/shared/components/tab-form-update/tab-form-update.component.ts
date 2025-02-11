@@ -160,13 +160,12 @@ export class TabFormUpdateComponent {
     }
   }
 
-  // Función para enviar archivos
-  handleSubmission() {
+   handleSubmission() {
     const hasFiles = this.files && this.files.length > 0;
     if (hasFiles) {
       this.sendFiles();
-      this.postHcData();
     }
+    this.postHcData();
   }
 
   sendFiles() {
@@ -182,9 +181,11 @@ export class TabFormUpdateComponent {
     formData.append('idPatient', this.patientUuid);
     formData.append('idQuestion', this.idQuestion.toString());
 
+
     this.apiService
       .postService({
-        headers: new HttpHeaders({}),
+        headers: new HttpHeaders({
+        }),
         url: `${UriConstants.POST_FILES}`,
         data: formData,
       })
@@ -199,9 +200,6 @@ export class TabFormUpdateComponent {
   }
 
   postHcData() {
-    if (this.formGroup.valid) {
-      return;
-    }
 
     const formData = this.formGroup.value;
     const updateData: updateFormData[] = [];
@@ -210,9 +208,7 @@ export class TabFormUpdateComponent {
       const fieldValue = formData[fieldName];
       const questionID = this.questionIDs[fieldName];
       const idAnswer = this.idAnswers[fieldName] ?? 0;
-      const isDateField =
-        fieldName.toLowerCase().includes('fecha') &&
-        !isNaN(Date.parse(fieldValue));
+      const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
 
       const update: updateFormData = {
         idPatientClinicalHistory: this.patientID,
@@ -223,32 +219,32 @@ export class TabFormUpdateComponent {
         answerDate: isDateField ? fieldValue : null,
         idCatalogOption: formData.idCatalogOption || null,
         idAnswer: idAnswer,
-      };
+      }
       if (update.idQuestion) {
         updateData.push(update);
       }
+
     });
-    // Manejo de archivos (si los hay)
-    if (this.files && this.files.length > 0) {
-      this.sendFiles();
+
+    if (updateData.length > 0) {
+      this.apiService
+        .patchService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.POST_SECTION_FORM}`,
+          data: updateData,
+        })
+        .subscribe({
+          next: (response) => {
+            updateData.length = 0
+            this.nextMatTab.emit();
+          },
+          error: (error) => {
+            console.log('Error al guardar datos: ', error);
+          },
+        });
     }
-    this.apiService
-      .patchService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_SECTION_FORM}`,
-        data: updateData,
-      })
-      .subscribe({
-        next: (response) => {
-          updateData.length = 0;
-          this.nextMatTab.emit();
-        },
-        error: (error) => {
-          console.log('Error al guardar datos: ', error);
-        },
-      });
   }
 
   previousTab() {
