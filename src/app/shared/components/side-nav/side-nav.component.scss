@@ -3,7 +3,6 @@
     color: white;
   }
   
-
   .logo-text {
     color: var(--on-primary);
   }
@@ -17,7 +16,9 @@
   }
 
   .welcome-text {
-    color: var(--on-primary);
+    color: var(--side-text);
   }
 
-  
+.tt{
+    color: var(--side-text);
+  }
