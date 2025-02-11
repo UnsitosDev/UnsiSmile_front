@@ -1,5 +1,5 @@
 ::ng-deep .mat-mdc-card-title {
-    background-color: #07437a; /* Cambia este color al que desees */
+    background-color: var(--tertiary); /* Cambia este color al que desees */
     padding: 8px; /* Agrega un poco de padding si lo deseas */
     border-radius: 2px; /* Opcional: agrega bordes redondeados */
     color: var(--side-text);

@@ -46,7 +46,7 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
 
   //colores texto
   --text:#1F2937;
-  --side-text:#B3C0CB;
+  --side-text:#eaeaea ;
 }
 
 @mixin dark-theme {
@@ -54,7 +54,7 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --on-primary: #0C151C; // Fondo del contenido principal
   --secondary: #151d26;
   --on-secondary: #FFFFFF;
-  --on-secondary-rgb: 255, 255, 255;
+  --on-secondary-rgb: 255, 255, 255; 
   --tertiary: #274CA2; // Botones
   --background: #0C151C; // Fondo más oscuro para el tema oscuro
   --on-background: #E5E7EB; // Texto claro sobre fondo oscuro
@@ -71,8 +71,8 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --input-color: #4a4a4a;
 
   //colores texto
-  --text:#B3C0CB;
-  --side-text:#B3C0CB;
+  --text:#eaeaea;
+  --side-text:#eaeaea  ;
 
 }
 
