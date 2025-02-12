@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
 import { NewPasswordComponent } from "../../../../../shared/components/new-password/new-password.component";
+import { AuthService } from '@mean/services';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 @Component({
   selector: 'app-students-layout',
@@ -13,9 +15,18 @@ import { NewPasswordComponent } from "../../../../../shared/components/new-passw
   templateUrl: './students-layout.component.html',
   styleUrls: ['./students-layout.component.scss']
 })
-export class StudentsLayoutComponent {
+export class StudentsLayoutComponent implements OnInit  {
+  private token!: string;
+  private tokenData!:  TokenData;
+  ngOnInit(): void {
+    this.token = this.userService.getToken() ?? "";
+     this.tokenData = this.userService.getTokenDataUser(this.token);
+     this.showPasswordModal = this.tokenData.firstLogin;
+  }
+
+  private userService = inject(AuthService);
   isSidebarOpen = true; 
-  showPasswordModal = false;
+  showPasswordModal = true;
 
   onSidebarToggle() {
     this.isSidebarOpen = !this.isSidebarOpen;

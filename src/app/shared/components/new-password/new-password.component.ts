@@ -25,6 +25,24 @@ export class NewPasswordComponent {
   confirmPassword = '';
   errorMessage = '';
 
+  showCurrentPassword = false;
+  showNewPassword = false;
+  showConfirmPassword = false;
+
+  togglePasswordVisibility(field: string) {
+    switch (field) {
+      case 'current':
+        this.showCurrentPassword = !this.showCurrentPassword;
+        break;
+      case 'new':
+        this.showNewPassword = !this.showNewPassword;
+        break;
+      case 'confirm':
+        this.showConfirmPassword = !this.showConfirmPassword;
+        break;
+    }
+  }
+
   onSubmit() {
     if (this.newPassword !== this.confirmPassword) {
       this.errorMessage = 'Las contraseñas no coinciden.';
@@ -49,7 +67,6 @@ export class NewPasswordComponent {
           this.closeModal.emit();
         },
         error: (error) => {
-          this.toastr.error(error, 'Error');
           this.errorMessage = error;
         }
       });
