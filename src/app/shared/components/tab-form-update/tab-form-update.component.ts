@@ -23,6 +23,8 @@ import {
   subSeccion,
 } from 'src/app/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from '../field-component/field-component.component';
+import { ToastrService } from 'ngx-toastr';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 interface updateFormData {
   idPatientClinicalHistory: number;
@@ -58,6 +60,7 @@ export class TabFormUpdateComponent {
   route = inject(ActivatedRoute);
   apiService = inject(ApiService);
   private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
+  private toastr = inject(ToastrService);
   formGroup!: FormGroup;
   id: number = 0; // Variable para el parámetro 'id'
   patientID: number = 0; // Variable para el parámetro 'patientID'
@@ -160,7 +163,7 @@ export class TabFormUpdateComponent {
     }
   }
 
-   handleSubmission() {
+  handleSubmission() {
     const hasFiles = this.files && this.files.length > 0;
     if (hasFiles) {
       this.sendFiles();
@@ -192,6 +195,7 @@ export class TabFormUpdateComponent {
       .subscribe({
         next: (response) => {
           this.nextMatTab.emit();
+          this.toastr.success(Messages.SUCCESS_DATA_UPDATED);
         },
         error: (error) => {
           console.log('Error al guardar archivos: ', error);
@@ -238,12 +242,18 @@ export class TabFormUpdateComponent {
         .subscribe({
           next: (response) => {
             updateData.length = 0
+            this.toastr.success(Messages.SUCCESS_DATA_UPDATED);
             this.nextMatTab.emit();
           },
           error: (error) => {
             console.log('Error al guardar datos: ', error);
           },
         });
+    } else {
+      const hasFiles = this.files && this.files.length > 0;
+      if (!hasFiles) {
+        this.toastr.warning(Messages.WARNING_NO_DATA_TO_UPDATE);
+      }
     }
   }
 
