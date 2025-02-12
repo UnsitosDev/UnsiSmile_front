@@ -67,7 +67,6 @@ handleLogin() {
 
         const tokenData = this.userService.getTokenDataUser(token);
         // Crear y mostrar toast de éxito
-        this.toastr.success('Inicio de seción', 'Exito');
 
 
         this.userService.redirectByRole(tokenData.role[0].authority);
