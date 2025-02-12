@@ -24,7 +24,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
       {
         fontAwesomeIcon: faFileUpload,
         buttonText: 'Cargar Pacientes',
-        buttonDescription: 'Subir Excel de Alumnos.',
+        buttonDescription: 'Subir Excel de Pacientes.',
         routerlink: '/students/upload-patients'
       }
     ];
@@ -63,7 +63,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
       {
         fontAwesomeIcon: faFileUpload,
         buttonText: 'Cargar Pacientes',
-        buttonDescription: 'Subir Excel de Alumnos.',
+        buttonDescription: 'Subir Excel de Pacientes.',
         routerlink: '/admin/upload-patients'
       }
     ];
