@@ -5,6 +5,7 @@ export interface OdontogramPost {
     teeth:        Tooth[];
     idQuestion: number;
     idPatientClinicalHistory: number;
+    idFormSection: number;
 }
 
 export interface Tooth {

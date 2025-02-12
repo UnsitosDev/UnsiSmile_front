@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject, input, isDevMode } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { forkJoin } from 'rxjs';
@@ -38,6 +38,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   @Input({ required: true }) patientId!: string;
   @Input({ required: true })  idQuestion!: number;
   @Input({ required: true })  idClinicalHistoryPatient!: number;
+  @Input({ required: true }) idFormSection!: number;
   
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
@@ -284,6 +285,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       idQuestion: this.idQuestion,
       idPatient: this.patientId,
       idPatientClinicalHistory: this.idClinicalHistoryPatient,
+      idFormSection: this.idFormSection,
       teeth: this.odontogram.teeth.map((tooth: ITooth) => ({
         ...tooth,
         faces: tooth.faces.map((face: IFace) => ({

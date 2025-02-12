@@ -15,6 +15,7 @@
                               [patientId]="idpatient" 
                               [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
                               [idClinicalHistoryPatient]=idPatientClinicalHistory
+                              [idFormSection]=6
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"
                               >
@@ -25,6 +26,7 @@
                               [patientId]="idpatient"
                               [idClinicalHistoryPatient]=idPatientClinicalHistory
                               [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                              [idFormSection]=7
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"
                               >
