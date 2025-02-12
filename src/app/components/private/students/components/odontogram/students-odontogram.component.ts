@@ -36,7 +36,7 @@ interface ToothEvent {
 export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   private odontogramService = inject(ApiService<{}, OdontogramPost>);
   @Input({ required: true }) patientId!: string;
-  @Input({ required: true })  idFormSection!: number;
+  @Input({ required: true })  idQuestion!: number;
   @Input({ required: true })  idClinicalHistoryPatient!: number;
   
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
@@ -281,7 +281,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
 
   private mapOdontogramToPost(): OdontogramPost {
     return {
-      idFormSection: this.idFormSection,
+      idQuestion: this.idQuestion,
       idPatient: this.patientId,
       idPatientClinicalHistory: this.idClinicalHistoryPatient,
       teeth: this.odontogram.teeth.map((tooth: ITooth) => ({

@@ -10,27 +10,27 @@
               <mat-tab-group [(selectedIndex)]="currentIndex">
                   @for (tab of mappedHistoryData.tabs; track tab) {
                       <mat-tab [label]="tab.title">
-                          @if (tab.title === 'Odontograma inicial') {
+                          @if (tab.title === 'Odontograma inicial' && !tab.isAnswered) {
                               <app-students-odontogram 
                               [patientId]="idpatient" 
-                              [idFormSection]=6
+                              [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
                               [idClinicalHistoryPatient]=idPatientClinicalHistory
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"
                               >
                               </app-students-odontogram>
                           }
-                          @if (tab.title === 'Odontograma final') {
+                          @if (tab.title === 'Odontograma final' && !tab.isAnswered) {
                               <app-students-odontogram 
                               [patientId]="idpatient"
                               [idClinicalHistoryPatient]=idPatientClinicalHistory
-                              [idFormSection]=7
+                              [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"
                               >
                               </app-students-odontogram>
                           }
-                          @if (tab.title === 'Medición de bolsas inicial') {
+                          @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
                               <app-history-initial-bag></app-history-initial-bag>
                           }
                           @if (tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial') {
@@ -47,6 +47,18 @@
                               (previousMatTab)="onPreviousTab()"
                           ></app-tab-form>
                           }
+
+                          <!-- components to render if the question is anwered -->
+                          @if (tab.title === 'Odontograma inicial' && tab.isAnswered) {
+                            <p>odontograma inicial is answered</p>
+                        }
+                        @if (tab.title === 'Odontograma final' && tab.isAnswered) {
+                            <p>odontograma final is answered</p>
+                        }
+                        @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
+                            <app-history-initial-bag></app-history-initial-bag>
+                        }
+
                       </mat-tab>
                   }
               </mat-tab-group>
