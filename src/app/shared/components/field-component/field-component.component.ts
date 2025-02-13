@@ -50,14 +50,22 @@ export class FieldComponentComponent implements OnChanges {
   myControl = new FormControl('');
 
   ngOnInit() {
-    // Verifica si alguno de los valores está presente antes de establecerlo
     if (this.field.answerField) {
-      // Asignar el valor correspondiente según el tipo
-        const value = this.field.answerField.answerDate ?? this.field.answerField.answerText ?? this.field.answerField.answerBoolean ?? this.field.answerField.answerNumeric ;
+      // Verifica si la respuesta contiene una fecha válida
+      const rawValue = this.field.answerField.answerDate;
+      const formattedDate = this.getFormattedDate(rawValue);
 
-      // Si el valor no es nulo, lo establece en el FormControl
-      if (value != null) {
-        this.formGroup.get(this.field.name)?.setValue(value);
+      if (formattedDate) {
+        this.formGroup.get(this.field.name)?.setValue(formattedDate);
+      } else {
+        // Asignar otros valores si la fecha no está disponible
+        const value = this.field.answerField.answerText ??
+          this.field.answerField.answerBoolean ??
+          this.field.answerField.answerNumeric;
+
+        if (value != null) {
+          this.formGroup.get(this.field.name)?.setValue(value);
+        }
       }
     }
 
@@ -76,7 +84,6 @@ export class FieldComponentComponent implements OnChanges {
   
   // Retorna una función que, dado un valor, devuelve la etiqueta (`label`) asociada 
   // de las opciones de un campo. Si no se encuentra la opción o los datos son inválidos, retorna una cadena vacía.
-  
   getOptionLabel(field: any): (value: any) => string {
     return (value: any): string => {
       if (!value || !field || !field.options) {
@@ -86,29 +93,26 @@ export class FieldComponentComponent implements OnChanges {
       return selectedOption ? selectedOption.label : '';
     };
   }
-  
+
   getFormattedDate(dateValue: string | number[] | null | undefined): Date | null {
-    // Si el valor es nulo o indefinido, devolver null
     if (!dateValue) {
       return null;
     }
-  
-    // Si el valor es un array de números, conviértelo a Date
+
     if (Array.isArray(dateValue) && dateValue.length === 3) {
       const [year, month, day] = dateValue;
-      return new Date(year, month - 1, day); // Ajuste del mes basado en 0
+      return new Date(year, month - 1, day); // Mes basado en 0
     }
-  
-    // Si el valor es un string, intenta convertirlo a un objeto Date
+
     if (typeof dateValue === 'string') {
-      return new Date(dateValue); // Suponiendo que el string esté en un formato compatible con Date
+      const parsedDate = new Date(dateValue);
+      return isNaN(parsedDate.getTime()) ? null : parsedDate;
     }
-  
-    // Si el valor no es compatible, devuelve null
+
     return null;
   }
-  
-  
+
+
   transform(value: number[] | undefined): string | null {
     if (!value || value.length !== 3) return null;
     const [year, month, day] = value;
@@ -127,17 +131,33 @@ export class FieldComponentComponent implements OnChanges {
   // Date
   onValueChangeDate(event: any) {
     const value = event.value as Date;
-    const formattedValue = this.datePipe.transform(value, 'yyyy-MM-dd');
-    this.setFieldValue.emit({ field: this.field.name, value: formattedValue, questionID: this.field.questionID, idAnswer: this.field.answerField?.idAnswer });
+    if (value) {
+      // Formatear el valor seleccionado
+      const formattedValue = this.datePipe.transform(value, 'yyyy-MM-dd');
 
-    // Lógica para verificar si el usuario es menor de edad
-    const today = new Date();
-    const birthDate = new Date(value);
-    const age = today.getFullYear() - birthDate.getFullYear();
-    const isMinor = age < 18 || (age === 18 && today < new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate()));
+      // Actualizar el FormControl con la nueva fecha seleccionada
+      this.formGroup.get(this.field.name)?.setValue(value);
 
-    // Emitir el estado de edad
-    this.ageStatusChange.emit(isMinor);
+      // Emitir el valor formateado
+      this.setFieldValue.emit({
+        field: this.field.name,
+        value: formattedValue,
+        questionID: this.field.questionID,
+        idAnswer: this.field.answerField?.idAnswer
+      });
+
+      // Lógica para verificar si el usuario es menor de edad
+      const today = new Date();
+      const birthDate = new Date(value);
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const isMinor =
+        age < 18 ||
+        (age === 18 &&
+          today < new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate()));
+
+      // Emitir el estado de edad
+      this.ageStatusChange.emit(isMinor);
+    }
   }
 
 
