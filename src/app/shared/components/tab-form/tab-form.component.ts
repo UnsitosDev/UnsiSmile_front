@@ -32,6 +32,8 @@ import {
 } from 'src/app/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
 import { TabsHandler } from '../interfaces/tabs_handler';
+import { ToastrService } from 'ngx-toastr';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 interface FormData {
   idPatientClinicalHistory: number;
@@ -71,23 +73,9 @@ export class TabFormComponent implements TabsHandler {
   formGroup!: FormGroup;
   id: number = 0; // Variable para el parámetro 'id'
   patientID: number = 0; // Variable para el parámetro 'patientID'
+  private toastr = inject(ToastrService);
   patientUuid!: string;
   sendFile!: boolean;
-
-  // snackBar
-  private _snackBar = inject(MatSnackBar);
-  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
-  durationInSeconds = 3;
-
-  // Abrir snackbar
-  openSnackBar() {
-    this._snackBar.openFromComponent(Alert, {
-      duration: this.durationInSeconds * 1000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
 
   ngOnInit(): void {
     this.section();
@@ -187,7 +175,6 @@ export class TabFormComponent implements TabsHandler {
   }
 
   handleSubmission() {
-    console.log('Entrando a la funcion');
     const hasFiles = this.files && this.files.length > 0;
     if (hasFiles) {
       this.sendFiles();
@@ -218,7 +205,7 @@ export class TabFormComponent implements TabsHandler {
       })
       .subscribe({
         next: (response) => {
-          this.openSnackBar();
+          this.toastr.success(Messages.SUCCES_INSERT_HC);
           this.nextMatTab.emit();
         },
         error: (error) => {
@@ -230,7 +217,7 @@ export class TabFormComponent implements TabsHandler {
   // Función para insertar
   postHcData() {
 
-    
+
     if (this.formGroup.valid) {
       const formData = this.formGroup.value;
       const sendData: FormData[] = [];
@@ -267,8 +254,8 @@ export class TabFormComponent implements TabsHandler {
           })
           .subscribe({
             next: (response) => {
-              this.openSnackBar();
               sendData.length = 0
+              this.toastr.success(Messages.SUCCES_INSERT_HC);
               this.nextMatTab.emit();
             },
             error: (error) => {
@@ -276,9 +263,8 @@ export class TabFormComponent implements TabsHandler {
             },
           });
       }
-
     } else {
-      
+      this.toastr.warning(Messages.WARNING_FORM);
     }
   }
 
@@ -287,25 +273,3 @@ export class TabFormComponent implements TabsHandler {
     this.previousMatTab.emit();
   }
 }
-
-@Component({
-  selector: 'snack-bar-component-example-snack',
-  template: `
-    <span class="custom">
-      <i class="fas fa-check-circle"></i> Datos guardados correctamente.
-    </span>
-  `,
-  styles: [
-    `
-      .custom {
-        color: var(--on-primary);
-      }
-      i {
-        color: green;
-        font-size: 20px;
-      }
-    `,
-  ],
-  standalone: true,
-})
-export class Alert { }

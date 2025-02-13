@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-confirm-leave',
@@ -11,5 +11,5 @@ import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from
 })
 export class DialogConfirmLeaveComponent {
   readonly dialogRef = inject(MatDialogRef<DialogConfirmLeaveComponent>);
-
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { message: string }) {}
 }

@@ -6,6 +6,7 @@ import { AuthService } from '@mean/services';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 
+
 @Component({
   selector: 'app-students-layout',
   standalone: true,
@@ -19,7 +20,7 @@ import { SessionStorageConstants } from 'src/app/utils/session.storage';
 export class StudentsLayoutComponent implements OnInit  {
   private token!: string;
   private tokenData!:  TokenData;
-  
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {
