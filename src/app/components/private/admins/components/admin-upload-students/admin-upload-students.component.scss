@@ -22,3 +22,8 @@ button {
   flex: 0 0 auto;
   margin: 0 5px;
 }
+
+.custom-hint {
+  color: var(--on-secondary); 
+  font-size: 12px;
+}

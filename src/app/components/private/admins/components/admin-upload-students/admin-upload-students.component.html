@@ -6,15 +6,13 @@
         <mat-form-field>
           <mat-label>Fecha Inicio</mat-label>
           <input matInput [matDatepicker]="picker1" formControlName="startDate">
-          <mat-hint>mes/dia/año</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-hint class="custom-hint">Mes/Dia/Año</mat-hint>          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Fecha Final</mat-label>
           <input matInput [matDatepicker]="picker2" formControlName="endDate">
-          <mat-hint>mes/dia/año</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-hint class="custom-hint">Mes/Dia/Año</mat-hint>          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
