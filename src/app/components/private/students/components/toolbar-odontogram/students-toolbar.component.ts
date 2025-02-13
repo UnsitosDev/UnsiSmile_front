@@ -14,12 +14,16 @@ import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
 export class StudentsToolbarComponent {
   @Input() toolbar!: Toolbar;
   @Output() handleAction = new EventEmitter<ICondition>();
+  @Input({ required: true }) state!: "create" | "update" | "read";
 
   ToothConditionsConstants = ToothConditionsConstants 
 
   selectSymbol(symbol: ICondition) {
+    if (this.state === 'read') {
+      return;
+    }
     this.handleAction.emit(symbol);
-    console.log(symbol);
+    console.log('Symbol selected:', symbol);
   }
 
   isNormalCondition(condition: string): boolean {

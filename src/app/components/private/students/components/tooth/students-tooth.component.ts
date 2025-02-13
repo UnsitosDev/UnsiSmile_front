@@ -24,7 +24,7 @@ export class StudentsToothComponent {
   @Input() toothConditions!: ICondition[];
   @Output() toggleTooth = new EventEmitter<any>();
   @Output() setFace = new EventEmitter<{faceId: string, index: number, tooth: ITooth}>();
-
+  @Input({ required: true }) state!: "create" | "update" | "read";
   faceClicked = 0;
   ToothConditionsConstant = ToothConditionsConstants;
 
@@ -34,6 +34,10 @@ export class StudentsToothComponent {
    * @param index Índice del diente actual.
    */
   clicked(data: ITooth, index: number, faceId: any, idCondition: number) {
+    if (this.state === 'read') {
+      return;
+    }
+
     // Se emite un evento para configurar la cara con la información del diente seleccionado.
     this.setFace.emit({faceId: data.faces[index].idFace, index: index, tooth: data});
     this.faceClicked = index

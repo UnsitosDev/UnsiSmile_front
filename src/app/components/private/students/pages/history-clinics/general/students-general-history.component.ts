@@ -19,7 +19,7 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 
 // Modelos
 import { StudentItems } from '@mean/models';
-import { UriConstants } from '@mean/utils';
+import { UriConstants, Constants } from '@mean/utils';
 import { Subscription } from 'rxjs';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
@@ -29,15 +29,12 @@ import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 
-
-
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
   imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent],
-
 })
 
 export class StudentsGeneralHistoryComponent implements OnInit {

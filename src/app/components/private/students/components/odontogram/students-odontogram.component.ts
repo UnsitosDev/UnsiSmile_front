@@ -14,6 +14,7 @@ import { UriConstants } from '@mean/utils';
 import { OdontogramPost } from 'src/app/models/shared/odontogram/odontogram.model';
 import { TabsHandler } from 'src/app/shared/components/interfaces/tabs_handler';
 import { ICondition, IFace, IOdontogram, IOdontogramHandler, ITooth } from '@mean/models';
+import { Constants } from 'src/app/utils/constants';
 
 interface ToothEvent {
   faceId: string;
@@ -39,6 +40,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   @Input({ required: true })  idQuestion!: number;
   @Input({ required: true })  idClinicalHistoryPatient!: number;
   @Input({ required: true }) idFormSection!: number;
+  @Input({ required: true }) state!: "create" | "update" | "read";
   
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
@@ -52,6 +54,9 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
     ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES
   ]);
 
+  currentOdontogramId!: number;
+  isEditing = false;
+
   data: IOdontogramHandler = store;
   odontogram: IOdontogram = { teeth: [] };
   options: ICondition[] = [];
@@ -62,7 +67,62 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
 
   ngOnInit(): void {
     this.loadConditions();
+    this.initializeState();
   }
+
+  private initializeState(): void {
+    switch(this.state) {
+      case 'create':
+        this.initializeNewOdontogram();
+        break;
+      case 'update':
+        this.loadExistingOdontogram();
+        break;
+      case 'read':
+        this.loadExistingOdontogram();
+        break;
+    }
+  }
+  
+  private initializeNewOdontogram(): void {
+    this.data.adultArcade = { teeth: [] };
+    this.data.childrenArcade = { teeth: [] };
+    this.isEditing = true;
+  }
+  
+  private loadExistingOdontogram(): void {
+    this.odontogramService.getService({
+      url: `${UriConstants.GET_ODONTOGRAM}/${this.patientId}`
+    }).subscribe({
+      next: (response) => {
+        this.currentOdontogramId = response.idOdontogram;
+        this.odontogram = this.mapResponseToOdontogram(response);
+        this.isEditing = this.state === 'update';
+      },
+      error: (error) => {
+        console.error('Error loading odontogram:', error);
+      }
+    });
+  }
+
+  private mapResponseToOdontogram(response: any): IOdontogram {
+    return {
+      teeth: [
+        ...response.adultArcade.map((t: any) => this.mapTooth(t)),
+        ...response.childArcade.map((t: any) => this.mapTooth(t))
+      ]
+    };
+  }
+  
+  private mapTooth(toothData: any): ITooth {
+    return {
+      idTooth: toothData.idTooth,
+      conditions: toothData.conditions,
+      faces: toothData.faces,
+      status: true
+    };
+  }
+  
 
   private loadConditions(): void {
     forkJoin({

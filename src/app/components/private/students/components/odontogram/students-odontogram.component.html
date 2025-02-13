@@ -11,6 +11,7 @@
                   <div class="quadrant right-quadrant">
                     @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 1); track tooth.idTooth) {
                       <app-students-tooth
+                      [state]='state'
                         [data]="tooth"
                         [index]="$index"
                         [marked]="data.marked"
@@ -23,6 +24,7 @@
                   <div class="quadrant left-quadrant">
                     @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 2); track tooth.idTooth) {
                       <app-students-tooth
+                      [state]='state'
                         [data]="tooth"
                         [index]="$index"
                         [marked]="data.marked"
@@ -38,6 +40,7 @@
                   <div class="quadrant right-quadrant">
                     @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 4); track tooth.idTooth) {
                       <app-students-tooth
+                      [state]='state'
                         [data]="tooth"
                         [index]="$index"
                         [marked]="data.marked"
@@ -50,6 +53,7 @@
                   <div class="quadrant left-quadrant">
                     @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 3); track tooth.idTooth) {
                       <app-students-tooth
+                      [state]='state'
                         [data]="tooth"
                         [index]="$index"
                         [marked]="data.marked"
@@ -73,6 +77,7 @@
                   <div class="quadrant right-quadrant">
                     @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 5); track tooth.idTooth) {
                       <app-students-tooth
+                      [state]='state'
                         [data]="tooth"
                         [index]="$index"
                         [marked]="data.marked"
@@ -85,6 +90,7 @@
                   <div class="quadrant left-quadrant">
                     @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 6); track tooth.idTooth) {
                       <app-students-tooth
+                      [state]='state'
                         [data]="tooth"
                         [index]="$index"
                         [marked]="data.marked"
@@ -100,6 +106,7 @@
                   <div class="quadrant right-quadrant">
                     @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 8); track tooth.idTooth) {
                       <app-students-tooth
+                      [state]='state'
                         [data]="tooth"
                         [index]="$index"
                         [marked]="data.marked"
@@ -112,6 +119,7 @@
                   <div class="quadrant left-quadrant">
                     @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 7); track tooth.idTooth) {
                       <app-students-tooth
+                      [state]='state'
                         [data]="tooth"
                         [index]="$index"
                         [marked]="data.marked"
@@ -132,6 +140,7 @@
       <app-students-toolbar
         [toolbar]="toolbar"
         (handleAction)="handleAction($event)"
+        [state]="state"
       />
     }
 
