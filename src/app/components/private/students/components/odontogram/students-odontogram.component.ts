@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { StudentsToolbarComponent } from './../toolbar-odontogram/students-toolbar.component';
 import { StudentsToothComponent } from './../tooth/students-tooth.component';
 import {
@@ -53,6 +54,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   @Input({ required: true }) idClinicalHistoryPatient!: number;
   @Input({ required: true }) idFormSection!: number;
   @Input({ required: true }) state!: 'create' | 'update' | 'read';
+  private toastr=inject (ToastrService);
 
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
@@ -110,11 +112,10 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       .subscribe({
         next: (response) => {
           this.data = this.mapResponseToOdontogram(response);
-          console.log(this.data);
           this.isEditing = this.state === 'update';
         },
         error: (error) => {
-          console.error('Error loading odontogram:', error);
+          this.toastr.error(error,'Error');
         },
       });
   }
@@ -142,7 +143,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         this.options = [...toothConditions, ...toothFaceConditions];
       },
       error: (error) => {
-        console.error('Error loading conditions:', error);
+        this.toastr.error(error,'Error');
       },
     });
   }
@@ -341,13 +342,25 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   }
 
   store(): void {
-    console.log('Storing odontogram:', this.odontogram);
-    this.storeOdontogram();
+   if(this.state === 'create') {
+      this.storeOdontogram();
+    }
+
+    if(this.state === 'update') {
+      this.updateOdontogram();
+    }
+
+    if(this.state === 'read') {
+      this.nextMatTab.emit();
+    }
+  }
+
+  updateOdontogram() {
+    this.nextMatTab.emit();
   }
 
   storeOdontogram(): void {
     const odontogramStore: OdontogramPost = this.mapOdontogramToPost();
-    console.log('Storing odontogram:', odontogramStore);
 
     this.odontogramService
       .postService({
@@ -359,12 +372,12 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       })
       .subscribe({
         next: (response) => {
-          console.log('Odontogram stored:', response);
           this.nextMatTab.emit();
           this.nextTabEventEmitted.emit(false);
         },
         error: (error) => {
           console.error('Error storing odontogram:', error);
+
         },
       });
   }
