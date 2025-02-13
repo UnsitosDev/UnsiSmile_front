@@ -1,3 +1,5 @@
+import { StudentsToolbarComponent } from './../toolbar-odontogram/students-toolbar.component';
+import { StudentsToothComponent } from './../tooth/students-tooth.component';
 import {
   Component,
   EventEmitter,
@@ -12,7 +14,6 @@ import { forkJoin } from 'rxjs';
 
 import { ApiService, store, OdontogramData } from '@mean/services';
 import { ToothConditionsConstants } from '@mean/utils';
-import { StudentsToolbarComponent, StudentsToothComponent } from '@mean/students';
 
 import { HttpHeaders } from '@angular/common/http';
 import {
