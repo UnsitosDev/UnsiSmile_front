@@ -189,5 +189,7 @@ export class UriConstants {
     public static readonly DOWLOAD_FILES = basePath + '/files/file/'
     // Crear semestre
     public static readonly POST_SEMESTERS = basePath +   '/semesters'
+    // Subir archivo de estudiantes
+    public static readonly UPLOAD_STUDENTS = basePath + '/students/upload'
 
 }

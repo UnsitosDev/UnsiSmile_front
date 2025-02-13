@@ -42,13 +42,16 @@
         type="file"
         formControlName="fileStudent"
         accept=".xls, .xlsx"
+        (change)="onFileSelected($event)"
         required
       />
       </div>
       <div class="button-container">
         <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
-        <button mat-flat-button color="primary" matStepperNext>SUBIR <i class="fas fa-long-arrow-alt-right"></i></button>
+        <button mat-flat-button color="primary" matStepperNext (click)="sendFile()">SUBIR <i class="fas fa-long-arrow-alt-right"></i></button>
       </div>
     </form>
   </mat-step>
 </mat-stepper>
+
+<app-loading/>

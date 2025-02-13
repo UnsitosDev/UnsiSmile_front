@@ -14,6 +14,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { UriConstants } from '@mean/utils';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
+import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
+import { Router } from '@angular/router';
 interface Semester {
   id: number;
   cycleName: string;
@@ -33,7 +35,9 @@ interface Semester {
     MatInputModule,
     MatDatepickerModule,
     MatSelectModule,
-    MatNativeDateModule],
+    MatNativeDateModule,
+    LoadingComponent
+],
   templateUrl: './admin-upload-students.component.html',
   styleUrl: './admin-upload-students.component.scss',
   providers: [
@@ -45,9 +49,13 @@ interface Semester {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminUploadStudentsComponent {
+  file: File | null = null;
 
   private _formBuilder = inject(FormBuilder);
+  private router = inject(Router);
   apiService = inject(ApiService);
+  
+  
 
   // Periodo
   firstFormGroup = this._formBuilder.group({
@@ -66,6 +74,12 @@ export class AdminUploadStudentsComponent {
     { id: 2, cycleName: 'B' },
   ];
 
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.file = file;
+    }
+  }
   sendStudents() {
     // Obtener los valores del formulario
     const startDate = this.firstFormGroup.get('startDate')?.value;
@@ -103,7 +117,35 @@ export class AdminUploadStudentsComponent {
         next: (response) => {
         },
         error: (error) => {
-          console.log('Error al guardar archivos: ', error);
+          console.log('Error', error);
+        },
+      });
+  }
+
+
+  // file tiene que ser el archivo de excel que enviare
+  sendFile() {
+    if (!this.file) {
+      console.error('No file selected');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.file);
+
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+        }),
+        url: `${UriConstants.UPLOAD_STUDENTS}`,
+        data: formData,
+      })
+      .subscribe({
+        next: (response) => {
+          this.router.navigate(['/admin/students']);
+        },
+        error: (error) => {
+          console.log('Error', error);
         },
       });
   }
