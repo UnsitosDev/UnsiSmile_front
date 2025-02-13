@@ -93,7 +93,7 @@
         <mat-form-field appearance="fill" class="w-full"> 
           <mat-label>{{ field.label }}</mat-label>
           <input matInput [matDatepicker]="datepicker"
-            [formControlName]="field.name" [value]="getFormattedDate(field.answerField?.answerDate)" (dateChange)="onValueChangeDate($event)"> 
+          [formControlName]="field.name" [value]="formGroup.get(field.name)?.value" (dateChange)="onValueChangeDate($event)"> 
             <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
             <mat-datepicker #datepicker></mat-datepicker>   
               @if (formGroup.get(field.name)?.hasError('required') && formGroup.get(field.name)?.touched) {
