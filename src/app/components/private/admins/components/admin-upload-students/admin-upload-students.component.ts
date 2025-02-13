@@ -1,21 +1,22 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatSelectModule } from '@angular/material/select';
-
 import { MatNativeDateModule } from '@angular/material/core';
 import { UriConstants } from '@mean/utils';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 interface Semester {
   id: number;
   cycleName: string;
@@ -37,7 +38,7 @@ interface Semester {
     MatSelectModule,
     MatNativeDateModule,
     LoadingComponent
-],
+  ],
   templateUrl: './admin-upload-students.component.html',
   styleUrl: './admin-upload-students.component.scss',
   providers: [
@@ -49,15 +50,16 @@ interface Semester {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminUploadStudentsComponent {
+  @ViewChild('stepper') private stepper!: MatStepper; 
   file: File | null = null;
+  isEditable = false; 
 
   private _formBuilder = inject(FormBuilder);
   private router = inject(Router);
+  private toastr = inject(ToastrService);
   apiService = inject(ApiService);
-  
-  
 
-  // Periodo
+  // Ciclo
   firstFormGroup = this._formBuilder.group({
     startDate: ['', Validators.required],
     endDate: ['', Validators.required],
@@ -66,7 +68,7 @@ export class AdminUploadStudentsComponent {
 
   // Archivo
   secondFormGroup = this._formBuilder.group({
-    fileStudent: ['', Validators.required], // Asegúrate de que esté inicializado
+    fileStudent: ['', Validators.required],
   });
 
   cycle: Semester[] = [
@@ -80,7 +82,13 @@ export class AdminUploadStudentsComponent {
       this.file = file;
     }
   }
+
   sendStudents() {
+    if (this.firstFormGroup.invalid) {
+      this.toastr.warning(Messages.WARNING_INSERT_CYCLE);
+      return;
+    }
+
     // Obtener los valores del formulario
     const startDate = this.firstFormGroup.get('startDate')?.value;
     const endDate = this.firstFormGroup.get('endDate')?.value;
@@ -108,13 +116,15 @@ export class AdminUploadStudentsComponent {
 
     this.apiService
       .postService({
-        headers: new HttpHeaders({
-        }),
+        headers: new HttpHeaders({}),
         url: `${UriConstants.POST_SEMESTERS}`,
         data: semester,
       })
       .subscribe({
         next: (response) => {
+          this.toastr.success(Messages.SUCCES_INSERT_CYCLE);
+          this.isEditable = true; // Habilitar la edición del segundo stepper
+          this.stepper.next(); 
         },
         error: (error) => {
           console.log('Error', error);
@@ -122,11 +132,9 @@ export class AdminUploadStudentsComponent {
       });
   }
 
-
-  // file tiene que ser el archivo de excel que enviare
   sendFile() {
     if (!this.file) {
-      console.error('No file selected');
+      this.toastr.warning(Messages.WARNING_NO_FILE_SELECTED);
       return;
     }
 

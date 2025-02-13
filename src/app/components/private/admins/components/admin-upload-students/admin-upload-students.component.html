@@ -1,5 +1,5 @@
-<mat-stepper #stepper>
-  <mat-step [stepControl]="firstFormGroup" errorMessage="El periodo es requerido">
+<mat-stepper linear #stepper>
+  <mat-step [stepControl]="firstFormGroup" errorMessage="El periodo es requerido" [editable]="isEditable">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Periodo</ng-template>
       <div class="custom">
@@ -33,18 +33,18 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup" errorMessage="Es necesario adjuntar excel">
+  <mat-step [stepControl]="secondFormGroup" errorMessage="Es necesario adjuntar excel" [editable]="isEditable">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Cargar Archivo</ng-template>
       <br>
       <div class="custom">
         <input
-        type="file"
-        formControlName="fileStudent"
-        accept=".xls, .xlsx"
-        (change)="onFileSelected($event)"
-        required
-      />
+          type="file"
+          formControlName="fileStudent"
+          accept=".xls, .xlsx"
+          (change)="onFileSelected($event)"
+          required
+        />
       </div>
       <div class="button-container">
         <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
