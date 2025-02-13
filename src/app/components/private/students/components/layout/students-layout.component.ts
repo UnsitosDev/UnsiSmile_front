@@ -20,6 +20,9 @@ import { SessionStorageConstants } from 'src/app/utils/session.storage';
 export class StudentsLayoutComponent implements OnInit  {
   private token!: string;
   private tokenData!:  TokenData;
+
+  constructor(private router: Router) {}
+
   ngOnInit(): void {
     this.token = this.userService.getToken() ?? "";
      this.tokenData = this.userService.getTokenDataUser(this.token);
@@ -40,5 +43,10 @@ export class StudentsLayoutComponent implements OnInit  {
 
   onPasswordModalClose() {
     this.showPasswordModal = false;
+    const token = this.userService.getToken();
+    if (token) {
+      sessionStorage.removeItem(SessionStorageConstants.USER_TOKEN);
+    }
+    this.router.navigate(['/login']);
   }
 }
