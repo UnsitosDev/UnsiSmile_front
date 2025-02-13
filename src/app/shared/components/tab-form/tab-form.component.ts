@@ -31,7 +31,7 @@ import {
   subSeccion,
 } from 'src/app/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
-import { TabsHandler } from '../interfaces/tabs_handler';
+import { TabsHandler } from '../../interfaces/tabs_handler';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 

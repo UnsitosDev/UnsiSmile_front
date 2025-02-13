@@ -10,11 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { forkJoin } from 'rxjs';
 
-import { ApiService, store } from '@mean/services';
-import { OdontogramData } from 'src/app/services/odontogram-data.service';
-import { ToothConditionsConstants } from 'src/app/utils/ToothConditions.constant';
-import { StudentsToolbarComponent } from '../toolbar-odontogram/students-toolbar.component';
-import { StudentsToothComponent } from '../tooth/students-tooth.component';
+import { ApiService, store, OdontogramData } from '@mean/services';
+import { ToothConditionsConstants } from '@mean/utils';
+import { StudentsToolbarComponent, StudentsToothComponent } from '@mean/students';
 
 import { HttpHeaders } from '@angular/common/http';
 import {
@@ -25,8 +23,8 @@ import {
   ITooth,
 } from '@mean/models';
 import { UriConstants } from '@mean/utils';
-import { OdontogramPost, OdontogramResponse } from 'src/app/models/shared/odontogram/odontogram.model';
-import { TabsHandler } from 'src/app/shared/components/interfaces/tabs_handler';
+import { OdontogramPost, OdontogramResponse } from '@mean/models';
+import { TabsHandler } from '@mean/shared';
 import {mapOdontogramResponseToOdontogramData} from '@mean/students'
 
 interface ToothEvent {
