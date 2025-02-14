@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -11,6 +10,24 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './history-initial-bag.component.scss',
 })
 export class HistoryInitialBagComponent {
+  tableData = {
+    title: "VESTIBULARES SUPERIORES",
+    columns: [
+      { header: "", subheader: "" },
+      { header: "1", subheader: "8" }, { header: "1", subheader: "7" }, { header: "1", subheader: "6" },
+      { header: "1", subheader: "5" }, { header: "1", subheader: "4" }, { header: "1", subheader: "3" },
+      { header: "1", subheader: "2" }, { header: "1", subheader: "1" },
+      { header: "", subheader: "" }, 
+      { header: "2", subheader: "1" }, { header: "2", subheader: "2" }, { header: "2", subheader: "3" },
+      { header: "2", subheader: "4" }, { header: "2", subheader: "5" }, { header: "2", subheader: "6" },
+      { header: "2", subheader: "7" }, { header: "2", subheader: "8" }
+    ],
+    rows: [
+      { label: "D", values: ["", "", "", "", "", "", "", "", "D", "", "", "", "", "", "", "", ""] },
+      { label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] },
+      { label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] }
+    ]
+  };
   // inputs
 
   etiquetasColumnasDerecha = ['8', '7', '6', '5', '4', '3', '2', '1'];

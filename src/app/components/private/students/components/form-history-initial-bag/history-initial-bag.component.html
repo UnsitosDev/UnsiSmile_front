@@ -1,233 +1,29 @@
-
-<div class="mx-8 pb-8 mt-4">
-    <mat-card-title>VESTIBULARES SUPERIORES</mat-card-title>    
-             
-    <table class="w-full custom-table">
-
-      <thead>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th [colSpan]="tableData.columns.length">{{ tableData.title }}</th>
+      </tr>
+      <tr>
+        @for (col of tableData.columns; track col.header) {
+          <th>{{ col.header }}</th>
+        }
+      </tr>
+      <tr>
+        @for (col of tableData.columns; track col.subheader) {
+          <th>{{ col.subheader }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of tableData.rows; track row.label) {
         <tr>
-          <th class="border border-gray-300"></th>
-          @for (item of etiquetasColumnasDerecha; track $index) {
-            <ng-container>
-              <th class="border border-gray-300">1 <br />{{ item }}</th>
-            </ng-container>
-          }
-          <th class="border border-gray-300"></th>
-          <!-- Columna adicional -->
-          @for (item of etiquetasColumnasIzquierda; track $index) {
-            <ng-container>
-              <th class="border border-gray-300">2 <br />{{ item }}</th>
-            </ng-container>
+          <td class="row-label">{{ row.label }}</td>
+          @for (value of row.values; track value) {
+            <td data-editable="true">{{ value }}</td>
           }
         </tr>
-      </thead>
-
-      <tbody>
-        @for (fila of filasDatos; track fila; let i = $index) {
-          <tr class="border border-gray-300">
-            {{
-            fila
-            }}
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-300"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-            <!-- Columna adicional -->
-            <td
-              class="border border-gray-300"
-              (input)="onCellInput($event, i, 'additional')"
-              >
-              {{ columnasAdicionales[i] }}
-            </td>
-            <!-- Fin de la columna adicional -->
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-300"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
-
-  
-    <mat-card-title>PALATINAS</mat-card-title>             
-    <table class="w-full">
-      <thead>
-        <tr>
-          <th class="border border-gray-300"></th>
-          @for (item of etiquetasColumnasDerecha; track $index) {
-            <ng-container>
-              <th class="border border-gray-300">1 <br />{{ item }}</th>
-            </ng-container>
-          }
-          <th class="border border-gray-300"></th>
-          <!-- Columna adicional -->
-          @for (item of etiquetasColumnasIzquierda; track $index) {
-            <ng-container>
-              <th class="border border-gray-300">2 <br />{{ item }}</th>
-            </ng-container>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (fila of filasDatos; track fila; let i = $index) {
-          <tr class="border border-gray-300">
-            {{
-            fila
-            }}
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-300"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-            <!-- Columna adicional -->
-            <td
-              class="border border-gray-300"
-              (input)="onCellInput($event, i, 'additional')"
-              >
-              {{ columnasAdicionales[i] }}
-            </td>
-            <!-- Fin de la columna adicional -->
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-300"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
-
-    <mat-card-title>VESTIBULARES INFERIORES</mat-card-title>             
-    <table class="w-full">
-      <thead>
-        <tr>
-          <th class="border border-gray-300"></th>
-          @for (item of etiquetasColumnasDerecha; track $index) {
-            <ng-container>
-              <th class="border border-gray-300">1 <br />{{ item }}</th>
-            </ng-container>
-          }
-          <th class="border border-gray-300"></th>
-          <!-- Columna adicional -->
-          @for (item of etiquetasColumnasIzquierda; track $index) {
-            <ng-container>
-              <th class="border border-gray-300">2 <br />{{ item }}</th>
-            </ng-container>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (fila of filasDatos; track fila; let i = $index) {
-          <tr class="border border-gray-300">
-            {{
-            fila
-            }}
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-300"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-            <!-- Columna adicional -->
-            <td
-              class="border border-gray-300"
-              (input)="onCellInput($event, i, 'additional')"
-              >
-              {{ columnasAdicionales[i] }}
-            </td>
-            <!-- Fin de la columna adicional -->
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-300"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
-
-    <mat-card-title>LINGUALES</mat-card-title>             
-
-     <table  class="w-full">
-      <thead>
-        <tr>
-          <th class="border border-gray-300"></th>
-          @for (item of etiquetasColumnasDerecha; track $index) {
-            <ng-container>
-              <th class="border border-gray-300">1 <br />{{ item }}</th>
-            </ng-container>
-          }
-          <th class="border border-gray-300"></th>
-          <!-- Columna adicional -->
-          @for (item of etiquetasColumnasIzquierda; track $index) {
-            <ng-container>
-              <th class="border border-gray-300">2 <br />{{ item }}</th>
-            </ng-container>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (fila of filasDatos; track fila; let i = $index) {
-          <tr class="border border-gray-300">
-            {{
-            fila
-            }}
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-300"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-            <!-- Columna adicional -->
-            <td
-              class="border border-gray-300"
-              (input)="onCellInput($event, i, 'additional')"
-              >
-              {{ columnasAdicionales[i] }}
-            </td>
-            <!-- Fin de la columna adicional -->
-            @for (
-              etiqueta of etiquetasColumnasDerecha; track
-              etiqueta; let colIndex = $index) {
-              <td
-                class="border border-gray-300"
-                contenteditable="true"
-                (input)="onCellInput($event, i, colIndex)"
-              ></td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
-
-
+      }
+    </tbody>
+  </table>
 </div>

@@ -1,36 +1,26 @@
-th, td, tr{
-    text-align: center;
-}
-
-
-
-.mat-mdc-card-title {
-    background-color: #006e99; /* Cambia este color al que desees */
-    padding: 8px; /* Agrega un poco de padding si lo deseas */
-    border-radius: 2px; /* Opcional: agrega bordes redondeados */
-    color: white;
-    text-align: center;
-}
-
-button{
-    background-color: #07437a !important;
-    color: white !important;
-}
-
-.button-container {
+.table-container {
+    width: 100%;
     display: flex;
-    justify-content: space-between; /* Distribuye el espacio entre los botones */
-    margin-top: 20px; /* Espacio superior opcional */
-}
+    justify-content: center;
+    align-items: center;
+  }
   
-.button-container button {
-    max-width: 400px; /* Limita el ancho máximo de los botones */
-    flex: 0 0 auto; /* Evita que los botones crezcan para ocupar el espacio disponible */
-    margin: 0 5px; /* Espacio entre los botones */
-}
-
-.custom-table td, tr {
-    color: var(--on-secondary);
-    background-color: var(--secondary); // Color de fondo}
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
   
+  th, td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 8px;
+    min-width: 50px; /* Asegura que todas las columnas tengan el mismo tamaño */
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  .row-label {
+    font-weight: bold;
   }
