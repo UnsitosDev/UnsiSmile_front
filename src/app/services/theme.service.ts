@@ -47,4 +47,18 @@ export class ThemeService {
   isDark(): boolean {
     return this._isDarkTheme; 
   }
+
+  setLightTheme(): void {
+    this._isDarkTheme = false;
+    this.applyTheme();
+    this.applyGlobalTheme();
+    localStorage.setItem('theme', 'light');
+  }
+
+  setDarkTheme(): void {
+    this._isDarkTheme = true;
+    this.applyTheme();
+    this.applyGlobalTheme();
+    localStorage.setItem('theme', 'dark');
+  }
 }
