@@ -20,4 +20,10 @@ export class Messages {
     public static readonly WARNING_INSERT_PATIENT = 'Completa correctamente todos los campos para registrar al paciente'
     public static readonly SUCCES_INSERT_PATIENT = 'Paciente creado'
 
+    // Mensajes para subir alumnos
+    public static readonly WARNING_INSERT_CYCLE = 'Completa todos los campos'
+    public static readonly SUCCES_INSERT_CYCLE = 'Ciclo escolar guardado'
+    public static readonly WARNING_NO_FILE_SELECTED = 'Selecciona un archivo'
+    public static readonly ERROR_INSERT_FILE = 'Archivo no válido'
+
 }

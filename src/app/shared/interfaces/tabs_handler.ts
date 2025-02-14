@@ -1,4 +1,4 @@
-import { EventEmitter, Output, Component } from "@angular/core";
+import { EventEmitter } from "@angular/core";
 
 export interface TabsHandler {
   nextMatTab: EventEmitter<void>; // Evento para ir al siguiente tab

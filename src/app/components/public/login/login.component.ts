@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 import { ApiService, AuthService } from '@mean/services';
 import { BaseComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from 'src/app/models/shared/loading/loading.component';
-import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
 import { ToastrService } from 'ngx-toastr';
@@ -23,7 +23,7 @@ import { TokenData } from './model/tokenData';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, AlertComponent, CommonModule, LoadingComponent],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, LoadingComponent],
 })
 export class LoginComponent extends BaseComponent<Get, PostLogin> {
   private userService = inject(AuthService);
