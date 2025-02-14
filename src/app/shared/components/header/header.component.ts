@@ -24,7 +24,6 @@ export class HeaderComponent {
 
   toggleSidebar() {
     this.closeSidebar.emit();
-    console.log('emiting');
   }
 
   logout(): void {
