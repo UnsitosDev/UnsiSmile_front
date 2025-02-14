@@ -5,20 +5,35 @@ import { ToastrService } from 'ngx-toastr';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
+import { Router } from '@angular/router';
+import { AuthService } from '@mean/services';
+import { SessionStorageConstants } from 'src/app/utils/session.storage';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-new-password',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    FontAwesomeModule, 
+    MatStepperModule,
+    MatButtonModule
+  ],
   templateUrl: './new-password.component.html',
   styleUrls: ['./new-password.component.scss']
 })
 export class NewPasswordComponent {
-  @Input() isVisible: boolean = false;
+  @Input() isVisible: boolean = true;
   @Output() closeModal = new EventEmitter<void>();
   
   private toastr = inject(ToastrService);
   private userService = inject(ApiService<any, {}>);
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  public themeService = inject(ThemeService);
 
   currentPassword = '';
   newPassword = '';
@@ -28,6 +43,17 @@ export class NewPasswordComponent {
   showCurrentPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
+
+  showWelcomeMessage = true;  // Nueva propiedad
+
+  activeStep = 0;
+
+  ngOnInit() {
+    // Aumentar el tiempo a 8 segundos (8000ms)
+    setTimeout(() => {
+      this.showWelcomeMessage = false;
+    }, 9000);
+  }
 
   togglePasswordVisibility(field: string) {
     switch (field) {
@@ -41,6 +67,18 @@ export class NewPasswordComponent {
         this.showConfirmPassword = !this.showConfirmPassword;
         break;
     }
+  }
+
+  welcomeStep() {
+    this.activeStep = 1;
+  }
+
+  backStep() {
+    this.activeStep--;
+  }
+
+  nextStep() {
+    this.activeStep++;
   }
 
   onSubmit() {
@@ -63,8 +101,11 @@ export class NewPasswordComponent {
       .subscribe({
         next: () => {
           this.toastr.success('Contraseña actualizada exitosamente');
-          this.resetForm();
-          this.closeModal.emit();
+          // Limpiar sesión y redirigir
+          sessionStorage.removeItem(SessionStorageConstants.USER_TOKEN);
+          setTimeout(() => {
+            this.router.navigate(['']);
+          }, 500);
         },
         error: (error) => {
           this.errorMessage = error;
@@ -82,5 +123,7 @@ export class NewPasswordComponent {
   onClose() {
     this.resetForm();
     this.closeModal.emit();
+    this.router.navigate(['/login']); // Redirigir al login
+
   }
 }

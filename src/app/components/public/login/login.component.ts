@@ -14,6 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from 'src/app/models/shared/loading/loading.component';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
+import { AlertModel } from '@mean/models';
+import { TokenData } from './model/tokenData';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +36,6 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly authServise: AuthService,
-   // private toastr: ToastrService 
   ) {
     super(api);
     this.formGroup = this.fb.group({
@@ -43,41 +44,39 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
     });
   }
 
-  // Maneja el inicio de sesión del usuario, guarda el token de sesión y redirige según el rol.
-// En tu LoginComponent
-handleLogin() {
-  if (this.isFormValid()) {
-    const { user, password } = this.formGroup.value;
-
-    this.createService({
-      url: `${UriConstants.USER_LOGIN}`,
-      data: {
-        username: user,
-        password: password,
-      },
-    }).subscribe({
-      next: (data) => {
-        const { token } = data.response;
-        this.authServise.saveToSession(
-          SessionStorageConstants.USER_TOKEN,
-          token
-        );
-
-        const tokenData = this.userService.getTokenDataUser(token);
-        // Crear y mostrar toast de éxito
-
-
-        this.userService.redirectByRole(tokenData.role[0].authority);
-      },
-      error: (error) => {
-        // Crear y mostrar toast de error
-        this.toastr.error(error,'Error');
-
-        this.loading = false;
-      },
-    });
+  handleLogin() {
+    if (this.isFormValid()) {
+      const { user, password } = this.formGroup.value;
+  
+      this.createService({
+        url: `${UriConstants.USER_LOGIN}`,
+        data: {
+          username: user,
+          password: password,
+        },
+      }).subscribe({
+        next: (data) => {
+          const { token } = data.response;
+          this.authServise.saveToSession(
+            SessionStorageConstants.USER_TOKEN,
+            token
+          );
+  
+          const tokenData: TokenData = this.userService.getTokenDataUser(token);
+          if (tokenData.firstLogin) {
+            this.router.navigate(['/new-password']);
+          } else {
+            this.userService.redirectByRole(tokenData.role[0].authority);
+          }
+        },
+        error: (error) => {
+          this.toastr.error(error,'Error');
+  
+          this.loading = false;
+        },
+      });
+    }
   }
-}
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
