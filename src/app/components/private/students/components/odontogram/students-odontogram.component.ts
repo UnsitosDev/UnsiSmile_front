@@ -1,6 +1,3 @@
-import { ToastrService } from 'ngx-toastr';
-import { StudentsToolbarComponent } from './../toolbar-odontogram/students-toolbar.component';
-import { StudentsToothComponent } from './../tooth/students-tooth.component';
 import {
   Component,
   EventEmitter,
@@ -11,9 +8,12 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
+import { StudentsToolbarComponent } from './../toolbar-odontogram/students-toolbar.component';
+import { StudentsToothComponent } from './../tooth/students-tooth.component';
 
-import { ApiService, store, OdontogramData } from '@mean/services';
+import { ApiService, OdontogramData, store } from '@mean/services';
 import { ToothConditionsConstants } from '@mean/utils';
 
 import { HttpHeaders } from '@angular/common/http';
@@ -23,11 +23,12 @@ import {
   IOdontogram,
   IOdontogramHandler,
   ITooth,
+  OdontogramPost,
+  OdontogramResponse,
 } from '@mean/models';
-import { UriConstants } from '@mean/utils';
-import { OdontogramPost, OdontogramResponse } from '@mean/models';
 import { TabsHandler } from '@mean/shared';
-import {mapOdontogramResponseToOdontogramData} from '@mean/students'
+import { mapOdontogramResponseToOdontogramData } from '@mean/students';
+import { UriConstants } from '@mean/utils';
 
 interface ToothEvent {
   faceId: string;
@@ -54,7 +55,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   @Input({ required: true }) idClinicalHistoryPatient!: number;
   @Input({ required: true }) idFormSection!: number;
   @Input({ required: true }) state!: 'create' | 'update' | 'read';
-  private toastr=inject (ToastrService);
+  private toastr = inject(ToastrService);
 
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
@@ -99,9 +100,18 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   }
 
   private initializeNewOdontogram(): void {
-    this.data.adultArcade = { teeth: [] };
-    this.data.childrenArcade = { teeth: [] };
-    this.isEditing = true;
+    //limpiar odontograma existente
+    this.clearToothConditions(this.data.adultArcade.teeth);
+    this.clearToothConditions(this.data.childrenArcade.teeth);
+  }
+
+  private clearToothConditions(teeth: ITooth[]): void {
+    teeth.forEach((tooth) => {
+      tooth.conditions = [];
+      tooth.faces.forEach((face) => {
+        face.conditions = [];
+      });
+    });
   }
 
   private loadExistingOdontogram(): void {
@@ -112,15 +122,14 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       .subscribe({
         next: (response) => {
           this.data = this.mapResponseToOdontogram(response);
-          this.isEditing = this.state === 'update';
         },
-        error: (error) => {
-          this.toastr.error(error,'Error');
-        },
+        error: (error) => {},
       });
   }
 
-  private mapResponseToOdontogram(response: OdontogramResponse): IOdontogramHandler{
+  private mapResponseToOdontogram(
+    response: OdontogramResponse
+  ): IOdontogramHandler {
     return mapOdontogramResponseToOdontogramData(response, this.data);
   }
 
@@ -143,7 +152,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         this.options = [...toothConditions, ...toothFaceConditions];
       },
       error: (error) => {
-        this.toastr.error(error,'Error');
+        this.toastr.error(error, 'Error');
       },
     });
   }
@@ -342,15 +351,15 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   }
 
   store(): void {
-   if(this.state === 'create') {
+    if (this.state === 'create') {
       this.storeOdontogram();
     }
 
-    if(this.state === 'update') {
+    if (this.state === 'update') {
       this.updateOdontogram();
     }
 
-    if(this.state === 'read') {
+    if (this.state === 'read') {
       this.nextMatTab.emit();
     }
   }
@@ -377,7 +386,6 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         },
         error: (error) => {
           console.error('Error storing odontogram:', error);
-
         },
       });
   }
