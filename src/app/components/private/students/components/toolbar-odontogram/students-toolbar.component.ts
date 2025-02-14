@@ -1,7 +1,7 @@
 import { toothConditionRequest } from '../../../../../models/models-students/toothCondition/toothCondition';
 import { ToothConditionsConstants } from './../../../../../utils/ToothConditions.constant';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ICondition } from 'src/app/models/shared/odontogram';
+import { ICondition } from 'src/app/models/shared/odontogram/odontogram';
 import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
 
 @Component({
@@ -14,12 +14,16 @@ import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
 export class StudentsToolbarComponent {
   @Input() toolbar!: Toolbar;
   @Output() handleAction = new EventEmitter<ICondition>();
+  @Input({ required: true }) state!: "create" | "update" | "read";
 
   ToothConditionsConstants = ToothConditionsConstants 
 
   selectSymbol(symbol: ICondition) {
+    if (this.state === 'read') {
+      return;
+    }
     this.handleAction.emit(symbol);
-    console.log(symbol);
+    console.log('Symbol selected:', symbol);
   }
 
   isNormalCondition(condition: string): boolean {

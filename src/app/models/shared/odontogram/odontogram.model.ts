@@ -1,7 +1,11 @@
+import { ITooth } from "./odontogram";
+
 export interface OdontogramPost {
     idPatient:     string;
     teeth:        Tooth[];
-    idFormSection: string;
+    idQuestion: number;
+    idPatientClinicalHistory: number;
+    idFormSection: number;
 }
 
 export interface Tooth {
@@ -43,4 +47,10 @@ export interface Condition {
     idCondition: number;
     condition:   string;
     description: string;
+}
+
+export interface ToothEvent {
+    faceId: string;
+    index: number;
+    tooth: ITooth;
 }
