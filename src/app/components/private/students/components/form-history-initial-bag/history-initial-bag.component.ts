@@ -4,6 +4,20 @@ import { MatCardModule } from '@angular/material/card';
 import { IOdontogramHandler } from '@mean/models';
 import { store } from '@mean/services';
 
+interface Column {
+  header: string; 
+}
+interface Row {
+  label: string; 
+  values: string[];
+}
+interface LowerVestibular {
+  title: string; 
+  id: number; 
+  columns: Column[]; 
+  rows: Row[]; 
+}
+
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
@@ -13,27 +27,51 @@ import { store } from '@mean/services';
 })
 export class HistoryInitialBagComponent implements OnInit {
   data: IOdontogramHandler = store;
-  tableData: any;
+  upperVestibular: any;
+  lowerVestibular: any;
+  palatine: any;
+  linguals: any;
 
   ngOnInit(): void {
-    console.log(this.data);
 
-    // Generar los encabezados de las columnas dinámicamente
-    const columns = [
+    const columnsUpperVestibular = [
       { header: "" },
       ...this.data.adultArcade.teeth.slice(0, 8).map(tooth => ({ header: tooth.idTooth })),
       { header: "" },
       ...this.data.adultArcade.teeth.slice(8, 16).map(tooth => ({ header: tooth.idTooth }))
     ];
 
-    this.tableData = {
+    const columnsLowerVestibular = [
+      { header: "" },
+      ...this.data.adultArcade.teeth.slice(16, 24).map(tooth => ({ header: tooth.idTooth })),
+      { header: "" },
+      ...this.data.adultArcade.teeth.slice(24, 32).map(tooth => ({ header: tooth.idTooth }))
+    ];
+
+    this.upperVestibular = {
       title: "VESTIBULARES SUPERIORES",
-      columns: columns,
+      id: 1,
+      // id : 
+      // row { id, label }
+      columns: columnsUpperVestibular,
+      rows: [
+        { id:1, label: "D", values: ["", "", "", "", "", "", "", "", "D", "", "", "", "", "", "", "", ""] },
+        { id:1, label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] },
+        { id:1, label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] }
+      ]
+    };
+
+    this.lowerVestibular = {
+      title: "VESTIBULARES INFERIORES",
+      id: 2,
+      columns: columnsLowerVestibular,
       rows: [
         { label: "D", values: ["", "", "", "", "", "", "", "", "D", "", "", "", "", "", "", "", ""] },
         { label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] },
         { label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] }
       ]
     };
+
+    
   }
 }

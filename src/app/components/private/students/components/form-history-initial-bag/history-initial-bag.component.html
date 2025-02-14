@@ -2,16 +2,43 @@
   <table>
     <thead>
       <tr>
-        <th [colSpan]="tableData.columns.length">{{ tableData.title }}</th>
+        <th [colSpan]="upperVestibular.columns.length">{{ upperVestibular.title }}</th>
       </tr>
       <tr>
-        @for (col of tableData.columns; track col.header) {
+        @for (col of upperVestibular.columns; track col.header) {
         <th>{{ col.header }}</th>
         }
       </tr>
     </thead>
     <tbody>
-      @for (row of tableData.rows; track row.label) {
+      @for (row of upperVestibular.rows; track row.label) {
+      <tr>
+        <td class="row-label">{{ row.label }}</td>
+        @for (value of row.values; track value; let i = $index) {
+          <td contenteditable="true">
+            {{ value }}
+          </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<br>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th [colSpan]="lowerVestibular.columns.length">{{ lowerVestibular.title }}</th>
+      </tr>
+      <tr>
+        @for (col of lowerVestibular.columns; track col.header) {
+        <th>{{ col.header }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of lowerVestibular.rows; track row.label) {
       <tr>
         <td class="row-label">{{ row.label }}</td>
         @for (value of row.values; track value; let i = $index) {
