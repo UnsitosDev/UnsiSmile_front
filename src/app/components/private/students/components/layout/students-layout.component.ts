@@ -12,7 +12,6 @@ import { SessionStorageConstants } from 'src/app/utils/session.storage';
   standalone: true,
   imports: [
     RouterOutlet, SideNavComponent, HeaderComponent,
-    NewPasswordComponent
 ],
   templateUrl: './students-layout.component.html',
   styleUrls: ['./students-layout.component.scss']
