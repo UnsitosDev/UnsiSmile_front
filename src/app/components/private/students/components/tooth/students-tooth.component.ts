@@ -24,7 +24,7 @@ export class StudentsToothComponent {
   @Input() toothConditions!: ICondition[];
   @Output() toggleTooth = new EventEmitter<any>();
   @Output() setFace = new EventEmitter<{faceId: string, index: number, tooth: ITooth}>();
-  @Input({ required: true }) state!: "create" | "update" | "read";
+  @Input({ required: true }) state!: "create" | "update" | "read" | "read-latest";
   faceClicked = 0;
   ToothConditionsConstant = ToothConditionsConstants;
 

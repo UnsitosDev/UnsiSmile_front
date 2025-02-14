@@ -54,7 +54,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   @Input({ required: true }) idQuestion!: number;
   @Input({ required: true }) idClinicalHistoryPatient!: number;
   @Input({ required: true }) idFormSection!: number;
-  @Input({ required: true }) state!: 'create' | 'update' | 'read';
+  @Input({ required: true }) state!: 'create' | 'update' | 'read' | 'read-latest';
   private toastr = inject(ToastrService);
 
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
@@ -91,12 +91,42 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         this.initializeNewOdontogram();
         break;
       case 'update':
-        this.loadExistingOdontogram();
+        this.loadExistingOdontogramByIdForm();
         break;
       case 'read':
         this.loadExistingOdontogram();
         break;
+      case 'read-latest':
+        this.loadLatestExistingOdontogram();
+        break;
     }
+  }
+  loadLatestExistingOdontogram() {
+    this.odontogramService
+    .getService({
+      url: `${UriConstants.GET_LAST_ODONTOGRAM_BY_PATIENT}/${this.patientId}`,
+    })
+    .subscribe({
+      next: (response) => {
+        this.data = this.mapResponseToOdontogram(response);
+      },
+      error: (error) => {},
+    });
+  }
+
+  loadExistingOdontogramByIdForm() {
+    //obtener el odontograma por idFormSection y por idPatientClinicalHistory
+    this.odontogramService
+      .getService({
+        url: `${UriConstants.GET_ODONTOGRAM_BY_FORM_ID}/${this.idFormSection}/${this.patientId}`,
+      })
+      .subscribe({
+        next: (response) => {
+          this.data = this.mapResponseToOdontogram(response);
+        },
+        error: (error) => {},
+      });
+
   }
 
   private initializeNewOdontogram(): void {

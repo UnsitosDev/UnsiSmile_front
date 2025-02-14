@@ -56,7 +56,7 @@
                           <!-- components to render if the question is anwered -->
                           @if (tab.title === 'Odontograma inicial' && tab.isAnswered) {
                             <app-students-odontogram
-                              [state]="'read'" 
+                              [state]="'update'" 
                               [patientId]="idpatient" 
                               [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
                               [idClinicalHistoryPatient]=idPatientClinicalHistory
