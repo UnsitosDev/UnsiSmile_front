@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { IOdontogramHandler } from '@mean/models';
+import { store } from '@mean/services';
 
 @Component({
   selector: 'app-history-initial-bag',
@@ -9,87 +11,29 @@ import { MatCardModule } from '@angular/material/card';
   templateUrl: './history-initial-bag.component.html',
   styleUrl: './history-initial-bag.component.scss',
 })
-export class HistoryInitialBagComponent {
-  tableData = {
-    title: "VESTIBULARES SUPERIORES",
-    columns: [
-      { header: "", subheader: "" },
-      { header: "1", subheader: "8" }, { header: "1", subheader: "7" }, { header: "1", subheader: "6" },
-      { header: "1", subheader: "5" }, { header: "1", subheader: "4" }, { header: "1", subheader: "3" },
-      { header: "1", subheader: "2" }, { header: "1", subheader: "1" },
-      { header: "", subheader: "" }, 
-      { header: "2", subheader: "1" }, { header: "2", subheader: "2" }, { header: "2", subheader: "3" },
-      { header: "2", subheader: "4" }, { header: "2", subheader: "5" }, { header: "2", subheader: "6" },
-      { header: "2", subheader: "7" }, { header: "2", subheader: "8" }
-    ],
-    rows: [
-      { label: "D", values: ["", "", "", "", "", "", "", "", "D", "", "", "", "", "", "", "", ""] },
-      { label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] },
-      { label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] }
-    ]
-  };
-  // inputs
+export class HistoryInitialBagComponent implements OnInit {
+  data: IOdontogramHandler = store;
+  tableData: any;
 
-  etiquetasColumnasDerecha = ['8', '7', '6', '5', '4', '3', '2', '1'];
-  etiquetasColumnasIzquierda = ['1', '2', '3', '4', '5', '6', '7', '8'];
+  ngOnInit(): void {
+    console.log(this.data);
 
-  filasDatos = ['D', 'M', 'M'];
-  columnasAdicionales = ['D', 'M', 'M']; // Valores correspondientes a la columna adicional
+    // Generar los encabezados de las columnas dinámicamente
+    const columns = [
+      { header: "" },
+      ...this.data.adultArcade.teeth.slice(0, 8).map(tooth => ({ header: tooth.idTooth })),
+      { header: "" },
+      ...this.data.adultArcade.teeth.slice(8, 16).map(tooth => ({ header: tooth.idTooth }))
+    ];
 
-  registros: { value: string; row: string; column: string }[] = []; // Arreglo para almacenar los registros
-  Coordenadas: any[] = []; // Arreglo para almacenar las coordenadas
-
-  onCellInput(event: Event, rowIndex: number, colIndex: number | string): void {
-    const inputValue = (event.target as HTMLTableCellElement).innerText.trim();
-    const rowLabel = this.filasDatos[rowIndex];
-    const colLabel =
-      typeof colIndex === 'number'
-        ? this.getColumnLabel(colIndex)
-        : 'Additional Column';
-
-    const registro = {
-      value: inputValue,
-      row: rowLabel,
-      column: colLabel,
+    this.tableData = {
+      title: "VESTIBULARES SUPERIORES",
+      columns: columns,
+      rows: [
+        { label: "D", values: ["", "", "", "", "", "", "", "", "D", "", "", "", "", "", "", "", ""] },
+        { label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] },
+        { label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] }
+      ]
     };
-
-    this.registros.push(registro); // Almacenar el objeto en el arreglo de registros
-    this.Coordenadas = [...this.registros]; // Asignar el arreglo de registros al arreglo de coordenadas
-  }
-
-  getColumnLabel(index: number): string {
-    if (index < this.etiquetasColumnasDerecha.length) {
-      return `1 ${this.etiquetasColumnasDerecha[index]}`;
-    } else if (index === this.etiquetasColumnasDerecha.length) {
-      return 'Additional Column';
-    } else {
-      return `2 ${
-        this.etiquetasColumnasIzquierda[
-          index - this.etiquetasColumnasDerecha.length - 1
-        ]
-      }`;
-    }
-  }
-
-  sendData() {
-    this.nextTab();
-    this.emitNextTabEvent();
-  }
-
-  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
-  emitNextTabEvent() {
-      this.nextTabEventEmitted.emit(false);
-  }
-
-  @Output() nextMatTab = new EventEmitter<number>();
-  nextTab() {
-    this.nextMatTab.emit(0);
-  }
-
-  currentTabIndex: number = 0; // Índice del tab actual
-  @Output() previousMatTab = new EventEmitter<number>();
-  previousTab() {
-      this.currentTabIndex = Math.max(this.currentTabIndex - 1, 0); // Decrementa el índice, asegurando que no sea menor que 0
-      this.previousMatTab.emit(this.currentTabIndex); // Emite el índice del tab anterior
   }
 }

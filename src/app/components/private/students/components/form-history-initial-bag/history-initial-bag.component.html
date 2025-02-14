@@ -6,23 +6,20 @@
       </tr>
       <tr>
         @for (col of tableData.columns; track col.header) {
-          <th>{{ col.header }}</th>
-        }
-      </tr>
-      <tr>
-        @for (col of tableData.columns; track col.subheader) {
-          <th>{{ col.subheader }}</th>
+        <th>{{ col.header }}</th>
         }
       </tr>
     </thead>
     <tbody>
       @for (row of tableData.rows; track row.label) {
-        <tr>
-          <td class="row-label">{{ row.label }}</td>
-          @for (value of row.values; track value) {
-            <td data-editable="true">{{ value }}</td>
-          }
-        </tr>
+      <tr>
+        <td class="row-label">{{ row.label }}</td>
+        @for (value of row.values; track value; let i = $index) {
+          <td contenteditable="true">
+            {{ value }}
+          </td>
+        }
+      </tr>
       }
     </tbody>
   </table>
