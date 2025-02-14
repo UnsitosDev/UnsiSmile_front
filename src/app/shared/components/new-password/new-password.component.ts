@@ -5,6 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
+import { Router } from '@angular/router';
+import { AuthService } from '@mean/services';
+import { SessionStorageConstants } from 'src/app/utils/session.storage';
 
 @Component({
   selector: 'app-new-password',
@@ -14,11 +17,13 @@ import { UriConstants } from '@mean/utils';
   styleUrls: ['./new-password.component.scss']
 })
 export class NewPasswordComponent {
-  @Input() isVisible: boolean = false;
+  @Input() isVisible: boolean = true;
   @Output() closeModal = new EventEmitter<void>();
   
   private toastr = inject(ToastrService);
   private userService = inject(ApiService<any, {}>);
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
   currentPassword = '';
   newPassword = '';
@@ -63,11 +68,15 @@ export class NewPasswordComponent {
       .subscribe({
         next: () => {
           this.toastr.success('Contraseña actualizada exitosamente');
-          this.resetForm();
-          this.closeModal.emit();
+          // Limpiar sesión y redirigir
+          sessionStorage.removeItem(SessionStorageConstants.USER_TOKEN);
+          setTimeout(() => {
+            this.router.navigate(['']);
+          }, 500);
         },
         error: (error) => {
           this.errorMessage = error;
+          this.toastr.error(error, 'Error');
         }
       });
   }
@@ -82,5 +91,7 @@ export class NewPasswordComponent {
   onClose() {
     this.resetForm();
     this.closeModal.emit();
+    this.router.navigate(['/login']); // Redirigir al login
+
   }
 }
