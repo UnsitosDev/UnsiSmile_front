@@ -10,6 +10,7 @@ import { AuthService } from '@mean/services';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-new-password',
@@ -32,6 +33,7 @@ export class NewPasswordComponent {
   private userService = inject(ApiService<any, {}>);
   private router = inject(Router);
   private authService = inject(AuthService);
+  public themeService = inject(ThemeService);
 
   currentPassword = '';
   newPassword = '';
