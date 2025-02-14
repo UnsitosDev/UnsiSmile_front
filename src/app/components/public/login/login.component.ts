@@ -14,7 +14,6 @@ import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from 'src/app/models/shared/loading/loading.component';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
-import { ToastrService } from 'ngx-toastr';
 import { AlertModel } from '@mean/models';
 import { TokenData } from './model/tokenData';
 
