@@ -17,6 +17,9 @@ import { LoadingComponent } from "../../../../../models/shared/loading/loading.c
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
+
 interface Semester {
   id: number;
   cycleName: string;
@@ -37,7 +40,9 @@ interface Semester {
     MatDatepickerModule,
     MatSelectModule,
     MatNativeDateModule,
-    LoadingComponent
+    LoadingComponent,
+    MatTabsModule,
+    MatCardModule
   ],
   templateUrl: './admin-upload-students.component.html',
   styleUrl: './admin-upload-students.component.scss',

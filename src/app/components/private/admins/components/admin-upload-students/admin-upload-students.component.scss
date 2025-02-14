@@ -24,6 +24,25 @@ button {
 }
 
 .custom-hint {
-  color: var(--on-secondary); 
+  color: var(--on-secondary);
   font-size: 12px;
+}
+
+mat-tab-group {
+  background-color: var(--secondary);
+}
+
+.custom-message {
+  color: var(--on-secondary);
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+::ng-deep .mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: white;
+
 }
