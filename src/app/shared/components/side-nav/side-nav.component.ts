@@ -4,7 +4,7 @@ import { StudentItems, AdminItems, MenuItem } from '@mean/models';
 import {
   studentResponse,
   studentUserResponse,
-} from '../interfaces/student/student';
+} from '../../interfaces/student/student';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';

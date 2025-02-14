@@ -1,6 +1,6 @@
 import { Component, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { studentResponse, studentUserResponse } from 'src/app/shared/components/interfaces/student/student';
+import { studentResponse, studentUserResponse } from 'src/app/shared/interfaces/student/student';
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';

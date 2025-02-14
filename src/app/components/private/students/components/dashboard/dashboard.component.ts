@@ -4,7 +4,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faUserMd } from '@fortawesome/free-solid-svg-icons'; // Ícono de doctor
 import { DashboardStatsComponent } from 'src/app/shared/dashboard-stats/dashboard-stats.component';
-import { AdditionalCardsComponent } from 'src/app/shared/additional-cards/additional-cards.component';
+import { AdditionalCardsComponent } from 'src/app/shared/components/additional-cards/additional-cards.component';
 
 @Component({
   selector: 'app-dashboard',

@@ -1,4 +1,4 @@
-import { IOdontogramHandler } from '../models/shared/odontogram';
+import { IOdontogramHandler } from '../models/shared/odontogram/odontogram';
 
 export const store: IOdontogramHandler = {
   marked: {
