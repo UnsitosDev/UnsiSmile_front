@@ -21,7 +21,7 @@ import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+} from '@angular/material/snack-bar'; 
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '@mean/services';
