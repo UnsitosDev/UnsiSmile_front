@@ -4,11 +4,6 @@
 </mat-card>
 
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-  <mat-tab label="Semestre Actual">
-    <div class="custom-message">
-      <p>No hay un semestre activo en este momento. Por favor, ve a la pestaña <strong>Crear Ciclo</strong> para configurar uno nuevo.</p>
-    </div>
-  </mat-tab>
   <mat-tab label="Crear Ciclo">
     <mat-stepper linear #stepper>
       <mat-step [stepControl]="firstFormGroup" errorMessage="El periodo es requerido" [editable]="isEditable">
@@ -31,14 +26,14 @@
               <mat-label>Semestre</mat-label>
               <mat-select formControlName="semester">
                 @for (item of cycle; track item) {
-                  <mat-option [value]="item.id">{{item.cycleName}}</mat-option>
+                  <mat-option [value]="item.idCycle">{{item.cycleName}}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
           </div>
           <div class="button-container">
             <div></div>
-            <button mat-flat-button color="primary" matStepperNext (click)="sendStudents()">SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+            <button mat-flat-button color="primary" matStepperNext (click)="sendStudents()">CREAR CICLO <i class="fas fa-save"></i></button>
           </div>
         </form>
       </mat-step>
@@ -57,8 +52,8 @@
             />
           </div>
           <div class="button-container">
-            <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
-            <button mat-flat-button color="primary" matStepperNext (click)="sendFile()">SUBIR <i class="fas fa-long-arrow-alt-right"></i></button>
+            <div></div>
+            <button mat-flat-button color="primary" matStepperNext (click)="sendFile()">ENVIAR DATOS <i class="fas fa-file-upload"></i></button>
           </div>
         </form>
       </mat-step>

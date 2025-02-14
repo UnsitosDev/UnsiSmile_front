@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,10 +19,16 @@ import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
+interface Cycle {
+  idCycle: number;
+  cycleName: string;
+}
 
 interface Semester {
-  id: number;
-  cycleName: string;
+  idSemester: number;
+  semesterName: string;
+  fechaInicio: [number, number, number];
+  fechaFin: [number, number, number];
 }
 
 @Component({
@@ -54,15 +60,39 @@ interface Semester {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminUploadStudentsComponent {
-  @ViewChild('stepper') private stepper!: MatStepper; 
+export class AdminUploadStudentsComponent implements OnInit {
+  @ViewChild('stepper') private stepper!: MatStepper;
   file: File | null = null;
-  isEditable = false; 
+  isEditable = false;
+  currentSemester: boolean = true;
 
   private _formBuilder = inject(FormBuilder);
   private router = inject(Router);
   private toastr = inject(ToastrService);
+  private cdr = inject(ChangeDetectorRef);
   apiService = inject(ApiService);
+
+  ngOnInit(): void {
+    this.getCycles();
+  }
+
+  cycle: Cycle[] = [];
+  getCycles() {
+    this.apiService
+      .getListService({
+        headers: new HttpHeaders({}),
+        url: `${UriConstants.GET_ALL_CYCLES}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.cycle = response;
+        },
+        error: (error) => {
+          console.log('Error', error);
+        },
+      });
+  }
 
   // Ciclo
   firstFormGroup = this._formBuilder.group({
@@ -75,11 +105,6 @@ export class AdminUploadStudentsComponent {
   secondFormGroup = this._formBuilder.group({
     fileStudent: ['', Validators.required],
   });
-
-  cycle: Semester[] = [
-    { id: 1, cycleName: 'A' },
-    { id: 2, cycleName: 'B' },
-  ];
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -103,7 +128,7 @@ export class AdminUploadStudentsComponent {
     const semesterIdNumber = Number(semesterId);
 
     // Buscar el ciclo correspondiente en el arreglo de ciclos
-    const selectedCycle = this.cycle.find(cycle => cycle.id === semesterIdNumber);
+    const selectedCycle = this.cycle.find(cycle => cycle.idCycle === semesterIdNumber);
 
     // Formatear las fechas a YYYY-MM-DD
     const formatDate = (date: Date): string => {
@@ -114,7 +139,7 @@ export class AdminUploadStudentsComponent {
       startDate: startDate ? formatDate(new Date(startDate)) : null,
       endDate: endDate ? formatDate(new Date(endDate)) : null,
       cycle: {
-        idCycle: selectedCycle?.id || 0,
+        idCycle: selectedCycle?.idCycle || 0,
         cycleName: selectedCycle?.cycleName || 'string'
       }
     };
@@ -128,8 +153,8 @@ export class AdminUploadStudentsComponent {
       .subscribe({
         next: (response) => {
           this.toastr.success(Messages.SUCCES_INSERT_CYCLE);
-          this.isEditable = true; // Habilitar la edición del segundo stepper
-          this.stepper.next(); 
+          this.isEditable = true;
+          this.stepper.next();
         },
         error: (error) => {
           console.log('Error', error);
@@ -158,7 +183,7 @@ export class AdminUploadStudentsComponent {
           this.router.navigate(['/admin/students']);
         },
         error: (error) => {
-          console.log('Error', error);
+          this.toastr.error(Messages.ERROR_INSERT_FILE);
         },
       });
   }
