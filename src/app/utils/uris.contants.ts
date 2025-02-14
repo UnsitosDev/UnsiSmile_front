@@ -255,4 +255,12 @@ export class UriConstants {
   public static readonly DOWLOAD_FILES = basePath + '/files/file/';
   // obtener el odontograma mas reciente
   public static readonly GET_LAST_ODONTOGRAM_BY_PATIENT = basePath + '/medical-histories/odontograms/latest'
+  // Crear semestre
+  public static readonly POST_SEMESTERS = basePath +   '/semesters'
+  // Subir archivo de estudiantes
+  public static readonly UPLOAD_STUDENTS = basePath + '/students/upload'
+  // Semestre actual
+  public static readonly GET_CURRENT_SEMESTER = basePath + '/semesters/current-semester'
+  // Ciclos
+  public static readonly GET_ALL_CYCLES = basePath + '/cycles'
 }
