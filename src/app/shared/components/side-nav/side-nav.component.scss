@@ -51,12 +51,26 @@
 }
 
 .nav-content {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; // Movido aquí
-  height: calc(100% - 120px); // Ajustar según el tamaño del logo
+  height: 100%;
+  position: relative; // Añadido
+}
 
+#profile {
+  position: sticky; // Cambiado a sticky
+  top: 0;
+  background-color: var(--primary);
+  z-index: 2;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -76,9 +90,12 @@
 }
 
 .logout-section {
-  margin-top: auto;
+  position: sticky; // Cambiado a sticky
+  bottom: 0;
+  background-color: var(--primary);
   padding: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 2;
 }
 
 .logout-button {
