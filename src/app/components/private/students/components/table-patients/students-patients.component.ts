@@ -126,11 +126,8 @@ export class StudentsPatientsComponent implements OnInit {
   
 
   onSearch(keyword: string) {
-    console.log('Búsqueda recibida:', keyword); // Debug
-    if (keyword.length >= 2 || keyword.length === 0) {
-      this.currentPage = 0; // Reinicia la página a la primera
-      this.getPacientes(this.currentPage, this.itemsPerPage, keyword);
-    }
+    this.currentPage = 0;
+    this.getPacientes(this.currentPage, this.itemsPerPage, keyword);
   }
   //filtar datos
 }

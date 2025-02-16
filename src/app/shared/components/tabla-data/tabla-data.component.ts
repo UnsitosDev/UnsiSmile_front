@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tabla-data',
@@ -10,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './tabla-data.component.html',
   styleUrls: ['./tabla-data.component.scss']
 })
-export class TablaDataComponent {
+export class TablaDataComponent implements OnInit, OnDestroy {
   title = '';
   columnas: string[] = [];
   dataSource: any[] = [];
@@ -18,8 +20,11 @@ export class TablaDataComponent {
   paginatedData: any[] = [];
   page = 1;
   itemsPerPage = 10;
-  pageSizes = [10, 20, 20, 50];
+  pageSizes = [10, 20, 30, 50];
   searchText = '';
+
+  private searchSubject = new Subject<string>();
+  private searchSubscription!: Subscription;
 
   @Input() set titulo(title: any) {
     this.title = title;
@@ -41,7 +46,24 @@ export class TablaDataComponent {
 
   @Output() searchChange: EventEmitter<string> = new EventEmitter();
 
+  ngOnInit() {
+    this.setupSearchDebounce();
+  }
 
+  ngOnDestroy() {
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+  }
+
+  private setupSearchDebounce() {
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(500), // Espera 500ms después de la última entrada
+      distinctUntilChanged() 
+    ).subscribe(searchValue => {
+      this.searchChange.emit(searchValue);
+    });
+  }
 
   onAction(accion: string, row?: any) {
     this.action.emit({ accion: accion, fila: row });
@@ -67,10 +89,7 @@ export class TablaDataComponent {
   }
 
   filterData() {
-    if (this.searchText.length >= 2 || this.searchText.length === 0) {
-      console.log('Texto de búsqueda:', this.searchText); // Debug
-      this.searchChange.emit(this.searchText);
-    }
+    this.searchSubject.next(this.searchText);
   }
 
   // Método para exportar los datos filtrados y paginados a Excel
