@@ -6,7 +6,7 @@
         alt="Foto de perfil">
     </div>
     <h2 class="profile-name">{{user.person.firstName}} {{user.person.firstLastName}}</h2>
-    <p class="profile-role">Estudiante</p>
+    <p class="profile-role">Usuario</p>
     <label class="btn btn-primary">
       Cambiar foto
       <input type="file" (change)="subirFoto($event)" accept="image/*" style="display: none;">
@@ -27,9 +27,14 @@
 
     <div class="tab-content">
       @switch (activeTab()) {
+        
         @case (0) {
           <!-- Overview -->
           <div class="overview-section">
+            <div class="welcome-message">
+              <h2>¡Bienvenido, {{user.person.firstName}}!</h2>
+              <p>Gestiona tu información personal y configuración desde este panel.</p>
+            </div>
             <div class="overview-grid">
               <div class="overview-card">
                 <div class="overview-icon">
