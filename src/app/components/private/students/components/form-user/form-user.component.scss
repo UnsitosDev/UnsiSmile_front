@@ -43,7 +43,6 @@
   margin: 1rem auto; // Reducido de 2rem a 1rem
   width: calc(100% - 2rem); // Ajuste para márgenes laterales
   max-width: 1000px; // Reducido de 1200px a 1000px
-  box-shadow: 0 2px 8px rgba(218, 208, 208, 0.1);
 
   @media (max-width: 992px) {
       grid-template-columns: 1fr;
@@ -64,17 +63,17 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
   .profile-name {
-      color: var(--on-surface);
+      color: var(--on-secondary);
   }
 
   .profile-role {
-      color: var(--on-surface-variant);
+      color: var(--on-secondary);
       opacity: 0.8;
       text-align: center;
   }
 
   .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, #1a4b8c 100%);
+      background: var(--tertiary);
       color: white;
       border: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -181,7 +180,7 @@
         left: 0;
         width: 100%;
         height: 3px;
-        background: linear-gradient(90deg, var(--primary) 0%, #1a4b8c 100%);
+        background: var(--tertiary);
         transform: scaleX(0);
         transition: transform 0.3s ease;
       }
@@ -193,7 +192,7 @@
 
       &:hover:not(.active) {
           color: var(--text);
-          background-color: rgba(135, 138, 145, 0.08);
+          background-color: rgba(255, 255, 255, 0.08);
           border-radius: 0.5rem 0.5rem 0 0;
       }
   }
@@ -315,7 +314,8 @@
 // <div class="overview-card">
 .overview-card {
   background-color: var(--secondary);
-  border: none;
+  border: 3px; // Cambiado a borde negro
+  border-color: var(--tertiary);
   background: var(--secondary);
   backdrop-filter: blur(10px);
   border-radius: 1rem;
@@ -324,11 +324,14 @@
   gap: 1.5rem; // Aumentado el espacio entre icono y contenido
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  border-width: 1px; // Mantiene el grosor del borde al hacer hover
+
 
   &:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
-      border-color: var(--primary);
+      border-color: var(--on-secondary);
+      border-width: 1px; // Mantiene el grosor del borde al hacer hover
   }
 
   @media (max-width: 576px) {
@@ -349,6 +352,7 @@
         margin-bottom: 0.5rem;
         font-size: 0.9rem;
         line-height: 1.4;
+        color: var(--text);
       }
     }
   }
@@ -361,7 +365,7 @@
 }
 
 .overview-icon {
-  background: linear-gradient(135deg, var(--primary) 0%, #1a4b8c 100%);
+  background: var(--tertiary);
   color: white;
   width: 48px; // Reducido de 56px a 48px
   height: 48px; // Reducido de 56px a 48px
@@ -392,14 +396,14 @@
   flex: 1;
 
   h3 {
-      color: var(--on-surface);
+      color: var(--text);
       font-size: 1.1rem;
       margin-bottom: 0.75rem;
       font-weight: 600;
   }
 
   p {
-      color: var(--on-surface-variant);
+      color: var(--text);
       margin-bottom: 0.5rem;
       font-size: 0.9rem;
 
@@ -461,7 +465,7 @@
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: var(--on-surface);
+  color: var(--text);
   font-weight: 500;
 }
 
@@ -558,7 +562,7 @@
   h3 {
     margin: 0;
     font-size: 1.5rem;
-    color: var(--on-surface);
+    color: var(--text);
   }
 
   @media (max-width: 576px) {
@@ -615,8 +619,8 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary) 0%, #1a4b8c 100%);
-  color: var(--on-primary);
+  background: var(--tertiary);
+  color: var(--side-text);
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -727,7 +731,7 @@
 }
 
 .btn-warning {
-  background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+  background: var(--on-tertiary);
   color: white;
 }
 
