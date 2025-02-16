@@ -19,13 +19,18 @@ import { Validators } from '@angular/forms';
 
 
 import { MatStepperModule } from '@angular/material/stepper';
-import { AlertModel } from '@mean/models';
+import { AlertModel, StudentItems } from '@mean/models';
 import { PatientService } from 'src/app/services/patient/patient.service';
 import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmLeaveComponent } from '../dialog-confirm-leave/dialog-confirm-leave.component';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 
 @Component({
@@ -44,6 +49,8 @@ import { Router } from '@angular/router';
 export class FormPatientPersonalDataComponent {
   private apiService = inject(ApiService<religionRequest>);
   private patientService = inject(PatientService);
+  private toastr = inject(ToastrService);
+  readonly dialog = inject(MatDialog);
   minorPatient: boolean = false;
 
   formGroup!: FormGroup;
@@ -52,6 +59,14 @@ export class FormPatientPersonalDataComponent {
   other: FormField[] = [];
   guardian: FormField[] = [];
   private currentPage: number = 0;
+  // Variables para navegación
+  private navigationSubscription!: Subscription;
+  private navigationTarget: string = '';
+  private navigationInProgress: boolean = false;
+  private isNavigationPrevented: boolean = true;
+  private navigationComplete: boolean = false;
+  private additionalRoutes = ['/students/user'];
+  private route = inject(Router);
 
   constructor(
     private fb: FormBuilder,
@@ -77,6 +92,61 @@ export class FormPatientPersonalDataComponent {
         this.fb.control(field.value || '', field.validators || [])
       );
     });
+
+    // Combina las rutas de StudentItems y las adicionales
+    const allRoutes = [
+      ...StudentItems.map(item => item.routerlink),
+      ...this.additionalRoutes
+    ];
+
+    // Interceptamos la navegación antes de que se realice
+    this.navigationSubscription = this.route.events.subscribe((event) => {
+      if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
+        const targetUrl = event.url;
+
+        // Verifica si la ruta es una de las que queremos prevenir
+        if (allRoutes.includes(targetUrl)) {
+          this.navigationTarget = targetUrl;
+
+          // Detiene la navegación y mostramos el diálogo
+          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_CREATE_PATIENT);
+        }
+      }
+    });
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
+    // Inicialmente, mantenemos al usuario en la misma página si no se ha aceptado la navegación
+    if (this.isNavigationPrevented) {
+      // Mantiene al usuario en el componente StudentsGeneralHistoryComponent
+      this.route.navigateByUrl(this.route.url);
+    }
+
+    const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
+      width: '400px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { message }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.navigationInProgress = false; // Restablecemos la variable cuando el diálogo se cierra
+      if (result) {
+        // Desactivamos la prevención de la navegación después de aceptar
+        this.isNavigationPrevented = false;
+        // Marca que la navegación se completó
+        this.navigationComplete = true;
+        setTimeout(() => {
+          this.route.navigateByUrl(this.navigationTarget); // Navegar a la ruta almacenada
+        }, 0);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
   }
 
   onFieldValueChange(event: any) {
@@ -99,7 +169,7 @@ export class FormPatientPersonalDataComponent {
         this.formGroup.get('localityName')?.setValue(response[0].name);
         this.formGroup.get('municipalityName')?.setValue(response[0].municipality.name);
         this.formGroup.get('stateName')?.setValue(response[0].municipality.state.name);
-        
+
         // Guardar los ids
         this.localityId = response[0].idLocality;
         this.municipalityNameId = response[0].municipality.idMunicipality;
@@ -183,7 +253,7 @@ export class FormPatientPersonalDataComponent {
           lastName: formValues.lastGuardianName,
           phone: formValues.phoneGuardian,
           email: formValues.emailGuardian
-        } : null  
+        } : null
       };
 
 
@@ -197,39 +267,21 @@ export class FormPatientPersonalDataComponent {
         })
         .subscribe({
           next: (response) => {
+            this.isNavigationPrevented = false;
+            this.navigationComplete = true;
             this.router.navigate(['/students/patients']);
-            this.alertConfiguration('SUCCESS', "Se ha insertado correctamente el usuario.");
-            this.openAlert();
+            this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
           },
           error: (error) => {
-            console.error('Error en la autenticación:', error);
-            this.alertConfiguration('ERROR', error);
-            this.openAlert();
+            this.toastr.error(error, 'Error');
           },
         });
     } else {
-      this.alertMessage = 'Por favor, completa todos los campos correctamente.';
-      this.showAlert = true;
+      this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
   }
 
-  public alertConfiguration(severity: 'ERROR' | 'SUCCESS', msg: string) {
-    this.alertConfig.severity = AlertModel.AlertSeverity[severity];
-    this.alertConfig.singleMessage = msg;
-  }
-  alertConfig = new AlertModel.AlertaClass(
-    false,
-    'Ha ocurrido un error',
-    AlertModel.AlertSeverity.ERROR
-  );
 
-  public openAlert() {
-    this.alertConfig.open = true;
-  }
-
-  public closeAlert() {
-    this.alertConfig.open = false;
-  }
 
   onScroll(event: any): void {
     const element = event.target;

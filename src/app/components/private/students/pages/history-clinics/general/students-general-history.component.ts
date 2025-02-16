@@ -1,32 +1,33 @@
-import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatCardModule } from '@angular/material/card';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTabsModule } from '@angular/material/tabs';
-import { TabViewModule } from 'primeng/tabview';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { TabViewModule } from 'primeng/tabview';
 
 // Componentes
-import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
+import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
+import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
 
 // Servicios
 import { ApiService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
-import { Patient } from 'src/app/models/shared/patients/patient/patient';
+import { StudentItems } from '@mean/models';
+import { UriConstants, Constants } from '@mean/utils';
+import { Subscription } from 'rxjs';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
-import { UriConstants } from '@mean/utils';
 import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
-import { Subscription } from 'rxjs';
-import { StudentItems } from '@mean/models';
-
+import { ToastrService } from 'ngx-toastr';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 @Component({
   selector: 'app-students-general-history',
@@ -34,16 +35,17 @@ import { StudentItems } from '@mean/models';
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
   imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent],
-
 })
 
 export class StudentsGeneralHistoryComponent implements OnInit {
   @Input() idPatient: number = 0;
+  @Output() tabChange = new EventEmitter<{ firstLabel: string, previousLabel: string }>();
   private router = inject(ActivatedRoute);
   private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
   readonly dialog = inject(MatDialog);
+  private toastr = inject(ToastrService);
   public id!: number;
   public idpatient!: string;
   public year?: number;
@@ -54,10 +56,13 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public data!: dataTabs;
   public patientData!: cardPatient;
   public guardianData: cardGuardian | null = null;
-  public currentIndex: number = 0; // Índice del tab activo
+  currentIndex = 0;
+  previousIndex = -1;  // Inicializa un índice anterior fuera de rango
+  isFormValid: boolean = true;
+  // Inicializa un índice anterior fuera de rango.
   public mappedHistoryData!: dataTabs;
-  patientID: number = 0;    // Variable para el parámetro 'patientID'
-  private idPatientClinicalHistory!: number;
+  patientID: string = "";    // Variable para el parámetro 'patientID'
+  public idPatientClinicalHistory!: number;
   // Variables para navegación
   private navigationSubscription!: Subscription;
   private navigationTarget: string = ''; // Ruta de navegación cancelada
@@ -65,6 +70,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private isNavigationPrevented: boolean = true; // Variable para evitar navegación inicialmente
   private navigationComplete: boolean = false; // Flag para manejar la navegación completada
   private additionalRoutes = ['/students/user'];
+  firstLabel: string = '';
+  previousLabel: string = '';
 
   constructor() { }
 
@@ -86,7 +93,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       ...StudentItems.map(item => item.routerlink),
       ...this.additionalRoutes
     ];
-    
+
     // Interceptamos la navegación antes de que se realice
     this.navigationSubscription = this.route.events.subscribe((event) => {
       if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
@@ -97,13 +104,13 @@ export class StudentsGeneralHistoryComponent implements OnInit {
           this.navigationTarget = targetUrl;
 
           // Detiene la navegación y mostramos el diálogo
-          this.openDialog('300ms', '200ms');
+          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_GENERAL);
         }
       }
     });
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
     // Inicialmente, mantenemos al usuario en la misma página si no se ha aceptado la navegación
     if (this.isNavigationPrevented) {
       // Mantiene al usuario en el componente StudentsGeneralHistoryComponent
@@ -114,6 +121,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       width: '400px',
       enterAnimationDuration,
       exitAnimationDuration,
+      data: { message }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -200,7 +208,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     const [year, month, day] = dateArray;
     return `${day}/${month}/${year}`;
   }
-
+  
   onNextTab(): void {
     this.currentIndex++; // Incrementar el índice del tab activo
     if (this.currentIndex >= this.mappedHistoryData.tabs.length) {

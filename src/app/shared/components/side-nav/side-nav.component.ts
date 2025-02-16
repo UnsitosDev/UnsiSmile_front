@@ -4,11 +4,17 @@ import { StudentItems, AdminItems, MenuItem } from '@mean/models';
 import {
   studentResponse,
   studentUserResponse,
-} from '../interfaces/student/student';
+} from '../../interfaces/student/student';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
 import { RouterModule } from '@angular/router'; 
+import { AuthService } from '@mean/services';
+import { SessionStorageConstants } from 'src/app/utils/session.storage';
+import { Router, RouterLinkActive } from '@angular/router';
+
+
+
 
 @Component({
   selector: 'app-side-nav',
@@ -22,6 +28,12 @@ export class SideNavComponent implements OnInit {
   public menuItems: MenuItem[] = [];
   private userService = inject(ApiService<studentResponse, {}>);
   user!: studentUserResponse | AdminResponse;
+
+  constructor(
+      private authService: AuthService,
+      private router: Router,
+
+    ) {}
 
   @Input() isSidebarOpen = false;
 
@@ -54,4 +66,12 @@ export class SideNavComponent implements OnInit {
       this.userLink = '/admin/user';  
     }
   }
+  
+    logout(): void {
+      const token = this.authService.getToken();
+      if (token) {
+        sessionStorage.removeItem(SessionStorageConstants.USER_TOKEN);
+      }
+      this.router.navigate(['/']);
+    }
 }

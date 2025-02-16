@@ -1,15 +1,30 @@
-import { Component, inject, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { formSectionFields, subSeccion } from 'src/app/models/form-fields/form-field.interface';
-import { FieldComponentComponent } from "../field-component/field-component.component";
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { StudentsOdontogramComponent } from "../../../components/private/students/components/odontogram/students-odontogram.component";
-import { ActivatedRoute } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { FieldNames } from 'src/app/models/form-fields/form-utils';
-import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
+import {
+  formSectionFields,
+  subSeccion,
+} from 'src/app/models/form-fields/form-field.interface';
+import { FieldComponentComponent } from '../field-component/field-component.component';
+import { ToastrService } from 'ngx-toastr';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 interface updateFormData {
   idPatientClinicalHistory: number;
@@ -19,15 +34,21 @@ interface updateFormData {
   answerText: string | null;
   answerDate: string | null;
   idCatalogOption: any;
-  idAnswer: number
+  idAnswer: number;
 }
 
 @Component({
   selector: 'app-tab-form-update',
   standalone: true,
-  imports: [FieldComponentComponent, FormsModule, ReactiveFormsModule, MatCardModule, StudentsOdontogramComponent, MatButtonModule],
+  imports: [
+    FieldComponentComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatButtonModule,
+  ],
   templateUrl: './tab-form-update.component.html',
-  styleUrl: './tab-form-update.component.scss'
+  styleUrl: './tab-form-update.component.scss',
 })
 export class TabFormUpdateComponent {
   @Input() fieldsTab!: formSectionFields;
@@ -39,14 +60,15 @@ export class TabFormUpdateComponent {
   route = inject(ActivatedRoute);
   apiService = inject(ApiService);
   private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
+  private toastr = inject(ToastrService);
   formGroup!: FormGroup;
-  id: number = 0;           // Variable para el parámetro 'id'
-  patientID: number = 0;    // Variable para el parámetro 'patientID'
+  id: number = 0; // Variable para el parámetro 'id'
+  patientID: number = 0; // Variable para el parámetro 'patientID'
   patientUuid!: string;
 
   ngOnInit(): void {
     this.section();
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.id = +params.get('id')!;
       this.patientID = +params.get('patientID')!;
       this.patientUuid = params.get('patient')!;
@@ -61,12 +83,15 @@ export class TabFormUpdateComponent {
     // Procesamos la sección principal (campos raíz de la estructura)
     if (this.fieldsTab?.seccion) {
       // Ordenamos los campos de la sección principal según la propiedad 'order'
-      const sortedSections = this.fieldsTab.seccion.sort((a, b) => (a.order! - b.order!));
+      const sortedSections = this.fieldsTab.seccion.sort(
+        (a, b) => a.order! - b.order!
+      );
       // Iteramos sobre los campos ordenados y los agregamos al formGroup
-      sortedSections.forEach(sectionField => {
+      sortedSections.forEach((sectionField) => {
         this.formGroup.addControl(
           sectionField.name,
-          this.fb.control(sectionField.value || '', // Valor inicial del control (vacío si no está definido)
+          this.fb.control(
+            sectionField.value || '', // Valor inicial del control (vacío si no está definido)
             sectionField.validators || [] // Validaciones asociadas al campo
           )
         );
@@ -76,19 +101,24 @@ export class TabFormUpdateComponent {
     // Procesamos las subsecciones definidas en 'childFormSection', si existen
     if (this.fieldsTab?.childFormSection) {
       // Ordenamos las subsecciones según la propiedad 'order'
-      const sortedChildSections = this.fieldsTab.childFormSection.sort((a, b) => (a.order! - b.order!));
+      const sortedChildSections = this.fieldsTab.childFormSection.sort(
+        (a, b) => a.order! - b.order!
+      );
       // Iteramos sobre cada subsección ordenada
-      sortedChildSections.forEach(childSection => {
+      sortedChildSections.forEach((childSection) => {
         // Verificamos si la subsección tiene preguntas asociadas
         if (childSection.questions) {
           // Ordenamos las preguntas dentro de la subsección según la propiedad 'order'
-          const sortedQuestions = childSection.questions.sort((a, b) => (a.order! - b.order!));
+          const sortedQuestions = childSection.questions.sort(
+            (a, b) => a.order! - b.order!
+          );
           // Iteramos sobre las preguntas ordenadas y las agregamos al formGroup
-          sortedQuestions.forEach(questionField => {
+          sortedQuestions.forEach((questionField) => {
             // Agregamos los controles de las preguntas al formulario
             this.formGroup.addControl(
-              questionField.name,// Nombre del control, único por cada pregunta
-              this.fb.control(questionField.value || '',// Valor inicial de la pregunta (vacío si no está definido)
+              questionField.name, // Nombre del control, único por cada pregunta
+              this.fb.control(
+                questionField.value || '', // Valor inicial de la pregunta (vacío si no está definido)
                 questionField.validators || [] // Validaciones asociadas a la pregunta
               )
             );
@@ -100,8 +130,8 @@ export class TabFormUpdateComponent {
 
   idQuestion!: number;
   idAnswer!: number;
-  questionIDs: { [key: string]: number } = {};  // Definimos questionIDs como un objeto que almacena questionID
-  idAnswers: { [key: string]: number } = {};  // Definimos idAnswers como un objeto que almacena idAnswer
+  questionIDs: { [key: string]: number } = {}; // Definimos questionIDs como un objeto que almacena questionID
+  idAnswers: { [key: string]: number } = {}; // Definimos idAnswers como un objeto que almacena idAnswer
 
   handleFieldValue(event: any) {
     this.idQuestion = event.questionID;
@@ -115,7 +145,11 @@ export class TabFormUpdateComponent {
   files: FileList | null = null; // Almacena el FileList
 
   // Método para manejar el valor del archivo
-  handleFileValue(event: { value: FileList; questionID: number; type: string }) {
+  handleFileValue(event: {
+    value: FileList;
+    questionID: number;
+    type: string;
+  }) {
     this.idQuestion = event.questionID; // Obtener el ID de la pregunta
     this.files = event.value; // Almacenar el FileList
 
@@ -129,12 +163,10 @@ export class TabFormUpdateComponent {
     }
   }
 
-  // Función para enviar archivos
   handleSubmission() {
-    const hasFiles = this.files && this.files.length > 0; 
+    const hasFiles = this.files && this.files.length > 0;
     if (hasFiles) {
       this.sendFiles();
-      
     }
     this.postHcData();
   }
@@ -152,6 +184,7 @@ export class TabFormUpdateComponent {
     formData.append('idPatient', this.patientUuid);
     formData.append('idQuestion', this.idQuestion.toString());
 
+
     this.apiService
       .postService({
         headers: new HttpHeaders({
@@ -162,6 +195,7 @@ export class TabFormUpdateComponent {
       .subscribe({
         next: (response) => {
           this.nextMatTab.emit();
+          this.toastr.success(Messages.SUCCESS_DATA_UPDATED);
         },
         error: (error) => {
           console.log('Error al guardar archivos: ', error);
@@ -195,24 +229,32 @@ export class TabFormUpdateComponent {
         updateData.push(update);
       }
     });
-    
-    this.apiService
-      .patchService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_SECTION_FORM}`,
-        data: updateData,
-      })
-      .subscribe({
-        next: (response) => {
-          updateData.length = 0
-          this.nextMatTab.emit();
-        },
-        error: (error) => {
-          console.log('Error al guardar datos: ', error);
-        },
-      });
+
+    if (updateData.length > 0) {
+      this.apiService
+        .patchService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.POST_SECTION_FORM}`,
+          data: updateData,
+        })
+        .subscribe({
+          next: (response) => {
+            updateData.length = 0
+            this.toastr.success(Messages.SUCCESS_DATA_UPDATED);
+            this.nextMatTab.emit();
+          },
+          error: (error) => {
+            console.log('Error al guardar datos: ', error);
+          },
+        });
+    } else {
+      const hasFiles = this.files && this.files.length > 0;
+      if (!hasFiles) {
+        this.toastr.warning(Messages.WARNING_NO_DATA_TO_UPDATE);
+      }
+    }
   }
 
   previousTab() {

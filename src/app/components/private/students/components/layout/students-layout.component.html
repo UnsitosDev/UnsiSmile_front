@@ -2,7 +2,7 @@
 <div class="flex h-screen bg-gray-100 overflow-hidden">
     <app-side-nav [isSidebarOpen]="isSidebarOpen"></app-side-nav>
     <!-- Main content -->
-    <div class="content flex flex-col flex-1">
+    <div class="content flex flex-col flex-1" [class.sidebar-open]="isSidebarOpen" [class.sidebar-closed]="!isSidebarOpen">
       <div class="sticky-header">
         <app-header (closeSidebar)="onSidebarToggle()"></app-header>
       </div>
@@ -10,4 +10,5 @@
         <router-outlet></router-outlet>
       </div>
     </div>
+    
 </div>

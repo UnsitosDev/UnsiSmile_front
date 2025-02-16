@@ -1,7 +1,7 @@
 
 button{
-    background-color: #07437a !important;
-    color: white !important;
+    background-color: var(--tertiary);
+    color: white ;
 }
 
 .button-container {
@@ -16,8 +16,9 @@ button{
   margin: 0 5px; /* Espacio entre los botones */
 }
 
-::ng-deep .mat-mdc-card-title {
-  background-color: #07437a; /* Cambia este color al que desees */
+
+.mat-mdc-card-title {
+  background-color: var(--tertiary); /* Cambia este color al que desees */
   padding: 8px; /* Agrega un poco de padding si lo deseas */
   border-radius: 2px; /* Opcional: agrega bordes redondeados */
   color: white;

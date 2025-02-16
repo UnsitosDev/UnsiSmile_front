@@ -1,4 +1,3 @@
-
 <div class="flex justify-end">
     <button class="mr-10" mat-flat-button color="primary" routerLink="/admin/addStudient">
         <i class="fas fa-user-plus"></i>  
@@ -7,8 +6,10 @@
 </div>
 
 <app-tabla-data
-[title]="title"
-[columns]="columns"
-[data]="studentsList" 
-(action)="onAction($event)">
+  [title]="title"
+  [columns]="columns"
+  [data]="studentsList"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (action)="onAction($event)"
+  (searchChange)="onSearch($event)">
 </app-tabla-data>
