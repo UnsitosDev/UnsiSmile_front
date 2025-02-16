@@ -70,23 +70,46 @@
         @case (1) {
           <!-- Datos personales -->
           <form (ngSubmit)="actualizarDatosUsuario()" class="form">
+            <div class="form-header">
+              <h3>Datos Personales</h3>
+              <button type="button" class="btn" [class.btn-primary]="!modoEdicion()" [class.btn-warning]="modoEdicion()" (click)="toggleEdicion()">
+                <i class="fas" [class.fa-edit]="!modoEdicion()" [class.fa-times]="modoEdicion()"></i>
+                {{ modoEdicion() ? 'Cancelar Edición' : 'Editar Datos' }}
+              </button>
+            </div>
             <div class="form-group">
               <label for="nombre">Nombre</label>
-              <input id="nombre" type="text" name="nombre" [(ngModel)]="user.person.firstName" class="form-control">
+              <input id="nombre" type="text" name="nombre" 
+                [(ngModel)]="user.person.firstName" 
+                class="form-control" 
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
             </div>
             <div class="form-group">
               <label for="apellido">Apellido</label>
-              <input id="apellido" type="text" name="apellido" [(ngModel)]="user.person.firstLastName" class="form-control">
+              <input id="apellido" type="text" name="apellido" 
+                [(ngModel)]="user.person.firstLastName" 
+                class="form-control"
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input id="email" type="email" name="email" [(ngModel)]="user.person.email" class="form-control">
+              <input id="email" type="email" name="email" 
+                [(ngModel)]="user.person.email" 
+                class="form-control"
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
             </div>
             <div class="form-group">
               <label for="telefono">Teléfono</label>
-              <input id="telefono" type="tel" name="telefono" [(ngModel)]="user.person.phone" class="form-control">
+              <input id="telefono" type="tel" name="telefono" 
+                [(ngModel)]="user.person.phone" 
+                class="form-control"
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
             </div>
-            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <button type="submit" class="btn btn-primary" [hidden]="!modoEdicion()">Guardar cambios</button>
           </form>
         }
         @case (2) {
@@ -101,15 +124,33 @@
           <form (ngSubmit)="actualizarContrasena()" class="form">
             <div class="form-group">
               <label for="contrasenaActual">Contraseña Actual</label>
-              <input id="contrasenaActual" type="password" name="contrasenaActual" [(ngModel)]="contrasenaActual" class="form-control">
+              <div class="password-field">
+                <input id="contrasenaActual" [type]="mostrarContrasenaActual() ? 'text' : 'password'" 
+                  name="contrasenaActual" [(ngModel)]="contrasenaActual" class="form-control">
+                <button type="button" class="toggle-password" (click)="mostrarContrasenaActual.set(!mostrarContrasenaActual())">
+                  <i class="fas" [class.fa-eye]="!mostrarContrasenaActual()" [class.fa-eye-slash]="mostrarContrasenaActual()"></i>
+                </button>
+              </div>
             </div>
             <div class="form-group">
               <label for="nuevaContrasena">Nueva Contraseña</label>
-              <input id="nuevaContrasena" type="password" name="nuevaContrasena" [(ngModel)]="nuevaContrasena" class="form-control">
+              <div class="password-field">
+                <input id="nuevaContrasena" [type]="mostrarNuevaContrasena() ? 'text' : 'password'" 
+                  name="nuevaContrasena" [(ngModel)]="nuevaContrasena" class="form-control">
+                <button type="button" class="toggle-password" (click)="mostrarNuevaContrasena.set(!mostrarNuevaContrasena())">
+                  <i class="fas" [class.fa-eye]="!mostrarNuevaContrasena()" [class.fa-eye-slash]="mostrarNuevaContrasena()"></i>
+                </button>
+              </div>
             </div>
             <div class="form-group">
               <label for="confirmarContrasena">Confirmar Contraseña</label>
-              <input id="confirmarContrasena" type="password" name="confirmarContrasena" [(ngModel)]="confirmarContrasena" class="form-control">
+              <div class="password-field">
+                <input id="confirmarContrasena" [type]="mostrarConfirmarContrasena() ? 'text' : 'password'" 
+                  name="confirmarContrasena" [(ngModel)]="confirmarContrasena" class="form-control">
+                <button type="button" class="toggle-password" (click)="mostrarConfirmarContrasena.set(!mostrarConfirmarContrasena())">
+                  <i class="fas" [class.fa-eye]="!mostrarConfirmarContrasena()" [class.fa-eye-slash]="mostrarConfirmarContrasena()"></i>
+                </button>
+              </div>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar Contraseña</button>
           </form>

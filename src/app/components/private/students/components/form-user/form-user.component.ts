@@ -27,6 +27,10 @@ export class FormUserComponent {
   user!: studentUserResponse | AdminResponse;
   successMessage = signal<string | null>(null);
   private toastr=inject (ToastrService);
+  mostrarContrasenaActual = signal(false);
+  mostrarNuevaContrasena = signal(false);
+  mostrarConfirmarContrasena = signal(false);
+  modoEdicion = signal(false);
   
 
   ngOnInit() {
@@ -101,6 +105,18 @@ export class FormUserComponent {
       });
   }
 
+  toggleEdicion() {
+    if (this.modoEdicion()) {
+      // Si estamos saliendo del modo edición, preguntamos si quiere guardar
+      if (confirm('¿Desea guardar los cambios?')) {
+        this.actualizarDatosUsuario();
+      } else {
+        // Si no quiere guardar, revertimos los cambios
+        this.fetchUserData();
+      }
+    }
+    this.modoEdicion.set(!this.modoEdicion());
+  }
 
 }
 
