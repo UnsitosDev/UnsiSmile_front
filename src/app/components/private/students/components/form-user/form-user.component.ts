@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class FormUserComponent {
   private userService = inject(ApiService<studentResponse, {}>);
-  tabs = ['Overview', 'Editar Datos', 'Configuración', 'Cambiar Contraseña'];
+  tabs = ['Overview', 'Editar Datos', 'Cambiar Contraseña'];
   activeTab = signal(0);
   nombre = signal('');
   email = signal('');

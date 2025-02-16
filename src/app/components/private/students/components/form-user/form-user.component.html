@@ -42,28 +42,6 @@
                   <p><strong>Teléfono:</strong> {{user.person.phone}}</p>
                 </div>
               </div>
-
-              <div class="overview-card">
-                <div class="overview-icon">
-                  <i class="fas fa-calendar"></i>
-                </div>
-                <div class="overview-info">
-                  <h3>Actividad Reciente</h3>
-                  <p>Último inicio de sesión: Hoy</p>
-                  <p>Última actualización: Hace 2 días</p>
-                </div>
-              </div>
-
-              <div class="overview-card">
-                <div class="overview-icon">
-                  <i class="fas fa-bell"></i>
-                </div>
-                <div class="overview-info">
-                  <h3>Notificaciones</h3>
-                  <p>3 mensajes sin leer</p>
-                  <p>2 actualizaciones pendientes</p>
-                </div>
-              </div>
             </div>
           </div>
         }
@@ -112,14 +90,8 @@
             <button type="submit" class="btn btn-primary" [hidden]="!modoEdicion()">Guardar cambios</button>
           </form>
         }
+        
         @case (2) {
-          <!-- Configuración -->
-          <div class="settings-section">
-            <h3>Preferencias de notificaciones</h3>
-            <!-- Agregar configuraciones adicionales aquí -->
-          </div>
-        }
-        @case (3) {
           <!-- Cambiar contraseña -->
           <form (ngSubmit)="actualizarContrasena()" class="form">
             <div class="form-group">
