@@ -14,7 +14,7 @@ import { StudentsToolbarComponent } from './../toolbar-odontogram/students-toolb
 import { StudentsToothComponent } from './../tooth/students-tooth.component';
 
 import { ApiService, OdontogramData, store } from '@mean/services';
-import { ToothConditionsConstants } from '@mean/utils';
+import { Constants, ToothConditionsConstants } from '@mean/utils';
 
 import { HttpHeaders } from '@angular/common/http';
 import {
@@ -54,7 +54,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   @Input({ required: true }) idQuestion!: number;
   @Input({ required: true }) idClinicalHistoryPatient!: number;
   @Input({ required: true }) idFormSection!: number;
-  @Input({ required: true }) state!: 'create' | 'update' | 'read';
+  @Input({ required: true }) state!: 'create' | 'update' | 'read' | 'read-latest';
   private toastr = inject(ToastrService);
 
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
@@ -71,6 +71,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
 
   currentOdontogramId!: number;
   isEditing = false;
+  renderOdontogram = false;
 
   data: IOdontogramHandler = store;
   odontogram: IOdontogram = { teeth: [] };
@@ -91,22 +92,58 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         this.initializeNewOdontogram();
         break;
       case 'update':
-        this.loadExistingOdontogram();
+        this.loadExistingOdontogramByIdForm();
         break;
       case 'read':
         this.loadExistingOdontogram();
         break;
+      case 'read-latest':
+        this.loadLatestExistingOdontogram();
+        break;
     }
+  }
+  loadLatestExistingOdontogram() {
+    this.odontogramService
+    .getService({
+      url: `${UriConstants.GET_LAST_ODONTOGRAM_BY_PATIENT}/${this.patientId}`,
+    })
+    .subscribe({
+      next: (response) => {
+        this.data = this.mapResponseToOdontogram(response);
+        this.renderOdontogram = true;
+      },
+      error: (error) => {
+        this.renderOdontogram = false;
+      },
+    });
+  }
+
+  loadExistingOdontogramByIdForm() {
+    //obtener el odontograma por idFormSection y por idPatientClinicalHistory
+    this.odontogramService
+      .getService({
+        url: `${UriConstants.GET_ODONTOGRAM_BY_FORM_ID}/${this.idFormSection}/${this.patientId}`,
+      })
+      .subscribe({
+        next: (response) => {
+          this.data = this.mapResponseToOdontogram(response);
+          this.renderOdontogram = true;
+        },
+        error: (error) => {},
+      });
+
   }
 
   private initializeNewOdontogram(): void {
     //limpiar odontograma existente
+    this.renderOdontogram = true;
     this.clearToothConditions(this.data.adultArcade.teeth);
     this.clearToothConditions(this.data.childrenArcade.teeth);
   }
 
   private clearToothConditions(teeth: ITooth[]): void {
     teeth.forEach((tooth) => {
+      tooth.status = true;
       tooth.conditions = [];
       tooth.faces.forEach((face) => {
         face.conditions = [];
@@ -122,6 +159,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       .subscribe({
         next: (response) => {
           this.data = this.mapResponseToOdontogram(response);
+          this.renderOdontogram = true;
         },
         error: (error) => {},
       });
@@ -131,15 +169,6 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
     response: OdontogramResponse
   ): IOdontogramHandler {
     return mapOdontogramResponseToOdontogramData(response, this.data);
-  }
-
-  private mapTooth(toothData: any): ITooth {
-    return {
-      idTooth: toothData.idTooth,
-      conditions: toothData.conditions,
-      faces: toothData.faces,
-      status: true,
-    };
   }
 
   private loadConditions(): void {
@@ -171,14 +200,44 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       condition: event.condition,
       description: event.description,
     };
+    this.toastr.info(`${event.condition}`, 'Condición seleccionada:', {
+      timeOut: 1000,
+      positionClass: 'toast-bottom-right',
+      closeButton: false,
+      progressBar: true,
+      extendedTimeOut: 500,
+      tapToDismiss: true,
+      easeTime: 300,
+      newestOnTop: true
+    });
   }
 
   /**
    * Función para cambiar el estado de un diente (marcado/desmarcado).
    * @param data Información del diente.
    */
-  toggleTooth(data: any) {
+  toggleTooth(data: ITooth) {
     data.status = !data.status;
+    if(data.status){
+      this.removeConditionToTooth(data.idTooth, Constants.REMOVED_TOOTH_ID)
+    }else{
+      this.addConditionToTooth(data.idTooth, Constants.REMOVED_TOOTH_ID);
+    }
+  }
+
+  removeConditionToTooth(idTooth: number, idCondition: number): void {
+    const toothForPost = this.findOrCreateTooth(idTooth);
+    const toothForDisplay = this.findOrCreateTooth(idTooth, true);
+
+    // Remove condition from odontogram for POST
+    toothForPost.conditions = toothForPost.conditions.filter(
+      (condition) => condition.idCondition !== idCondition
+    );
+
+    // Remove condition from data for display
+    toothForDisplay.conditions = toothForDisplay.conditions.filter(
+      (condition) => condition.idCondition !== idCondition
+    );
   }
 
   setFace(event: ToothEvent): void {
@@ -351,16 +410,18 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   }
 
   store(): void {
-    if (this.state === 'create') {
-      this.storeOdontogram();
-    }
 
-    if (this.state === 'update') {
-      this.updateOdontogram();
-    }
-
-    if (this.state === 'read') {
-      this.nextMatTab.emit();
+    switch (this.state) {
+      case 'create':
+        this.storeOdontogram();
+        break;
+      case 'update':
+      case 'read-latest':
+        this.storeOdontogram();
+        break;
+      case 'read':
+        this.nextMatTab.emit();
+        break;
     }
   }
 

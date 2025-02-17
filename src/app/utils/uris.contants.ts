@@ -263,4 +263,7 @@ export class UriConstants {
   public static readonly GET_CURRENT_SEMESTER = basePath + '/semesters/current-semester'
   // Ciclos
   public static readonly GET_ALL_CYCLES = basePath + '/cycles'
+
+  //obtener un odontogram por id de formulario
+  public static readonly GET_ODONTOGRAM_BY_FORM_ID = basePath + '/medical-histories/odontograms'
 }

@@ -23,9 +23,9 @@
                               >
                               </app-students-odontogram>
                           }
-                          @if (tab.title === 'Odontograma final') {
+                          @if (tab.title === 'Odontograma final' && !tab.isAnswered) {
                               <app-students-odontogram
-                              [state]="'read'" 
+                              [state]="'read-latest'" 
                               [patientId]="idpatient"
                               [idClinicalHistoryPatient]=idPatientClinicalHistory
                               [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
@@ -35,6 +35,18 @@
                               >
                               </app-students-odontogram>
                           }
+                          @if (tab.title === 'Odontograma final' && tab.isAnswered) {
+                            <app-students-odontogram
+                            [state]="'read'" 
+                            [patientId]="idpatient"
+                            [idClinicalHistoryPatient]=idPatientClinicalHistory
+                            [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                            [idFormSection]=7
+                            (nextMatTab)="onNextTab()"
+                            (previousMatTab)="onPreviousTab()"
+                            >
+                            </app-students-odontogram>
+                        }
                           @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
                               <app-history-initial-bag></app-history-initial-bag>
                           }

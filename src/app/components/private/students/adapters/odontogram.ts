@@ -1,5 +1,6 @@
 import { Arcade } from './../../../../models/shared/odontogram/odontogram.model';
 import { OdontogramResponse } from '@mean/models';
+import { Constants } from '@mean/utils';
 import { IOdontogramHandler, ITooth, IFace, ICondition } from 'src/app/models/shared/odontogram/odontogram';
 
 // Map a odotogram response to a IOdontogramHandler
@@ -29,7 +30,8 @@ export function mapOdontogramResponseToOdontogramData(
     return teeth.map((tooth) => ({
       ...tooth,
       idTooth: Number(tooth.idTooth),
-      status: true,
+      //si existe una condicion con id 3, se marca como removido
+      status: tooth.conditions.find((cond: ICondition) => cond.idCondition === Constants.REMOVED_TOOTH_ID) ? false : true,
       conditions: mapConditions(tooth.conditions),
       faces: mapFaces(tooth.faces),
     }));
