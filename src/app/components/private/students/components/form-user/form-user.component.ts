@@ -6,17 +6,18 @@ import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { ToastrService } from 'ngx-toastr';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-form-user',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatCardModule],
   templateUrl: './form-user.component.html',
   styleUrl: './form-user.component.scss'
 })
 export class FormUserComponent {
   private userService = inject(ApiService<studentResponse, {}>);
-  tabs = ['Overview', 'Editar Datos', 'Cambiar Contraseña'];
+  tabs = ['Descripción General', 'Editar Datos', 'Cambiar Contraseña'];
   activeTab = signal(0);
   nombre = signal('');
   email = signal('');

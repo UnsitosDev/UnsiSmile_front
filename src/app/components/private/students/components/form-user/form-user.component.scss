@@ -623,6 +623,17 @@
   color: var(--side-text);
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+    
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
 }
 
 .btn-primary:hover {
@@ -756,3 +767,10 @@
   }
 }
 
+::ng-deep .mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: white;
+
+}

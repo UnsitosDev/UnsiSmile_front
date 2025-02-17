@@ -1,3 +1,6 @@
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Perfil de Usuario</strong></mat-card-title>
+</mat-card>
 <div class="profile-container">
   <!-- Sidebar con foto y nombre -->
   <div class="profile-sidebar">
@@ -7,9 +10,9 @@
     </div>
     <h2 class="profile-name">{{user.person.firstName}} {{user.person.firstLastName}}</h2>
     <p class="profile-role">Usuario</p>
-    <label class="btn btn-primary">
+    <label class="btn btn-primary" [class.disabled]="!modoEdicion()">
       Cambiar foto
-      <input type="file" (change)="subirFoto($event)" accept="image/*" style="display: none;">
+      <input type="file" (change)="subirFoto($event)" accept="image/*" style="display: none;" [disabled]="!modoEdicion()">
     </label>
   </div>
 
@@ -45,6 +48,8 @@
                   <p><strong>Nombre:</strong> {{user.person.firstName}} {{user.person.firstLastName}}</p>
                   <p><strong>Email:</strong> {{user.person.email}}</p>
                   <p><strong>Teléfono:</strong> {{user.person.phone}}</p>
+                  <p><strong>Género:</strong> {{user.person.gender.gender}}</p>
+                  <p><strong>Curp:</strong> {{user.person.curp}}</p>
                 </div>
               </div>
             </div>
