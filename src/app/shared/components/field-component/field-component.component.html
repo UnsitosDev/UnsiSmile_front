@@ -20,10 +20,9 @@
             <mat-label>Ampliar Respuesta</mat-label>
             <input 
               matInput 
-              [required]="!!field.required" 
-              [placeholder]="field.placeholder" 
-              [value]="field.answerField?.answerText" 
-              [formControlName]="field.name" 
+              [required]="isTextRequired"
+              [placeholder]="field.placeholder"
+              [value]="(field.answerField?.answerText == null || field.answerField?.answerText === '' ) ? '' : field.answerField?.answerText"
               (input)="onFieldChange('text', field.name, $event)" />
           </mat-form-field>
         </div>

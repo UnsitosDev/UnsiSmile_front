@@ -40,17 +40,15 @@ export class FieldComponentComponent implements OnChanges {
   @Output() setFileValue = new EventEmitter<any>();
   @Output() ageStatusChange = new EventEmitter<boolean>(); 
   apiService = inject(ApiService);
-
-
-  isChecked: boolean = false;
-
-  typeElement: string = '';
+  isTextRequired: boolean = false;
   datePipe = inject(DatePipe);
-
+  
   myControl = new FormControl('');
 
   ngOnInit() {
+
     if (this.field.answerField) {
+
       // Verifica si la respuesta contiene una fecha válida
       const rawValue = this.field.answerField.answerDate;
       const formattedDate = this.getFormattedDate(rawValue);
@@ -89,26 +87,25 @@ export class FieldComponentComponent implements OnChanges {
     };
   
     onFieldChange(fieldType: 'checkbox' | 'text', fieldName: string, event: Event | MatCheckboxChange) {
-      // Verificar el tipo de campo
       if (fieldType === 'checkbox') {
-        const checkboxEvent = event as MatCheckboxChange; // Hacer el cast a MatCheckboxChange
-        this.combinedValues.checkboxValue = checkboxEvent.checked; // Usar 'checked' de MatCheckboxChange
+        const checkboxEvent = event as MatCheckboxChange;
+        this.combinedValues.checkboxValue = checkboxEvent.checked;
       } else if (fieldType === 'text') {
-        const inputEvent = event as InputEvent; // Hacer el cast a InputEvent para campos de texto
-        const target = inputEvent.target as HTMLInputElement; // Obtener el valor del campo de texto
-        this.combinedValues.textValue = target?.value || ''; // Actualizar el valor de texto
+        const inputEvent = event as InputEvent;
+        const target = inputEvent.target as HTMLInputElement;
+        this.combinedValues.textValue = target?.value || '';
       }
-  
+    
       const emittedValue = {
-        field: fieldName, // El nombre del campo
-        value: this.combinedValues, // Los valores combinados
-        questionID: this.field.questionID, // ID de la pregunta
-        idAnswer: this.field.answerField?.idAnswer // ID de la respuesta
+        field: fieldName,  
+        value: this.combinedValues,  
+        questionID: this.field.questionID,  
+        idAnswer: this.field.answerField?.idAnswer
       };
-  
-      console.log('Emitted Value:', emittedValue); // Imprimir para depuración
-      this.setFieldValue.emit(emittedValue); // Emitir el valor combinado
+      
+      this.setFieldValue.emit(emittedValue);  // Aquí emites el valor
     }
+    
   
   // Retorna una función que, dado un valor, devuelve la etiqueta (`label`) asociada 
   // de las opciones de un campo. Si no se encuentra la opción o los datos son inválidos, retorna una cadena vacía.
