@@ -35,6 +35,7 @@ export class StudentsPatientsComponent implements OnInit {
   private apiService = inject(ApiService<PatientResponse>);
   isChecked: boolean = false;
   searchTerm: string = ''; // Variable para almacenar el término de búsqueda
+  totalElements: number = 0; // Agregar esta propiedad
 
 
   check(event: any) {
@@ -48,13 +49,13 @@ export class StudentsPatientsComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('patients');
-    this.getPacientes(this.currentPage, this.itemsPerPage);
+    this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
   onPageSizeChange(newSize: number) {
     this.itemsPerPage = newSize;
     this.currentPage = 0;  // Opcionalmente, reinicia a la primera página
-    this.getPacientes(this.currentPage, this.itemsPerPage);
+    this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
   openDialog(objeto: any) {
@@ -90,8 +91,10 @@ export class StudentsPatientsComponent implements OnInit {
 
   idPatientx: number = 0;
   patients!: Patient[];
-  getPacientes(page: number, size: number, keyword: string = '') {
-    const url = `${UriConstants.GET_PATIENTS}?keyword=${keyword}`;
+  getPacientes(page: number = 0, size: number = 10, keyword: string = '') {
+    const encodedKeyword = encodeURIComponent(keyword.trim());
+    const url = `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}`;
+    
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -101,6 +104,7 @@ export class StudentsPatientsComponent implements OnInit {
     }).subscribe({
       next: (response) => {
         if (Array.isArray(response.content)) {
+          this.totalElements = response.totalElements;
           this.patientsList = response.content.map((patient: Patient) => {
             const person = patient.person;
             const medicalHistory = patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
@@ -115,19 +119,27 @@ export class StudentsPatientsComponent implements OnInit {
           });
         } else {
           console.error('La respuesta no contiene un array en content.');
-          this.patientsList = []; // Limpia la tabla si no hay resultados
+          this.patientsList = [];
+          this.totalElements = 0;
         }
       },
       error: (error) => {
-        console.error('Error en la autenticación o en la solicitud:', error);
+        console.error('Error en la autenticación:', error);
+        this.patientsList = [];
+        this.totalElements = 0;
       },
     });
   }
-  
 
   onSearch(keyword: string) {
+    this.searchTerm = keyword;
     this.currentPage = 0;
-    this.getPacientes(this.currentPage, this.itemsPerPage, keyword);
+    this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  onPageChange(event: number) {
+    this.currentPage = event - 1;
+    this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
   //filtar datos
 }

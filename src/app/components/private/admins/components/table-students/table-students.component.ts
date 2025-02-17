@@ -81,17 +81,20 @@ export class TableStudentsComponent implements OnInit {
 
   onPageSizeChange(newSize: number) {
     this.itemsPerPage = newSize;
-    this.currentPage = 0;
+    this.currentPage = 0; // Resetear a la primera página
     this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
   onSearch(keyword: string) {
-    this.currentPage = 0;
-    this.getAlumnos(this.currentPage, this.itemsPerPage, keyword);
+    this.searchTerm = keyword;
+    this.currentPage = 0; // Resetear a la primera página cuando se busca
+    this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
   getAlumnos(page: number = 0, size: number = 10, keyword: string = '') {
-    const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${keyword}`;
+    const encodedKeyword = encodeURIComponent(keyword.trim());
+    const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}`;
+    
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -116,10 +119,13 @@ export class TableStudentsComponent implements OnInit {
         } else {
           console.error('La respuesta no contiene un array en content.');
           this.studentsList = [];
+          this.totalElements = 0;
         }
       },
       error: (error) => {
         console.error('Error en la autenticación:', error);
+        this.studentsList = [];
+        this.totalElements = 0;
       },
     });
   }
