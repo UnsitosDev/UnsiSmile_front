@@ -234,13 +234,12 @@ export class TabFormComponent implements TabsHandler {
 
         const hcData: FormData = {
           idPatientClinicalHistory: this.patientID,
-        idQuestion: questionID,
-        answerBoolean: this.checkboxValues[fieldName] || typeof fieldValue === 'boolean' ? fieldValue : null,
-        answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
-        // Usamos el valor específico del campo para answerText
-        answerText: this.valueText(this.textValues[fieldName]) || this.valueText(fieldValue),
-        answerDate: isDateField ? fieldValue : null,
-        idCatalogOption: formData.idCatalogOption || null,
+          idQuestion: questionID,
+          answerBoolean: this.checkboxValues[fieldName] || typeof fieldValue === 'boolean' ? fieldValue : null,
+          answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
+          answerText: this.valueText(this.textValues[fieldName]) || this.valueText(fieldValue),
+          answerDate: isDateField ? fieldValue : null,
+          idCatalogOption: formData.idCatalogOption || null,
         }
         if (hcData.idQuestion) {
           sendData.push(hcData);

@@ -80,7 +80,6 @@ export class FieldComponentComponent implements OnChanges {
 
   }
 
-    // Definir la estructura para almacenar los valores combinados
     combinedValues = {
       checkboxValue: false,
       textValue: ''
@@ -103,7 +102,7 @@ export class FieldComponentComponent implements OnChanges {
         idAnswer: this.field.answerField?.idAnswer
       };
       
-      this.setFieldValue.emit(emittedValue);  // Aquí emites el valor
+      this.setFieldValue.emit(emittedValue);  
     }
     
   

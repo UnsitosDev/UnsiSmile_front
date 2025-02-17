@@ -143,7 +143,7 @@ export class TabFormUpdateComponent {
     if (event.idAnswer !== undefined) {
       this.idAnswers[event.field] = event.idAnswer; // Guarda idAnswer para el campo específico
     }
-    this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específicos
+    this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específico
   }
   
 
