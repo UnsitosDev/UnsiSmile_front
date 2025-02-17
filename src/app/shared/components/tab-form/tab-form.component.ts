@@ -143,8 +143,12 @@ export class TabFormComponent implements TabsHandler {
   idAnswer!: number;
   questionIDs: { [key: string]: number } = {}; // Definimos questionIDs como un objeto que almacena questionID
   idAnswers: { [key: string]: number } = {}; // Definimos idAnswers como un objeto que almacena idAnswer
+  checkboxValues: { [key: string]: boolean } = {}; // Almacena los valores de checkbox por campo
+  textValues: { [key: string]: string } = {}; // Almacena los valores de texto por campo
 
-  handleFieldValue(event: any) {
+  handleFieldValue(event: any): void {
+    this.checkboxValues[event.field] = event.value.checkboxValue; 
+    this.textValues[event.field] = event.value.textValue; 
     this.idQuestion = event.questionID;
     this.idAnswer = event.idAnswer;
     if (event.idAnswer !== undefined) {
@@ -231,9 +235,9 @@ export class TabFormComponent implements TabsHandler {
         const hcData: FormData = {
           idPatientClinicalHistory: this.patientID,
           idQuestion: questionID,
-          answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,
+          answerBoolean: this.checkboxValues[fieldName] || typeof fieldValue === 'boolean' ? fieldValue : null,
           answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
-          answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
+          answerText: this.valueText(this.textValues[fieldName]) || this.valueText(fieldValue),
           answerDate: isDateField ? fieldValue : null,
           idCatalogOption: formData.idCatalogOption || null,
         }
@@ -266,6 +270,10 @@ export class TabFormComponent implements TabsHandler {
     } else {
       this.toastr.warning(Messages.WARNING_FORM);
     }
+  }
+
+  valueText(value: string): string | null {
+    return typeof value === 'string' && value.trim() !== '' ? value.trim() : null;
   }
 
   // Emitir evento para volver al tab anterior

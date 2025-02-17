@@ -1,20 +1,29 @@
 <div [formGroup]="formGroup">
   @switch (field.type) {    
-    @case ('multivalued') {
+    @case('multivalued') {
       <div class="grid grid-cols-12 gap-4 items-center">
         <div class="col-span-6 p-4">
           <label>{{ field.label }}</label>
         </div>
         <div class="col-span-2 p-4">
           <section class="example-section">
-            <mat-checkbox class="example-margin" [formControlName]="field.name" (change)="onValueChangeCheck($event)" [checked]="field.answerField?.answerBoolean"></mat-checkbox>
+            <mat-checkbox 
+              class="example-margin" 
+              [formControlName]="field.name" 
+              (change)="onFieldChange('checkbox', field.name, $event)" 
+              [checked]="field.answerField?.answerBoolean">
+            </mat-checkbox>
           </section>
         </div>
         <div class="col-span-4 p-4">
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>Ampliar Respuesta</mat-label>
-            <input matInput [required]="!!field.required" 
-            [placeholder]="field.placeholder" [value]="field.answerField?.answerText" [formControlName]="field.name" (input)="onValueChange($event)"  />
+            <input 
+              matInput 
+              [required]="isTextRequired"
+              [placeholder]="field.placeholder"
+              [value]="(field.answerField?.answerText == null || field.answerField?.answerText === '' ) ? '' : field.answerField?.answerText"
+              (input)="onFieldChange('text', field.name, $event)" />
           </mat-form-field>
         </div>
       </div>
