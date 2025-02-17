@@ -4,18 +4,20 @@ import { studentResponse, studentUserResponse } from 'src/app/shared/interfaces/
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-
+import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
+import { ToastrService } from 'ngx-toastr';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-form-user',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatCardModule],
   templateUrl: './form-user.component.html',
   styleUrl: './form-user.component.scss'
 })
 export class FormUserComponent {
   private userService = inject(ApiService<studentResponse, {}>);
-  tabs = ['Datos de Usuario', 'Contraseña'];
+  tabs = ['Descripción General', 'Editar Datos', 'Cambiar Contraseña'];
   activeTab = signal(0);
   nombre = signal('');
   email = signal('');
@@ -24,6 +26,13 @@ export class FormUserComponent {
   confirmarContrasena = signal('');
   foto = signal<string | null>(null);
   user!: studentUserResponse | AdminResponse;
+  successMessage = signal<string | null>(null);
+  private toastr=inject (ToastrService);
+  mostrarContrasenaActual = signal(false);
+  mostrarNuevaContrasena = signal(false);
+  mostrarConfirmarContrasena = signal(false);
+  modoEdicion = signal(false);
+  
 
   ngOnInit() {
     this.fetchUserData();
@@ -40,11 +49,33 @@ export class FormUserComponent {
 
   actualizarContrasena() {
     if (this.nuevaContrasena() !== this.confirmarContrasena()) {
-      alert('Las contraseñas no coinciden');
+      this.toastr.warning('Las contraseñas no coinciden');
       return;
     }
-    console.log('Actualizando contraseña');
-    //lógica para actualizar la contraseña en el backend
+
+    const payload = {
+      oldPassword: this.contrasenaActual(),
+      newPassword: this.nuevaContrasena(),
+      confirmPassword: this.confirmarContrasena()
+    };
+
+    console.log('Payload:', payload); // Verificar el payload
+
+    this.userService
+      .patchService({
+        url: `${UriConstants.PATCH_UPDATE_PASSWORD}`,
+        data: payload 
+      })
+      .subscribe({
+        next: () => {
+          this.contrasenaActual.set('');
+          this.nuevaContrasena.set('');
+          this.confirmarContrasena.set('');
+          this.toastr.success('Contraseña actualizada exitosamente');
+        },
+        error: (error) => {
+        this.toastr.error(error,'Error');        }
+      });
   }
 
   subirFoto(event: Event) {
@@ -75,6 +106,18 @@ export class FormUserComponent {
       });
   }
 
+  toggleEdicion() {
+    if (this.modoEdicion()) {
+      // Si estamos saliendo del modo edición, preguntamos si quiere guardar
+      if (confirm('¿Desea guardar los cambios?')) {
+        this.actualizarDatosUsuario();
+      } else {
+        // Si no quiere guardar, revertimos los cambios
+        this.fetchUserData();
+      }
+    }
+    this.modoEdicion.set(!this.modoEdicion());
+  }
 
 }
 

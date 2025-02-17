@@ -1,83 +1,143 @@
-<div class="profile-config">
-  <div class="profile-config__header">
-    <h2 class="profile-config__title">Configuración del Perfil</h2>
-    <p class="profile-config__description">Actualiza tu información personal y preferencias</p>
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Perfil de Usuario</strong></mat-card-title>
+</mat-card>
+<div class="profile-container">
+  <!-- Sidebar con foto y nombre -->
+  <div class="profile-sidebar">
+    <div class="profile-photo">
+      <img [src]="foto() || 'https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png'"
+        alt="Foto de perfil">
+    </div>
+    <h2 class="profile-name">{{user.person.firstName}} {{user.person.firstLastName}}</h2>
+    <p class="profile-role">Usuario</p>
+    <label class="btn btn-primary" [class.disabled]="!modoEdicion()">
+      Cambiar foto
+      <input type="file" (change)="subirFoto($event)" accept="image/*" style="display: none;" [disabled]="!modoEdicion()">
+    </label>
   </div>
 
-  <div class="profile-config__tabs">
+  <!-- Contenido principal -->
+  <div class="profile-main">
     <ul class="tab-list">
       @for (tab of tabs; track tab; let i = $index) {
         <li>
-          <a class="tab-link"
-            [class.active]="i === activeTab()"
-            (click)="setActiveTab(i)">
+          <a class="tab-link" [class.active]="i === activeTab()" (click)="setActiveTab(i)">
             {{ tab }}
           </a>
         </li>
       }
     </ul>
-  </div>
 
-  <div>
-    @switch (activeTab()) {
-      <!-- Datos Personales -->
-      @case (0) {
-        <div>
-          <form (ngSubmit)="actualizarDatosUsuario()" class="form">
-            <div class="photo-upload">
-              <div class="photo-preview">
-                <img [src]="foto() || 'https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=128&q=80'"
-                  alt="Foto de perfil">
+    <div class="tab-content">
+      @switch (activeTab()) {
+        
+        @case (0) {
+          <!-- Overview -->
+          <div class="overview-section">
+            <div class="welcome-message">
+              <h2>¡Bienvenido, {{user.person.firstName}}!</h2>
+              <p>Gestiona tu información personal y configuración desde este panel.</p>
+            </div>
+            <div class="overview-grid">
+              <div class="overview-card">
+                <div class="overview-icon">
+                  <i class="fas fa-user"></i>
                 </div>
-                <label class="btn btn-primary">
-                  Subir nueva foto
-                  <input type="file" (change)="subirFoto($event)" accept="image/*" class="hidden">
-                </label>
+                <div class="overview-info">
+                  <h3>Información Personal</h3>
+                  <p><strong>Nombre:</strong> {{user.person.firstName}} {{user.person.firstLastName}}</p>
+                  <p><strong>Email:</strong> {{user.person.email}}</p>
+                  <p><strong>Teléfono:</strong> {{user.person.phone}}</p>
+                  <p><strong>Género:</strong> {{user.person.gender.gender}}</p>
+                  <p><strong>Curp:</strong> {{user.person.curp}}</p>
+                </div>
               </div>
-              <div class="form-group">
-                <label  for="nombre">Nombre</label>
-                <input id="nombre" type="text"  name="nombre"  [(ngModel)]="user.person.firstName" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="email">Apellido</label>
-                <input id="email" type="email"  name="apellido"  [(ngModel)]="user.person.firstLastName" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="nombre">Email</label>
-                <input id="nombre" type="text"  name="email"  [(ngModel)]="user.person.email" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="email">Numero</label>
-                <input id="email" type="number"  name="grupo" [(ngModel)]="user.person.phone" class="form-control">
-              </div>
-            </form>
+            </div>
           </div>
         }
-        <!-- Cambiar Contraseña -->
         @case (1) {
-          <div>
-            <form (ngSubmit)="actualizarContrasena()" class="form">
-              <div class="form-group">
-                <label for="contrasenaActual">Contraseña Actual</label>
-                <input id="contrasenaActual" type="password"  name="contrasenaActual" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="nuevaContrasena">Nueva Contraseña</label>
-                <input id="nuevaContrasena" type="password"  name="nuevaContrasena" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="confirmarContrasena">Confirmar Contraseña</label>
-                <input id="confirmarContrasena" type="password"  name="confirmarContrasena" class="form-control">
-              </div>
-            </form>
-          </div>
+          <!-- Datos personales -->
+          <form (ngSubmit)="actualizarDatosUsuario()" class="form">
+            <div class="form-header">
+              <h3>Datos Personales</h3>
+              <button type="button" class="btn" [class.btn-primary]="!modoEdicion()" [class.btn-warning]="modoEdicion()" (click)="toggleEdicion()">
+                <i class="fas" [class.fa-edit]="!modoEdicion()" [class.fa-times]="modoEdicion()"></i>
+                {{ modoEdicion() ? 'Cancelar Edición' : 'Editar Datos' }}
+              </button>
+            </div>
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input id="nombre" type="text" name="nombre" 
+                [(ngModel)]="user.person.firstName" 
+                class="form-control" 
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
+            </div>
+            <div class="form-group">
+              <label for="apellido">Apellido</label>
+              <input id="apellido" type="text" name="apellido" 
+                [(ngModel)]="user.person.firstLastName" 
+                class="form-control"
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" type="email" name="email" 
+                [(ngModel)]="user.person.email" 
+                class="form-control"
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input id="telefono" type="tel" name="telefono" 
+                [(ngModel)]="user.person.phone" 
+                class="form-control"
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
+            </div>
+            <button type="submit" class="btn btn-primary" [hidden]="!modoEdicion()">Guardar cambios</button>
+          </form>
         }
-        <!-- Foto de Perfil -->
+        
+        @case (2) {
+          <!-- Cambiar contraseña -->
+          <form (ngSubmit)="actualizarContrasena()" class="form">
+            <div class="form-group">
+              <label for="contrasenaActual">Contraseña Actual</label>
+              <div class="password-field">
+                <input id="contrasenaActual" [type]="mostrarContrasenaActual() ? 'text' : 'password'" 
+                  name="contrasenaActual" [(ngModel)]="contrasenaActual" class="form-control">
+                <button type="button" class="toggle-password" (click)="mostrarContrasenaActual.set(!mostrarContrasenaActual())">
+                  <i class="fas" [class.fa-eye]="!mostrarContrasenaActual()" [class.fa-eye-slash]="mostrarContrasenaActual()"></i>
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="nuevaContrasena">Nueva Contraseña</label>
+              <div class="password-field">
+                <input id="nuevaContrasena" [type]="mostrarNuevaContrasena() ? 'text' : 'password'" 
+                  name="nuevaContrasena" [(ngModel)]="nuevaContrasena" class="form-control">
+                <button type="button" class="toggle-password" (click)="mostrarNuevaContrasena.set(!mostrarNuevaContrasena())">
+                  <i class="fas" [class.fa-eye]="!mostrarNuevaContrasena()" [class.fa-eye-slash]="mostrarNuevaContrasena()"></i>
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="confirmarContrasena">Confirmar Contraseña</label>
+              <div class="password-field">
+                <input id="confirmarContrasena" [type]="mostrarConfirmarContrasena() ? 'text' : 'password'" 
+                  name="confirmarContrasena" [(ngModel)]="confirmarContrasena" class="form-control">
+                <button type="button" class="toggle-password" (click)="mostrarConfirmarContrasena.set(!mostrarConfirmarContrasena())">
+                  <i class="fas" [class.fa-eye]="!mostrarConfirmarContrasena()" [class.fa-eye-slash]="mostrarConfirmarContrasena()"></i>
+                </button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Actualizar Contraseña</button>
+          </form>
+        }
       }
     </div>
-
-    <div class="profile-config__footer">
-      <button class="btn btn-secondary">Cancelar</button>
-      <button class="btn btn-primary">Guardar Cambios</button>
-    </div>
   </div>
+</div>

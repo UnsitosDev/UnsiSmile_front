@@ -6,17 +6,18 @@ import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { ToastrService } from 'ngx-toastr';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-form-user',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatCardModule],
   templateUrl: './form-user.component.html',
   styleUrl: './form-user.component.scss'
 })
 export class FormUserComponent {
   private userService = inject(ApiService<studentResponse, {}>);
-  tabs = ['Datos de Usuario', 'Contraseña'];
+  tabs = ['Descripción General', 'Editar Datos', 'Cambiar Contraseña'];
   activeTab = signal(0);
   nombre = signal('');
   email = signal('');
@@ -27,6 +28,10 @@ export class FormUserComponent {
   user!: studentUserResponse | AdminResponse;
   successMessage = signal<string | null>(null);
   private toastr=inject (ToastrService);
+  mostrarContrasenaActual = signal(false);
+  mostrarNuevaContrasena = signal(false);
+  mostrarConfirmarContrasena = signal(false);
+  modoEdicion = signal(false);
   
 
   ngOnInit() {
@@ -101,6 +106,18 @@ export class FormUserComponent {
       });
   }
 
+  toggleEdicion() {
+    if (this.modoEdicion()) {
+      // Si estamos saliendo del modo edición, preguntamos si quiere guardar
+      if (confirm('¿Desea guardar los cambios?')) {
+        this.actualizarDatosUsuario();
+      } else {
+        // Si no quiere guardar, revertimos los cambios
+        this.fetchUserData();
+      }
+    }
+    this.modoEdicion.set(!this.modoEdicion());
+  }
 
 }
 
