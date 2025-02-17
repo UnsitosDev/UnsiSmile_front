@@ -34,6 +34,7 @@ export class TableStudentsComponent implements OnInit {
   itemsPerPage = 10;
   isChecked: boolean = false;
   searchTerm: string = '';
+  totalElements: number = 0;
 
   constructor(
     public dialog: MatDialog,
@@ -90,7 +91,7 @@ export class TableStudentsComponent implements OnInit {
   }
 
   getAlumnos(page: number = 0, size: number = 10, keyword: string = '') {
-    const url = `${UriConstants.GET_STUDENTS}?keyword=${keyword}`;
+    const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${keyword}`;
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -100,6 +101,7 @@ export class TableStudentsComponent implements OnInit {
     }).subscribe({
       next: (response) => {
         if (Array.isArray(response.content)) {
+          this.totalElements = response.totalElements;
           this.studentsList = response.content.map((student: studentRequest) => {
             const person = student.person;
             const user = student.user;
@@ -120,5 +122,10 @@ export class TableStudentsComponent implements OnInit {
         console.error('Error en la autenticación:', error);
       },
     });
+  }
+
+  onPageChange(event: number) {
+    this.currentPage = event - 1; // Restamos 1 porque el backend espera páginas base 0
+    this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 }

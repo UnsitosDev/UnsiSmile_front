@@ -40,11 +40,15 @@ export class TablaDataComponent implements OnInit, OnDestroy {
     this.paginatedData = data;
   }
 
+  @Input() totalItems: number = 0;
+
   @Output() action: EventEmitter<Accion> = new EventEmitter();
 
   @Output() pageSizeChange = new EventEmitter<number>();
 
   @Output() searchChange: EventEmitter<string> = new EventEmitter();
+
+  @Output() pageChange = new EventEmitter<number>();
 
   ngOnInit() {
     this.setupSearchDebounce();
@@ -71,6 +75,7 @@ export class TablaDataComponent implements OnInit, OnDestroy {
 
   onPageChange(page: number) {
     this.page = page;
+    this.pageChange.emit(page);
     this.updatePaginatedData();
   }
   onPageSizeChange() {

@@ -26,7 +26,11 @@
         </tr>
       </thead>
       <tbody>
-        @for (data of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: page }; track data) {
+        @for (data of filteredData | paginate: { 
+          itemsPerPage: itemsPerPage, 
+          currentPage: page,
+          totalItems: totalItems 
+        }; track data) {
         <tr class="bg-white border-b hover:bg-gray-50">
           @for (nombre of columnas; track trackByIndex($index, nombre)) {
           <td class="px-6 py-4">
@@ -59,7 +63,11 @@
 
   <!-- Paginación -->
   <div class="mt-4">
-    <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" class="text-center"
-      (pageChange)="onPageChange($event)"></pagination-controls>
+    <pagination-controls 
+      previousLabel="Anterior" 
+      nextLabel="Siguiente" 
+      class="text-center"
+      (pageChange)="onPageChange($event)">
+    </pagination-controls>
   </div>
 </main>

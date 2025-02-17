@@ -9,6 +9,8 @@
   [title]="title"
   [columns]="columns"
   [data]="studentsList"
+  [totalItems]="totalElements"
+  (pageChange)="onPageChange($event)"
   (pageSizeChange)="onPageSizeChange($event)"
   (action)="onAction($event)"
   (searchChange)="onSearch($event)">
