@@ -136,22 +136,6 @@
       <!-- Contenedor de simbologías a nivel de diente pero con simbilogia sobre este -->
       @for (condition of data.conditions; track data.conditions; let idx =
       $index) {
-      <!-- Diente parcialmente erupcionado -->
-      @if (condition.condition ===
-      ToothConditionsConstant.DIENTE_PARCIALMENTE_ERUPCIONADO) {
-      <ng-container>
-        <line
-          x1="0"
-          y1="25"
-          x2="29"
-          y2="25"
-          stroke="blue"
-          fill="blue"
-          stroke-width="2"
-        />
-      </ng-container>
-      }
-
       <!-- Diente con corona -->
       @if (condition.condition === ToothConditionsConstant.DIENTE_CON_CORONA) {
       <ng-container>
@@ -283,6 +267,9 @@
       ToothConditionsConstant.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
       <img src="../../../../../../assets/svg/flecha izquierda.svg" />
       }
+      @if (condition.condition === ToothConditionsConstant.DIENTE_PARCIALMENTE_ERUPCIONADO) {
+        <img src="../../../../../../assets/svg/erupcion.svg" />
+        }
       <!-- Prótesis removible -->
       @if (condition.condition === ToothConditionsConstant.PROTESIS_REMOVIBLE) {
       <img src="../../../../../../assets/svg/protesis_removible.svg" />

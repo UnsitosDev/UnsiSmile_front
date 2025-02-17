@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" id="svg3389" x="0" y="0" version="1.1" viewBox="0 0 226.8 425.2"><style>.st1{fill:none;stroke:#0880d7;stroke-width:9.8913;stroke-miterlimit:11.3386}</style><g id="layer1" transform="translate(291.08875 -10.975646)"><path id="rect3391" fill="none" d="M-291.1 11h226.8v425.2h-226.8z" opacity=".75"/><path id="path3936" d="m-188.7 133.6 36.2 41.8-33.6 32.6 21 32.2-20.2 54.7" class="st1"/><path id="path3938" d="m-216.1 262.1 17.4 19.8 20.7 21.5" class="st1"/><path id="path3940" d="m-141.1 267.8-43.2 34.8" class="st1"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" id="svg3389" x="0" y="0" version="1.1" viewBox="0 0 266.698 150" width="266.698" height="150">
+  <style>
+    .st1 {
+      fill: none;
+      stroke: #1919e6;
+      stroke-width: 20; /* Aumenta el grosor de las líneas */
+      stroke-miterlimit: 11.3386;
+    }
+  </style>
+  <g id="layer1" transform="translate(291.089 -200)"> <!-- Ajusta el valor de translate para mover el gráfico hacia arriba -->
+    <path id="rect3391" fill="none" d="M-342.309 12.935h266.698v500h-266.698z" opacity=".75"/>
+    <path id="path3936" d="m-221.896 157.103 42.568 49.153-39.511 38.335 24.694 37.865-23.754 64.323" class="st1"/>
+    <path id="path3938" d="m-254.116 308.208 20.461 23.283 24.341 25.282" class="st1"/>
+    <path id="path3940" d="m-165.922 314.911-50.8 40.922" class="st1"/>
+  </g>
+</svg>

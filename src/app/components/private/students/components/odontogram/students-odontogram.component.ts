@@ -200,6 +200,16 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       condition: event.condition,
       description: event.description,
     };
+    this.toastr.info(`${event.condition}`, 'Condición seleccionada:', {
+      timeOut: 1000,
+      positionClass: 'toast-bottom-right',
+      closeButton: false,
+      progressBar: true,
+      extendedTimeOut: 500,
+      tapToDismiss: true,
+      easeTime: 300,
+      newestOnTop: true
+    });
   }
 
   /**
