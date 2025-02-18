@@ -169,3 +169,17 @@ table {
     background-color: #fff3cd;
     color: #856404;
   }
+
+  // Estilos para los iconos de acción
+  td a {
+    i {
+      transition: all 0.3s ease;
+      display: inline-block;
+      
+      &:hover {
+        transform: scale(1.2);
+        color: var(--tertiary); // Color primario cuando se hace hover
+      
+      }
+    }
+  }
