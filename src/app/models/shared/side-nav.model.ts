@@ -55,12 +55,6 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
         routerlink: '/admin/admins'
       },
       {
-        fontAwesomeIcon: faHospitalUser,
-        buttonText: 'Nuevo administrador',
-        buttonDescription: 'Insertar Administrador',
-        routerlink: '/admin/addAdmin'
-      },
-      {
         fontAwesomeIcon: faFileUpload,
         buttonText: 'Cargar Alumnos',
         buttonDescription: 'Subir Excel de Alumnos.',
