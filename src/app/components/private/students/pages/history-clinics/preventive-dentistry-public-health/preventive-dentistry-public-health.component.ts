@@ -92,7 +92,7 @@ export class PreventiveDentistryPublicHealthComponent {
           this.navigationTarget = targetUrl;
 
           // Detiene la navegación y mostramos el diálogo
-          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_PERIODONTICS);
+          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_PREVENTIVE);
         }
       }
     });
