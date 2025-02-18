@@ -72,6 +72,13 @@ export default [
                     ),
             },
             {
+                path: 'admins',
+                loadComponent: () =>
+                    import('./components/table-admin/table-admin.component').then(
+                        (m) => m.TableAdminComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
