@@ -146,3 +146,26 @@ table {
   ::ng-deep .ngx-pagination .current {
     background: #274CA2 !important;
   }
+
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+  
+  .status-active {
+    background-color: #e6f4ea;
+    color: #1e7e34;
+  }
+  
+  .status-inactive {
+    background-color: #fce8e8;
+    color: #dc3545;
+  }
+  
+  .status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+  }

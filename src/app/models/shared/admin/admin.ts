@@ -3,4 +3,5 @@ export class AdminTableData {
     apellido = ''
     correo = ''
     numeroEmpleado = ''  // Cambiado de matricula a numeroEmpleado
+    status = ''
 }

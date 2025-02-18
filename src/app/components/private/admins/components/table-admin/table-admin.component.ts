@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Accion, getEntityPropiedades } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
-import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
+import { AdminResponse, User } from 'src/app/models/shared/admin/admin.model';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AdminTableData } from 'src/app/models/shared/admin/admin';
 
@@ -104,23 +104,18 @@ export class TableAdminComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
-        console.log('Respuesta completa:', response);
-        
         if (response && response.content && Array.isArray(response.content)) {
           this.totalElements = response.totalElements;
           this.adminList = response.content.map((admin: AdminResponse) => {
-            const adminData: AdminTableData = {
-              nombre: admin.person.firstName || '',
-              apellido: `${admin.person.firstLastName || ''} ${admin.person.secondLastName || ''}`.trim(),
-              correo: admin.person.email || '',
-              numeroEmpleado: admin.employeeNumber || ''
+            return {
+              nombre: admin.person.firstName,
+              apellido: `${admin.person.firstLastName} ${admin.person.secondLastName || ''}`.trim(),
+              correo: admin.person.email,
+              numeroEmpleado: admin.employeeNumber,
+              status: admin.user.status ? 'Activo' : 'Inactivo' 
             };
-            console.log('Admin procesado:', adminData);
-            return adminData;
           });
-          console.log('Lista final de admins:', this.adminList);
         } else {
-          console.warn('Respuesta vacía o inválida:', response);
           this.adminList = [];
           this.totalElements = 0;
         }
@@ -136,5 +131,12 @@ export class TableAdminComponent implements OnInit {
   onPageChange(event: number) {
     this.currentPage = event - 1;
     this.getAdmins(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  // Agregar método para manejar acciones específicas de status
+  onStatusChange(admin: AdminTableData) {
+    // Aquí puedes implementar la lógica para cambiar el status
+    console.log('Cambiar status de admin:', admin);
+    // Llamar al API para actualizar el status
   }
 }

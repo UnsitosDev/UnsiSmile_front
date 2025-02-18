@@ -4,11 +4,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tabla-data',
   standalone: true,
-  imports: [NgxPaginationModule, FormsModule],
+  imports: [NgxPaginationModule, FormsModule, CommonModule],
   templateUrl: './tabla-data.component.html',
   styleUrls: ['./tabla-data.component.scss']
 })
@@ -96,8 +97,19 @@ export class TablaDataComponent implements OnInit, OnDestroy {
     this.searchSubject.next(this.searchText);
   }
 
-  // Método para exportar los datos filtrados y paginados a Excel
-
-
- 
+  getStatusClass(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'active':
+      case 'activo':
+        return 'status-active';
+      case 'inactive':
+      case 'inactivo':
+        return 'status-inactive';
+      case 'pending':
+      case 'pendiente':
+        return 'status-pending';
+      default:
+        return '';
+    }
+  }
 }

@@ -32,3 +32,8 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
   }
   return resultados
 }
+
+export const ENTIDADES: { [key: string]: string[] } = {
+  admin: ['numeroEmpleado', 'nombre', 'apellido', 'correo', 'status'],
+  // ...otros modelos...
+};
