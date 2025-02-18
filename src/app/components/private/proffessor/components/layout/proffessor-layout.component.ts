@@ -13,8 +13,8 @@ import { SessionStorageConstants } from 'src/app/utils/session.storage';
   imports: [
     RouterOutlet, SideNavComponent, HeaderComponent,
 ],
-  templateUrl: './students-layout.component.html',
-  styleUrls: ['./students-layout.component.scss']
+  templateUrl: './proffessor-layout.component.html',
+  styleUrls: ['./proffessor-layout.component.scss']
 })
 export class StudentsLayoutComponent implements OnInit  {
   private token!: string;
