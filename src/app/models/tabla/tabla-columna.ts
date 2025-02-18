@@ -1,6 +1,6 @@
 import { columnPatientsTableData, patientsTableData } from "../shared/patients";
 import { studentsTableData } from "../shared/students";
-
+import { AdminTableData } from "../shared/admin/admin";
 
 
 //* El parámetro genérico T en la interfaz Accion
@@ -17,14 +17,15 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
 
   switch(entidad){
     case 'patients':
-      clase = new columnPatientsTableData(); break;
-
+      clase = new columnPatientsTableData(); 
+      break;
     case 'student':
-      clase = new studentsTableData(); break;
-   
+      clase = new studentsTableData(); 
+      break;
+    case 'admin':
+      clase = new AdminTableData();  // Agregamos el caso para admin
+      break;
   }
-
-
 
   if(clase){
     resultados = Object.keys(clase);

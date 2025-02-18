@@ -10,13 +10,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Accion, getEntityPropiedades } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
+import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { AdminTableData } from 'src/app/models/shared/admin/admin';
 
-interface AdminTableData {
-  nombre: string;
-  apellido: string;
-  correo: string;
-  rol: string;
-}
 
 @Component({
   selector: 'app-table-admin',
@@ -38,6 +35,7 @@ export class TableAdminComponent implements OnInit {
   columns: string[] = [];
   title: string = 'Administradores';
   private apiService = inject(ApiService<any>);
+  private searchSubject = new Subject<string>();
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -54,6 +52,15 @@ export class TableAdminComponent implements OnInit {
   ngOnInit(): void {
     this.columns = getEntityPropiedades('admin');
     this.getAdmins();
+
+    // Configurar el observable para la búsqueda con debounce
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      this.currentPage = 0;
+      this.getAdmins(this.currentPage, this.itemsPerPage, searchTerm);
+    });
   }
 
   onAction(accion: Accion) {
@@ -80,13 +87,14 @@ export class TableAdminComponent implements OnInit {
 
   onSearch(keyword: string) {
     this.searchTerm = keyword;
-    this.currentPage = 0;
-    this.getAdmins(this.currentPage, this.itemsPerPage, this.searchTerm);
+    this.searchSubject.next(keyword);
   }
 
   getAdmins(page: number = 0, size: number = 10, keyword: string = '') {
-    const encodedKeyword = encodeURIComponent(keyword.trim());
-    const url = `${UriConstants.get_ADMIN}?page=${page}&size=${size}&keyword=${encodedKeyword}`;
+    const encodedKeyword = encodeURIComponent(keyword);
+    const url = `${UriConstants.GET_ADMIN}?page=${page}&size=${size}&keyword=${encodedKeyword}`;
+    
+    console.log('URL de la petición:', url);
     
     this.apiService.getService({
       headers: new HttpHeaders({
@@ -96,19 +104,23 @@ export class TableAdminComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
-        if (Array.isArray(response.content)) {
+        console.log('Respuesta completa:', response);
+        
+        if (response && response.content && Array.isArray(response.content)) {
           this.totalElements = response.totalElements;
-          this.adminList = response.content.map((admin: any) => {
-            const person = admin.person;
-            return {
-              nombre: person.firstName,
-              apellido: `${person.firstLastName} ${person.secondLastName}`,
-              correo: person.email,
-              rol: admin.role || 'Administrador'
+          this.adminList = response.content.map((admin: AdminResponse) => {
+            const adminData: AdminTableData = {
+              nombre: admin.person.firstName || '',
+              apellido: `${admin.person.firstLastName || ''} ${admin.person.secondLastName || ''}`.trim(),
+              correo: admin.person.email || '',
+              numeroEmpleado: admin.employeeNumber || ''
             };
+            console.log('Admin procesado:', adminData);
+            return adminData;
           });
+          console.log('Lista final de admins:', this.adminList);
         } else {
-          console.error('La respuesta no contiene un array en content.');
+          console.warn('Respuesta vacía o inválida:', response);
           this.adminList = [];
           this.totalElements = 0;
         }

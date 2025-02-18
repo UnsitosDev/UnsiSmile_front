@@ -16,6 +16,7 @@ import {
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { StudentsGeneralHistoryComponent } from '../../../students/pages/history-clinics/general/students-general-history.component';
 import { studentRequest } from 'src/app/shared/interfaces/student/student';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-table-students',
@@ -29,6 +30,7 @@ export class TableStudentsComponent implements OnInit {
   columns: string[] = [];
   title: string = 'Estudiantes';
   private apiService = inject(ApiService<studentRequest[]>);
+  private searchSubject = new Subject<string>();
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -45,6 +47,15 @@ export class TableStudentsComponent implements OnInit {
   ngOnInit(): void {
     this.columns = getEntityPropiedades('student');
     this.getAlumnos();
+    
+    // Configurar el observable para la búsqueda con debounce
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      this.currentPage = 0;
+      this.getAlumnos(this.currentPage, this.itemsPerPage, searchTerm);
+    });
   }
 
   openDialog(objeto: any) {
@@ -92,7 +103,7 @@ export class TableStudentsComponent implements OnInit {
   }
 
   getAlumnos(page: number = 0, size: number = 10, keyword: string = '') {
-    const encodedKeyword = encodeURIComponent(keyword.trim());
+    const encodedKeyword = encodeURIComponent(keyword);
     const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}`;
     
     this.apiService.getService({
@@ -103,27 +114,21 @@ export class TableStudentsComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
-        if (Array.isArray(response.content)) {
+        if (response && response.content && Array.isArray(response.content)) {
           this.totalElements = response.totalElements;
-          this.studentsList = response.content.map((student: studentRequest) => {
-            const person = student.person;
-            const user = student.user;
-            const studen = student;
-            return {
-              nombre: person.firstName,
-              apellido: `${person.firstLastName} ${person.secondLastName}`,
-              correo: person.email,
-              matricula: studen.enrollment,
-            };
-          });
+          this.studentsList = response.content.map((student: studentRequest) => ({
+            nombre: student.person.firstName,
+            apellido: `${student.person.firstLastName} ${student.person.secondLastName}`,
+            correo: student.person.email,
+            matricula: student.enrollment,
+          }));
         } else {
-          console.error('La respuesta no contiene un array en content.');
           this.studentsList = [];
           this.totalElements = 0;
         }
       },
       error: (error) => {
-        console.error('Error en la autenticación:', error);
+        console.error('Error al obtener estudiantes:', error);
         this.studentsList = [];
         this.totalElements = 0;
       },
@@ -131,7 +136,7 @@ export class TableStudentsComponent implements OnInit {
   }
 
   onPageChange(event: number) {
-    this.currentPage = event - 1; // Restamos 1 porque el backend espera páginas base 0
-    this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
+    this.currentPage = event - 1; 
+    this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm); 
   }
 }

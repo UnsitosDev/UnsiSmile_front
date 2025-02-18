@@ -84,9 +84,7 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   }
 
   private updatePaginatedData() {
-    const start = (this.page - 1) * this.itemsPerPage;
-    const end = this.page * this.itemsPerPage;
-    this.paginatedData = this.filteredData.slice(start, end);
+    this.paginatedData = this.filteredData;
   }
 
   trackByIndex(index: number, obj: any): any {
@@ -94,6 +92,7 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   }
 
   filterData() {
+    this.page = 1; // Resetear a la primera página cuando se busca
     this.searchSubject.next(this.searchText);
   }
 
