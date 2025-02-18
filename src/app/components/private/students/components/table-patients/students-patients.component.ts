@@ -36,6 +36,14 @@ export class StudentsPatientsComponent implements OnInit {
   isChecked: boolean = false;
   searchTerm: string = ''; // Variable para almacenar el término de búsqueda
   totalElements: number = 0; // Agregar esta propiedad
+  sortField: string = 'person.firstName';
+  sortAsc: boolean = true;
+  sortableColumns = {
+    'nombres': 'person.firstName',
+    'apellidos': 'person.firstLastName',
+    'correo': 'person.email',
+    'curp': 'person.curp'
+  };
 
 
   check(event: any) {
@@ -93,7 +101,7 @@ export class StudentsPatientsComponent implements OnInit {
   patients!: Patient[];
   getPacientes(page: number = 0, size: number = 10, keyword: string = '') {
     const encodedKeyword = encodeURIComponent(keyword.trim());
-    const url = `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}`;
+    const url = `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
     
     this.apiService.getService({
       headers: new HttpHeaders({
@@ -139,6 +147,12 @@ export class StudentsPatientsComponent implements OnInit {
 
   onPageChange(event: number) {
     this.currentPage = event - 1;
+    this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+  
+  onSort(event: {field: string, asc: boolean}) {
+    this.sortField = event.field;
+    this.sortAsc = event.asc;
     this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
   //filtar datos

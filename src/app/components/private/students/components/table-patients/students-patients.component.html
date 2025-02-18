@@ -11,10 +11,12 @@
   [columns]="columnas"
   [data]="patientsList"
   [totalItems]="totalElements"
+  [sortableColumns]="sortableColumns"
   (pageSizeChange)="onPageSizeChange($event)"
   (pageChange)="onPageChange($event)"
   (action)="onAction($event)"
-  (searchChange)="onSearch($event)">
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)">
 </app-tabla-data>
 
 
