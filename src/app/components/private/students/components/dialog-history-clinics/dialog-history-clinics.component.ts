@@ -101,6 +101,9 @@ export class DialogHistoryClinicsComponent implements OnInit {
       case 'Cirugía bucal':
         this.router.navigate(['/students/oralSurgery', history.id, 'patient', this.data.patientID, 'patientHistoryId', patientHistoryId]);
         break;
+      case 'Odontología preventiva y salud pública':
+        this.router.navigate(['/students/preventiveDentistryPublicHealth', history.id, 'patient', this.data.patientID, 'patientHistoryId', patientHistoryId]);
+        break;
       default:
         console.error('Historia clínica no válida');
         break;

@@ -58,6 +58,13 @@ export default [
                     ),
             },
             {
+                path: 'preventiveDentistryPublicHealth/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para HISTORIA CLÍNICA CLÍNICA DE ODONTOLOGÍA PREVENTIVA Y SALUD PÚBLICA
+                loadComponent: () =>
+                    import('./pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
+                        (m) => m.PreventiveDentistryPublicHealthComponent
+                    ),
+            },
+            {
                 path: 'addPatient',
                 loadComponent: () =>
                     import('./components/form-patient-personal-data/form-patient-personal-data.component').then(
