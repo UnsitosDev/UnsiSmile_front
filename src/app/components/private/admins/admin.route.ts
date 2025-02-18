@@ -25,8 +25,8 @@ export default [
             {
                 path: 'patients',
                 loadComponent: () =>
-                    import('./components/admin-table-patients/table-patients.component').then(
-                        (m) => m.AdminTablePatientsComponent
+                    import('@mean/students').then(
+                        (m) => m.StudentsPatientsComponent
                     ),
             },
             {

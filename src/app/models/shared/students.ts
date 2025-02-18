@@ -1,15 +1,16 @@
-export interface Istudents{
+export interface Istudents {
   nombre: string,
   apellido: string,
   correo: string,
-  matricula: string
+  matricula: string,
+  status: string  // Agregado status
 }
 
-export class studentsTableData{
+export class studentsTableData {
   nombre = ''
-  apellido =  ''
-  correo= ''
-  matricula=''
-
-  }
+  apellido = ''
+  correo = ''
+  matricula = ''
+  status = ''  // Agregado status
+}
 
