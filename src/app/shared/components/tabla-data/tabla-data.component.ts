@@ -47,6 +47,10 @@ export class TablaDataComponent implements OnInit, OnDestroy {
 
   @Input() sortableColumns: { [key: string]: string } = {};
 
+  @Input() showSearchIcon: boolean = false;
+  @Input() showEditIcon: boolean = false;
+  @Input() showFolderIcon: boolean = false;
+
   @Output() action: EventEmitter<Accion> = new EventEmitter();
 
   @Output() pageSizeChange = new EventEmitter<number>();
