@@ -4,11 +4,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tabla-data',
   standalone: true,
-  imports: [NgxPaginationModule, FormsModule],
+  imports: [NgxPaginationModule, FormsModule, CommonModule],
   templateUrl: './tabla-data.component.html',
   styleUrls: ['./tabla-data.component.scss']
 })
@@ -22,6 +23,8 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   itemsPerPage = 10;
   pageSizes = [10, 20, 30, 50];
   searchText = '';
+  sortField: string = 'person.firstName';
+  sortAsc: boolean = true;
 
   private searchSubject = new Subject<string>();
   private searchSubscription!: Subscription;
@@ -40,11 +43,23 @@ export class TablaDataComponent implements OnInit, OnDestroy {
     this.paginatedData = data;
   }
 
+  @Input() totalItems: number = 0;
+
+  @Input() sortableColumns: { [key: string]: string } = {};
+
+  @Input() showSearchIcon: boolean = false;
+  @Input() showEditIcon: boolean = false;
+  @Input() showFolderIcon: boolean = false;
+
   @Output() action: EventEmitter<Accion> = new EventEmitter();
 
   @Output() pageSizeChange = new EventEmitter<number>();
 
   @Output() searchChange: EventEmitter<string> = new EventEmitter();
+
+  @Output() pageChange = new EventEmitter<number>();
+
+  @Output() sortChange: EventEmitter<{field: string, asc: boolean}> = new EventEmitter();
 
   ngOnInit() {
     this.setupSearchDebounce();
@@ -71,6 +86,7 @@ export class TablaDataComponent implements OnInit, OnDestroy {
 
   onPageChange(page: number) {
     this.page = page;
+    this.pageChange.emit(page);
     this.updatePaginatedData();
   }
   onPageSizeChange() {
@@ -79,9 +95,7 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   }
 
   private updatePaginatedData() {
-    const start = (this.page - 1) * this.itemsPerPage;
-    const end = this.page * this.itemsPerPage;
-    this.paginatedData = this.filteredData.slice(start, end);
+    this.paginatedData = this.filteredData;
   }
 
   trackByIndex(index: number, obj: any): any {
@@ -89,11 +103,41 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   }
 
   filterData() {
+    this.page = 1; // Resetear a la primera página cuando se busca
     this.searchSubject.next(this.searchText);
   }
 
-  // Método para exportar los datos filtrados y paginados a Excel
+  getStatusClass(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'active':
+      case 'activo':
+        return 'status-active';
+      case 'inactive':
+      case 'inactivo':
+        return 'status-inactive';
+      case 'pending':
+      case 'pendiente':
+        return 'status-pending';
+      default:
+        return '';
+    }
+  }
 
+  onSort(column: string) {
+    if (this.sortableColumns[column]) {
+      if (this.sortField === this.sortableColumns[column]) {
+        this.sortAsc = !this.sortAsc;
+      } else {
+        this.sortField = this.sortableColumns[column];
+        this.sortAsc = true;
+      }
+      this.sortChange.emit({ field: this.sortField, asc: this.sortAsc });
+    }
+  }
 
- 
+  getSortIcon(column: string): string {
+    if (!this.sortableColumns[column]) return '';
+    if (this.sortField !== this.sortableColumns[column]) return 'fas fa-sort';
+    return this.sortAsc ? 'fas fa-sort-up' : 'fas fa-sort-down';
+  }
 }

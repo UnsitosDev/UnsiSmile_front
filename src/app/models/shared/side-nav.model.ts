@@ -50,9 +50,9 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
       },
       {
         fontAwesomeIcon: faHospitalUser,
-        buttonText: 'Nuevo administrador',
-        buttonDescription: 'Insertar Administrador',
-        routerlink: '/admin/addAdmin'
+        buttonText: 'Administrador',
+        buttonDescription: 'Ver administradores',
+        routerlink: '/admin/admins'
       },
       {
         fontAwesomeIcon: faFileUpload,
@@ -66,6 +66,21 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
         buttonDescription: 'Subir Excel de Pacientes.',
         routerlink: '/admin/upload-patients'
       }
+    ];
+
+    export const TeacherItems: MenuItem[] = [
+      {
+        fontAwesomeIcon: faHome,
+        buttonText: 'Inicio',
+        buttonDescription: 'Información del usuario',
+        routerlink: '/teacher/dashboard'
+      },
+      {
+        fontAwesomeIcon: faHospitalUser,
+        buttonText: 'Estudiantes',
+        buttonDescription: 'Ver estudiantes',
+        routerlink: '/teacher/student'
+      },
     ];
     
   

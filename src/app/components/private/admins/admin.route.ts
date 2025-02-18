@@ -25,8 +25,8 @@ export default [
             {
                 path: 'patients',
                 loadComponent: () =>
-                    import('./components/admin-table-patients/table-patients.component').then(
-                        (m) => m.AdminTablePatientsComponent
+                    import('@mean/students').then(
+                        (m) => m.StudentsPatientsComponent
                     ),
             },
             {
@@ -69,6 +69,13 @@ export default [
                 loadComponent: () =>
                     import('./components/form-user/form-user.component').then(
                         (m) => m.FormUserComponent
+                    ),
+            },
+            {
+                path: 'admins',
+                loadComponent: () =>
+                    import('./components/table-admin/table-admin.component').then(
+                        (m) => m.TableAdminComponent
                     ),
             },
             {

@@ -7,7 +7,8 @@ export interface studentRequest {
         "role": {
             "idRole": 0,
             "role": "ROLE_ADMIN"
-        }
+        },
+        "status": boolean
     },
     "person": {
         "curp": "string",
@@ -60,4 +61,3 @@ export interface studentUserResponse {
       };
     };
   }
-  

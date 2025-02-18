@@ -18,28 +18,54 @@
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
           @for (column of columnas; track trackByIndex($index, column)) {
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="px-6 py-3 cursor-pointer" (click)="onSort(column)">
             {{ column }}
+            <i [class]="getSortIcon(column)" class="ml-1"></i>
           </th>
           }
           <th scope="col" class="px-6 py-3"></th>
         </tr>
       </thead>
       <tbody>
-        @for (data of filteredData | paginate: { itemsPerPage: itemsPerPage, currentPage: page }; track data) {
+        @for (data of filteredData | paginate: { 
+          itemsPerPage: itemsPerPage, 
+          currentPage: page,
+          totalItems: totalItems 
+        }; track data) {
         <tr class="bg-white border-b hover:bg-gray-50">
           @for (nombre of columnas; track trackByIndex($index, nombre)) {
           <td class="px-6 py-4">
-            {{ data[nombre] }}
+            @if (nombre === 'status') {
+              <span class="status-badge" [ngClass]="getStatusClass(data[nombre])">
+                {{ data[nombre] }}
+              </span>
+            } @else {
+              {{ data[nombre] }}
+            }
           </td>
           }
           <td class="py-4 text-left flex">
-            <a class="text-blue-600 hover:text-blue-700 mr-4" (click)="onAction('Editar', data)">
+            @if (showSearchIcon) {
+            <a class="text-blue-600 hover:text-blue-700 mr-4" 
+               (click)="onAction('Detalles', data)"
+               title="Ver detalles">
+              <i class="fas fa-search"></i>
+            </a>
+            }
+            @if (showEditIcon) {
+            <a class="text-blue-600 hover:text-blue-700 mr-4" 
+               (click)="onAction('Modificar', data)"
+               title="Modificar registro">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+            }
+            @if (showFolderIcon) {
+            <a class="text-blue-600 hover:text-blue-700 mr-4" 
+               (click)="onAction('Editar', data)"
+               title="Editar historial">
               <i class="fas fa-folder"></i>
             </a>
-            <a class="text-red-600 hover:text-red-700" (click)="onAction('Eliminar', data)">
-              <i class="fas fa-trash-alt"></i>
-            </a>
+            }
           </td>
         </tr>
         }
@@ -59,7 +85,11 @@
 
   <!-- Paginación -->
   <div class="mt-4">
-    <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" class="text-center"
-      (pageChange)="onPageChange($event)"></pagination-controls>
+    <pagination-controls 
+      previousLabel="Anterior" 
+      nextLabel="Siguiente" 
+      class="text-center"
+      (pageChange)="onPageChange($event)">
+    </pagination-controls>
   </div>
 </main>
