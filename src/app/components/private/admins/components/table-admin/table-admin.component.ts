@@ -42,6 +42,15 @@ export class TableAdminComponent implements OnInit {
   isChecked: boolean = false;
   searchTerm: string = '';
   totalElements: number = 0;
+  sortField: string = 'person.firstName';
+  sortAsc: boolean = true;
+  sortableColumns = {
+    'nombre': 'person.firstName',
+    'apellido': 'person.firstLastName',
+    'correo': 'person.email',
+    'numeroEmpleado': 'employeeNumber',
+    'status': 'user.status'
+  };
 
   constructor(
     public dialog: MatDialog,
@@ -92,7 +101,7 @@ export class TableAdminComponent implements OnInit {
 
   getAdmins(page: number = 0, size: number = 10, keyword: string = '') {
     const encodedKeyword = encodeURIComponent(keyword);
-    const url = `${UriConstants.GET_ADMIN}?page=${page}&size=${size}&keyword=${encodedKeyword}`;
+    const url = `${UriConstants.GET_ADMIN}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
     
     console.log('URL de la petición:', url);
     
@@ -138,5 +147,12 @@ export class TableAdminComponent implements OnInit {
     // Aquí puedes implementar la lógica para cambiar el status
     console.log('Cambiar status de admin:', admin);
     // Llamar al API para actualizar el status
+  }
+
+  // Agregar el método onSort
+  onSort(event: {field: string, asc: boolean}) {
+    this.sortField = event.field;
+    this.sortAsc = event.asc;
+    this.getAdmins(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 }
