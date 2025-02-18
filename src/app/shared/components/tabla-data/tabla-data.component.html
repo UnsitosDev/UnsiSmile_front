@@ -46,17 +46,23 @@
           }
           <td class="py-4 text-left flex">
             @if (showSearchIcon) {
-            <a class="text-blue-600 hover:text-blue-700 mr-4" (click)="onAction('Detalles', data)">
+            <a class="text-blue-600 hover:text-blue-700 mr-4" 
+               (click)="onAction('Detalles', data)"
+               title="Ver detalles">
               <i class="fas fa-search"></i>
             </a>
             }
             @if (showEditIcon) {
-            <a class="text-blue-600 hover:text-blue-700 mr-4" (click)="onAction('Modificar', data)">
+            <a class="text-blue-600 hover:text-blue-700 mr-4" 
+               (click)="onAction('Modificar', data)"
+               title="Modificar registro">
               <i class="fas fa-pencil-alt"></i>
             </a>
             }
             @if (showFolderIcon) {
-            <a class="text-blue-600 hover:text-blue-700 mr-4" (click)="onAction('Editar', data)">
+            <a class="text-blue-600 hover:text-blue-700 mr-4" 
+               (click)="onAction('Editar', data)"
+               title="Editar historial">
               <i class="fas fa-folder"></i>
             </a>
             }
