@@ -23,6 +23,8 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   itemsPerPage = 10;
   pageSizes = [10, 20, 30, 50];
   searchText = '';
+  sortField: string = 'person.firstName';
+  sortAsc: boolean = true;
 
   private searchSubject = new Subject<string>();
   private searchSubscription!: Subscription;
@@ -43,6 +45,8 @@ export class TablaDataComponent implements OnInit, OnDestroy {
 
   @Input() totalItems: number = 0;
 
+  @Input() sortableColumns: { [key: string]: string } = {};
+
   @Output() action: EventEmitter<Accion> = new EventEmitter();
 
   @Output() pageSizeChange = new EventEmitter<number>();
@@ -50,6 +54,8 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   @Output() searchChange: EventEmitter<string> = new EventEmitter();
 
   @Output() pageChange = new EventEmitter<number>();
+
+  @Output() sortChange: EventEmitter<{field: string, asc: boolean}> = new EventEmitter();
 
   ngOnInit() {
     this.setupSearchDebounce();
@@ -111,5 +117,23 @@ export class TablaDataComponent implements OnInit, OnDestroy {
       default:
         return '';
     }
+  }
+
+  onSort(column: string) {
+    if (this.sortableColumns[column]) {
+      if (this.sortField === this.sortableColumns[column]) {
+        this.sortAsc = !this.sortAsc;
+      } else {
+        this.sortField = this.sortableColumns[column];
+        this.sortAsc = true;
+      }
+      this.sortChange.emit({ field: this.sortField, asc: this.sortAsc });
+    }
+  }
+
+  getSortIcon(column: string): string {
+    if (!this.sortableColumns[column]) return '';
+    if (this.sortField !== this.sortableColumns[column]) return 'fas fa-sort';
+    return this.sortAsc ? 'fas fa-sort-up' : 'fas fa-sort-down';
   }
 }

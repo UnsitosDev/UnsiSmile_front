@@ -18,8 +18,9 @@
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
           @for (column of columnas; track trackByIndex($index, column)) {
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="px-6 py-3 cursor-pointer" (click)="onSort(column)">
             {{ column }}
+            <i [class]="getSortIcon(column)" class="ml-1"></i>
           </th>
           }
           <th scope="col" class="px-6 py-3"></th>

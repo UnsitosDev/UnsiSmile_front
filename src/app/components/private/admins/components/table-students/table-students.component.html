@@ -10,8 +10,10 @@
   [columns]="columns"
   [data]="studentsList"
   [totalItems]="totalElements"
+  [sortableColumns]="sortableColumns"
   (pageChange)="onPageChange($event)"
   (pageSizeChange)="onPageSizeChange($event)"
   (action)="onAction($event)"
-  (searchChange)="onSearch($event)">
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)">
 </app-tabla-data>

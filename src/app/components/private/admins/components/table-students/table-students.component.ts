@@ -37,6 +37,14 @@ export class TableStudentsComponent implements OnInit {
   isChecked: boolean = false;
   searchTerm: string = '';
   totalElements: number = 0;
+  sortField: string = 'person.firstName';
+  sortAsc: boolean = true;
+  sortableColumns = {
+    'nombre': 'person.firstName',
+    'apellido': 'person.firstLastName',
+    'correo': 'person.email',
+    'matricula': 'enrollment'
+  };
 
   constructor(
     public dialog: MatDialog,
@@ -104,7 +112,7 @@ export class TableStudentsComponent implements OnInit {
 
   getAlumnos(page: number = 0, size: number = 10, keyword: string = '') {
     const encodedKeyword = encodeURIComponent(keyword);
-    const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}`;
+    const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
     
     this.apiService.getService({
       headers: new HttpHeaders({
@@ -138,5 +146,11 @@ export class TableStudentsComponent implements OnInit {
   onPageChange(event: number) {
     this.currentPage = event - 1; 
     this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm); 
+  }
+
+  onSort(event: {field: string, asc: boolean}) {
+    this.sortField = event.field;
+    this.sortAsc = event.asc;
+    this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 }
