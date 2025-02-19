@@ -42,7 +42,8 @@ export class StudentsPatientsComponent implements OnInit {
     'nombres': 'person.firstName',
     'apellidos': 'person.firstLastName',
     'correo': 'person.email',
-    'curp': 'person.curp'
+    'curp': 'person.curp',
+    'estatus': 'user.status'  // Agregado el campo estatus para ordenamiento
   };
 
 
