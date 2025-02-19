@@ -5,11 +5,13 @@ import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faUserMd } from '@fortawesome/free-solid-svg-icons'; // Ícono de doctor
 import { DashboardStatsComponent } from 'src/app/shared/dashboard-stats/dashboard-stats.component';
 import { AdditionalCardsComponent } from 'src/app/shared/components/additional-cards/additional-cards.component';
+import { AditionalCardsStudentComponent } from "../../../../../shared/components/aditional-cards-student/aditional-cards-student.component";
+import { DashboardStatsStudentComponent } from "../../../../../shared/dashboard-stats-student/dashboard-stats-student.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FontAwesomeModule, DashboardStatsComponent, AdditionalCardsComponent],
+  imports: [FontAwesomeModule, DashboardStatsComponent, AdditionalCardsComponent, AditionalCardsStudentComponent, DashboardStatsStudentComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'] // Corrige styleUrl a styleUrls
 })
