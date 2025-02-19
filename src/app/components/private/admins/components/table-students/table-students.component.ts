@@ -44,7 +44,7 @@ export class TableStudentsComponent implements OnInit {
     'apellido': 'person.firstLastName',
     'correo': 'person.email',
     'matricula': 'enrollment',
-    'status': 'user.status'  // Agregado status
+    'estatus': 'user.status'  // Agregado el campo estatus
   };
 
   constructor(
@@ -130,7 +130,7 @@ export class TableStudentsComponent implements OnInit {
             apellido: `${student.person.firstLastName} ${student.person.secondLastName}`,
             correo: student.person.email,
             matricula: student.enrollment,
-            status: student.user.status ? 'Activo' : 'Inactivo'  // Agregado status
+            estatus: student.user.status ? 'Activo' : 'Inactivo'  // Agregado status
           }));
         } else {
           this.studentsList = [];

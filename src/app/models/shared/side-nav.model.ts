@@ -12,7 +12,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
       {
         fontAwesomeIcon: faHome,
         buttonText: 'Inicio',
-        buttonDescription: 'Información del usuario',
+        buttonDescription: 'Información relevante',
         routerlink: '/students/dashboard'
       },
       {
@@ -33,7 +33,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
       {
         fontAwesomeIcon: faHome,
         buttonText: 'Inicio',
-        buttonDescription: 'Información del usuario',
+        buttonDescription: 'Información relevante',
         routerlink: '/admin/dashboard'
       },
       {
@@ -72,7 +72,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
       {
         fontAwesomeIcon: faHome,
         buttonText: 'Inicio',
-        buttonDescription: 'Información del usuario',
+        buttonDescription: 'Información relevante',
         routerlink: '/teacher/dashboard'
       },
       {

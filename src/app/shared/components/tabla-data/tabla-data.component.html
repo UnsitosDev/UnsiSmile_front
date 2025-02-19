@@ -1,4 +1,4 @@
-<main class="p-10 bg-white shadow-md rounded-lg rounded-lg">
+<main class="p-10  shadow-md rounded-lg rounded-lg">
   <div class="flex justify-between items-center mb-6">
     <h1 class="title text-2xl font-semibold">{{title}}</h1>
   </div>
@@ -32,10 +32,10 @@
           currentPage: page,
           totalItems: totalItems 
         }; track data) {
-        <tr class="bg-white border-b hover:bg-gray-50">
+        <tr class="border-b"> <!-- Removido 'bg-white' de la clase -->
           @for (nombre of columnas; track trackByIndex($index, nombre)) {
           <td class="px-6 py-4">
-            @if (nombre === 'status') {
+            @if (nombre === 'estatus') {
               <span class="status-badge" [ngClass]="getStatusClass(data[nombre])">
                 {{ data[nombre] }}
               </span>

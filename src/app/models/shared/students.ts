@@ -11,6 +11,6 @@ export class studentsTableData {
   apellido = ''
   correo = ''
   matricula = ''
-  status = ''  // Agregado status
+  estatus = ''  // Agregado status
 }
 
