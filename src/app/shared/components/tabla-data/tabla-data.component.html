@@ -35,7 +35,7 @@
         <tr class="border-b"> <!-- Removido 'bg-white' de la clase -->
           @for (nombre of columnas; track trackByIndex($index, nombre)) {
           <td class="px-6 py-4">
-            @if (nombre === 'status') {
+            @if (nombre === 'estatus') {
               <span class="status-badge" [ngClass]="getStatusClass(data[nombre])">
                 {{ data[nombre] }}
               </span>

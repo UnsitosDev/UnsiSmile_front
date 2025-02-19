@@ -49,7 +49,7 @@ export class TableAdminComponent implements OnInit {
     'apellido': 'person.firstLastName',
     'correo': 'person.email',
     'numeroEmpleado': 'employeeNumber',
-    'status': 'user.status'
+    'estatus': 'user.status'  // Cambiado de 'status' a 'estatus'
   };
 
   constructor(
@@ -121,7 +121,7 @@ export class TableAdminComponent implements OnInit {
               apellido: `${admin.person.firstLastName} ${admin.person.secondLastName || ''}`.trim(),
               correo: admin.person.email,
               numeroEmpleado: admin.employeeNumber,
-              status: admin.user.status ? 'Activo' : 'Inactivo' 
+              estatus: admin.user.status ? 'Activo' : 'Inactivo'  // Cambiado de 'status' a 'estatus'
             };
           });
         } else {
