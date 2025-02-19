@@ -17,12 +17,13 @@ import { DialogHistoryClinicsComponent } from '../dialog-history-clinics/dialog-
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar estos módulos
+import { MatCardModule } from '@angular/material/card';
 
 
 @Component({
   selector: 'app-students-patients',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule ,MatInputModule, TablaDataComponent, MatButtonModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule ,MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
   templateUrl: './students-patients.component.html',
   styleUrl: './students-patients.component.scss',
 })

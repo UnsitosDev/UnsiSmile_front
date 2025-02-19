@@ -17,11 +17,12 @@ import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-d
 import { StudentsGeneralHistoryComponent } from '../../../students/pages/history-clinics/general/students-general-history.component';
 import { studentRequest } from 'src/app/shared/interfaces/student/student';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-table-students',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
   templateUrl: './table-students.component.html',
   styleUrls: ['./table-students.component.scss']
 })

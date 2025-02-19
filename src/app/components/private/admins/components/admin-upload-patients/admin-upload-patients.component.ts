@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-admin-upload-patients',
   standalone: true,
-  imports: [MatIconModule, MatDividerModule, MatButtonModule],
+  imports: [MatIconModule, MatDividerModule, MatButtonModule, MatCardModule],
   templateUrl: './admin-upload-patients.component.html',
   styleUrl: './admin-upload-patients.component.scss'
 })
