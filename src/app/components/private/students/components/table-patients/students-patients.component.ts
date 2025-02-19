@@ -56,7 +56,7 @@ export class StudentsPatientsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.columnas = [...getEntityPropiedades('patients'), 'status'];
+    this.columnas = [...getEntityPropiedades('patients'), 'estatus'];
     this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
@@ -123,7 +123,7 @@ export class StudentsPatientsComponent implements OnInit {
               curp: person.curp,
               idMedicalHistory: medicalHistory,
               patientID: patient.idPatient,
-              status: 'Activo'  // Valor por defecto
+              estatus: 'Activo'  // Valor por defecto
             };
           });
         } else {

@@ -1,4 +1,4 @@
-import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUserGraduate, faUserShield} from '@fortawesome/free-solid-svg-icons';
 
 
     export interface MenuItem {
@@ -37,7 +37,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
         routerlink: '/admin/dashboard'
       },
       {
-        fontAwesomeIcon: faHospitalUser,
+        fontAwesomeIcon: faUserGraduate,
         buttonText: 'Estudiantes',
         buttonDescription: 'Ver estudiantes',
         routerlink: '/admin/students'
@@ -49,7 +49,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
         routerlink: '/admin/patients'
       },
       {
-        fontAwesomeIcon: faHospitalUser,
+        fontAwesomeIcon: faUserShield,
         buttonText: 'Administrador',
         buttonDescription: 'Ver administradores',
         routerlink: '/admin/admins'
