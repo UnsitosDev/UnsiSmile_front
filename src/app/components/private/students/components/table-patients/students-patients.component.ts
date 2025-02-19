@@ -42,7 +42,8 @@ export class StudentsPatientsComponent implements OnInit {
     'nombres': 'person.firstName',
     'apellidos': 'person.firstLastName',
     'correo': 'person.email',
-    'curp': 'person.curp'
+    'curp': 'person.curp',
+    'estatus': 'user.status'  // Agregado el campo estatus para ordenamiento
   };
 
 
@@ -56,7 +57,7 @@ export class StudentsPatientsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.columnas = [...getEntityPropiedades('patients'), 'status'];
+    this.columnas = [...getEntityPropiedades('patients'), 'estatus'];
     this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
@@ -123,7 +124,7 @@ export class StudentsPatientsComponent implements OnInit {
               curp: person.curp,
               idMedicalHistory: medicalHistory,
               patientID: patient.idPatient,
-              status: 'Activo'  // Valor por defecto
+              estatus: 'Activo'  // Valor por defecto
             };
           });
         } else {
