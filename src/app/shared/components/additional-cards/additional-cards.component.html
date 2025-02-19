@@ -6,7 +6,7 @@
           <h2 class="tt text-lg font-semibold">{{ card.title }}</h2>
           <i [ngClass]="card.icon" class="h-6 w-6 fa-3x text-gray-400"></i>
         </div>
-        <p class="text-gray-600 flex-grow">Contenido del card {{ i + 2 }}</p>
+        <p class="text-gray-600 text-xl	flex-grow">{{card.content}}</p>
         <div class="h-2 mt-4 -mx-6 -mb-6" [ngClass]="card.color"></div>
       </div>
     </div>

@@ -1,12 +1,18 @@
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Administradores - Consulta y Administración</strong></mat-card-title>
+</mat-card>
+<br>
+
 <div class="flex justify-end">
     <button class="mr-10" mat-flat-button color="primary" routerLink="/admin/addAdmin">
         <i class="fas fa-user-plus"></i>  
         Nuevo Administrador
     </button>
 </div>
+<br>
 
 <app-tabla-data
-  [title]="title"
+  [titulo]="title"
   [columns]="columns"
   [data]="adminList"
   [totalItems]="totalElements"

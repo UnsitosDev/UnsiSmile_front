@@ -13,6 +13,7 @@ import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-d
 import { AdminResponse, User } from 'src/app/models/shared/admin/admin.model';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AdminTableData } from 'src/app/models/shared/admin/admin';
+import { MatCardModule } from '@angular/material/card';
 
 
 @Component({
@@ -25,7 +26,8 @@ import { AdminTableData } from 'src/app/models/shared/admin/admin';
     MatInputModule,
     TablaDataComponent,
     MatButtonModule,
-    RouterLink
+    RouterLink,
+    MatCardModule
   ],
   templateUrl: './table-admin.component.html',
   styleUrls: ['./table-admin.component.scss']
