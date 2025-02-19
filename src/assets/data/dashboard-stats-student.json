@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Pacientes Registrados",
+    "count": 40,
+    "icon": "fas fa-users"
+  },
+  {
+    "title": "Pacientes integrales",
+    "count": 15,
+    "icon": "fas fa-calendar-check"
+  },
+  {
+    "title": "Pacientes por mes",
+    "count": 10,
+    "icon": "fas fa-user-md"
+  }
+]
