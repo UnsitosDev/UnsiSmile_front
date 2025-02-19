@@ -147,6 +147,35 @@ table {
     background: #274CA2 !important;
   }
 
+  ::ng-deep .ngx-pagination {
+    .current {
+      background:var(--tertiary) !important;
+    }
+    
+    a {
+      color: var(--on-secondary) !important; // Color para los números
+      
+      &:hover {
+        background: var(--input-icon-color) !important; // Color hover más suave
+        color: var(--on-secondary) !important;
+      }
+    }
+    
+    .pagination-previous a,
+    .pagination-next a {
+      color: var(--on-secondary) !important; // Color para "Anterior" y "Siguiente"
+      
+      &:hover {
+        background: rgba(39, 76, 162, 0.2) !important;
+      }
+    }
+    
+    .pagination-previous.disabled,
+    .pagination-next.disabled {
+      color: var(--input-icon-color) !important; // Color para estados deshabilitados
+    }
+  }
+
   .status-badge {
     padding: 4px 8px;
     border-radius: 12px;
