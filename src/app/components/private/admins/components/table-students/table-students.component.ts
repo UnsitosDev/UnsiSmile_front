@@ -44,7 +44,7 @@ export class TableStudentsComponent implements OnInit {
     'apellido': 'person.firstLastName',
     'correo': 'person.email',
     'matricula': 'enrollment',
-    'status': 'user.status'  // Agregado status
+    'estatus': 'user.status'  // Agregado el campo estatus
   };
 
   constructor(
