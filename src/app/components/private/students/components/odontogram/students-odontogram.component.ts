@@ -372,11 +372,13 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
           }
         })
         .sort((a, b) => {
-          // Ordenar dientes de manera apropiada según el cuadrante
+          // Invertir la ordenación:
+          // Actualmente: cuadrantes 1 y 4 orden ascendente, 2 y 3 descendente.
+          // Requiere: cuadrantes 1 y 4 descendente, 2 y 3 ascendente.
           if (quadrant === 1 || quadrant === 4) {
-            return a.idTooth - b.idTooth; // orden ascendente para cuadrantes derechos
+            return b.idTooth - a.idTooth; // Orden descendente para el derecho
           } else {
-            return b.idTooth - a.idTooth; // orden descendente para cuadrantes izquierdos
+            return a.idTooth - b.idTooth; // Orden ascendente para el izquierdo
           }
         });
     }
@@ -399,16 +401,15 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
           }
         })
         .sort((a, b) => {
-          // Ordenar dientes de manera apropiada según el cuadrante
           if (quadrant === 5 || quadrant === 8) {
-            return a.idTooth - b.idTooth; // orden ascendente para cuadrantes derechos
+            return b.idTooth - a.idTooth; // Orden descendente para el derecho (según lógica deseada)
           } else {
-            return b.idTooth - a.idTooth; // orden descendente para cuadrantes izquierdos
+            return a.idTooth - b.idTooth; // Orden ascendente para el izquierdo
           }
         });
     }
   }
-
+  
   store(): void {
 
     switch (this.state) {
