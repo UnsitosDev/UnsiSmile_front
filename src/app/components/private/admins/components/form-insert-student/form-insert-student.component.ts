@@ -17,6 +17,9 @@ import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { Router } from '@angular/router';
 import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
+import { ToastrService } from 'ngx-toastr';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { MatCardModule } from '@angular/material/card';
 
 
 
@@ -32,11 +35,12 @@ import { religionRequest } from 'src/app/models/shared/patients/Religion/religio
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FieldComponentComponent,MatStep,MatStepperModule,AlertComponent],
+    FieldComponentComponent,MatStep,MatStepperModule,AlertComponent,MatCardModule],
   templateUrl: './form-insert-student.component.html',
   styleUrl: './form-insert-student.component.scss'
 })
 export class FormInsertStudentComponent {
+  private toastr = inject(ToastrService);
   private apiService = inject(ApiService<religionRequest>);
   formGroup!: FormGroup;
   student: FormField[] = [];
@@ -104,19 +108,15 @@ export class FormInsertStudentComponent {
         .subscribe({
           next: (response) => {
             this.router.navigate(['/admin/students']);  // Redirige después de un éxito
-            this.alertConfiguration('SUCCESS', "El estudiante ha sido registrado correctamente.");
-            this.openAlert();
+            this.toastr.success(Messages.SUCCES_INSERT_STUDENT, 'Éxito');
           },
           error: (error) => {
-            console.error('Error en el registro:', error);
-            this.alertConfiguration('ERROR', error);
-            this.openAlert();
+            this.toastr.error(error, 'Error');
           },
         });
   
     } else {
-      this.alertMessage = 'Por favor, completa todos los campos correctamente.';
-      this.showAlert = true;
+      this.toastr.warning(Messages.WARNING_INSERT_STUDENT, 'Advertencia');
     }
   }
   
