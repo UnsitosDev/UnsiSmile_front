@@ -14,6 +14,8 @@ import { AdminResponse, User } from 'src/app/models/shared/admin/admin.model';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AdminTableData } from 'src/app/models/shared/admin/admin';
 import { MatCardModule } from '@angular/material/card';
+import { DetailsAdminComponent } from '../details-admin/details-admin.component';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 
 @Component({
@@ -38,6 +40,7 @@ export class TableAdminComponent implements OnInit {
   title: string = 'Administradores';
   private apiService = inject(ApiService<any>);
   private searchSubject = new Subject<string>();
+  private dataSharingService = inject(DataSharingService);
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -79,6 +82,8 @@ export class TableAdminComponent implements OnInit {
       this.edit(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
+    } else if (accion.accion === 'Detalles') {
+      this.openDetailsDialog(accion.fila);
     }
   }
 
@@ -156,5 +161,18 @@ export class TableAdminComponent implements OnInit {
     this.sortField = event.field;
     this.sortAsc = event.asc;
     this.getAdmins(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  // Agregar método para abrir el diálogo de detalles
+  openDetailsDialog(admin: AdminTableData): void {
+    this.dataSharingService.setAdminData(admin);
+    const dialogRef = this.dialog.open(DetailsAdminComponent, {
+      width: '600px',
+       // Ajusta el ancho según tus necesidades
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

@@ -1,0 +1,32 @@
+<mat-card>
+    <mat-card-title><strong>Datos del Administrador</strong></mat-card-title>             
+    <mat-card-content>
+        @if (data) {
+            <div class="mx-8">
+                <br>
+                <div class="grid grid-cols-3 gap-4 card-custom custom-color">
+                    <div>         
+                        <div>
+                            <strong><i class="far fa-user"></i>&nbsp; {{data.nombre}}  {{data.apellido}}</strong>
+                        </div>
+                        <div>
+                            <i class="far fa-id-card"></i>&nbsp; {{data.numeroEmpleado}}
+                        </div>  
+                        <div>
+                            <i class="fas fa-envelope"></i>&nbsp; {{data.correo}}
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <i class="fas fa-phone"></i>&nbsp;  {{data.numeroEmpleado}}
+                        </div>
+                        <div>
+                            <i class="fas fa-map-marker-alt"></i> &nbsp;&nbsp;{{data.estatus}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        }
+    </mat-card-content>
+</mat-card>
