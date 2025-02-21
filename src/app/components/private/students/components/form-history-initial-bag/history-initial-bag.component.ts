@@ -103,16 +103,26 @@ export class HistoryInitialBagComponent implements OnInit {
   // Maneja los cambios en los campos de entrada
   onInputChange(tableKey: keyof TabStructure, row: Row, event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    const newValue = inputElement.value;
-
-    // Encuentra la fila correspondiente y actualiza el valor
+    let newValue = inputElement.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+  
+    // Limita a 3 dígitos
+    if (newValue.length > 3) {
+      newValue = newValue.substring(0, 3);
+    }
+  
+    // Formatea el valor como 0-0-0
+    const formattedValue = newValue.replace(/(\d{1})(\d{1})(\d{1})/, '$1-$2-$3');
+  
+    // Asigna el valor formateado al input
+    inputElement.value = formattedValue;
+  
+    // Actualiza el valor en la tabla
     const rowIndex = this.tab[tableKey].rows.indexOf(row);
-    const columnIndex = Array.from(inputElement.parentElement!.parentElement!.children).indexOf(
-      inputElement.parentElement!
-    ) - 1;
-
+    const columnIndex = Array.from(inputElement.parentElement!.parentElement!.children).indexOf(inputElement.parentElement!) - 1;
+  
     if (rowIndex !== -1 && columnIndex !== -1) {
-      this.tab[tableKey].rows[rowIndex].values[columnIndex] = newValue;
+      this.tab[tableKey].rows[rowIndex].values[columnIndex] = formattedValue;
     }
   }
+  
 }
