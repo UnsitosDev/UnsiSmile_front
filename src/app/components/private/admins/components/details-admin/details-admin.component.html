@@ -1,32 +1,68 @@
-<mat-card>
+<mat-card class="p-4">
     <mat-card-title><strong>Datos del Administrador</strong></mat-card-title>             
     <mat-card-content>
         @if (data) {
-            <div class="mx-8">
-                <br>
-                <div class="grid grid-cols-3 gap-4 card-custom custom-color">
-                    <div>         
-                        <div>
-                            <strong><i class="far fa-user"></i>&nbsp; {{data.nombre}}  {{data.apellido}}</strong>
+            <div class="admin-details-container">
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="far fa-user"></i>
+                            <span>Nombre Completo</span>
                         </div>
-                        <div>
-                            <i class="far fa-id-card"></i>&nbsp; {{data.numeroEmpleado}}
-                        </div>  
-                        <div>
-                            <i class="fas fa-envelope"></i>&nbsp; {{data.correo}}
-                        </div>
+                        <div class="detail-content">{{data.nombre}} {{data.apellido}}</div>
                     </div>
-                    <div>
-                        <div>
-                            <i class="fas fa-phone"></i>&nbsp;  {{data.numeroEmpleado}}
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="far fa-id-card"></i>
+                            <span>Número de Empleado</span>
                         </div>
-                        <div>
-                            <i class="fas fa-map-marker-alt"></i> &nbsp;&nbsp;{{data.estatus}}
+                        <div class="detail-content">{{data.numeroEmpleado}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-id-card"></i>
+                            <span>CURP</span>
+                        </div>
+                        <div class="detail-content">{{data.curp}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-phone"></i>
+                            <span>Teléfono</span>
+                        </div>
+                        <div class="detail-content">{{data.telefono}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-calendar"></i>
+                            <span>Fecha de Nacimiento</span>
+                        </div>
+                        <div class="detail-content">{{data.fechaNacimiento | date:'dd/MM/yyyy'}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-envelope"></i>
+                            <span>Correo Electrónico</span>
+                        </div>
+                        <div class="detail-content">{{data.correo}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-circle"></i>
+                            <span>Estado</span>
+                        </div>
+                        <div class="detail-content" [class]="data.estatus === 'Activo' ? 'status-active' : 'status-inactive'">
+                            {{data.estatus}}
                         </div>
                     </div>
                 </div>
             </div>
-            <br>
         }
     </mat-card-content>
 </mat-card>

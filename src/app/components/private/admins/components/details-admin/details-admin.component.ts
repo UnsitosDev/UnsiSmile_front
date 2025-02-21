@@ -1,16 +1,23 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatCardContent } from '@angular/material/card';
 
 @Component({
   selector: 'app-details-admin',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatDialogModule,MatCardContent],
+  imports: [
+    CommonModule, 
+    MatCardModule, 
+    MatDialogModule,
+    DatePipe
+  ],
   templateUrl: './details-admin.component.html',
-  styleUrl: './details-admin.component.scss'
+  styleUrl: './details-admin.component.scss',
+  host: {
+    'class': 'dialog-responsive'
+  }
 })
 export class DetailsAdminComponent implements OnInit {
   data: any;

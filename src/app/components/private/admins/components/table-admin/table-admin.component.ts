@@ -128,7 +128,10 @@ export class TableAdminComponent implements OnInit {
               apellido: `${admin.person.firstLastName} ${admin.person.secondLastName || ''}`.trim(),
               correo: admin.person.email,
               numeroEmpleado: admin.employeeNumber,
-              estatus: admin.user.status ? 'Activo' : 'Inactivo'  // Cambiado de 'status' a 'estatus'
+              estatus: admin.user.status ? 'Activo' : 'Inactivo',
+              curp: admin.person.curp,
+              telefono: admin.person.phone,
+              fechaNacimiento: admin.person.birthDate
             };
           });
         } else {
