@@ -5,38 +5,46 @@
     margin-bottom: 1rem !important;
     border-radius: 4px;
     font-size: 1.2rem;
-    text-align: center; // Añadido para centrar
-    display: flex;     // Añadido para mejor centrado
-    justify-content: center; // Añadido para mejor centrado
+    text-align: center; 
+    display: flex;     
+    justify-content: center; 
+}
+
+.mat-mdc-card{
+    background-color: var(--on-primary);
+}
+
+.mat-card{
+    background-color: var(--on-primary);
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    background-color: var(--on-primary);
 }
 
 ::ng-deep .mat-step-header .mat-step-label {
-    color: var(--on-primary); // Usa la variable de color del tema para el texto
-}
-
-.fondo {
-    background: var(--secondary);
+    color: var(--on-primary); 
 }
 
 i {
-    color: #07437a;
+    color: var(--tertiary);
 }
 
 .custom-color {
-    color: rgb(104, 104, 104);
+    color: var(--on-primary);
 }
 
 p {
     display: flex; /* Activar flexbox */
     justify-content: center; /* Centrar horizontalmente */
     align-items: center; /* Centrar verticalmente */
-    background-color: #939393;
+    background-color: var(--tertiary); /* Color de fondo */
     color: var(--on-primary);
     height: 30px;
 }
 
 .info-group {
-    background-color: #f8f9fa;
+    background-color: #1275d8;
     border-radius: 8px;
     padding: 1.5rem;
 }
@@ -53,24 +61,10 @@ p {
     }
 }
 
-.info-label {
-    color: #6c757d;
-    font-weight: 500;
-    font-size: 0.9rem;
 
-    i {
-        margin-right: 0.5rem;
-    }
-}
-
-.info-value {
-    font-size: 1rem;
-    color: #212529;
-    padding-left: 1.5rem;
-}
 
 .text-primary {
-    color: #3f51b5;
+    color: var(--tertiary);//titulos
 }
 
 .admin-details-container {
@@ -79,22 +73,22 @@ p {
     margin: 0 auto;
     max-height: calc(90vh - 120px); // Ajusta según el espacio del título
     overflow-y: auto;
+    background-color: var(--on-primary);
 }
 
 .details-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr); // Cambiamos a 2 columnas fijas
     gap: 0.8rem;
-    background: #ffffff;
+    background: var(--on-primary);
     border-radius: 8px;
     padding: 0.5rem;
 }
 
 .detail-item {
-    background: #f8f9fa;
+    background: var(--input-color);
     padding: 0.6rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     transition: all 0.3s ease;
     min-height: 80px; // Altura mínima más pequeña
     width: 100%; // Asegura que tome el ancho completo del grid
@@ -125,7 +119,7 @@ p {
 
 .detail-content {
     font-size: 1rem;
-    color: #2c3e50;
+    color: var(--text);
     padding: 0.3rem 0;
     margin-left: 1.7rem;
     word-wrap: break-word; // Permite que las palabras largas se rompan
