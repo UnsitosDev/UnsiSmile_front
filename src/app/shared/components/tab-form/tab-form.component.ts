@@ -80,9 +80,9 @@ export class TabFormComponent implements TabsHandler {
   ngOnInit(): void {
     this.section();
     this.route.paramMap.subscribe((params) => {
-      this.id = +params.get('id')!;
-      this.patientID = +params.get('patientID')!;
-      this.patientUuid = params.get('patient')!;
+      this.id = +params.get('id')!; // Id historia clinica
+      this.patientID = +params.get('patientID')!; // id paciente hc
+      this.patientUuid = params.get('patient')!; // uuid paciente
       this.cdr.detectChanges(); // Fuerza la detección de cambios
     });
   }
@@ -197,7 +197,7 @@ export class TabFormComponent implements TabsHandler {
       formData.append('files', this.files[i]);
     }
 
-    formData.append('idPatient', this.patientUuid);
+    formData.append('idPatientClinicalHistory', this.patientID.toString());
     formData.append('idQuestion', this.idQuestion.toString());
 
     this.apiService
