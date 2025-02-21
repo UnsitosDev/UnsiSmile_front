@@ -170,8 +170,11 @@ export class TableAdminComponent implements OnInit {
   openDetailsDialog(admin: AdminTableData): void {
     this.dataSharingService.setAdminData(admin);
     const dialogRef = this.dialog.open(DetailsAdminComponent, {
-      width: '600px',
-       // Ajusta el ancho según tus necesidades
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh', // Limita la altura al 90% de la ventana
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
     });
 
     dialogRef.afterClosed().subscribe(result => {

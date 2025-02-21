@@ -74,23 +74,25 @@ p {
 }
 
 .admin-details-container {
-    padding: 0.8rem;
-    max-width: 1200px; // Hacemos el contenedor más ancho
+    padding: 0.5rem;
+    max-width: 100%;
     margin: 0 auto;
+    max-height: calc(90vh - 120px); // Ajusta según el espacio del título
+    overflow-y: auto;
 }
 
 .details-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr); // Cambiamos a 2 columnas fijas
-    gap: 1rem;
+    gap: 0.8rem;
     background: #ffffff;
     border-radius: 8px;
-    padding: 0.8rem;
+    padding: 0.5rem;
 }
 
 .detail-item {
     background: #f8f9fa;
-    padding: 0.8rem;
+    padding: 0.6rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     transition: all 0.3s ease;
@@ -140,4 +142,15 @@ p {
 .status-inactive {
     color: #e74c3c;
     font-weight: 500;
+}
+
+::ng-deep .custom-dialog-container {
+    mat-dialog-container {
+        padding: 0.5rem !important;
+    }
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+    padding: 0.5rem !important;
+    overflow: hidden !important;
 }

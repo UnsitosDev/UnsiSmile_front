@@ -84,3 +84,12 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
 .dark-theme {
   @include dark-theme;
 }
+
+.custom-dialog-container .mat-dialog-container {
+    padding: 0.5rem;
+    overflow: hidden;
+}
+
+.mat-mdc-dialog-surface.mdc-dialog__surface {
+    overflow: hidden !important;
+}
