@@ -1,4 +1,4 @@
-import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUserGraduate, faUserShield} from '@fortawesome/free-solid-svg-icons';
 
 
     export interface MenuItem {
@@ -12,7 +12,7 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
       {
         fontAwesomeIcon: faHome,
         buttonText: 'Inicio',
-        buttonDescription: 'Información del usuario',
+        buttonDescription: 'Información relevante',
         routerlink: '/students/dashboard'
       },
       {
@@ -33,11 +33,11 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
       {
         fontAwesomeIcon: faHome,
         buttonText: 'Inicio',
-        buttonDescription: 'Información del usuario',
+        buttonDescription: 'Información relevante',
         routerlink: '/admin/dashboard'
       },
       {
-        fontAwesomeIcon: faHospitalUser,
+        fontAwesomeIcon: faUserGraduate,
         buttonText: 'Estudiantes',
         buttonDescription: 'Ver estudiantes',
         routerlink: '/admin/students'
@@ -49,10 +49,10 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
         routerlink: '/admin/patients'
       },
       {
-        fontAwesomeIcon: faHospitalUser,
-        buttonText: 'Nuevo administrador',
-        buttonDescription: 'Insertar Administrador',
-        routerlink: '/admin/addAdmin'
+        fontAwesomeIcon: faUserShield,
+        buttonText: 'Administrador',
+        buttonDescription: 'Ver administradores',
+        routerlink: '/admin/admins'
       },
       {
         fontAwesomeIcon: faFileUpload,
@@ -66,6 +66,21 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload} from 
         buttonDescription: 'Subir Excel de Pacientes.',
         routerlink: '/admin/upload-patients'
       }
+    ];
+
+    export const TeacherItems: MenuItem[] = [
+      {
+        fontAwesomeIcon: faHome,
+        buttonText: 'Inicio',
+        buttonDescription: 'Información relevante',
+        routerlink: '/teacher/dashboard'
+      },
+      {
+        fontAwesomeIcon: faHospitalUser,
+        buttonText: 'Estudiantes',
+        buttonDescription: 'Ver estudiantes',
+        routerlink: '/teacher/student'
+      },
     ];
     
   

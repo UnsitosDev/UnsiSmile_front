@@ -10,7 +10,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
@@ -40,17 +40,15 @@ export class FieldComponentComponent implements OnChanges {
   @Output() setFileValue = new EventEmitter<any>();
   @Output() ageStatusChange = new EventEmitter<boolean>(); 
   apiService = inject(ApiService);
-
-
-  isChecked: boolean = false;
-
-  typeElement: string = '';
+  isTextRequired: boolean = false;
   datePipe = inject(DatePipe);
-
+  
   myControl = new FormControl('');
 
   ngOnInit() {
+
     if (this.field.answerField) {
+
       // Verifica si la respuesta contiene una fecha válida
       const rawValue = this.field.answerField.answerDate;
       const formattedDate = this.getFormattedDate(rawValue);
@@ -81,6 +79,32 @@ export class FieldComponentComponent implements OnChanges {
     }
 
   }
+
+    combinedValues = {
+      checkboxValue: false,
+      textValue: ''
+    };
+  
+    onFieldChange(fieldType: 'checkbox' | 'text', fieldName: string, event: Event | MatCheckboxChange) {
+      if (fieldType === 'checkbox') {
+        const checkboxEvent = event as MatCheckboxChange;
+        this.combinedValues.checkboxValue = checkboxEvent.checked;
+      } else if (fieldType === 'text') {
+        const inputEvent = event as InputEvent;
+        const target = inputEvent.target as HTMLInputElement;
+        this.combinedValues.textValue = target?.value || '';
+      }
+    
+      const emittedValue = {
+        field: fieldName,  
+        value: this.combinedValues,  
+        questionID: this.field.questionID,  
+        idAnswer: this.field.answerField?.idAnswer
+      };
+      
+      this.setFieldValue.emit(emittedValue);  
+    }
+    
   
   // Retorna una función que, dado un valor, devuelve la etiqueta (`label`) asociada 
   // de las opciones de un campo. Si no se encuentra la opción o los datos son inválidos, retorna una cadena vacía.

@@ -146,3 +146,69 @@ table {
   ::ng-deep .ngx-pagination .current {
     background: #274CA2 !important;
   }
+
+  ::ng-deep .ngx-pagination {
+    .current {
+      background:var(--tertiary) !important;
+    }
+    
+    a {
+      color: var(--on-secondary) !important; // Color para los números
+      
+      &:hover {
+        background: var(--input-icon-color) !important; // Color hover más suave
+        color: var(--on-secondary) !important;
+      }
+    }
+    
+    .pagination-previous a,
+    .pagination-next a {
+      color: var(--on-secondary) !important; // Color para "Anterior" y "Siguiente"
+      
+      &:hover {
+        background: rgba(39, 76, 162, 0.2) !important;
+      }
+    }
+    
+    .pagination-previous.disabled,
+    .pagination-next.disabled {
+      color: var(--input-icon-color) !important; // Color para estados deshabilitados
+    }
+  }
+
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+  
+  .status-active {
+    background-color: #e6f4ea;
+    color: #1e7e34;
+  }
+  
+  .status-inactive {
+    background-color: #fce8e8;
+    color: #dc3545;
+  }
+  
+  .status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  // Estilos para los iconos de acción
+  td a {
+    i {
+      transition: all 0.3s ease;
+      display: inline-block;
+      
+      &:hover {
+        transform: scale(1.2);
+        color: var(--tertiary); // Color primario cuando se hace hover
+      
+      }
+    }
+  }

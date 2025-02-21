@@ -1,23 +1,26 @@
 [
-    {
-      "title": "Pacientes",
-      "icon": "fas fa-user-injured",
-      "color": "bg-blue-500"
-    },
-    {
-      "title": "Reportes",
-      "icon": "fas fa-file-alt",
-      "color": "bg-green-500"
-    },
-    {
-      "title": "Citas",
-      "icon": "fas fa-calendar-alt",
-      "color": "bg-yellow-500"
-    },
-    {
-      "title": "Actividades",
-      "icon": "fas fa-bolt",
-      "color": "bg-purple-500"
-    }
-  ]
-  
+  {
+    "title": "Pacientes activos hoy",
+    "icon": "fas fa-user-injured",
+    "color": "bg-blue-500",
+    "content": "78"
+  },
+  {
+    "title": "Reportes generados este mes",
+    "icon": "fas fa-file-alt",
+    "color": "bg-green-500",
+    "content": "24"
+  },
+  {
+    "title": "Tratamientos en curso",
+    "icon": "fas fa-tooth",
+    "color": "bg-yellow-500",
+    "content": "35"
+  },
+  {
+    "title": "Procedimientos realizados hoy",
+    "icon": "fas fa-stethoscope",
+    "color": "bg-purple-500",
+    "content": "12"
+  }
+]

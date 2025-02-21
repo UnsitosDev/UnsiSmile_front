@@ -188,6 +188,7 @@ export class UriConstants {
   public static readonly POST_STUDENTS = basePath + '/students';
 
   public static readonly POST_ADMIN = basePath + '/administrators';
+  public static readonly GET_ADMIN = basePath + '/administrators';
 
   // vital-signs-controller
   public static readonly GETID_VITAL_SIGNS =
@@ -263,4 +264,7 @@ export class UriConstants {
   public static readonly GET_CURRENT_SEMESTER = basePath + '/semesters/current-semester'
   // Ciclos
   public static readonly GET_ALL_CYCLES = basePath + '/cycles'
+
+  //obtener un odontogram por id de formulario
+  public static readonly GET_ODONTOGRAM_BY_FORM_ID = basePath + '/medical-histories/odontograms'
 }

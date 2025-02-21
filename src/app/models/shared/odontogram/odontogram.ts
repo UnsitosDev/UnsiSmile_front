@@ -13,7 +13,7 @@ export interface IFace {
 export interface ITooth {
     idTooth: number,
     faces: IFace[],
-    status: true,
+    status: boolean,
     conditions: ICondition[]
 }
 

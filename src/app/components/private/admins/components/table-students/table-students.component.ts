@@ -6,6 +6,9 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { studentsTableData } from 'src/app/models/shared/students';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   Accion,
   getEntityPropiedades,
@@ -13,20 +16,37 @@ import {
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { StudentsGeneralHistoryComponent } from '../../../students/pages/history-clinics/general/students-general-history.component';
 import { studentRequest } from 'src/app/shared/interfaces/student/student';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-table-students',
   standalone: true,
-  imports: [TablaDataComponent, MatButtonModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
   templateUrl: './table-students.component.html',
   styleUrls: ['./table-students.component.scss']
 })
-
 export class TableStudentsComponent implements OnInit {
   studentsList: studentsTableData[] = [];
   columns: string[] = [];
   title: string = 'Estudiantes';
   private apiService = inject(ApiService<studentRequest[]>);
+  private searchSubject = new Subject<string>();
+
+  currentPage = 0;
+  itemsPerPage = 10;
+  isChecked: boolean = false;
+  searchTerm: string = '';
+  totalElements: number = 0;
+  sortField: string = 'person.firstName';
+  sortAsc: boolean = true;
+  sortableColumns = {
+    'nombre': 'person.firstName',
+    'apellido': 'person.firstLastName',
+    'correo': 'person.email',
+    'matricula': 'enrollment',
+    'estatus': 'user.status'  // Agregado el campo estatus
+  };
 
   constructor(
     public dialog: MatDialog,
@@ -37,6 +57,15 @@ export class TableStudentsComponent implements OnInit {
   ngOnInit(): void {
     this.columns = getEntityPropiedades('student');
     this.getAlumnos();
+    
+    // Configurar el observable para la búsqueda con debounce
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      this.currentPage = 0;
+      this.getAlumnos(this.currentPage, this.itemsPerPage, searchTerm);
+    });
   }
 
   openDialog(objeto: any) {
@@ -67,36 +96,64 @@ export class TableStudentsComponent implements OnInit {
     alert('¡Haz clic en un icono!');
   }
 
-  getAlumnos() {
+  check(event: any) {
+    this.isChecked = event.checked;
+  }
+
+  onPageSizeChange(newSize: number) {
+    this.itemsPerPage = newSize;
+    this.currentPage = 0; // Resetear a la primera página
+    this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  onSearch(keyword: string) {
+    this.searchTerm = keyword;
+    this.currentPage = 0; // Resetear a la primera página cuando se busca
+    this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  getAlumnos(page: number = 0, size: number = 10, keyword: string = '') {
+    const encodedKeyword = encodeURIComponent(keyword);
+    const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
+    
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.GET_STUDENTS}`,
+      url,
       data: {},
     }).subscribe({
       next: (response) => {
-        if (Array.isArray(response.content)) {
-          this.studentsList = response.content.map((student: studentRequest) => {
-            const person = student.person;
-            const user = student.user;
-            const studen = student;
-            return {
-              nombre: person.firstName,
-              apellido: `${person.firstLastName} ${person.secondLastName}`,
-              correo: person.email,
-              matricula: studen.enrollment,
-            };
-          });
+        if (response && response.content && Array.isArray(response.content)) {
+          this.totalElements = response.totalElements;
+          this.studentsList = response.content.map((student: studentRequest) => ({
+            nombre: student.person.firstName,
+            apellido: `${student.person.firstLastName} ${student.person.secondLastName}`,
+            correo: student.person.email,
+            matricula: student.enrollment,
+            estatus: student.user.status ? 'Activo' : 'Inactivo'  // Agregado status
+          }));
         } else {
-          console.error('La respuesta no contiene un array en content.');
+          this.studentsList = [];
+          this.totalElements = 0;
         }
       },
       error: (error) => {
-        console.error('Error en la autenticación:', error);
+        console.error('Error al obtener estudiantes:', error);
+        this.studentsList = [];
+        this.totalElements = 0;
       },
     });
   }
-  
-  
+
+  onPageChange(event: number) {
+    this.currentPage = event - 1; 
+    this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm); 
+  }
+
+  onSort(event: {field: string, asc: boolean}) {
+    this.sortField = event.field;
+    this.sortAsc = event.asc;
+    this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
 }

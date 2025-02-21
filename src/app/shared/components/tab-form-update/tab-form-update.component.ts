@@ -132,8 +132,12 @@ export class TabFormUpdateComponent {
   idAnswer!: number;
   questionIDs: { [key: string]: number } = {}; // Definimos questionIDs como un objeto que almacena questionID
   idAnswers: { [key: string]: number } = {}; // Definimos idAnswers como un objeto que almacena idAnswer
+  checkboxValues: { [key: string]: boolean } = {}; // Almacena los valores de checkbox por campo
+  textValues: { [key: string]: string } = {}; // Almacena los valores de texto por campo
 
-  handleFieldValue(event: any) {
+  handleFieldValue(event: any): void {
+    this.checkboxValues[event.field] = event.value.checkboxValue; 
+    this.textValues[event.field] = event.value.textValue; 
     this.idQuestion = event.questionID;
     this.idAnswer = event.idAnswer;
     if (event.idAnswer !== undefined) {
@@ -141,6 +145,9 @@ export class TabFormUpdateComponent {
     }
     this.questionIDs[event.field] = this.idQuestion; // Guarda el questionID para el campo específico
   }
+  
+
+  
 
   files: FileList | null = null; // Almacena el FileList
 
@@ -204,30 +211,29 @@ export class TabFormUpdateComponent {
   }
 
   postHcData() {
-
     const formData = this.formGroup.value;
     const updateData: updateFormData[] = [];
-
+  
     Object.keys(formData).forEach((fieldName) => {
       const fieldValue = formData[fieldName];
       const questionID = this.questionIDs[fieldName];
       const idAnswer = this.idAnswers[fieldName] ?? 0;
       const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
-
+  
       const update: updateFormData = {
         idPatientClinicalHistory: this.patientID,
         idQuestion: questionID,
-        answerBoolean: typeof fieldValue === 'boolean' ? fieldValue : null,
+        answerBoolean: this.checkboxValues[fieldName] || typeof fieldValue === 'boolean' ? fieldValue : null,
         answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
-        answerText: typeof fieldValue === 'string' ? fieldValue.trim() : null,
+        answerText: this.valueText(this.textValues[fieldName]) || this.valueText(fieldValue),
         answerDate: isDateField ? fieldValue : null,
         idCatalogOption: formData.idCatalogOption || null,
         idAnswer: idAnswer,
-      }
+      };
+  
       if (update.idQuestion) {
         updateData.push(update);
       }
-
     });
 
     if (updateData.length > 0) {
@@ -257,6 +263,10 @@ export class TabFormUpdateComponent {
     }
   }
 
+  valueText(value: string): string | null {
+    return typeof value === 'string' && value.trim() !== '' ? value.trim() : null;
+  }
+  
   previousTab() {
     this.previousMatTab.emit();
   }

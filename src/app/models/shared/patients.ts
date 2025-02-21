@@ -11,6 +11,8 @@ export class patientsTableData{
   correo= ''
   curp =  ''
   idMedicalHistory = 0
+  estatus= ''  // Nuevo campo
+
 
   }
 

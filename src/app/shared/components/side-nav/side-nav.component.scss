@@ -1,40 +1,41 @@
 .menu-container {
-    background-color: var(--primary);
-    color: white;
-    height: 100%;
-    width: 100%;
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .logo-text {
-    color: var(--on-primary);
-  }
-  
-  .logo-highlight {
-    color: #3b82f6; /* Blue-500 */
-  }
-  
-  .logo-subtext {
-    color: var(--on-primary);
-  }
+  background-color: var(--primary);
+  color: white;
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; // Cambiado para evitar scroll aquí
+}
 
-  .welcome-text {
-    color: var(--side-text);
-  }
+.logo-text {
+  color: var(--on-primary);
+}
 
-.tt{
-    color: var(--side-text);
-  }
+.logo-highlight {
+  color: #3b82f6; /* Blue-500 */
+}
+
+.logo-subtext {
+  color: var(--on-primary);
+}
+
+.welcome-text {
+  color: var(--side-text);
+}
+
+.tt {
+  color: var(--side-text);
+}
 
 :host {
   display: block;
-  height: 100%;
+  height: 100vh; // Cambiado a 100vh
   position: fixed; // Cambiar a fixed
-  z-index: 1000;   // Asegurar que esté por encima
-  
+  z-index: 1000; // Asegurar que esté por encima
+
   .sidebar {
     position: absolute;
     height: 100%;
@@ -42,7 +43,7 @@
     transform: translateX(0);
     transition: all 0.3s ease-in-out;
     background-color: var(--primary); // Asegurar color de fondo
-    
+
     &.closed {
       transform: translateX(-250px); // Usar el ancho exacto
     }
@@ -50,15 +51,51 @@
 }
 
 .nav-content {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  position: relative; // Añadido
+}
+
+#profile {
+  position: sticky; // Cambiado a sticky
+  top: 0;
+  background-color: var(--primary);
+  z-index: 2;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+  }
 }
 
 .logout-section {
-  margin-top: auto;
+  position: sticky; // Cambiado a sticky
+  bottom: 0;
+  background-color: var(--primary);
   padding: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 2;
 }
 
 .logout-button {
