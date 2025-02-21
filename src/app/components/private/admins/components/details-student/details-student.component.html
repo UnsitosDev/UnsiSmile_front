@@ -22,6 +22,30 @@
 
                     <div class="detail-item">
                         <div class="detail-header">
+                            <i class="fas fa-id-card"></i>
+                            <span>CURP</span>
+                        </div>
+                        <div class="detail-content">{{data.curp}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-phone"></i>
+                            <span>Teléfono</span>
+                        </div>
+                        <div class="detail-content">{{data.telefono}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-calendar"></i>
+                            <span>Fecha de Nacimiento</span>
+                        </div>
+                        <div class="detail-content">{{data.fechaNacimiento | date:'dd/MM/yyyy'}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
                             <i class="fas fa-envelope"></i>
                             <span>Correo Electrónico</span>
                         </div>

@@ -136,7 +136,10 @@ export class TableStudentsComponent implements OnInit {
             apellido: `${student.person.firstLastName} ${student.person.secondLastName}`,
             correo: student.person.email,
             matricula: student.enrollment,
-            estatus: student.user.status ? 'Activo' : 'Inactivo'  // Agregado status
+            estatus: student.user.status ? 'Activo' : 'Inactivo',
+            curp: student.person.curp,
+            telefono: student.person.phone,
+            fechaNacimiento: student.person.birthDate
           }));
         } else {
           this.studentsList = [];

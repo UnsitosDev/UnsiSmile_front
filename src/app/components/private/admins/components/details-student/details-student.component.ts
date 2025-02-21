@@ -10,7 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     CommonModule, 
     MatCardModule, 
-    MatDialogModule,
+    MatDialogModule,  
   ],
   templateUrl: './details-student.component.html',
   styleUrl: './details-student.component.scss',
