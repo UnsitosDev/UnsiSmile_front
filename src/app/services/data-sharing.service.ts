@@ -11,4 +11,13 @@ export class DataSharingService {
   setAdminData(data: any) {
     this.adminDataSubject.next(data);
   }
+
+  // Agregar el BehaviorSubject para datos de pacientes
+  private patientDataSubject = new BehaviorSubject<any>(null);
+  patientData$ = this.patientDataSubject.asObservable();
+
+  // Agregar el método para establecer datos de pacientes
+  setPatientData(data: any) {
+    this.patientDataSubject.next(data);
+  }
 }

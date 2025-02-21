@@ -1,0 +1,157 @@
+// Reutilizar los mismos estilos que el componente de detalles de admin
+::ng-deep .mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 1rem;
+    color: var(--side-text);
+    margin-bottom: 1rem !important;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+::ng-deep .mat-step-header .mat-step-label {
+    color: var(--on-primary);
+}
+
+.fondo {
+    background: var(--secondary);
+}
+
+i {
+    color: #07437a;
+}
+
+.custom-color {
+    color: rgb(104, 104, 104);
+}
+
+p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #939393;
+    color: var(--on-primary);
+    height: 30px;
+}
+
+.info-group {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.info-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.info-label {
+    color: #6c757d;
+    font-weight: 500;
+    font-size: 0.9rem;
+
+    i {
+        margin-right: 0.5rem;
+    }
+}
+
+.info-value {
+    font-size: 1rem;
+    color: #212529;
+    padding-left: 1.5rem;
+}
+
+.text-primary {
+    color: #3f51b5;
+}
+
+.admin-details-container {
+    padding: 0.5rem;
+    max-width: 100%;
+    margin: 0 auto;
+    max-height: calc(90vh - 120px);
+    overflow-y: auto;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.detail-item {
+    background: #f8f9fa;
+    padding: 0.6rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    min-height: 80px;
+    width: 100%;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+}
+
+.detail-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.3rem;
+    color: #07437a;
+    font-weight: 500;
+
+    i {
+        margin-right: 0.5rem;
+        font-size: 1rem;
+    }
+
+    span {
+        font-size: 0.9rem;
+    }
+}
+
+.detail-content {
+    font-size: 1rem;
+    color: #2c3e50;
+    padding: 0.3rem 0;
+    margin-left: 1.7rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: calc(100% - 1.7rem);
+}
+
+.status-active {
+    color: #2ecc71;
+    font-weight: 500;
+}
+
+.status-inactive {
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+::ng-deep .custom-dialog-container {
+    mat-dialog-container {
+        padding: 0.5rem !important;
+    }
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+    padding: 0.5rem !important;
+    overflow: hidden !important;
+}
