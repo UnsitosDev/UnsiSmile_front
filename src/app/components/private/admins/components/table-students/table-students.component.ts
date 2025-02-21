@@ -18,6 +18,8 @@ import { StudentsGeneralHistoryComponent } from '../../../students/pages/history
 import { studentRequest } from 'src/app/shared/interfaces/student/student';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { DetailsStudentComponent } from '../details-student/details-student.component';
 
 @Component({
   selector: 'app-table-students',
@@ -32,6 +34,7 @@ export class TableStudentsComponent implements OnInit {
   title: string = 'Estudiantes';
   private apiService = inject(ApiService<studentRequest[]>);
   private searchSubject = new Subject<string>();
+  private dataSharingService = inject(DataSharingService);
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -79,6 +82,8 @@ export class TableStudentsComponent implements OnInit {
       this.edit(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
+    } else if (accion.accion === 'Detalles') {
+      this.openDetailsDialog(accion.fila);
     } else if (accion.accion === 'MostrarAlerta') {
       this.showAlert();
     }
@@ -155,5 +160,20 @@ export class TableStudentsComponent implements OnInit {
     this.sortField = event.field;
     this.sortAsc = event.asc;
     this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  openDetailsDialog(student: any): void {
+    this.dataSharingService.setAdminData(student);
+    const dialogRef = this.dialog.open(DetailsStudentComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

@@ -1,0 +1,44 @@
+<mat-card class="p-4">
+    <mat-card-title><strong>Datos del Estudiante</strong></mat-card-title>             
+    <mat-card-content>
+        @if (data) {
+            <div class="admin-details-container">
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="far fa-user"></i>
+                            <span>Nombre Completo</span>
+                        </div>
+                        <div class="detail-content">{{data.nombre}} {{data.apellido}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="far fa-id-card"></i>
+                            <span>Matrícula</span>
+                        </div>
+                        <div class="detail-content">{{data.matricula}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-envelope"></i>
+                            <span>Correo Electrónico</span>
+                        </div>
+                        <div class="detail-content">{{data.correo}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-circle"></i>
+                            <span>Estado</span>
+                        </div>
+                        <div class="detail-content" [class]="data.estatus === 'Activo' ? 'status-active' : 'status-inactive'">
+                            {{data.estatus}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </mat-card-content>
+</mat-card>
