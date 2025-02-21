@@ -1,53 +1,35 @@
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th [colSpan]="upperVestibular.columns.length">{{ upperVestibular.title }}</th>
-      </tr>
-      <tr>
-        @for (col of upperVestibular.columns; track col.header) {
-        <th>{{ col.header }}</th>
-        }
-      </tr>
-    </thead>
-    <tbody>
-      @for (row of upperVestibular.rows; track row.label) {
-      <tr>
-        <td class="row-label">{{ row.label }}</td>
-        @for (value of row.values; track value; let i = $index) {
-          <td contenteditable="true">
-            {{ value }}
-          </td>
-        }
-      </tr>
-      }
-    </tbody>
-  </table>
-</div>
-<br>
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th [colSpan]="lowerVestibular.columns.length">{{ lowerVestibular.title }}</th>
-      </tr>
-      <tr>
-        @for (col of lowerVestibular.columns; track col.header) {
-        <th>{{ col.header }}</th>
-        }
-      </tr>
-    </thead>
-    <tbody>
-      @for (row of lowerVestibular.rows; track row.label) {
-      <tr>
-        <td class="row-label">{{ row.label }}</td>
-        @for (value of row.values; track value; let i = $index) {
-          <td contenteditable="true">
-            {{ value }}
-          </td>
-        }
-      </tr>
-      }
-    </tbody>
-  </table>
-</div>
+@for (tableKey of getTableKeys(); track tableKey) {
+  <mat-card class="table-card">
+    <mat-card-header>
+      <mat-card-title>{{ tab[tableKey].title }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="odontogram-table">
+        <thead>
+          <tr>
+            <th>SIGNO</th>
+            @for (column of tab[tableKey].columns; track column) {
+              <th>{{ column }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of tab[tableKey].rows; track row.symbol) {
+            <tr>
+              <td>{{ row.symbol }}</td>
+              @for (value of row.values; track $index) {
+                <td>
+                  <input
+                    type="text"
+                    [value]="value"
+                    (input)="onInputChange(tableKey, row, $event)"
+                  />
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+}

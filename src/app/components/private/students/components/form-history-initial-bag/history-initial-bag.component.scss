@@ -1,26 +1,34 @@
-.table-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
+.table-card {
+  margin: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.odontogram-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+
   th, td {
-    border: 1px solid black;
-    text-align: center;
+    border: 1px solid #ddd;
     padding: 8px;
-    min-width: 50px; /* Asegura que todas las columnas tengan el mismo tamaño */
+    text-align: center;
   }
-  
+
   th {
-    background-color: #f2f2f2;
-  }
-  
-  .row-label {
+    background-color: #f4f4f4;
     font-weight: bold;
   }
+
+  input {
+    width: 100%;
+    border: none;
+    text-align: center;
+    background-color: transparent;
+
+    &:focus {
+      outline: none;
+      background-color: #f9f9f9;
+    }
+  }
+}

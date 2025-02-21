@@ -1,21 +1,38 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { Component, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { IOdontogramHandler } from '@mean/models';
-import { store } from '@mean/services';
 
-interface Column {
-  header: string; 
-}
 interface Row {
-  label: string; 
+  label: string;
   values: string[];
+  symbol: string;
 }
-interface LowerVestibular {
-  title: string; 
-  id: number; 
-  columns: Column[]; 
-  rows: Row[]; 
+
+interface TabStructure {
+  upperVestibular: {
+    title: string;
+    id: number;
+    columns: number[];
+    rows: Row[];
+  };
+  lowerPalatino: {
+    title: string;
+    id: number;
+    columns: number[];
+    rows: Row[];
+  };
+  upperLingual: {
+    title: string;
+    id: number;
+    columns: number[];
+    rows: Row[];
+  };
+  lowerVestibular: {
+    title: string;
+    id: number;
+    columns: number[];
+    rows: Row[];
+  };
 }
 
 @Component({
@@ -26,52 +43,76 @@ interface LowerVestibular {
   styleUrl: './history-initial-bag.component.scss',
 })
 export class HistoryInitialBagComponent implements OnInit {
-  data: IOdontogramHandler = store;
-  upperVestibular: any;
-  lowerVestibular: any;
-  palatine: any;
-  linguals: any;
+  // Estructura de las tablas
+  tab: TabStructure = {
+    upperVestibular: {
+      title: 'VESTIBULARES SUPERIORES',
+      id: 1,
+      columns: [18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28],
+      rows: [],
+    },
+    lowerPalatino: {
+      title: 'PALATINOS INFERIORES',
+      id: 2,
+      columns: [18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28],
+      rows: [],
+    },
+    upperLingual: {
+      title: 'LINGUALES SUPERIORES',
+      id: 3,
+      columns: [48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36, 37, 38],
+      rows: [],
+    },
+    lowerVestibular: {
+      title: 'VESTIBULARES INFERIORES',
+      id: 4,
+      columns: [48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36, 37, 38],
+      rows: [],
+    },
+  };
+
+  // Símbolos para la columna SIGNO
+  signSymbols = ['P. B.', 'N. I.', 'M. D.', 'SANGRA', 'PLACA', 'CALCULO'];
 
   ngOnInit(): void {
+    this.initializeTables();
+  }
 
-    const columnsUpperVestibular = [
-      { header: "" },
-      ...this.data.adultArcade.teeth.slice(0, 8).map(tooth => ({ header: tooth.idTooth })),
-      { header: "" },
-      ...this.data.adultArcade.teeth.slice(8, 16).map(tooth => ({ header: tooth.idTooth }))
-    ];
+  // Inicializa las filas de las tablas
+  initializeTables(): void {
+    Object.keys(this.tab).forEach((key) => {
+      const tableKey = key as keyof TabStructure;
+      this.tab[tableKey].rows = this.generateRows(this.tab[tableKey].columns);
+    });
+  }
 
-    const columnsLowerVestibular = [
-      { header: "" },
-      ...this.data.adultArcade.teeth.slice(16, 24).map(tooth => ({ header: tooth.idTooth })),
-      { header: "" },
-      ...this.data.adultArcade.teeth.slice(24, 32).map(tooth => ({ header: tooth.idTooth }))
-    ];
+  // Genera las filas para cada tabla
+  generateRows(columns: number[]): Row[] {
+    return this.signSymbols.map((symbol) => ({
+      label: '',
+      values: Array(columns.length).fill(''), // Valores vacíos para los dientes
+      symbol,
+    }));
+  }
 
-    this.upperVestibular = {
-      title: "VESTIBULARES SUPERIORES",
-      id: 1,
-      // id : 
-      // row { id, label }
-      columns: columnsUpperVestibular,
-      rows: [
-        { id:1, label: "D", values: ["", "", "", "", "", "", "", "", "D", "", "", "", "", "", "", "", ""] },
-        { id:1, label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] },
-        { id:1, label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] }
-      ]
-    };
+  // Obtiene las claves del objeto `tab`
+  getTableKeys(): (keyof TabStructure)[] {
+    return Object.keys(this.tab) as (keyof TabStructure)[];
+  }
 
-    this.lowerVestibular = {
-      title: "VESTIBULARES INFERIORES",
-      id: 2,
-      columns: columnsLowerVestibular,
-      rows: [
-        { label: "D", values: ["", "", "", "", "", "", "", "", "D", "", "", "", "", "", "", "", ""] },
-        { label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] },
-        { label: "M", values: ["", "", "", "", "", "", "", "", "M", "", "", "", "", "", "", "", ""] }
-      ]
-    };
+  // Maneja los cambios en los campos de entrada
+  onInputChange(tableKey: keyof TabStructure, row: Row, event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const newValue = inputElement.value;
 
-    
+    // Encuentra la fila correspondiente y actualiza el valor
+    const rowIndex = this.tab[tableKey].rows.indexOf(row);
+    const columnIndex = Array.from(inputElement.parentElement!.parentElement!.children).indexOf(
+      inputElement.parentElement!
+    ) - 1;
+
+    if (rowIndex !== -1 && columnIndex !== -1) {
+      this.tab[tableKey].rows[rowIndex].values[columnIndex] = newValue;
+    }
   }
 }
