@@ -6,7 +6,7 @@ import { BaseChartDirective } from 'ng2-charts';
 
 interface Row {
   label: string;
-  values: string[];
+  values: any;
   symbol: string;
 }
 
@@ -102,51 +102,59 @@ export class HistoryInitialBagComponent implements OnInit {
     return Object.keys(this.tab) as (keyof TabStructure)[];
   }
 
-  // Maneja los cambios en los campos de entrada
   onInputChange(tableKey: keyof TabStructure, row: Row, event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    let newValue = inputElement.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
-  
-    // Limita a 3 dígitos
-    if (newValue.length > 3) {
-      newValue = newValue.substring(0, 3);
-    }
-  
-    // Formatea el valor como 0-0-0
-    const formattedValue = newValue.replace(/(\d{1})(\d{1})(\d{1})/, '$1-$2-$3');
-  
-    // Asigna el valor formateado al input
-    inputElement.value = formattedValue;
-  
-    // Actualiza el valor en la tabla
-    const rowIndex = this.tab[tableKey].rows.indexOf(row);
-    const columnIndex = Array.from(inputElement.parentElement!.parentElement!.children).indexOf(inputElement.parentElement!) - 1;
-  
-    if (rowIndex !== -1 && columnIndex !== -1) {
-      this.tab[tableKey].rows[rowIndex].values[columnIndex] = formattedValue;
+    const inputType = inputElement.type; // Obtener el tipo de input (text, checkbox, etc.)
+
+    if (inputType === 'text') {
+      // Manejar inputs de tipo texto (números)
+      let newValue = inputElement.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+
+      // Limita el valor a un solo dígito (1-10)
+      if (newValue.length > 2) { // Permitir hasta 2 dígitos (10)
+        newValue = newValue.substring(0, 2);
+      }
+
+      // Validar que el valor esté entre 1 y 10
+      const numericValue = parseInt(newValue, 15);
+      if (isNaN(numericValue) || numericValue < 1 || numericValue > 15) {
+        // Si el valor no es válido, limpiar el input
+        inputElement.value = '';
+        return;
+      }
+
+      // Asignar el valor numérico al input
+      inputElement.value = newValue;
+
+      // Actualizar el valor en la tabla
+      const rowIndex = this.tab[tableKey].rows.indexOf(row);
+      const columnIndex = Array.from(inputElement.parentElement!.parentElement!.children).indexOf(inputElement.parentElement!) - 1;
+
+      if (rowIndex !== -1 && columnIndex !== -1) {
+        this.tab[tableKey].rows[rowIndex].values[columnIndex] = numericValue; // Guardar el valor numérico
+      }
     }
   }
- 
-    // Datos para la gráfica
-    public lineChartData = {
-      labels: ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28'],
-      datasets: [
-        {
-          label: 'My First Dataset',
-          data: [1, 1, 2, NaN, 1, 1, 2, NaN, 4, 5, 1, 1, 2, NaN, 6, 7, 1, 2],
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
-        }
-      ]
-    };
-  
-    // Opciones de la gráfica
-    public lineChartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-    };
-  
-    // Tipo de gráfica
-    public lineChartType = 'line' as const;
+  // Datos para la gráfica
+  public lineChartData = {
+    labels: ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28'],
+    datasets: [
+      {
+        label: 'My First Dataset',
+        data: [1, 1, 2, NaN, 1, 1, 2, NaN, 4, 5, 1, 1, 2, NaN, 6, 7, 1, 2],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      }
+    ]
+  };
+
+  // Opciones de la gráfica
+  public lineChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  // Tipo de gráfica
+  public lineChartType = 'line' as const;
 }

@@ -42,10 +42,10 @@ div {
 td {
   input[type="text"] {
     width: 15px;
-    background-color: #d6d6d6;
+    background-color: #e6e6e6;
     color: black;
     padding: 1px;
-    outline: 1px solid rgb(103, 103, 103);
+    outline: 1px solid rgb(212, 212, 212);
     margin-right: 4px; // Opcional: para agregar espacio entre los inputs
   }
 }
@@ -57,7 +57,7 @@ td {
 }
 
 .small-checkbox {
-  width: 20px; /* Ancho máximo de 10px */
-  height: 20px; /* Altura máxima de 10px */
+  width: 25px; /* Ancho máximo de 10px */
+  height: 25px; /* Altura máxima de 10px */
 }
 

@@ -22,12 +22,12 @@
                   <!-- Inputs o checkboxes según el tipo de fila -->
                   @if (row.symbol === 'P. B.' || row.symbol === 'N. I.') {
                     <!-- 3 inputs numéricos -->
-                    <input type="text" [value]="value" />
-                    <input type="text" [value]="value" />
-                    <input type="text" [value]="value" />
+                    <input type="text"  (input)="onInputChange(tableKey, row, $event)"/>
+                    <input type="text"  (input)="onInputChange(tableKey, row, $event)"/>
+                    <input type="text"  (input)="onInputChange(tableKey, row, $event)"/>
                   } @else if (row.symbol === 'M. D.') {
                     <!-- 1 input numérico -->
-                    <input type="text" [value]="value" class="full-width-input" />
+                    <input type="text" class="full-width-input"  (input)="onInputChange(tableKey, row, $event)"/>
                   } @else if (row.symbol === 'SANGRA' || row.symbol === 'PLACA' || row.symbol === 'CALCULO') {
                     <!-- 3 checkboxes -->
                     <section class="example-section">
