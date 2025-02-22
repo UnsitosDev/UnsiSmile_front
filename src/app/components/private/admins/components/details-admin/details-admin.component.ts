@@ -2,7 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-details-admin',
@@ -11,7 +12,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule, 
     MatCardModule, 
     MatDialogModule,
-    DatePipe
+    DatePipe,
+    MatIconModule
   ],
   templateUrl: './details-admin.component.html',
   styleUrl: './details-admin.component.scss',
@@ -22,11 +24,16 @@ import { MatDialogModule } from '@angular/material/dialog';
 export class DetailsAdminComponent implements OnInit {
   data: any;
   private dataSharingService = inject(DataSharingService);
+  private dialogRef = inject(MatDialogRef<DetailsAdminComponent>);
 
   ngOnInit(): void {
     this.dataSharingService.adminData$.subscribe(adminData => {
       this.data = adminData;
       console.log('adminData', adminData);
     });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 }
