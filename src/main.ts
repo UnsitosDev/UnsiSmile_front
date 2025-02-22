@@ -9,10 +9,12 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { AuthInterceptor } from './app/core';
 import { LoadingInterceptor } from './app/services/loadingInterceptor.service';
 import { ToastrModule } from 'ngx-toastr';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 bootstrapApplication(
   AppComponent,
   {providers:[
+    provideCharts(withDefaultRegisterables()), 
     importProvidersFrom(BrowserModule, ToastrModule.forRoot({
       timeOut: 3000,
       progressBar: true,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { BaseChartDirective } from 'ng2-charts';
 
 interface Row {
   label: string;
@@ -38,7 +39,7 @@ interface TabStructure {
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
-  imports: [MatButtonModule, MatCardModule],
+  imports: [MatButtonModule, MatCardModule, BaseChartDirective],
   templateUrl: './history-initial-bag.component.html',
   styleUrl: './history-initial-bag.component.scss',
 })
@@ -124,5 +125,27 @@ export class HistoryInitialBagComponent implements OnInit {
       this.tab[tableKey].rows[rowIndex].values[columnIndex] = formattedValue;
     }
   }
+ 
+    // Datos para la gráfica
+    public lineChartData = {
+      labels: ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28'],
+      datasets: [
+        {
+          label: 'My First Dataset',
+          data: [1, 1, 2, NaN, 1, 1, 2, NaN, 4, 5, 1, 1, 2, NaN, 6, 7, 1, 2],
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        }
+      ]
+    };
   
+    // Opciones de la gráfica
+    public lineChartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+    };
+  
+    // Tipo de gráfica
+    public lineChartType = 'line' as const;
 }
