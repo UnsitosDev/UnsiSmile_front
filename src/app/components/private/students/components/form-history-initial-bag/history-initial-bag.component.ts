@@ -37,6 +37,35 @@ interface TabStructure {
   };
 }
 
+interface SurfaceMeasurement {
+  toothPosition: string; // Posición del diente (no aplica aquí)
+  pocketDepth: number; // Profundidad de bolsa (P. B.)
+  lesionLevel: number; // Nivel de inserción (N. I.)
+  plaque: boolean; // Placa (no aplica aquí)
+  bleeding: boolean; // Sangrado (no aplica aquí)
+  calculus: boolean; // Cálculo (no aplica aquí)
+}
+
+interface SurfaceEvaluation {
+  surface: string; // Superficie del diente (vestibular, medio, lingual/palatino)
+  surfaceMeasurements: SurfaceMeasurement[];
+}
+
+interface ToothEvaluation {
+  idTooth: string; // Identificador del diente (ej: "18")
+  mobility: number; // Movilidad del diente (no aplica aquí)
+  surfaceEvaluations: SurfaceEvaluation[];
+}
+
+interface PatientEvaluation {
+  patientId: string; // ID del paciente
+  plaqueIndex: number; // Índice de placa (no aplica aquí)
+  bleedingIndex: number; // Índice de sangrado (no aplica aquí)
+  notes: string; // Notas adicionales (no aplica aquí)
+  toothEvaluations: ToothEvaluation[];
+}
+
+
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
@@ -102,19 +131,19 @@ export class HistoryInitialBagComponent implements OnInit {
     return Object.keys(this.tab) as (keyof TabStructure)[];
   }
 
-  onInputChange(tableKey: keyof TabStructure, row: Row, event: Event): void {
+  onInputChange(tableKey: keyof TabStructure, row: Row, event: Event, columnIndex: number, inputIndex: number): void {
     const inputElement = event.target as HTMLInputElement;
     const inputType = inputElement.type; // Obtener el tipo de input (text, checkbox, etc.)
-
+  
     if (inputType === 'text') {
       // Manejar inputs de tipo texto (números)
       let newValue = inputElement.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
-
+  
       // Limita el valor a un solo dígito (1-10)
       if (newValue.length > 2) { // Permitir hasta 2 dígitos (10)
         newValue = newValue.substring(0, 2);
       }
-
+  
       // Validar que el valor esté entre 1 y 10
       const numericValue = parseInt(newValue, 15);
       if (isNaN(numericValue) || numericValue < 1 || numericValue > 15) {
@@ -122,17 +151,19 @@ export class HistoryInitialBagComponent implements OnInit {
         inputElement.value = '';
         return;
       }
-
+  
       // Asignar el valor numérico al input
       inputElement.value = newValue;
-
+  
       // Actualizar el valor en la tabla
       const rowIndex = this.tab[tableKey].rows.indexOf(row);
-      const columnIndex = Array.from(inputElement.parentElement!.parentElement!.children).indexOf(inputElement.parentElement!) - 1;
-
+  
       if (rowIndex !== -1 && columnIndex !== -1) {
         this.tab[tableKey].rows[rowIndex].values[columnIndex] = numericValue; // Guardar el valor numérico
       }
+  
+      // Imprimir la ubicación del input en la consola
+      console.log(`Tabla: ${tableKey}, Fila: ${row.symbol}, Columna: ${this.tab[tableKey].columns[columnIndex]}, Input: ${inputIndex + 1}`);
     }
   }
   // Datos para la gráfica
