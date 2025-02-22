@@ -59,8 +59,6 @@ p {
     }
 }
 
-
-
 .text-primary {
     color: var(--tertiary);//titulos
 }
@@ -92,8 +90,6 @@ p {
     width: 100%; // Asegura que tome el ancho completo del grid
     overflow: hidden; // Evita desbordamiento
     box-shadow: var(--box-shadow); // Agrega sombra
-
-
 
     &:hover {
         transform: translateY(-2px);
@@ -148,8 +144,35 @@ p {
 }
 
 ::ng-deep {
-    
     .mat-mdc-dialog-container .mdc-dialog__surface {
         background-color: var(--secondary);
+    }
+}
+
+.card-header {
+    position: relative;
+    width: 100%;
+}
+
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--input-icon-color);
+    padding: 0;
+    width: 45px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    outline: none !important;
+    
+    &:focus {
+        outline: none !important;
+        box-shadow: none !important;
     }
 }

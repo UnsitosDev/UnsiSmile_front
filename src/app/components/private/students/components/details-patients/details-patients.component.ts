@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-details-patients',
@@ -21,11 +21,16 @@ import { MatDialogModule } from '@angular/material/dialog';
 export class DetailsPatientsComponent implements OnInit {
   data: any;
   private dataSharingService = inject(DataSharingService);
+  private dialogRef = inject(MatDialogRef<DetailsPatientsComponent>);
 
   ngOnInit(): void {
     this.dataSharingService.patientData$.subscribe(patientData => {
       this.data = patientData;
       console.log('patientData', patientData);
     });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 }

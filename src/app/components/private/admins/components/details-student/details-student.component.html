@@ -1,5 +1,8 @@
 <mat-card class="p-4">
-    <mat-card-title><strong>Datos del Estudiante</strong></mat-card-title>             
+    <div class="card-header">
+        <mat-card-title><strong>Datos del Estudiante</strong></mat-card-title>
+        <button class="close-button" (click)="closeDialog()">×</button>
+    </div>             
     <mat-card-content>
         @if (data) {
             <div class="admin-details-container">
