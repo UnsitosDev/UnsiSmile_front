@@ -26,10 +26,11 @@ export class StudentsLayoutComponent implements OnInit  {
     this.token = this.userService.getToken() ?? "";
      this.tokenData = this.userService.getTokenDataUser(this.token);
      this.showPasswordModal = this.tokenData.firstLogin;
+     this.isSidebarOpen = window.innerWidth > 768;
   }
 
   private userService = inject(AuthService);
-  isSidebarOpen = true; 
+  isSidebarOpen = false; // Cambiamos el valor inicial a false
   showPasswordModal = true;
 
   onSidebarToggle() {
