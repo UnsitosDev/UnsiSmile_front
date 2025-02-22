@@ -53,8 +53,8 @@ export class TableAdminComponent implements OnInit {
     'nombre': 'person.firstName',
     'apellido': 'person.firstLastName',
     'correo': 'person.email',
-    'numeroEmpleado': 'employeeNumber',
-    'estatus': 'user.status'  // Cambiado de 'status' a 'estatus'
+    'numero empleado': 'employeeNumber',  // Cambiado de 'numeroEmpleado' a 'numero empleado'
+    'estatus': 'user.status'
   };
 
   constructor(
@@ -127,7 +127,7 @@ export class TableAdminComponent implements OnInit {
               nombre: admin.person.firstName,
               apellido: `${admin.person.firstLastName} ${admin.person.secondLastName || ''}`.trim(),
               correo: admin.person.email,
-              numeroEmpleado: admin.employeeNumber,
+              'numero empleado': admin.employeeNumber,  // Cambiado de numeroEmpleado a 'numero empleado'
               estatus: admin.user.status ? 'Activo' : 'Inactivo',
               curp: admin.person.curp,
               telefono: admin.person.phone,

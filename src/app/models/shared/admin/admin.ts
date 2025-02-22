@@ -2,6 +2,6 @@ export class AdminTableData {
     nombre = ''
     apellido = ''
     correo = ''
-    numeroEmpleado = ''  // Cambiado de matricula a numeroEmpleado
+    'numero empleado' = ''  // Cambiado de numeroEmpleado a 'numero empleado'
     estatus = ''
 }
