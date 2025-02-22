@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BaseChartDirective } from 'ng2-charts';
 
 interface Row {
@@ -39,7 +40,7 @@ interface TabStructure {
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
-  imports: [MatButtonModule, MatCardModule, BaseChartDirective],
+  imports: [MatButtonModule, MatCardModule, BaseChartDirective, MatCheckboxModule],
   templateUrl: './history-initial-bag.component.html',
   styleUrl: './history-initial-bag.component.scss',
 })
