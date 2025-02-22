@@ -1,9 +1,7 @@
-<a [routerLink]="link" class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover transition ease-linear duration-150">
-  <div>
-    <fa-icon [icon]="fontAwesomeIcon" class="text"></fa-icon>
-  </div>
-  <div class="flex flex-col">
-    <span class="text-lg font-bold leading-5 text">{{ buttonText }}</span>
-    <span class="text-sm text hidden md:block">{{ description }}</span>
+<a [routerLink]="link" routerLinkActive="active" class="menu-item">
+  <fa-icon [icon]="fontAwesomeIcon"></fa-icon>
+  <div class="menu-text">
+    <span>{{ buttonText }}</span>
+    <small>{{ description }}</small>
   </div>
 </a>
