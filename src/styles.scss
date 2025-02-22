@@ -51,7 +51,9 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --status-red:#e74c3c;
   --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   --subtext:#274CA2;
-  --spinner-color: #274CA2;
+  
+  //spinner
+  --spinner-color: #5995fd;
 
 
 
@@ -87,7 +89,8 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --subtext:#5995fd;
 
   //spinner
-  --spinner-color: #5995fd;
+  --spinner-color: #274CA2;
+
 
 
 }
