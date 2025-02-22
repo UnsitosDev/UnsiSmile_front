@@ -19,23 +19,19 @@
               <td>{{ row.symbol }}</td>
               @for (value of row.values; track $index) {
                 <td>
-                  <input
-                    type="text"
-                    [value]="value"
-                    placeholder="0-0-0"
-                    (input)="onInputChange(tableKey, row, $event)"
-                  />
-                </td>
+                  <input type="text" [value]="value" />
+                  <input type="text" [value]="value" />
+                  <input type="text" [value]="value" />
+                </td>                
               }
             </tr>
           }
         </tbody>
       </table>
-      <img src="assets/Vestibular.png" alt="Vestibular">
     </mat-card-content>
   </mat-card>
 }
-<div>
+<!-- <div>
   <canvas
     baseChart
     [type]="lineChartType"
@@ -44,4 +40,4 @@
   >
   </canvas>
 </div>
-<img src="assets/Vestibular.png" alt="Vestibular">
+<img src="assets/Vestibular.png" alt="Vestibular"> -->
