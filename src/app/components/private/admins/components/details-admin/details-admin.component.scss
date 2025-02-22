@@ -44,14 +44,12 @@ p {
 }
 
 .info-group {
-    background-color: #1275d8;
     border-radius: 8px;
     padding: 1.5rem;
 }
 
 .info-item {
     padding: 0.75rem 0;
-    border-bottom: 1px solid #e9ecef;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -93,10 +91,12 @@ p {
     min-height: 80px; // Altura mínima más pequeña
     width: 100%; // Asegura que tome el ancho completo del grid
     overflow: hidden; // Evita desbordamiento
+    box-shadow: var(--box-shadow); // Agrega sombra
+
+
 
     &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 }
 
@@ -104,7 +104,7 @@ p {
     display: flex;
     align-items: center;
     margin-bottom: 0.3rem;
-    color: #07437a;
+    color: var(--tertiary);
     font-weight: 500;
 
     i {
@@ -129,13 +129,11 @@ p {
 }
 
 .status-active {
-    color: #2ecc71;
-    font-weight: 500;
+    color: var(--status)
 }
 
 .status-inactive {
-    color: #e74c3c;
-    font-weight: 500;
+    color: var(--status-red);
 }
 
 ::ng-deep .custom-dialog-container {
@@ -147,4 +145,11 @@ p {
 ::ng-deep .mat-mdc-dialog-surface {
     padding: 0.5rem !important;
     overflow: hidden !important;
+}
+
+::ng-deep {
+    
+    .mat-mdc-dialog-container .mdc-dialog__surface {
+        background-color: var(--secondary);
+    }
 }
