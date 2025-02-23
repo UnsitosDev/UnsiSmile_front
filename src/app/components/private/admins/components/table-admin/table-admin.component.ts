@@ -14,6 +14,8 @@ import { AdminResponse, User } from 'src/app/models/shared/admin/admin.model';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AdminTableData } from 'src/app/models/shared/admin/admin';
 import { MatCardModule } from '@angular/material/card';
+import { DetailsAdminComponent } from '../details-admin/details-admin.component';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 
 @Component({
@@ -38,6 +40,7 @@ export class TableAdminComponent implements OnInit {
   title: string = 'Administradores';
   private apiService = inject(ApiService<any>);
   private searchSubject = new Subject<string>();
+  private dataSharingService = inject(DataSharingService);
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -50,8 +53,8 @@ export class TableAdminComponent implements OnInit {
     'nombre': 'person.firstName',
     'apellido': 'person.firstLastName',
     'correo': 'person.email',
-    'numeroEmpleado': 'employeeNumber',
-    'estatus': 'user.status'  // Cambiado de 'status' a 'estatus'
+    'numero empleado': 'employeeNumber',  // Cambiado de 'numeroEmpleado' a 'numero empleado'
+    'estatus': 'user.status'
   };
 
   constructor(
@@ -79,6 +82,8 @@ export class TableAdminComponent implements OnInit {
       this.edit(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
+    } else if (accion.accion === 'Detalles') {
+      this.openDetailsDialog(accion.fila);
     }
   }
 
@@ -122,8 +127,11 @@ export class TableAdminComponent implements OnInit {
               nombre: admin.person.firstName,
               apellido: `${admin.person.firstLastName} ${admin.person.secondLastName || ''}`.trim(),
               correo: admin.person.email,
-              numeroEmpleado: admin.employeeNumber,
-              estatus: admin.user.status ? 'Activo' : 'Inactivo'  // Cambiado de 'status' a 'estatus'
+              'numero empleado': admin.employeeNumber,  // Cambiado de numeroEmpleado a 'numero empleado'
+              estatus: admin.user.status ? 'Activo' : 'Inactivo',
+              curp: admin.person.curp,
+              telefono: admin.person.phone,
+              fechaNacimiento: admin.person.birthDate
             };
           });
         } else {
@@ -156,5 +164,21 @@ export class TableAdminComponent implements OnInit {
     this.sortField = event.field;
     this.sortAsc = event.asc;
     this.getAdmins(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  // Agregar método para abrir el diálogo de detalles
+  openDetailsDialog(admin: AdminTableData): void {
+    this.dataSharingService.setAdminData(admin);
+    const dialogRef = this.dialog.open(DetailsAdminComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh', // Limita la altura al 90% de la ventana
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }
