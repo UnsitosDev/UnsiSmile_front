@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { BaseChartDirective } from 'ng2-charts';
 
 interface Row {
@@ -149,35 +149,39 @@ export class HistoryInitialBagComponent implements OnInit {
     return Object.keys(this.tab) as (keyof TabStructure)[];
   }
 
-  onInputChange(tableKey: keyof TabStructure, row: Row, event: Event, columnIndex: number, inputIndex: number): void {
-    const inputElement = event.target as HTMLInputElement;
-    const inputValue = inputElement.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
-
-    // Limitar el valor a un solo dígito (1-15)
-    if (inputValue.length > 2) {
-      inputElement.value = inputValue.substring(0, 2);
-      return;
+  onInputChange(tableKey: keyof TabStructure, row: Row, event: Event | MatCheckboxChange, columnIndex: number, inputIndex: number): void {
+    let value: number | boolean;
+  
+    if (event instanceof MatCheckboxChange) {
+      // Para checkboxes, usar la propiedad `checked`
+      value = event.checked;
+    } else {
+      // Para inputs de texto, mantener la lógica actual
+      const inputElement = event.target as HTMLInputElement;
+      const inputValue = inputElement.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
+  
+      // Limitar el valor a un solo dígito (1-15)
+      if (inputValue.length > 2) {
+        inputElement.value = inputValue.substring(0, 2);
+        return;
+      }
+  
+      // Validar que el valor esté entre 1 y 15
+      const numericValue = parseInt(inputValue, 10);
+      if (isNaN(numericValue) || numericValue < 1 || numericValue > 15) {
+        inputElement.value = '';
+        return;
+      }
+  
+      value = numericValue;
     }
-
-    // Validar que el valor esté entre 1 y 15
-    const numericValue = parseInt(inputValue, 10);
-    if (isNaN(numericValue) || numericValue < 1 || numericValue > 15) {
-      inputElement.value = '';
-      return;
-    }
-
+  
     // Actualizar el valor en la fila correspondiente
     const rowIndex = this.tab[tableKey].rows.indexOf(row);
     if (rowIndex !== -1) {
-      if (row.symbol === 'M. D.') {
-        // Para la fila M. D., solo hay un input por celda
-        this.tab[tableKey].rows[rowIndex].values[columnIndex] = numericValue;
-      } else {
-        // Para las filas P. B. y N. I., hay tres inputs por celda
-        this.tab[tableKey].rows[rowIndex].values[columnIndex * 3 + inputIndex] = numericValue;
-      }
+      this.tab[tableKey].rows[rowIndex].values[columnIndex * 3 + inputIndex] = value;
     }
-
+  
     console.log(`Tabla: ${tableKey}, Fila: ${row.symbol}, Columna: ${this.tab[tableKey].columns[columnIndex]}, Input: ${inputIndex + 1}`);
   }
 
@@ -190,46 +194,22 @@ export class HistoryInitialBagComponent implements OnInit {
   
       // Recorrer cada columna (diente)
       table.columns.forEach((toothId, columnIndex) => {
-        // Procesar la fila M. D. (movilidad)
+        // Obtener el valor de movilidad (M. D.)
         const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
-        if (mdRow) {
-          const mobility = parseInt(mdRow.values[columnIndex], 10);
-          if (!isNaN(mobility)) {
-            const toothEvaluation: ToothEvaluation = {
-              idTooth: toothId.toString(),
-              mobility,
-              surfaceEvaluations: [
-                {
-                  surface: table.title.toUpperCase(),
-                  surfaceMeasurements: [
-                    {
-                      toothPosition: 'CENTRAL', // Siempre es CENTRAL para M. D.
-                      pocketDepth: 0,
-                      lesionLevel: 0,
-                      plaque: false,
-                      bleeding: false,
-                      calculus: false,
-                    },
-                  ],
-                },
-              ],
-            };
-            toothEvaluations.push(toothEvaluation);
-          }
-        }
+        const mobility = mdRow ? parseInt(mdRow.values[columnIndex], 10) || 0 : 0;
   
-        // Procesar las filas P. B. y N. I. (inputs en grupo)
-        const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
-        const niRow = table.rows.find((row) => row.symbol === 'N. I.');
+        // Definir las posiciones (MESIAL, CENTRAL, DISTAL)
         const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
   
+        // Procesar la fila P. B. (pocketDepth)
+        const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
         if (pbRow) {
           positions.forEach((position, positionIndex) => {
             const pocketDepth = parseInt(pbRow.values[columnIndex * 3 + positionIndex], 10);
             if (!isNaN(pocketDepth)) {
               const toothEvaluation: ToothEvaluation = {
                 idTooth: toothId.toString(),
-                mobility: 0, // mobility es 0 porque no se ingresó en esta fila
+                mobility,
                 surfaceEvaluations: [
                   {
                     surface: table.title.toUpperCase(),
@@ -251,13 +231,15 @@ export class HistoryInitialBagComponent implements OnInit {
           });
         }
   
+        // Procesar la fila N. I. (lesionLevel)
+        const niRow = table.rows.find((row) => row.symbol === 'N. I.');
         if (niRow) {
           positions.forEach((position, positionIndex) => {
             const lesionLevel = parseInt(niRow.values[columnIndex * 3 + positionIndex], 10);
             if (!isNaN(lesionLevel)) {
               const toothEvaluation: ToothEvaluation = {
                 idTooth: toothId.toString(),
-                mobility: 0, // mobility es 0 porque no se ingresó en esta fila
+                mobility,
                 surfaceEvaluations: [
                   {
                     surface: table.title.toUpperCase(),
@@ -269,6 +251,42 @@ export class HistoryInitialBagComponent implements OnInit {
                         plaque: false,
                         bleeding: false,
                         calculus: false,
+                      },
+                    ],
+                  },
+                ],
+              };
+              toothEvaluations.push(toothEvaluation);
+            }
+          });
+        }
+  
+        // Procesar las filas SANGRA, PLACA, CALCULO
+        const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
+        const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
+        const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
+  
+        if (sangraRow || placaRow || calculoRow) {
+          positions.forEach((position, positionIndex) => {
+            const bleeding = sangraRow ? sangraRow.values[columnIndex * 3 + positionIndex] === true : false;
+            const plaque = placaRow ? placaRow.values[columnIndex * 3 + positionIndex] === true : false;
+            const calculus = calculoRow ? calculoRow.values[columnIndex * 3 + positionIndex] === true : false;
+  
+            if (bleeding || plaque || calculus) {
+              const toothEvaluation: ToothEvaluation = {
+                idTooth: toothId.toString(),
+                mobility,
+                surfaceEvaluations: [
+                  {
+                    surface: table.title.toUpperCase(),
+                    surfaceMeasurements: [
+                      {
+                        toothPosition: position,
+                        pocketDepth: 0,
+                        lesionLevel: 0,
+                        plaque,
+                        bleeding,
+                        calculus,
                       },
                     ],
                   },

@@ -14,30 +14,48 @@
           </tr>
         </thead>
         <tbody>
-          @for (row of tab[tableKey].rows; track row.symbol) {
+          @for (row of tab[tableKey].rows; track row.symbol; let rowIndex = $index) {
             <tr>
               <td>{{ row.symbol }}</td>
-              @for (value of row.values; track $index) {
+              @for (value of row.values; track columnIndex; let columnIndex = $index) {
                 <td>
                   <!-- Inputs o checkboxes según el tipo de fila -->
                   @if (row.symbol === 'P. B.' || row.symbol === 'N. I.') {
                     <!-- 3 inputs numéricos -->
-                    <input type="text" (input)="onInputChange(tableKey, row, $event, $index, 0)"/>
-                    <input type="text" (input)="onInputChange(tableKey, row, $event, $index, 1)"/>
-                    <input type="text" (input)="onInputChange(tableKey, row, $event, $index, 2)"/>
+                    <input
+                      type="text"
+                      (input)="onInputChange(tableKey, row, $event, columnIndex, 0)"
+                    />
+                    <input
+                      type="text"
+                      (input)="onInputChange(tableKey, row, $event, columnIndex, 1)"
+                    />
+                    <input
+                      type="text"
+                      (input)="onInputChange(tableKey, row, $event, columnIndex, 2)"
+                    />
                   } @else if (row.symbol === 'M. D.') {
                     <!-- 1 input numérico -->
                     <input
                       type="text"
                       class="full-width-input"
-                      (input)="onInputChange(tableKey, row, $event, $index, 0)"
+                      (input)="onInputChange(tableKey, row, $event, columnIndex, 0)"
                     />
                   } @else if (row.symbol === 'SANGRA' || row.symbol === 'PLACA' || row.symbol === 'CALCULO') {
                     <!-- 3 checkboxes -->
                     <section class="example-section">
-                      <mat-checkbox class="small-checkbox"></mat-checkbox>
-                      <mat-checkbox class="small-checkbox"></mat-checkbox>
-                      <mat-checkbox class="small-checkbox"></mat-checkbox>
+                      <mat-checkbox
+                        class="small-checkbox"
+                        (change)="onInputChange(tableKey, row, $event, columnIndex, 0)"
+                      ></mat-checkbox>
+                      <mat-checkbox
+                        class="small-checkbox"
+                        (change)="onInputChange(tableKey, row, $event, columnIndex, 1)"
+                      ></mat-checkbox>
+                      <mat-checkbox
+                        class="small-checkbox"
+                        (change)="onInputChange(tableKey, row, $event, columnIndex, 2)"
+                      ></mat-checkbox>
                     </section>
                   }
                 </td>
@@ -49,7 +67,6 @@
     </mat-card-content>
   </mat-card>
 }
-
 <button mat-raised-button color="primary" (click)="generateJSON()">
   Generar JSON
 </button>
