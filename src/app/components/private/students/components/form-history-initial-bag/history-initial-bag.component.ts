@@ -196,115 +196,82 @@ export class HistoryInitialBagComponent implements OnInit {
       table.columns.forEach((toothId, columnIndex) => {
         // Obtener el valor de movilidad (M. D.)
         const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
-        const mobility = mdRow ? parseInt(mdRow.values[columnIndex], 10) || 0 : 0;
+        const mobility = mdRow ? parseFloat(mdRow.values[columnIndex]) || 0 : 0;
+  
+        // Crear el objeto toothEvaluation para este diente
+        const toothEvaluation: ToothEvaluation = {
+          idTooth: toothId.toString(),
+          mobility,
+          surfaceEvaluations: [],
+        };
   
         // Definir las posiciones (MESIAL, CENTRAL, DISTAL)
         const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
   
-        // Procesar la fila P. B. (pocketDepth)
+        // Crear la evaluación de la superficie para esta tabla
+        const surfaceEvaluation: SurfaceEvaluation = {
+          surface: table.title.toUpperCase(), // Nombre de la tabla (VESTIBULAR, LINGUAL, etc.)
+          surfaceMeasurements: [],
+        };
+  
+        // Procesar las filas P. B. y N. I. (pocketDepth y lesionLevel)
         const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
-        if (pbRow) {
-          positions.forEach((position, positionIndex) => {
-            const pocketDepth = parseInt(pbRow.values[columnIndex * 3 + positionIndex], 10);
-            if (!isNaN(pocketDepth)) {
-              const toothEvaluation: ToothEvaluation = {
-                idTooth: toothId.toString(),
-                mobility,
-                surfaceEvaluations: [
-                  {
-                    surface: table.title.toUpperCase(),
-                    surfaceMeasurements: [
-                      {
-                        toothPosition: position,
-                        pocketDepth,
-                        lesionLevel: 0,
-                        plaque: false,
-                        bleeding: false,
-                        calculus: false,
-                      },
-                    ],
-                  },
-                ],
-              };
-              toothEvaluations.push(toothEvaluation);
-            }
-          });
-        }
-  
-        // Procesar la fila N. I. (lesionLevel)
         const niRow = table.rows.find((row) => row.symbol === 'N. I.');
-        if (niRow) {
-          positions.forEach((position, positionIndex) => {
-            const lesionLevel = parseInt(niRow.values[columnIndex * 3 + positionIndex], 10);
-            if (!isNaN(lesionLevel)) {
-              const toothEvaluation: ToothEvaluation = {
-                idTooth: toothId.toString(),
-                mobility,
-                surfaceEvaluations: [
-                  {
-                    surface: table.title.toUpperCase(),
-                    surfaceMeasurements: [
-                      {
-                        toothPosition: position,
-                        pocketDepth: 0,
-                        lesionLevel,
-                        plaque: false,
-                        bleeding: false,
-                        calculus: false,
-                      },
-                    ],
-                  },
-                ],
-              };
-              toothEvaluations.push(toothEvaluation);
-            }
-          });
-        }
   
-        // Procesar las filas SANGRA, PLACA, CALCULO
+        // Procesar las filas SANGRA, PLACA, CALCULO (bleeding, plaque, calculus)
         const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
         const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
         const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
   
-        if (sangraRow || placaRow || calculoRow) {
-          positions.forEach((position, positionIndex) => {
-            const bleeding = sangraRow ? sangraRow.values[columnIndex * 3 + positionIndex] === true : false;
-            const plaque = placaRow ? placaRow.values[columnIndex * 3 + positionIndex] === true : false;
-            const calculus = calculoRow ? calculoRow.values[columnIndex * 3 + positionIndex] === true : false;
+        positions.forEach((position, positionIndex) => {
+          const pocketDepth = pbRow ? parseFloat(pbRow.values[columnIndex * 3 + positionIndex]) : null;
+          const lesionLevel = niRow ? parseFloat(niRow.values[columnIndex * 3 + positionIndex]) : null;
+          const bleeding = sangraRow ? sangraRow.values[columnIndex * 3 + positionIndex] === true : false;
+          const plaque = placaRow ? placaRow.values[columnIndex * 3 + positionIndex] === true : false;
+          const calculus = calculoRow ? calculoRow.values[columnIndex * 3 + positionIndex] === true : false;
   
-            if (bleeding || plaque || calculus) {
-              const toothEvaluation: ToothEvaluation = {
-                idTooth: toothId.toString(),
-                mobility,
-                surfaceEvaluations: [
-                  {
-                    surface: table.title.toUpperCase(),
-                    surfaceMeasurements: [
-                      {
-                        toothPosition: position,
-                        pocketDepth: 0,
-                        lesionLevel: 0,
-                        plaque,
-                        bleeding,
-                        calculus,
-                      },
-                    ],
-                  },
-                ],
-              };
-              toothEvaluations.push(toothEvaluation);
-            }
-          });
+          // Verificar si hay valores válidos para esta posición
+          const hasValidValues =
+            (pocketDepth !== null && !isNaN(pocketDepth)) ||
+            (lesionLevel !== null && !isNaN(lesionLevel)) ||
+            bleeding ||
+            plaque ||
+            calculus;
+  
+          if (hasValidValues) {
+            // Crear la medición para esta posición
+            const surfaceMeasurement: SurfaceMeasurement = {
+              toothPosition: position,
+              pocketDepth: pocketDepth !== null && !isNaN(pocketDepth) ? pocketDepth : 0,
+              lesionLevel: lesionLevel !== null && !isNaN(lesionLevel) ? lesionLevel : 0,
+              plaque,
+              bleeding,
+              calculus,
+            };
+  
+            // Agregar la medición a la evaluación de la superficie
+            surfaceEvaluation.surfaceMeasurements.push(surfaceMeasurement);
+          }
+        });
+  
+        // Agregar la evaluación de la superficie al diente solo si tiene mediciones válidas
+        if (surfaceEvaluation.surfaceMeasurements.length > 0) {
+          toothEvaluation.surfaceEvaluations.push(surfaceEvaluation);
+        }
+  
+        // Agregar el diente al arreglo de evaluaciones solo si tiene evaluaciones válidas
+        if (toothEvaluation.surfaceEvaluations.length > 0) {
+          toothEvaluations.push(toothEvaluation);
         }
       });
     });
   
     // Estructura final del JSON
     const json = {
-      patientId: '12345', // Aquí puedes asignar el ID del paciente
-      plaqueIndex: 100, // Índice de placa
-      bleedingIndex: 100, // Índice de sangrado
-      notes: 'Notas adicionales', // Notas adicionales
+      patientId: '123e4567-e89b-12d3-a456-426614174000', // Aquí puedes asignar el ID del paciente
+      plaqueIndex: 85.5, // Índice de placa
+      bleedingIndex: 76.3, // Índice de sangrado
+      notes: 'Paciente presenta inflamación moderada en encías.', // Notas adicionales
       toothEvaluations,
     };
   
