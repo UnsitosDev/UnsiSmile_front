@@ -7,6 +7,11 @@
   margin-left: 250px; // Margen fijo
   transition: margin-left 0.3s ease-in-out;
   
+  @media (max-width: 768px) {
+    margin-left: 0;
+    width: 100%;
+  }
+  
   &.sidebar-closed {
     margin-left: 0;
   }
@@ -24,4 +29,32 @@
   padding: 1rem;
   box-sizing: border-box;
   overflow-x: hidden;
+  
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+  }
+}
+
+// Añadir overlay para dispositivos móviles
+.mobile-overlay {
+  display: none;
+  
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    
+    &.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
 }

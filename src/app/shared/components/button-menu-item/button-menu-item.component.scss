@@ -1,10 +1,7 @@
-
-
 li {
   padding: 15px 0px 15px 20px !important;
   text-align: left;
   list-style: none;
-  color: white;
 }
 
 img{
@@ -16,16 +13,6 @@ i{
   margin-right: 20px;
 }
 
-/* Estilo de hover */
-li:hover {
-  cursor: pointer;
-  background-color: #670300;
-}
-
-/* Estilo del color activo */
-li.active {
-  background-color: #670300;
-}
 
 
 .hover:hover {
@@ -34,4 +21,40 @@ li.active {
 
 .text {
   color: var(--side-text);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: var(--side-text);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--on-tertiary);
+  }
+
+  &.active {
+    background-color: var(--on-tertiary);
+    color: var(--side-text);
+  }
+
+  fa-icon {
+    margin-right: 0.75rem;
+  }
+
+  .menu-text {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      font-weight: bold;
+    }
+
+    small {
+      font-size: 0.75rem;
+      color: var(--side-text-light);
+    }
+  }
 }

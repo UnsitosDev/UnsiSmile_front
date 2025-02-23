@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject, Output, EventEmitter } from '@angular/core';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
 import { StudentItems, AdminItems, MenuItem } from '@mean/models';
 import {
@@ -28,6 +28,7 @@ export class SideNavComponent implements OnInit {
   public menuItems: MenuItem[] = [];
   private userService = inject(ApiService<studentResponse, {}>);
   user!: studentUserResponse | AdminResponse;
+  @Output() menuSelect = new EventEmitter<void>();
 
   constructor(
       private authService: AuthService,
@@ -74,4 +75,10 @@ export class SideNavComponent implements OnInit {
       }
       this.router.navigate(['/']);
     }
+
+  onMenuItemSelect() {
+    if (window.innerWidth <= 768) {
+      this.menuSelect.emit();
+    }
+  }
 }
