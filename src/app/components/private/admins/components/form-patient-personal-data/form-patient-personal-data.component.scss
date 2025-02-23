@@ -18,13 +18,13 @@
     color: var(--on-primary); // Usa la variable de color del tema para el texto
   }
 
-  ::ng-deep .mat-step-header[aria-disabled="true"] .mat-step-label {
-    color: var(--mat-stepper-header-icon-background-color)
+  ::ng-deep .mat-step-header .mat-step-label {
+    color: var(--on-secondary);
   }
   
   ::ng-deep .mat-mdc-card-title {
     background-color: var(--tertiary);
     padding: 8px;
     border-radius: 2px;
-    color: white;  
+    color: var(--side-text);  
   }
