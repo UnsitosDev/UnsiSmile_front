@@ -179,4 +179,24 @@ export class TableStudentsComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
+  onStatusChange(event: { row: any, newStatus: string }) {
+    const enrollment = event.row.matricula;
+    const url = `${UriConstants.POST_STUDENTS}/${enrollment}/toggle-status`;
+
+    this.apiService.patchService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url,
+      data: {}
+    }).subscribe({
+      next: () => {
+        event.row.estatus = event.newStatus;
+      },
+      error: (error) => {
+        console.error('Error al cambiar el estado del estudiante:', error);
+      }
+    });
+  }
 }
