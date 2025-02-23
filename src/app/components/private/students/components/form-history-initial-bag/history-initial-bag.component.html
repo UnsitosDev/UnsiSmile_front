@@ -27,7 +27,11 @@
                     <input type="text" (input)="onInputChange(tableKey, row, $event, $index, 2)"/>
                   } @else if (row.symbol === 'M. D.') {
                     <!-- 1 input numérico -->
-                    <input type="text" class="full-width-input"  />
+                    <input
+                      type="text"
+                      class="full-width-input"
+                      (input)="onInputChange(tableKey, row, $event, $index, 0)"
+                    />
                   } @else if (row.symbol === 'SANGRA' || row.symbol === 'PLACA' || row.symbol === 'CALCULO') {
                     <!-- 3 checkboxes -->
                     <section class="example-section">
