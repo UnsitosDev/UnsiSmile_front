@@ -28,15 +28,15 @@
   text-align: center; /* Centra el texto */
 }
 
-
-
 button {
   background-color: var(--tertiary); /* Cambia el fondo de los botones */
   color: var(--side-text);
-  border: none;
+  border: none; /* Elimina el borde */
   padding: 0.75rem 1.5rem; /* Aumenta el padding */
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   font-size: 1rem; /* Aumenta el tamaño de la fuente */
+  outline: none; /* Elimina el resalte */
+  box-shadow: none; /* Elimina la sombra */
 }
