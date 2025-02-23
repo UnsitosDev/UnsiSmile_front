@@ -64,7 +64,25 @@ interface PatientEvaluation {
   notes: string; // Notas adicionales (no aplica aquí)
   toothEvaluations: ToothEvaluation[];
 }
+interface ToothEvaluation {
+  idTooth: string;
+  mobility: number;
+  surfaceEvaluations: SurfaceEvaluation[];
+}
 
+interface SurfaceEvaluation {
+  surface: string;
+  surfaceMeasurements: SurfaceMeasurement[];
+}
+
+interface SurfaceMeasurement {
+  toothPosition: string;
+  pocketDepth: number;
+  lesionLevel: number;
+  plaque: boolean;
+  bleeding: boolean;
+  calculus: boolean;
+}
 
 @Component({
   selector: 'app-history-initial-bag',
@@ -133,38 +151,119 @@ export class HistoryInitialBagComponent implements OnInit {
 
   onInputChange(tableKey: keyof TabStructure, row: Row, event: Event, columnIndex: number, inputIndex: number): void {
     const inputElement = event.target as HTMLInputElement;
-    const inputType = inputElement.type; // Obtener el tipo de input (text, checkbox, etc.)
+    const inputValue = inputElement.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
   
-    if (inputType === 'text') {
-      // Manejar inputs de tipo texto (números)
-      let newValue = inputElement.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
-  
-      // Limita el valor a un solo dígito (1-10)
-      if (newValue.length > 2) { // Permitir hasta 2 dígitos (10)
-        newValue = newValue.substring(0, 2);
-      }
-  
-      // Validar que el valor esté entre 1 y 10
-      const numericValue = parseInt(newValue, 15);
-      if (isNaN(numericValue) || numericValue < 1 || numericValue > 15) {
-        // Si el valor no es válido, limpiar el input
-        inputElement.value = '';
-        return;
-      }
-  
-      // Asignar el valor numérico al input
-      inputElement.value = newValue;
-  
-      // Actualizar el valor en la tabla
-      const rowIndex = this.tab[tableKey].rows.indexOf(row);
-  
-      if (rowIndex !== -1 && columnIndex !== -1) {
-        this.tab[tableKey].rows[rowIndex].values[columnIndex] = numericValue; // Guardar el valor numérico
-      }
-  
-      // Imprimir la ubicación del input en la consola
-      console.log(`Tabla: ${tableKey}, Fila: ${row.symbol}, Columna: ${this.tab[tableKey].columns[columnIndex]}, Input: ${inputIndex + 1}`);
+    // Limitar el valor a un solo dígito (1-15)
+    if (inputValue.length > 2) {
+      inputElement.value = inputValue.substring(0, 2);
+      return;
     }
+  
+    // Validar que el valor esté entre 1 y 15
+    const numericValue = parseInt(inputValue, 10);
+    if (isNaN(numericValue) || numericValue < 1 || numericValue > 15) {
+      inputElement.value = '';
+      return;
+    }
+  
+    // Actualizar el valor en la fila correspondiente
+    const rowIndex = this.tab[tableKey].rows.indexOf(row);
+    if (rowIndex !== -1) {
+      this.tab[tableKey].rows[rowIndex].values[columnIndex * 3 + inputIndex] = numericValue;
+    }
+  
+    console.log(`Tabla: ${tableKey}, Fila: ${row.symbol}, Columna: ${this.tab[tableKey].columns[columnIndex]}, Input: ${inputIndex + 1}`);
+  }
+  
+  generateJSON(): any {
+    const toothEvaluations: ToothEvaluation[] = [];
+  
+    // Recorrer cada tabla
+    Object.keys(this.tab).forEach((tableKey) => {
+      const table = this.tab[tableKey as keyof TabStructure];
+  
+      // Recorrer cada columna (diente)
+      table.columns.forEach((toothId, columnIndex) => {
+        // Obtener el valor de movilidad (M. D.)
+        const mobilityRow = table.rows.find((row) => row.symbol === 'M. D.');
+        const mobility = mobilityRow ? parseInt(mobilityRow.values[columnIndex], 10) || 0 : 0;
+  
+        // Definir las posiciones (MESIAL, CENTRAL, DISTAL)
+        const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
+  
+        // Procesar la fila P. B. (pocketDepth)
+        const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
+        if (pbRow) {
+          positions.forEach((position, positionIndex) => {
+            const pocketDepth = parseInt(pbRow.values[columnIndex * 3 + positionIndex], 10);
+            if (!isNaN(pocketDepth)) {
+              const toothEvaluation: ToothEvaluation = {
+                idTooth: toothId.toString(),
+                mobility,
+                surfaceEvaluations: [
+                  {
+                    surface: table.title.toUpperCase(),
+                    surfaceMeasurements: [
+                      {
+                        toothPosition: position,
+                        pocketDepth,
+                        lesionLevel: 0, // lesionLevel es 0 porque no se ingresó en esta fila
+                        plaque: false,
+                        bleeding: false,
+                        calculus: false,
+                      },
+                    ],
+                  },
+                ],
+              };
+              toothEvaluations.push(toothEvaluation);
+            }
+          });
+        }
+  
+        // Procesar la fila N. I. (lesionLevel)
+        const niRow = table.rows.find((row) => row.symbol === 'N. I.');
+        if (niRow) {
+          positions.forEach((position, positionIndex) => {
+            const lesionLevel = parseInt(niRow.values[columnIndex * 3 + positionIndex], 10);
+            if (!isNaN(lesionLevel)) {
+              const toothEvaluation: ToothEvaluation = {
+                idTooth: toothId.toString(),
+                mobility,
+                surfaceEvaluations: [
+                  {
+                    surface: table.title.toUpperCase(),
+                    surfaceMeasurements: [
+                      {
+                        toothPosition: position,
+                        pocketDepth: 0, // pocketDepth es 0 porque no se ingresó en esta fila
+                        lesionLevel,
+                        plaque: false,
+                        bleeding: false,
+                        calculus: false,
+                      },
+                    ],
+                  },
+                ],
+              };
+              toothEvaluations.push(toothEvaluation);
+            }
+          });
+        }
+      });
+    });
+  
+    // Estructura final del JSON
+    const json = {
+      patientId: '12345', // Aquí puedes asignar el ID del paciente
+      plaqueIndex: 100, // Índice de placa
+      bleedingIndex: 100, // Índice de sangrado
+      notes: 'Notas adicionales', // Notas adicionales
+      toothEvaluations,
+    };
+  
+    console.log(json); // Mostrar el JSON en la consola
+    return json;
   }
   // Datos para la gráfica
   public lineChartData = {
