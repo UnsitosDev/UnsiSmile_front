@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
@@ -6,6 +6,10 @@ import { BaseChartDirective } from 'ng2-charts';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '@mean/services';
+import { HttpHeaders } from '@angular/common/http';
+import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
 interface Row {
   label: string;
   values: any;
@@ -95,6 +99,12 @@ interface SurfaceMeasurement {
 })
 export class HistoryInitialBagComponent implements OnInit {
   notes: string = '';
+  private apiService = inject(ApiService);
+  private toastr = inject(ToastrService);
+  @Input({ required: true }) patientId!: string;
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
+  @Output() nextMatTab = new EventEmitter<void>();
+  @Output() previousMatTab = new EventEmitter<void>();
 
   // Estructura de las tablas
   tab: TabStructure = {
@@ -129,6 +139,7 @@ export class HistoryInitialBagComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeTables();
+    console.log('paciente', this.patientId);
   }
 
   // Inicializa las filas de las tablas
@@ -189,51 +200,84 @@ export class HistoryInitialBagComponent implements OnInit {
     console.log(`Tabla: ${tableKey}, Fila: ${row.symbol}, Columna: ${this.tab[tableKey].columns[columnIndex]}, Input: ${inputIndex + 1}`);
   }
 
-  generateJSON(): any {
-    const toothEvaluations: ToothEvaluation[] = [];
+  sendDataPeriodontogram() {
+    const periodontogramData = this.mapPeriodontogramToPost();
+    this.postPeriodontogram(periodontogramData);
+  }
 
+  postPeriodontogram(data: any) {
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_PERIODONTOGRAM_HC}`,
+        data: data,
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Periodontograma Guardado');
+          this.nextMatTab.emit();
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
+  }
+
+  // Mapeo de nombres de superficies
+  surfaceNameMapping: { [key: string]: string } = {
+    'VESTIBULARES SUPERIORES': 'VESTIBULAR',
+    'PALATINOS INFERIORES': 'PALATINO',
+    'LINGUALES SUPERIORES': 'LINGUAL',
+    'VESTIBULARES INFERIORES': 'VESTIBULAR_INFERIOR',
+  };
+
+  mapPeriodontogramToPost(): any {
+    const toothEvaluations: ToothEvaluation[] = [];
+    
     // Recorrer cada tabla
     Object.keys(this.tab).forEach((tableKey) => {
       const table = this.tab[tableKey as keyof TabStructure];
-
+    
       // Recorrer cada columna (diente)
       table.columns.forEach((toothId, columnIndex) => {
         // Obtener el valor de movilidad (M. D.)
         const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
         const mobility = mdRow ? parseFloat(mdRow.values[columnIndex]) || 0 : 0;
-
+    
         // Crear el objeto toothEvaluation para este diente
         const toothEvaluation: ToothEvaluation = {
           idTooth: toothId.toString(),
           mobility,
           surfaceEvaluations: [],
         };
-
+    
         // Definir las posiciones (MESIAL, CENTRAL, DISTAL)
         const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
-
+    
         // Crear la evaluación de la superficie para esta tabla
         const surfaceEvaluation: SurfaceEvaluation = {
-          surface: table.title.toUpperCase(), // Nombre de la tabla (VESTIBULAR, LINGUAL, etc.)
+          surface: this.surfaceNameMapping[table.title], // Aplicar el mapeo al nombre de la tabla
           surfaceMeasurements: [],
         };
-
+    
         // Procesar las filas P. B. y N. I. (pocketDepth y lesionLevel)
         const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
         const niRow = table.rows.find((row) => row.symbol === 'N. I.');
-
+    
         // Procesar las filas SANGRA, PLACA, CALCULO (bleeding, plaque, calculus)
         const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
         const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
         const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
-
+    
         positions.forEach((position, positionIndex) => {
           const pocketDepth = pbRow ? parseFloat(pbRow.values[columnIndex * 3 + positionIndex]) : null;
           const lesionLevel = niRow ? parseFloat(niRow.values[columnIndex * 3 + positionIndex]) : null;
           const bleeding = sangraRow ? sangraRow.values[columnIndex * 3 + positionIndex] === true : false;
           const plaque = placaRow ? placaRow.values[columnIndex * 3 + positionIndex] === true : false;
           const calculus = calculoRow ? calculoRow.values[columnIndex * 3 + positionIndex] === true : false;
-
+    
           // Verificar si hay valores válidos para esta posición
           const hasValidValues =
             (pocketDepth !== null && !isNaN(pocketDepth)) ||
@@ -241,7 +285,7 @@ export class HistoryInitialBagComponent implements OnInit {
             bleeding ||
             plaque ||
             calculus;
-
+    
           if (hasValidValues) {
             // Crear la medición para esta posición
             const surfaceMeasurement: SurfaceMeasurement = {
@@ -252,35 +296,38 @@ export class HistoryInitialBagComponent implements OnInit {
               bleeding,
               calculus,
             };
-
+    
             // Agregar la medición a la evaluación de la superficie
             surfaceEvaluation.surfaceMeasurements.push(surfaceMeasurement);
           }
         });
-
+    
         // Agregar la evaluación de la superficie al diente solo si tiene mediciones válidas
         if (surfaceEvaluation.surfaceMeasurements.length > 0) {
           toothEvaluation.surfaceEvaluations.push(surfaceEvaluation);
         }
-
+    
         // Agregar el diente al arreglo de evaluaciones solo si tiene evaluaciones válidas
         if (toothEvaluation.surfaceEvaluations.length > 0) {
           toothEvaluations.push(toothEvaluation);
         }
       });
     });
-
-    // Estructura final del JSON
-    const json = {
-      patientId: '123e4567-e89b-12d3-a456-426614174000', // Aquí puedes asignar el ID del paciente
-      plaqueIndex: 0, // Índice de placa
-      bleedingIndex: 0, // Índice de sangrado
-      notes: this.notes, // Notas adicionales
+    
+    const data = {
+      patientId: this.patientId, 
+      plaqueIndex: 0, 
+      bleedingIndex: 0,
+      notes: this.notes, 
       toothEvaluations,
+      formSection: "GENERAL_CLINICAL_HISTORY"
     };
+    
+    return data;
+  }
 
-    console.log(json); // Mostrar el JSON en la consola
-    return json;
+  previousTab() {
+    this.previousMatTab.emit();
   }
   // Datos para la gráfica
   public lineChartData = {

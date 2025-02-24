@@ -48,7 +48,11 @@
                             </app-students-odontogram>
                         }
                           @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
-                              <app-history-initial-bag></app-history-initial-bag>
+                              <app-history-initial-bag
+                              [patientId]="idpatient"
+                              (nextMatTab)="onNextTab()"
+                              (previousMatTab)="onPreviousTab()"
+                              ></app-history-initial-bag>
                           }
                           @if (tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial') {
                               <app-tab-form-update
