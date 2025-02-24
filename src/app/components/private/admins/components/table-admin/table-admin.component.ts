@@ -16,7 +16,7 @@ import { AdminTableData } from 'src/app/models/shared/admin/admin';
 import { MatCardModule } from '@angular/material/card';
 import { DetailsAdminComponent } from '../details-admin/details-admin.component';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
-
+import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 
 @Component({
   selector: 'app-table-admin',
@@ -153,10 +153,33 @@ export class TableAdminComponent implements OnInit {
   }
 
   // Agregar método para manejar acciones específicas de status
-  onStatusChange(admin: AdminTableData) {
-    // Aquí puedes implementar la lógica para cambiar el status
-    console.log('Cambiar status de admin:', admin);
-    // Llamar al API para actualizar el status
+  onStatusChange(event: { row: any, newStatus: string }) {
+    const dialogRef = this.dialog.open(ConfirmationAlertComponent, {
+      width: '300px',
+      data: { message: `¿Estás seguro de que deseas cambiar el estatus a ${event.newStatus}?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const employeeNumber = event.row['numero empleado'];
+        const url = `${UriConstants.PATCH_ADMIN}/${employeeNumber}/toggle-status`;
+
+        this.apiService.patchService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url,
+          data: {}
+        }).subscribe({
+          next: () => {
+            event.row.estatus = event.newStatus;
+          },
+          error: (error) => {
+            console.error('Error al cambiar el estado del administrador:', error);
+          }
+        });
+      }
+    });
   }
 
   // Agregar el método onSort
