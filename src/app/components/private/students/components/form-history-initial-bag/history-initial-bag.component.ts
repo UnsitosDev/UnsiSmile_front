@@ -17,68 +17,17 @@ interface Row {
 }
 
 interface TabStructure {
-  upperVestibular: {
-    title: string;
-    id: number;
-    columns: number[];
-    rows: Row[];
-  };
-  lowerPalatino: {
-    title: string;
-    id: number;
-    columns: number[];
-    rows: Row[];
-  };
-  upperLingual: {
-    title: string;
-    id: number;
-    columns: number[];
-    rows: Row[];
-  };
-  lowerVestibular: {
-    title: string;
-    id: number;
-    columns: number[];
-    rows: Row[];
-  };
+  upperVestibular: TabSection;
+  lowerPalatino: TabSection;
+  upperLingual: TabSection;
+  lowerVestibular: TabSection;
 }
 
-interface SurfaceMeasurement {
-  toothPosition: string; // Posición del diente (no aplica aquí)
-  pocketDepth: number; // Profundidad de bolsa (P. B.)
-  lesionLevel: number; // Nivel de inserción (N. I.)
-  plaque: boolean; // Placa (no aplica aquí)
-  bleeding: boolean; // Sangrado (no aplica aquí)
-  calculus: boolean; // Cálculo (no aplica aquí)
-}
-
-interface SurfaceEvaluation {
-  surface: string; // Superficie del diente (vestibular, medio, lingual/palatino)
-  surfaceMeasurements: SurfaceMeasurement[];
-}
-
-interface ToothEvaluation {
-  idTooth: string; // Identificador del diente (ej: "18")
-  mobility: number; // Movilidad del diente (no aplica aquí)
-  surfaceEvaluations: SurfaceEvaluation[];
-}
-
-interface PatientEvaluation {
-  patientId: string; // ID del paciente
-  plaqueIndex: number; // Índice de placa (no aplica aquí)
-  bleedingIndex: number; // Índice de sangrado (no aplica aquí)
-  notes: string; // Notas adicionales (no aplica aquí)
-  toothEvaluations: ToothEvaluation[];
-}
-interface ToothEvaluation {
-  idTooth: string;
-  mobility: number;
-  surfaceEvaluations: SurfaceEvaluation[];
-}
-
-interface SurfaceEvaluation {
-  surface: string;
-  surfaceMeasurements: SurfaceMeasurement[];
+interface TabSection {
+  title: string;
+  id: number;
+  columns: number[];
+  rows: Row[];
 }
 
 interface SurfaceMeasurement {
@@ -88,6 +37,25 @@ interface SurfaceMeasurement {
   plaque: boolean;
   bleeding: boolean;
   calculus: boolean;
+}
+
+interface SurfaceEvaluation {
+  surface: string;
+  surfaceMeasurements: SurfaceMeasurement[];
+}
+
+interface ToothEvaluation {
+  idTooth: string;
+  mobility: number;
+  surfaceEvaluations: SurfaceEvaluation[];
+}
+
+interface PatientEvaluation {
+  patientId: string;
+  plaqueIndex: number;
+  bleedingIndex: number;
+  notes: string;
+  toothEvaluations: ToothEvaluation[];
 }
 
 @Component({
@@ -336,17 +304,4 @@ export class HistoryInitialBagComponent implements OnInit {
   previousTab() {
     this.previousMatTab.emit();
   }
-  // Datos para la gráfica
-  public lineChartData = {
-    labels: ['18', '18', '18', '17', '17', '17', '16', '16', '16', '15', '15', '15', '14', '14', '14', '13', '13', '13', '12', '12', '12', '11', '11', '11', '21', '21', '21', '22', '22', '22', '23', '23', '23', '24', '24', '24', '25', '25', '25', '26', '26', '26', '27', '27', '27', '28', '28', '28'],
-    datasets: [
-      {
-        label: 'My First Dataset',
-        data: [0, 0, 1, 5, 1, 1, 2, NaN, 4, 5, 1, 1, 2, NaN, 6, 7, 1, 2, NaN, 8, 3, 0, NaN, 4, 9, 6, NaN, 2, 7, 5, NaN, 3, 8, 1, NaN, 0, 6, 4, NaN, 9, 2, 5, NaN, 7, 3, 8, NaN, 1],
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }
-    ]
-  };
 }
