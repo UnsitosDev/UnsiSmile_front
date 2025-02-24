@@ -106,3 +106,42 @@ button {
 .custom-textarea{
   text-align: center;
 }
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 210px;
+
+  /* Imagen de fondo */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 10px; /* Ajusta la posición vertical */
+    left: 20px; /* Ajusta la posición horizontal */
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/Vestibular.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: 1;
+    transform: translate(-10px, px); /* Ajusta la posición con transform */
+  }
+
+  /* Gráfica */
+  canvas {
+    position: relative;
+    z-index: 2;
+    margin-top: 0px; /* Ajusta la posición vertical de la gráfica */
+    margin-left: 25px; /* Ajusta la posición horizontal de la gráfica */
+    transform: translate(10px, 5px); /* Ajusta la posición con transform */
+  }
+}
+
+/* Gráfica */
+.chart-canvas {
+  height: 100px !important; /* Altura de la gráfica */
+  width: 100% !important; /* Ancho de la gráfica */
+  position: relative;
+  z-index: 2;
+}

@@ -139,7 +139,7 @@ export class HistoryInitialBagComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeTables();
-    console.log('paciente', this.patientId);
+    //console.log('paciente', this.patientId);
   }
 
   // Inicializa las filas de las tablas
@@ -197,7 +197,7 @@ export class HistoryInitialBagComponent implements OnInit {
       this.tab[tableKey].rows[rowIndex].values[columnIndex * 3 + inputIndex] = value;
     }
 
-    console.log(`Tabla: ${tableKey}, Fila: ${row.symbol}, Columna: ${this.tab[tableKey].columns[columnIndex]}, Input: ${inputIndex + 1}`);
+    //  console.log(`Tabla: ${tableKey}, Fila: ${row.symbol}, Columna: ${this.tab[tableKey].columns[columnIndex]}, Input: ${inputIndex + 1}`);
   }
 
   sendDataPeriodontogram() {
@@ -249,7 +249,7 @@ export class HistoryInitialBagComponent implements OnInit {
         // Crear el objeto toothEvaluation para este diente
         const toothEvaluation: ToothEvaluation = {
           idTooth: toothId.toString(),
-          mobility,
+          mobility, // Asignar el valor de mobility para este diente
           surfaceEvaluations: [],
         };
     
@@ -322,6 +322,8 @@ export class HistoryInitialBagComponent implements OnInit {
       toothEvaluations,
       formSection: "GENERAL_CLINICAL_HISTORY"
     };
+
+    console.log(data);
     
     return data;
   }
@@ -331,24 +333,15 @@ export class HistoryInitialBagComponent implements OnInit {
   }
   // Datos para la gráfica
   public lineChartData = {
-    labels: ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28'],
+    labels: ['18', '18', '18', '17', '17', '17', '16', '16', '16', '15', '15', '15', '14', '14', '14', '13', '13', '13', '12', '12', '12', '11', '11', '11', '21', '21', '21', '22', '22', '22', '23', '23', '23', '24', '24', '24', '25', '25', '25', '26', '26', '26', '27', '27', '27', '28', '28', '28'],
     datasets: [
       {
         label: 'My First Dataset',
-        data: [1, 1, 2, NaN, 1, 1, 2, NaN, 4, 5, 1, 1, 2, NaN, 6, 7, 1, 2],
+        data: [0, 0, 1, 5, 1, 1, 2, NaN, 4, 5, 1, 1, 2, NaN, 6, 7, 1, 2, NaN, 8, 3, 0, NaN, 4, 9, 6, NaN, 2, 7, 5, NaN, 3, 8, 1, NaN, 0, 6, 4, NaN, 9, 2, 5, NaN, 7, 3, 8, NaN, 1],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1
       }
     ]
   };
-
-  // Opciones de la gráfica
-  public lineChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-  };
-
-  // Tipo de gráfica
-  public lineChartType = 'line' as const;
 }
