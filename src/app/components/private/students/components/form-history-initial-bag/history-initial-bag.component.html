@@ -1,3 +1,4 @@
+
 @for (tableKey of getTableKeys(); track tableKey) {
   <mat-card class="table-card">
     <mat-card-header>
@@ -68,8 +69,7 @@
     </mat-card-content>
   </mat-card>
 }
-<br>
-<div>
+<div class="custom-textarea">
   <mat-form-field class="example-full-width">
     <mat-label>Observaciones</mat-label>
     <textarea
@@ -79,10 +79,13 @@
     ></textarea>
   </mat-form-field>
 </div>
-<br>
-<button mat-raised-button color="primary" (click)="generateJSON()">
-  Generar JSON
-</button>
+
+<div class="button-container">
+  <button type="button" mat-button><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
+  <div>
+    <button type="button" mat-button> AVANZAR Y GUARDAR <i class="fas fa-save"></i></button>
+  </div>
+</div>
 
 <!-- <div>
   <canvas
