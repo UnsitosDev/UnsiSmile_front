@@ -64,12 +64,26 @@
           }
         </tbody>
       </table>
+      
     </mat-card-content>
   </mat-card>
 }
+<br>
+<div>
+  <mat-form-field class="example-full-width">
+    <mat-label>Observaciones</mat-label>
+    <textarea
+      matInput
+      placeholder="Anotar observaciones ..."
+      [(ngModel)]="notes" 
+    ></textarea>
+  </mat-form-field>
+</div>
+<br>
 <button mat-raised-button color="primary" (click)="generateJSON()">
   Generar JSON
 </button>
+
 <!-- <div>
   <canvas
     baseChart

@@ -3,7 +3,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { BaseChartDirective } from 'ng2-charts';
-
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 interface Row {
   label: string;
   values: any;
@@ -87,11 +89,13 @@ interface SurfaceMeasurement {
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
-  imports: [MatButtonModule, MatCardModule, BaseChartDirective, MatCheckboxModule],
+  imports: [MatButtonModule, MatCardModule, BaseChartDirective, MatCheckboxModule, MatInputModule, MatFormFieldModule, FormsModule],
   templateUrl: './history-initial-bag.component.html',
   styleUrl: './history-initial-bag.component.scss',
 })
 export class HistoryInitialBagComponent implements OnInit {
+  notes: string = '';
+
   // Estructura de las tablas
   tab: TabStructure = {
     upperVestibular: {
@@ -151,7 +155,7 @@ export class HistoryInitialBagComponent implements OnInit {
 
   onInputChange(tableKey: keyof TabStructure, row: Row, event: Event | MatCheckboxChange, columnIndex: number, inputIndex: number): void {
     let value: number | boolean;
-  
+
     if (event instanceof MatCheckboxChange) {
       // Para checkboxes, usar la propiedad `checked`
       value = event.checked;
@@ -159,77 +163,77 @@ export class HistoryInitialBagComponent implements OnInit {
       // Para inputs de texto, mantener la lógica actual
       const inputElement = event.target as HTMLInputElement;
       const inputValue = inputElement.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
-  
+
       // Limitar el valor a un solo dígito (1-15)
       if (inputValue.length > 2) {
         inputElement.value = inputValue.substring(0, 2);
         return;
       }
-  
+
       // Validar que el valor esté entre 1 y 15
       const numericValue = parseInt(inputValue, 10);
       if (isNaN(numericValue) || numericValue < 1 || numericValue > 15) {
         inputElement.value = '';
         return;
       }
-  
+
       value = numericValue;
     }
-  
+
     // Actualizar el valor en la fila correspondiente
     const rowIndex = this.tab[tableKey].rows.indexOf(row);
     if (rowIndex !== -1) {
       this.tab[tableKey].rows[rowIndex].values[columnIndex * 3 + inputIndex] = value;
     }
-  
+
     console.log(`Tabla: ${tableKey}, Fila: ${row.symbol}, Columna: ${this.tab[tableKey].columns[columnIndex]}, Input: ${inputIndex + 1}`);
   }
 
   generateJSON(): any {
     const toothEvaluations: ToothEvaluation[] = [];
-  
+
     // Recorrer cada tabla
     Object.keys(this.tab).forEach((tableKey) => {
       const table = this.tab[tableKey as keyof TabStructure];
-  
+
       // Recorrer cada columna (diente)
       table.columns.forEach((toothId, columnIndex) => {
         // Obtener el valor de movilidad (M. D.)
         const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
         const mobility = mdRow ? parseFloat(mdRow.values[columnIndex]) || 0 : 0;
-  
+
         // Crear el objeto toothEvaluation para este diente
         const toothEvaluation: ToothEvaluation = {
           idTooth: toothId.toString(),
           mobility,
           surfaceEvaluations: [],
         };
-  
+
         // Definir las posiciones (MESIAL, CENTRAL, DISTAL)
         const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
-  
+
         // Crear la evaluación de la superficie para esta tabla
         const surfaceEvaluation: SurfaceEvaluation = {
           surface: table.title.toUpperCase(), // Nombre de la tabla (VESTIBULAR, LINGUAL, etc.)
           surfaceMeasurements: [],
         };
-  
+
         // Procesar las filas P. B. y N. I. (pocketDepth y lesionLevel)
         const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
         const niRow = table.rows.find((row) => row.symbol === 'N. I.');
-  
+
         // Procesar las filas SANGRA, PLACA, CALCULO (bleeding, plaque, calculus)
         const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
         const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
         const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
-  
+
         positions.forEach((position, positionIndex) => {
           const pocketDepth = pbRow ? parseFloat(pbRow.values[columnIndex * 3 + positionIndex]) : null;
           const lesionLevel = niRow ? parseFloat(niRow.values[columnIndex * 3 + positionIndex]) : null;
           const bleeding = sangraRow ? sangraRow.values[columnIndex * 3 + positionIndex] === true : false;
           const plaque = placaRow ? placaRow.values[columnIndex * 3 + positionIndex] === true : false;
           const calculus = calculoRow ? calculoRow.values[columnIndex * 3 + positionIndex] === true : false;
-  
+
           // Verificar si hay valores válidos para esta posición
           const hasValidValues =
             (pocketDepth !== null && !isNaN(pocketDepth)) ||
@@ -237,7 +241,7 @@ export class HistoryInitialBagComponent implements OnInit {
             bleeding ||
             plaque ||
             calculus;
-  
+
           if (hasValidValues) {
             // Crear la medición para esta posición
             const surfaceMeasurement: SurfaceMeasurement = {
@@ -248,33 +252,33 @@ export class HistoryInitialBagComponent implements OnInit {
               bleeding,
               calculus,
             };
-  
+
             // Agregar la medición a la evaluación de la superficie
             surfaceEvaluation.surfaceMeasurements.push(surfaceMeasurement);
           }
         });
-  
+
         // Agregar la evaluación de la superficie al diente solo si tiene mediciones válidas
         if (surfaceEvaluation.surfaceMeasurements.length > 0) {
           toothEvaluation.surfaceEvaluations.push(surfaceEvaluation);
         }
-  
+
         // Agregar el diente al arreglo de evaluaciones solo si tiene evaluaciones válidas
         if (toothEvaluation.surfaceEvaluations.length > 0) {
           toothEvaluations.push(toothEvaluation);
         }
       });
     });
-  
+
     // Estructura final del JSON
     const json = {
       patientId: '123e4567-e89b-12d3-a456-426614174000', // Aquí puedes asignar el ID del paciente
-      plaqueIndex: 85.5, // Índice de placa
-      bleedingIndex: 76.3, // Índice de sangrado
-      notes: 'Paciente presenta inflamación moderada en encías.', // Notas adicionales
+      plaqueIndex: 0, // Índice de placa
+      bleedingIndex: 0, // Índice de sangrado
+      notes: this.notes, // Notas adicionales
       toothEvaluations,
     };
-  
+
     console.log(json); // Mostrar el JSON en la consola
     return json;
   }

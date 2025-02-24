@@ -1,6 +1,6 @@
 .table-card {
-  margin: 16px;
-  padding: 16px;
+  margin: 10px;
+  padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -60,4 +60,20 @@ td {
   width: 25px; /* Ancho máximo de 10px */
   height: 25px; /* Altura máxima de 10px */
 }
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+textarea:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 
