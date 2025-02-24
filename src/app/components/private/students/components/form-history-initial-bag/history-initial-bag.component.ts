@@ -69,6 +69,7 @@ export class HistoryInitialBagComponent implements OnInit {
   notes: string = '';
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
+  private formSectionId = 8;
   @Input({ required: true }) patientId!: string;
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>();
@@ -107,7 +108,26 @@ export class HistoryInitialBagComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeTables();
+    this.getPeriodontogram();   
     //console.log('paciente', this.patientId);
+  }
+
+  getPeriodontogram(){
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_PERIODONTOGRAM_ID}/${this.patientId}/form-section/${this.formSectionId}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          console.log('Periodontograma:', response);
+        },
+        error: (error) => {
+        },
+      });
   }
 
   // Inicializa las filas de las tablas
