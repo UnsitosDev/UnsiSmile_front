@@ -1,15 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthModel } from '../models/core/auth.model';
-import jwtDecode from 'jwt-decode';
 import { Router } from '@angular/router';
+import { UriConstants } from '@mean/utils';
+import jwtDecode from 'jwt-decode';
+import { Observable } from 'rxjs';
 import { TokenData } from '../components/public/login/model/tokenData';
+import { AuthModel } from '../models/core/auth.model';
+import { TokenResponse } from '../models/core/TokenResponse';
 import { SessionStorageConstants } from '../utils/session.storage';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   saveToSession(key: string, value: string) {
     sessionStorage.setItem(key, value);
@@ -24,10 +28,10 @@ export class AuthService {
   }
 
   /**
- * Obtiene el token de usuario almacenado en la sesión.
- *
- * @returns {string | null} El token de usuario almacenado en la sesión o null si no se encuentra.
- */
+   * Obtiene el token de usuario almacenado en la sesión.
+   *
+   * @returns {string | null} El token de usuario almacenado en la sesión o null si no se encuentra.
+   */
   getToken(): string | null {
     // Verifica si la ventana está definida para evitar errores en entornos sin ventana, como Node.js
     if (typeof window !== 'undefined') {
@@ -35,7 +39,7 @@ export class AuthService {
       const token = sessionStorage.getItem(SessionStorageConstants.USER_TOKEN);
       return token;
     }
-    return null;// Devuelve null si no se encuentra el token o no hay ventana definida
+    return null; // Devuelve null si no se encuentra el token o no hay ventana definida
   }
 
   /**
@@ -58,7 +62,7 @@ export class AuthService {
     }
   }
 
-    /**
+  /**
    * Decodifica el token JWT proporcionado y devuelve los datos asociados.
    *
    * @param {string} token - El token JWT a decodificar.
@@ -69,4 +73,29 @@ export class AuthService {
 
     return tokenData;
   }
-}
+
+  /**
+   * Elimina los datos de la sesión del usuario.
+   */
+  clearSession(): void {
+    sessionStorage.clear();
+  }
+
+  /**
+   * Obtiene el token de refresco almacenado en la sesión.
+   */
+  getRefreshToken(): string {
+    return sessionStorage.getItem(SessionStorageConstants.USER_REFRESH_TOKEN) || '';
+  }
+
+  /**
+   * Realiza una petición para refrescar el token.
+   * Se asumirá que el endpoint de refresco es POST y que espera un objeto con la propiedad refreshToken.
+   */
+  refreshToken(): Observable<TokenResponse> {
+    const oldRefreshToken: string | null = this.getRefreshToken();
+    sessionStorage.removeItem(SessionStorageConstants.USER_TOKEN);
+    const url = `${UriConstants.REFRESH_TOKEN_ENDPOINT}`; // Ajusta esta URL según tu API
+    return this.http.post<TokenResponse>(url, { "refreshToken": oldRefreshToken });
+  }
+}   
