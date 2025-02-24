@@ -31,6 +31,7 @@ interface TabSection {
 }
 
 interface SurfaceMeasurement {
+  id?: number; // Nuevo campo
   toothPosition: string;
   pocketDepth: number;
   lesionLevel: number;
@@ -40,20 +41,24 @@ interface SurfaceMeasurement {
 }
 
 interface SurfaceEvaluation {
+  id?: number; // Nuevo campo
   surface: string;
   surfaceMeasurements: SurfaceMeasurement[];
 }
 
 interface ToothEvaluation {
+  id?: number; // Nuevo campo
   idTooth: string;
   mobility: number;
   surfaceEvaluations: SurfaceEvaluation[];
 }
 
 interface PatientEvaluation {
+  id?: number; // Nuevo campo
   patientId: string;
   plaqueIndex: number;
   bleedingIndex: number;
+  evaluationDate: number[]; // Nuevo campo (array de números que representa la fecha)
   notes: string;
   toothEvaluations: ToothEvaluation[];
 }
@@ -112,6 +117,7 @@ export class HistoryInitialBagComponent implements OnInit {
     //console.log('paciente', this.patientId);
   }
 
+  periodontogram!: PatientEvaluation;
   getPeriodontogram(){
     this.apiService
       .getService({
@@ -123,7 +129,8 @@ export class HistoryInitialBagComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          console.log('Periodontograma:', response);
+          this.periodontogram = response;
+          console.log('Periodontograma:', this.periodontogram);
         },
         error: (error) => {
         },
