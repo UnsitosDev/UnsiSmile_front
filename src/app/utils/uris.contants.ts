@@ -267,4 +267,6 @@ export class UriConstants {
 
   //obtener un odontogram por id de formulario
   public static readonly GET_ODONTOGRAM_BY_FORM_ID = basePath + '/medical-histories/odontograms'
+
+  public static readonly REFRESH_TOKEN_ENDPOINT = basePath + '/auth/refresh';
 }

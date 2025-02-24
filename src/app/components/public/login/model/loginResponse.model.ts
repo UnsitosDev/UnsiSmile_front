@@ -4,5 +4,6 @@ export type Get = {}
 export type PostLogin = {
   response : {
     token : string;
+    refreshToken : string;
   }
 }
