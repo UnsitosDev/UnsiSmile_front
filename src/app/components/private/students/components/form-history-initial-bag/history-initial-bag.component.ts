@@ -166,7 +166,7 @@ export class HistoryInitialBagComponent implements OnInit {
 
   onInputChange(tableKey: keyof TabStructure, row: Row, event: Event | MatCheckboxChange, columnIndex: number, inputIndex: number): void {
     let value: number | boolean;
-
+  
     if (event instanceof MatCheckboxChange) {
       // Para checkboxes, usar la propiedad `checked`
       value = event.checked;
@@ -174,30 +174,34 @@ export class HistoryInitialBagComponent implements OnInit {
       // Para inputs de texto, mantener la lógica actual
       const inputElement = event.target as HTMLInputElement;
       const inputValue = inputElement.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
-
+  
       // Limitar el valor a un solo dígito (1-15)
       if (inputValue.length > 2) {
         inputElement.value = inputValue.substring(0, 2);
         return;
       }
-
+  
       // Validar que el valor esté entre 1 y 15
       const numericValue = parseInt(inputValue, 10);
       if (isNaN(numericValue) || numericValue < 1 || numericValue > 15) {
         inputElement.value = '';
         return;
       }
-
+  
       value = numericValue;
     }
-
+  
     // Actualizar el valor en la fila correspondiente
     const rowIndex = this.tab[tableKey].rows.indexOf(row);
     if (rowIndex !== -1) {
-      this.tab[tableKey].rows[rowIndex].values[columnIndex * 3 + inputIndex] = value;
+      if (row.symbol === 'M. D.') {
+        // Para la fila M. D., asignar el valor directamente a la columna correspondiente
+        this.tab[tableKey].rows[rowIndex].values[columnIndex] = value;
+      } else {
+        // Para otras filas, mantener la lógica actual
+        this.tab[tableKey].rows[rowIndex].values[columnIndex * 3 + inputIndex] = value;
+      }
     }
-
-    //  console.log(`Tabla: ${tableKey}, Fila: ${row.symbol}, Columna: ${this.tab[tableKey].columns[columnIndex]}, Input: ${inputIndex + 1}`);
   }
 
   sendDataPeriodontogram() {
@@ -235,49 +239,51 @@ export class HistoryInitialBagComponent implements OnInit {
 
   mapPeriodontogramToPost(): any {
     const toothEvaluations: ToothEvaluation[] = [];
-    
+  
     // Recorrer cada tabla
     Object.keys(this.tab).forEach((tableKey) => {
       const table = this.tab[tableKey as keyof TabStructure];
-    
+  
+      // Obtener la fila de movilidad (M. D.)
+      const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
+  
       // Recorrer cada columna (diente)
       table.columns.forEach((toothId, columnIndex) => {
-        // Obtener el valor de movilidad (M. D.)
-        const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
+        // Obtener el valor de movilidad (M. D.) para este diente
         const mobility = mdRow ? parseFloat(mdRow.values[columnIndex]) || 0 : 0;
-    
+  
         // Crear el objeto toothEvaluation para este diente
         const toothEvaluation: ToothEvaluation = {
           idTooth: toothId.toString(),
           mobility, // Asignar el valor de mobility para este diente
           surfaceEvaluations: [],
         };
-    
+  
         // Definir las posiciones (MESIAL, CENTRAL, DISTAL)
         const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
-    
+  
         // Crear la evaluación de la superficie para esta tabla
         const surfaceEvaluation: SurfaceEvaluation = {
           surface: this.surfaceNameMapping[table.title], // Aplicar el mapeo al nombre de la tabla
           surfaceMeasurements: [],
         };
-    
+  
         // Procesar las filas P. B. y N. I. (pocketDepth y lesionLevel)
         const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
         const niRow = table.rows.find((row) => row.symbol === 'N. I.');
-    
+  
         // Procesar las filas SANGRA, PLACA, CALCULO (bleeding, plaque, calculus)
         const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
         const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
         const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
-    
+  
         positions.forEach((position, positionIndex) => {
           const pocketDepth = pbRow ? parseFloat(pbRow.values[columnIndex * 3 + positionIndex]) : null;
           const lesionLevel = niRow ? parseFloat(niRow.values[columnIndex * 3 + positionIndex]) : null;
           const bleeding = sangraRow ? sangraRow.values[columnIndex * 3 + positionIndex] === true : false;
           const plaque = placaRow ? placaRow.values[columnIndex * 3 + positionIndex] === true : false;
           const calculus = calculoRow ? calculoRow.values[columnIndex * 3 + positionIndex] === true : false;
-    
+  
           // Verificar si hay valores válidos para esta posición
           const hasValidValues =
             (pocketDepth !== null && !isNaN(pocketDepth)) ||
@@ -285,7 +291,7 @@ export class HistoryInitialBagComponent implements OnInit {
             bleeding ||
             plaque ||
             calculus;
-    
+  
           if (hasValidValues) {
             // Crear la medición para esta posición
             const surfaceMeasurement: SurfaceMeasurement = {
@@ -296,35 +302,34 @@ export class HistoryInitialBagComponent implements OnInit {
               bleeding,
               calculus,
             };
-    
+  
             // Agregar la medición a la evaluación de la superficie
             surfaceEvaluation.surfaceMeasurements.push(surfaceMeasurement);
           }
         });
-    
+  
         // Agregar la evaluación de la superficie al diente solo si tiene mediciones válidas
         if (surfaceEvaluation.surfaceMeasurements.length > 0) {
           toothEvaluation.surfaceEvaluations.push(surfaceEvaluation);
         }
-    
+  
         // Agregar el diente al arreglo de evaluaciones solo si tiene evaluaciones válidas
         if (toothEvaluation.surfaceEvaluations.length > 0) {
           toothEvaluations.push(toothEvaluation);
         }
       });
     });
-    
+  
     const data = {
-      patientId: this.patientId, 
-      plaqueIndex: 0, 
+      patientId: this.patientId,
+      plaqueIndex: 0,
       bleedingIndex: 0,
-      notes: this.notes, 
+      notes: this.notes,
       toothEvaluations,
       formSection: "GENERAL_CLINICAL_HISTORY"
     };
-
+  
     console.log(data);
-    
     return data;
   }
 
