@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { studentResponse, studentUserResponse } from 'src/app/shared/interfaces/student/student';
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
@@ -15,7 +15,7 @@ import { MatCardModule } from '@angular/material/card';
   templateUrl: './form-user.component.html',
   styleUrl: './form-user.component.scss'
 })
-export class FormUserComponent {
+export class FormUserComponent implements OnInit {
   private userService = inject(ApiService<studentResponse, {}>);
   tabs = ['Descripción General', 'Editar Datos', 'Cambiar Contraseña'];
   activeTab = signal(0);
@@ -32,7 +32,7 @@ export class FormUserComponent {
   mostrarNuevaContrasena = signal(false);
   mostrarConfirmarContrasena = signal(false);
   modoEdicion = signal(false);
-  
+  welcomeMessage = signal(''); // Nueva propiedad para el mensaje de bienvenida
 
   ngOnInit() {
     this.fetchUserData();
@@ -98,12 +98,21 @@ export class FormUserComponent {
       .subscribe({
         next: (data) => {
           this.user = data;
+          this.setWelcomeMessage();
           console.log('user data: ', data);
         },
         error: (error) => {
           console.error('Error fetching user data:', error);
         },
       });
+  }
+
+  setWelcomeMessage() {
+    if (this.user.person.gender.gender === 'Masculino') {
+      this.welcomeMessage.set(`¡BIENVENIDO ${this.user.person.firstName}!`);
+    } else {
+      this.welcomeMessage.set(`¡BIENVENIDA ${this.user.person.firstName}!`);
+    }
   }
 
   toggleEdicion() {
