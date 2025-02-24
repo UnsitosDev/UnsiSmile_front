@@ -25,14 +25,14 @@ export default [
             {
                 path: 'patients',
                 loadComponent: () =>
-                    import('@mean/students').then(
-                        (m) => m.StudentsPatientsComponent
+                    import('../admins/components/table-patients-admin/admin-patients.component').then(
+                        (m) => m.AdminPatientsComponent
                     ),
             },
             {
                 path: 'addPatient',
                 loadComponent: () =>
-                    import('../students/components/form-patient-personal-data/form-patient-personal-data.component').then(
+                    import('../admins/components/form-patient-personal-data/form-patient-personal-data.component').then(
                         (m) => m.FormPatientPersonalDataComponent
                     ),
             },

@@ -17,6 +17,10 @@ import { UriConstants } from '@mean/utils';
 import { Router } from '@angular/router';
 import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
 import { adminService } from 'src/app/services/admin.service';
+import { MatCardModule } from '@angular/material/card';
+import { ToastrService } from 'ngx-toastr';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
+
 
 
 
@@ -29,12 +33,12 @@ import { adminService } from 'src/app/services/admin.service';
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FieldComponentComponent,MatStep,MatStepperModule,AlertComponent],
+    FieldComponentComponent,MatStep,MatStepperModule,AlertComponent,MatCardModule],
   templateUrl: './form-insert-admin.component.html',
   styleUrl: './form-insert-admin.component.scss'
 })
 export class FormInsertAdminComponent {
-
+  private toastr = inject(ToastrService);
   private apiService = inject(ApiService<religionRequest>);
   formGroup!: FormGroup;
   admin: FormField[] = [];
@@ -103,20 +107,17 @@ export class FormInsertAdminComponent {
         })
         .subscribe({
           next: (response) => {
-            this.router.navigate(['/admin']);  // Redirige después de un éxito
-            this.alertConfiguration('SUCCESS', "El administrador ha sido registrado correctamente.");
-            this.openAlert();
+            this.router.navigate(['/admin/admins']);  // Redirige después de un éxito
+            this.toastr.success(Messages.SUCCES_INSERT_ADMIN, 'Éxito');
+            
           },
           error: (error) => {
-            console.error('Error en el registro:', error);
-            this.alertConfiguration('ERROR', error);
-            this.openAlert();
+            this.toastr.error(error, 'Error');
           },
         });
   
     } else {
-      this.alertMessage = 'Por favor, completa todos los campos correctamente.';
-      this.showAlert = true;
+      this.toastr.warning(Messages.WARNING_INSERT_ADMIN, 'Advertencia');
     }
   }
   
