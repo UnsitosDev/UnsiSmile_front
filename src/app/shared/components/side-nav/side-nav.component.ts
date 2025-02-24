@@ -28,6 +28,7 @@ export class SideNavComponent implements OnInit {
   public menuItems: MenuItem[] = [];
   private userService = inject(ApiService<studentResponse, {}>);
   user!: studentUserResponse | AdminResponse;
+  welcomeMessage: string = 'Bienvenido'; 
   @Output() menuSelect = new EventEmitter<void>();
 
   constructor(
@@ -50,7 +51,8 @@ export class SideNavComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.user = data;
-          this.setMenuItems();          
+          this.setMenuItems();
+          this.setWelcomeMessage(); 
         },
         error: (error) => {
           console.error('Error fetching user data:', error);
@@ -65,6 +67,14 @@ export class SideNavComponent implements OnInit {
     } else if (this.user.user.role.role === 'ROLE_ADMIN') {
       this.menuItems = AdminItems;
       this.userLink = '/admin/user';  
+    }
+  }
+  
+  setWelcomeMessage() {
+    if (this.user.person.gender.gender === 'Masculino') {
+      this.welcomeMessage = 'Bienvenido';
+    } else {
+      this.welcomeMessage = 'Bienvenida';
     }
   }
   
