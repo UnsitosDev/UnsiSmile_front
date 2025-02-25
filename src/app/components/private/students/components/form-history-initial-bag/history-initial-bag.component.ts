@@ -26,6 +26,8 @@ export class HistoryInitialBagComponent implements OnInit {
   private formSectionId = 8;
   periodontogram!: PatientEvaluation;
   @Input({ required: true }) patientId!: string;
+  @Input({ required: true }) idQuestion!: number;
+  @Input({ required: true }) state!: 'create' | 'update' | 'read' | 'read-latest';
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>();
   @Output() previousMatTab = new EventEmitter<void>();
@@ -70,6 +72,8 @@ export class HistoryInitialBagComponent implements OnInit {
   ngOnInit(): void {
     this.initializeTables();
     this.getPeriodontogram();
+    console.log('idQuestion', this.idQuestion);
+    console.log('estado', this.state);
   }
 
   getPeriodontogram() {
@@ -94,21 +98,35 @@ export class HistoryInitialBagComponent implements OnInit {
       });
   }
 
-  putPeriodontogram(){
+  putPeriodontogram() {
+    // Mapear los datos del periodontograma a la estructura esperada por el backend
+    const periodontogramData = this.mapPeriodontogramToPost();
+  
+    // Agregar el ID del periodontograma a los datos
+    periodontogramData.id = this.id;
+    console.log('datos del periodontograma: ',periodontogramData);
+
+    // Realizar la solicitud PATCH para actualizar el periodontograma
     this.apiService
       .patchService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.PUT_PERIODONTOGRAM}/${this.id}`,
-        data: {},
+        url: `${UriConstants.PUT_PERIODONTOGRAM}/${this.id}`, // URL con el ID del periodontograma
+        data: periodontogramData, // Enviar los datos mapeados
       })
       .subscribe({
         next: (response) => {
-          this.toastr.success(response);
+          // Mostrar mensaje de éxito
+          this.toastr.success('Periodontograma actualizado correctamente');
+          // Emitir evento para avanzar a la siguiente pestaña (opcional)
+          this.nextMatTab.emit();
         },
         error: (error) => {
-          this.toastr.error(error);
+          // Mostrar mensaje de error
+          this.toastr.error('Error al actualizar el periodontograma');
+          console.error('Error en putPeriodontogram:', error);
+          console.log(periodontogramData);
         },
       });
   }

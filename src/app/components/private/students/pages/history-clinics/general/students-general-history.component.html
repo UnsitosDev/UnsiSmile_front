@@ -49,6 +49,17 @@
                         }
                           @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
                               <app-history-initial-bag
+                              [state]="'update'"
+                              [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                              [patientId]="idpatient"
+                              (nextMatTab)="onNextTab()"
+                              (previousMatTab)="onPreviousTab()"
+                              ></app-history-initial-bag>
+                          }
+                          @if (tab.title === 'Medición de bolsas inicial' && tab.isAnswered) {
+                            <app-history-initial-bag
+                              [state]="'update'"
+                              [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
                               [patientId]="idpatient"
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"
