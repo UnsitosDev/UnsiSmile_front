@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
   setWelcomeMessage() {
    switch (this.user.person.gender.idGender) {
       case 1:
-        this.welcomeMessage = 'Bienvenido a UnsiSmilea';
+        this.welcomeMessage = 'Bienvenido a UnsiSmile';
         break;
       case 2:
         this.welcomeMessage = 'Bienvenida a UnsiSmile';

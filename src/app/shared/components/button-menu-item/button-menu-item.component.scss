@@ -31,14 +31,14 @@ i{
   border-radius: 10px;
 
   &:hover {
-    background-color: var(--on-tertiary);
-    color: var(--primary);
+    background-color: var(--menu-button);
+    color: var(--menu-text);
     border-radius: 10px;
   }
 
   &.active {
-    background-color: var(--on-tertiary);
-    color: var(--primary);
+    background-color: var(--menu-button);
+    color: var(--menu-text);
     border-radius: 10px;
   }
 
