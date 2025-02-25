@@ -135,12 +135,11 @@ export class HistoryInitialBagComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.periodontogram = response;
-          console.log('Periodontograma:', this.periodontogram);
           // Cargar los datos del periodontograma en las tablas
           this.loadPeriodontogramData(this.periodontogram);
         },
         error: (error) => {
-          console.error('Error al obtener el periodontograma:', error);
+          return;
         },
       });
   }
@@ -170,9 +169,6 @@ export class HistoryInitialBagComponent implements OnInit {
       // Obtener la superficie correspondiente a esta tabla
       const surface = this.surfaceNameMapping[table.title];
   
-      console.log('Tabla:', table.title);
-      console.log('Superficie mapeada:', surface);
-  
       // Recorrer cada diente en la tabla del frontend
       table.columns.forEach((toothId, columnIndex) => {
         // Buscar la evaluación del diente en los datos del backend usando el id único
@@ -188,17 +184,12 @@ export class HistoryInitialBagComponent implements OnInit {
           }
         );
   
-        if (toothEvaluation) {
-          console.log('Diente:', toothId);
-          console.log('Evaluación del diente:', toothEvaluation);
-  
+        if (toothEvaluation) {  
           // Buscar la evaluación de la superficie correspondiente a esta tabla
           const surfaceEvaluation = toothEvaluation.surfaceEvaluations.find(
             (evaluation) => evaluation.surface.trim().toUpperCase() === surface.trim().toUpperCase()
           );
-  
-          console.log('Evaluación de la superficie encontrada:', surfaceEvaluation);
-  
+    
           if (surfaceEvaluation) {
             // Cargar la movilidad (M. D.)
             const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
@@ -246,17 +237,7 @@ export class HistoryInitialBagComponent implements OnInit {
                 calculoRow.values[columnIndex * 3 + positionIndex] = measurement?.calculus || false;
               }
             });
-  
-            console.log('Datos asignados:', {
-              pbRow: pbRow?.values,
-              niRow: niRow?.values,
-              sangraRow: sangraRow?.values,
-              placaRow: placaRow?.values,
-              calculoRow: calculoRow?.values,
-            });
-          } else {
-            console.log('No se encontró evaluación de superficie para:', surface);
-  
+          } else {  
             // Inicializar valores con null o un valor predeterminado
             const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
             if (mdRow) {
@@ -289,9 +270,7 @@ export class HistoryInitialBagComponent implements OnInit {
               }
             });
           }
-        } else {
-          console.log('No se encontró evaluación del diente:', toothId);
-        }
+        } 
       });
     });
   }
@@ -456,8 +435,6 @@ export class HistoryInitialBagComponent implements OnInit {
       toothEvaluations,
       formSection: "GENERAL_CLINICAL_HISTORY"
     };
-
-    console.log('post: ', data);
     return data;
   }
 
