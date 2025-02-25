@@ -10,59 +10,7 @@ import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
-interface Row {
-  label: string;
-  values: any;
-  symbol: string;
-}
-
-interface TabStructure {
-  upperVestibular: TabSection;
-  lowerPalatino: TabSection;
-  upperLingual: TabSection;
-  lowerVestibular: TabSection;
-}
-
-interface TabSection {
-  title: string;
-  id: number;
-  columns: number[];
-  rows: Row[];
-}
-
-interface SurfaceMeasurement {
-  id?: number; // Nuevo campo
-  toothPosition: string;
-  pocketDepth: number;
-  lesionLevel: number;
-  plaque: boolean;
-  bleeding: boolean;
-  calculus: boolean;
-}
-
-interface SurfaceEvaluation {
-  id?: number; // Nuevo campo
-  surface: string;
-  surfaceMeasurements: SurfaceMeasurement[];
-}
-
-interface ToothEvaluation {
-  id?: number; // Nuevo campo
-  idTooth: string;
-  mobility: number;
-  surfaceEvaluations: SurfaceEvaluation[];
-}
-
-interface PatientEvaluation {
-  id?: number; // Nuevo campo
-  patientId: string;
-  plaqueIndex: number;
-  bleedingIndex: number;
-  evaluationDate: number[]; // Nuevo campo (array de números que representa la fecha)
-  notes: string;
-  toothEvaluations: ToothEvaluation[];
-}
-
+import { PatientEvaluation, Row, SurfaceEvaluation, SurfaceMeasurement, TabStructure, ToothEvaluation } from '@mean/models';
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
@@ -85,10 +33,10 @@ export class HistoryInitialBagComponent implements OnInit {
   positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
   // Mapeo de nombres de superficies
   surfaceNameMapping: { [key: string]: string } = {
-    'VESTIBULARES SUPERIORES': 'VESTIBULAR', // Coincide con el backend
-    'PALATINOS INFERIORES': 'PALATINO',      // Coincide con el backend
-    'LINGUALES SUPERIORES': 'LINGUAL',       // Coincide con el backend
-    'VESTIBULARES INFERIORES': 'VESTIBULAR_INFERIOR', // Coincide con el backend
+    'VESTIBULARES SUPERIORES': 'VESTIBULAR', 
+    'PALATINOS INFERIORES': 'PALATINO',      
+    'LINGUALES SUPERIORES': 'LINGUAL',       
+    'VESTIBULARES INFERIORES': 'VESTIBULAR_INFERIOR',
   };
   // Estructura de las tablas
   tab: TabStructure = {
@@ -135,7 +83,7 @@ export class HistoryInitialBagComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.periodontogram = response;
-          // Cargar los datos del periodontograma en las tablas
+          this.notes = this.periodontogram.notes;
           this.loadPeriodontogramData(this.periodontogram);
         },
         error: (error) => {
@@ -274,6 +222,7 @@ export class HistoryInitialBagComponent implements OnInit {
       });
     });
   }
+
   // Obtiene las claves del objeto `tab`
   getTableKeys(): (keyof TabStructure)[] {
     return Object.keys(this.tab) as (keyof TabStructure)[];
