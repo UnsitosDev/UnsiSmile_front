@@ -110,7 +110,7 @@ export class HistoryInitialBagComponent implements OnInit {
 
   // Símbolos para la columna SIGNO
   signSymbols = ['P. B.', 'N. I.', 'M. D.', 'SANGRA', 'PLACA', 'CALCULO'];
-
+  positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
   ngOnInit(): void {
     this.initializeTables(); // Inicializar las tablas una sola vez
     this.getPeriodontogram(); // Obtener los datos del backend
@@ -180,16 +180,23 @@ export class HistoryInitialBagComponent implements OnInit {
           toothEvaluation.surfaceEvaluations.forEach((surfaceEvaluation) => {
             const surface = this.surfaceNameMapping[table.title];
             if (surfaceEvaluation.surface === surface) {
+              // Definir el orden de las posiciones
+              const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
+  
               // Cargar P. B. y N. I.
               const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
               const niRow = table.rows.find((row) => row.symbol === 'N. I.');
   
-              surfaceEvaluation.surfaceMeasurements.forEach((measurement, positionIndex) => {
+              positions.forEach((position, positionIndex) => {
+                const measurement = surfaceEvaluation.surfaceMeasurements.find(
+                  (m) => m.toothPosition === position
+                );
+  
                 if (pbRow) {
-                  pbRow.values[columnIndex * 3 + positionIndex] = measurement.pocketDepth || null;
+                  pbRow.values[columnIndex * 3 + positionIndex] = measurement?.pocketDepth || null;
                 }
                 if (niRow) {
-                  niRow.values[columnIndex * 3 + positionIndex] = measurement.lesionLevel || null;
+                  niRow.values[columnIndex * 3 + positionIndex] = measurement?.lesionLevel || null;
                 }
               });
   
@@ -198,15 +205,19 @@ export class HistoryInitialBagComponent implements OnInit {
               const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
               const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
   
-              surfaceEvaluation.surfaceMeasurements.forEach((measurement, positionIndex) => {
+              positions.forEach((position, positionIndex) => {
+                const measurement = surfaceEvaluation.surfaceMeasurements.find(
+                  (m) => m.toothPosition === position
+                );
+  
                 if (sangraRow) {
-                  sangraRow.values[columnIndex * 3 + positionIndex] = measurement.bleeding || false;
+                  sangraRow.values[columnIndex * 3 + positionIndex] = measurement?.bleeding || false;
                 }
                 if (placaRow) {
-                  placaRow.values[columnIndex * 3 + positionIndex] = measurement.plaque || false;
+                  placaRow.values[columnIndex * 3 + positionIndex] = measurement?.plaque || false;
                 }
                 if (calculoRow) {
-                  calculoRow.values[columnIndex * 3 + positionIndex] = measurement.calculus || false;
+                  calculoRow.values[columnIndex * 3 + positionIndex] = measurement?.calculus || false;
                 }
               });
             }
