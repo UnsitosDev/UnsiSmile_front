@@ -112,13 +112,12 @@ export class HistoryInitialBagComponent implements OnInit {
   signSymbols = ['P. B.', 'N. I.', 'M. D.', 'SANGRA', 'PLACA', 'CALCULO'];
 
   ngOnInit(): void {
-    this.initializeTables();
-    this.getPeriodontogram();   
-    //console.log('paciente', this.patientId);
+    this.initializeTables(); // Inicializar las tablas una sola vez
+    this.getPeriodontogram(); // Obtener los datos del backend
   }
 
   periodontogram!: PatientEvaluation;
-  getPeriodontogram(){
+  getPeriodontogram() {
     this.apiService
       .getService({
         headers: new HttpHeaders({
@@ -131,8 +130,12 @@ export class HistoryInitialBagComponent implements OnInit {
         next: (response) => {
           this.periodontogram = response;
           console.log('Periodontograma:', this.periodontogram);
+  
+          // Cargar los datos del periodontograma en las tablas
+          this.loadPeriodontogramData(this.periodontogram);
         },
         error: (error) => {
+          console.error('Error al obtener el periodontograma:', error);
         },
       });
   }
@@ -144,16 +147,74 @@ export class HistoryInitialBagComponent implements OnInit {
       this.tab[tableKey].rows = this.generateRows(this.tab[tableKey].columns);
     });
   }
-
-  // Genera las filas para cada tabla
+  
   generateRows(columns: number[]): Row[] {
     return this.signSymbols.map((symbol) => ({
       label: '',
-      values: Array(columns.length).fill(''), // Valores vacíos para los dientes
+      values: Array(columns.length * 3).fill(null), // Inicializar con null
       symbol,
     }));
   }
 
+  loadPeriodontogramData(periodontogram: PatientEvaluation): void {
+    // Recorrer cada tabla
+    Object.keys(this.tab).forEach((key) => {
+      const tableKey = key as keyof TabStructure;
+      const table = this.tab[tableKey];
+  
+      // Recorrer cada diente en la tabla
+      table.columns.forEach((toothId, columnIndex) => {
+        // Buscar la evaluación del diente en el periodontograma
+        const toothEvaluation = periodontogram.toothEvaluations.find(
+          (evaluation) => evaluation.idTooth === toothId.toString()
+        );
+  
+        if (toothEvaluation) {
+          // Cargar la movilidad (M. D.)
+          const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
+          if (mdRow) {
+            mdRow.values[columnIndex] = toothEvaluation.mobility || null;
+          }
+  
+          // Cargar las mediciones de superficie (P. B., N. I., SANGRA, PLACA, CALCULO)
+          toothEvaluation.surfaceEvaluations.forEach((surfaceEvaluation) => {
+            const surface = this.surfaceNameMapping[table.title];
+            if (surfaceEvaluation.surface === surface) {
+              // Cargar P. B. y N. I.
+              const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
+              const niRow = table.rows.find((row) => row.symbol === 'N. I.');
+  
+              surfaceEvaluation.surfaceMeasurements.forEach((measurement, positionIndex) => {
+                if (pbRow) {
+                  pbRow.values[columnIndex * 3 + positionIndex] = measurement.pocketDepth || null;
+                }
+                if (niRow) {
+                  niRow.values[columnIndex * 3 + positionIndex] = measurement.lesionLevel || null;
+                }
+              });
+  
+              // Cargar SANGRA, PLACA, CALCULO
+              const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
+              const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
+              const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
+  
+              surfaceEvaluation.surfaceMeasurements.forEach((measurement, positionIndex) => {
+                if (sangraRow) {
+                  sangraRow.values[columnIndex * 3 + positionIndex] = measurement.bleeding || false;
+                }
+                if (placaRow) {
+                  placaRow.values[columnIndex * 3 + positionIndex] = measurement.plaque || false;
+                }
+                if (calculoRow) {
+                  calculoRow.values[columnIndex * 3 + positionIndex] = measurement.calculus || false;
+                }
+              });
+            }
+          });
+        }
+      });
+    });
+  }
   // Obtiene las claves del objeto `tab`
   getTableKeys(): (keyof TabStructure)[] {
     return Object.keys(this.tab) as (keyof TabStructure)[];
@@ -178,7 +239,7 @@ export class HistoryInitialBagComponent implements OnInit {
   
       // Validar que el valor esté entre 1 y 15
       const numericValue = parseInt(inputValue, 10);
-      if (isNaN(numericValue) || numericValue < 1 || numericValue > 15) {
+      if (isNaN(numericValue)) {
         inputElement.value = '';
         return;
       }

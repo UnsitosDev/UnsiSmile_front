@@ -17,43 +17,45 @@
           @for (row of tab[tableKey].rows; track row.symbol; let rowIndex = $index) {
             <tr>
               <td>{{ row.symbol }}</td>
-              @for (value of row.values; track columnIndex; let columnIndex = $index) {
+              @for (column of tab[tableKey].columns; track column; let columnIndex = $index) {
                 <td>
-                  <!-- Inputs o checkboxes según el tipo de fila -->
                   @if (row.symbol === 'P. B.' || row.symbol === 'N. I.') {
-                    <!-- 3 inputs numéricos -->
+                    <!-- Inputs numéricos para P. B. y N. I. -->
                     <input
                       type="text"
+                      [value]="row.values[columnIndex * 3 + 0] || ''"
                       (input)="onInputChange(tableKey, row, $event, columnIndex, 0)"
                     />
                     <input
                       type="text"
+                      [value]="row.values[columnIndex * 3 + 1] || ''"
                       (input)="onInputChange(tableKey, row, $event, columnIndex, 1)"
                     />
                     <input
                       type="text"
+                      [value]="row.values[columnIndex * 3 + 2] || ''"
                       (input)="onInputChange(tableKey, row, $event, columnIndex, 2)"
                     />
                   } @else if (row.symbol === 'M. D.') {
-                    <!-- 1 input numérico -->
+                    <!-- Input numérico para M. D. -->
                     <input
                       type="text"
-                      class="full-width-input"
+                      [value]="row.values[columnIndex] || ''"
                       (input)="onInputChange(tableKey, row, $event, columnIndex, 0)"
                     />
                   } @else if (row.symbol === 'SANGRA' || row.symbol === 'PLACA' || row.symbol === 'CALCULO') {
-                    <!-- 3 checkboxes -->
+                    <!-- Checkboxes para SANGRA, PLACA y CALCULO -->
                     <section class="example-section">
                       <mat-checkbox
-                        class="small-checkbox"
+                        [checked]="row.values[columnIndex * 3 + 0] || false"
                         (change)="onInputChange(tableKey, row, $event, columnIndex, 0)"
                       ></mat-checkbox>
                       <mat-checkbox
-                        class="small-checkbox"
+                        [checked]="row.values[columnIndex * 3 + 1] || false"
                         (change)="onInputChange(tableKey, row, $event, columnIndex, 1)"
                       ></mat-checkbox>
                       <mat-checkbox
-                        class="small-checkbox"
+                        [checked]="row.values[columnIndex * 3 + 2] || false"
                         (change)="onInputChange(tableKey, row, $event, columnIndex, 2)"
                       ></mat-checkbox>
                     </section>
@@ -64,25 +66,6 @@
           }
         </tbody>
       </table>
-      
     </mat-card-content>
   </mat-card>
 }
-<div class="custom-textarea">
-  <mat-form-field class="example-full-width">
-    <mat-label>Observaciones</mat-label>
-    <textarea
-      matInput
-      placeholder="Anotar observaciones ..."
-      [(ngModel)]="notes" 
-    ></textarea>
-  </mat-form-field>
-</div>
-
-<div class="button-container">
-  <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
-  <div>
-    <button type="button" mat-button (click)="sendDataPeriodontogram()"> AVANZAR Y GUARDAR <i class="fas fa-save"></i></button>
-  </div>
-</div>
-
