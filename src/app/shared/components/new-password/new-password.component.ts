@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -11,6 +11,8 @@ import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { ThemeService } from 'src/app/services/theme.service';
+import { studentUserResponse, studentResponse } from '../../interfaces/student/student';
+import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
 
 @Component({
   selector: 'app-new-password',
@@ -25,12 +27,12 @@ import { ThemeService } from 'src/app/services/theme.service';
   templateUrl: './new-password.component.html',
   styleUrls: ['./new-password.component.scss']
 })
-export class NewPasswordComponent {
+export class NewPasswordComponent implements OnInit {
   @Input() isVisible: boolean = true;
   @Output() closeModal = new EventEmitter<void>();
   
   private toastr = inject(ToastrService);
-  private userService = inject(ApiService<any, {}>);
+  private userService = inject(ApiService<studentResponse, {}>);
   private router = inject(Router);
   private authService = inject(AuthService);
   public themeService = inject(ThemeService);
@@ -45,14 +47,47 @@ export class NewPasswordComponent {
   showConfirmPassword = false;
 
   showWelcomeMessage = true;  // Nueva propiedad
+  user!: studentUserResponse | AdminResponse;
+  welcomeMessage: string = '¡Bienvenido a UnsiSmile!'; // Inicializamos con '¡Bienvenido a UnsiSmile!'
 
   activeStep = 0;
 
   ngOnInit() {
+    this.fetchUserData();
     // Aumentar el tiempo a 8 segundos (8000ms)
     setTimeout(() => {
       this.showWelcomeMessage = false;
     }, 9000);
+  }
+
+  fetchUserData() {
+    this.userService
+      .getService({
+        url: `${UriConstants.GET_USER_INFO}`,
+      })
+      .subscribe({
+        next: (data) => {
+          this.user = data;
+          this.setWelcomeMessage();
+        },
+        error: (error) => {
+          console.error('Error fetching user data:', error);
+        },
+      });
+  }
+
+  setWelcomeMessage() {
+    switch (this.user.person.gender.idGender) {
+      case 1:
+        this.welcomeMessage = 'Bienvenido';
+        break;
+      case 2:
+        this.welcomeMessage = 'Bienvenida';
+        break;
+      case 99:
+        this.welcomeMessage = 'Bienvenide';
+        break;
+    }
   }
 
   togglePasswordVisibility(field: string) {

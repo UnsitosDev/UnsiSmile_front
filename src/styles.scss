@@ -50,11 +50,24 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --status: #2ecc71;
   --status-red:#e74c3c;
   --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  --hover-close: rgba(255, 255, 255, 0.1);
   --subtext:#274CA2;
   
   //spinner
   --spinner-color: #5995fd;
 
+  //background
+  --primary-icon: #0A0B2B;
+
+  //sidebar
+  --sidebar-text: #5995fd;
+
+  //scrollbar
+  --scrollbar-backgraund: rgba(255, 255, 255, 0.3);
+  --scrollbar-color: rgba(255, 255, 255, 0.4);
+
+  --menu-text: #0A0B2B;
+  --menu-button: #5995fd;
 
 
 }
@@ -68,7 +81,7 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --tertiary: #274CA2; // Botones
   --background: #0C151C; // Fondo más oscuro para el tema oscuro
   --on-background: #E5E7EB; // Texto claro sobre fondo oscuro
-  --on-tertiary: #0A0B2B;
+  --on-tertiary: #5995fd;
   --on-hover: #0A0B2B;
   
   // Colores login
@@ -86,10 +99,26 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --status: #2ecc71;
   --status-red:#e74c3c;
   --box-shadow: 0 4px 6px rgba(255, 255, 255, 0.164);
+  --hover-close: rgba(255, 255, 255, 0.1);
   --subtext:#5995fd;
 
   //spinner
   --spinner-color: #274CA2;
+  
+ //background
+  --primary-icon: #eaeaea;
+
+//sidebar
+  --sidebar-text: #eaeaea;
+
+  //scrollbar
+  --scrollbar-backgraund: rgba(255, 255, 255, 0.3);
+  --scrollbar-color: rgba(255, 255, 255, 0.4);
+
+  //menubutton
+  --menu-text: #eaeaea;
+  --menu-button: #0A0B2B;
+
 
 
 
