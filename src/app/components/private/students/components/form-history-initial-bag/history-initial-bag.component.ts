@@ -75,11 +75,21 @@ export class HistoryInitialBagComponent implements OnInit {
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
   private formSectionId = 8;
+  periodontogram!: PatientEvaluation;
   @Input({ required: true }) patientId!: string;
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>();
   @Output() previousMatTab = new EventEmitter<void>();
-
+  // Símbolos para la columna SIGNO
+  signSymbols = ['P. B.', 'N. I.', 'M. D.', 'SANGRA', 'PLACA', 'CALCULO'];
+  positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
+  // Mapeo de nombres de superficies
+  surfaceNameMapping: { [key: string]: string } = {
+    'VESTIBULARES SUPERIORES': 'VESTIBULAR',
+    'PALATINOS INFERIORES': 'PALATINO',
+    'LINGUALES SUPERIORES': 'LINGUAL',
+    'VESTIBULARES INFERIORES': 'VESTIBULAR_INFERIOR',
+  };
   // Estructura de las tablas
   tab: TabStructure = {
     upperVestibular: {
@@ -108,15 +118,11 @@ export class HistoryInitialBagComponent implements OnInit {
     },
   };
 
-  // Símbolos para la columna SIGNO
-  signSymbols = ['P. B.', 'N. I.', 'M. D.', 'SANGRA', 'PLACA', 'CALCULO'];
-  positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
   ngOnInit(): void {
-    this.initializeTables(); // Inicializar las tablas una sola vez
-    this.getPeriodontogram(); // Obtener los datos del backend
+    this.initializeTables();
+    this.getPeriodontogram();
   }
 
-  periodontogram!: PatientEvaluation;
   getPeriodontogram() {
     this.apiService
       .getService({
@@ -130,7 +136,6 @@ export class HistoryInitialBagComponent implements OnInit {
         next: (response) => {
           this.periodontogram = response;
           console.log('Periodontograma:', this.periodontogram);
-  
           // Cargar los datos del periodontograma en las tablas
           this.loadPeriodontogramData(this.periodontogram);
         },
@@ -147,7 +152,7 @@ export class HistoryInitialBagComponent implements OnInit {
       this.tab[tableKey].rows = this.generateRows(this.tab[tableKey].columns);
     });
   }
-  
+
   generateRows(columns: number[]): Row[] {
     return this.signSymbols.map((symbol) => ({
       label: '',
@@ -162,6 +167,9 @@ export class HistoryInitialBagComponent implements OnInit {
       const tableKey = key as keyof TabStructure;
       const table = this.tab[tableKey];
   
+      // Obtener la superficie correspondiente a esta tabla
+      const surface = this.surfaceNameMapping[table.title];
+  
       // Recorrer cada diente en la tabla
       table.columns.forEach((toothId, columnIndex) => {
         // Buscar la evaluación del diente en el periodontograma
@@ -170,62 +178,63 @@ export class HistoryInitialBagComponent implements OnInit {
         );
   
         if (toothEvaluation) {
-          // Cargar la movilidad (M. D.)
-          const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
-          if (mdRow) {
-            mdRow.values[columnIndex] = toothEvaluation.mobility || null;
-          }
+          // Buscar la evaluación de la superficie correspondiente a esta tabla
+          const surfaceEvaluation = toothEvaluation.surfaceEvaluations.find(
+            (evaluation) => evaluation.surface === surface
+          );
   
-          // Cargar las mediciones de superficie (P. B., N. I., SANGRA, PLACA, CALCULO)
-          toothEvaluation.surfaceEvaluations.forEach((surfaceEvaluation) => {
-            const surface = this.surfaceNameMapping[table.title];
-            if (surfaceEvaluation.surface === surface) {
-              // Definir el orden de las posiciones
-              const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
-  
-              // Cargar P. B. y N. I.
-              const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
-              const niRow = table.rows.find((row) => row.symbol === 'N. I.');
-  
-              positions.forEach((position, positionIndex) => {
-                const measurement = surfaceEvaluation.surfaceMeasurements.find(
-                  (m) => m.toothPosition === position
-                );
-  
-                if (pbRow) {
-                  pbRow.values[columnIndex * 3 + positionIndex] = measurement?.pocketDepth || null;
-                }
-                if (niRow) {
-                  niRow.values[columnIndex * 3 + positionIndex] = measurement?.lesionLevel || null;
-                }
-              });
-  
-              // Cargar SANGRA, PLACA, CALCULO
-              const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
-              const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
-              const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
-  
-              positions.forEach((position, positionIndex) => {
-                const measurement = surfaceEvaluation.surfaceMeasurements.find(
-                  (m) => m.toothPosition === position
-                );
-  
-                if (sangraRow) {
-                  sangraRow.values[columnIndex * 3 + positionIndex] = measurement?.bleeding || false;
-                }
-                if (placaRow) {
-                  placaRow.values[columnIndex * 3 + positionIndex] = measurement?.plaque || false;
-                }
-                if (calculoRow) {
-                  calculoRow.values[columnIndex * 3 + positionIndex] = measurement?.calculus || false;
-                }
-              });
+          if (surfaceEvaluation) {
+            // Cargar la movilidad (M. D.) solo si la evaluación de superficie coincide
+            const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
+            if (mdRow) {
+              mdRow.values[columnIndex] = toothEvaluation.mobility || null;
             }
-          });
+  
+            // Definir el orden de las posiciones
+            const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
+  
+            // Cargar P. B. y N. I.
+            const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
+            const niRow = table.rows.find((row) => row.symbol === 'N. I.');
+  
+            positions.forEach((position, positionIndex) => {
+              const measurement = surfaceEvaluation.surfaceMeasurements.find(
+                (m) => m.toothPosition === position
+              );
+  
+              if (pbRow) {
+                pbRow.values[columnIndex * 3 + positionIndex] = measurement?.pocketDepth || null;
+              }
+              if (niRow) {
+                niRow.values[columnIndex * 3 + positionIndex] = measurement?.lesionLevel || null;
+              }
+            });
+  
+            // Cargar SANGRA, PLACA, CALCULO
+            const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
+            const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
+            const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
+  
+            positions.forEach((position, positionIndex) => {
+              const measurement = surfaceEvaluation.surfaceMeasurements.find(
+                (m) => m.toothPosition === position
+              );
+  
+              if (sangraRow) {
+                sangraRow.values[columnIndex * 3 + positionIndex] = measurement?.bleeding || false;
+              }
+              if (placaRow) {
+                placaRow.values[columnIndex * 3 + positionIndex] = measurement?.plaque || false;
+              }
+              if (calculoRow) {
+                calculoRow.values[columnIndex * 3 + positionIndex] = measurement?.calculus || false;
+              }
+            });
+          }
         }
       });
     });
-  }
+  } 
   // Obtiene las claves del objeto `tab`
   getTableKeys(): (keyof TabStructure)[] {
     return Object.keys(this.tab) as (keyof TabStructure)[];
@@ -233,7 +242,7 @@ export class HistoryInitialBagComponent implements OnInit {
 
   onInputChange(tableKey: keyof TabStructure, row: Row, event: Event | MatCheckboxChange, columnIndex: number, inputIndex: number): void {
     let value: number | boolean;
-  
+
     if (event instanceof MatCheckboxChange) {
       // Para checkboxes, usar la propiedad `checked`
       value = event.checked;
@@ -241,23 +250,23 @@ export class HistoryInitialBagComponent implements OnInit {
       // Para inputs de texto, mantener la lógica actual
       const inputElement = event.target as HTMLInputElement;
       const inputValue = inputElement.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
-  
+
       // Limitar el valor a un solo dígito (1-15)
       if (inputValue.length > 2) {
         inputElement.value = inputValue.substring(0, 2);
         return;
       }
-  
+
       // Validar que el valor esté entre 1 y 15
       const numericValue = parseInt(inputValue, 10);
       if (isNaN(numericValue)) {
         inputElement.value = '';
         return;
       }
-  
+
       value = numericValue;
     }
-  
+
     // Actualizar el valor en la fila correspondiente
     const rowIndex = this.tab[tableKey].rows.indexOf(row);
     if (rowIndex !== -1) {
@@ -296,61 +305,53 @@ export class HistoryInitialBagComponent implements OnInit {
       });
   }
 
-  // Mapeo de nombres de superficies
-  surfaceNameMapping: { [key: string]: string } = {
-    'VESTIBULARES SUPERIORES': 'VESTIBULAR',
-    'PALATINOS INFERIORES': 'PALATINO',
-    'LINGUALES SUPERIORES': 'LINGUAL',
-    'VESTIBULARES INFERIORES': 'VESTIBULAR_INFERIOR',
-  };
-
   mapPeriodontogramToPost(): any {
     const toothEvaluations: ToothEvaluation[] = [];
-  
+
     // Recorrer cada tabla
     Object.keys(this.tab).forEach((tableKey) => {
       const table = this.tab[tableKey as keyof TabStructure];
-  
+
       // Obtener la fila de movilidad (M. D.)
       const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
-  
+
       // Recorrer cada columna (diente)
       table.columns.forEach((toothId, columnIndex) => {
         // Obtener el valor de movilidad (M. D.) para este diente
         const mobility = mdRow ? parseFloat(mdRow.values[columnIndex]) || 0 : 0;
-  
+
         // Crear el objeto toothEvaluation para este diente
         const toothEvaluation: ToothEvaluation = {
           idTooth: toothId.toString(),
           mobility, // Asignar el valor de mobility para este diente
           surfaceEvaluations: [],
         };
-  
+
         // Definir las posiciones (MESIAL, CENTRAL, DISTAL)
         const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
-  
+
         // Crear la evaluación de la superficie para esta tabla
         const surfaceEvaluation: SurfaceEvaluation = {
           surface: this.surfaceNameMapping[table.title], // Aplicar el mapeo al nombre de la tabla
           surfaceMeasurements: [],
         };
-  
+
         // Procesar las filas P. B. y N. I. (pocketDepth y lesionLevel)
         const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
         const niRow = table.rows.find((row) => row.symbol === 'N. I.');
-  
+
         // Procesar las filas SANGRA, PLACA, CALCULO (bleeding, plaque, calculus)
         const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
         const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
         const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
-  
+
         positions.forEach((position, positionIndex) => {
           const pocketDepth = pbRow ? parseFloat(pbRow.values[columnIndex * 3 + positionIndex]) : null;
           const lesionLevel = niRow ? parseFloat(niRow.values[columnIndex * 3 + positionIndex]) : null;
           const bleeding = sangraRow ? sangraRow.values[columnIndex * 3 + positionIndex] === true : false;
           const plaque = placaRow ? placaRow.values[columnIndex * 3 + positionIndex] === true : false;
           const calculus = calculoRow ? calculoRow.values[columnIndex * 3 + positionIndex] === true : false;
-  
+
           // Verificar si hay valores válidos para esta posición
           const hasValidValues =
             (pocketDepth !== null && !isNaN(pocketDepth)) ||
@@ -358,7 +359,7 @@ export class HistoryInitialBagComponent implements OnInit {
             bleeding ||
             plaque ||
             calculus;
-  
+
           if (hasValidValues) {
             // Crear la medición para esta posición
             const surfaceMeasurement: SurfaceMeasurement = {
@@ -369,24 +370,24 @@ export class HistoryInitialBagComponent implements OnInit {
               bleeding,
               calculus,
             };
-  
+
             // Agregar la medición a la evaluación de la superficie
             surfaceEvaluation.surfaceMeasurements.push(surfaceMeasurement);
           }
         });
-  
+
         // Agregar la evaluación de la superficie al diente solo si tiene mediciones válidas
         if (surfaceEvaluation.surfaceMeasurements.length > 0) {
           toothEvaluation.surfaceEvaluations.push(surfaceEvaluation);
         }
-  
+
         // Agregar el diente al arreglo de evaluaciones solo si tiene evaluaciones válidas
         if (toothEvaluation.surfaceEvaluations.length > 0) {
           toothEvaluations.push(toothEvaluation);
         }
       });
     });
-  
+
     const data = {
       patientId: this.patientId,
       plaqueIndex: 0,
@@ -395,8 +396,8 @@ export class HistoryInitialBagComponent implements OnInit {
       toothEvaluations,
       formSection: "GENERAL_CLINICAL_HISTORY"
     };
-  
-    console.log(data);
+
+    console.log('post: ', data);
     return data;
   }
 
