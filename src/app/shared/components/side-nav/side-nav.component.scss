@@ -1,6 +1,5 @@
 .menu-container {
   background-color: var(--primary);
-  color: white;
   height: 100%;
   width: 100%;
   opacity: 1;
@@ -18,9 +17,6 @@
   color: var(--on-primary);
 }
 
-.logo-highlight {
-  color: #3b82f6; /* Blue-500 */
-}
 
 .logo-subtext {
   color: var(--on-primary);
@@ -71,7 +67,7 @@
   background-color: var(--primary);
   z-index: 2;
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--hover-close);
 
   @media (max-width: 768px) {
     padding: 1rem;
@@ -88,15 +84,15 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--hover-close);
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: var(--scrollbar-backgraund);
     border-radius: 4px;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.4);
+      background-color: var(--scrollbar-color);
     }
   }
 
@@ -110,7 +106,7 @@
   bottom: 0;
   background-color: var(--primary);
   padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--hover-close);
   z-index: 2;
 }
 
@@ -130,8 +126,8 @@
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ef4444;
+    background-color: var(--hover-close);
+    color: var(--status-red);
   }
 
   i {
