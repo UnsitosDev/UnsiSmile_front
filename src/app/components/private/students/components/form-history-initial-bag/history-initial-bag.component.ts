@@ -76,6 +76,25 @@ export class HistoryInitialBagComponent implements OnInit {
     console.log('estado', this.state);
   }
 
+  store(): void {
+    switch (this.state) {
+      case 'create':
+        console.log('funcion para crear');
+        this.sendDataPeriodontogram();
+        break;
+      case 'update':
+        console.log('funcion para actualizar');
+        this.putPeriodontogram();
+        break;
+      case 'read-latest':
+        this.nextMatTab.emit();
+        break;
+      case 'read':
+        this.nextMatTab.emit();
+        break;
+    }
+  }
+
   getPeriodontogram() {
     this.apiService
       .getService({
