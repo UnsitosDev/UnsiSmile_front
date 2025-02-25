@@ -85,10 +85,10 @@ export class HistoryInitialBagComponent implements OnInit {
   positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
   // Mapeo de nombres de superficies
   surfaceNameMapping: { [key: string]: string } = {
-    'VESTIBULARES SUPERIORES': 'VESTIBULAR',
-    'PALATINOS INFERIORES': 'PALATINO',
-    'LINGUALES SUPERIORES': 'LINGUAL',
-    'VESTIBULARES INFERIORES': 'VESTIBULAR_INFERIOR',
+    'VESTIBULARES SUPERIORES': 'VESTIBULAR', // Coincide con el backend
+    'PALATINOS INFERIORES': 'PALATINO',      // Coincide con el backend
+    'LINGUALES SUPERIORES': 'LINGUAL',       // Coincide con el backend
+    'VESTIBULARES INFERIORES': 'VESTIBULAR_INFERIOR', // Coincide con el backend
   };
   // Estructura de las tablas
   tab: TabStructure = {
@@ -162,7 +162,7 @@ export class HistoryInitialBagComponent implements OnInit {
   }
 
   loadPeriodontogramData(periodontogram: PatientEvaluation): void {
-    // Recorrer cada tabla
+    // Recorrer cada tabla en el frontend
     Object.keys(this.tab).forEach((key) => {
       const tableKey = key as keyof TabStructure;
       const table = this.tab[tableKey];
@@ -170,27 +170,43 @@ export class HistoryInitialBagComponent implements OnInit {
       // Obtener la superficie correspondiente a esta tabla
       const surface = this.surfaceNameMapping[table.title];
   
-      // Recorrer cada diente en la tabla
+      console.log('Tabla:', table.title);
+      console.log('Superficie mapeada:', surface);
+  
+      // Recorrer cada diente en la tabla del frontend
       table.columns.forEach((toothId, columnIndex) => {
-        // Buscar la evaluación del diente en el periodontograma
+        // Buscar la evaluación del diente en los datos del backend usando el id único
         const toothEvaluation = periodontogram.toothEvaluations.find(
-          (evaluation) => evaluation.idTooth === toothId.toString()
+          (evaluation) => {
+            // Verificar si el idTooth coincide y si la evaluación tiene la superficie correcta
+            return (
+              evaluation.idTooth === toothId.toString() &&
+              evaluation.surfaceEvaluations.some(
+                (surfaceEval) => surfaceEval.surface.trim().toUpperCase() === surface.trim().toUpperCase()
+              )
+            );
+          }
         );
   
         if (toothEvaluation) {
+          console.log('Diente:', toothId);
+          console.log('Evaluación del diente:', toothEvaluation);
+  
           // Buscar la evaluación de la superficie correspondiente a esta tabla
           const surfaceEvaluation = toothEvaluation.surfaceEvaluations.find(
-            (evaluation) => evaluation.surface === surface
+            (evaluation) => evaluation.surface.trim().toUpperCase() === surface.trim().toUpperCase()
           );
   
+          console.log('Evaluación de la superficie encontrada:', surfaceEvaluation);
+  
           if (surfaceEvaluation) {
-            // Cargar la movilidad (M. D.) solo si la evaluación de superficie coincide
+            // Cargar la movilidad (M. D.)
             const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
             if (mdRow) {
               mdRow.values[columnIndex] = toothEvaluation.mobility || null;
             }
   
-            // Definir el orden de las posiciones
+            // Definir el orden de las posiciones (MESIAL, CENTRAL, DISTAL)
             const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
   
             // Cargar P. B. y N. I.
@@ -199,7 +215,7 @@ export class HistoryInitialBagComponent implements OnInit {
   
             positions.forEach((position, positionIndex) => {
               const measurement = surfaceEvaluation.surfaceMeasurements.find(
-                (m) => m.toothPosition === position
+                (m) => m.toothPosition.trim().toUpperCase() === position.trim().toUpperCase()
               );
   
               if (pbRow) {
@@ -217,7 +233,7 @@ export class HistoryInitialBagComponent implements OnInit {
   
             positions.forEach((position, positionIndex) => {
               const measurement = surfaceEvaluation.surfaceMeasurements.find(
-                (m) => m.toothPosition === position
+                (m) => m.toothPosition.trim().toUpperCase() === position.trim().toUpperCase()
               );
   
               if (sangraRow) {
@@ -230,11 +246,55 @@ export class HistoryInitialBagComponent implements OnInit {
                 calculoRow.values[columnIndex * 3 + positionIndex] = measurement?.calculus || false;
               }
             });
+  
+            console.log('Datos asignados:', {
+              pbRow: pbRow?.values,
+              niRow: niRow?.values,
+              sangraRow: sangraRow?.values,
+              placaRow: placaRow?.values,
+              calculoRow: calculoRow?.values,
+            });
+          } else {
+            console.log('No se encontró evaluación de superficie para:', surface);
+  
+            // Inicializar valores con null o un valor predeterminado
+            const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
+            if (mdRow) {
+              mdRow.values[columnIndex] = null;
+            }
+  
+            const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
+            const niRow = table.rows.find((row) => row.symbol === 'N. I.');
+  
+            const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
+            const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
+            const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
+  
+            const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
+            positions.forEach((position, positionIndex) => {
+              if (pbRow) {
+                pbRow.values[columnIndex * 3 + positionIndex] = null;
+              }
+              if (niRow) {
+                niRow.values[columnIndex * 3 + positionIndex] = null;
+              }
+              if (sangraRow) {
+                sangraRow.values[columnIndex * 3 + positionIndex] = false;
+              }
+              if (placaRow) {
+                placaRow.values[columnIndex * 3 + positionIndex] = false;
+              }
+              if (calculoRow) {
+                calculoRow.values[columnIndex * 3 + positionIndex] = false;
+              }
+            });
           }
+        } else {
+          console.log('No se encontró evaluación del diente:', toothId);
         }
       });
     });
-  } 
+  }
   // Obtiene las claves del objeto `tab`
   getTableKeys(): (keyof TabStructure)[] {
     return Object.keys(this.tab) as (keyof TabStructure)[];
