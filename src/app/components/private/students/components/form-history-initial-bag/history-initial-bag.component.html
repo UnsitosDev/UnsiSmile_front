@@ -1,22 +1,20 @@
 @for (tableKey of getTableKeys(); track tableKey) {
+  <mat-card-title><strong>{{ tab[tableKey].title }}</strong></mat-card-title>             
   <mat-card class="table-card">
-    <mat-card-header>
-      <mat-card-title>{{ tab[tableKey].title }}</mat-card-title>
-    </mat-card-header>
     <mat-card-content>
       <table class="odontogram-table">
         <thead>
           <tr>
-            <th>SIGNO</th>
+            <th class="symbol-column">SIGNO</th>
             @for (column of tab[tableKey].columns; track column) {
-              <th>{{ column }}</th>
+              <th class="data-column">{{ column }}</th>
             }
           </tr>
         </thead>
         <tbody>
           @for (row of tab[tableKey].rows; track row.symbol; let rowIndex = $index) {
             <tr>
-              <td>{{ row.symbol }}</td>
+              <td class="symbol-column">{{ row.symbol }}</td>
               @for (column of tab[tableKey].columns; track column; let columnIndex = $index) {
                 <td>
                   @if (row.symbol === 'P. B.' || row.symbol === 'N. I.') {
