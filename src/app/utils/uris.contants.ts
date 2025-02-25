@@ -272,5 +272,7 @@ export class UriConstants {
    public static readonly POST_PERIODONTOGRAM_HC = basePath + '/medical-records/periodontograms'
   // obtener periodontograma
   public static readonly GET_PERIODONTOGRAM_ID = basePath +  '/medical-records/periodontograms/patient'
+  // Actualizar periodontograma
+  public static readonly PUT_PERIODONTOGRAM = basePath + '/medical-records/periodontograms'
     
 }

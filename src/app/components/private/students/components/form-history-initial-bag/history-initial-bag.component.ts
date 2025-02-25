@@ -20,6 +20,7 @@ import { PatientEvaluation, Row, SurfaceEvaluation, SurfaceMeasurement, TabStruc
 })
 export class HistoryInitialBagComponent implements OnInit {
   notes: string = '';
+  id: number = 0; // Id Periodontograma
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
   private formSectionId = 8;
@@ -83,11 +84,31 @@ export class HistoryInitialBagComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.periodontogram = response;
+          this.id = this.periodontogram.id || 0; 
           this.notes = this.periodontogram.notes;
           this.loadPeriodontogramData(this.periodontogram);
         },
         error: (error) => {
           return;
+        },
+      });
+  }
+
+  putPeriodontogram(){
+    this.apiService
+      .patchService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.PUT_PERIODONTOGRAM}/${this.id}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success(response);
+        },
+        error: (error) => {
+          this.toastr.error(error);
         },
       });
   }
