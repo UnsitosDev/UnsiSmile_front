@@ -77,10 +77,16 @@ export class NewPasswordComponent implements OnInit {
   }
 
   setWelcomeMessage() {
-    if (this.user.person.gender.gender === 'Masculino') {
-      this.welcomeMessage = '¡Bienvenido a UnsiSmile!';
-    } else {
-      this.welcomeMessage = '¡Bienvenida a UnsiSmile!';
+    switch (this.user.person.gender.idGender) {
+      case 1:
+        this.welcomeMessage = 'Bienvenido';
+        break;
+      case 2:
+        this.welcomeMessage = 'Bienvenida';
+        break;
+      case 99:
+        this.welcomeMessage = 'Bienvenide';
+        break;
     }
   }
 

@@ -108,10 +108,17 @@ export class FormUserComponent implements OnInit {
   }
 
   setWelcomeMessage() {
-    if (this.user.person.gender.gender === 'Masculino') {
-      this.welcomeMessage.set(`¡BIENVENIDO ${this.user.person.firstName}!`);
-    } else {
-      this.welcomeMessage.set(`¡BIENVENIDA ${this.user.person.firstName}!`);
+    switch (this.user.person.gender.idGender) {
+      case 1:
+        this.welcomeMessage.set(`¡BIENVENIDO ${this.user.person.firstName}!`);
+        break;
+      case 2:
+        this.welcomeMessage.set(`¡BIENVENIDA ${this.user.person.firstName}!`);
+        break;
+        case 99:
+        this.welcomeMessage.set(`¡BIENVENIDE ${this.user.person.firstName}!`);
+        break;
+     
     }
   }
 

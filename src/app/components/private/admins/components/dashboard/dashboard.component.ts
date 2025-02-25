@@ -46,10 +46,16 @@ export class DashboardComponent implements OnInit {
   }
 
   setWelcomeMessage() {
-    if (this.user.person.gender.gender === 'Masculino') {
-      this.welcomeMessage = 'Bienvenido a UnsiSmile';
-    } else {
-      this.welcomeMessage = 'Bienvenida a UnsiSmile';
+   switch (this.user.person.gender.idGender) {
+      case 1:
+        this.welcomeMessage = 'Bienvenido a UnsiSmilea';
+        break;
+      case 2:
+        this.welcomeMessage = 'Bienvenida a UnsiSmile';
+        break;
+      case 99:
+        this.welcomeMessage = 'Bienvenide a UnsiSmile';
+        break;
     }
   }
 

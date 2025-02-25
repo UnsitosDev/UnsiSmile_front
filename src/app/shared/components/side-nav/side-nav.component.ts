@@ -71,10 +71,16 @@ export class SideNavComponent implements OnInit {
   }
   
   setWelcomeMessage() {
-    if (this.user.person.gender.gender === 'Masculino') {
-      this.welcomeMessage = 'Bienvenido';
-    } else {
-      this.welcomeMessage = 'Bienvenida';
+    switch (this.user.person.gender.idGender) {
+      case 1:
+        this.welcomeMessage = 'Bienvenido';
+        break;
+      case 2:
+        this.welcomeMessage = 'Bienvenida';
+        break;
+      case 99:
+        this.welcomeMessage = 'Bienvenide';
+        break;
     }
   }
   
