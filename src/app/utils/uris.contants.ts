@@ -282,4 +282,6 @@ export class UriConstants {
   public static readonly PUT_PERIODONTOGRAM = basePath + '/medical-records/periodontograms'
   // Carga archivos generales
   public static readonly POST_GENERAL_FILES = basePath + '/files/general'
+  // Obtener formatos generales
+  public static readonly GET_FORMATS = basePath + '/form-sections'
 }

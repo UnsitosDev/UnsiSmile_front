@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
@@ -7,44 +7,70 @@ import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
-
+import { FormSection } from '@mean/models'; 
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLabel } from '@angular/material/form-field';
 @Component({
   selector: 'app-admin-files-section',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule, MatListModule, MatIconModule, MatLabel],
   templateUrl: './admin-files-section.component.html',
   styleUrl: './admin-files-section.component.scss'
 })
-export class AdminFilesSectionComponent {
+export class AdminFilesSectionComponent implements OnInit {
   private toastr = inject(ToastrService);
   private apiService = inject(ApiService);
   private router = inject(Router);
-  
+  private formSection = 56;
+  public formats!: FormSection;
+
   files: File[] = [];
   showFiles = true;
-  
+
+  ngOnInit(): void {
+    this.getAllFormats();
+  }
+
+  getAllFormats() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({}),
+        url: `${UriConstants.GET_FORMATS}/${this.formSection}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.formats = response
+        },
+        error: (error) => {
+          this.toastr.error('Aun no hay archivos');
+        },
+      });
+  }
+
   onFileSelected(event: any) {
     const files: FileList = event.target.files;
     if (files.length > 0) {
       this.files = Array.from(files);
     }
   }
-  
+
   sendFiles() {
     if (this.files.length === 0) {
       this.toastr.warning(Messages.WARNING_NO_FILE_SELECTED_FORMATS);
       return;
     }
-  
+
     const formData = new FormData();
-  
+
     this.files.forEach((file) => {
-      formData.append('files', file); 
+      formData.append('files', file);
     });
-  
+
     // Agrega el idQuestion al FormData
     formData.append('idQuestion', '244');
-  
+
     this.apiService
       .postService({
         headers: new HttpHeaders({}),
@@ -55,6 +81,36 @@ export class AdminFilesSectionComponent {
         next: (response) => {
           this.toastr.success(Messages.SUCCESS_FORMATS);
           this.router.navigate(['/admin/upload-files']);
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
+  }
+
+  onFileClick(file: any) {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.DOWLOAD_FILES}${file.idFile}`,
+        data: {},
+        responseType: 'blob'
+      })
+      .subscribe({
+        next: (response) => {
+          const blob = new Blob([response], { type: response.type || 'application/octet-stream' });
+
+          const link = document.createElement('a');
+          const url = window.URL.createObjectURL(blob);
+          link.href = url;
+          link.download = file.fileName || 'downloaded-file';
+
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
         },
         error: (error) => {
           this.toastr.error(error);
