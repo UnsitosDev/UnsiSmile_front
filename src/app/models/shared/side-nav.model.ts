@@ -65,7 +65,13 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUse
         buttonText: 'Cargar Pacientes',
         buttonDescription: 'Subir Excel de Pacientes.',
         routerlink: '/admin/upload-patients'
-      }
+      },
+      {
+        fontAwesomeIcon: faFileUpload,
+        buttonText: 'Cargar Formatos',
+        buttonDescription: 'Subir Formatos',
+        routerlink: '/admin/upload-files'
+      },
     ];
 
     export const TeacherItems: MenuItem[] = [
