@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
-import { addressesNumber, curpValidator, phoneNumberValidator } from '../utils/validators';
+import { addressesNumber, curpValidator, emailValidator, noFutureDateValidator, phoneNumberValidator } from '../utils/validators';
 import { PatientService } from './patient/patient.service';
 import { FieldNames } from '../models/form-fields/form-utils';
 
@@ -81,19 +81,23 @@ export class FormFieldsService {
             label: 'Fecha de Nacimiento',
             name: 'birthDate',
             required: true,
-            validators: [Validators.required],
+            validators: [Validators.required, noFutureDateValidator()],
             errorMessages: {
-                required: 'El campo Fecha de Nacimiento es requerido.'
+                required: 'El campo Fecha de nacimiento es requerido.',
+                futureDate: 'La fecha de nacimiento no puede ser una fecha futura'
             }
         },
         {
             type: 'input',
             label: 'Correo electrónico',
             name: 'email',
-            validators: [Validators.required, Validators.email],
+            validators: [
+                Validators.required,
+                emailValidator()
+            ],
             errorMessages: {
                 required: 'El campo Correo electrónico es requerido.',
-                lastError: 'Por favor, introduce un correo electrónico válido.'
+                lastError: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
             }
         },
         {
@@ -173,8 +177,7 @@ export class FormFieldsService {
             type: 'autocomplete',
             label: 'Nombre de colonia',
             name: 'neighborhoodName',
-            required: true,
-            validators: [Validators.required],
+            required: false,
             errorMessages: {
                 required: 'El campo Nombre de colonia es requerido.'
             },
@@ -184,7 +187,7 @@ export class FormFieldsService {
                      }
         },
         {
-            type: 'select',
+            type: 'autocompleteoptions',
             label: 'Nombre de calle',
             name: 'streetName',
             required: true,
@@ -192,8 +195,10 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Nombre de calle es requerido.'
             },
-            onClick: this.handleStretClick.bind(this)
-
+            onInputChange: {
+                changeFunction: this.handleStreetClick.bind(this),
+                length: 5
+            }
         },
         {
             type: 'input',
@@ -296,9 +301,9 @@ export class FormFieldsService {
             label: 'Última Consulta',
             name: 'lastConsultation',
             required: true,
-            validators: [Validators.required],
+            validators: [Validators.required, noFutureDateValidator()],
             errorMessages: {
-                required: 'El campo Última Consulta es opcional.'
+                futureDate: 'La fecha de última consulta no puede ser una fecha futura'
             }
         },
         {
@@ -348,10 +353,9 @@ export class FormFieldsService {
             label: 'Correo Electrónico',
             name: 'emailGuardian',
             required: false,
-            validators: [Validators.email],
+            validators: [emailValidator()],
             errorMessages: {
-                required: 'El campo Correo Electrónico es requerido.',
-                email: 'Ingrese un correo electrónico válido.'
+                lastError: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
             }
         },
     ];
@@ -362,7 +366,7 @@ export class FormFieldsService {
     constructor() {
         this.handleGenderClick({} as MouseEvent);
         this.handleHousingClick({} as MouseEvent);
-        this.handleStretClick({} as MouseEvent);
+        //this.handleStretClick({} as MouseEvent);
         //this.handleNeighborhoodClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
@@ -381,11 +385,13 @@ export class FormFieldsService {
         housingField && (housingField.options = this.patientService.housingOptions);
     }
 
-    private handleStretClick(event: MouseEvent): void {
-        this.patientService.getStreets();
+    private handleStretClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        this.patientService.getStreetDataPaginated(searchTerm, page, size).subscribe(response => {
         const streetsField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
         streetsField && (streetsField.options = this.patientService.streetsOptions);
+    });
     }
+
 
     public handleNeighborhoodClick(searchTerm: string, page: number = 0, size: number = 3, localityId?: string): void {
         // Si no hay localityId, no hacer nada
@@ -571,6 +577,15 @@ export class FormFieldsService {
 
     private handlePostalCodeClick(param: string): void {
         this.patientService.getPostalCode(param);
+    }
+
+    private handleStreetClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        this.patientService.getStreetDataPaginated(searchTerm, page, size).subscribe(response => {
+            const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
+            if (streetField) {
+                streetField.options = response;
+            }
+        });
     }
     // Formularios
     getPersonalDataFields(): FormField[] {

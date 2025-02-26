@@ -44,6 +44,7 @@ export class FieldComponentComponent implements OnChanges {
   datePipe = inject(DatePipe);
   
   myControl = new FormControl('');
+  maxDate = new Date(); // Añadir esta línea para definir maxDate
 
   ngOnInit() {
 
@@ -156,31 +157,35 @@ export class FieldComponentComponent implements OnChanges {
   onValueChangeDate(event: any) {
     const value = event.value as Date;
     if (value) {
-      // Formatear el valor seleccionado
-      const formattedValue = this.datePipe.transform(value, 'yyyy-MM-dd');
+      const control = this.formGroup.get(this.field.name);
+      if (control) {
+        // Actualizar el valor y forzar la validación
+        control.setValue(value);
+        control.markAsTouched();
+        control.updateValueAndValidity();
 
-      // Actualizar el FormControl con la nueva fecha seleccionada
-      this.formGroup.get(this.field.name)?.setValue(value);
+        // Solo proceder si la fecha es válida
+        if (!control.errors?.['futureDate']) {
+          const formattedValue = this.datePipe.transform(value, 'yyyy-MM-dd');
+          this.setFieldValue.emit({
+            field: this.field.name,
+            value: formattedValue,
+            questionID: this.field.questionID,
+            idAnswer: this.field.answerField?.idAnswer
+          });
 
-      // Emitir el valor formateado
-      this.setFieldValue.emit({
-        field: this.field.name,
-        value: formattedValue,
-        questionID: this.field.questionID,
-        idAnswer: this.field.answerField?.idAnswer
-      });
-
-      // Lógica para verificar si el usuario es menor de edad
-      const today = new Date();
-      const birthDate = new Date(value);
-      const age = today.getFullYear() - birthDate.getFullYear();
-      const isMinor =
-        age < 18 ||
-        (age === 18 &&
-          today < new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate()));
-
-      // Emitir el estado de edad
-      this.ageStatusChange.emit(isMinor);
+          // Verificar si es fecha de nacimiento para calcular si es menor de edad
+          if (this.field.name === 'birthDate') {
+            const today = new Date();
+            const birthDate = new Date(value);
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const isMinor = age < 18 || (age === 18 && 
+              today.getMonth() < birthDate.getMonth() || 
+              (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate()));
+            this.ageStatusChange.emit(isMinor);
+          }
+        }
+      }
     }
   }
 
@@ -250,6 +255,27 @@ export class FieldComponentComponent implements OnChanges {
 
     // Considera cualquier error que no sea 'required' como un 'lastError'
     return Object.keys(errors).some(errorKey => errorKey !== 'required');
+  }
+
+  hasError(fieldName: string, errorType: string): boolean {
+    const control = this.formGroup.get(fieldName);
+    return control?.errors?.[errorType] && control.touched;
+  }
+
+  getErrorMessage(fieldName: string): string | undefined {
+    const control = this.formGroup.get(fieldName);
+    if (control?.errors) {
+      if (control.errors['futureDate']) {
+        return this.errors?.futureDate;
+      }
+      if (control.errors['required']) {
+        return this.errors?.required;
+      }
+      if (control.errors['lastError']) {
+        return this.errors?.lastError;
+      }
+    }
+    return undefined;
   }
 
   onFileClick(file: any) {

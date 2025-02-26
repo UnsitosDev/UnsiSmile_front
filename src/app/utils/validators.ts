@@ -52,3 +52,35 @@ export function addressesNumber(): ValidatorFn {
     return valid ? null : { lastError: { value: control.value } };
   };
 }
+
+export function emailValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (!control.value) {
+      return null;
+    }
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const valid = emailPattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}
+
+export function noFutureDateValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (!control.value) {
+      return null;
+    }
+
+    const today = new Date();
+    const inputDate = new Date(control.value);
+
+    // Convertir ambas fechas a medianoche UTC para comparación consistente
+    const todayUtc = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+    const inputUtc = Date.UTC(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
+
+    if (inputUtc > todayUtc) {
+      return { futureDate: true };
+    }
+
+    return null;
+  };
+}
