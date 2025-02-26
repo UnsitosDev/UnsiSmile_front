@@ -61,6 +61,8 @@ export class TablaDataComponent implements OnInit, OnDestroy {
 
   @Output() sortChange: EventEmitter<{field: string, asc: boolean}> = new EventEmitter();
 
+  @Output() statusChange: EventEmitter<{ row: any, newStatus: string }> = new EventEmitter();
+
   ngOnInit() {
     this.setupSearchDebounce();
   }
@@ -81,7 +83,12 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   }
 
   onAction(accion: string, row?: any) {
-    this.action.emit({ accion: accion, fila: row });
+    if (accion === 'changeStatus') {
+      const newStatus = row.estatus === 'Activo' ? 'Inactivo' : 'Activo';
+      this.statusChange.emit({ row, newStatus });
+    } else {
+      this.action.emit({ accion: accion, fila: row });
+    }
   }
 
   onPageChange(page: number) {

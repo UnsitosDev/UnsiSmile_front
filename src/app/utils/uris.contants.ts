@@ -186,9 +186,13 @@ export class UriConstants {
 
   public static readonly GET_STUDENTS = basePath + '/students';
   public static readonly POST_STUDENTS = basePath + '/students';
+  public static readonly PATCH_STUDENTS = basePath + '/students';
+
 
   public static readonly POST_ADMIN = basePath + '/administrators';
   public static readonly GET_ADMIN = basePath + '/administrators';
+  public static readonly PATCH_ADMIN = basePath + '/administrators';
+
 
   // vital-signs-controller
   public static readonly GETID_VITAL_SIGNS =
@@ -268,11 +272,5 @@ export class UriConstants {
   //obtener un odontogram por id de formulario
   public static readonly GET_ODONTOGRAM_BY_FORM_ID = basePath + '/medical-histories/odontograms'
 
-   // Post periodontograma
-   public static readonly POST_PERIODONTOGRAM_HC = basePath + '/medical-records/periodontograms'
-  // obtener periodontograma
-  public static readonly GET_PERIODONTOGRAM_ID = basePath +  '/medical-records/periodontograms/patient'
-  // Actualizar periodontograma
-  public static readonly PUT_PERIODONTOGRAM = basePath + '/medical-records/periodontograms'
-    
+  public static readonly REFRESH_TOKEN_ENDPOINT = basePath + '/auth/refresh';
 }

@@ -14,7 +14,6 @@ import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from 'src/app/models/shared/loading/loading.component';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
-import { AlertModel } from '@mean/models';
 import { TokenData } from './model/tokenData';
 
 @Component({
@@ -57,9 +56,15 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
       }).subscribe({
         next: (data) => {
           const { token } = data.response;
+          const { refreshToken } = data.response;
           this.authServise.saveToSession(
             SessionStorageConstants.USER_TOKEN,
             token
+          );
+
+          this.authServise.saveToSession(
+            SessionStorageConstants.USER_REFRESH_TOKEN,
+            refreshToken
           );
   
           const tokenData: TokenData = this.userService.getTokenDataUser(token);

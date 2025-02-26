@@ -18,6 +18,9 @@ import { StudentsGeneralHistoryComponent } from '../../../students/pages/history
 import { studentRequest } from 'src/app/shared/interfaces/student/student';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { DetailsStudentComponent } from '../details-student/details-student.component';
+import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 
 @Component({
   selector: 'app-table-students',
@@ -32,6 +35,7 @@ export class TableStudentsComponent implements OnInit {
   title: string = 'Estudiantes';
   private apiService = inject(ApiService<studentRequest[]>);
   private searchSubject = new Subject<string>();
+  private dataSharingService = inject(DataSharingService);
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -79,6 +83,8 @@ export class TableStudentsComponent implements OnInit {
       this.edit(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
+    } else if (accion.accion === 'Detalles') {
+      this.openDetailsDialog(accion.fila);
     } else if (accion.accion === 'MostrarAlerta') {
       this.showAlert();
     }
@@ -131,7 +137,10 @@ export class TableStudentsComponent implements OnInit {
             apellido: `${student.person.firstLastName} ${student.person.secondLastName}`,
             correo: student.person.email,
             matricula: student.enrollment,
-            estatus: student.user.status ? 'Activo' : 'Inactivo'  // Agregado status
+            estatus: student.user.status ? 'Activo' : 'Inactivo',
+            curp: student.person.curp,
+            telefono: student.person.phone,
+            fechaNacimiento: student.person.birthDate
           }));
         } else {
           this.studentsList = [];
@@ -155,5 +164,49 @@ export class TableStudentsComponent implements OnInit {
     this.sortField = event.field;
     this.sortAsc = event.asc;
     this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  openDetailsDialog(student: any): void {
+    this.dataSharingService.setAdminData(student);
+    const dialogRef = this.dialog.open(DetailsStudentComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  onStatusChange(event: { row: any, newStatus: string }) {
+    const dialogRef = this.dialog.open(ConfirmationAlertComponent, {
+      width: '300px',
+      data: { message: `¿Estás seguro de que deseas cambiar el estatus a ${event.newStatus}?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const enrollment = event.row.matricula;
+        const url = `${UriConstants.POST_STUDENTS}/${enrollment}/toggle-status`;
+
+        this.apiService.patchService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url,
+          data: {}
+        }).subscribe({
+          next: () => {
+            event.row.estatus = event.newStatus;
+          },
+          error: (error) => {
+            console.error('Error al cambiar el estado del estudiante:', error);
+          }
+        });
+      }
+    });
   }
 }

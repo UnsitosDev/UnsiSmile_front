@@ -1,0 +1,42 @@
+/* Estilos para el componente de confirmación */
+
+::ng-deep .mat-mdc-dialog-title {
+  background-color: var(--tertiary);
+  padding: 1.5rem; /* Aumenta el padding */
+  margin-bottom: 1.5rem !important; /* Aumenta el margen inferior */
+  border-radius: 4px;
+  font-size: 1.5rem; /* Aumenta el tamaño de la fuente */
+  text-align: center; 
+  display: flex;     
+  justify-content: center; 
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+  width: 500px; /* Aumenta el ancho del diálogo */
+  max-width: 90vw; /* Asegura que no exceda el ancho de la ventana */
+}
+
+::ng-deep .mat-mdc-dialog-actions {
+  display: flex;
+  justify-content: space-between; /* Distribuye los botones a los extremos */
+  padding: 1.0rem; /* Aumenta el padding */
+}
+
+::ng-deep .mat-mdc-dialog-content {
+  padding: 1.5rem; /* Aumenta el padding */
+  font-size: 1.2rem; /* Aumenta el tamaño de la fuente */
+  text-align: center; /* Centra el texto */
+}
+
+button {
+  background-color: var(--tertiary); /* Cambia el fondo de los botones */
+  color: var(--side-text);
+  border: none; /* Elimina el borde */
+  padding: 0.75rem 1.5rem; /* Aumenta el padding */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem; /* Aumenta el tamaño de la fuente */
+  outline: none; /* Elimina el resalte */
+  box-shadow: none; /* Elimina la sombra */
+}

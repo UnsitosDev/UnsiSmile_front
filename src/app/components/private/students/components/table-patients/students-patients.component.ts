@@ -18,6 +18,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar estos módulos
 import { MatCardModule } from '@angular/material/card';
+import { DetailsPatientsComponent } from '../details-patients/details-patients.component';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 
 @Component({
@@ -46,6 +48,7 @@ export class StudentsPatientsComponent implements OnInit {
     'curp': 'person.curp',
     'estatus': 'user.status'  // Agregado el campo estatus para ordenamiento
   };
+  private dataSharingService = inject(DataSharingService);
 
 
   check(event: any) {
@@ -79,6 +82,8 @@ export class StudentsPatientsComponent implements OnInit {
       this.editar(accion.fila);
     } else if (accion.accion == 'Eliminar') {
       this.eliminar(accion.fila.nombre);
+    } else if (accion.accion == 'Detalles') {
+      this.openDetailsDialog(accion.fila);
     } else if (accion.accion == 'MostrarAlerta') {
       this.mostrarAlerta();
     }
@@ -99,6 +104,22 @@ export class StudentsPatientsComponent implements OnInit {
     alert('¡Haz clic en un icono!');
   }
 
+  // Agregar este nuevo método
+  openDetailsDialog(patient: any): void {
+    this.dataSharingService.setPatientData(patient);
+    const dialogRef = this.dialog.open(DetailsPatientsComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
   idPatientx: number = 0;
   patients!: Patient[];
   getPacientes(page: number = 0, size: number = 10, keyword: string = '') {
@@ -117,15 +138,14 @@ export class StudentsPatientsComponent implements OnInit {
           this.totalElements = response.totalElements;
           this.patientsList = response.content.map((patient: Patient) => {
             const person = patient.person;
-            const medicalHistory = patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
             return {
               nombres: person.firstName,
               apellidos: `${person.firstLastName} ${person.secondLastName}`,
               correo: person.email,
               curp: person.curp,
-              idMedicalHistory: medicalHistory,
-              patientID: patient.idPatient,
-              estatus: 'Activo'  // Valor por defecto
+              telefono: person.phone,
+              fechaNacimiento: person.birthDate,
+              estatus: 'Activo'
             };
           });
         } else {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
 
@@ -9,8 +9,12 @@ import { HeaderComponent, SideNavComponent } from '@mean/shared';
   templateUrl: './layout-admin.component.html',
   styleUrl: './layout-admin.component.scss'
 })
-export class LayoutAdminComponent {
-  isSidebarOpen = true; // Cambiamos el valor inicial a true
+export class LayoutAdminComponent implements OnInit {
+  isSidebarOpen = false; // Cambiamos el valor inicial a false
+
+  ngOnInit() {
+    this.isSidebarOpen = window.innerWidth > 768;
+  }
 
   onSidebarToggle() {
     this.isSidebarOpen = !this.isSidebarOpen;

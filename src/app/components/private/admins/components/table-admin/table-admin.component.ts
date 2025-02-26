@@ -14,7 +14,9 @@ import { AdminResponse, User } from 'src/app/models/shared/admin/admin.model';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AdminTableData } from 'src/app/models/shared/admin/admin';
 import { MatCardModule } from '@angular/material/card';
-
+import { DetailsAdminComponent } from '../details-admin/details-admin.component';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 
 @Component({
   selector: 'app-table-admin',
@@ -38,6 +40,7 @@ export class TableAdminComponent implements OnInit {
   title: string = 'Administradores';
   private apiService = inject(ApiService<any>);
   private searchSubject = new Subject<string>();
+  private dataSharingService = inject(DataSharingService);
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -50,8 +53,8 @@ export class TableAdminComponent implements OnInit {
     'nombre': 'person.firstName',
     'apellido': 'person.firstLastName',
     'correo': 'person.email',
-    'numeroEmpleado': 'employeeNumber',
-    'estatus': 'user.status'  // Cambiado de 'status' a 'estatus'
+    'numero empleado': 'employeeNumber',  // Cambiado de 'numeroEmpleado' a 'numero empleado'
+    'estatus': 'user.status'
   };
 
   constructor(
@@ -79,6 +82,8 @@ export class TableAdminComponent implements OnInit {
       this.edit(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
+    } else if (accion.accion === 'Detalles') {
+      this.openDetailsDialog(accion.fila);
     }
   }
 
@@ -122,8 +127,11 @@ export class TableAdminComponent implements OnInit {
               nombre: admin.person.firstName,
               apellido: `${admin.person.firstLastName} ${admin.person.secondLastName || ''}`.trim(),
               correo: admin.person.email,
-              numeroEmpleado: admin.employeeNumber,
-              estatus: admin.user.status ? 'Activo' : 'Inactivo'  // Cambiado de 'status' a 'estatus'
+              'numero empleado': admin.employeeNumber,  // Cambiado de numeroEmpleado a 'numero empleado'
+              estatus: admin.user.status ? 'Activo' : 'Inactivo',
+              curp: admin.person.curp,
+              telefono: admin.person.phone,
+              fechaNacimiento: admin.person.birthDate
             };
           });
         } else {
@@ -145,10 +153,33 @@ export class TableAdminComponent implements OnInit {
   }
 
   // Agregar método para manejar acciones específicas de status
-  onStatusChange(admin: AdminTableData) {
-    // Aquí puedes implementar la lógica para cambiar el status
-    console.log('Cambiar status de admin:', admin);
-    // Llamar al API para actualizar el status
+  onStatusChange(event: { row: any, newStatus: string }) {
+    const dialogRef = this.dialog.open(ConfirmationAlertComponent, {
+      width: '300px',
+      data: { message: `¿Estás seguro de que deseas cambiar el estatus a ${event.newStatus}?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const employeeNumber = event.row['numero empleado'];
+        const url = `${UriConstants.PATCH_ADMIN}/${employeeNumber}/toggle-status`;
+
+        this.apiService.patchService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url,
+          data: {}
+        }).subscribe({
+          next: () => {
+            event.row.estatus = event.newStatus;
+          },
+          error: (error) => {
+            console.error('Error al cambiar el estado del administrador:', error);
+          }
+        });
+      }
+    });
   }
 
   // Agregar el método onSort
@@ -156,5 +187,21 @@ export class TableAdminComponent implements OnInit {
     this.sortField = event.field;
     this.sortAsc = event.asc;
     this.getAdmins(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  // Agregar método para abrir el diálogo de detalles
+  openDetailsDialog(admin: AdminTableData): void {
+    this.dataSharingService.setAdminData(admin);
+    const dialogRef = this.dialog.open(DetailsAdminComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh', // Limita la altura al 90% de la ventana
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }
