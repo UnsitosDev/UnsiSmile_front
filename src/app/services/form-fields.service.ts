@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
-import { addressesNumber, curpValidator, phoneNumberValidator } from '../utils/validators';
+import { addressesNumber, curpValidator, emailValidator, phoneNumberValidator } from '../utils/validators';
 import { PatientService } from './patient/patient.service';
 import { FieldNames } from '../models/form-fields/form-utils';
 
@@ -92,11 +92,11 @@ export class FormFieldsService {
             name: 'email',
             validators: [
                 Validators.required,
-                Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
+                emailValidator()
             ],
             errorMessages: {
                 required: 'El campo Correo electrónico es requerido.',
-                pattern: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
+                lastError: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
             }
         },
         {
@@ -350,11 +350,9 @@ export class FormFieldsService {
             label: 'Correo Electrónico',
             name: 'emailGuardian',
             required: false,
-            validators: [
-                Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
-            ],
+            validators: [emailValidator()],
             errorMessages: {
-                pattern: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
+                lastError: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
             }
         },
     ];
