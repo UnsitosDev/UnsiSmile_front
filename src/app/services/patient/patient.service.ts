@@ -98,7 +98,7 @@ export class PatientService {
         }).pipe(
             map((response) => {
                 this.streetsOptions = response.content.map((item: streetRequest) => ({
-                    value: item.idStreet.toString(),
+                    value: item.idStreet?.toString() || '',
                     label: item.name
                 }));
                 return this.streetsOptions;

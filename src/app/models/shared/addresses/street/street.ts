@@ -2,7 +2,7 @@ import { neighborhoodRequest, neighborhoodResponse } from "../neighborhood/neigh
 
 export interface streetRequest {
 
-    "idStreet": number,
+    "idStreet": number|null,
     "name": string,
     "neighborhood": neighborhoodRequest
 
