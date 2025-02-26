@@ -204,11 +204,20 @@ getLocalityData(searchTerm: string) {
 }
 
 getLocalityDataPaginated(searchTerm: string, page: number, size: number, municipalityId?: string): Observable<localityOptions[]> {
+    console.log('getLocalityDataPaginated called with:', {
+        searchTerm,
+        page,
+        size,
+        municipalityId
+    });
+
     if (!municipalityId) {
+        console.log('No municipalityId provided to getLocalityDataPaginated');
         return of([]);
     }
 
     const url = `${UriConstants.GET_LOCALITIES_MUNICIPALITY}${municipalityId}?page=0&size=1000`;
+    console.log('Making request to URL:', url);
     
     return this.apiService.getService({
         headers: new HttpHeaders({
@@ -218,23 +227,27 @@ getLocalityDataPaginated(searchTerm: string, page: number, size: number, municip
         data: {},
     }).pipe(
         map((response) => {
+            console.log('Raw locality response:', response);
             let filteredContent = response.content;
             
             if (searchTerm && searchTerm.trim() !== '') {
-                const searchTermLower = searchTerm.toLowerCase();
+                const searchTermLower = searchTerm.toLowerCase().trim();
+                console.log('Filtering localities by search term:', searchTermLower);
                 filteredContent = response.content.filter((item: localityRequest) => 
                     item.name.toLowerCase().includes(searchTermLower)
                 );
+                console.log('Filtered localities:', filteredContent);
             }
             
             this.localityOptions = filteredContent.map((item: localityRequest) => ({
                 value: item.idLocality?.toString() || '',
                 label: item.name
             }));
+            console.log('Final locality options:', this.localityOptions);
             return this.localityOptions;
         }),
         catchError(error => {
-            console.error('Error en la petición de localidades:', error);
+            console.error('Error in getLocalityDataPaginated:', error);
             return of([]);
         })
     );
@@ -268,12 +281,21 @@ getMunicipalityData(searchTerm: string) {
 }
 
 getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, stateId?: string): Observable<municipalityOptions[]> {
+    console.log('getMunicipalityDataPaginated called with:', {
+        searchTerm,
+        page,
+        size,
+        stateId
+    });
+
     if (!stateId) {
+        console.log('No stateId provided to getMunicipalityDataPaginated');
         return of([]);
     }
 
     const url = `${UriConstants.GET_MUNICIPALITY_STATE}${stateId}?page=0&size=1000`;
-    
+    console.log('Making request to URL:', url);
+
     return this.apiService.getService({
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -282,23 +304,28 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
         data: {},
     }).pipe(
         map((response) => {
+            console.log('Raw municipality response:', response);
             let filteredContent = response.content;
             
+            // Aplicar filtrado local basado en el término de búsqueda
             if (searchTerm && searchTerm.trim() !== '') {
-                const searchTermLower = searchTerm.toLowerCase();
+                const searchTermLower = searchTerm.toLowerCase().trim();
+                console.log('Filtering by search term:', searchTermLower);
                 filteredContent = response.content.filter((item: municipalityRequest) => 
                     item.name.toLowerCase().includes(searchTermLower)
                 );
+                console.log('Filtered content:', filteredContent);
             }
             
             this.municipalityOptions = filteredContent.map((item: municipalityRequest) => ({
                 value: item.idMunicipality?.toString() || '',
                 label: item.name
             }));
+            console.log('Final municipality options:', this.municipalityOptions);
             return this.municipalityOptions;
         }),
         catchError(error => {
-            console.error('Error en la petición de municipios:', error);
+            console.error('Error in getMunicipalityDataPaginated:', error);
             return of([]);
         })
     );

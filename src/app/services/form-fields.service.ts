@@ -430,78 +430,58 @@ export class FormFieldsService {
     }
     
     public handleLocalityClick(searchTerm: string, page: number = 0, size: number = 3, municipalityId?: string): void {
-        // Limpiar la localidad seleccionada y las colonias si el término de búsqueda está vacío
-        if (!searchTerm || searchTerm.trim() === '') {
-            this.selectedLocalitId = undefined;
+        console.log('handleLocalityClick called with:', {
+            searchTerm,
+            page,
+            size,
+            municipalityId,
+            selectedMunicipalityId: this.selectedMunicipalityId,
+            storedMunicipalityValue: this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME)?.value
+        });
+    
+        // Usar el ID del municipio almacenado si no se proporciona uno
+        const effectiveMunicipalityId = municipalityId || this.selectedMunicipalityId;
+        console.log('Effective municipalityId:', effectiveMunicipalityId);
+    
+        if (!effectiveMunicipalityId) {
+            console.log('No municipalityId provided, clearing options');
+            this.clearLocalityOptions();
             this.clearNeighborhoodOptions();
             return;
         }
     
-        const effectiveMunicipalityId = municipalityId || this.selectedMunicipalityId;
+        this.patientService.getLocalityDataPaginated(searchTerm, page, size, effectiveMunicipalityId).subscribe({
+            next: (response) => {
+                console.log('Locality API response:', response);
+                const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
+                if (localityField) {
+                    localityField.options = response;
+                    console.log('Updated locality options:', localityField.options);
     
-        this.patientService.getLocalityDataPaginated(searchTerm, page, size, effectiveMunicipalityId).subscribe(response => {
+                    if (searchTerm && searchTerm.trim() !== '') {
+                        const exactMatch = response.find(option => 
+                            option.label.toLowerCase().includes(searchTerm.toLowerCase())
+                        );
+                        console.log('Exact match found:', exactMatch);
     
-            const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
-            if (localityField) {
-                localityField.options = response;
-    
-                // Si hay una coincidencia exacta o solo una opción
-                const exactMatch = response.find(option => 
-                    option.label.toLowerCase() === searchTerm.toLowerCase()
-                );
-    
-                if (response.length === 1 || exactMatch) {
-                    const selectedLocality = exactMatch || response[0];
-                    this.selectedLocalitId = selectedLocality.value;
-                    if (this.selectedLocalitId) {
-                        this.clearNeighborhoodOptions();
-                        this.handleNeighborhoodClick('', 0, 1000, this.selectedLocalitId);
+                        if (exactMatch) {
+                            this.selectedLocalitId = exactMatch.value;
+                            console.log('Selected locality ID:', this.selectedLocalitId);
+                            
+                            // Actualizar el valor del campo
+                            localityField.value = exactMatch.label;
+                            
+                            // Limpiar y cargar colonias
+                            this.clearNeighborhoodOptions();
+                            if (this.selectedLocalitId) {
+                                this.handleNeighborhoodClick('', 0, 1000, this.selectedLocalitId);
+                            }
+                        }
                     }
                 }
-            }
-        });
-    }
-    
-   // private clearNeighborhoodOptions(): void {
-     //   const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
-       // if (neighborhoodField) {
-         //   neighborhoodField.options = [];
-            // También limpiar el valor seleccionado si existe
-           // if (neighborhoodField.value) {
-             //   neighborhoodField.value = '';
-            //}
-        //}
-   // }
-    
-    public handleMunicipalityClick(searchTerm: string, page: number = 0, size: number = 3, stateId?: string): void {
-        // Limpiar el municipio seleccionado y las localidades si el término de búsqueda está vacío
-        if (!searchTerm || searchTerm.trim() === '') {
-            this.selectedMunicipalityId = undefined;
-            this.clearLocalityOptions();
-            return;
-        }
-    
-        const effectiveStateId = stateId || this.selectedStateId;
-    
-        this.patientService.getMunicipalityDataPaginated(searchTerm, page, size, effectiveStateId).subscribe(response => {
-    
-            const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
-            if (municipalityField) {
-                municipalityField.options = response;
-    
-                // Si hay una coincidencia exacta o solo una opción
-                const exactMatch = response.find(option => 
-                    option.label.toLowerCase() === searchTerm.toLowerCase()
-                );
-    
-                if (response.length === 1 || exactMatch) {
-                    const selectedMunicipality = exactMatch || response[0];
-                    this.selectedMunicipalityId = selectedMunicipality.value;
-                    if (this.selectedMunicipalityId) {
-                        this.clearLocalityOptions();
-                        this.handleLocalityClick('', 0, 1000, this.selectedMunicipalityId);
-                    }
-                }
+            },
+            error: (error) => {
+                console.error('Error fetching localities:', error);
             }
         });
     }
@@ -517,30 +497,130 @@ export class FormFieldsService {
         }
     }
 
-    public handleStateClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        
-        this.patientService.getStateDataPaginated(searchTerm, page, size).subscribe(response => {
-            
-            const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
-            if (stateField) {
-                stateField.options = response;
-                
-                // Si hay una coincidencia exacta o solo una opción
-                const exactMatch = response.find(option => 
-                    option.label.toLowerCase() === searchTerm.toLowerCase()
-                );
-                
-                if (response.length === 1 || exactMatch) {
-                    const selectedState = exactMatch || response[0];
-                    this.selectedStateId = selectedState.value;
-                    if (this.selectedStateId) {
-                        // Cargar municipios al seleccionar estado
-                        this.handleMunicipalityClick('', 0, 1000, this.selectedStateId);
+    public handleMunicipalityClick(searchTerm: string, page: number = 0, size: number = 3, stateId?: string): void {
+        console.log('handleMunicipalityClick called with:', {
+            searchTerm,
+            page,
+            size,
+            stateId,
+            selectedStateId: this.selectedStateId,
+            currentMunicipalityId: this.selectedMunicipalityId
+        });
+    
+        const effectiveStateId = stateId || this.selectedStateId;
+        console.log('Effective stateId:', effectiveStateId);
+    
+        if (!effectiveStateId) {
+            console.log('No stateId provided, clearing options');
+            this.clearMunicipalityOptions();
+            this.clearLocalityOptions();
+            this.clearNeighborhoodOptions();
+            return;
+        }
+    
+        this.patientService.getMunicipalityDataPaginated(searchTerm, page, size, effectiveStateId).subscribe({
+            next: (response) => {
+                console.log('Municipality API response:', response);
+                const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
+                if (municipalityField) {
+                    municipalityField.options = response;
+                    console.log('Updated municipality options:', municipalityField.options);
+    
+                    if (searchTerm && searchTerm.trim() !== '') {
+                        const searchTermLower = searchTerm.toLowerCase().trim();
+                        const exactMatch = response.find(option => 
+                            option.label.toLowerCase().includes(searchTermLower)
+                        );
+                        console.log('Searching for match with term:', searchTermLower);
+                        console.log('Exact match found:', exactMatch);
+    
+                        if (exactMatch) {
+                            this.selectedMunicipalityId = exactMatch.value;
+                            console.log('Selected municipality ID:', this.selectedMunicipalityId);
+                            
+                            // Actualizar el valor del campo
+                            municipalityField.value = exactMatch.label;
+                            
+                            this.clearLocalityOptions();
+                            this.clearNeighborhoodOptions();
+                            
+                            // Solo cargar localidades si tenemos un ID válido
+                            if (this.selectedMunicipalityId) {
+                                console.log('Loading localities for municipality:', this.selectedMunicipalityId);
+                                this.handleLocalityClick('', 0, 1000, this.selectedMunicipalityId);
+                            }
+                        } else {
+                            console.log('No exact match found, keeping current municipality:', this.selectedMunicipalityId);
+                        }
                     }
                 }
+            },
+            error: (error) => {
+                console.error('Error fetching municipalities:', error);
             }
         });
     }
+    
+
+    private clearMunicipalityOptions(): void {
+        const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
+        if (municipalityField) {
+            municipalityField.options = [];
+            if (municipalityField.value) {
+                municipalityField.value = '';
+            }
+        }
+        this.selectedMunicipalityId = undefined;
+    }
+
+    public handleStateClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        console.log('handleStateClick called with:', { searchTerm, page, size });
+        
+        this.patientService.getStateDataPaginated(searchTerm, page, size).subscribe({
+            next: (response) => {
+                console.log('State API response:', response);
+                const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
+                if (stateField) {
+                    stateField.options = response;
+                    console.log('Updated state options:', stateField.options);
+                    
+                    if (searchTerm && searchTerm.trim() !== '') {
+                        // Modificada la lógica de búsqueda para ser más flexible
+                        const exactMatch = response.find(option => 
+                            option.label.toLowerCase().includes(searchTerm.toLowerCase())
+                        );
+                        console.log('Trying to match:', {
+                            searchTerm: searchTerm.toLowerCase(),
+                            options: response.map(opt => opt.label.toLowerCase())
+                        });
+                        console.log('Found match:', exactMatch);
+                        
+                        if (exactMatch) {
+                            this.selectedStateId = exactMatch.value;
+                            console.log('Setting selectedStateId to:', this.selectedStateId);
+                            
+                            // Actualizar el valor del campo
+                            stateField.value = exactMatch.label;
+                            
+                            this.clearMunicipalityOptions();
+                            this.clearLocalityOptions();
+                            this.clearNeighborhoodOptions();
+                            
+                            // Asegurarnos de que el ID existe antes de hacer la llamada
+                            if (this.selectedStateId) {
+                                console.log('Triggering municipality load with stateId:', this.selectedStateId);
+                                this.handleMunicipalityClick('', 0, 1000, this.selectedStateId);
+                            }
+                        }
+                    }
+                }
+            },
+            error: (error) => {
+                console.error('Error fetching states:', error);
+            }
+        });
+    }
+    
 
     private handleNacionalityClick(event: MouseEvent): void {
         this.patientService.getNacionalityData();
