@@ -23,16 +23,19 @@
                       type="text"
                       [value]="row.values[columnIndex * 3 + 0] || ''"
                       (input)="onInputChange(tableKey, row, $event, columnIndex, 0)"
+                      [disabled]="state === 'read'"
                     />
                     <input
                       type="text"
                       [value]="row.values[columnIndex * 3 + 1] || ''"
                       (input)="onInputChange(tableKey, row, $event, columnIndex, 1)"
+                      [disabled]="state === 'read'"
                     />
                     <input
                       type="text"
                       [value]="row.values[columnIndex * 3 + 2] || ''"
                       (input)="onInputChange(tableKey, row, $event, columnIndex, 2)"
+                      [disabled]="state === 'read'"
                     />
                   } @else if (row.symbol === 'M. D.') {
                     <!-- Input numérico para M. D. -->
@@ -40,6 +43,7 @@
                       type="text"
                       [value]="row.values[columnIndex] || ''"
                       (input)="onInputChange(tableKey, row, $event, columnIndex, 0)"
+                      [disabled]="state === 'read'"
                     />
                   } @else if (row.symbol === 'SANGRA' || row.symbol === 'PLACA' || row.symbol === 'CALCULO') {
                     <!-- Checkboxes para SANGRA, PLACA y CALCULO -->
@@ -47,14 +51,17 @@
                       <mat-checkbox
                         [checked]="row.values[columnIndex * 3 + 0] || false"
                         (change)="onInputChange(tableKey, row, $event, columnIndex, 0)"
+                        [disabled]="state === 'read'"
                       ></mat-checkbox>
                       <mat-checkbox
                         [checked]="row.values[columnIndex * 3 + 1] || false"
                         (change)="onInputChange(tableKey, row, $event, columnIndex, 1)"
+                        [disabled]="state === 'read'"
                       ></mat-checkbox>
                       <mat-checkbox
                         [checked]="row.values[columnIndex * 3 + 2] || false"
                         (change)="onInputChange(tableKey, row, $event, columnIndex, 2)"
+                        [disabled]="state === 'read'"
                       ></mat-checkbox>
                     </section>
                   }
@@ -74,7 +81,8 @@
     <textarea
       matInput
       placeholder="Anotar observaciones ..."
-      [(ngModel)]="notes" 
+      [(ngModel)]="notes"
+      [disabled]="state === 'read'"
     ></textarea>
   </mat-form-field>
 </div>

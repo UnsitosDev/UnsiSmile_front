@@ -60,7 +60,7 @@
                           @if (tab.title === 'Medición de bolsas inicial' && tab.isAnswered) {
                             <app-history-initial-bag
                             [idClinicalHistoryPatient]=idPatientClinicalHistory
-                              [state]="'update'"
+                              [state]="'read'"
                               [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
                               [patientId]="idpatient"
                               (nextMatTab)="onNextTab()"
