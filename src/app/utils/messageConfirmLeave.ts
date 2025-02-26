@@ -26,4 +26,8 @@ export class Messages {
     public static readonly WARNING_NO_FILE_SELECTED = 'Selecciona un archivo'
     public static readonly ERROR_INSERT_FILE = 'Archivo no válido'
 
+    // Mensajes para periodontograma  
+    public static readonly SUCCESS_INSERT_PERIODONTOGRAM = 'Periodontograma Guardado'
+    public static readonly NO_DATA_TO_SEND = 'Debe insertar datos en el periodontograma antes de guardar'
+    public static readonly BAD_DATA = 'Asegúrate de haber llenado las filas'
 }

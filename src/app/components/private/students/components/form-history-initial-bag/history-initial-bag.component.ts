@@ -2,7 +2,6 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
-import { BaseChartDirective } from 'ng2-charts';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
@@ -11,10 +10,11 @@ import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { PatientEvaluation, Row, SurfaceEvaluation, SurfaceMeasurement, TabStructure, ToothEvaluation } from '@mean/models';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
-  imports: [MatButtonModule, MatCardModule, BaseChartDirective, MatCheckboxModule, MatInputModule, MatFormFieldModule, FormsModule],
+  imports: [MatButtonModule, MatCardModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, FormsModule],
   templateUrl: './history-initial-bag.component.html',
   styleUrl: './history-initial-bag.component.scss',
 })
@@ -292,6 +292,10 @@ export class HistoryInitialBagComponent implements OnInit {
   }
 
   sendDataPeriodontogram() {
+    if (this.isPeriodontogramEmpty()) {
+      this.toastr.warning(Messages.NO_DATA_TO_SEND);
+      return;
+    }
     const periodontogramData = this.mapPeriodontogramToPost();
     this.postPeriodontogram(periodontogramData);
   }
@@ -307,10 +311,11 @@ export class HistoryInitialBagComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.toastr.success('Periodontograma Guardado');
+          this.toastr.success(Messages.SUCCESS_INSERT_PERIODONTOGRAM);
           this.nextMatTab.emit();
         },
         error: (error) => {
+          this.toastr.error(Messages.BAD_DATA);
           this.toastr.error(error);
         },
       });
@@ -411,6 +416,19 @@ export class HistoryInitialBagComponent implements OnInit {
     };
 
     return data;
+  }
+
+  isPeriodontogramEmpty(): boolean {
+    for (const tableKey of this.getTableKeys()) {
+      const table = this.tab[tableKey];
+  
+      for (const row of table.rows) {
+        if (row.values.some((value: number | boolean | null) => value !== null && value !== false)) {
+          return false; 
+        }
+      }
+    }
+      return true;
   }
 
   previousTab() {
