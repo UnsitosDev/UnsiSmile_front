@@ -115,7 +115,7 @@ export class FormInsertAdminComponent {
           },
         });
     } else {
-      this.toastr.warning(Messages.WARNING_INSERT_ADMIN, 'Advertencia');
+            this.toastr.warning(Messages.WARNING_INSERT_ADMIN, 'Advertencia');
     }
   }
   
