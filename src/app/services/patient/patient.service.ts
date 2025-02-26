@@ -88,23 +88,72 @@ export class PatientService {
     // Calles
     streetsData: streetRequest[] = [];
     streetsOptions: Array<{ value: string; label: string }> = [];
-    getStreetDataPaginated(searchTerm: string, page: number, size: number): Observable<FormFieldOption[]> {
-        return this.apiService.getService({
+    getStreetData(searchTerm: string): void {
+        this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            url: `${UriConstants.GET_STREETS}?keyword=${searchTerm}&page=${page}&size=${size}`,
+            url: `${UriConstants.GET_STREETS}?keyword=${searchTerm}`,
             data: {},
-        }).pipe(
-            map((response) => {
+        }).subscribe({
+            next: (response) => {
+                this.streetsData = response.content;
                 this.streetsOptions = response.content.map((item: streetRequest) => ({
                     value: item.idStreet?.toString() || '',
                     label: item.name
                 }));
+            },
+            error: (error) => {
+                console.error('Error al obtener calles:', error);
+            }
+        });
+    }
+
+    getStreetDataPaginated(searchTerm: string, page: number, size: number, neighborhoodId?: string): Observable<FormFieldOption[]> {
+        console.log('getStreetDataPaginated called with:', {
+            searchTerm,
+            page,
+            size,
+            neighborhoodId
+        });
+
+        if (!neighborhoodId) {
+            console.log('No neighborhoodId provided to getStreetDataPaginated');
+            return of([]);
+        }
+
+        const url = `${UriConstants.GET_STREETS_NEIGHBORHOOD}${neighborhoodId}?page=0&size=1000`;
+        console.log('Making request to URL:', url);
+
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: url,
+            data: {},
+        }).pipe(
+            map((response) => {
+                console.log('Raw street response:', response);
+                let filteredContent = response.content;
+                
+                if (searchTerm && searchTerm.trim() !== '') {
+                    const searchTermLower = searchTerm.toLowerCase().trim();
+                    console.log('Filtering streets by search term:', searchTermLower);
+                    filteredContent = response.content.filter((item: streetRequest) => 
+                        item.name.toLowerCase().includes(searchTermLower)
+                    );
+                    console.log('Filtered streets:', filteredContent);
+                }
+                
+                this.streetsOptions = filteredContent.map((item: streetRequest) => ({
+                    value: item.idStreet?.toString() || '',
+                    label: item.name
+                }));
+                console.log('Final street options:', this.streetsOptions);
                 return this.streetsOptions;
             }),
             catchError(error => {
-                console.error('Error al obtener calles:', error);
+                console.error('Error in getStreetDataPaginated:', error);
                 return of([]);
             })
         );

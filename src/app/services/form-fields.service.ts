@@ -394,27 +394,58 @@ export class FormFieldsService {
 
 
     public handleNeighborhoodClick(searchTerm: string, page: number = 0, size: number = 3, localityId?: string): void {
-        // Si no hay localityId, no hacer nada
-        if (!localityId) {
+        console.log('handleNeighborhoodClick called with:', {
+            searchTerm,
+            page,
+            size,
+            localityId,
+            selectedLocalityId: this.selectedLocalitId
+        });
+    
+        const effectiveLocalityId = localityId || this.selectedLocalitId;
+        console.log('Effective localityId:', effectiveLocalityId);
+    
+        if (!effectiveLocalityId) {
+            console.log('No localityId provided, clearing options');
             this.clearNeighborhoodOptions();
+            this.clearStreetOptions();
             return;
         }
     
-        this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, localityId).subscribe(response => {
-            const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
-            if (neighborhoodField) {
-                neighborhoodField.options = response;
-                
-                // Limpiar el valor seleccionado si hay un término de búsqueda
-                if (searchTerm && searchTerm.trim() !== '') {
-                    const exactMatch = response.find(option => 
-                        option.label.toLowerCase() === searchTerm.toLowerCase()
-                    );
-                    
-                    if (exactMatch) {
-                        neighborhoodField.value = exactMatch.value;
+        this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, effectiveLocalityId).subscribe({
+            next: (response) => {
+                console.log('Neighborhood API response:', response);
+                const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
+                if (neighborhoodField) {
+                    neighborhoodField.options = response;
+                    console.log('Updated neighborhood options:', neighborhoodField.options);
+    
+                    if (searchTerm && searchTerm.trim() !== '') {
+                        const searchTermLower = searchTerm.toLowerCase().trim();
+                        const exactMatch = response.find(option => 
+                            option.label.toLowerCase().includes(searchTermLower)
+                        );
+                        console.log('Exact match found:', exactMatch);
+    
+                        if (exactMatch) {
+                            this.selectedNeighborhoodId = exactMatch.value;
+                            console.log('Selected neighborhood ID:', this.selectedNeighborhoodId);
+                            
+                            // Actualizar el valor del campo
+                            neighborhoodField.value = exactMatch.label;
+                            
+                            // Limpiar y cargar calles
+                            this.clearStreetOptions();
+                            if (this.selectedNeighborhoodId) {
+                                console.log('Loading streets for neighborhood:', this.selectedNeighborhoodId);
+                                this.handleStreetClick('', 0, 1000, this.selectedNeighborhoodId);
+                            }
+                        }
                     }
                 }
+            },
+            error: (error) => {
+                console.error('Error fetching neighborhoods:', error);
             }
         });
     }
@@ -435,11 +466,9 @@ export class FormFieldsService {
             page,
             size,
             municipalityId,
-            selectedMunicipalityId: this.selectedMunicipalityId,
-            storedMunicipalityValue: this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME)?.value
+            selectedMunicipalityId: this.selectedMunicipalityId
         });
     
-        // Usar el ID del municipio almacenado si no se proporciona uno
         const effectiveMunicipalityId = municipalityId || this.selectedMunicipalityId;
         console.log('Effective municipalityId:', effectiveMunicipalityId);
     
@@ -447,6 +476,7 @@ export class FormFieldsService {
             console.log('No municipalityId provided, clearing options');
             this.clearLocalityOptions();
             this.clearNeighborhoodOptions();
+            this.clearStreetOptions();
             return;
         }
     
@@ -459,8 +489,9 @@ export class FormFieldsService {
                     console.log('Updated locality options:', localityField.options);
     
                     if (searchTerm && searchTerm.trim() !== '') {
+                        const searchTermLower = searchTerm.toLowerCase().trim();
                         const exactMatch = response.find(option => 
-                            option.label.toLowerCase().includes(searchTerm.toLowerCase())
+                            option.label.toLowerCase().includes(searchTermLower)
                         );
                         console.log('Exact match found:', exactMatch);
     
@@ -471,9 +502,13 @@ export class FormFieldsService {
                             // Actualizar el valor del campo
                             localityField.value = exactMatch.label;
                             
-                            // Limpiar y cargar colonias
+                            // Limpiar campos dependientes
                             this.clearNeighborhoodOptions();
+                            this.clearStreetOptions();
+                            
+                            // Cargar colonias con el ID de localidad
                             if (this.selectedLocalitId) {
+                                console.log('Loading neighborhoods for locality:', this.selectedLocalitId);
                                 this.handleNeighborhoodClick('', 0, 1000, this.selectedLocalitId);
                             }
                         }
@@ -659,14 +694,48 @@ export class FormFieldsService {
         this.patientService.getPostalCode(param);
     }
 
-    private handleStreetClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        this.patientService.getStreetDataPaginated(searchTerm, page, size).subscribe(response => {
-            const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
-            if (streetField) {
-                streetField.options = response;
+    public handleStreetClick(searchTerm: string, page: number = 0, size: number = 3, neighborhoodId?: string): void {
+        console.log('handleStreetClick called with:', {
+            searchTerm,
+            page,
+            size,
+            neighborhoodId,
+            selectedNeighborhoodId: this.selectedNeighborhoodId
+        });
+    
+        const effectiveNeighborhoodId = neighborhoodId || this.selectedNeighborhoodId;
+    
+        if (!effectiveNeighborhoodId) {
+            console.log('No neighborhoodId provided, clearing options');
+            this.clearStreetOptions();
+            return;
+        }
+    
+        this.patientService.getStreetDataPaginated(searchTerm, page, size, effectiveNeighborhoodId).subscribe({
+            next: (response) => {
+                console.log('Street API response:', response);
+                const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
+                if (streetField) {
+                    streetField.options = response;
+                    console.log('Updated street options:', streetField.options);
+                }
+            },
+            error: (error) => {
+                console.error('Error fetching streets:', error);
             }
         });
     }
+    
+    private clearStreetOptions(): void {
+        const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
+        if (streetField) {
+            streetField.options = [];
+            if (streetField.value) {
+                streetField.value = '';
+            }
+        }
+    }
+    
     // Formularios
     getPersonalDataFields(): FormField[] {
         return this.personalDataFields;
