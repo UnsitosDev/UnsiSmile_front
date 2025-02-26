@@ -88,27 +88,26 @@ export class PatientService {
     // Calles
     streetsData: streetRequest[] = [];
     streetsOptions: Array<{ value: string; label: string }> = [];
-    getStreets() {
-        this.apiService
-            .getService({
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                }),
-                url: `${UriConstants.GET_STREETS}`,
-                data: {},
+    getStreetDataPaginated(searchTerm: string, page: number, size: number): Observable<FormFieldOption[]> {
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.GET_STREETS}?keyword=${searchTerm}&page=${page}&size=${size}`,
+            data: {},
+        }).pipe(
+            map((response) => {
+                this.streetsOptions = response.content.map((item: streetRequest) => ({
+                    value: item.idStreet.toString(),
+                    label: item.name
+                }));
+                return this.streetsOptions;
+            }),
+            catchError(error => {
+                console.error('Error al obtener calles:', error);
+                return of([]);
             })
-            .subscribe({
-                next: (response) => {
-                    this.streetsData = response.content;
-                    this.streetsOptions = response.content.map((item: any) => ({
-                        value: item.idStreet.toString(),
-                        label: item.name
-                    }));
-                },
-                error: (error) => {
-                    console.error('Error en la autenticación:', error);
-                },
-            });
+        );
     }
 
    // Colonias
