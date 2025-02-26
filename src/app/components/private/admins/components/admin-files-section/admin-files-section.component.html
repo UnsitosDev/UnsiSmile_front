@@ -1,0 +1,38 @@
+<mat-card class="full-width-card custom">
+    <mat-card-title><strong>Subir Documentos: Consentimientos Informados y Notas de Evolución</strong></mat-card-title>
+    <br>
+    <div>
+        <p>Adjunta aquí los formatos, consentimientos informados, notas de evolución y otros formularios importantes</p>
+        <br>    
+    </div>
+    <div class="custom-input">
+        <input
+          type="file"
+          formControlName="fileStudent"
+          accept=".pdf"
+          (change)="onFileSelected($event)"
+          multiple
+          required
+        />
+    </div>
+    <div class="custom-button">
+        <button mat-flat-button color="primary" (click)="sendFiles()">SUBIR ARCHIVOS <i class="fas fa-file-upload"></i></button>
+    </div>
+</mat-card>
+<br>
+
+@if (formats) {
+    <mat-card class="all-files">
+        <div class="all-files">
+          <mat-card-title><strong>{{ formats.formName }}</strong></mat-card-title>
+          <mat-list>
+            @for (file of formats.questions[0].answer.files; track file.idFile) {
+              <mat-list-item class="file-item">
+                <mat-icon matListItemIcon><i class="fas fa-file-alt"></i></mat-icon>
+                <div (click)="onFileClick(file)" matListItemTitle>{{ file.fileName }}</div>
+              </mat-list-item>
+            }
+          </mat-list>
+        </div>
+      </mat-card>
+}

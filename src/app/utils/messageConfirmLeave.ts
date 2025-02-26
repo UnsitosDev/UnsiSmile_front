@@ -38,4 +38,9 @@ export class Messages {
     public static readonly SUCCESS_INSERT_PERIODONTOGRAM = 'Periodontograma Guardado'
     public static readonly NO_DATA_TO_SEND = 'Debe insertar datos en el periodontograma antes de guardar'
     public static readonly BAD_DATA = 'Asegúrate de haber llenado las filas'
+
+    // Mensajes para subir consentimientos informados
+    public static readonly WARNING_NO_FILE_SELECTED_FORMATS = 'Selecciona algun archivo'
+    public static readonly SUCCESS_FORMATS = 'Formatos guardados.' 
+    public static readonly NO_FILES_YET = 'Aún no hay archivos disponibles.';
 }

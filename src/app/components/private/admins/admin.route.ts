@@ -79,6 +79,13 @@ export default [
                     ),
             },
             {
+                path: 'upload-files',
+                loadComponent: () =>
+                    import('./components/admin-files-section/admin-files-section.component').then(
+                        (m) => m.AdminFilesSectionComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
