@@ -90,10 +90,13 @@ export class FormFieldsService {
             type: 'input',
             label: 'Correo electrónico',
             name: 'email',
-            validators: [Validators.required, Validators.email],
+            validators: [
+                Validators.required,
+                Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
+            ],
             errorMessages: {
                 required: 'El campo Correo electrónico es requerido.',
-                lastError: 'Por favor, introduce un correo electrónico válido.'
+                pattern: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
             }
         },
         {
@@ -173,8 +176,7 @@ export class FormFieldsService {
             type: 'autocomplete',
             label: 'Nombre de colonia',
             name: 'neighborhoodName',
-            required: true,
-            validators: [Validators.required],
+            required: false,
             errorMessages: {
                 required: 'El campo Nombre de colonia es requerido.'
             },
@@ -348,10 +350,11 @@ export class FormFieldsService {
             label: 'Correo Electrónico',
             name: 'emailGuardian',
             required: false,
-            validators: [Validators.email],
+            validators: [
+                Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
+            ],
             errorMessages: {
-                required: 'El campo Correo Electrónico es requerido.',
-                email: 'Ingrese un correo electrónico válido.'
+                pattern: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
             }
         },
     ];
