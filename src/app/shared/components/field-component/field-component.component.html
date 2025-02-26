@@ -101,16 +101,17 @@
     @case('datepicker') {
         <mat-form-field appearance="fill" class="w-full"> 
           <mat-label>{{ field.label }}</mat-label>
-          <input matInput [matDatepicker]="datepicker"
-          [formControlName]="field.name" [value]="formGroup.get(field.name)?.value" (dateChange)="onValueChangeDate($event)"> 
-            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-            <mat-datepicker #datepicker></mat-datepicker>   
-              @if (formGroup.get(field.name)?.hasError('required') && formGroup.get(field.name)?.touched) {
-                <mat-error class="error-message">{{ errors?.required }}</mat-error>
-              }
-              @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-                <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
-              }
+          <input matInput 
+                 [matDatepicker]="datepicker"
+                 [formControlName]="field.name" 
+                 [max]="maxDate"
+                 (dateChange)="onValueChangeDate($event)"
+                 (dateInput)="onValueChangeDate($event)"> 
+          <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+          <mat-datepicker #datepicker></mat-datepicker>   
+          @if (formGroup.get(field.name)?.errors?.['futureDate'] && formGroup.get(field.name)?.touched) {
+            <mat-error>{{ errors?.futureDate }}</mat-error>
+          }
         </mat-form-field>           
     }
     @case ('inputEvent') {

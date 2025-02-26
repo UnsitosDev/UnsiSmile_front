@@ -63,3 +63,24 @@ export function emailValidator(): ValidatorFn {
     return valid ? null : { lastError: { value: control.value } };
   };
 }
+
+export function noFutureDateValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (!control.value) {
+      return null;
+    }
+
+    const today = new Date();
+    const inputDate = new Date(control.value);
+
+    // Convertir ambas fechas a medianoche UTC para comparación consistente
+    const todayUtc = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+    const inputUtc = Date.UTC(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
+
+    if (inputUtc > todayUtc) {
+      return { futureDate: true };
+    }
+
+    return null;
+  };
+}

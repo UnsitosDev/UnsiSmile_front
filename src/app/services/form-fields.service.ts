@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
-import { addressesNumber, curpValidator, emailValidator, phoneNumberValidator } from '../utils/validators';
+import { addressesNumber, curpValidator, emailValidator, noFutureDateValidator, phoneNumberValidator } from '../utils/validators';
 import { PatientService } from './patient/patient.service';
 import { FieldNames } from '../models/form-fields/form-utils';
 
@@ -81,9 +81,10 @@ export class FormFieldsService {
             label: 'Fecha de Nacimiento',
             name: 'birthDate',
             required: true,
-            validators: [Validators.required],
+            validators: [Validators.required, noFutureDateValidator()],
             errorMessages: {
-                required: 'El campo Fecha de Nacimiento es requerido.'
+                required: 'El campo Fecha de nacimiento es requerido.',
+                futureDate: 'La fecha de nacimiento no puede ser una fecha futura'
             }
         },
         {
@@ -298,9 +299,9 @@ export class FormFieldsService {
             label: 'Última Consulta',
             name: 'lastConsultation',
             required: true,
-            validators: [Validators.required],
+            validators: [Validators.required, noFutureDateValidator()],
             errorMessages: {
-                required: 'El campo Última Consulta es opcional.'
+                futureDate: 'La fecha de última consulta no puede ser una fecha futura'
             }
         },
         {
