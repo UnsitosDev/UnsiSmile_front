@@ -24,10 +24,13 @@ export class HistoryInitialBagComponent implements OnInit {
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
   private formSectionId = 8;
+  private plaqueIndex = 0;
+  private bleedingIndex = 0;
   periodontogram!: PatientEvaluation;
   @Input({ required: true }) patientId!: string;
   @Input({ required: true }) idQuestion!: number;
   @Input({ required: true }) state!: 'create' | 'update' | 'read' | 'read-latest';
+  @Input({ required: true }) idClinicalHistoryPatient!: number;
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>();
   @Output() previousMatTab = new EventEmitter<void>();
@@ -36,9 +39,9 @@ export class HistoryInitialBagComponent implements OnInit {
   positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
   // Mapeo de nombres de superficies
   surfaceNameMapping: { [key: string]: string } = {
-    'VESTIBULARES SUPERIORES': 'VESTIBULAR', 
-    'PALATINOS INFERIORES': 'PALATINO',      
-    'LINGUALES SUPERIORES': 'LINGUAL',       
+    'VESTIBULARES SUPERIORES': 'VESTIBULAR',
+    'PALATINOS INFERIORES': 'PALATINO',
+    'LINGUALES SUPERIORES': 'LINGUAL',
     'VESTIBULARES INFERIORES': 'VESTIBULAR_INFERIOR',
   };
   // Estructura de las tablas
@@ -72,19 +75,14 @@ export class HistoryInitialBagComponent implements OnInit {
   ngOnInit(): void {
     this.initializeTables();
     this.getPeriodontogram();
-    console.log('idQuestion', this.idQuestion);
-    console.log('estado', this.state);
   }
 
   store(): void {
     switch (this.state) {
       case 'create':
-        console.log('funcion para crear');
         this.sendDataPeriodontogram();
         break;
       case 'update':
-        console.log('funcion para actualizar');
-        this.putPeriodontogram();
         break;
       case 'read-latest':
         this.nextMatTab.emit();
@@ -107,45 +105,12 @@ export class HistoryInitialBagComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.periodontogram = response;
-          this.id = this.periodontogram.id || 0; 
+          this.id = this.periodontogram.id || 0;
           this.notes = this.periodontogram.notes;
           this.loadPeriodontogramData(this.periodontogram);
         },
         error: (error) => {
           return;
-        },
-      });
-  }
-
-  putPeriodontogram() {
-    // Mapear los datos del periodontograma a la estructura esperada por el backend
-    const periodontogramData = this.mapPeriodontogramToPost();
-  
-    // Agregar el ID del periodontograma a los datos
-    periodontogramData.id = this.id;
-    console.log('datos del periodontograma: ',periodontogramData);
-
-    // Realizar la solicitud PATCH para actualizar el periodontograma
-    this.apiService
-      .patchService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.PUT_PERIODONTOGRAM}/${this.id}`, // URL con el ID del periodontograma
-        data: periodontogramData, // Enviar los datos mapeados
-      })
-      .subscribe({
-        next: (response) => {
-          // Mostrar mensaje de éxito
-          this.toastr.success('Periodontograma actualizado correctamente');
-          // Emitir evento para avanzar a la siguiente pestaña (opcional)
-          this.nextMatTab.emit();
-        },
-        error: (error) => {
-          // Mostrar mensaje de error
-          this.toastr.error('Error al actualizar el periodontograma');
-          console.error('Error en putPeriodontogram:', error);
-          console.log(periodontogramData);
         },
       });
   }
@@ -171,10 +136,10 @@ export class HistoryInitialBagComponent implements OnInit {
     Object.keys(this.tab).forEach((key) => {
       const tableKey = key as keyof TabStructure;
       const table = this.tab[tableKey];
-  
+
       // Obtener la superficie correspondiente a esta tabla
       const surface = this.surfaceNameMapping[table.title];
-  
+
       // Recorrer cada diente en la tabla del frontend
       table.columns.forEach((toothId, columnIndex) => {
         // Buscar la evaluación del diente en los datos del backend usando el id único
@@ -189,32 +154,32 @@ export class HistoryInitialBagComponent implements OnInit {
             );
           }
         );
-  
-        if (toothEvaluation) {  
+
+        if (toothEvaluation) {
           // Buscar la evaluación de la superficie correspondiente a esta tabla
           const surfaceEvaluation = toothEvaluation.surfaceEvaluations.find(
             (evaluation) => evaluation.surface.trim().toUpperCase() === surface.trim().toUpperCase()
           );
-    
+
           if (surfaceEvaluation) {
             // Cargar la movilidad (M. D.)
             const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
             if (mdRow) {
               mdRow.values[columnIndex] = toothEvaluation.mobility || null;
             }
-  
+
             // Definir el orden de las posiciones (MESIAL, CENTRAL, DISTAL)
             const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
-  
+
             // Cargar P. B. y N. I.
             const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
             const niRow = table.rows.find((row) => row.symbol === 'N. I.');
-  
+
             positions.forEach((position, positionIndex) => {
               const measurement = surfaceEvaluation.surfaceMeasurements.find(
                 (m) => m.toothPosition.trim().toUpperCase() === position.trim().toUpperCase()
               );
-  
+
               if (pbRow) {
                 pbRow.values[columnIndex * 3 + positionIndex] = measurement?.pocketDepth || null;
               }
@@ -222,17 +187,17 @@ export class HistoryInitialBagComponent implements OnInit {
                 niRow.values[columnIndex * 3 + positionIndex] = measurement?.lesionLevel || null;
               }
             });
-  
+
             // Cargar SANGRA, PLACA, CALCULO
             const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
             const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
             const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
-  
+
             positions.forEach((position, positionIndex) => {
               const measurement = surfaceEvaluation.surfaceMeasurements.find(
                 (m) => m.toothPosition.trim().toUpperCase() === position.trim().toUpperCase()
               );
-  
+
               if (sangraRow) {
                 sangraRow.values[columnIndex * 3 + positionIndex] = measurement?.bleeding || false;
               }
@@ -243,20 +208,20 @@ export class HistoryInitialBagComponent implements OnInit {
                 calculoRow.values[columnIndex * 3 + positionIndex] = measurement?.calculus || false;
               }
             });
-          } else {  
+          } else {
             // Inicializar valores con null o un valor predeterminado
             const mdRow = table.rows.find((row) => row.symbol === 'M. D.');
             if (mdRow) {
               mdRow.values[columnIndex] = null;
             }
-  
+
             const pbRow = table.rows.find((row) => row.symbol === 'P. B.');
             const niRow = table.rows.find((row) => row.symbol === 'N. I.');
-  
+
             const sangraRow = table.rows.find((row) => row.symbol === 'SANGRA');
             const placaRow = table.rows.find((row) => row.symbol === 'PLACA');
             const calculoRow = table.rows.find((row) => row.symbol === 'CALCULO');
-  
+
             const positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
             positions.forEach((position, positionIndex) => {
               if (pbRow) {
@@ -276,7 +241,7 @@ export class HistoryInitialBagComponent implements OnInit {
               }
             });
           }
-        } 
+        }
       });
     });
   }
@@ -298,8 +263,8 @@ export class HistoryInitialBagComponent implements OnInit {
       const inputValue = inputElement.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
 
       // Limitar el valor a un solo dígito (1-15)
-      if (inputValue.length > 2) {
-        inputElement.value = inputValue.substring(0, 2);
+      if (inputValue.length > 1) {
+        inputElement.value = inputValue.substring(0, 1);
         return;
       }
 
@@ -436,12 +401,15 @@ export class HistoryInitialBagComponent implements OnInit {
 
     const data = {
       patientId: this.patientId,
-      plaqueIndex: 0,
-      bleedingIndex: 0,
+      plaqueIndex: this.plaqueIndex,
+      bleedingIndex: this.bleedingIndex,
       notes: this.notes,
       toothEvaluations,
-      formSection: "GENERAL_CLINICAL_HISTORY"
+      formSection: "GENERAL_CLINICAL_HISTORY",
+      idQuestion: this.idQuestion,
+      idPatientClinicalHistory: this.idClinicalHistoryPatient
     };
+
     return data;
   }
 

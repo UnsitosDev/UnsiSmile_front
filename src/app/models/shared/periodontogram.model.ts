@@ -43,7 +43,7 @@ export interface ToothEvaluation {
 
 export interface PatientEvaluation {
   id?: number; 
-  //idQuestion?: number;
+  idQuestion?: number;
   patientId: string;
   plaqueIndex: number;
   bleedingIndex: number;
