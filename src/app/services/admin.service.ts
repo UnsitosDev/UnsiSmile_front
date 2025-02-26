@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
-import {  curpValidator, phoneNumberValidator } from '../utils/validators';
+import { curpValidator, phoneNumberValidator, employeeNumberValidator } from '../utils/validators';
 import { PatientService } from './patient/patient.service';
 import { FieldNames } from '../models/form-fields/form-utils';
 
@@ -26,7 +26,7 @@ export class adminService {
             type: 'input',
             label: 'Segundo Nombre',
             name: 'secondName',
-            required: true,
+            required: false,
             errorMessages: {
                 required: 'El campo Segundo Nombre es requerido.'
             }
@@ -56,9 +56,9 @@ export class adminService {
             label: 'Numero de trabajador',
             name: 'employeeNumber',
             required: true,
-            validators: [Validators.required],
+            validators: [Validators.required, employeeNumberValidator()],
             errorMessages: {
-                required: 'El campo Numero de trabajador es requerido.'
+                required: 'El campo Numero de trabajador es requerido.',
             },
            
         },
@@ -78,8 +78,9 @@ export class adminService {
             label: 'Teléfono',
             name: 'phone',
             required: false,
-            validators: [phoneNumberValidator()],
+            validators: [Validators.required, phoneNumberValidator()],
             errorMessages: {
+                required: 'El campo Telefono es requerido.',
                 lastError: 'Por favor, introduce un número de teléfono válido.'
             }
         },

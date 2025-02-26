@@ -1,0 +1,38 @@
+.mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: white;
+}
+
+.custom {
+    text-align: center;
+    background-color: var(--on-primary);
+    color: var(--on-secondary);
+    padding-top: 20px; 
+    padding-bottom: 20px; 
+    margin-top: 10px; 
+    margin-bottom: 10px; 
+}
+
+.all-files {
+    margin-bottom: 50px;
+    background-color: var(--on-primary);
+}
+
+.custom-card {
+    background-color: var(--on-primary);
+}
+
+.custom-button {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.custom-input {
+    margin-top: 50px !important;
+}
+
+.file-item:hover {
+    cursor: pointer; 
+}

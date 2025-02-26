@@ -1,4 +1,4 @@
-import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUserGraduate, faUserShield} from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUserGraduate, faUserShield, faFileArchive} from '@fortawesome/free-solid-svg-icons';
 
 
     export interface MenuItem {
@@ -8,6 +8,8 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUse
       routerlink: string;
     }
   
+    
+
     export const StudentItems: MenuItem[] = [
       {
         fontAwesomeIcon: faHome,
@@ -20,6 +22,12 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUse
         buttonText: 'Pacientes',
         buttonDescription: 'Ver pacientes',
         routerlink: '/students/patients'
+      },
+      {
+        fontAwesomeIcon: faFileArchive,
+        buttonText: 'Formatos',
+        buttonDescription: 'Descargar formatos',
+        routerlink: '/students/dowload-formats'
       },
       {
         fontAwesomeIcon: faFileUpload,
@@ -65,7 +73,13 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUse
         buttonText: 'Cargar Pacientes',
         buttonDescription: 'Subir Excel de Pacientes.',
         routerlink: '/admin/upload-patients'
-      }
+      },
+      {
+        fontAwesomeIcon: faFileUpload,
+        buttonText: 'Cargar Formatos',
+        buttonDescription: 'Subir Formatos',
+        routerlink: '/admin/upload-files'
+      },
     ];
 
     export const TeacherItems: MenuItem[] = [

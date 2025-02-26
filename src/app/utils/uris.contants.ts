@@ -275,4 +275,15 @@ export class UriConstants {
   public static readonly GET_ODONTOGRAM_BY_FORM_ID = basePath + '/medical-histories/odontograms'
 
   public static readonly REFRESH_TOKEN_ENDPOINT = basePath + '/auth/refresh';
+
+  // Post periodontograma
+  public static readonly POST_PERIODONTOGRAM_HC = basePath + '/medical-records/periodontograms'
+  // obtener periodontograma
+  public static readonly GET_PERIODONTOGRAM_ID = basePath +  '/medical-records/periodontograms/patient'
+  // Actualizar periodontograma
+  public static readonly PUT_PERIODONTOGRAM = basePath + '/medical-records/periodontograms'
+  // Carga archivos generales
+  public static readonly POST_GENERAL_FILES = basePath + '/files/general'
+  // Obtener formatos generales
+  public static readonly GET_FORMATS = basePath + '/form-sections'
 }
