@@ -77,8 +77,8 @@ export class AdminFilesSectionComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          this.getAllFormats(); 
           this.toastr.success(Messages.SUCCESS_FORMATS);
-          this.router.navigate(['/admin/upload-files']);
         },
         error: (error) => {
           this.toastr.error(error);
