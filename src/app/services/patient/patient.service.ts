@@ -110,12 +110,6 @@ export class PatientService {
     }
 
     getStreetDataPaginated(searchTerm: string, page: number, size: number, neighborhoodId?: string): Observable<FormFieldOption[]> {
-        console.log('getStreetDataPaginated called with:', {
-            searchTerm,
-            page,
-            size,
-            neighborhoodId
-        });
 
         if (!neighborhoodId) {
             console.log('No neighborhoodId provided to getStreetDataPaginated');
@@ -123,7 +117,6 @@ export class PatientService {
         }
 
         const url = `${UriConstants.GET_STREETS_NEIGHBORHOOD}${neighborhoodId}?page=0&size=1000`;
-        console.log('Making request to URL:', url);
 
         return this.apiService.getService({
             headers: new HttpHeaders({
@@ -133,23 +126,19 @@ export class PatientService {
             data: {},
         }).pipe(
             map((response) => {
-                console.log('Raw street response:', response);
                 let filteredContent = response.content;
                 
                 if (searchTerm && searchTerm.trim() !== '') {
                     const searchTermLower = searchTerm.toLowerCase().trim();
-                    console.log('Filtering streets by search term:', searchTermLower);
                     filteredContent = response.content.filter((item: streetRequest) => 
                         item.name.toLowerCase().includes(searchTermLower)
                     );
-                    console.log('Filtered streets:', filteredContent);
                 }
                 
                 this.streetsOptions = filteredContent.map((item: streetRequest) => ({
                     value: item.idStreet?.toString() || '',
                     label: item.name
                 }));
-                console.log('Final street options:', this.streetsOptions);
                 return this.streetsOptions;
             }),
             catchError(error => {
@@ -253,12 +242,6 @@ getLocalityData(searchTerm: string) {
 }
 
 getLocalityDataPaginated(searchTerm: string, page: number, size: number, municipalityId?: string): Observable<localityOptions[]> {
-    console.log('getLocalityDataPaginated called with:', {
-        searchTerm,
-        page,
-        size,
-        municipalityId
-    });
 
     if (!municipalityId) {
         console.log('No municipalityId provided to getLocalityDataPaginated');
@@ -266,7 +249,6 @@ getLocalityDataPaginated(searchTerm: string, page: number, size: number, municip
     }
 
     const url = `${UriConstants.GET_LOCALITIES_MUNICIPALITY}${municipalityId}?page=0&size=1000`;
-    console.log('Making request to URL:', url);
     
     return this.apiService.getService({
         headers: new HttpHeaders({
@@ -276,23 +258,19 @@ getLocalityDataPaginated(searchTerm: string, page: number, size: number, municip
         data: {},
     }).pipe(
         map((response) => {
-            console.log('Raw locality response:', response);
             let filteredContent = response.content;
             
             if (searchTerm && searchTerm.trim() !== '') {
                 const searchTermLower = searchTerm.toLowerCase().trim();
-                console.log('Filtering localities by search term:', searchTermLower);
                 filteredContent = response.content.filter((item: localityRequest) => 
                     item.name.toLowerCase().includes(searchTermLower)
                 );
-                console.log('Filtered localities:', filteredContent);
             }
             
             this.localityOptions = filteredContent.map((item: localityRequest) => ({
                 value: item.idLocality?.toString() || '',
                 label: item.name
             }));
-            console.log('Final locality options:', this.localityOptions);
             return this.localityOptions;
         }),
         catchError(error => {
