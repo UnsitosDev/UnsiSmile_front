@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 @Component({
   selector: 'app-formats',
@@ -25,7 +26,7 @@ export class FormatsComponent implements OnInit {
   ngOnInit(): void {
       this.getAllFormats();
   }
-  
+
   getAllFormats() {
     this.apiService
       .getService({
@@ -38,7 +39,7 @@ export class FormatsComponent implements OnInit {
           this.formats = response
         },
         error: (error) => {
-          this.toastr.error('Aun no hay archivos');
+          this.toastr.error(Messages.NO_FILES_YET);
         },
       });
   }
