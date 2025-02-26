@@ -5,24 +5,34 @@
     color: white;
 }
 
-.custom{
+.custom {
     text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    background-color: var(--on-primary);
+    color: var(--on-secondary);
+    padding-top: 20px; // Espacio arriba
+    padding-bottom: 20px; // Espacio abajo
+    margin-top: 10px; // Espacio arriba fuera del contenedor
+    margin-bottom: 10px; // Espacio abajo fuera del contenedor
 }
 
-.custom-file-section{
-    text-align: center;
-    margin-top: 30px;
+.all-files {
     margin-bottom: 50px;
+    background-color: var(--on-primary);
 }
 
-.all-files{
-    margin-bottom: 50px;   
+.custom-card {
+    background-color: var(--on-primary);
 }
 
-.button-container{
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 50px;
+.custom-button {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.custom-input {
+    margin-top: 50px !important;
+}
+
+.file-item:hover {
+    cursor: pointer; 
 }
