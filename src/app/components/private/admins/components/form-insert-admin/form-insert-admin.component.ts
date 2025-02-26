@@ -75,52 +75,49 @@ export class FormInsertAdminComponent {
   onSubmit() {
     if (this.formGroup.valid) {
       const formValues = this.formGroup.value;
-  
+      
+      // Crear un objeto con la estructura correcta para el backend
       const AdminData = {
-        employeeNumber: formValues.employeeNumber,  // Matrícula del estudiante
+        employeeNumber: formValues.employeeNumber,
         person: {
           curp: formValues.curp,
           firstName: formValues.firstName,
-          secondName: formValues.secondName,
+          secondName: formValues.secondName || '', // Hacemos el segundo nombre opcional
           firstLastName: formValues.firstLastName,
           secondLastName: formValues.secondLastName,
-          phone: formValues.phone,
+          phone: formValues.phone || '', // Hacemos el teléfono opcional
           birthDate: formValues.birthDate,
           email: formValues.email,
           gender: {
-            idGender: +formValues.gender,
-            gender: ''  // Se podría rellenar con el valor correspondiente más adelante
+            idGender: formValues.gender
           }
         },
       };
-  
-      // Imprimir en consola los datos que se enviarán
-      console.log('Datos enviados:', AdminData);
-  
+
+      console.log('Datos a enviar:', AdminData);
+
       this.apiService
         .postService({
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
           }),
-          url: `${UriConstants.POST_ADMIN}`,  // Define la URL para el endpoint de estudiantes
+          url: `${UriConstants.POST_ADMIN}`,
           data: AdminData,
         })
         .subscribe({
           next: (response) => {
-            this.router.navigate(['/admin/admins']);  // Redirige después de un éxito
             this.toastr.success(Messages.SUCCES_INSERT_ADMIN, 'Éxito');
-            
+            this.router.navigate(['/admin/admins']);
           },
           error: (error) => {
-            this.toastr.error(error, 'Error');
+            console.error('Error al guardar:', error);
+            this.toastr.error(error.error?.message || 'Error al guardar el administrador', 'Error');
           },
         });
-  
     } else {
       this.toastr.warning(Messages.WARNING_INSERT_ADMIN, 'Advertencia');
     }
   }
-  
   
   public alertConfiguration(severity: 'ERROR' | 'SUCCESS', msg: string) {
     this.alertConfig.severity = AlertModel.AlertSeverity[severity];
