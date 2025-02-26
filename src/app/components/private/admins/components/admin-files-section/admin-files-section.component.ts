@@ -43,7 +43,7 @@ export class AdminFilesSectionComponent implements OnInit {
           this.formats = response
         },
         error: (error) => {
-          this.toastr.error('Aun no hay archivos');
+          this.toastr.warning(Messages.NO_FILES_YET);
         },
       });
   }

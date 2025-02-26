@@ -41,6 +41,6 @@ export class Messages {
 
     // Mensajes para subir consentimientos informados
     public static readonly WARNING_NO_FILE_SELECTED_FORMATS = 'Selecciona algun archivo'
-    public static readonly SUCCESS_FORMATS = 'Formatos guardados.'
-
+    public static readonly SUCCESS_FORMATS = 'Formatos guardados.' 
+    public static readonly NO_FILES_YET = 'Aún no hay archivos disponibles.';
 }
