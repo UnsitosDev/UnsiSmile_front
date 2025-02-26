@@ -394,6 +394,13 @@ export class FormFieldsService {
 
 
     public handleNeighborhoodClick(searchTerm: string, page: number = 0, size: number = 3, localityId?: string): void {
+        const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
+    
+        // Permitir entrada manual
+        if (neighborhoodField && searchTerm) {
+            neighborhoodField.value = searchTerm;
+        }
+    
         const effectiveLocalityId = localityId || this.selectedLocalitId;
     
         if (!effectiveLocalityId) {
@@ -404,7 +411,6 @@ export class FormFieldsService {
     
         this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, effectiveLocalityId).subscribe({
             next: (response) => {
-                const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
                 if (neighborhoodField) {
                     neighborhoodField.options = searchTerm ? response : this.limitOptions(response);
     
@@ -443,6 +449,13 @@ export class FormFieldsService {
     }
     
     public handleLocalityClick(searchTerm: string, page: number = 0, size: number = 3, municipalityId?: string): void {
+        const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
+    
+        // Permitir entrada manual
+        if (localityField && searchTerm) {
+            localityField.value = searchTerm;
+        }
+    
         const effectiveMunicipalityId = municipalityId || this.selectedMunicipalityId;
     
         if (!effectiveMunicipalityId) {
@@ -454,7 +467,6 @@ export class FormFieldsService {
     
         this.patientService.getLocalityDataPaginated(searchTerm, page, size, effectiveMunicipalityId).subscribe({
             next: (response) => {
-                const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
                 if (localityField) {
                     localityField.options = searchTerm ? response : this.limitOptions(response);
     
@@ -495,6 +507,13 @@ export class FormFieldsService {
     }
 
     public handleMunicipalityClick(searchTerm: string, page: number = 0, size: number = 3, stateId?: string): void {
+        const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
+    
+        // Permitir entrada manual
+        if (municipalityField && searchTerm) {
+            municipalityField.value = searchTerm;
+        }
+    
         const effectiveStateId = stateId || this.selectedStateId;
     
         if (!effectiveStateId) {
@@ -506,7 +525,6 @@ export class FormFieldsService {
     
         this.patientService.getMunicipalityDataPaginated(searchTerm, page, size, effectiveStateId).subscribe({
             next: (response) => {
-                const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
                 if (municipalityField) {
                     municipalityField.options = searchTerm ? response : this.limitOptions(response);
     
@@ -548,9 +566,15 @@ export class FormFieldsService {
     }
 
     public handleStateClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
+    
+        // Si hay texto, actualizarlo directamente en el campo
+        if (stateField && searchTerm) {
+            stateField.value = searchTerm;
+        }
+    
         this.patientService.getStateDataPaginated(searchTerm, page, size).subscribe({
             next: (response) => {
-                const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
                 if (stateField) {
                     stateField.options = searchTerm ? response : this.limitOptions(response);
                     
@@ -619,6 +643,13 @@ export class FormFieldsService {
     }
 
     public handleStreetClick(searchTerm: string, page: number = 0, size: number = 3, neighborhoodId?: string): void {
+        const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
+    
+        // Permitir entrada manual
+        if (streetField && searchTerm) {
+            streetField.value = searchTerm;
+        }
+    
         const effectiveNeighborhoodId = neighborhoodId || this.selectedNeighborhoodId;
     
         if (!effectiveNeighborhoodId) {
@@ -628,7 +659,6 @@ export class FormFieldsService {
     
         this.patientService.getStreetDataPaginated(searchTerm, page, size, effectiveNeighborhoodId).subscribe({
             next: (response) => {
-                const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
                 if (streetField) {
                     streetField.options = searchTerm ? response : this.limitOptions(response);
                 }

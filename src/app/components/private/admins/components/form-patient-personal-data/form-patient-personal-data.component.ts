@@ -196,93 +196,95 @@ export class FormPatientPersonalDataComponent {
     const formValues = this.formGroup.value;
 
     if (this.formGroup.valid) {
-      const patientData = {
-        isMinor: this.minorPatient,
-        hasDisability: true,
-        nationalityId: +formValues.nationality,
-        person: {
-          curp: formValues.curp,
-          firstName: formValues.firstName,
-          secondName: formValues.secondName,
-          firstLastName: formValues.firstLastName,
-          secondLastName: formValues.secondLastName,
-          phone: formValues.phone,
-          birthDate: formValues.birthDate,
-          email: formValues.email,
-          gender: {
-            idGender: +formValues.gender,
-            gender: ""
-          }
-        },
-        address: {
-          idAddress: 0,
-          streetNumber: formValues.exteriorNumber,
-          interiorNumber: formValues.interiorNumber,
-          housing: {
-            idHousing: +formValues.housingCategory,
-            category: ""
-          },
-          street: {
-            idStreet: +formValues.streetName,
-            name: '',
-            neighborhood: {
-              idNeighborhood: +formValues.neighborhoodName,
-              name: '',
-              locality: {
-                idLocality: +this.localityId,
-                name: "",
-                postalCode: formValues.postalCode,
-                municipality: {
-                  idMunicipality: +this.municipalityNameId,
-                  name: "",
-                  state: {
-                    idState: +this.stateNameId,
-                    name: ""
-                  }
+        // Crear un objeto para la dirección con valores por defecto
+        const addressData = {
+            idAddress: 0,
+            streetNumber: formValues.exteriorNumber || '',
+            interiorNumber: formValues.interiorNumber || '',
+            housing: {
+                idHousing: formValues.housingCategory ? +formValues.housingCategory : 0,
+                category: ""
+            },
+            street: {
+                idStreet: 0,  // Valor por defecto
+                name: formValues.streetName || '',  // Usar el valor ingresado manualmente
+                neighborhood: {
+                    idNeighborhood: 0,  // Valor por defecto
+                    name: formValues.neighborhoodName || '',  // Usar el valor ingresado manualmente
+                    locality: {
+                        idLocality: this.localityId ? +this.localityId : 0,
+                        name: formValues.localityName || "",
+                        postalCode: formValues.postalCode || "",
+                        municipality: {
+                            idMunicipality: this.municipalityNameId ? +this.municipalityNameId : 0,
+                            name: formValues.municipalityName || "",
+                            state: {
+                                idState: this.stateNameId ? +this.stateNameId : 0,
+                                name: formValues.stateName || ""
+                            }
+                        }
+                    }
                 }
-              }
             }
-          }
-        },
-        maritalStatusId: +formValues.maritalStatus,
-        occupationId: +formValues.occupation,
-        ethnicGroupId: +formValues.ethnicGroup,
-        religionId: +formValues.religion,
-        guardian: this.minorPatient ? {
-          idGuardian: 0,
-          firstName: formValues.firstGuardianName,
-          lastName: formValues.lastGuardianName,
-          phone: formValues.phoneGuardian,
-          email: formValues.emailGuardian
-        } : null
-      };
+        };
 
+        // Crear el objeto principal con los datos del paciente
+        const patientData = {
+            isMinor: this.minorPatient,
+            hasDisability: true,
+            nationalityId: formValues.nationality ? +formValues.nationality : 0,
+            person: {
+                curp: formValues.curp || '',
+                firstName: formValues.firstName || '',
+                secondName: formValues.secondName || '',
+                firstLastName: formValues.firstLastName || '',
+                secondLastName: formValues.secondLastName || '',
+                phone: formValues.phone || '',
+                birthDate: formValues.birthDate || null,
+                email: formValues.email || '',
+                gender: {
+                    idGender: formValues.gender ? +formValues.gender : 0,
+                    gender: ""
+                }
+            },
+            address: addressData,
+            maritalStatusId: formValues.maritalStatus ? +formValues.maritalStatus : 0,
+            occupationId: formValues.occupation ? +formValues.occupation : 0,
+            ethnicGroupId: formValues.ethnicGroup ? +formValues.ethnicGroup : 0,
+            religionId: formValues.religion ? +formValues.religion : 0,
+            guardian: this.minorPatient ? {
+                idGuardian: 0,
+                firstName: formValues.firstGuardianName || '',
+                lastName: formValues.lastGuardianName || '',
+                phone: formValues.phoneGuardian || '',
+                email: formValues.emailGuardian || ''
+            } : null
+        };
 
-      this.apiService
-        .postService({
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-          }),
-          url: `${UriConstants.POST_PATIENT}`,
-          data: patientData,
-        })
-        .subscribe({
-          next: (response) => {
-            this.isNavigationPrevented = false;
-            this.navigationComplete = true;
-            this.router.navigate(['/admin/patients']);
-            this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
-          },
-          error: (error) => {
-            this.toastr.error(error, 'Error');
-          },
-        });
+        // Hacer la petición al backend
+        this.apiService
+            .postService({
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                }),
+                url: `${UriConstants.POST_PATIENT}`,
+                data: patientData,
+            })
+            .subscribe({
+                next: (response) => {
+                    this.isNavigationPrevented = false;
+                    this.navigationComplete = true;
+                    this.router.navigate(['/admin/patients']);
+                    this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
+                },
+                error: (error) => {
+                    this.toastr.error('Error al guardar el paciente: ' + (error.error?.message || 'Error desconocido'), 'Error');
+                },
+            });
     } else {
-      this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
+        this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
-  }
-
-
+}
 
   onScroll(event: any): void {
     const element = event.target;
