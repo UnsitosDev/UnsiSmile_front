@@ -93,6 +93,13 @@ export default [
                 ),
             },
             {
+                path: 'dowload-formats', 
+                loadComponent: () => 
+                    import('./components/formats/formats.component').then(
+                    (m) => m.FormatsComponent
+                ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

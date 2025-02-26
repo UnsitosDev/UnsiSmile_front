@@ -193,7 +193,7 @@ getNeighborhoodDataPaginated(searchTerm: string, page: number, size: number, loc
     }
 
     const url = `${UriConstants.GET_NEIGHBORHOODS_LOCALITY}${localityId}?page=0&size=1000`;
-
+    
     return this.apiService.getService({
         headers: new HttpHeaders({
             'Content-Type': 'application/json',

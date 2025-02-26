@@ -1,36 +1,117 @@
-th, td, tr{
-    text-align: center;
+/* Estilos para el contenedor de la tarjeta (mat-card) */
+.table-card {
+  max-width: 100%;
+  background-color: var(--on-primary);
 }
 
+/* Estilos para la tabla */
+.odontogram-table {
+  width: 100%;
+}
 
+/* Estilos para las celdas de la tabla */
+.odontogram-table th,
+.odontogram-table td {
+  border: 1px solid var(--input-icon-color);
+  padding: 4px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Estilos para las cabeceras de la tabla */
+.odontogram-table th {
+  background-color: var(--on-primary);
+  font-weight: bold;
+}
+
+/* Estilos para los inputs de texto */
+.odontogram-table input[type="text"] {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  font-size: 12px;
+  margin: 0;
+  border: 1px solid var(--input-icon-color);
+  background-color: var(--on-primary);
+  color: var(--on-background);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Estilos para los inputs de texto cuando están enfocados */
+.odontogram-table input[type="text"]:focus {
+  outline: none;
+  background-color: var(--on-primary);
+}
+
+/* Estilos para la sección de checkboxes */
+.example-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0 !important;
+  margin-right: -10px !important;
+  margin-left: -10px !important;
+}
+
+/* Estilos para los checkboxes (Opción 1: Usar transform: scale) */
+.example-section mat-checkbox {
+  transform: scale(0.7);
+  margin-left: -10px !important;
+  margin-right: -10px !important;
+}
+
+/* Estilos para el textarea de observaciones */
+.custom-textarea {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.custom-textarea mat-form-field {
+  width: 96%;
+}
+
+.custom-textarea textarea {
+  resize: vertical;
+}
+
+/* Estilos para los botones de navegación */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.button-container button {
+  max-width: 200px;
+  flex: 0 0 auto;
+  margin: 0 5px;
+  font-size: 14px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.button-container button i {
+  font-size: 14px;
+}
+
+/* Estilos para los botones */
+button {
+  background-color: var(--tertiary);
+  color: var(--side-text) !important;
+}
 
 .mat-mdc-card-title {
-    background-color: #006e99; /* Cambia este color al que desees */
-    padding: 8px; /* Agrega un poco de padding si lo deseas */
-    border-radius: 2px; /* Opcional: agrega bordes redondeados */
-    color: white;
-    text-align: center;
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: var(--side-text);
+  margin: 10px 10px 0px 10px !important;
 }
 
-button{
-    background-color: #07437a !important;
-    color: white !important;
+textarea:focus {
+  outline: none;
+  box-shadow: none;
 }
-
-.button-container {
-    display: flex;
-    justify-content: space-between; /* Distribuye el espacio entre los botones */
-    margin-top: 20px; /* Espacio superior opcional */
-}
-  
-.button-container button {
-    max-width: 400px; /* Limita el ancho máximo de los botones */
-    flex: 0 0 auto; /* Evita que los botones crezcan para ocupar el espacio disponible */
-    margin: 0 5px; /* Espacio entre los botones */
-}
-
-.custom-table td, tr {
-    color: var(--on-secondary);
-    background-color: var(--secondary); // Color de fondo}
-  
-  }
