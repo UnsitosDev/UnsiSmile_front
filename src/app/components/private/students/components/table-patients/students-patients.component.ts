@@ -139,6 +139,7 @@ export class StudentsPatientsComponent implements OnInit {
           this.patientsList = response.content.map((patient: Patient) => {
             const person = patient.person;
             return {
+              patientID: patient.idPatient, 
               nombres: person.firstName,
               apellidos: `${person.firstLastName} ${person.secondLastName}`,
               correo: person.email,
