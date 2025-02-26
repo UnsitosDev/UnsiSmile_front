@@ -330,20 +330,11 @@ getMunicipalityData(searchTerm: string) {
 }
 
 getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, stateId?: string): Observable<municipalityOptions[]> {
-    console.log('getMunicipalityDataPaginated called with:', {
-        searchTerm,
-        page,
-        size,
-        stateId
-    });
-
     if (!stateId) {
-        console.log('No stateId provided to getMunicipalityDataPaginated');
         return of([]);
     }
 
     const url = `${UriConstants.GET_MUNICIPALITY_STATE}${stateId}?page=0&size=1000`;
-    console.log('Making request to URL:', url);
 
     return this.apiService.getService({
         headers: new HttpHeaders({
@@ -353,24 +344,19 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
         data: {},
     }).pipe(
         map((response) => {
-            console.log('Raw municipality response:', response);
             let filteredContent = response.content;
             
-            // Aplicar filtrado local basado en el término de búsqueda
             if (searchTerm && searchTerm.trim() !== '') {
                 const searchTermLower = searchTerm.toLowerCase().trim();
-                console.log('Filtering by search term:', searchTermLower);
                 filteredContent = response.content.filter((item: municipalityRequest) => 
                     item.name.toLowerCase().includes(searchTermLower)
                 );
-                console.log('Filtered content:', filteredContent);
             }
             
             this.municipalityOptions = filteredContent.map((item: municipalityRequest) => ({
                 value: item.idMunicipality?.toString() || '',
                 label: item.name
             }));
-            console.log('Final municipality options:', this.municipalityOptions);
             return this.municipalityOptions;
         }),
         catchError(error => {
