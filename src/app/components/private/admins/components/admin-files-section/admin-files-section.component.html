@@ -1,1 +1,29 @@
-<p>admin-files-section works!</p>
+<mat-card class="full-width-card">
+    <mat-card-title><strong>Subir Documentos: Consentimientos Informados y Notas de Evolución</strong></mat-card-title>
+    <div class="custom">
+        <p>Adjunta aquí los formatos, consentimientos informados, notas de evolución y otros formularios importantes</p>
+        <br>    
+    </div>
+    <div class="custom-file-section">
+        <input
+            type="file"
+            formControlName="fileStudent"
+            accept=".pdf"
+            (change)="onFileSelected($event)"
+            multiple
+            required
+        />
+    </div>
+    <div class="button-container">
+        <button mat-flat-button color="primary" (click)="sendFiles()">SUBIR ARCHIVOS <i class="fas fa-file-upload"></i></button>
+      </div>
+</mat-card>
+<br>
+
+@if (files) {
+    <mat-card>
+        <div class="all-files">
+            <mat-card-title><strong>Documentos</strong></mat-card-title>
+        </div>
+    </mat-card>
+}
