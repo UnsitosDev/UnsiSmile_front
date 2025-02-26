@@ -29,15 +29,16 @@ import { NavigationStart, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogConfirmLeaveComponent } from '../dialog-confirm-leave/dialog-confirm-leave.component';
+import { DialogConfirmLeaveComponent } from '../../../students/components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { MatCardModule } from '@angular/material/card';
 
 
 @Component({
   selector: 'app-form-patient-personal-data',
   standalone: true,
   imports: [MatButtonModule,
-    MatStepperModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule, MatGridListModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatSelectModule, AlertComponent, FieldComponentComponent],
+    MatStepperModule, FormsModule, ReactiveFormsModule,MatCardModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule, MatGridListModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatSelectModule, AlertComponent, FieldComponentComponent],
   templateUrl: './form-patient-personal-data.component.html',
   styleUrl: './form-patient-personal-data.component.scss',
   providers: [provideNativeDateAdapter()],

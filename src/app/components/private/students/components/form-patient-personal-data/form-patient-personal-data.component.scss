@@ -21,3 +21,10 @@
   ::ng-deep .mat-step-header[aria-disabled="true"] .mat-step-label {
     color: var(--mat-stepper-header-icon-background-color)
   }
+
+::ng-deep .mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: var(--side-text);  
+}
