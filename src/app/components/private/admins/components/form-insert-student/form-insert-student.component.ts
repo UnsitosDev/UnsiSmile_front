@@ -77,26 +77,34 @@ export class FormInsertStudentComponent {
   onSubmit() {
     if (this.formGroup.valid) {
       const formValues = this.formGroup.value;
-      console.log('Valores del formulario:', formValues); // Para debugging
-
+      
       const studentData = {
         enrollment: formValues.enrollment,
+        user: {
+          idUser: '', // Se generará automáticamente
+          username: formValues.email, // Usando el email como username
+          password: 'password123', // Password temporal o generado
+          role: {
+            idRole: 2, // ID del rol estudiante
+            role: 'ROLE_STUDENT'
+          }
+        },
         person: {
           curp: formValues.curp,
           firstName: formValues.firstName,
-          secondName: formValues.secondName,
+          secondName: formValues.secondName || '',
           firstLastName: formValues.firstLastName,
           secondLastName: formValues.secondLastName,
           phone: formValues.phone,
-          birthDate: formValues.birthDate,
+          birthDate: new Date(formValues.birthDate).toISOString().split('T')[0],
           email: formValues.email,
           gender: {
             idGender: +formValues.gender,
-            gender: ''  // Se podría rellenar con el valor correspondiente más adelante
+            gender: ''
           }
         },
         group: {
-          id: Number(formValues.group), // Aseguramos que se convierta a número
+          id: +formValues.group,
           groupName: '',
           semesterNumber: formValues.semester,
           career: {
@@ -106,26 +114,23 @@ export class FormInsertStudentComponent {
         }
       };
   
-      console.log('Datos a enviar:', studentData); // Para debugging
-  
       this.apiService
         .postService({
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
           }),
-          url: `${UriConstants.POST_STUDENTS}`,  // Define la URL para el endpoint de estudiantes
+          url: UriConstants.POST_STUDENTS,
           data: studentData,
         })
         .subscribe({
           next: (response) => {
-            this.router.navigate(['/admin/students']);  // Redirige después de un éxito
             this.toastr.success(Messages.SUCCES_INSERT_STUDENT, 'Éxito');
+            this.router.navigate(['/admin/students']);
           },
           error: (error) => {
-            this.toastr.error(error, 'Error');
+            this.toastr.error('Error al crear el estudiante: ' + error.message, 'Error');
           },
         });
-  
     } else {
       this.toastr.warning(Messages.WARNING_INSERT_STUDENT, 'Advertencia');
     }
