@@ -196,7 +196,6 @@ export class FormPatientPersonalDataComponent {
 
   onSubmit() {
     const formValues = this.formGroup.value;
-
     if (this.formGroup.valid) {
       const patientData = {
         isMinor: this.minorPatient,
@@ -225,21 +224,21 @@ export class FormPatientPersonalDataComponent {
             category: ""
           },
           street: {
-            idStreet: +formValues.streetName,
-            name: '',
+            idStreet: isNaN(+formValues.streetName) ? 0 : +formValues.streetName,
+            name: isNaN(+formValues.streetName) ? formValues.streetName : '',
             neighborhood: {
-              idNeighborhood: +formValues.neighborhoodName,
-              name: '',
+              idNeighborhood: isNaN(+formValues.neighborhoodName) ? 0 : +formValues.neighborhoodName,
+              name: isNaN(+formValues.neighborhoodName) ? formValues.neighborhoodName : '',
               locality: {
-                idLocality: +this.localityId,
-                name: "",
+                idLocality: isNaN(+this.localityId) || +this.localityId === 0 ? 0 : +this.localityId, 
+                name: isNaN(+this.localityId) || +this.localityId === 0 ? formValues.localityName : "", 
                 postalCode: formValues.postalCode,
                 municipality: {
-                  idMunicipality: +this.municipalityNameId,
-                  name: "",
+                  idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId, 
+                  name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "", 
                   state: {
-                    idState: +this.stateNameId,
-                    name: ""
+                    idState: isNaN(+this.stateNameId) ? 0 : +this.stateNameId,
+                    name: formValues.stateName
                   }
                 }
               }
@@ -263,9 +262,7 @@ export class FormPatientPersonalDataComponent {
           },
           doctorName: formValues.doctorName
         } : null
-      };
-
-
+      };  
       this.apiService
         .postService({
           headers: new HttpHeaders({
