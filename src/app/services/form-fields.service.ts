@@ -177,7 +177,8 @@ export class FormFieldsService {
             type: 'autocomplete',
             label: 'Nombre de colonia',
             name: 'neighborhoodName',
-            required: false,
+            required: true,
+            validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de colonia es requerido.'
             },
@@ -408,14 +409,24 @@ export class FormFieldsService {
     public handleNeighborhoodClick(searchTerm: string, page: number = 0, size: number = 3, localityId?: string): void {
         const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
     
-        // Permitir entrada manual
-        if (neighborhoodField && searchTerm) {
-            neighborhoodField.value = searchTerm;
+        console.log('handleNeighborhoodClick - Inicio:', {
+            searchTerm,
+            localityId,
+            selectedLocalitId: this.selectedLocalitId,
+            currentSelectedId: this.selectedNeighborhoodId,
+            currentValue: neighborhoodField?.value
+        });
+    
+        // Usar el ID de localidad proporcionado o el almacenado
+        const effectiveLocalityId = localityId || this.selectedLocalitId;
+        
+        // Si se proporciona un nuevo ID de localidad, almacenarlo
+        if (localityId) {
+            this.selectedLocalitId = localityId;
         }
     
-        const effectiveLocalityId = localityId || this.selectedLocalitId;
-    
         if (!effectiveLocalityId) {
+            console.log('No hay ID de localidad disponible');
             this.clearNeighborhoodOptions();
             this.clearStreetOptions();
             return;
@@ -424,19 +435,28 @@ export class FormFieldsService {
         this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, effectiveLocalityId).subscribe({
             next: (response) => {
                 if (neighborhoodField) {
-                    neighborhoodField.options = searchTerm ? response : this.limitOptions(response);
+                    console.log('Respuesta de colonias:', response);
+                    // Mostrar las opciones sin filtrar inicialmente
+                    neighborhoodField.options = response;
     
                     if (searchTerm && searchTerm.trim() !== '') {
-                        const exactMatch = response.find(option => 
+                        // Buscar coincidencia parcial (como en los otros campos)
+                        const match = response.find(option => 
                             option.label.toLowerCase().includes(searchTerm.toLowerCase().trim())
                         );
     
-                        if (exactMatch) {
-                            this.selectedNeighborhoodId = exactMatch.value;
-                            neighborhoodField.value = exactMatch.label;
-                            this.clearStreetOptions();
+                        if (match) {
+                            console.log('Colonia encontrada:', {
+                                label: match.label,
+                                value: match.value
+                            });
                             
+                            this.selectedNeighborhoodId = match.value;
+                            neighborhoodField.value = match.label;
+    
+                            // Cargar las calles solo cuando se selecciona una colonia
                             if (this.selectedNeighborhoodId) {
+                                console.log('Cargando calles para colonia:', this.selectedNeighborhoodId);
                                 this.handleStreetClick('', 0, 1000, this.selectedNeighborhoodId);
                             }
                         }
@@ -444,12 +464,12 @@ export class FormFieldsService {
                 }
             },
             error: (error) => {
-                // Mantener este error para debugging
-                console.error('Error fetching neighborhoods:', error);
+                console.error('Error al obtener colonias:', error);
             }
         });
     }
     
+
     private clearNeighborhoodOptions(): void {
         const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
         if (neighborhoodField) {
@@ -458,8 +478,11 @@ export class FormFieldsService {
                 neighborhoodField.value = '';
             }
         }
+        // Solo limpiar el ID de colonia, mantener el de localidad
+        this.selectedNeighborhoodId = undefined;
+        this.clearStreetOptions();
     }
-    
+
     public handleLocalityClick(searchTerm: string, page: number = 0, size: number = 3, municipalityId?: string): void {
         const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
     
@@ -656,29 +679,40 @@ export class FormFieldsService {
 
     public handleStreetClick(searchTerm: string, page: number = 0, size: number = 3, neighborhoodId?: string): void {
         const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
-    
-        // Permitir entrada manual
-        if (streetField && searchTerm) {
-            streetField.value = searchTerm;
-        }
+        
+        console.log('handleStreetClick - Estado actual:', {
+            searchTerm,
+            neighborhoodId,
+            selectedNeighborhoodId: this.selectedNeighborhoodId,
+            currentValue: streetField?.value,
+            neighborhoodValue: this.addressFields.find(f => f.name === FieldNames.NEIGHBORHOOD_NAME)?.value
+        });
     
         const effectiveNeighborhoodId = neighborhoodId || this.selectedNeighborhoodId;
-    
+        
         if (!effectiveNeighborhoodId) {
+            console.log('No hay ID de colonia disponible');
             this.clearStreetOptions();
             return;
         }
     
-        this.patientService.getStreetDataPaginated(searchTerm, page, size, effectiveNeighborhoodId).subscribe({
-            next: (response) => {
-                if (streetField) {
-                    streetField.options = searchTerm ? response : this.limitOptions(response);
+        if (streetField && searchTerm) {
+            streetField.value = searchTerm;
+        }
+    
+        this.patientService.getStreetDataPaginated(searchTerm, page, size, effectiveNeighborhoodId)
+            .subscribe({
+                next: (response) => {
+                    if (streetField) {
+                        console.log('Calles encontradas para colonia', effectiveNeighborhoodId, ':', response);
+                        streetField.options = response;
+                    }
+                },
+                error: (error) => {
+                    console.error('Error al obtener calles:', error);
+                    this.clearStreetOptions();
                 }
-            },
-            error: (error) => {
-                console.error('Error fetching streets:', error);
-            }
-        });
+            });
     }
     
     private clearStreetOptions(): void {

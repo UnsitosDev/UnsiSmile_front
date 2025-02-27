@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
-import {  curpValidator, phoneNumberValidator } from '../utils/validators';
+import { curpValidator, emailValidator, phoneNumberValidator, minimumAgeValidator } from '../utils/validators';
 import { PatientService } from './patient/patient.service';
 import { FieldNames } from '../models/form-fields/form-utils';
 
@@ -26,7 +26,7 @@ export class studentService {
             type: 'input',
             label: 'Segundo Nombre',
             name: 'secondName',
-            required: true,
+            required: false,
             errorMessages: {
                 required: 'El campo Segundo Nombre es requerido.'
             }
@@ -59,15 +59,14 @@ export class studentService {
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Matrícula es requerido.',
-                
+
             }
-           
+
         },
         {
             type: 'input',
             label: 'CURP',
             name: 'curp',
-            required: true,
             validators: [Validators.required, curpValidator()],
             errorMessages: {
                 required: 'El campo CURP es requerido.',
@@ -79,8 +78,9 @@ export class studentService {
             label: 'Teléfono',
             name: 'phone',
             required: false,
-            validators: [phoneNumberValidator()],
+            validators: [Validators.required, phoneNumberValidator()],
             errorMessages: {
+                required: 'El campo Telefono es requerido.',
                 lastError: 'Por favor, introduce un número de teléfono válido.'
             }
         },
@@ -88,21 +88,26 @@ export class studentService {
             type: 'datepicker',
             label: 'Fecha de Nacimiento',
             name: 'birthDate',
-            required: true,
-            validators: [Validators.required],
+            validators: [
+                Validators.required,
+                minimumAgeValidator(18)
+            ],
             errorMessages: {
-                required: 'El campo Fecha de Nacimiento es requerido.'
+                required: 'El campo Fecha de Nacimiento es requerido.',
+                underage: 'Debes ser mayor de 18 años'
             }
         },
         {
             type: 'input',
             label: 'Correo electrónico',
             name: 'email',
-            required: true,
-            validators: [Validators.required, Validators.email],
+            validators: [
+                Validators.required,
+                emailValidator()
+            ],
             errorMessages: {
                 required: 'El campo Correo electrónico es requerido.',
-                lastError: 'Por favor, introduce un correo electrónico válido.'
+                lastError: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
             }
         },
         {
@@ -116,14 +121,25 @@ export class studentService {
             },
             onClick: this.handleGenderClick.bind(this)
         },
+        {
+            type: 'select',
+            label: 'Grupo',
+            name: 'group',
+            required: false,
+            validators: [],
+            errorMessages: {
+                required: 'El campo Grupo es requerido.'
+            },
+            //onClick: this.handleGenderClick.bind(this)
+        },
     ];
 
 
     // Eventos
 
-    constructor(){
+    constructor() {
         this.handleGenderClick({} as MouseEvent);
-    
+
     }
 
     private handleGenderClick(event: MouseEvent): void {
@@ -132,9 +148,17 @@ export class studentService {
         genderField && (genderField.options = this.patientService.genderOptions);
     }
 
+    //futuro traer grupos
+
+    //private handleGroupClick(event: MouseEvent): void {
+     //   this.patientService.getGender();
+       // const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);
+        //genderField && (genderField.options = this.patientService.genderOptions);
+    //}
+
     // Formularios
     getPersonalDataFields(): FormField[] {
         return this.personalDataFields;
     }
-    
+
 }

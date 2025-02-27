@@ -164,8 +164,8 @@ export class FieldComponentComponent implements OnChanges {
         control.markAsTouched();
         control.updateValueAndValidity();
 
-        // Solo proceder si la fecha es válida
-        if (!control.errors?.['futureDate']) {
+        // Solo proceder si no hay errores de validación
+        if (!control.errors) {
           const formattedValue = this.datePipe.transform(value, 'yyyy-MM-dd');
           this.setFieldValue.emit({
             field: this.field.name,
@@ -178,11 +178,14 @@ export class FieldComponentComponent implements OnChanges {
           if (this.field.name === 'birthDate') {
             const today = new Date();
             const birthDate = new Date(value);
-            const age = today.getFullYear() - birthDate.getFullYear();
-            const isMinor = age < 18 || (age === 18 && 
-              today.getMonth() < birthDate.getMonth() || 
-              (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate()));
-            this.ageStatusChange.emit(isMinor);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+              age--;
+            }
+            
+            this.ageStatusChange.emit(age < 18);
           }
         }
       }

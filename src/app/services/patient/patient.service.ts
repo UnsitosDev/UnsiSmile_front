@@ -118,6 +118,7 @@ export class PatientService {
         }
 
         const url = `${UriConstants.GET_STREETS_NEIGHBORHOOD}${neighborhoodId}?page=0&size=1000`;
+        console.log('URL para buscar calles:', url);
 
         return this.apiService.getService({
             headers: new HttpHeaders({
@@ -127,6 +128,9 @@ export class PatientService {
             data: {},
         }).pipe(
             map((response) => {
+                console.log('Respuesta completa del servidor (calles):', response);
+                console.log('Contenido de calles:', response.content);
+                
                 let filteredContent = response.content;
                 
                 if (searchTerm && searchTerm.trim() !== '') {
@@ -134,12 +138,15 @@ export class PatientService {
                     filteredContent = response.content.filter((item: streetRequest) => 
                         item.name.toLowerCase().includes(searchTermLower)
                     );
+                    console.log('Calles filtradas por término de búsqueda:', filteredContent);
                 }
                 
                 this.streetsOptions = filteredContent.map((item: streetRequest) => ({
                     value: item.idStreet?.toString() || '',
                     label: item.name
                 }));
+                
+                console.log('Opciones de calles procesadas:', this.streetsOptions);
                 return this.streetsOptions;
             }),
             catchError(error => {

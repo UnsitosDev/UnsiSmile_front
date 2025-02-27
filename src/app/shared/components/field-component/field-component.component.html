@@ -112,6 +112,9 @@
           @if (formGroup.get(field.name)?.errors?.['futureDate'] && formGroup.get(field.name)?.touched) {
             <mat-error>{{ errors?.futureDate }}</mat-error>
           }
+          @if (formGroup.get(field.name)?.hasError('underage') && formGroup.get(field.name)?.touched) {
+            <mat-error>{{ errors?.underage }}</mat-error>
+          }
         </mat-form-field>           
     }
     @case ('inputEvent') {
