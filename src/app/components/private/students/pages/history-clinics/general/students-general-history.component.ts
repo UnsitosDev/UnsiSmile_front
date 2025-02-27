@@ -171,13 +171,17 @@ export class StudentsGeneralHistoryComponent implements OnInit {
             admissionDate: this.formatDate(admissionDate),
             curp: curp
           };
-          // Asignar datos del tutor solo si están disponibles
           if (this.patient.guardian) {
             this.guardianData = {
               firstName: this.patient.guardian.firstName,
               lastName: this.patient.guardian.lastName,
               email: this.patient.guardian.email,
-              phone: this.patient.guardian.phone
+              phone: this.patient.guardian.phone,
+              parentalStatus: this.patient.guardian.parentalStatus ? {
+                idCatalogOption: this.patient.guardian.parentalStatus.idCatalogOption,
+                optionName: this.patient.guardian.parentalStatus.optionName
+              } : { idCatalogOption: 0, optionName: '' }, 
+              doctorName: this.patient.guardian.doctorName || '' 
             };
           } else {
             this.guardianData = null;

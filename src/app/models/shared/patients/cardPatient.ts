@@ -13,5 +13,10 @@ export interface cardGuardian {
   firstName: string,
   lastName: string,
   phone: string,
-  email: string
+  email: string,
+  parentalStatus: {
+    idCatalogOption: number;
+    optionName: string;
+  };
+  doctorName: string;
 }

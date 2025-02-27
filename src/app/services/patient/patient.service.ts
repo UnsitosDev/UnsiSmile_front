@@ -18,6 +18,7 @@ import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { FormFieldOption } from 'src/app/models/form-fields/form-field.interface';
+import { parentsMaritalStatusResponse } from 'src/app/models/shared/patients/patient/patient';
 
 
 @Injectable({
@@ -562,6 +563,31 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
         );
     }
     
+    parentsMaritalStatus: PaginatedData<parentsMaritalStatusResponse>[] = [];
+    parentsMaritalStatusOptions: Array<{ value: string; label: string }> = [];
+    idCatalog = 12;
+    getParentsMaritalStatusData() {
+        this.apiService
+            .getService({
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                }),
+                url: `${UriConstants.GET_PARENTS_MARITAL_STATUS}/${this.idCatalog}`,    
+                data: {},
+            })
+            .subscribe({
+                next: (response) => {
+                    this.parentsMaritalStatusOptions = response.map((item: parentsMaritalStatusResponse) => ({
+                        value: item.idCatalogOption.toString(), 
+                        label: item.optionName,
+                    }));
+                },
+                error: (error) => {
+                    console.error(error);
+                },
+            });
+    }
+
     // Buscar por codigo postal
     locality: string = '';
     municipality: string = '';

@@ -358,6 +358,19 @@ export class FormFieldsService {
                 lastError: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
             }
         },
+        {
+            type: 'select',
+            label: 'Estado civil de los padres',
+            name: 'parentsMaritalStatus',
+            required: false,
+            onClick: this.handleParentsMaritalStatusClick.bind(this)
+        },
+        {
+            type: 'input',
+            label: 'Pediatra o Médico Familiar',
+            name: 'doctorName',
+            required: false,
+        },
     ];
 
 
@@ -366,11 +379,10 @@ export class FormFieldsService {
     constructor() {
         this.handleGenderClick({} as MouseEvent);
         this.handleHousingClick({} as MouseEvent);
-        //this.handleStretClick({} as MouseEvent);
-        //this.handleNeighborhoodClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
         this.handleOcupationClick({} as MouseEvent);
+        this.handleParentsMaritalStatusClick({} as MouseEvent);
     }
 
     private handleGenderClick(event: MouseEvent): void {
@@ -677,6 +689,12 @@ export class FormFieldsService {
                 streetField.value = '';
             }
         }
+    }
+    
+    private handleParentsMaritalStatusClick(event: MouseEvent): void {
+        this.patientService.getParentsMaritalStatusData();
+        const parentsMaritalStatusField = this.guardianFields.find(field => field.name === FieldNames.PARENTS_MARITAL_STATUS);
+        parentsMaritalStatusField && (parentsMaritalStatusField.options = this.patientService.parentsMaritalStatusOptions);
     }
     
     private limitOptions(options: any[], limit: number = 4): any[] {
