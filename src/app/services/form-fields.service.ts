@@ -358,6 +358,22 @@ export class FormFieldsService {
                 lastError: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
             }
         },
+        {
+            type: 'select',
+            label: 'Estado civil de los padres',
+            name: 'parentsMaritalStatus',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Estado civil es requerido.'
+            },
+            onClick: this.handleOcupationClick.bind(this)
+        },
+        {
+            type: 'input',
+            label: 'Pediatra o Médico Familiar',
+            name: 'doctorName',
+        },
     ];
 
 
