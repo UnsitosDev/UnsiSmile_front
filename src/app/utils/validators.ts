@@ -94,3 +94,23 @@ export function employeeNumberValidator(): ValidatorFn {
     return valid ? null : { lastError: { value: control.value } };
   };
 }
+
+export function minimumAgeValidator(minAge: number = 18): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (!control.value) {
+      return null;
+    }
+
+    const today = new Date();
+    const birthDate = new Date(control.value);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    // Si aún no ha llegado el mes de cumpleaños o si es el mes pero no ha llegado el día
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age >= minAge ? null : { underage: true };
+  };
+}
