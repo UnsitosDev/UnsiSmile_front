@@ -36,7 +36,11 @@ export class FormatsComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.filesData = response.questions[0].answer.files;
+          if (response.questions && response.questions.length > 0 && response.questions[0].answer) {
+            this.filesData = response.questions[0].answer.files || []; 
+          } else {
+            this.filesData = []; 
+          }
         },
         error: (error) => {
           this.toastr.warning(Messages.NO_FILES_YET);

@@ -6,9 +6,29 @@
 }
 
 .custom-card {
-    background-color: var(--on-primary); 
+    background-color: var(--on-primary);
 }
 
 .file-item:hover {
-    cursor: pointer; 
+    cursor: pointer;
+}
+
+.no-files-content {
+    background-color: var(--on-primary);
+    text-align: center;
+    padding: 20px;
+    color: var(--on-secondary);
+}
+
+.empty-icon {
+    margin-bottom: 15px;
+    color: var(--tertiary);
+}
+
+.no-files p {
+    margin: 8px 0;
+}
+
+.all-files {
+    background-color: var(--on-primary);
 }
