@@ -115,6 +115,20 @@ export class FormFieldsService {
 
     private addressFields: FormField[] = [
         {
+            type: 'inputEvent',
+            label: 'Código postal',
+            name: 'postalCode',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Código postal es requerido.'
+            },
+            onInputChange: {
+                changeFunction: this.handlePostalCodeClick.bind(this),
+                length: 5
+            }
+        },
+        {
             type: 'autocomplete',
             label: 'Nombre de estado',
             name: 'stateName',
@@ -126,20 +140,6 @@ export class FormFieldsService {
             },
             onInputChange: {
                 changeFunction: this.handleStateClick.bind(this),
-                length: 5
-            }
-        },
-        {
-            type: 'inputEvent',
-            label: 'Código postal',
-            name: 'postalCode',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Código postal es requerido.'
-            },
-            onInputChange: {
-                changeFunction: this.handlePostalCodeClick.bind(this),
                 length: 5
             }
         },
