@@ -362,17 +362,14 @@ export class FormFieldsService {
             type: 'select',
             label: 'Estado civil de los padres',
             name: 'parentsMaritalStatus',
-            required: true,
-            validators: [Validators.required],
-            errorMessages: {
-                required: 'El campo Estado civil de los padres es requerido.'
-            },
+            required: false,
             onClick: this.handleParentsMaritalStatusClick.bind(this)
         },
         {
             type: 'input',
             label: 'Pediatra o Médico Familiar',
             name: 'doctorName',
+            required: false,
         },
     ];
 

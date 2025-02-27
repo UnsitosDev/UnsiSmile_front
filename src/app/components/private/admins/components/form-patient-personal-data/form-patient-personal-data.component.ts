@@ -253,7 +253,13 @@ export class FormPatientPersonalDataComponent {
           firstName: formValues.firstGuardianName,
           lastName: formValues.lastGuardianName,
           phone: formValues.phoneGuardian,
-          email: formValues.emailGuardian
+          email: formValues.emailGuardian,
+          parentalStatus: {
+            idCatalogOption: +formValues.parentsMaritalStatus, 
+            optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label, 
+            idCatalog: 12,
+          },
+          doctorName: formValues.doctorName
         } : null
       };
 
