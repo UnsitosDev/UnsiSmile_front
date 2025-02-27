@@ -7,6 +7,7 @@ import { UriConstants } from '@mean/utils';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { ToastrService } from 'ngx-toastr';
 import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router';  // Agregar esta importación
 
 @Component({
   selector: 'app-form-user',
@@ -17,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class FormUserComponent implements OnInit {
   private userService = inject(ApiService<studentResponse, {}>);
+  private route = inject(Router);  
   tabs = ['Descripción General', 'Editar Datos', 'Cambiar Contraseña'];
   activeTab = signal(0);
   nombre = signal('');
@@ -32,7 +34,11 @@ export class FormUserComponent implements OnInit {
   mostrarNuevaContrasena = signal(false);
   mostrarConfirmarContrasena = signal(false);
   modoEdicion = signal(false);
-  welcomeMessage = signal(''); // Nueva propiedad para el mensaje de bienvenida
+  welcomeMessage = signal(''); 
+
+  constructor(
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.fetchUserData();
@@ -72,6 +78,7 @@ export class FormUserComponent implements OnInit {
           this.nuevaContrasena.set('');
           this.confirmarContrasena.set('');
           this.toastr.success('Contraseña actualizada exitosamente');
+          this.router.navigate(['/admin/dashboard']); 
         },
         error: (error) => {
         this.toastr.error(error,'Error');        }
@@ -98,9 +105,7 @@ export class FormUserComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.user = data;
-          this.setWelcomeMessage();
-          console.log('user data: ', data);
-        },
+          this.setWelcomeMessage();        },
         error: (error) => {
           console.error('Error fetching user data:', error);
         },

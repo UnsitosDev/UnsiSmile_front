@@ -29,7 +29,6 @@ export class DetailsAdminComponent implements OnInit {
   ngOnInit(): void {
     this.dataSharingService.adminData$.subscribe(adminData => {
       this.data = adminData;
-      console.log('adminData', adminData);
     });
   }
 
