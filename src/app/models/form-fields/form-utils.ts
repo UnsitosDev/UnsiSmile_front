@@ -42,4 +42,5 @@ export class FieldNames {
   static readonly OCCUPATION = 'occupation';
   static readonly ETHNIC_GROUP = 'ethnicGroup';
   static readonly RELIGION = 'religion';
+  static readonly PARENTS_MARITAL_STATUS = 'parentsMaritalStatus';
 }

@@ -365,9 +365,9 @@ export class FormFieldsService {
             required: true,
             validators: [Validators.required],
             errorMessages: {
-                required: 'El campo Estado civil es requerido.'
+                required: 'El campo Estado civil de los padres es requerido.'
             },
-            onClick: this.handleOcupationClick.bind(this)
+            onClick: this.handleParentsMaritalStatusClick.bind(this)
         },
         {
             type: 'input',
@@ -382,11 +382,10 @@ export class FormFieldsService {
     constructor() {
         this.handleGenderClick({} as MouseEvent);
         this.handleHousingClick({} as MouseEvent);
-        //this.handleStretClick({} as MouseEvent);
-        //this.handleNeighborhoodClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
         this.handleOcupationClick({} as MouseEvent);
+        this.handleParentsMaritalStatusClick({} as MouseEvent);
     }
 
     private handleGenderClick(event: MouseEvent): void {
@@ -603,6 +602,13 @@ export class FormFieldsService {
             }
         });
     }
+
+    private handleParentsMaritalStatusClick(event: MouseEvent): void {
+        this.patientService.getParentsMaritalStatusData();
+        const parentsMaritalStatusField = this.guardianFields.find(field => field.name === FieldNames.PARENTS_MARITAL_STATUS);
+        parentsMaritalStatusField && (parentsMaritalStatusField.options = this.patientService.parentsMaritalStatusOptions);
+    }
+
     // Formularios
     getPersonalDataFields(): FormField[] {
         return this.personalDataFields;

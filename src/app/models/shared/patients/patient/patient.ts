@@ -8,6 +8,7 @@ import { religionResponse } from "../Religion/religion"
 import { medicalHistoryResponse } from "../medicalHistory/medicalHistory"
 import { Pageable, Sort } from "../../paginatedResponse"
 import { personRequest, personResponse } from "src/app/models/models-students/person/person"
+import { MatExpansionPanelDescription } from "@angular/material/expansion"
 
 export interface patientRequest {
 
@@ -56,4 +57,9 @@ export interface PatientResponse {
   numberOfElements: number;
   first: boolean;
   empty: boolean;
+}
+
+export interface parentsMaritalStatusResponse {
+  "idCatalogOption": number,
+  "optionName": string
 }
