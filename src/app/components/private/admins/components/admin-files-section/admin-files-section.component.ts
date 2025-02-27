@@ -7,9 +7,9 @@ import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
-import { FormSection } from '@mean/models'; 
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { FileData } from '@mean/models';
 @Component({
   selector: 'app-admin-files-section',
   standalone: true,
@@ -21,8 +21,8 @@ export class AdminFilesSectionComponent implements OnInit {
   private toastr = inject(ToastrService);
   private apiService = inject(ApiService);
   private router = inject(Router);
-  private formSection = 56;
-  public formats!: FormSection;
+  private formSection = 55;
+  public filesData: FileData[] = [];
 
   files: File[] = [];
   showFiles = true;
@@ -40,7 +40,7 @@ export class AdminFilesSectionComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.formats = response
+          this.filesData = response.questions[0].answer.files;
         },
         error: (error) => {
           this.toastr.warning(Messages.NO_FILES_YET);
@@ -67,7 +67,7 @@ export class AdminFilesSectionComponent implements OnInit {
       formData.append('files', file);
     });
 
-    formData.append('idQuestion', '244');
+    formData.append('idQuestion', '243');
 
     this.apiService
       .postService({

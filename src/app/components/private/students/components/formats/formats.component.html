@@ -1,17 +1,17 @@
 
 <mat-card-title><strong>Formatos Legales y Consentimientos</strong></mat-card-title>
 
-@if (formats) {
-    <mat-card class="custom-card"> 
-      <div class="all-files">
-        <mat-list>
-          @for (file of formats.questions[0].answer.files; track file.idFile) {
-            <mat-list-item class="file-item">
-              <mat-icon matListItemIcon><i class="fas fa-file-alt"></i></mat-icon>
-              <div (click)="onFileClick(file)" matListItemTitle>{{ file.fileName }}</div>
-            </mat-list-item>
-          }
-        </mat-list>
-      </div>
-    </mat-card>
-  }
+@if (filesData && filesData.length > 0) {
+  <mat-card class="all-files">
+    <div class="all-files">
+      <mat-list>
+        @for (item of filesData; track $index) {
+          <mat-list-item class="file-item">
+            <mat-icon matListItemIcon><i class="fas fa-file-alt"></i></mat-icon>
+            <div (click)="onFileClick(item)" matListItemTitle>{{ item.fileName }}</div>
+          </mat-list-item>
+        }
+      </mat-list>
+    </div>
+  </mat-card>
+}
