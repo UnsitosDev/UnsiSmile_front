@@ -88,23 +88,61 @@ export class PatientService {
     // Calles
     streetsData: streetRequest[] = [];
     streetsOptions: Array<{ value: string; label: string }> = [];
-    getStreetDataPaginated(searchTerm: string, page: number, size: number): Observable<FormFieldOption[]> {
+    getStreetData(searchTerm: string): void {
+        this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.GET_STREETS}?keyword=${searchTerm}`,
+            data: {},
+        }).subscribe({
+            next: (response) => {
+                this.streetsData = response.content;
+                this.streetsOptions = response.content.map((item: streetRequest) => ({
+                    value: item.idStreet?.toString() || '',
+                    label: item.name
+                }));
+            },
+            error: (error) => {
+                console.error('Error al obtener calles:', error);
+            }
+        });
+    }
+
+    getStreetDataPaginated(searchTerm: string, page: number, size: number, neighborhoodId?: string): Observable<FormFieldOption[]> {
+
+        if (!neighborhoodId) {
+            console.log('No neighborhoodId provided to getStreetDataPaginated');
+            return of([]);
+        }
+
+        const url = `${UriConstants.GET_STREETS_NEIGHBORHOOD}${neighborhoodId}?page=0&size=1000`;
+
         return this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            url: `${UriConstants.GET_STREETS}?keyword=${searchTerm}&page=${page}&size=${size}`,
+            url: url,
             data: {},
         }).pipe(
             map((response) => {
-                this.streetsOptions = response.content.map((item: streetRequest) => ({
+                let filteredContent = response.content;
+                
+                if (searchTerm && searchTerm.trim() !== '') {
+                    const searchTermLower = searchTerm.toLowerCase().trim();
+                    filteredContent = response.content.filter((item: streetRequest) => 
+                        item.name.toLowerCase().includes(searchTermLower)
+                    );
+                }
+                
+                this.streetsOptions = filteredContent.map((item: streetRequest) => ({
                     value: item.idStreet?.toString() || '',
                     label: item.name
                 }));
                 return this.streetsOptions;
             }),
             catchError(error => {
-                console.error('Error al obtener calles:', error);
+                console.error('Error in getStreetDataPaginated:', error);
                 return of([]);
             })
         );
@@ -144,7 +182,7 @@ getNeighborhoodDataPaginated(searchTerm: string, page: number, size: number, loc
     }
 
     const url = `${UriConstants.GET_NEIGHBORHOODS_LOCALITY}${localityId}?page=0&size=1000`;
-
+    
     return this.apiService.getService({
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -204,7 +242,9 @@ getLocalityData(searchTerm: string) {
 }
 
 getLocalityDataPaginated(searchTerm: string, page: number, size: number, municipalityId?: string): Observable<localityOptions[]> {
+
     if (!municipalityId) {
+        console.log('No municipalityId provided to getLocalityDataPaginated');
         return of([]);
     }
 
@@ -221,7 +261,7 @@ getLocalityDataPaginated(searchTerm: string, page: number, size: number, municip
             let filteredContent = response.content;
             
             if (searchTerm && searchTerm.trim() !== '') {
-                const searchTermLower = searchTerm.toLowerCase();
+                const searchTermLower = searchTerm.toLowerCase().trim();
                 filteredContent = response.content.filter((item: localityRequest) => 
                     item.name.toLowerCase().includes(searchTermLower)
                 );
@@ -234,7 +274,7 @@ getLocalityDataPaginated(searchTerm: string, page: number, size: number, municip
             return this.localityOptions;
         }),
         catchError(error => {
-            console.error('Error en la petición de localidades:', error);
+            console.error('Error in getLocalityDataPaginated:', error);
             return of([]);
         })
     );
@@ -273,7 +313,7 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
     }
 
     const url = `${UriConstants.GET_MUNICIPALITY_STATE}${stateId}?page=0&size=1000`;
-    
+
     return this.apiService.getService({
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -285,7 +325,7 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             let filteredContent = response.content;
             
             if (searchTerm && searchTerm.trim() !== '') {
-                const searchTermLower = searchTerm.toLowerCase();
+                const searchTermLower = searchTerm.toLowerCase().trim();
                 filteredContent = response.content.filter((item: municipalityRequest) => 
                     item.name.toLowerCase().includes(searchTermLower)
                 );
@@ -298,7 +338,7 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             return this.municipalityOptions;
         }),
         catchError(error => {
-            console.error('Error en la petición de municipios:', error);
+            console.error('Error in getMunicipalityDataPaginated:', error);
             return of([]);
         })
     );
