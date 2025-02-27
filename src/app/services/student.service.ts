@@ -121,6 +121,17 @@ export class studentService {
             },
             onClick: this.handleGenderClick.bind(this)
         },
+        {
+            type: 'select',
+            label: 'Grupo',
+            name: 'group',
+            required: false,
+            validators: [],
+            errorMessages: {
+                required: 'El campo Grupo es requerido.'
+            },
+            //onClick: this.handleGenderClick.bind(this)
+        },
     ];
 
 
@@ -136,6 +147,14 @@ export class studentService {
         const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);
         genderField && (genderField.options = this.patientService.genderOptions);
     }
+
+    //futuro traer grupos
+
+    //private handleGroupClick(event: MouseEvent): void {
+     //   this.patientService.getGender();
+       // const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);
+        //genderField && (genderField.options = this.patientService.genderOptions);
+    //}
 
     // Formularios
     getPersonalDataFields(): FormField[] {
