@@ -222,6 +222,8 @@ export class UriConstants {
   public static readonly GET_HOUSING = basePath + '/housing';
   // street-controller
   public static readonly GET_STREETS = basePath + '/streets';
+  public static readonly GET_STREETS_NEIGHBORHOOD = basePath + '/streets/neighborhood/';
+
   // neighborhood-controller
   public static readonly GET_NEIGHBORHOODS = basePath + '/neighborhoods';
   public static readonly GET_NEIGHBORHOODS_LOCALITY =

@@ -406,27 +406,46 @@ export class FormFieldsService {
 
 
     public handleNeighborhoodClick(searchTerm: string, page: number = 0, size: number = 3, localityId?: string): void {
-        // Si no hay localityId, no hacer nada
-        if (!localityId) {
+        const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
+    
+        // Permitir entrada manual
+        if (neighborhoodField && searchTerm) {
+            neighborhoodField.value = searchTerm;
+        }
+    
+        const effectiveLocalityId = localityId || this.selectedLocalitId;
+    
+        if (!effectiveLocalityId) {
             this.clearNeighborhoodOptions();
+            this.clearStreetOptions();
             return;
         }
     
-        this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, localityId).subscribe(response => {
-            const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
-            if (neighborhoodField) {
-                neighborhoodField.options = response;
-                
-                // Limpiar el valor seleccionado si hay un término de búsqueda
-                if (searchTerm && searchTerm.trim() !== '') {
-                    const exactMatch = response.find(option => 
-                        option.label.toLowerCase() === searchTerm.toLowerCase()
-                    );
-                    
-                    if (exactMatch) {
-                        neighborhoodField.value = exactMatch.value;
+        this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, effectiveLocalityId).subscribe({
+            next: (response) => {
+                if (neighborhoodField) {
+                    neighborhoodField.options = searchTerm ? response : this.limitOptions(response);
+    
+                    if (searchTerm && searchTerm.trim() !== '') {
+                        const exactMatch = response.find(option => 
+                            option.label.toLowerCase().includes(searchTerm.toLowerCase().trim())
+                        );
+    
+                        if (exactMatch) {
+                            this.selectedNeighborhoodId = exactMatch.value;
+                            neighborhoodField.value = exactMatch.label;
+                            this.clearStreetOptions();
+                            
+                            if (this.selectedNeighborhoodId) {
+                                this.handleStreetClick('', 0, 1000, this.selectedNeighborhoodId);
+                            }
+                        }
                     }
                 }
+            },
+            error: (error) => {
+                // Mantener este error para debugging
+                console.error('Error fetching neighborhoods:', error);
             }
         });
     }
@@ -442,78 +461,48 @@ export class FormFieldsService {
     }
     
     public handleLocalityClick(searchTerm: string, page: number = 0, size: number = 3, municipalityId?: string): void {
-        // Limpiar la localidad seleccionada y las colonias si el término de búsqueda está vacío
-        if (!searchTerm || searchTerm.trim() === '') {
-            this.selectedLocalitId = undefined;
-            this.clearNeighborhoodOptions();
-            return;
+        const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
+    
+        // Permitir entrada manual
+        if (localityField && searchTerm) {
+            localityField.value = searchTerm;
         }
     
         const effectiveMunicipalityId = municipalityId || this.selectedMunicipalityId;
     
-        this.patientService.getLocalityDataPaginated(searchTerm, page, size, effectiveMunicipalityId).subscribe(response => {
-    
-            const localityField = this.addressFields.find(field => field.name === FieldNames.LOCALITY_NAME);
-            if (localityField) {
-                localityField.options = response;
-    
-                // Si hay una coincidencia exacta o solo una opción
-                const exactMatch = response.find(option => 
-                    option.label.toLowerCase() === searchTerm.toLowerCase()
-                );
-    
-                if (response.length === 1 || exactMatch) {
-                    const selectedLocality = exactMatch || response[0];
-                    this.selectedLocalitId = selectedLocality.value;
-                    if (this.selectedLocalitId) {
-                        this.clearNeighborhoodOptions();
-                        this.handleNeighborhoodClick('', 0, 1000, this.selectedLocalitId);
-                    }
-                }
-            }
-        });
-    }
-    
-   // private clearNeighborhoodOptions(): void {
-     //   const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
-       // if (neighborhoodField) {
-         //   neighborhoodField.options = [];
-            // También limpiar el valor seleccionado si existe
-           // if (neighborhoodField.value) {
-             //   neighborhoodField.value = '';
-            //}
-        //}
-   // }
-    
-    public handleMunicipalityClick(searchTerm: string, page: number = 0, size: number = 3, stateId?: string): void {
-        // Limpiar el municipio seleccionado y las localidades si el término de búsqueda está vacío
-        if (!searchTerm || searchTerm.trim() === '') {
-            this.selectedMunicipalityId = undefined;
+        if (!effectiveMunicipalityId) {
             this.clearLocalityOptions();
+            this.clearNeighborhoodOptions();
+            this.clearStreetOptions();
             return;
         }
     
-        const effectiveStateId = stateId || this.selectedStateId;
+        this.patientService.getLocalityDataPaginated(searchTerm, page, size, effectiveMunicipalityId).subscribe({
+            next: (response) => {
+                if (localityField) {
+                    localityField.options = searchTerm ? response : this.limitOptions(response);
     
-        this.patientService.getMunicipalityDataPaginated(searchTerm, page, size, effectiveStateId).subscribe(response => {
+                    if (searchTerm && searchTerm.trim() !== '') {
+                        const exactMatch = response.find(option => 
+                            option.label.toLowerCase().includes(searchTerm.toLowerCase().trim())
+                        );
     
-            const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
-            if (municipalityField) {
-                municipalityField.options = response;
-    
-                // Si hay una coincidencia exacta o solo una opción
-                const exactMatch = response.find(option => 
-                    option.label.toLowerCase() === searchTerm.toLowerCase()
-                );
-    
-                if (response.length === 1 || exactMatch) {
-                    const selectedMunicipality = exactMatch || response[0];
-                    this.selectedMunicipalityId = selectedMunicipality.value;
-                    if (this.selectedMunicipalityId) {
-                        this.clearLocalityOptions();
-                        this.handleLocalityClick('', 0, 1000, this.selectedMunicipalityId);
+                        if (exactMatch) {
+                            this.selectedLocalitId = exactMatch.value;
+                            localityField.value = exactMatch.label;
+                            
+                            this.clearNeighborhoodOptions();
+                            this.clearStreetOptions();
+                            
+                            if (this.selectedLocalitId) {
+                                this.handleNeighborhoodClick('', 0, 1000, this.selectedLocalitId);
+                            }
+                        }
                     }
                 }
+            },
+            error: (error) => {
+                console.error('Error fetching localities:', error);
             }
         });
     }
@@ -529,30 +518,104 @@ export class FormFieldsService {
         }
     }
 
-    public handleStateClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        
-        this.patientService.getStateDataPaginated(searchTerm, page, size).subscribe(response => {
-            
-            const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
-            if (stateField) {
-                stateField.options = response;
-                
-                // Si hay una coincidencia exacta o solo una opción
-                const exactMatch = response.find(option => 
-                    option.label.toLowerCase() === searchTerm.toLowerCase()
-                );
-                
-                if (response.length === 1 || exactMatch) {
-                    const selectedState = exactMatch || response[0];
-                    this.selectedStateId = selectedState.value;
-                    if (this.selectedStateId) {
-                        // Cargar municipios al seleccionar estado
-                        this.handleMunicipalityClick('', 0, 1000, this.selectedStateId);
+    public handleMunicipalityClick(searchTerm: string, page: number = 0, size: number = 3, stateId?: string): void {
+        const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
+    
+        // Permitir entrada manual
+        if (municipalityField && searchTerm) {
+            municipalityField.value = searchTerm;
+        }
+    
+        const effectiveStateId = stateId || this.selectedStateId;
+    
+        if (!effectiveStateId) {
+            this.clearMunicipalityOptions();
+            this.clearLocalityOptions();
+            this.clearNeighborhoodOptions();
+            return;
+        }
+    
+        this.patientService.getMunicipalityDataPaginated(searchTerm, page, size, effectiveStateId).subscribe({
+            next: (response) => {
+                if (municipalityField) {
+                    municipalityField.options = searchTerm ? response : this.limitOptions(response);
+    
+                    if (searchTerm && searchTerm.trim() !== '') {
+                        const exactMatch = response.find(option => 
+                            option.label.toLowerCase().includes(searchTerm.toLowerCase().trim())
+                        );
+    
+                        if (exactMatch) {
+                            this.selectedMunicipalityId = exactMatch.value;
+                            municipalityField.value = exactMatch.label;
+                            
+                            this.clearLocalityOptions();
+                            this.clearNeighborhoodOptions();
+                            
+                            if (this.selectedMunicipalityId) {
+                                this.handleLocalityClick('', 0, 1000, this.selectedMunicipalityId);
+                            }
+                        }
                     }
                 }
+            },
+            error: (error) => {
+                console.error('Error fetching municipalities:', error);
             }
         });
     }
+    
+
+    private clearMunicipalityOptions(): void {
+        const municipalityField = this.addressFields.find(field => field.name === FieldNames.MUNICIPALITY_NAME);
+        if (municipalityField) {
+            municipalityField.options = [];
+            if (municipalityField.value) {
+                municipalityField.value = '';
+            }
+        }
+        this.selectedMunicipalityId = undefined;
+    }
+
+    public handleStateClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        const stateField = this.addressFields.find(field => field.name === FieldNames.STATE_NAME);
+    
+        // Si hay texto, actualizarlo directamente en el campo
+        if (stateField && searchTerm) {
+            stateField.value = searchTerm;
+        }
+    
+        this.patientService.getStateDataPaginated(searchTerm, page, size).subscribe({
+            next: (response) => {
+                if (stateField) {
+                    stateField.options = searchTerm ? response : this.limitOptions(response);
+                    
+                    if (searchTerm && searchTerm.trim() !== '') {
+                        const exactMatch = response.find(option => 
+                            option.label.toLowerCase().includes(searchTerm.toLowerCase())
+                        );
+                        
+                        if (exactMatch) {
+                            this.selectedStateId = exactMatch.value;
+                            stateField.value = exactMatch.label;
+                            
+                            this.clearMunicipalityOptions();
+                            this.clearLocalityOptions();
+                            this.clearNeighborhoodOptions();
+                            
+                            if (this.selectedStateId) {
+                                this.handleMunicipalityClick('', 0, 1000, this.selectedStateId);
+                            }
+                        }
+                    }
+                }
+            },
+            error: (error) => {
+                console.error('Error fetching states:', error);
+            }
+        });
+    }
+    
 
     private handleNacionalityClick(event: MouseEvent): void {
         this.patientService.getNacionalityData();
@@ -591,19 +654,45 @@ export class FormFieldsService {
         this.patientService.getPostalCode(param);
     }
 
-    private handleStreetClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        this.patientService.getStreetDataPaginated(searchTerm, page, size).subscribe(response => {
-            const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
-            if (streetField) {
-                streetField.options = response;
+    public handleStreetClick(searchTerm: string, page: number = 0, size: number = 3, neighborhoodId?: string): void {
+        const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
+    
+        // Permitir entrada manual
+        if (streetField && searchTerm) {
+            streetField.value = searchTerm;
+        }
+    
+        const effectiveNeighborhoodId = neighborhoodId || this.selectedNeighborhoodId;
+    
+        if (!effectiveNeighborhoodId) {
+            this.clearStreetOptions();
+            return;
+        }
+    
+        this.patientService.getStreetDataPaginated(searchTerm, page, size, effectiveNeighborhoodId).subscribe({
+            next: (response) => {
+                if (streetField) {
+                    streetField.options = searchTerm ? response : this.limitOptions(response);
+                }
+            },
+            error: (error) => {
+                console.error('Error fetching streets:', error);
             }
         });
     }
-
-    private handleParentsMaritalStatusClick(event: MouseEvent): void {
-        this.patientService.getParentsMaritalStatusData();
-        const parentsMaritalStatusField = this.guardianFields.find(field => field.name === FieldNames.PARENTS_MARITAL_STATUS);
-        parentsMaritalStatusField && (parentsMaritalStatusField.options = this.patientService.parentsMaritalStatusOptions);
+    
+    private clearStreetOptions(): void {
+        const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
+        if (streetField) {
+            streetField.options = [];
+            if (streetField.value) {
+                streetField.value = '';
+            }
+        }
+    }
+    
+    private limitOptions(options: any[], limit: number = 4): any[] {
+        return options.slice(0, limit);
     }
 
     // Formularios
