@@ -8,7 +8,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { MatInputModule } from '@angular/material/input';
 
 // Componentes
-import { cardGuardian, CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
+import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
 import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
 import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
@@ -21,7 +21,7 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
-import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { Subscription } from 'rxjs';
 import { StudentItems } from '@mean/models';
@@ -161,13 +161,17 @@ export class OralProsthesisComponent {
             admissionDate: this.formatDate(admissionDate),
             curp: curp
           };
-          // Asignar datos del tutor solo si están disponibles
           if (this.patient.guardian) {
             this.guardianData = {
               firstName: this.patient.guardian.firstName,
               lastName: this.patient.guardian.lastName,
               email: this.patient.guardian.email,
-              phone: this.patient.guardian.phone
+              phone: this.patient.guardian.phone,
+              parentalStatus: this.patient.guardian.parentalStatus ? {
+                idCatalogOption: this.patient.guardian.parentalStatus.idCatalogOption,
+                optionName: this.patient.guardian.parentalStatus.optionName
+              } : { idCatalogOption: 0, optionName: '' }, 
+              doctorName: this.patient.guardian.doctorName || '' 
             };
           } else {
             this.guardianData = null;

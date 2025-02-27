@@ -1,5 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { cardGuardian } from 'src/app/models/shared/patients/cardPatient';
 
 export interface PatientSummary {
   fullName: string;
@@ -12,12 +13,6 @@ export interface PatientSummary {
   curp: string
 }
 
-export interface cardGuardian {
-  firstName: string,
-  lastName: string,
-  phone: string,
-  email: string
-}
 @Component({
   selector: 'app-card-patient-data',
   standalone: true,

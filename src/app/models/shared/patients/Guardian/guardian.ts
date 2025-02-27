@@ -10,9 +10,14 @@ export interface guardianRequest {
 }
 
 export interface guardianResponse {
-    "idGuardian": number,
-    "firstName": string,
-    "lastName": string,
-    "phone": string,
-    "email": string
-}
+    idGuardian: number;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    parentalStatus?: {
+      idCatalogOption: number;
+      optionName: string;
+    };
+    doctorName?: string;
+  }
