@@ -456,6 +456,10 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
     this.previousMatTab.emit();
   }
 
+  nextTab() {
+    this.nextMatTab.emit();
+  }
+
   private mapOdontogramToPost(): OdontogramPost {
     return {
       idQuestion: this.idQuestion,

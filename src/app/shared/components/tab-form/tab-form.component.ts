@@ -221,6 +221,7 @@ export class TabFormComponent implements TabsHandler {
   // Función para insertar
   postHcData() {
 
+    this.markFormGroupTouched(this.formGroup);
 
     if (this.formGroup.valid) {
       const formData = this.formGroup.value;
@@ -274,6 +275,20 @@ export class TabFormComponent implements TabsHandler {
 
   valueText(value: string): string | null {
     return typeof value === 'string' && value.trim() !== '' ? value.trim() : null;
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(controlName => {
+      const control = formGroup.get(controlName);
+      if (control) {
+        control.markAsTouched();
+        control.updateValueAndValidity(); 
+      }
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 
   // Emitir evento para volver al tab anterior

@@ -25,3 +25,19 @@ input:focus {
     background-color: #dfdfdf;
   }
 
+
+.mat-form-field-invalid .mat-input-element {
+  border-color: red;
+}
+
+.mat-form-field-invalid .mat-form-field-label {
+  color: red; 
+}
+
+.mat-form-field-invalid .mat-form-field-underline {
+  background-color: red;
+}
+
+.mat-form-field-invalid .mat-error {
+  color: red;
+}
