@@ -280,4 +280,9 @@ export class TabFormComponent implements TabsHandler {
   previousTab() {
     this.previousMatTab.emit();
   }
+
+  nextTab(){
+    this.nextMatTab.emit();
+  }
+
 }

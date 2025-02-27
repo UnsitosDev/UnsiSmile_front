@@ -270,4 +270,8 @@ export class TabFormUpdateComponent {
   previousTab() {
     this.previousMatTab.emit();
   }
+
+  nextTab(){
+    this.nextMatTab.emit();
+  }
 }
