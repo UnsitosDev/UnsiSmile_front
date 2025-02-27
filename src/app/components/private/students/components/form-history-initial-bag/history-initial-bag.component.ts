@@ -434,4 +434,8 @@ export class HistoryInitialBagComponent implements OnInit {
   previousTab() {
     this.previousMatTab.emit();
   }
+
+  nextTab() {
+    this.nextMatTab.emit();
+  }
 }
