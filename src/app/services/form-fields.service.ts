@@ -691,6 +691,12 @@ export class FormFieldsService {
         }
     }
     
+    private handleParentsMaritalStatusClick(event: MouseEvent): void {
+        this.patientService.getParentsMaritalStatusData();
+        const parentsMaritalStatusField = this.guardianFields.find(field => field.name === FieldNames.PARENTS_MARITAL_STATUS);
+        parentsMaritalStatusField && (parentsMaritalStatusField.options = this.patientService.parentsMaritalStatusOptions);
+    }
+    
     private limitOptions(options: any[], limit: number = 4): any[] {
         return options.slice(0, limit);
     }
