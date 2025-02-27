@@ -77,9 +77,10 @@ export class FormInsertStudentComponent {
   onSubmit() {
     if (this.formGroup.valid) {
       const formValues = this.formGroup.value;
-  
+      console.log('Valores del formulario:', formValues); // Para debugging
+
       const studentData = {
-        enrollment: formValues.enrollment,  // Matrícula del estudiante
+        enrollment: formValues.enrollment,
         person: {
           curp: formValues.curp,
           firstName: formValues.firstName,
@@ -94,8 +95,18 @@ export class FormInsertStudentComponent {
             gender: ''  // Se podría rellenar con el valor correspondiente más adelante
           }
         },
-        guardian: null,  // Suponiendo que no hay datos de un tutor en este caso
+        group: {
+          id: Number(formValues.group), // Aseguramos que se convierta a número
+          groupName: '',
+          semesterNumber: formValues.semester,
+          career: {
+            idCareer: formValues.career,
+            career: ''
+          }
+        }
       };
+  
+      console.log('Datos a enviar:', studentData); // Para debugging
   
       this.apiService
         .postService({

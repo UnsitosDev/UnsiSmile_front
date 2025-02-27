@@ -4,13 +4,22 @@ import { FormField } from '../models/form-fields/form-field.interface';
 import { curpValidator, emailValidator, phoneNumberValidator, minimumAgeValidator } from '../utils/validators';
 import { PatientService } from './patient/patient.service';
 import { FieldNames } from '../models/form-fields/form-utils';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ApiService } from './api.service';
+import { UriConstants } from '@mean/utils';
 
 @Injectable({
     providedIn: 'root'
 })
 export class studentService {
     patientService = inject(PatientService);
+    private apiService = inject(ApiService);
+    private http = inject(HttpClient);
+
+    careerOptions: Array<{ value: string; label: string }> = [];
+    groupOptions: Array<{ value: string; label: string }> = [];
+    semesterOptions: Array<{ value: string; label: string }> = [];
+
     private personalDataFields: FormField[] = [
         {
             type: 'input',
@@ -123,23 +132,47 @@ export class studentService {
         },
         {
             type: 'select',
+            label: 'Carrera',
+            name: 'career',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'La carrera es requerida'
+            },
+            onClick: this.handleCareerClick.bind(this)
+        },
+        {
+            type: 'select',
+            label: 'Semestre',
+            name: 'semester',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El semestre es requerido'
+            },
+            onClick: this.handleSemesterClick.bind(this)
+        },
+        {
+            type: 'select',
             label: 'Grupo',
             name: 'group',
-            required: false,
-            validators: [],
+            required: true,
+            validators: [Validators.required],
             errorMessages: {
-                required: 'El campo Grupo es requerido.'
+                required: 'El grupo es requerido'
             },
-            //onClick: this.handleGenderClick.bind(this)
+            onClick: this.handleGroupClick.bind(this)
         },
+      
     ];
-
 
     // Eventos
 
     constructor() {
         this.handleGenderClick({} as MouseEvent);
-
+        this.handleCareerClick();
+        this.handleGroupClick();
+        this.handleSemesterClick();
     }
 
     private handleGenderClick(event: MouseEvent): void {
@@ -148,13 +181,94 @@ export class studentService {
         genderField && (genderField.options = this.patientService.genderOptions);
     }
 
-    //futuro traer grupos
+    private handleCareerClick(): void {
+        this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: UriConstants.GET_CAREERS,
+            data: {}
+        }).subscribe({
+            next: (response: Array<{ idCareer: string, career: string }>) => {
+                this.careerOptions = response.map(item => ({
+                    value: item.idCareer,
+                    label: item.career
+                }));
+                const careerField = this.personalDataFields.find(field => field.name === 'career');
+                if (careerField) {
+                    careerField.options = this.careerOptions;
+                }
+            }
+        });
+    }
 
-    //private handleGroupClick(event: MouseEvent): void {
-     //   this.patientService.getGender();
-       // const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);
-        //genderField && (genderField.options = this.patientService.genderOptions);
-    //}
+    private handleGroupClick(): void {
+        console.log('Iniciando carga de grupos...');
+        this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: UriConstants.GET_GROUPS,
+            data: {}
+        }).subscribe({
+            next: (response: any) => {
+                console.log('Respuesta del servidor (grupos):', response);
+                
+                try {
+                    const groups = Array.isArray(response) ? response : response.content;
+                    
+                    if (!groups) {
+                        console.error('No se encontraron grupos en la respuesta');
+                        return;
+                    }
+
+                    this.groupOptions = groups
+                        .filter((item: { idGroup: number; groupName: string }) => item && item.idGroup) // Cambiado de id a idGroup
+                        .map((item: { idGroup: number; groupName: string }) => ({
+                            value: item.idGroup.toString(), // Cambiado de id a idGroup
+                            label: item.groupName
+                        }));
+
+                    const groupField = this.personalDataFields.find(field => field.name === 'group');
+                    if (groupField) {
+                        groupField.options = this.groupOptions;
+                        console.log('Opciones de grupo actualizadas:', this.groupOptions);
+                    }
+                } catch (error) {
+                    console.error('Error al procesar los grupos:', error);
+                }
+            },
+            error: (error) => {
+                console.error('Error al obtener grupos del servidor:', error);
+                this.groupOptions = [];
+                const groupField = this.personalDataFields.find(field => field.name === 'group');
+                if (groupField) {
+                    groupField.options = [];
+                }
+            }
+        });
+    }
+
+    private handleSemesterClick(): void {
+        this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: UriConstants.GET_SEMESTERS,
+            data: {}
+        }).subscribe({
+            next: (response: Array<{ idSemester: string, semesterName: string }>) => {
+                this.semesterOptions = response.map(item => ({
+                    value: item.idSemester,
+                    label: item.semesterName 
+                }));
+                const semesterField = this.personalDataFields.find(field => field.name === 'semester');
+                if (semesterField) {
+                    semesterField.options = this.semesterOptions;
+                }
+            }
+        });
+    }
 
     // Formularios
     getPersonalDataFields(): FormField[] {
