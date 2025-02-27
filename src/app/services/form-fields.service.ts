@@ -177,7 +177,8 @@ export class FormFieldsService {
             type: 'autocomplete',
             label: 'Nombre de colonia',
             name: 'neighborhoodName',
-            required: false,
+            required: true,
+            validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre de colonia es requerido.'
             },

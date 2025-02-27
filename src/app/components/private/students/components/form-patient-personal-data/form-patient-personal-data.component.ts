@@ -158,6 +158,8 @@ export class FormPatientPersonalDataComponent {
     if (name === 'postalCode' && value.length === 5) {
       this.handlePostalCodeClick(value);
     }
+
+  
   }
 
   localityId: string = '';
