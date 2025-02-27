@@ -29,12 +29,6 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUse
         buttonDescription: 'Descargar formatos',
         routerlink: '/students/dowload-formats'
       },
-      {
-        fontAwesomeIcon: faFileUpload,
-        buttonText: 'Cargar Pacientes',
-        buttonDescription: 'Subir Excel de Pacientes.',
-        routerlink: '/students/upload-patients'
-      }
     ];
     
     export const AdminItems: MenuItem[] = [
@@ -67,12 +61,6 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUse
         buttonText: 'Cargar Alumnos',
         buttonDescription: 'Subir Excel de Alumnos.',
         routerlink: '/admin/upload-students'
-      },
-      {
-        fontAwesomeIcon: faFileUpload,
-        buttonText: 'Cargar Pacientes',
-        buttonDescription: 'Subir Excel de Pacientes.',
-        routerlink: '/admin/upload-patients'
       },
       {
         fontAwesomeIcon: faFileUpload,

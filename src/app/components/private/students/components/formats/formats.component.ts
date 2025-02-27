@@ -2,7 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-import { FormSection } from '@mean/models';
+import { FileData} from '@mean/models';
 import { ToastrService } from 'ngx-toastr';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -20,8 +20,8 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 export class FormatsComponent implements OnInit {
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
-  private formSection = 56;
-  public formats!: FormSection;
+  private formSection = 55;
+  public filesData: FileData[] = [];
 
   ngOnInit(): void {
       this.getAllFormats();
@@ -36,10 +36,14 @@ export class FormatsComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.formats = response
+          if (response.questions && response.questions.length > 0 && response.questions[0].answer) {
+            this.filesData = response.questions[0].answer.files || []; 
+          } else {
+            this.filesData = []; 
+          }
         },
         error: (error) => {
-          this.toastr.error(Messages.NO_FILES_YET);
+          this.toastr.warning(Messages.NO_FILES_YET);
         },
       });
   }
