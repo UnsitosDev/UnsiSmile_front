@@ -18,7 +18,7 @@ import { ApiService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
-import { StudentItems } from '@mean/models';
+import { StatusClinicalHistoryResponse, StudentItems } from '@mean/models';
 import { UriConstants, Constants } from '@mean/utils';
 import { Subscription } from 'rxjs';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
@@ -74,7 +74,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private additionalRoutes = ['/students/user'];
   firstLabel: string = '';
   previousLabel: string = '';
-
+  
+  
   constructor() { }
 
   ngOnInit(): void {
@@ -230,12 +231,20 @@ export class StudentsGeneralHistoryComponent implements OnInit {
             })
             .subscribe({
               next: (response) => {
-                console.log(response);                  
+                this.getStatusHc();
               },
                 error: (error) => {
               },
             });
   }
+
+  status!: StatusClinicalHistoryResponse;
+  
+  statusMap: { [key: string]: string } = {
+    IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
+    APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
+    REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
+  };
 
   getStatusHc(){
     this.apiService
@@ -248,11 +257,16 @@ export class StudentsGeneralHistoryComponent implements OnInit {
             })
             .subscribe({
               next: (response) => {
-                console.log(response);                  
+                this.status = response;
+                console.log(this.status);
               },
                 error: (error) => {
               },
             });
+  }
+
+  translateStatus(status: string): string {
+    return this.statusMap[status] || status; 
   }
   
   onNextTab(): void {

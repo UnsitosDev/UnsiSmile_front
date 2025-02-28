@@ -24,9 +24,10 @@ import { UriConstants } from '@mean/utils';
 import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { Subscription } from 'rxjs';
-import { StudentItems } from '@mean/models';
+import { StatusClinicalHistoryResponse, StudentItems } from '@mean/models';
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-students-oral-surgery-history',
@@ -40,6 +41,7 @@ export class StudentsOralSurgeryHistoryComponent {
   private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
+  private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   private id!: number;
   private idpatient!: string;
@@ -95,6 +97,7 @@ export class StudentsOralSurgeryHistoryComponent {
         }
       }
     });
+    this.getStatusHc();
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
@@ -181,6 +184,55 @@ export class StudentsOralSurgeryHistoryComponent {
     }
   }
 
+    status: StatusClinicalHistoryResponse | null = null;
+  
+    statusMap: { [key: string]: string } = {
+      IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
+      APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
+      REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
+    };
+  
+    getStatusHc() {
+      this.apiService
+        .getService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}`,
+          data: {},
+        })
+        .subscribe({
+          next: (response) => {
+            this.status = response; // Asigna la respuesta a `status`
+          },
+          error: () => {
+            console.log('Error al obtener el estado de la historia clínica');
+          },
+        });
+    }
+  
+    sendToReview() {
+      this.apiService
+        .putService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.PUT_CLINICAL_HISTORY_REVIEW}/${this.idPatientClinicalHistory}`,
+          data: {},
+        })
+        .subscribe({
+          next: (response) => {
+            this.getStatusHc();
+          },
+          error: (error) => {
+            console.error('Error al enviar a revisión:', error);
+          },
+        });
+    }
+  
+    translateStatus(status: string): string {
+      return this.statusMap[status] || status; // Si no encuentra la traducción, devuelve el estado original
+    }
   // Método auxiliar para obtener el nombre completo
   private getFullName(firstName: string, secondName: string, firstLastName: string, secondLastName: string): string {
     return `${firstName} ${secondName} ${firstLastName} ${secondLastName}`.trim();
