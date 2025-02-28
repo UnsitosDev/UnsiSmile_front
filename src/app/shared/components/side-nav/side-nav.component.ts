@@ -12,6 +12,8 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '@mean/services';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Router, RouterLinkActive } from '@angular/router';
+import { Subject } from 'rxjs';
+import { ProfilePictureService } from 'src/app/services/profile-picture.service';
 
 
 
@@ -31,12 +33,18 @@ export class SideNavComponent implements OnInit {
   welcomeMessage: string = 'Bienvenido'; 
   @Output() menuSelect = new EventEmitter<void>();
   profilePicture = signal<string | null>(null);
+  private profilePictureUpdated = new Subject<string | null>();
 
   constructor(
       private authService: AuthService,
       private router: Router,
+      private profilePictureService: ProfilePictureService
 
-    ) {}
+    ) {
+      this.profilePictureService.profilePictureUpdated.subscribe((newProfilePicture) => {
+        this.profilePicture.set(newProfilePicture);
+      });
+    }
 
   @Input() isSidebarOpen = false;
 
@@ -72,7 +80,9 @@ export class SideNavComponent implements OnInit {
         next: (blob: Blob) => {
           const reader = new FileReader();
           reader.onloadend = () => {
-            this.profilePicture.set(reader.result as string);
+            const newProfilePicture = reader.result as string;
+            this.profilePicture.set(newProfilePicture);
+            this.profilePictureService.updateProfilePicture(newProfilePicture);
           };
           reader.readAsDataURL(blob);
         },

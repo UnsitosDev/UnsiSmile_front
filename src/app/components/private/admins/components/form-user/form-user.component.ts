@@ -9,6 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';  // Agregar esta importación
 import { ProfileResponse } from 'src/app/models/shared/profile/profile.model';
+import { Subject } from 'rxjs';
+import { ProfilePictureService } from 'src/app/services/profile-picture.service';
 
 @Component({
   selector: 'app-form-user',
@@ -38,10 +40,16 @@ export class FormUserComponent implements OnInit {
   modoEdicion = signal(false);
   welcomeMessage = signal(''); 
   profilePicture = signal<string | null>(null);
+  private profilePictureUpdated = new Subject<string | null>();
 
   constructor(
-    private router: Router
-  ) {}
+    private router: Router,
+    private profilePictureService: ProfilePictureService
+  ) {
+    this.profilePictureService.profilePictureUpdated.subscribe((newProfilePicture) => {
+      this.foto.set(newProfilePicture);
+    });
+  }
 
   ngOnInit() {
     this.fetchUserData();
@@ -105,9 +113,9 @@ export class FormUserComponent implements OnInit {
         .subscribe({
           next: (response) => {
             this.toastr.success('Foto de perfil actualizada exitosamente');
-            // Recargar la página después de actualizar la imagen
+            // Esperar un momento antes de recargar la imagen
             setTimeout(() => {
-              window.location.reload();
+              this.fetchProfilePicture();
             }, 1000);
           },
           error: (error) => {
@@ -144,7 +152,9 @@ export class FormUserComponent implements OnInit {
         next: (blob: Blob) => {
           const reader = new FileReader();
           reader.onloadend = () => {
-            this.foto.set(reader.result as string);
+            const newProfilePicture = reader.result as string;
+            this.foto.set(newProfilePicture);
+            this.profilePictureService.updateProfilePicture(newProfilePicture);
           };
           reader.readAsDataURL(blob);
         },
