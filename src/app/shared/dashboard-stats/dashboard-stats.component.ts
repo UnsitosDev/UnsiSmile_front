@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from '@mean/services';
 import { ToastrService } from 'ngx-toastr';
 import { UriConstants } from '@mean/utils';
+import { Dashboard } from 'src/app/models/shared/students';
 
 
 @Component({
@@ -16,10 +17,26 @@ import { UriConstants } from '@mean/utils';
 export class DashboardStatsComponent {
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
-  stats!: any;
+  stats: Dashboard = {
+    data: {
+      patientsWithDisability: 0,
+      patientsRegisteredLastMonth: 0,
+      patients: 0,
+      patientsByNationality: {},
+    },
+  };
+  loading = true;
+
+  nationalityIcons: { [key: string]: string } = {
+    Española: '🇪🇸',
+    Mexicana: '🇲🇽',
+    Canadiense: '🇨🇦',
+    Estadounidense: '🇺🇸',
+    Francesa: '🇫🇷',
+  };
 
   ngOnInit(): void {
-      this.getStats();
+    this.getStats();
   }
 
   getStats() {
@@ -33,12 +50,17 @@ export class DashboardStatsComponent {
       })
       .subscribe({
         next: (response) => {
-          this.toastr.success('ok');
-          console.log(response);
+          this.stats = response;
+          this.loading = false;
         },
         error: (error) => {
+          this.loading = false;
           this.toastr.error(error, 'Error');
         },
       });
+  }
+
+  getNationalities(): string[] {
+    return Object.keys(this.stats?.data?.patientsByNationality || {});
   }
 }

@@ -1,21 +1,25 @@
-.bg{
-    background-color: var(--secondary);
-   }
-   
-   
-   .tx {
-   
-     color: var(--on-secondary);
-   }
-   
-   .tt{
-     color: var(--text);
-    }
+.bg {
+  background-color: var(--secondary);
+}
 
-    .icon{
-      color: var(--primary-icon);
-    }
 
-    .text{
-      color: var(--on-tertiary);
-    }
+.tx {
+
+  color: var(--on-secondary);
+}
+
+.tt {
+  color: var(--text);
+}
+
+.icon {
+  color: var(--primary-icon);
+}
+
+.text {
+  color: var(--on-tertiary);
+}
+
+.custom-list {
+  color: var(--on-secondary);
+}

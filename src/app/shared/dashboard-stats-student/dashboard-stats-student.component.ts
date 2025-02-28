@@ -24,7 +24,6 @@ export class DashboardStatsStudentComponent implements OnInit {
   };
   loading = true;
 
-  // Objeto de íconos por nacionalidad
   nationalityIcons: { [key: string]: string } = {
     Española: '🇪🇸',
     Mexicana: '🇲🇽',
@@ -48,19 +47,16 @@ export class DashboardStatsStudentComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.toastr.success('Datos cargados correctamente');
           this.stats = response;
           this.loading = false;
-          console.log(this.stats);
         },
         error: (error) => {
-          this.toastr.error(error, 'Error');
           this.loading = false;
+          this.toastr.error(error, 'Error');
         },
       });
   }
 
-  // Método para obtener las nacionalidades
   getNationalities(): string[] {
     return Object.keys(this.stats?.data?.patientsByNationality || {});
   }
