@@ -77,7 +77,6 @@ export class FormUserComponent implements OnInit {
       confirmPassword: this.confirmarContrasena()
     };
 
-    console.log('Payload:', payload); // Verificar el payload
 
     this.userService
       .patchService({
@@ -93,14 +92,14 @@ export class FormUserComponent implements OnInit {
           this.router.navigate(['/dashboard']); 
         },
         error: (error) => {
-        this.toastr.error(error,'Error');        }
+        this.toastr.error(error);        }
       });
   }
 
   subirFoto(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
     if (file) {
-      
       const formData = new FormData();
       formData.append('picture', file);
 
@@ -120,7 +119,8 @@ export class FormUserComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error completo:', error);
-            this.toastr.error('Error al actualizar la foto de perfil');
+            this.toastr.error(error);
+            input.value = '';
           }
         });
     }
