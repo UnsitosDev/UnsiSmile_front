@@ -128,6 +128,7 @@ export class UriConstants {
   public static readonly GETID_CARRER = basePath + '/careers/';
   public static readonly GET_CARRER = basePath + '/careers';
   public static readonly POST_CARRER = basePath + '/careers';
+  public static readonly GET_CAREERS = basePath + '/careers';
   // housing-material-controller
   public static readonly GETID_HOUSING_MATERIAL =
     basePath + '/medical-histories/housing-materials/';
@@ -148,10 +149,12 @@ export class UriConstants {
   public static readonly GETID_GROUPS = basePath + '/groups/';
   public static readonly GET_GROUPS = basePath + '/groups';
   public static readonly POST_GROUPS = basePath + '/groups';
+
   // semestres
   public static readonly GETID_SEMESTER = basePath + '/semesters/';
   public static readonly GET_SEMESTER = basePath + '/semesters';
   public static readonly POST_SEMESTER = basePath + '/semesters';
+  public static readonly GET_SEMESTERS = basePath + '/semesters';
   // region measurement pockets
   public static readonly GETID_REGION_MEASUREMENT_POCKETS =
     basePath + '/medical-histories/region-measurement-pockets/';
@@ -187,6 +190,7 @@ export class UriConstants {
   public static readonly GET_STUDENTS = basePath + '/students';
   public static readonly POST_STUDENTS = basePath + '/students';
   public static readonly PATCH_STUDENTS = basePath + '/students';
+
 
 
   public static readonly POST_ADMIN = basePath + '/administrators';

@@ -114,3 +114,14 @@ export function minimumAgeValidator(minAge: number = 18): ValidatorFn {
     return age >= minAge ? null : { underage: true };
   };
 }
+
+export function enrollmentValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (!control.value) {
+      return null;
+    }
+    const enrollmentPattern = /^\d{10}$/;
+    const valid = enrollmentPattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}
