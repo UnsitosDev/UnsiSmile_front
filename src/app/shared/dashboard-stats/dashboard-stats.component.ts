@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
+import { ApiService } from '@mean/services';
+import { ToastrService } from 'ngx-toastr';
+import { UriConstants } from '@mean/utils';
 
 
 @Component({
@@ -11,13 +14,31 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrl: './dashboard-stats.component.scss'
 })
 export class DashboardStatsComponent {
-  stats: any[] = [];
-
-  constructor(private http: HttpClient) {}
+  private apiService = inject(ApiService);
+  private toastr = inject(ToastrService);
+  stats!: any;
 
   ngOnInit(): void {
-    this.http.get<any[]>('/assets/data/dashboard-stats.json').subscribe(data => {
-      this.stats = data;
-    });
+      this.getStats();
+  }
+
+  getStats() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_DASHBOARD_STATS}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('ok');
+          console.log(response);
+        },
+        error: (error) => {
+          this.toastr.error(error, 'Error');
+        },
+      });
   }
 }

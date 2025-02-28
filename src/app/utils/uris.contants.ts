@@ -288,4 +288,6 @@ export class UriConstants {
   public static readonly GET_FORMATS = basePath + '/form-sections'
   // Obtener estado civil de los padres
   public static readonly GET_PARENTS_MARITAL_STATUS = basePath + '/catalog-options/catalog'  
+  // Obtener estadisticas para dashboard
+  public static readonly GET_DASHBOARD_STATS = basePath + '/dashboards'
 }
