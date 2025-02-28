@@ -110,6 +110,9 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         }
       }
     });
+
+    // Obtener estatus de la HC
+    this.getStatusHc();
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
@@ -223,6 +226,24 @@ export class StudentsGeneralHistoryComponent implements OnInit {
           'Content-Type': 'application/json',
             }),
               url: `${UriConstants.PUT_CLINICAL_HISTORY_REVIEW}/${this.idPatientClinicalHistory}`,
+              data: { },
+            })
+            .subscribe({
+              next: (response) => {
+                console.log(response);                  
+              },
+                error: (error) => {
+              },
+            });
+  }
+
+  getStatusHc(){
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+            }),
+              url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}`,
               data: { },
             })
             .subscribe({
