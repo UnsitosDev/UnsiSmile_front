@@ -82,7 +82,7 @@ export class FormUserComponent implements OnInit {
           this.nuevaContrasena.set('');
           this.confirmarContrasena.set('');
           this.toastr.success('Contraseña actualizada exitosamente');
-          this.router.navigate(['/admin/dashboard']); 
+          this.router.navigate(['/dashboard']); 
         },
         error: (error) => {
         this.toastr.error(error,'Error');        }
@@ -92,7 +92,6 @@ export class FormUserComponent implements OnInit {
   subirFoto(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      console.log('Archivo a subir:', file);
       
       const formData = new FormData();
       formData.append('picture', file);
@@ -105,7 +104,6 @@ export class FormUserComponent implements OnInit {
         })
         .subscribe({
           next: (response) => {
-            console.log('Respuesta exitosa:', response);
             this.toastr.success('Foto de perfil actualizada exitosamente');
             // Esperar un momento antes de recargar la imagen
             setTimeout(() => {
@@ -113,9 +111,7 @@ export class FormUserComponent implements OnInit {
             }, 1000);
           },
           error: (error) => {
-            console.error('Error completo:', error);
-            this.toastr.error('Error al actualizar la foto de perfil');
-          }
+            console.error('Error completo:', error);          }
         });
     }
   }
@@ -139,19 +135,25 @@ export class FormUserComponent implements OnInit {
   fetchProfilePicture() {
     this.profileService
       .getService({
-        url: `${UriConstants.GET_USER_PROFILE}`,
+        url: `${UriConstants.GET_USER_PROFILE_PICTURE}`,
+        responseType: 'blob' // Importante para recibir la imagen como blob
       })
       .subscribe({
-        next: (data: ProfileResponse) => {
-          if (data.profilePictureId) {
-            this.foto.set(`${UriConstants.DOWLOAD_FILES}${data.profilePictureId}`);
-          }
+        next: (blob: Blob) => {
+          console.log('Imagen recibida como Blob:', blob);
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            this.foto.set(reader.result as string);
+          };
+          reader.readAsDataURL(blob);
         },
         error: (error) => {
-          console.error('Error fetching profile picture:', error);
+          console.error('Error al obtener la foto de perfil:', error);
+          this.toastr.error('Error al obtener la foto de perfil');
         },
       });
   }
+  
 
   setWelcomeMessage() {
     switch (this.user.person.gender.idGender) {

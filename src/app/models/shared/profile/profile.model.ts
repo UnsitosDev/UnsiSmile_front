@@ -7,4 +7,5 @@ export interface ProfileResponse {
   };
   status: boolean;
   profilePictureId: string;
+  profilePictureUrl: string;
 }

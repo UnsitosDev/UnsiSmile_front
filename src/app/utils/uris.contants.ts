@@ -242,6 +242,7 @@ export class UriConstants {
 
   public static readonly GET_USER_INFO = basePath + '/users/userInformation';
   public static readonly GET_USER_PROFILE = basePath + '/users/profile';
+  public static readonly GET_USER_PROFILE_PICTURE = basePath + '/users/profile-picture';
   public static readonly UPDATE_PROFILE_PICTURE = basePath + '/users/update-profile-picture';
   // get postalCode
   public static readonly GET_POSTAL_CODE = basePath + '/locality/postal-code/';
