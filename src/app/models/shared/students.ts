@@ -14,3 +14,17 @@ export class studentsTableData {
   estatus = ''  // Agregado status
 }
 
+export interface PatientsByNationality {
+  [nationality: string]: number; 
+}
+
+export interface Data {
+  patientsWithDisability: number;
+  patientsRegisteredLastMonth: number;
+  patients: number;
+  patientsByNationality: PatientsByNationality;
+}
+
+export interface Dashboard {
+  data: Data;
+}

@@ -1,24 +1,40 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { HttpClientModule } from '@angular/common/http';
+import { Component, inject, OnInit } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
+import { Dashboard } from 'src/app/models/shared/students';
 
 @Component({
   selector: 'app-dashboard-stats-student',
   standalone: true,
-  imports: [HttpClientModule],
   templateUrl: './dashboard-stats-student.component.html',
-  styleUrl: './dashboard-stats-student.component.scss'
+  styleUrl: './dashboard-stats-student.component.scss',
 })
 export class DashboardStatsStudentComponent implements OnInit {
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
-  stats!: any;
+  stats: Dashboard = {
+    data: {
+      patientsWithDisability: 0,
+      patientsRegisteredLastMonth: 0,
+      patients: 0,
+      patientsByNationality: {},
+    },
+  };
+  loading = true;
+
+  // Objeto de íconos por nacionalidad
+  nationalityIcons: { [key: string]: string } = {
+    Española: '🇪🇸',
+    Mexicana: '🇲🇽',
+    Canadiense: '🇨🇦',
+    Estadounidense: '🇺🇸',
+    Francesa: '🇫🇷',
+  };
 
   ngOnInit(): void {
-      this.getStats();
+    this.getStats();
   }
 
   getStats() {
@@ -32,12 +48,20 @@ export class DashboardStatsStudentComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.toastr.success('ok');
-          console.log(response);
+          this.toastr.success('Datos cargados correctamente');
+          this.stats = response;
+          this.loading = false;
+          console.log(this.stats);
         },
         error: (error) => {
           this.toastr.error(error, 'Error');
+          this.loading = false;
         },
       });
+  }
+
+  // Método para obtener las nacionalidades
+  getNationalities(): string[] {
+    return Object.keys(this.stats?.data?.patientsByNationality || {});
   }
 }
