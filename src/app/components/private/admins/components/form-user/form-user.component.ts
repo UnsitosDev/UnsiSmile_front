@@ -35,6 +35,7 @@ export class FormUserComponent implements OnInit {
   mostrarConfirmarContrasena = signal(false);
   modoEdicion = signal(false);
   welcomeMessage = signal(''); 
+  profilePicture = signal<string | null>(null);
 
   constructor(
     private router: Router
@@ -42,6 +43,7 @@ export class FormUserComponent implements OnInit {
 
   ngOnInit() {
     this.fetchUserData();
+    this.fetchProfilePicture();
   }
 
   setActiveTab(index: number) {
@@ -108,6 +110,23 @@ export class FormUserComponent implements OnInit {
           this.setWelcomeMessage();        },
         error: (error) => {
           console.error('Error fetching user data:', error);
+        },
+      });
+  }
+
+  fetchProfilePicture() {
+    this.userService
+      .getService({
+        url: `${UriConstants.GET_USER_PROFILE}`,
+      })
+      .subscribe({
+        next: (data) => {
+          if (data.profilePictureId) {
+            this.foto.set(`${UriConstants.DOWLOAD_FILES}${data.profilePictureId}`);
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching profile picture:', error);
         },
       });
   }
