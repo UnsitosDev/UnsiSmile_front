@@ -32,3 +32,8 @@ button {
     background-color: var(--secondary); 
     border: 1px var(--on-secondary);
 }
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+}
