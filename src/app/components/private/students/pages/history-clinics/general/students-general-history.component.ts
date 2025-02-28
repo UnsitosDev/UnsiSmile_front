@@ -28,6 +28,7 @@ import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-students-general-history',
@@ -44,6 +45,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
+  private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   private toastr = inject(ToastrService);
   public id!: number;
@@ -211,6 +213,25 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   formatDate(dateArray: number[]): string {
     const [year, month, day] = dateArray;
     return `${day}/${month}/${year}`;
+  }
+  
+  // Mandar HC a revision
+  sendToReview(){
+    this.apiService
+      .putService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+            }),
+              url: `${UriConstants.PUT_CLINICAL_HISTORY_REVIEW}/${this.idPatientClinicalHistory}`,
+              data: { },
+            })
+            .subscribe({
+              next: (response) => {
+                console.log(response);                  
+              },
+                error: (error) => {
+              },
+            });
   }
   
   onNextTab(): void {

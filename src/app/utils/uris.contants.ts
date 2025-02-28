@@ -292,4 +292,6 @@ export class UriConstants {
   public static readonly GET_FORMATS = basePath + '/form-sections'
   // Obtener estado civil de los padres
   public static readonly GET_PARENTS_MARITAL_STATUS = basePath + '/catalog-options/catalog'  
+  // Enviar historia clinica a revision
+  public static readonly PUT_CLINICAL_HISTORY_REVIEW = basePath + '/medicalHistories/status/sendToReview'
 }
