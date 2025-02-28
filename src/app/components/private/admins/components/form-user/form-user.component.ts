@@ -8,6 +8,7 @@ import { AlertComponent } from 'src/app/shared/components/alert/alert.component'
 import { ToastrService } from 'ngx-toastr';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';  // Agregar esta importación
+import { ProfileResponse } from 'src/app/models/shared/profile/profile.model';
 
 @Component({
   selector: 'app-form-user',
@@ -17,7 +18,8 @@ import { Router } from '@angular/router';  // Agregar esta importación
   styleUrl: './form-user.component.scss'
 })
 export class FormUserComponent implements OnInit {
-  private userService = inject(ApiService<studentResponse, {}>);
+  private userService = inject(ApiService<any, {}>);
+  private profileService = inject(ApiService<ProfileResponse, {}>);
   private route = inject(Router);  
   tabs = ['Descripción General', 'Editar Datos', 'Cambiar Contraseña'];
   activeTab = signal(0);
@@ -90,11 +92,31 @@ export class FormUserComponent implements OnInit {
   subirFoto(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        this.foto.set(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
+      console.log('Archivo a subir:', file);
+      
+      const formData = new FormData();
+      formData.append('picture', file);
+
+      this.userService
+        .patchService({
+          url: `${UriConstants.UPDATE_PROFILE_PICTURE}`,
+          data: formData,
+          headers: {}
+        })
+        .subscribe({
+          next: (response) => {
+            console.log('Respuesta exitosa:', response);
+            this.toastr.success('Foto de perfil actualizada exitosamente');
+            // Esperar un momento antes de recargar la imagen
+            setTimeout(() => {
+              this.fetchProfilePicture();
+            }, 1000);
+          },
+          error: (error) => {
+            console.error('Error completo:', error);
+            this.toastr.error('Error al actualizar la foto de perfil');
+          }
+        });
     }
   }
 
@@ -115,12 +137,12 @@ export class FormUserComponent implements OnInit {
   }
 
   fetchProfilePicture() {
-    this.userService
+    this.profileService
       .getService({
         url: `${UriConstants.GET_USER_PROFILE}`,
       })
       .subscribe({
-        next: (data) => {
+        next: (data: ProfileResponse) => {
           if (data.profilePictureId) {
             this.foto.set(`${UriConstants.DOWLOAD_FILES}${data.profilePictureId}`);
           }
