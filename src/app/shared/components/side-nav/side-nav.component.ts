@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, inject, Output, EventEmitter, signal } from '@angular/core';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
 import { StudentItems, AdminItems, MenuItem } from '@mean/models';
 import {
@@ -30,6 +30,7 @@ export class SideNavComponent implements OnInit {
   user!: studentUserResponse | AdminResponse;
   welcomeMessage: string = 'Bienvenido'; 
   @Output() menuSelect = new EventEmitter<void>();
+  profilePicture = signal<string | null>(null);
 
   constructor(
       private authService: AuthService,
@@ -41,6 +42,7 @@ export class SideNavComponent implements OnInit {
 
   ngOnInit() {
     this.fetchUserData();
+    this.fetchProfilePicture();
   }
 
   fetchUserData() {
@@ -56,6 +58,26 @@ export class SideNavComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error fetching user data:', error);
+        },
+      });
+  }
+
+  fetchProfilePicture() {
+    this.userService
+      .getService({
+        url: `${UriConstants.GET_USER_PROFILE_PICTURE}`,
+        responseType: 'blob' // Importante para recibir la imagen como blob
+      })
+      .subscribe({
+        next: (blob: Blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            this.profilePicture.set(reader.result as string);
+          };
+          reader.readAsDataURL(blob);
+        },
+        error: (error) => {
+          console.error('Error al obtener la foto de perfil:', error);
         },
       });
   }

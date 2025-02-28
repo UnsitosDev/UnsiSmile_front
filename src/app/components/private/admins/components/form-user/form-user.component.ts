@@ -105,13 +105,15 @@ export class FormUserComponent implements OnInit {
         .subscribe({
           next: (response) => {
             this.toastr.success('Foto de perfil actualizada exitosamente');
-            // Esperar un momento antes de recargar la imagen
+            // Recargar la página después de actualizar la imagen
             setTimeout(() => {
-              this.fetchProfilePicture();
+              window.location.reload();
             }, 1000);
           },
           error: (error) => {
-            console.error('Error completo:', error);          }
+            console.error('Error completo:', error);
+            this.toastr.error('Error al actualizar la foto de perfil');
+          }
         });
     }
   }
@@ -140,7 +142,6 @@ export class FormUserComponent implements OnInit {
       })
       .subscribe({
         next: (blob: Blob) => {
-          console.log('Imagen recibida como Blob:', blob);
           const reader = new FileReader();
           reader.onloadend = () => {
             this.foto.set(reader.result as string);
@@ -149,7 +150,6 @@ export class FormUserComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error al obtener la foto de perfil:', error);
-          this.toastr.error('Error al obtener la foto de perfil');
         },
       });
   }
