@@ -192,7 +192,7 @@ export class studentService {
             next: (response: Array<{ idCareer: string, career: string }>) => {
                 this.careerOptions = response.map(item => ({
                     value: item.idCareer,
-                    label: item.career
+                    label: 'Odontología' 
                 }));
                 const careerField = this.personalDataFields.find(field => field.name === 'career');
                 if (careerField) {
