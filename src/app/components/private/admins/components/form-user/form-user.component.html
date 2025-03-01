@@ -70,77 +70,79 @@
                 {{ modoEdicion() ? 'Cancelar Edición' : 'Editar Datos' }}
               </button>
             </div>
-            <div class="form-group">
-              <label for="nombre">Nombre</label>
-              <input id="nombre" type="text" name="nombre" 
-                [(ngModel)]="user.person.firstName" 
-                class="form-control" 
-                [readonly]="!modoEdicion()"
-                [class.readonly]="!modoEdicion()">
-            </div>
-            <div class="form-group">
-              <label for="apellido">Apellido</label>
-              <input id="apellido" type="text" name="apellido" 
-                [(ngModel)]="user.person.firstLastName" 
-                class="form-control"
-                [readonly]="!modoEdicion()"
-                [class.readonly]="!modoEdicion()">
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input id="email" type="email" name="email" 
-                [(ngModel)]="user.person.email" 
-                class="form-control"
-                [readonly]="!modoEdicion()"
-                [class.readonly]="!modoEdicion()">
-            </div>
-            <div class="form-group">
-              <label for="telefono">Teléfono</label>
-              <input id="telefono" type="tel" name="telefono" 
-                [(ngModel)]="user.person.phone" 
-                class="form-control"
-                [readonly]="!modoEdicion()"
-                [class.readonly]="!modoEdicion()">
-            </div>
-            <div class="form-group">
-              <label for="employeeNumber">Número de Empleado</label>
-              <input id="employeeNumber" type="text" name="employeeNumber" 
-                [(ngModel)]="employeeNumber" 
-                class="form-control" 
-                [readonly]="!modoEdicion()"
-                [class.readonly]="!modoEdicion()">
-            </div>
-            <div class="form-group">
-              <label for="secondName">Segundo Nombre</label>
-              <input id="secondName" type="text" name="secondName" 
-                [(ngModel)]="user.person.secondName" 
-                class="form-control" 
-                [readonly]="!modoEdicion()"
-                [class.readonly]="!modoEdicion()">
-            </div>
-            <div class="form-group">
-              <label for="secondLastName">Segundo Apellido</label>
-              <input id="secondLastName" type="text" name="secondLastName" 
-                [(ngModel)]="user.person.secondLastName" 
-                class="form-control" 
-                [readonly]="!modoEdicion()"
-                [class.readonly]="!modoEdicion()">
-            </div>
-            <div class="form-group">
-              <label for="curp">CURP</label>
-              <input id="curp" type="text" name="curp" 
-                [(ngModel)]="user.person.curp" 
-                class="form-control" 
-                [readonly]="!modoEdicion()"
-                [class.readonly]="!modoEdicion()">
-            </div>
-            <div class="form-group">
-              <label for="birthDate">Fecha de Nacimiento</label>
-              <input id="birthDate" type="date" name="birthDate" 
-                [(ngModel)]="birthDate" 
-                class="form-control" 
-                [readonly]="!modoEdicion()"
-                [class.readonly]="!modoEdicion()">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" type="text" name="nombre" 
+                  [(ngModel)]="user.person.firstName" 
+                  class="form-control" 
+                  [readonly]="!modoEdicion()"
+                  [class.readonly]="!modoEdicion()">
+              </div>
+              <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input id="apellido" type="text" name="apellido" 
+                  [(ngModel)]="user.person.firstLastName" 
+                  class="form-control"
+                  [readonly]="!modoEdicion()"
+                  [class.readonly]="!modoEdicion()">
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" 
+                  [(ngModel)]="user.person.email" 
+                  class="form-control"
+                  [readonly]="!modoEdicion()"
+                  [class.readonly]="!modoEdicion()">
+              </div>
+              <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input id="telefono" type="tel" name="telefono" 
+                  [(ngModel)]="user.person.phone" 
+                  class="form-control"
+                  [readonly]="!modoEdicion()"
+                  [class.readonly]="!modoEdicion()">
+              </div>
+              <div class="form-group">
+                <label for="employeeNumber">Número de Empleado</label>
+                <input id="employeeNumber" type="text" name="employeeNumber" 
+                  [(ngModel)]="employeeNumber" 
+                  class="form-control" 
+                  [readonly]="!modoEdicion()"
+                  [class.readonly]="!modoEdicion()">
+              </div>
+              <div class="form-group">
+                <label for="secondName">Segundo Nombre</label>
+                <input id="secondName" type="text" name="secondName" 
+                  [(ngModel)]="user.person.secondName" 
+                  class="form-control" 
+                  [readonly]="!modoEdicion()"
+                  [class.readonly]="!modoEdicion()">
+              </div>
+              <div class="form-group">
+                <label for="secondLastName">Segundo Apellido</label>
+                <input id="secondLastName" type="text" name="secondLastName" 
+                  [(ngModel)]="user.person.secondLastName" 
+                  class="form-control" 
+                  [readonly]="!modoEdicion()"
+                  [class.readonly]="!modoEdicion()">
+              </div>
+              <div class="form-group">
+                <label for="curp">CURP</label>
+                <input id="curp" type="text" name="curp" 
+                  [(ngModel)]="user.person.curp" 
+                  class="form-control" 
+                  [readonly]="!modoEdicion()"
+                  [class.readonly]="!modoEdicion()">
+              </div>
+              <div class="form-group">
+                <label for="birthDate">Fecha de Nacimiento</label>
+                <input id="birthDate" type="date" name="birthDate" 
+                  [(ngModel)]="birthDate" 
+                  class="form-control" 
+                  [readonly]="!modoEdicion()"
+                  [class.readonly]="!modoEdicion()">
+              </div>
             </div>
             <button type="submit" class="btn btn-primary" [hidden]="!modoEdicion()">Guardar cambios</button>
           </form>
