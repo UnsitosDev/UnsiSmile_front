@@ -55,6 +55,9 @@ export class FormUpdateStudentComponent implements OnInit {
         this.fb.control(field.value || '', field.validators || [])
       );
     });
+
+    // Cargar opciones de género
+    this.studentService.handleGenderClick({} as MouseEvent);
   }
 
   loadStudentData(matricula: string) {

@@ -168,16 +168,25 @@ export class studentService {
     // Eventos
 
     constructor() {
+        this.loadInitialData();
+    }
+
+    private loadInitialData(): void {
         this.handleGenderClick({} as MouseEvent);
         this.handleCareerClick();
         this.handleGroupClick();
         this.handleSemesterClick();
     }
 
-    private handleGenderClick(event: MouseEvent): void {
+    public handleGenderClick(event: MouseEvent): void {
         this.patientService.getGender();
         const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);
-        genderField && (genderField.options = this.patientService.genderOptions);
+        if (genderField) {
+            genderField.options = this.patientService.genderOptions;
+            if (genderField.options.length > 0) {
+                genderField.value = genderField.options[0].value; // Seleccionar el primer valor por defecto
+            }
+        }
     }
 
     private handleCareerClick(): void {
