@@ -12,6 +12,7 @@ export interface ClinicalHistoryCatalog {
     idClinicalHistoryCatalog: number;
     clinicalHistoryName: string;
     formSections: FormSection[];
+    medicalRecordNumber: number;
 }
 
 export interface FormSection {
