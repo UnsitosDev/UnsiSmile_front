@@ -38,6 +38,9 @@ export class FormUpdateStudentComponent implements OnInit {
   private toastr = inject(ToastrService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private userId: string = '';
+  private userPassword: string = '';
+  private userStatus: boolean = false;
 
   constructor(private route: ActivatedRoute, private studentService: studentService) {}
 
@@ -79,6 +82,11 @@ export class FormUpdateStudentComponent implements OnInit {
           semester: student.group?.semesterNumber,
           group: student.group?.idGroup
         });
+
+        // Guardar valores adicionales en propiedades de la clase
+        this.userId = student.user.id;
+        this.userPassword = student.user.password || ''; // Asegurarse de que la contraseña no sea undefined
+        this.userStatus = student.user.status;
       },
       error: (error) => {
         this.toastr.error('Error al cargar los datos del estudiante: ' + error.message, 'Error');
@@ -92,11 +100,14 @@ export class FormUpdateStudentComponent implements OnInit {
       const studentData = {
         enrollment: formValues.enrollment,
         user: {
+          idUser: this.userId, // Usar el ID del usuario cargado
           username: formValues.email,
+          password: this.userPassword, // Usar la contraseña cargada
           role: {
             idRole: 2,
             role: 'ROLE_STUDENT'
-          }
+          },
+          status: this.userStatus // Usar el estado cargado
         },
         person: {
           curp: formValues.curp,
@@ -114,14 +125,17 @@ export class FormUpdateStudentComponent implements OnInit {
         },
         group: {
           id: +formValues.group,
-          groupName: '',
+          groupName: null, // Asignar el nombre del grupo si está disponible
           semesterNumber: formValues.semester,
           career: {
             idCareer: formValues.career,
-            career: ''
+            career: '' // Asignar el nombre de la carrera si está disponible
           }
-        }
+        },
+        studentStatus: this.userStatus, // Asegurarse de incluir el estado del estudiante
       };
+
+      console.log('Datos enviados:', studentData); // Mostrar los datos en la consola
 
       const url = `${UriConstants.PUT_STUDENT}${this.matricula}`;
       this.apiService.patchService({

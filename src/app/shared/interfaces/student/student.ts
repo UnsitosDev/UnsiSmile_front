@@ -65,6 +65,11 @@ export interface studentUserResponse {
     group: {
       idGroup: number;
       groupName: string;
+      semesterNumber: number;
+      career: {
+        idCareer: number;
+        career: string;
+      };
     };
     studentStatus: string;
   }

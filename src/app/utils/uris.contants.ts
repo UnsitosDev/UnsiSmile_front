@@ -193,13 +193,9 @@ export class UriConstants {
   public static readonly GET_STUDENT_BY_ENROLLMENT = basePath + '/students';
   public static readonly PUT_STUDENT = basePath + '/students/';
 
-
-
-
   public static readonly POST_ADMIN = basePath + '/administrators';
   public static readonly GET_ADMIN = basePath + '/administrators';
   public static readonly PATCH_ADMIN = basePath + '/administrators';
-
 
   // vital-signs-controller
   public static readonly GETID_VITAL_SIGNS =
