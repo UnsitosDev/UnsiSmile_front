@@ -8,15 +8,7 @@
         <mat-card-title>
             <div class="title-container">
               <span><strong>Historia clínica {{mappedHistoryData.title}}</strong></span>
-              <span>
-                <strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong> - 
-                @if (!status) {
-                    <button class="button-custom" (click)="openConfirmDialog()">Enviar a revision <i class="fas fa-file-upload"></i></button>
-                }
-                @if (status) {
-                    <span class="status" [innerHTML]="translateStatus(status.status)"></span>
-                }
-              </span> 
+              <span><strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong></span>
             </div>
         </mat-card-title>
         <mat-card class="custom">
