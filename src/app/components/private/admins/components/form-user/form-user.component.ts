@@ -42,6 +42,7 @@ export class FormUserComponent implements OnInit {
   profilePicture = signal<string | null>(null);
   private profilePictureUpdated = new Subject<string | null>();
   employeeNumber = signal('');
+  birthDate = signal<string | null>(null);
 
   constructor(
     private router: Router,
@@ -73,7 +74,7 @@ export class FormUserComponent implements OnInit {
         firstLastName: this.user.person.firstLastName,
         secondLastName: this.user.person.secondLastName,
         phone: this.user.person.phone,
-        birthDate: this.user.person.birthDate,
+        birthDate: this.birthDate(),
         email: this.user.person.email,
         gender: this.user.person.gender
       }
@@ -152,6 +153,7 @@ export class FormUserComponent implements OnInit {
         next: (data) => {
           this.user = data;
           this.employeeNumber.set(data.employeeNumber);
+          this.birthDate.set(data.person.birthDate.join('-'));
           this.setWelcomeMessage();        },
         error: (error) => {
           console.error('Error fetching user data:', error);
