@@ -123,7 +123,7 @@ export class FormUpdateStudentComponent implements OnInit {
         }
       };
 
-      const url = `${UriConstants.PUT_STUDENT}/${this.matricula}`;
+      const url = `${UriConstants.PUT_STUDENT}${this.matricula}`;
       this.apiService.patchService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',

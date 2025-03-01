@@ -191,7 +191,7 @@ export class UriConstants {
   public static readonly POST_STUDENTS = basePath + '/students';
   public static readonly PATCH_STUDENTS = basePath + '/students';
   public static readonly GET_STUDENT_BY_ENROLLMENT = basePath + '/students';
-  public static readonly PUT_STUDENT = basePath + '/students';
+  public static readonly PUT_STUDENT = basePath + '/students/';
 
 
 
