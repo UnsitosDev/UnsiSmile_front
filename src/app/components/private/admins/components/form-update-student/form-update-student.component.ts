@@ -69,12 +69,12 @@ export class FormUpdateStudentComponent implements OnInit {
           enrollment: student.enrollment,
           curp: student.person.curp,
           phone: student.person.phone,
-          birthDate: student.person.birthDate,
+          birthDate: new Date(student.person.birthDate), // Convertir la fecha a un objeto Date
           email: student.person.email,
-          gender: student.person.gender.idGender,
-          career: student.group?.career?.idCareer || '',
-          semester: student.group?.semesterNumber || '',
-          group: student.group?.idGroup || ''
+          gender: student.person.gender.idGender.toString(), // Convertir el idGender a string
+          career: student.group?.career?.idCareer,
+          semester: student.group?.semesterNumber,
+          group: student.group?.idGroup
         });
       },
       error: (error) => {
