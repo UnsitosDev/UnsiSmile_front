@@ -204,10 +204,9 @@ export class StudentsOralSurgeryHistoryComponent {
       })
       .subscribe({
         next: (response) => {
-          this.status = response; // Asigna la respuesta a `status`
+          this.status = response;
         },
         error: () => {
-          console.log('Error al obtener el estado de la historia clínica');
         },
       });
   }
@@ -226,8 +225,9 @@ export class StudentsOralSurgeryHistoryComponent {
   }
 
   translateStatus(status: string): string {
-    return this.statusMap[status] || status; // Si no encuentra la traducción, devuelve el estado original
+    return this.statusMap[status] || status; 
   }
+  
   // Método auxiliar para obtener el nombre completo
   private getFullName(firstName: string, secondName: string, firstLastName: string, secondLastName: string): string {
     return `${firstName} ${secondName} ${firstLastName} ${secondLastName}`.trim();

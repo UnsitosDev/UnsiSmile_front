@@ -224,12 +224,10 @@ export class OralProsthesisComponent {
       })
       .subscribe({
         next: (response) => {
-          this.status = response; // Asigna la respuesta a `status`
-          console.log('Respuesta del servidor:', response);
+          this.status = response; 
         },
         error: () => {
-          console.log('Error al obtener el estado de la historia clínica');
-        },
+          },
       });
   }
 
@@ -247,7 +245,7 @@ export class OralProsthesisComponent {
     }
 
   translateStatus(status: string): string {
-    return this.statusMap[status] || status; // Si no encuentra la traducción, devuelve el estado original
+    return this.statusMap[status] || status; 
   }
 
   onNextTab(): void {

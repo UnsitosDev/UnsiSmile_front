@@ -113,7 +113,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       }
     });
 
-    // Obtener estatus de la HC
     this.getStatusHc();
   }
 
@@ -220,7 +219,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
   
-  // Mandar HC a revision
   openConfirmDialog() {
       const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
         width: '300px',
@@ -254,7 +252,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
             .subscribe({
               next: (response) => {
                 this.status = response;
-                console.log(this.status);
               },
                 error: (error) => {
               },

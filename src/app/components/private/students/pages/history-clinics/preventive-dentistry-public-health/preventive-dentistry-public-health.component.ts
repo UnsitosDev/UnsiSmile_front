@@ -225,7 +225,7 @@ export class PreventiveDentistryPublicHealthComponent {
           this.status = response; // Asigna la respuesta a `status`
         },
         error: () => {
-          console.log('Error al obtener el estado de la historia clínica');
+
         },
       });
   }
@@ -245,7 +245,7 @@ export class PreventiveDentistryPublicHealthComponent {
 
 
   translateStatus(status: string): string {
-    return this.statusMap[status] || status; // Si no encuentra la traducción, devuelve el estado original
+    return this.statusMap[status] || status; 
   }
 
   onNextTab(): void {
