@@ -45,6 +45,8 @@ export interface studentUserResponse {
         idRole: number;
         role: string;
       };
+      status: boolean;
+      profilePictureId: string;
     };
     person: {
       curp: string;
@@ -53,11 +55,16 @@ export interface studentUserResponse {
       firstLastName: string;
       secondLastName: string;
       phone: string;
-      birthDate: number[];
+      birthDate: string;
       email: string;
       gender: {
         idGender: number;
         gender: string;
       };
     };
+    group: {
+      idGroup: number;
+      groupName: string;
+    };
+    studentStatus: string;
   }

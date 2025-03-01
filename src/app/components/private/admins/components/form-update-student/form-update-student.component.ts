@@ -72,9 +72,9 @@ export class FormUpdateStudentComponent implements OnInit {
           birthDate: student.person.birthDate,
           email: student.person.email,
           gender: student.person.gender.idGender,
-          career: student.group.career.idCareer,
-          semester: student.group.semesterNumber,
-          group: student.group.id
+          career: student.group?.career?.idCareer || '',
+          semester: student.group?.semesterNumber || '',
+          group: student.group?.idGroup || ''
         });
       },
       error: (error) => {
