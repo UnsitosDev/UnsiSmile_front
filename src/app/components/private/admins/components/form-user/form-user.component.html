@@ -102,6 +102,46 @@
                 [readonly]="!modoEdicion()"
                 [class.readonly]="!modoEdicion()">
             </div>
+            <div class="form-group">
+              <label for="employeeNumber">Número de Empleado</label>
+              <input id="employeeNumber" type="text" name="employeeNumber" 
+                [(ngModel)]="employeeNumber" 
+                class="form-control" 
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
+            </div>
+            <div class="form-group">
+              <label for="secondName">Segundo Nombre</label>
+              <input id="secondName" type="text" name="secondName" 
+                [(ngModel)]="user.person.secondName" 
+                class="form-control" 
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
+            </div>
+            <div class="form-group">
+              <label for="secondLastName">Segundo Apellido</label>
+              <input id="secondLastName" type="text" name="secondLastName" 
+                [(ngModel)]="user.person.secondLastName" 
+                class="form-control" 
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
+            </div>
+            <div class="form-group">
+              <label for="curp">CURP</label>
+              <input id="curp" type="text" name="curp" 
+                [(ngModel)]="user.person.curp" 
+                class="form-control" 
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
+            </div>
+            <div class="form-group">
+              <label for="birthDate">Fecha de Nacimiento</label>
+              <input id="birthDate" type="date" name="birthDate" 
+                [(ngModel)]="user.person.birthDate" 
+                class="form-control" 
+                [readonly]="!modoEdicion()"
+                [class.readonly]="!modoEdicion()">
+            </div>
             <button type="submit" class="btn btn-primary" [hidden]="!modoEdicion()">Guardar cambios</button>
           </form>
         }

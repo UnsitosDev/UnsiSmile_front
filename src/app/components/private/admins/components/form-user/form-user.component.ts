@@ -41,6 +41,7 @@ export class FormUserComponent implements OnInit {
   welcomeMessage = signal(''); 
   profilePicture = signal<string | null>(null);
   private profilePictureUpdated = new Subject<string | null>();
+  employeeNumber = signal('');
 
   constructor(
     private router: Router,
@@ -62,7 +63,22 @@ export class FormUserComponent implements OnInit {
 
   actualizarDatosUsuario() {
     console.log('Actualizando datos de usuario:', { nombre: this.nombre(), email: this.email() });
-    //lógica para actualizar los datos en el backend
+    // lógica para actualizar los datos en el backend
+    const payload = {
+      employeeNumber: this.employeeNumber(),
+      person: {
+        curp: this.user.person.curp,
+        firstName: this.user.person.firstName,
+        secondName: this.user.person.secondName,
+        firstLastName: this.user.person.firstLastName,
+        secondLastName: this.user.person.secondLastName,
+        phone: this.user.person.phone,
+        birthDate: this.user.person.birthDate,
+        email: this.user.person.email,
+        gender: this.user.person.gender
+      }
+    };
+    // Lógica para enviar el payload al backend
   }
 
   actualizarContrasena() {
@@ -135,6 +151,7 @@ export class FormUserComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.user = data;
+          this.employeeNumber.set(data.employeeNumber);
           this.setWelcomeMessage();        },
         error: (error) => {
           console.error('Error fetching user data:', error);
@@ -182,13 +199,8 @@ export class FormUserComponent implements OnInit {
 
   toggleEdicion() {
     if (this.modoEdicion()) {
-      // Si estamos saliendo del modo edición, preguntamos si quiere guardar
-      if (confirm('¿Desea guardar los cambios?')) {
-        this.actualizarDatosUsuario();
-      } else {
-        // Si no quiere guardar, revertimos los cambios
-        this.fetchUserData();
-      }
+      // Si estamos saliendo del modo edición, revertimos los cambios
+      this.fetchUserData();
     }
     this.modoEdicion.set(!this.modoEdicion());
   }
