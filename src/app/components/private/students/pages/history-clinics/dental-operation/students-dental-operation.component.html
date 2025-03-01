@@ -9,7 +9,7 @@
           <span>
             <strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong> - 
             @if (!status) {
-                <button class="button-custom" (click)="sendToReview()">Enviar a revisión <i class="fas fa-file-upload"></i></button>
+                <button class="button-custom" (click)="openConfirmDialog()">Enviar a revisión <i class="fas fa-file-upload"></i></button>
             }
             @if (status) {
                 <span class="status" [innerHTML]="translateStatus(status.status)"></span>

@@ -30,10 +30,8 @@ export class DialogConfirmSendToReviewComponent {
       .subscribe({
         next: (response) => {
           this.dialogRef.close(true);
-          // aqui tengo que llamar a getStatus 
         },
         error: (error) => {
-          console.error('Error al enviar a revisión:', error);
           this.dialogRef.close(false); 
         },
       });

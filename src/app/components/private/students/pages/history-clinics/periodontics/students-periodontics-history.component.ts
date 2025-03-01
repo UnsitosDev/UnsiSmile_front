@@ -28,6 +28,7 @@ import { StatusClinicalHistoryResponse, StudentItems } from '@mean/models';
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { HttpHeaders } from '@angular/common/http';
+import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 
 @Component({
   selector: 'app-students-periodontics-history',
@@ -229,24 +230,18 @@ export class StudentsPeriodonticsHistoryComponent {
       });
   }
 
-  sendToReview() {
-    this.apiService
-      .putService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.PUT_CLINICAL_HISTORY_REVIEW}/${this.idPatientClinicalHistory}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.getStatusHc();
-        },
-        error: (error) => {
-          console.error('Error al enviar a revisión:', error);
-        },
+  openConfirmDialog() {
+      const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
+        width: '300px',
+        data: { idPatientClinicalHistory: this.idPatientClinicalHistory }, 
       });
-  }
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.getStatusHc();
+        }
+      });
+    }
 
   translateStatus(status: string): string {
     return this.statusMap[status] || status; // Si no encuentra la traducción, devuelve el estado original

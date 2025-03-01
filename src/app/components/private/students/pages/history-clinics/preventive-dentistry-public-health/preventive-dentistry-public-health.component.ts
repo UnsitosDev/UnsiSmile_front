@@ -233,12 +233,11 @@ export class PreventiveDentistryPublicHealthComponent {
   openConfirmDialog() {
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
       width: '300px',
-      data: { idPatientClinicalHistory: this.idPatientClinicalHistory }, // Pasa el ID al diálogo
+      data: { idPatientClinicalHistory: this.idPatientClinicalHistory }, 
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Si el usuario confirmó, actualiza el estado
         this.getStatusHc();
       }
     });
