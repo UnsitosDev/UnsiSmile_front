@@ -25,8 +25,8 @@ export interface Section {
 
 export class ProgressNotesComponent implements OnInit {
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
-  @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
-  @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
+  @Output() nextMatTab = new EventEmitter<void>();
+  @Output() previousMatTab = new EventEmitter<void>();
   @Input({ required: true }) patientId!: string;
   apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
@@ -45,7 +45,27 @@ export class ProgressNotesComponent implements OnInit {
           console.log(response);
         },
         error: (error) => {
-          console.error('Error en la autenticación:', error);
+          console.error(error);
+        },
+      });
+  }
+
+  idFile: string = '';
+  downloadNote() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.DOWNLOAD_EVOLUTION_NOTE}/${this.idFile}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (error) => {
+          console.error(error);
         },
       });
   }

@@ -299,4 +299,6 @@ export class UriConstants {
   public static readonly GET_PROFESOR_AREA = basePath + '/catalog-options/catalog'
   // Obtener una lista paginada de notas de evolución de un paciente
   public static readonly GET_PAGINATED_EVOLUTION_NOTES = basePath + '/progress-notes';
+  // Obtener nota para descarga
+  public static readonly DOWNLOAD_EVOLUTION_NOTE = basePath + '/progress-notes/files';
 }
