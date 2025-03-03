@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,7 @@ import { inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 
 
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { AlertModel, StudentItems } from '@mean/models';
 import { PatientService } from 'src/app/services/patient/patient.service';
 import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
@@ -68,6 +68,7 @@ export class FormPatientPersonalDataComponent {
   private navigationComplete: boolean = false;
   private additionalRoutes = ['/students/user'];
   private route = inject(Router);
+  @ViewChild('stepper') stepper!: MatStepper;
 
   constructor(
     private fb: FormBuilder,
@@ -280,8 +281,9 @@ export class FormPatientPersonalDataComponent {
                 next: (response) => {
                     this.isNavigationPrevented = false;
                     this.navigationComplete = true;
-                    this.router.navigate(['/admin/patients']);
                     this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
+                    // Avanzar a la siguiente pestaña después de guardar
+                    this.stepper.next();
                 },
                 error: (error) => {
                     this.toastr.error('Error al guardar el paciente: ' + (error.error?.message || 'Error desconocido'), 'Error');
