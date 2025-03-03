@@ -165,6 +165,53 @@ export class studentService {
       
     ];
 
+    public studentFields: FormField[] = [
+        {
+          type: 'autocompleteoptions',
+          label: 'Matrícula del Alumno',
+          name: 'studentEnrollment',
+          required: false,
+          errorMessages: {
+            required: 'La matrícula es requerida'
+          },
+          onInputChange: {
+            changeFunction: this.handleStudentEnrollmentSearch.bind(this),
+            length: 2  // Aquí se define el número mínimo de caracteres
+          }
+        }
+      ];
+
+      handleStudentEnrollmentSearch(searchTerm: string) {
+        if (searchTerm && searchTerm.length >= 2) {  // Aquí se valida la longitud
+          this.apiService.getService({
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.GET_STUDENTS}?keyword=${searchTerm}`,
+            data: {},
+          }).subscribe({
+            next: (response) => {
+              
+              const enrollmentField = this.studentFields.find(field => field.name === 'studentEnrollment');
+              if (enrollmentField && response.content) {
+                // Mapear solo las matrículas y nombres de los estudiantes
+                enrollmentField.options = response.content.map((student: any) => {
+                  const option = {
+                    value: student.enrollment,
+                    label: `${student.enrollment} - ${student.person.firstName} ${student.person.firstLastName}`
+                  };
+                  return option;
+                });
+                
+              }
+            },
+            error: (error) => {
+                console.error('Error al obtener estudiantes del servidor:', error);
+            }
+          });
+        }
+      }
+
     // Eventos
 
     constructor() {

@@ -32,6 +32,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmLeaveComponent } from '../../../students/components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { MatCardModule } from '@angular/material/card';
+import { studentService } from 'src/app/services/student.service';
 
 
 @Component({
@@ -53,27 +54,14 @@ export class FormPatientPersonalDataComponent {
   private toastr = inject(ToastrService);
   readonly dialog = inject(MatDialog);
   minorPatient: boolean = false;
+  private studentService = inject(studentService);
 
   formGroup!: FormGroup;
   personal: FormField[] = [];
   address: FormField[] = [];
   other: FormField[] = [];
   guardian: FormField[] = [];
-  studentFields: FormField[] = [
-    {
-      type: 'autocompleteoptions',
-      label: 'Matrícula del Alumno',
-      name: 'studentEnrollment',
-      required: false,
-      errorMessages: {
-        required: 'La matrícula es requerida'
-      },
-      onInputChange: {
-        changeFunction: this.handleStudentEnrollmentSearch.bind(this),
-        length: 2  // Aquí se define el número mínimo de caracteres
-      }
-    }
-  ];
+  studentFields: FormField[] = [];
   private currentPage: number = 0;
   // Variables para navegación
   private navigationSubscription!: Subscription;
@@ -102,6 +90,7 @@ export class FormPatientPersonalDataComponent {
     this.address = this.addressDataFields.getAddressFields();
     this.other = this.otherDataFields.getOtherDataFields();
     this.guardian = this.guardianField.getGuardianDataFields();
+    this.studentFields = this.studentService.studentFields; // Agregar esta línea
 
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
@@ -392,6 +381,31 @@ export class FormPatientPersonalDataComponent {
       });
   }
 
+  handleStudentEnrollmentSearch(searchTerm: string) {
+    if (searchTerm && searchTerm.length >= 2) {
+      this.apiService.getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_STUDENTS}?keyword=${searchTerm}`,
+        data: {},
+      }).subscribe({
+        next: (response) => {
+          const enrollmentField = this.studentFields.find(field => field.name === 'studentEnrollment');
+          if (enrollmentField && response.content) {
+            enrollmentField.options = response.content.map((student: any) => ({
+              value: student.enrollment,
+              label: `${student.enrollment} - ${student.person.firstName} ${student.person.firstLastName}`
+            }));
+          }
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        }
+      });
+    }
+  }
+
   onScroll(event: any): void {
     const element = event.target;
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
@@ -405,34 +419,5 @@ export class FormPatientPersonalDataComponent {
     }
   }
 
-  handleStudentEnrollmentSearch(searchTerm: string) {
-    if (searchTerm && searchTerm.length >= 2) {  // Aquí se valida la longitud
-      this.apiService.getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_STUDENTS}?keyword=${searchTerm}`,
-        data: {},
-      }).subscribe({
-        next: (response) => {
-          
-          const enrollmentField = this.studentFields.find(field => field.name === 'studentEnrollment');
-          if (enrollmentField && response.content) {
-            // Mapear solo las matrículas y nombres de los estudiantes
-            enrollmentField.options = response.content.map((student: any) => {
-              const option = {
-                value: student.enrollment,
-                label: `${student.enrollment} - ${student.person.firstName} ${student.person.firstLastName}`
-              };
-              return option;
-            });
-            
-          }
-        },
-        error: (error) => {
-          this.toastr.error(error);
-        }
-      });
-    }
-  }
+
 }
