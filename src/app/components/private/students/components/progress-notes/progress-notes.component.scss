@@ -1,0 +1,46 @@
+/* Estilos para los botones de navegación */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.button-container button {
+    max-width: 200px;
+    flex: 0 0 auto;
+    margin: 0 5px;
+    font-size: 14px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+}
+
+.button-container button i {
+    font-size: 14px;
+}
+
+button {
+    background-color: var(--tertiary);
+    color: var(--side-text) !important;
+    border-radius: 2px;
+}
+
+.mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: var(--side-text);
+    margin: 10px 10px 0px 10px !important;
+}
+
+
+.mat-mdc-list-item-icon {
+    color: rgba(0, 0, 0, 0.54);
+}
+  
+.list-custom{
+    padding: 10px   ;
+}
+
+

@@ -1,0 +1,26 @@
+<div class="button-container">
+    <div></div>
+    <div>
+      <button type="button" mat-button>Nueva nota <i class="fas fa-plus"></i></button>
+    </div>
+</div>
+
+<mat-list class="list-custom">
+    <div mat-subheader>Notas de Evolución</div>
+    @for (note of notes; track note) {
+      <mat-list-item>
+        <mat-icon matListItemIcon>note</mat-icon>
+        <div matListItemTitle>{{note.name}}</div>
+        <div matListItemLine>{{note.updated}}</div>
+      </mat-list-item>
+    }
+</mat-list>
+
+  
+<div class="button-container">
+    <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
+    <div>
+      <button type="button" mat-button>GUARDAR <i class="fas fa-save"></i></button>
+    </div>
+</div>
+
