@@ -112,12 +112,19 @@ export class ProgressNotesService {
     private getProfesorOptions(): void {
         this.profesorService.getProfesorArea().subscribe({
             next: (response) => {
-                console.log('ok');
+                const profesorField = this.formProgressNotes.find(
+                    (field) => field.name === 'professorClinicalAreaId'
+                );
+                if (profesorField) {
+                    profesorField.options = response.map((profesor: any) => ({
+                        value: profesor.idCatalogOption, 
+                        label: profesor.optionName,      
+                    }));
+                }
             },
             error: (error) => {
-                console.error('Error al obtener el catálogo de profesores:', error);
+                console.error(error);   
             },
         });
     }
-
 }
