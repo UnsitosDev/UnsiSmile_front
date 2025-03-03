@@ -199,28 +199,28 @@ export class FormPatientPersonalDataComponent {
         // Crear un objeto para la dirección con valores por defecto
         const addressData = {
             idAddress: 0,
-            streetNumber: formValues.exteriorNumber || '',
-            interiorNumber: formValues.interiorNumber || '',
+            streetNumber: formValues.exteriorNumber,
+            interiorNumber: formValues.interiorNumber,
             housing: {
-                idHousing: formValues.housingCategory ? +formValues.housingCategory : 0,
+                idHousing: +formValues.housingCategory,
                 category: ""
             },
             street: {
-                idStreet: 0,  // Valor por defecto
-                name: formValues.streetName || '',  // Usar el valor ingresado manualmente
+              idStreet: isNaN(+formValues.streetName) ? 0 : +formValues.streetName,
+              name: isNaN(+formValues.streetName) ? formValues.streetName : '',
                 neighborhood: {
-                    idNeighborhood: 0,  // Valor por defecto
-                    name: formValues.neighborhoodName || '',  // Usar el valor ingresado manualmente
+                  idNeighborhood: isNaN(+formValues.neighborhoodName) ? 0 : +formValues.neighborhoodName,
+                  name: isNaN(+formValues.neighborhoodName) ? formValues.neighborhoodName : '',
                     locality: {
-                        idLocality: this.localityId ? +this.localityId : 0,
-                        name: formValues.localityName || "",
-                        postalCode: formValues.postalCode || "",
+                      idLocality: isNaN(+this.localityId) || +this.localityId === 0 ? 0 : +this.localityId, 
+                      name: isNaN(+this.localityId) || +this.localityId === 0 ? formValues.localityName : "", 
+                      postalCode: formValues.postalCode,
                         municipality: {
-                            idMunicipality: this.municipalityNameId ? +this.municipalityNameId : 0,
-                            name: formValues.municipalityName || "",
+                          idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId, 
+                          name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "", 
                             state: {
-                                idState: this.stateNameId ? +this.stateNameId : 0,
-                                name: formValues.stateName || ""
+                              idState: isNaN(+this.stateNameId) ? 0 : +this.stateNameId,
+                              name: formValues.stateName
                             }
                         }
                     }
