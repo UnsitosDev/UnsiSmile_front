@@ -28,7 +28,10 @@ export class DialogInsertProgressNoteComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<DialogInsertProgressNoteComponent>);
 
   ngOnInit(): void {
+    // Obtener los campos del formulario desde el servicio
     this.progressNotesForm = this.formProgressNotes.getFormProgressNotes();
+
+    // Inicializar el FormGroup y agregar controles dinámicamente
     this.formGroup = this.fb.group({});
     this.progressNotesForm.forEach((field) => {
       this.formGroup.addControl(
@@ -48,7 +51,7 @@ export class DialogInsertProgressNoteComponent implements OnInit {
       console.log('Datos del formulario:', formData);
     } else {
       this.markFormGroupTouched(this.formGroup);
-      this.toastr.warning(Messages.WARNING_FORM, 'Advertencia');
+      this.toastr.warning('Por favor, complete todos los campos requeridos.', 'Advertencia');
     }
   }
 

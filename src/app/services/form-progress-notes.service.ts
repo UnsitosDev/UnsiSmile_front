@@ -1,12 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
+import { ProfesorService } from './profesor.service';
 
 @Injectable({
     providedIn: 'root',
 })
 
 export class ProgressNotesService {
+    private profesorService = inject(ProfesorService); // Inyectar ProfesorService
+
     public formProgressNotes: FormField[] = [
         {
             type: 'inputNumber',
@@ -97,10 +100,24 @@ export class ProgressNotesService {
             errorMessages: {
                 required: 'El campo Profesor es requerido.',
             },
+            options: []
         }
     ];
 
     public getFormProgressNotes(): FormField[] {
+        this.getProfesorOptions();
         return this.formProgressNotes;
     }
+
+    private getProfesorOptions(): void {
+        this.profesorService.getProfesorArea().subscribe({
+            next: (response) => {
+                console.log('ok');
+            },
+            error: (error) => {
+                console.error('Error al obtener el catálogo de profesores:', error);
+            },
+        });
+    }
+
 }
