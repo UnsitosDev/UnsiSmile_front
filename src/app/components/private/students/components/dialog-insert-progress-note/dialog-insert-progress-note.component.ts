@@ -11,6 +11,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { ApiService } from '@mean/services';
+import { HttpHeaders } from '@angular/common/http';
+import { UriConstants } from '@mean/utils';
 
 @Component({
   selector: 'app-dialog-insert-progress-note',

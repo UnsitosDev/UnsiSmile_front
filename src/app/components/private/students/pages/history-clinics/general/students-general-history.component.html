@@ -16,7 +16,9 @@
                   @for (tab of mappedHistoryData.tabs; track tab) {
                       <mat-tab [label]="tab.title">
                           @if (tab.title === 'Nota de evolución' && !tab.isAnswered) {
-                            <app-progress-notes></app-progress-notes>
+                            <app-progress-notes
+                            [patientId]="idpatient"
+                            ></app-progress-notes>
                           } 
                           @if (tab.title === 'Odontograma inicial' && !tab.isAnswered) {
                               <app-students-odontogram
