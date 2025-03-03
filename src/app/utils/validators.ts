@@ -125,3 +125,39 @@ export function enrollmentValidator(): ValidatorFn {
     return valid ? null : { lastError: { value: control.value } };
   };
 }
+
+// Validador de temperatura
+export function temperatureValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const temperaturePattern = /^(3[0-9](\.[0-9]{1,2})?|4[0-4](\.[0-9]{1,2})?|45(\.[0-9]{1,2})?)$/;
+    const valid = temperaturePattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}
+
+// Validador de frecuencia cardíaca
+export function heartRateValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const heartRatePattern = /^(?:[4-9]\d|1\d{2}|200)$/;
+    const valid = heartRatePattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}
+
+// Validador de frecuencia respiratoria
+export function respiratoryRateValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const respiratoryRatePattern = /^(?:1[2-9]|2\d|30)$/;
+    const valid = respiratoryRatePattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}
+
+// Validador de saturación de oxígeno
+export function oxygenSaturationValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const oxygenSaturationPattern = /^(?:[9][0-9]|100)$/;
+    const valid = oxygenSaturationPattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}

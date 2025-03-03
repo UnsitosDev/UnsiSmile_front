@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
 import { ProfesorService } from './profesor.service';
+import { bloodPressureValidator, heartRateValidator, oxygenSaturationValidator, respiratoryRateValidator, temperatureValidator } from '../utils/validators';
 
 @Injectable({
     providedIn: 'root',
@@ -15,46 +16,51 @@ export class ProgressNotesService {
             type: 'inputNumber',
             label: 'Presión arterial',
             name: 'bloodPressure',
-            validators: [Validators.required],
+            validators: [Validators.required, bloodPressureValidator()], // Validador personalizado
             errorMessages: {
-                required: 'El campo Presión arterial es requerido.'
-            }
+                required: 'El campo Presión arterial es requerido.',
+                lastError: 'El formato de la presión arterial es inválido (ej. 120/80).', // Mensaje de error personalizado
+            },
         },
         {
             type: 'inputNumber',
             label: 'Temperatura',
             name: 'temperature',
-            validators: [Validators.required],
+            validators: [Validators.required, temperatureValidator()], // Validador personalizado
             errorMessages: {
-                required: 'El campo Temperatura es requerido.'
-            }
+                required: 'El campo Temperatura es requerido.',
+                lastError: 'La temperatura debe estar entre 30 y 45 grados (ej. 36.5).', // Mensaje de error personalizado
+            },
         },
         {
             type: 'inputNumber',
             label: 'Frecuencia cardíaca',
             name: 'heartRate',
-            validators: [Validators.required],
+            validators: [Validators.required, heartRateValidator()], // Validador personalizado
             errorMessages: {
-                required: 'El campo Frecuencia cardíaca es requerido.'
-            }
+                required: 'El campo Frecuencia cardíaca es requerido.',
+                lastError: 'La frecuencia cardíaca debe estar entre 40 y 200 (ej. 80).', // Mensaje de error personalizado
+            },
         },
         {
             type: 'inputNumber',
             label: 'Frecuencia respiratoria',
             name: 'respiratoryRate',
-            validators: [Validators.required],
+            validators: [Validators.required, respiratoryRateValidator()], // Validador personalizado
             errorMessages: {
                 required: 'El campo Frecuencia respiratoria es requerido.',
-            }
+                lastError: 'La frecuencia respiratoria debe estar entre 12 y 30 (ej. 20).', // Mensaje de error personalizado
+            },
         },
         {
             type: 'inputNumber',
             label: 'Saturación de oxígeno',
-            name: 'phone',
-            validators: [Validators.required],
+            name: 'oxygenSaturation',
+            validators: [Validators.required, oxygenSaturationValidator()], // Validador personalizado
             errorMessages: {
-                require: 'El campo Saturación de oxígeno es requerido.'
-            }
+                required: 'El campo Saturación de oxígeno es requerido.',
+                lastError: 'La saturación de oxígeno debe estar entre 90 y 100 (ej. 95).', // Mensaje de error personalizado
+            },
         },
         {
             type: 'textArea',
@@ -117,13 +123,13 @@ export class ProgressNotesService {
                 );
                 if (profesorField) {
                     profesorField.options = response.map((profesor: any) => ({
-                        value: profesor.idCatalogOption, 
-                        label: profesor.optionName,      
+                        value: profesor.idCatalogOption,
+                        label: profesor.optionName,
                     }));
                 }
             },
             error: (error) => {
-                console.error(error);   
+                console.error(error);
             },
         });
     }
