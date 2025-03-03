@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-card-title>
+    <div class="title-container">
+      <span><strong><i class="fas fa-notes-medical"></i> Nueva nota de evolución</strong></span>
+      <mat-icon matListItemIcon (click)="closeDialog()">close</mat-icon>
+    </div>
+  </mat-card-title>
+</mat-card>
+
+<mat-dialog-content class="content">
+  <form [formGroup]="formGroup">  
+    @for (field of progressNotesForm; track $index) {
+      <app-field-component 
+        [field]="field" 
+        [formGroup]="formGroup">
+      </app-field-component>
+    }      
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onInsert()">Guardar Nota <i class="fas fa-save"></i></button>
+</mat-dialog-actions>

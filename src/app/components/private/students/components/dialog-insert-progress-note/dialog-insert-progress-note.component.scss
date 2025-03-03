@@ -1,0 +1,38 @@
+.content {
+    width: 90vw;
+    /* Usa el 90% del ancho de la ventana */
+    max-width: 900px;
+    /* Limita el ancho máximo */
+    overflow-y: auto;
+    /* Agrega scroll vertical si el contenido es muy largo */
+    padding: 30px;
+    /* Padding general */
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 600px) {
+    .content {
+        width: 100vw;
+        /* Ocupa todo el ancho de la pantalla */
+        max-width: 100vw;
+        /* Limita el ancho máximo al 100% del viewport */
+        padding: 15px;
+        /* Reduce el padding en móviles */
+    }
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+
+mat-icon {
+    cursor: pointer;
+}
+
+button{
+    background-color: var(--tertiary);
+    color: white !important;
+}

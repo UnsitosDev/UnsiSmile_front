@@ -1,8 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import {DatePipe} from '@angular/common';
 import {MatListModule} from '@angular/material/list';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogInsertProgressNoteComponent } from '../dialog-insert-progress-note/dialog-insert-progress-note.component';
 
 
 export interface Section {
@@ -22,6 +24,8 @@ export class ProgressNotesComponent implements OnInit {
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
+  readonly dialog = inject(MatDialog);
+
 
   ngOnInit(): void { }
 
@@ -58,4 +62,15 @@ export class ProgressNotesComponent implements OnInit {
       updated: new Date('1/18/16'),
     },
   ];
+
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogInsertProgressNoteComponent, {
+      disableClose: true, 
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }
