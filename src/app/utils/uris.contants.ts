@@ -301,4 +301,6 @@ export class UriConstants {
   public static readonly GET_PAGINATED_EVOLUTION_NOTES = basePath + '/progress-notes';
   // Obtener nota para descarga
   public static readonly DOWNLOAD_EVOLUTION_NOTE = basePath + '/progress-notes/files';
+  // Crear un registro de nota de evolucion
+  public static readonly POST_EVOLUTION_NOTE = basePath + '/progress-notes';
 }

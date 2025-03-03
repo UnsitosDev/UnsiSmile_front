@@ -15,8 +15,7 @@ export function bloodPressureValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const bloodPressurePattern = /^\d{2,3}\/\d{2,3}$/;
     const valid = bloodPressurePattern.test(control.value);
-    
-    return valid ? null : { lastError: { value: control.value } }; // Manejo de errores unificado
+    return valid ? null : { lastError: { value: control.value } };
   };
 }
 

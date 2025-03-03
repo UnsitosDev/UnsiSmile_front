@@ -12,6 +12,7 @@
     @for (field of progressNotesForm; track $index) {
       <app-field-component 
         [field]="field" 
+        [errors]="field.errorMessages"
         [formGroup]="formGroup">
       </app-field-component>
     }      

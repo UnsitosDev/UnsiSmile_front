@@ -1,6 +1,6 @@
 import { Component, inject, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
@@ -25,10 +25,13 @@ import { UriConstants } from '@mean/utils';
 export class DialogInsertProgressNoteComponent implements OnInit {
   formGroup!: FormGroup;
   progressNotesForm: any[] = [];
+  apiService = inject(ApiService);
   private formProgressNotes = inject(ProgressNotesService);
   private toastr = inject(ToastrService);
   private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<DialogInsertProgressNoteComponent>);
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { patientId: string }) {}
 
   ngOnInit(): void {
     // Obtener los campos del formulario desde el servicio
@@ -49,12 +52,31 @@ export class DialogInsertProgressNoteComponent implements OnInit {
   }
 
   onInsert(): void {
+    const formValues = this.formGroup.value;
+
+    const formData = {
+      ...formValues,
+      patientId: this.data.patientId,
+    };
+
     if (this.formGroup.valid) {
-      const formData = this.formGroup.value;
-      console.log('Datos del formulario:', formData);
+      this.apiService
+      .postService({
+        headers: new HttpHeaders({}),
+        url: `${UriConstants.POST_EVOLUTION_NOTE}`,
+        data: formData,
+      })
+      .subscribe({
+        next: (response) => {
+          console.log('ok', response)
+        },
+        error: (error) => {
+          this.toastr.warning(error);
+        },
+      });
     } else {
       this.markFormGroupTouched(this.formGroup);
-      this.toastr.warning('Por favor, complete todos los campos requeridos.', 'Advertencia');
+      this.toastr.warning(Messages.WARNING_PROGRESS_NOTE, 'Advertencia');
     }
   }
 

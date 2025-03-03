@@ -100,6 +100,7 @@ export class ProgressNotesComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(DialogInsertProgressNoteComponent, {
       disableClose: true,
+      data: { patientId: this.patientId } 
     });
 
     dialogRef.afterClosed().subscribe(result => {
