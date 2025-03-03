@@ -69,6 +69,7 @@ export class FormPatientPersonalDataComponent {
   private additionalRoutes = ['/students/user'];
   private route = inject(Router);
   @ViewChild('stepper') stepper!: MatStepper;
+  patientId: number | null = null; // Añadir esta propiedad
 
   constructor(
     private fb: FormBuilder,
@@ -282,8 +283,9 @@ export class FormPatientPersonalDataComponent {
                     this.isNavigationPrevented = false;
                     this.navigationComplete = true;
                     this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
-                    // Avanzar a la siguiente pestaña después de guardar
-                    this.stepper.next();
+                    
+                    // Buscar el paciente por CURP para obtener su ID
+                    this.searchPatientByCurp(formValues.curp);
                 },
                 error: (error) => {
                     this.toastr.error('Error al guardar el paciente: ' + (error.error?.message || 'Error desconocido'), 'Error');
@@ -293,6 +295,38 @@ export class FormPatientPersonalDataComponent {
         this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
 }
+
+  // Agregar nuevo método para buscar paciente por CURP
+  searchPatientByCurp(curp: string) {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_PATIENTS}?keyword=${curp}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          if (response.content && response.content.length > 0) {
+            // Encontramos el paciente, guardamos su ID
+            const patient = response.content[0];
+            this.patientId = patient.idPatient;
+            console.log('ID del paciente guardado:', this.patientId);
+            
+            // Avanzar a la siguiente pestaña después de obtener el ID
+            this.stepper.next();
+          } else {
+            console.error('No se encontró el paciente con la CURP proporcionada');
+            this.toastr.error('Error al obtener el ID del paciente', 'Error');
+          }
+        },
+        error: (error) => {
+          console.error('Error al buscar el paciente:', error);
+          this.toastr.error('Error al obtener el ID del paciente', 'Error');
+        },
+      });
+  }
 
   onScroll(event: any): void {
     const element = event.target;
