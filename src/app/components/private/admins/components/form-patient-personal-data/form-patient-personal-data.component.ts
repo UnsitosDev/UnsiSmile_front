@@ -351,6 +351,39 @@ export class FormPatientPersonalDataComponent {
       });
   }
 
+  assignStudentToPatient() {
+    const formValues = this.formGroup.value;
+    
+    if (!this.patientId || !formValues.studentEnrollment) {
+      this.toastr.error('Faltan datos requeridos para la asignación', 'Error');
+      return;
+    }
+
+    const assignmentData = {
+      patientId: this.patientId.toString(),
+      studentEnrollment: formValues.studentEnrollment
+    };
+
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: UriConstants.POST_PATIENT_STUDENT,
+        data: assignmentData,
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Alumno asignado correctamente', 'Éxito');
+          this.router.navigate(['/admin/patients']);
+        },
+        error: (error) => {
+          console.error('Error al asignar alumno:', error);
+          this.toastr.error('Error al asignar el alumno al paciente', 'Error');
+        },
+      });
+  }
+
   onScroll(event: any): void {
     const element = event.target;
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {

@@ -110,7 +110,7 @@
         <button mat-flat-button color="primary" matStepperPrevious>
           <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR
         </button>
-        <button mat-flat-button color="primary" routerLink="/admin/patients">
+        <button mat-flat-button color="primary" (click)="assignStudentToPatient()">
           FINALIZAR <i class="fas fa-check"></i>
         </button>
       </div>
