@@ -59,6 +59,22 @@ export class FormPatientPersonalDataComponent {
   address: FormField[] = [];
   other: FormField[] = [];
   guardian: FormField[] = [];
+  studentFields: FormField[] = [
+    {
+      type: 'autocompleteoptions',
+      label: 'Matrícula del Alumno',
+      name: 'studentEnrollment',
+      required: true,
+      validators: [Validators.required],
+      errorMessages: {
+        required: 'La matrícula es requerida'
+      },
+      onInputChange: {
+        changeFunction: this.handleStudentEnrollmentSearch.bind(this),
+        length: 2  // Aquí se define el número mínimo de caracteres
+      }
+    }
+  ];
   private currentPage: number = 0;
   // Variables para navegación
   private navigationSubscription!: Subscription;
@@ -90,6 +106,13 @@ export class FormPatientPersonalDataComponent {
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
     [...this.personal, ...this.address, ...this.other, ...this.guardian].forEach(field => {
+      this.formGroup.addControl(
+        field.name,
+        this.fb.control(field.value || '', field.validators || [])
+      );
+    });
+
+    this.studentFields.forEach(field => {
       this.formGroup.addControl(
         field.name,
         this.fb.control(field.value || '', field.validators || [])
@@ -341,4 +364,38 @@ export class FormPatientPersonalDataComponent {
     }
   }
 
+  handleStudentEnrollmentSearch(searchTerm: string) {
+    if (searchTerm && searchTerm.length >= 2) {  // Aquí se valida la longitud
+      this.apiService.getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_STUDENTS}?keyword=${searchTerm}`,
+        data: {},
+      }).subscribe({
+        next: (response) => {
+          console.log('Respuesta completa del servidor:', response);
+          console.log('Contenido de estudiantes:', response.content);
+          
+          const enrollmentField = this.studentFields.find(field => field.name === 'studentEnrollment');
+          if (enrollmentField && response.content) {
+            // Mapear solo las matrículas y nombres de los estudiantes
+            enrollmentField.options = response.content.map((student: any) => {
+              const option = {
+                value: student.enrollment,
+                label: `${student.enrollment} - ${student.person.firstName} ${student.person.firstLastName}`
+              };
+              console.log('Opción mapeada:', option);
+              return option;
+            });
+            
+            console.log('Opciones finales:', enrollmentField.options);
+          }
+        },
+        error: (error) => {
+          console.error('Error al buscar matrículas:', error);
+        }
+      });
+    }
+  }
 }
