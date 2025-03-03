@@ -85,6 +85,7 @@ export class FormPatientPersonalDataComponent {
   private route = inject(Router);
   @ViewChild('stepper') stepper!: MatStepper;
   patientId: number | null = null; // Añadir esta propiedad
+  canAccessStudentTab: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -136,6 +137,19 @@ export class FormPatientPersonalDataComponent {
           // Detiene la navegación y mostramos el diálogo
           this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_CREATE_PATIENT);
         }
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.stepper.selectionChange.subscribe((e: any) => {
+      // Si está intentando ir a la última pestaña (alumno) y no está habilitada
+      const lastStepIndex = this.minorPatient ? 4 : 3;
+      if (e.selectedIndex === lastStepIndex && !this.canAccessStudentTab) {
+        // Prevenir la navegación volviendo al índice anterior
+        setTimeout(() => {
+          this.stepper.selectedIndex = e.previouslySelectedIndex;
+        });
       }
     });
   }
@@ -308,6 +322,7 @@ export class FormPatientPersonalDataComponent {
                     
                     // Buscar el paciente por CURP para obtener su ID
                     this.searchPatientByCurp(formValues.curp);
+                    this.canAccessStudentTab = true; // Habilitar acceso a la pestaña de alumno
                 },
                 error: (error) => {
                     this.toastr.error(error);
