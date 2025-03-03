@@ -202,7 +202,6 @@ export class studentService {
     }
 
     private handleGroupClick(): void {
-        console.log('Iniciando carga de grupos...');
         this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -210,14 +209,11 @@ export class studentService {
             url: UriConstants.GET_GROUPS,
             data: {}
         }).subscribe({
-            next: (response: any) => {
-                console.log('Respuesta del servidor (grupos):', response);
-                
+            next: (response: any) => {                
                 try {
                     const groups = Array.isArray(response) ? response : response.content;
                     
                     if (!groups) {
-                        console.error('No se encontraron grupos en la respuesta');
                         return;
                     }
 
@@ -231,7 +227,6 @@ export class studentService {
                     const groupField = this.personalDataFields.find(field => field.name === 'group');
                     if (groupField) {
                         groupField.options = this.groupOptions;
-                        console.log('Opciones de grupo actualizadas:', this.groupOptions);
                     }
                 } catch (error) {
                     console.error('Error al procesar los grupos:', error);

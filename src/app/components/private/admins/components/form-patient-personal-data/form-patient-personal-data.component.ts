@@ -64,8 +64,7 @@ export class FormPatientPersonalDataComponent {
       type: 'autocompleteoptions',
       label: 'Matrícula del Alumno',
       name: 'studentEnrollment',
-      required: true,
-      validators: [Validators.required],
+      required: false,
       errorMessages: {
         required: 'La matrícula es requerida'
       },
@@ -311,7 +310,7 @@ export class FormPatientPersonalDataComponent {
                     this.searchPatientByCurp(formValues.curp);
                 },
                 error: (error) => {
-                    this.toastr.error('Error al guardar el paciente: ' + (error.error?.message || 'Error desconocido'), 'Error');
+                    this.toastr.error(error);
                 },
             });
     } else {
@@ -332,21 +331,16 @@ export class FormPatientPersonalDataComponent {
       .subscribe({
         next: (response) => {
           if (response.content && response.content.length > 0) {
-            // Encontramos el paciente, guardamos su ID
             const patient = response.content[0];
             this.patientId = patient.idPatient;
-            console.log('ID del paciente guardado:', this.patientId);
             
-            // Avanzar a la siguiente pestaña después de obtener el ID
             this.stepper.next();
           } else {
-            console.error('No se encontró el paciente con la CURP proporcionada');
             this.toastr.error('Error al obtener el ID del paciente', 'Error');
           }
         },
         error: (error) => {
-          console.error('Error al buscar el paciente:', error);
-          this.toastr.error('Error al obtener el ID del paciente', 'Error');
+          this.toastr.error(error);
         },
       });
   }
@@ -378,8 +372,7 @@ export class FormPatientPersonalDataComponent {
           this.router.navigate(['/admin/patients']);
         },
         error: (error) => {
-          console.error('Error al asignar alumno:', error);
-          this.toastr.error('Error al asignar el alumno al paciente', 'Error');
+          this.toastr.error(error);
         },
       });
   }
@@ -407,8 +400,6 @@ export class FormPatientPersonalDataComponent {
         data: {},
       }).subscribe({
         next: (response) => {
-          console.log('Respuesta completa del servidor:', response);
-          console.log('Contenido de estudiantes:', response.content);
           
           const enrollmentField = this.studentFields.find(field => field.name === 'studentEnrollment');
           if (enrollmentField && response.content) {
@@ -418,15 +409,13 @@ export class FormPatientPersonalDataComponent {
                 value: student.enrollment,
                 label: `${student.enrollment} - ${student.person.firstName} ${student.person.firstLastName}`
               };
-              console.log('Opción mapeada:', option);
               return option;
             });
             
-            console.log('Opciones finales:', enrollmentField.options);
           }
         },
         error: (error) => {
-          console.error('Error al buscar matrículas:', error);
+          this.toastr.error(error);
         }
       });
     }
