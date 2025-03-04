@@ -104,8 +104,8 @@
                   [class.readonly]="!modoEdicion()">
               </div>
               <div class="form-group">
-                <label for="employeeNumber">Número de Empleado</label>
-                <input id="employeeNumber" type="text" name="employeeNumber" 
+                <label for="identifier">{{ isStudent() ? 'Matrícula' : 'Número de Empleado' }}</label>
+                <input id="identifier" type="text" name="identifier" 
                   [(ngModel)]="employeeNumber" 
                   class="form-control" 
                   [readonly]="!modoEdicion()"

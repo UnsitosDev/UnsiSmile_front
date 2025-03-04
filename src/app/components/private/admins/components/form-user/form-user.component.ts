@@ -32,6 +32,7 @@ export class FormUserComponent implements OnInit {
   confirmarContrasena = signal('');
   foto = signal<string | null>(null);
   user!: studentUserResponse | AdminResponse;
+  isStudent = signal(false);
   successMessage = signal<string | null>(null);
   private toastr=inject (ToastrService);
   mostrarContrasenaActual = signal(false);
@@ -66,7 +67,7 @@ export class FormUserComponent implements OnInit {
     console.log('Actualizando datos de usuario:', { nombre: this.nombre(), email: this.email() });
     // lógica para actualizar los datos en el backend
     const payload = {
-      employeeNumber: this.employeeNumber(),
+      employeeNumber: this.isStudent() ? (this.user as studentUserResponse).enrollment : this.employeeNumber(),
       person: {
         curp: this.user.person.curp,
         firstName: this.user.person.firstName,
@@ -152,7 +153,12 @@ export class FormUserComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.user = data;
-          this.employeeNumber.set(data.employeeNumber);
+          this.isStudent.set('enrollment' in data);
+          if (this.isStudent()) {
+            this.employeeNumber.set(data.enrollment);
+          } else {
+            this.employeeNumber.set(data.employeeNumber);
+          }
           this.birthDate.set(data.person.birthDate.join('-'));
           this.setWelcomeMessage();        },
         error: (error) => {
