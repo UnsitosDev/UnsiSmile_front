@@ -201,12 +201,14 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
     condition: string;
     idCondition: number;
   }): void {
+    
     this.marked = {
       idCondition: event.idCondition,
       condition: event.condition,
       description: event.description,
       selected: true,
     };
+
     this.toastr.info(`${event.condition}`, 'Condición seleccionada:', {
       timeOut: 1000,
       positionClass: 'toast-bottom-right',
