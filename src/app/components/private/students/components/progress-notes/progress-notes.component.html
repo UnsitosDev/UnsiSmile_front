@@ -1,26 +1,40 @@
 <div class="button-container">
-    <div></div>
-    <div>
-      <button type="button" mat-button (click)="openDialog()" >Nueva nota <i class="fas fa-plus"></i></button>
-    </div>
+  <div></div>
+  <div>
+      <button type="button" mat-button (click)="openDialog()">Nueva nota <i class="fas fa-plus"></i></button>
+  </div>
 </div>
 
 <mat-list class="list-custom">
-    <div mat-subheader>Notas de Evolución</div>
-    @for (note of notes; track note) {
-      <mat-list-item>
-        <mat-icon matListItemIcon>note</mat-icon>
-        <div matListItemTitle>{{note.name}}</div>
-        <div matListItemLine>{{note.updated}}</div>
+  <div mat-subheader>Notas de Evolución</div>
+  @if (progressNotesData && progressNotesData.content.length > 0) {
+      @for (note of progressNotesData.content; track note.idProgressNote) {
+        <mat-list-item>
+          <!-- Contenedor flexible para el título, la fecha y los íconos -->
+          <div class="note-content">
+
+              <div class="note-info">
+                  <div matListItemTitle>Nota de evolución</div>
+                  <div matListItemLine>{{ note.creationDate | date: 'dd/MM/yyyy HH:mm' }}</div>
+              </div>
+
+              <!-- Contenedor para los íconos a la derecha -->
+              <div class="icon-container">
+                  <mat-icon class="action-icon" (click)="viewNote(note)">visibility</mat-icon>
+                  <mat-icon class="action-icon" (click)="attachDocument(note)">attach_file</mat-icon>
+              </div>
+          </div>
       </mat-list-item>
-    }
+      }
+  } @else {
+      <mat-list-item>
+          <div matListItemTitle>No hay notas de evolución disponibles</div>
+      </mat-list-item>
+  }
 </mat-list>
 
-  
 <div class="button-container">
-    <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
-    <div>
-      <button type="button" mat-button>GUARDAR <i class="fas fa-save"></i></button>
-    </div>
+  <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
+  <div>
+  </div>
 </div>
-

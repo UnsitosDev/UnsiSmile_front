@@ -10,6 +10,9 @@ import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import { CommonModule } from '@angular/common'; // Importa CommonModule
+import { TabsHandler } from '@mean/shared';
+
 
 interface ProgressNote {
   idProgressNote: string;
@@ -28,20 +31,15 @@ interface ProgressNote {
   patient: Patient;
   creationDate: string;
 }
-export interface Section {
-  name: string;
-  updated: Date;
-}
-
 @Component({
   selector: 'app-progress-notes',
   standalone: true,
-  imports: [MatDividerModule, MatListModule, MatIconModule],
+  imports: [MatDividerModule, MatListModule, MatIconModule, CommonModule],
   templateUrl: './progress-notes.component.html',
   styleUrl: './progress-notes.component.scss'
 })
 
-export class ProgressNotesComponent implements OnInit {
+export class ProgressNotesComponent implements OnInit, TabsHandler {
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>();
   @Output() previousMatTab = new EventEmitter<void>();
@@ -96,31 +94,6 @@ export class ProgressNotesComponent implements OnInit {
       });
   }
 
-  folders: Section[] = [
-    {
-      name: 'Photos',
-      updated: new Date('1/1/16'),
-    },
-    {
-      name: 'Recipes',
-      updated: new Date('1/17/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-  ];
-  notes: Section[] = [
-    {
-      name: 'Vacation Itinerary',
-      updated: new Date('2/20/16'),
-    },
-    {
-      name: 'Kitchen Remodel',
-      updated: new Date('1/18/16'),
-    },
-  ];
-
   openDialog() {
     const dialogRef = this.dialog.open(DialogInsertProgressNoteComponent, {
       disableClose: true,
@@ -130,6 +103,18 @@ export class ProgressNotesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+   // Función para ver la nota
+   viewNote(note: ProgressNote) {
+    console.log('Ver nota:', note);
+    // Aquí puedes implementar la lógica para ver la nota
+  }
+
+  // Función para adjuntar un documento
+  attachDocument(note: ProgressNote) {
+    console.log('Adjuntar documento a la nota:', note);
+    // Aquí puedes implementar la lógica para adjuntar un documento
   }
 
   previousTab() {
