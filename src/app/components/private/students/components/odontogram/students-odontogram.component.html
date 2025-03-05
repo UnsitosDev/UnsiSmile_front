@@ -179,6 +179,12 @@
   </div>
   
 }@else {
-  <h1>No existe aún antecedentes de un odontograma.</h1>
-  <p>Inserte los datos de un odontograma :)</p>
+  <mat-card class="no-odontogram">
+    <div class="no-odontogram-content">
+      <mat-icon class="empty-icon" color="primary"><i class="fas fa-error"></i></mat-icon>
+      <p><strong>No se han encontrado un odontograma.</strong></p>
+      <p>Rellene el inical para poder acceder a este.</p>
+      <p>Si tienes alguna duda, por favor contacta a tu administrador.</p>
+    </div>
+  </mat-card>
 }
