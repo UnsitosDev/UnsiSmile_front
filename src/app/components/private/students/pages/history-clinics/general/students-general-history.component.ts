@@ -47,6 +47,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private patientService = inject(ApiService<Patient, {}>);
   readonly dialog = inject(MatDialog);
   private toastr = inject(ToastrService);
+  public medicalRecordNumber! : number;
   public id!: number;
   public idpatient!: string;
   public year?: number;
@@ -84,6 +85,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
+          this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
         }
       });
       this.fetchPatientData();

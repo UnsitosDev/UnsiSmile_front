@@ -13,6 +13,7 @@ import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { TabsHandler } from '@mean/shared';
 import { DialogInfoProgressNoteComponent } from '../dialog-info-progress-note/dialog-info-progress-note.component';
+import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 
 
 interface ProgressNote {
@@ -45,6 +46,8 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   @Output() nextMatTab = new EventEmitter<void>();
   @Output() previousMatTab = new EventEmitter<void>();
   @Input({ required: true }) patientId!: string;
+  @Input({ required: true }) data!: cardPatient;
+  @Input({ required: true}) medicalRecordNumber!: number;
   apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   progressNotesData: PaginatedData<ProgressNote> | null = null;
@@ -53,6 +56,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
 
   ngOnInit(): void {
     this.getProgressNotes();
+    console.log('Datos del paciente:', this.data); 
   }
 
   public getProgressNotes() {
@@ -98,7 +102,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   openDialog() {
     const dialogRef = this.dialog.open(DialogInsertProgressNoteComponent, {
       disableClose: true,
-      data: { patientId: this.patientId }
+      data: { patientId: this.patientId, patientData: this.data, medicalRecordNumber: this.medicalRecordNumber, progressNoteData: this.progressNotesData },
     });
 
     dialogRef.afterClosed().subscribe(result => {
