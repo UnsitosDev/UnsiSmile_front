@@ -8,8 +8,26 @@ import { DialogInsertProgressNoteComponent } from '../dialog-insert-progress-not
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
+import { Patient } from 'src/app/models/shared/patients/patient/patient';
+import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 
-
+interface ProgressNote {
+  idProgressNote: string;
+  bloodPressure: string;
+  temperature: number;
+  heartRate: number;
+  respirationRate: number;
+  oxygenSaturation: number;
+  diagnosis: string;
+  prognosis: string;
+  treatment: string;
+  indications: string;
+  student: string;
+  professor: string;
+  files: any[];
+  patient: Patient;
+  creationDate: string;
+}
 export interface Section {
   name: string;
   updated: Date;
@@ -30,6 +48,13 @@ export class ProgressNotesComponent implements OnInit {
   @Input({ required: true }) patientId!: string;
   apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
+  progressNotesData: PaginatedData<ProgressNote> | null = null;
+
+
+
+  ngOnInit(): void {
+    this.getProgressNotes();
+  }
 
   getProgressNotes() {
     this.apiService
@@ -42,7 +67,8 @@ export class ProgressNotesComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          console.log(response);
+          this.progressNotesData = response;
+          console.log('Notas de evolución:', this.progressNotesData);
         },
         error: (error) => {
           console.error(error);
@@ -69,8 +95,6 @@ export class ProgressNotesComponent implements OnInit {
         },
       });
   }
-
-  ngOnInit(): void { }
 
   folders: Section[] = [
     {
@@ -100,7 +124,7 @@ export class ProgressNotesComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(DialogInsertProgressNoteComponent, {
       disableClose: true,
-      data: { patientId: this.patientId } 
+      data: { patientId: this.patientId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
