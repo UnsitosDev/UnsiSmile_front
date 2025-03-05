@@ -9,6 +9,12 @@
   margin-bottom: 10px; /* Añadir margen inferior para espaciar los elementos */
 }
 
+.toolbar-item.selected {
+  background: linear-gradient(145deg, #a0a5bb, #f0f7ff);
+  border-radius: 15%;
+  box-shadow: 9.91px 9.91px 30px #979cb1, -9.91px -9.91px 30px #f9ffff;
+}
+
 .symbol-icon {
   display: inline-block;
   justify-content: center;
@@ -18,6 +24,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-bottom: 5px;
+  margin: 2%;
 }
 
 .symbol-name {
@@ -41,5 +48,5 @@
 }
 
 .custom-text {
-  color: var(--on-secondary);  
+  color: var(--on-secondary);
 }
