@@ -59,6 +59,7 @@ export class DialogInsertProgressNoteComponent implements OnInit {
       patientId: this.data.patientId,
     };
 
+    console.log('formData', formData);  
     if (this.formGroup.valid) {
       this.apiService
       .postService({

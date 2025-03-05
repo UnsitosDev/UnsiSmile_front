@@ -4,12 +4,51 @@ import { FormField } from '../models/form-fields/form-field.interface';
 import { ProfesorService } from './profesor.service';
 import { bloodPressureValidator, heartRateValidator, oxygenSaturationValidator, respiratoryRateValidator, temperatureValidator } from '../utils/validators';
 
+interface ProfesorResponse {
+    idProfessorClinicalArea: number;
+    professorName: string;
+    clinicalArea: {
+        idClinicalArea: number;
+        clinicalArea: string;
+    };
+}
+
+interface ApiResponse {
+    content: ProfesorResponse[];
+    pageable: {
+        pageNumber: number;
+        pageSize: number;
+        sort: {
+            sorted: boolean;
+            empty: boolean;
+            unsorted: boolean;
+        };
+        offset: number;
+        paged: boolean;
+        unpaged: boolean;
+    };
+    last: boolean;
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+    sort: {
+        sorted: boolean;
+        empty: boolean;
+        unsorted: boolean;
+    };
+    first: boolean;
+    numberOfElements: number;
+    empty: boolean;
+}
 @Injectable({
     providedIn: 'root',
 })
 
 export class ProgressNotesService {
     private profesorService = inject(ProfesorService);
+    private currentPage = 0; // Página actual
+    private hasMorePages = true; // Indica si hay más páginas para cargar
 
     public formProgressNotes: FormField[] = [
         {
@@ -125,16 +164,32 @@ export class ProgressNotesService {
     }
 
     private getProfesorOptions(): void {
-        this.profesorService.getProfesorArea().subscribe({
-            next: (response) => {
+        if (!this.hasMorePages) return;
+
+        this.profesorService.getProfesorArea(this.currentPage).subscribe({
+            next: (response: ApiResponse) => {
                 const profesorField = this.formProgressNotes.find(
                     (field) => field.name === 'professorClinicalAreaId'
                 );
+
                 if (profesorField) {
-                    profesorField.options = response.map((profesor: any) => ({
-                        value: profesor.idCatalogOption,
-                        label: profesor.optionName,
+                    // Inicializar options como un array vacío si es undefined
+                    if (!profesorField.options) {
+                        profesorField.options = [];
+                    }
+
+                    // Mapear la respuesta a las opciones del select
+                    const newOptions = response.content.map((profesor: ProfesorResponse) => ({
+                        value: profesor.idProfessorClinicalArea,
+                        label: profesor.professorName,
                     }));
+
+                    // Agregar las nuevas opciones a las existentes
+                    profesorField.options = [...profesorField.options, ...newOptions];
+
+                    // Actualizar la página y verificar si hay más páginas
+                    this.currentPage++;
+                    this.hasMorePages = !response.last;
                 }
             },
             error: (error) => {
@@ -142,4 +197,11 @@ export class ProgressNotesService {
             },
         });
     }
+
+
+    // Método para cargar más datos cuando el usuario hace scroll
+    public loadMoreProfesores(): void {
+        this.getProfesorOptions();
+    }
 }
+

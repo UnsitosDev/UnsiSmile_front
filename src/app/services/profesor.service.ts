@@ -9,15 +9,14 @@ import { UriConstants } from '@mean/utils';
 })
 export class ProfesorService {
     apiService = inject(ApiService);
-    responsibleProfessor = 13; // Catálogo catedrático responsable
 
     // Devuelve un Observable para que otros servicios o componentes puedan suscribirse
-    public getProfesorArea(): Observable<any> {
+    public getProfesorArea(page: number = 0): Observable<any> {
         return this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            url: `${UriConstants.GET_PROFESOR_AREA}/${this.responsibleProfessor}`,
+            url: `${UriConstants.GET_PROFESOR_AREA}?page=${page}`, // Agregar el parámetro de página
             data: {},
         });
     }

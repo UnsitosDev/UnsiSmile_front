@@ -91,7 +91,7 @@
     @case ('select') {
       <mat-form-field  appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-          <mat-select disableRipple [formControlName]="field.name" (click)="field.onClick && field.onClick($event)" (selectionChange)="onValueChange($event)">  
+          <mat-select disableRipple [formControlName]="field.name" (click)="field.onClick && field.onClick($event)" (selectionChange)="onValueChange($event)" (scroll)="onScroll($event)">  
             @for (option of field.options; track option.value) {
               <mat-option [value]="option.value">{{ option.label }}</mat-option>
             }
