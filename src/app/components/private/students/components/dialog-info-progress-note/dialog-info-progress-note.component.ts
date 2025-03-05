@@ -51,9 +51,9 @@ export class DialogInfoProgressNoteComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: { note: ProgressNote, patientId: string, patientData: cardPatient, medicalRecordNumber: number, progressNoteData: any }) { }
 
   ngOnInit(): void {
-      console.log('note', this.data.note);
-      console.log('patient', this.data.patientData);
-      console.log('medicalRecordNumber', this.data.medicalRecordNumber);
+    console.log('note', this.data.note);
+    console.log('patient', this.data.patientData);
+    console.log('medicalRecordNumber', this.data.medicalRecordNumber);
   }
   closeDialog(): void {
     this.dialogRef.close();
@@ -124,13 +124,13 @@ export class DialogInfoProgressNoteComponent implements OnInit {
 
       // Datos del paciente
       const patientData = [
-        { label: 'Nombre completo del paciente:', value: this.data.note.patient.name},
+        { label: 'Nombre completo del paciente:', value: this.data.note.patient.name },
         { label: 'Fecha de nacimiento:', value: this.formatBirthDate(this.data.note.patient.birthDate) },
         { label: 'Edad:', value: this.data.note.patient.age?.toString() }, // Convertir número a string
-        { label: 'Sexo:', value: this.data.patientData.gender},
-        { label: 'Lugar de procedencia:', value: this.data.note.patient.origin},
-        { label: 'Número de expediente:', value: this.data.medicalRecordNumber?.toString()}, // Convertir número a string
-        { label: 'Fecha y hora de elaboración:', value: this.formatCreationDate(this.data.note.creationDate)}
+        { label: 'Sexo:', value: this.data.patientData.gender },
+        { label: 'Lugar de procedencia:', value: this.data.note.patient.origin },
+        { label: 'Número de expediente:', value: this.data.medicalRecordNumber?.toString() }, // Convertir número a string
+        { label: 'Fecha y hora de elaboración:', value: this.formatCreationDate(this.data.note.creationDate) }
       ];
 
       console.log('Datos del paciente para el PDF:', patientData);
@@ -167,27 +167,63 @@ export class DialogInfoProgressNoteComponent implements OnInit {
         currentX += labelWidth + valueWidth + 15; // Espacio entre preguntas
       });
 
-      // Actualización del cuadro clínico
-      doc.setFontSize(10);
-      doc.text('Actualización del cuadro clínico', margin + 10, currentY + 10);
+      // Actualización del cuadro clínico (en negritas)
+      doc.setFont('helvetica', 'bold'); // Cambiar a negrita
+      doc.setFontSize(12); // Ajustar el tamaño de la fuente
+      doc.text('Cuadro clínico', margin + 10, currentY + 10);
+
+      // Restablecer la fuente a normal para el resto del contenido
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10); // Restaurar el tamaño de la fuente
 
       // Reducir el espacio entre líneas (por ejemplo, 8 puntos en lugar de 10)
-      const clinicalUpdateSpacing = 8; 
-      doc.setFontSize(10);
-      doc.text(`Presión arterial: ${this.data.note.bloodPressure}`, margin + 10, currentY + 20 + clinicalUpdateSpacing * 1);
-      doc.text(`Temperatura: ${this.data.note.temperature }`, margin + 10, currentY + 20 + clinicalUpdateSpacing * 2);
-      doc.text(`Frecuencia cardíaca: ${this.data.note.heartRate}`, margin + 10, currentY + 20 + clinicalUpdateSpacing * 3);
-      doc.text(`Frecuencia respiratoria: ${this.data.note.respirationRate}`, margin + 10, currentY + 20 + clinicalUpdateSpacing * 4);
-      doc.text(`Saturación de oxígeno: ${this.data.note.oxygenSaturation}`, margin + 10, currentY + 20 + clinicalUpdateSpacing * 5);
-      doc.text(`Diagnóstico: ${this.data.note.diagnosis}`, margin + 10, currentY + 20 + clinicalUpdateSpacing * 6);
-      doc.text(`Pronóstico: ${this.data.note.prognosis}`, margin + 10, currentY + 20 + clinicalUpdateSpacing * 7);
-      doc.text(`Tratamiento: ${this.data.note.treatment}`, margin + 10, currentY + 20 + clinicalUpdateSpacing * 8);
-      doc.text(`Indicaciones odontológicas: ${this.data.note.indications}`, margin + 10, currentY + 20 + clinicalUpdateSpacing * 9);
+      const clinicalUpdateSpacing = 8;
+      const clinicalData = [
+        { label: 'Presión arterial:', value: this.data.note.bloodPressure?.toString() || '' }, // Convertir a string
+        { label: 'Temperatura:', value: this.data.note.temperature?.toString() || '' }, // Convertir a string
+        { label: 'Frecuencia cardíaca:', value: this.data.note.heartRate?.toString() || '' }, // Convertir a string
+        { label: 'Frecuencia respiratoria:', value: this.data.note.respirationRate?.toString() || '' }, // Convertir a string
+        { label: 'Saturación de oxígeno:', value: this.data.note.oxygenSaturation?.toString() || '' }, // Convertir a string
+        { label: 'Diagnóstico:', value: this.data.note.diagnosis || '' },
+        { label: 'Pronóstico:', value: this.data.note.prognosis || '' },
+        { label: 'Tratamiento:', value: this.data.note.treatment || '' },
+        { label: 'Indicaciones odontológicas:', value: this.data.note.indications + ''|| '' }
+      ];
 
-      // Firmas
-      doc.setFontSize(10);
+      clinicalData.forEach((data, index) => {
+        // Agregar el texto de la etiqueta (label)
+        doc.text(data.label, margin + 10, currentY + 20 + clinicalUpdateSpacing * (index + 1));
+    
+        // Calcular la posición X del valor
+        const labelWidth = doc.getTextWidth(data.label);
+        const valueX = margin + 10 + labelWidth + 5; // Espacio entre el label y el valor
+    
+        // Dividir el valor en varias líneas si es necesario
+        const splitText = doc.splitTextToSize(data.value, maxLineWidth - (valueX - margin));
+        splitText.forEach((line: string, lineIndex: number) => { // Definir tipos explícitos
+            doc.text(line, valueX, currentY + 20 + clinicalUpdateSpacing * (index + 1) + lineIndex * clinicalUpdateSpacing);
+            const lineWidth = doc.getTextWidth(line);
+            doc.line(
+                valueX,
+                currentY + 20 + clinicalUpdateSpacing * (index + 1) + lineIndex * clinicalUpdateSpacing + lineOffset,
+                valueX + lineWidth,
+                currentY + 20 + clinicalUpdateSpacing * (index + 1) + lineIndex * clinicalUpdateSpacing + lineOffset
+            );
+        });
+    
+        // Ajustar la posición vertical si el texto se dividió en varias líneas
+        currentY += (splitText.length - 1) * clinicalUpdateSpacing;
+    });
+
+      // Firmas (en negritas)
+      doc.setFont('helvetica', 'bold'); // Cambiar a negrita
+      doc.setFontSize(12); // Ajustar el tamaño de la fuente
       doc.text('Firmas', margin + 10, currentY + 130);
-      doc.setFontSize(10);
+
+      // Restablecer la fuente a normal para el resto del contenido
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10); // Restaurar el tamaño de la fuente
+
       doc.text('Nombre y firma del operador que elaboró la nota: ________________________', margin + 10, currentY + 140);
       doc.text('Firma del paciente: ________________________', margin + 10, currentY + 150);
       doc.text('Nombre y firma del profesor responsable: ________________________', margin + 10, currentY + 160);
