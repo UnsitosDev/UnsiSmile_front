@@ -12,6 +12,7 @@ import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { TabsHandler } from '@mean/shared';
+import { DialogInfoProgressNoteComponent } from '../dialog-info-progress-note/dialog-info-progress-note.component';
 
 
 interface ProgressNote {
@@ -54,7 +55,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
     this.getProgressNotes();
   }
 
-  getProgressNotes() {
+  public getProgressNotes() {
     this.apiService
       .getService({
         headers: new HttpHeaders({
@@ -101,14 +102,17 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
-   // Función para ver la nota
-   viewNote(note: ProgressNote) {
-    console.log('Ver nota:', note);
-    // Aquí puedes implementar la lógica para ver la nota
+  viewNote(note: ProgressNote) {
+      const dialogRef = this.dialog.open(DialogInfoProgressNoteComponent, {
+        disableClose: true,
+        data: note,
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+      });  
   }
 
   // Función para adjuntar un documento

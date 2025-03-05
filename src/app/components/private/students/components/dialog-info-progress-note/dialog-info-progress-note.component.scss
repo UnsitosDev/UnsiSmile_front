@@ -1,0 +1,18 @@
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+h5{
+    text-align: center;
+}
+
+.content{
+    background-color: var(--on-primary);
+    padding: 20px;
+}
+
+mat-icon {
+    cursor: pointer;
+}

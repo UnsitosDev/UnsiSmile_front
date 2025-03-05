@@ -1,0 +1,32 @@
+  <mat-card>
+    <mat-card-title>
+      <div class="title-container">
+        <span><strong><i class="fas fa-notes-medical"></i> Nueva nota de evolución</strong></span>
+        <mat-icon (click)="closeDialog()">close</mat-icon>
+      </div>
+    </mat-card-title>
+  </mat-card>
+  
+  <mat-dialog-content class="content">
+    <h4>{{data.patient.name}}</h4>
+    <br>
+    <p><b>Fecha de nacimiento:</b> {{ formatBirthDate(data.patient.birthDate) }}</p>
+    <p><b>Edad:</b> {{data.patient.age}}</p>
+    <p><b>Lugar de procedencia:</b> {{data.patient.origin}}</p>
+    <p><b>Número de expediente:</b> {{data.patient.medicalRecordNumber}}</p>
+    <p><b>Fecha y hora de elaboración:</b> {{ formatCreationDate(data.creationDate) }}</p>
+    <br>
+    <h5><b>Cuadro clínico</b></h5>
+    <br>
+    <p><b>TA:</b> {{data.bloodPressure}}</p>
+    <p><b>Temp:</b> {{data.temperature}}</p>
+    <p><b>FC:</b> {{data.heartRate}}</p>
+    <p><b>FR:</b> {{data.respirationRate}}</p>
+    <p><b>SpO2:</b> {{data.oxygenSaturation}}</p>
+    <br>
+    <p><b>Diagnóstico:</b> {{data.diagnosis}}</p>
+    <p><b>Pronóstico:</b> {{data.prognosis}}</p>
+    <p><b>Tratamiento:</b> {{data.treatment}}</p>
+    <p><b>Indicaciones:</b> {{data.indications}}</p>
+    <p><b>Profesor responsable:</b> {{data.professor}}</p>
+  </mat-dialog-content>

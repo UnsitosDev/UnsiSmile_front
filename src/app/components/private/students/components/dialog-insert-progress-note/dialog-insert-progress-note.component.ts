@@ -14,6 +14,7 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
+import { ProgressNotesComponent } from '../progress-notes/progress-notes.component';
 
 @Component({
   selector: 'app-dialog-insert-progress-note',
@@ -30,7 +31,6 @@ export class DialogInsertProgressNoteComponent implements OnInit {
   private toastr = inject(ToastrService);
   private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<DialogInsertProgressNoteComponent>);
-
   constructor(@Inject(MAT_DIALOG_DATA) public data: { patientId: string }) {}
 
   ngOnInit(): void {
@@ -69,7 +69,7 @@ export class DialogInsertProgressNoteComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          console.log('ok', response)
+          this.closeDialog();
         },
         error: (error) => {
           this.toastr.warning(error);
