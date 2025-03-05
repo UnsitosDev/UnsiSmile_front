@@ -94,5 +94,11 @@ export class StudentsToothComponent {
     }
   }
   
+  @Output() deleteConditions = new EventEmitter<ITooth>();
+
+  hasConditions(): boolean {
+    return this.data.conditions.length > 0 || 
+           this.data.faces.some(face => face.conditions && face.conditions.length > 0);
+  }
   
 }
