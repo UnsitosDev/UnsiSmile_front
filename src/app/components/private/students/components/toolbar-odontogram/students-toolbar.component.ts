@@ -20,7 +20,6 @@ export class StudentsToolbarComponent {
   ToothConditionsConstants = ToothConditionsConstants 
 
   isSymbolSelected(symbol: ICondition): boolean {
-    console.log(this.marked, " " , symbol)
     return this.marked?.condition === symbol.condition;
   }
 
