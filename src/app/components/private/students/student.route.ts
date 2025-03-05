@@ -10,10 +10,22 @@ export default [
         children: [
             {
                 path: 'patients',
-                loadComponent: () =>
-                    import('@mean/students').then(
-                        (m) => m.StudentsPatientsComponent
-                    ),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('@mean/students').then(
+                                (m) => m.StudentsPatientsComponent
+                            ),
+                    },
+                    {
+                        path: 'addPatient',
+                        loadComponent: () =>
+                            import('./components/form-patient-personal-data/form-patient-personal-data.component').then(
+                                (m) => m.FormPatientPersonalDataComponent
+                            ),
+                    }
+                ]
             },
             {
                 path: 'odontogram',
@@ -62,13 +74,6 @@ export default [
                 loadComponent: () =>
                     import('./pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
                         (m) => m.PreventiveDentistryPublicHealthComponent
-                    ),
-            },
-            {
-                path: 'addPatient',
-                loadComponent: () =>
-                    import('./components/form-patient-personal-data/form-patient-personal-data.component').then(
-                        (m) => m.FormPatientPersonalDataComponent
                     ),
             },
             {
