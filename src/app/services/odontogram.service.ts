@@ -5,6 +5,7 @@ export const store: IOdontogramHandler = {
     idCondition: 0,
     condition: '',
     description: '',
+    selected: false,
   },
   childrenArcade: {
     teeth: [
