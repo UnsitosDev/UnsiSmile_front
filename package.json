@@ -29,8 +29,6 @@
     "bootstrap": "^5.3.3",
     "bootstrap-table": "^1.23.2",
     "flowbite": "^2.3.0",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^3.0.0",
     "jwt-decode": "^3.1.2",
     "ng2-charts": "^6.0.1",
     "ngx-pagination": "^6.0.3",
