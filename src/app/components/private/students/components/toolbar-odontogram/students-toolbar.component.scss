@@ -10,9 +10,9 @@
 }
 
 .toolbar-item.selected {
-  background: linear-gradient(145deg, #a0a5bb, #f0f7ff);
-  border-radius: 15%;
-  box-shadow: 9.91px 9.91px 30px #979cb1, -9.91px -9.91px 30px #f9ffff;
+  background:  var(--on-primary);
+  border-radius: 18%;
+  box-shadow: 1px 1px 1px var(--on-background), -1.8px -1.8px 1px var(--on-primary);
 }
 
 .symbol-icon {
