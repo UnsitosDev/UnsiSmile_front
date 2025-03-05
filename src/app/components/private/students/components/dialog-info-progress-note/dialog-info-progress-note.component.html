@@ -1,32 +1,42 @@
-  <mat-card>
-    <mat-card-title>
-      <div class="title-container">
-        <span><strong><i class="fas fa-notes-medical"></i> Nueva nota de evolución</strong></span>
-        <mat-icon (click)="closeDialog()">close</mat-icon>
+    <mat-card>
+      <mat-card-title>
+        <div class="title-container">
+          <span><strong><i class="fas fa-notes-medical"></i> Nueva nota de evolución</strong></span>
+          <mat-icon (click)="closeDialog()">close</mat-icon>
+        </div>
+      </mat-card-title>
+    </mat-card>
+    
+    <mat-dialog-content class="content">
+      <div class="download">
+        <button (click)="generatePdf()">
+          <span class="icon-text-container">
+            <mat-icon class="icon">picture_as_pdf</mat-icon>
+            <span class="text">Descargar nota</span>
+          </span>
+        </button>
       </div>
-    </mat-card-title>
-  </mat-card>
-  
-  <mat-dialog-content class="content">
-    <h4>{{data.patient.name}}</h4>
-    <br>
-    <p><b>Fecha de nacimiento:</b> {{ formatBirthDate(data.patient.birthDate) }}</p>
-    <p><b>Edad:</b> {{data.patient.age}}</p>
-    <p><b>Lugar de procedencia:</b> {{data.patient.origin}}</p>
-    <p><b>Número de expediente:</b> {{data.patient.medicalRecordNumber}}</p>
-    <p><b>Fecha y hora de elaboración:</b> {{ formatCreationDate(data.creationDate) }}</p>
-    <br>
-    <h5><b>Cuadro clínico</b></h5>
-    <br>
-    <p><b>TA:</b> {{data.bloodPressure}}</p>
-    <p><b>Temp:</b> {{data.temperature}}</p>
-    <p><b>FC:</b> {{data.heartRate}}</p>
-    <p><b>FR:</b> {{data.respirationRate}}</p>
-    <p><b>SpO2:</b> {{data.oxygenSaturation}}</p>
-    <br>
-    <p><b>Diagnóstico:</b> {{data.diagnosis}}</p>
-    <p><b>Pronóstico:</b> {{data.prognosis}}</p>
-    <p><b>Tratamiento:</b> {{data.treatment}}</p>
-    <p><b>Indicaciones:</b> {{data.indications}}</p>
-    <p><b>Profesor responsable:</b> {{data.professor}}</p>
-  </mat-dialog-content>
+      <h4>{{data.note.patient.name}}</h4>
+      <br>
+      <p><b>Fecha de nacimiento:</b> {{ formatBirthDate(data.note.patient.birthDate) }}</p>
+      <p><b>Edad:</b> {{data.note.patient.age}}</p>
+      <p><b>Lugar de procedencia:</b> {{data.note.patient.origin}}</p>
+      <p><b>Número de expediente:</b> {{data.medicalRecordNumber}}</p>
+      <p><b>Fecha y hora de elaboración:</b> {{ formatCreationDate(data.note.creationDate) }}</p>
+      <br>
+      <h5><b>Cuadro clínico</b></h5>
+      <br>
+      <p><b>TA:</b> {{data.note.bloodPressure}}</p>
+      <p><b>Temp:</b> {{data.note.temperature}}</p>
+      <p><b>FC:</b> {{data.note.heartRate}}</p>
+      <p><b>FR:</b> {{data.note.respirationRate}}</p>
+      <p><b>SpO2:</b> {{data.note.oxygenSaturation}}</p>
+      <br>
+      <p><b>Diagnóstico:</b> {{data.note.diagnosis}}</p>
+      <p><b>Pronóstico:</b> {{data.note.prognosis}}</p>
+      <p><b>Tratamiento:</b> {{data.note.treatment}}</p>
+      <p><b>Indicaciones:</b> {{data.note.indications}}</p>
+      <p><b>Profesor responsable:</b> {{data.note.professor}}</p>
+    </mat-dialog-content>
+
+      

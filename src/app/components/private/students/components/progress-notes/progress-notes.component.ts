@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { TabsHandler } from '@mean/shared';
 import { DialogInfoProgressNoteComponent } from '../dialog-info-progress-note/dialog-info-progress-note.component';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
-
+import { DialogUploadProgressNoteComponent } from '../dialog-upload-progress-note/dialog-upload-progress-note.component';
 
 interface ProgressNote {
   idProgressNote: string;
@@ -47,16 +47,14 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   @Output() previousMatTab = new EventEmitter<void>();
   @Input({ required: true }) patientId!: string;
   @Input({ required: true }) data!: cardPatient;
-  @Input({ required: true}) medicalRecordNumber!: number;
+  @Input({ required: true }) medicalRecordNumber!: number;
   apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   progressNotesData: PaginatedData<ProgressNote> | null = null;
 
-
-
   ngOnInit(): void {
     this.getProgressNotes();
-    console.log('Datos del paciente:', this.data); 
+    console.log('Datos del paciente:', this.data);
   }
 
   public getProgressNotes() {
@@ -102,7 +100,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   openDialog() {
     const dialogRef = this.dialog.open(DialogInsertProgressNoteComponent, {
       disableClose: true,
-      data: { patientId: this.patientId, patientData: this.data, medicalRecordNumber: this.medicalRecordNumber, progressNoteData: this.progressNotesData },
+      data: { patientId: this.patientId },
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -110,19 +108,23 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   }
 
   viewNote(note: ProgressNote) {
-      const dialogRef = this.dialog.open(DialogInfoProgressNoteComponent, {
-        disableClose: true,
-        data: note,
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-      });  
+    const dialogRef = this.dialog.open(DialogInfoProgressNoteComponent, {
+      disableClose: true,
+      data: { note, patientId: this.patientId, patientData: this.data, medicalRecordNumber: this.medicalRecordNumber, progressNoteData: this.progressNotesData },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
 
-  // Función para adjuntar un documento
   attachDocument(note: ProgressNote) {
-    console.log('Adjuntar documento a la nota:', note);
-    // Aquí puedes implementar la lógica para adjuntar un documento
+    const dialogRef = this.dialog.open(DialogUploadProgressNoteComponent, {
+      disableClose: true,
+      data: note,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
 
   previousTab() {

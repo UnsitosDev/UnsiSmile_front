@@ -10,7 +10,6 @@
   @if (progressNotesData && progressNotesData.content.length > 0) {
       @for (note of progressNotesData.content; track note.idProgressNote) {
         <mat-list-item>
-          <!-- Contenedor flexible para el título, la fecha y los íconos -->
           <div class="note-content">
 
               <div class="note-info">
@@ -18,7 +17,6 @@
                   <div matListItemLine>{{ note.creationDate | date: 'dd/MM/yyyy HH:mm' }}</div>
               </div>
 
-              <!-- Contenedor para los íconos a la derecha -->
               <div class="icon-container">
                   <mat-icon class="action-icon" (click)="viewNote(note)">visibility</mat-icon>
                   <mat-icon class="action-icon" (click)="attachDocument(note)">attach_file</mat-icon>
