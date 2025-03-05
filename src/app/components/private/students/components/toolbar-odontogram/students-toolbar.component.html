@@ -5,8 +5,8 @@
       <h1 class="custom-text">Código normal</h1>
       @for (symbol of toolbar.options; track $index) { @if
       (isNormalCondition(symbol.condition)) {
-      <div class="d-inline-block toolbar-item" [class.selected]="isSymbolSelected(symbol)">
-        <div class="symbol-icon" (click)="selectSymbol(symbol)">
+      <div (click)="selectSymbol(symbol)" class="d-inline-block toolbar-item" [class.selected]="isSymbolSelected(symbol)">
+        <div class="symbol-icon">
           <svg width="30" height="35" viewBox="0 0 30 35">
             <!-- Representación del diente con cinco caras -->
             <polygon
@@ -173,7 +173,7 @@
       <h1 class="custom-text">Código anormal</h1>
       @for (symbol of toolbar.options; track $index) { @if
       (isAbnormalCondition(symbol.condition)) {
-      <div class="d-inline-block toolbar-item" [class.selected]="isSymbolSelected(symbol)">
+      <div (click)="selectSymbol(symbol)" class="d-inline-block toolbar-item " [class.selected]="isSymbolSelected(symbol)">
         <div class="symbol-icon abnormal" (click)="selectSymbol(symbol)">
           <svg width="30" height="35" viewBox="0 0 30 35">
             <!-- Representación del diente con cinco caras -->

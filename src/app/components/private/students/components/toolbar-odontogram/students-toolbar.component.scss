@@ -7,12 +7,19 @@
   height: 100px;
   margin-right: 10px; /* Añadir margen derecho para espaciar los elementos */
   margin-bottom: 10px; /* Añadir margen inferior para espaciar los elementos */
+  &:hover {
+    background: var(--on-primary);
+    border-radius: 18%;
+    box-shadow: 1px 1px 1px var(--on-background),
+      -1.8px -1.8px 1px var(--on-primary);
+  }
 }
 
 .toolbar-item.selected {
-  background:  var(--on-primary);
+  background: var(--on-primary);
   border-radius: 18%;
-  box-shadow: 1px 1px 1px var(--on-background), -1.8px -1.8px 1px var(--on-primary);
+  box-shadow: 1px 1px 1px var(--on-background),
+    -1.8px -1.8px 1px var(--on-primary);
 }
 
 .symbol-icon {
