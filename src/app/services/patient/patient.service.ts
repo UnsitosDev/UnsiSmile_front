@@ -12,7 +12,7 @@ import { municipalityOptions, municipalityRequest } from 'src/app/models/shared/
 import { stateOptions, stateRequest } from 'src/app/models/shared/addresses/state/state';
 import { nationalityRequest } from 'src/app/models/shared/patients/Nationality/Nationality';
 import { maritalStatusRequest } from 'src/app/models/shared/patients/MaritalStatus/maritalStatus';
-import { occupationRequest } from 'src/app/models/shared/patients/Occupation/occupation';
+import { occupationOptions, occupationRequest } from 'src/app/models/shared/patients/Occupation/occupation';
 import { ethnicGroupOptions, ethnicGroupRequest } from 'src/app/models/shared/patients/EthnicGroup/ethnicGroup';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { FormGroup } from '@angular/forms';
@@ -477,6 +477,29 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
                     console.error('Error en la autenticación:', error);
                 },
             });
+    }
+
+    occupationOptionsDataOptions: occupationOptions[]=[];
+    getOcupationDataPaginated(searchTerm: string, page: number, size: number): Observable<occupationOptions[]> {
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.GET_OCUPATION}?keyword=${searchTerm}&page=${page}&size=${size}`,
+            data: {},
+        }).pipe(
+            map((response) => {
+                this.occupationOptions = response.content.map((item: occupationRequest) => ({
+                    value: item.idOccupation.toString(),
+                    label: item.occupation,
+                }));
+                return this.occupationOptions;
+            }),
+            catchError((error) => {
+                console.error('Error al obtener ocupaciones:', error);
+                return of([]);
+            })
+        );
     }
 
     // Grupo etnico

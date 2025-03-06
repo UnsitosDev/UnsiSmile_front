@@ -45,11 +45,11 @@ export class TableStudentsComponent implements OnInit {
   sortField: string = 'person.firstName';
   sortAsc: boolean = true;
   sortableColumns = {
-    'nombre': 'person.firstName',
-    'apellido': 'person.firstLastName',
-    'correo': 'person.email',
-    'matricula': 'enrollment',
-    'estatus': 'user.status'  // Agregado el campo estatus
+    'nombre': 'student.person.firstName',
+    'apellido': 'student.person.firstLastName',
+    'correo': 'student.person.email',
+    'matricula': 'student.enrollment',
+    'estatus': 'student.user.status'  // Agregado el campo estatus
   };
 
   constructor(
@@ -120,7 +120,8 @@ export class TableStudentsComponent implements OnInit {
 
   getAlumnos(page: number = 0, size: number = 10, keyword: string = '') {
     const encodedKeyword = encodeURIComponent(keyword);
-    const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
+    const sortField = this.sortField.startsWith('student.') ? this.sortField : `student.${this.sortField}`;
+    const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${sortField}&asc=${this.sortAsc}`;
     
     this.apiService.getService({
       headers: new HttpHeaders({
@@ -133,16 +134,17 @@ export class TableStudentsComponent implements OnInit {
         if (response && response.content && Array.isArray(response.content)) {
           this.totalElements = response.totalElements;
           this.studentsList = response.content.map((student: studentRequest) => ({
-            nombre: student.person.firstName,
-            apellido: `${student.person.firstLastName} ${student.person.secondLastName}`,
-            correo: student.person.email,
-            matricula: student.enrollment,
-            estatus: student.user.status ? 'Activo' : 'Inactivo',
-            curp: student.person.curp,
-            telefono: student.person.phone,
-            fechaNacimiento: student.person.birthDate
+            nombre: student.person?.firstName || 'N/A',
+            apellido: `${student.person?.firstLastName || ''} ${student.person?.secondLastName || ''}`.trim() || 'N/A',
+            correo: student.person?.email || 'N/A',
+            matricula: student.enrollment || 'N/A',
+            estatus: student.user?.status ? 'Activo' : 'Inactivo',
+            curp: student.person?.curp || 'N/A',
+            telefono: student.person?.phone || 'N/A',
+            fechaNacimiento: student.person?.birthDate || 'N/A'
           }));
         } else {
+          console.warn('Respuesta inesperada del servidor:', response);
           this.studentsList = [];
           this.totalElements = 0;
         }

@@ -258,7 +258,7 @@ export class FormFieldsService {
             onClick: this.handleMaritalStatusClick.bind(this)
         },
         {
-            type: 'select',
+            type: 'autocompleteoptions',
             label: 'Ocupación',
             name: 'occupation',
             required: true,
@@ -266,7 +266,10 @@ export class FormFieldsService {
             errorMessages: {
                 required: 'El campo Ocupación es requerido.'
             },
-            onClick: this.handleOcupationClick.bind(this)
+            onInputChange: {
+                changeFunction: this.handleOcupationClick.bind(this),
+                length: 5
+            }
         },
         {
             type: 'autocompleteoptions',
@@ -382,7 +385,7 @@ export class FormFieldsService {
         this.handleHousingClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
-        this.handleOcupationClick({} as MouseEvent);
+        //this.handleOcupationClick({} as MouseEvent);
         this.handleParentsMaritalStatusClick({} as MouseEvent);
     }
 
@@ -652,10 +655,11 @@ export class FormFieldsService {
         maritalStatusField && (maritalStatusField.options = this.patientService.maritalStatusOptions);
     }
 
-    private handleOcupationClick(event: MouseEvent): void {
-        this.patientService.getOcupationData();
-        const occupationField = this.otherDataFields.find(field => field.name === FieldNames.OCCUPATION);
-        occupationField && (occupationField.options = this.patientService.occupationOptions);
+    private handleOcupationClick(searchTerm: string, page: number = 0, size: number = 3): void {
+        this.patientService.getOcupationDataPaginated(searchTerm, page, size).subscribe(response => {
+            const occupationField = this.otherDataFields.find(field => field.name === FieldNames.OCCUPATION);
+            occupationField && (occupationField.options = this.patientService.occupationOptions);
+        });
     }
 
     private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 3): void {

@@ -7,3 +7,8 @@ export interface occupationResponse {
   "idOccupation": number,
   "occupation": string
 }
+
+export interface occupationOptions {
+  value: string;
+  label: string;
+}
