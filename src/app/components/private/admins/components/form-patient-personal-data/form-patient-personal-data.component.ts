@@ -273,7 +273,6 @@ export class FormPatientPersonalDataComponent {
           doctorName: formValues.doctorName
         } : null
       };      
-      console.log('Datos del paciente a enviar:', patientData);
       
       this.apiService
         .postService({
