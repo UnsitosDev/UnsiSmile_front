@@ -250,8 +250,8 @@ export class FormPatientPersonalDataComponent {
           maritalStatus: this.patientService.maritalStatusOptions.find(option => option.value === formValues.maritalStatus)?.label || ""
         },
         occupation: {
-          idOccupation: +formValues.occupation,
-          occupation: this.patientService.occupationOptions.find(option => option.value === formValues.occupation)?.label || ""
+          idOccupation: isNaN(+formValues.occupation) ? 0 : +formValues.occupation,
+          occupation: isNaN(+formValues.occupation) ? formValues.occupation : (this.patientService.occupationOptions.find(option => option.value === formValues.occupation)?.label || "")
         },
         ethnicGroup: {
           idEthnicGroup: +formValues.ethnicGroup,
