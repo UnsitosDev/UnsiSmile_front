@@ -212,7 +212,7 @@ export class FormPatientPersonalDataComponent {
           email: formValues.email,
           gender: {
             idGender: +formValues.gender,
-            gender: ""
+            gender: "" // Si tienes el nombre del género, puedes asignarlo aquí
           }
         },
         address: {
@@ -221,7 +221,7 @@ export class FormPatientPersonalDataComponent {
           interiorNumber: formValues.interiorNumber,
           housing: {
             idHousing: +formValues.housingCategory,
-            category: ""
+            category: "" // Si tienes el nombre de la categoría, agrégalo aquí
           },
           street: {
             idStreet: isNaN(+formValues.streetName) ? 0 : +formValues.streetName,
@@ -230,12 +230,12 @@ export class FormPatientPersonalDataComponent {
               idNeighborhood: isNaN(+formValues.neighborhoodName) ? 0 : +formValues.neighborhoodName,
               name: isNaN(+formValues.neighborhoodName) ? formValues.neighborhoodName : '',
               locality: {
-                idLocality: isNaN(+this.localityId) || +this.localityId === 0 ? 0 : +this.localityId, 
-                name: isNaN(+this.localityId) || +this.localityId === 0 ? formValues.localityName : "", 
+                idLocality: isNaN(+this.localityId) || +this.localityId === 0 ? 0 : +this.localityId,
+                name: isNaN(+this.localityId) || +this.localityId === 0 ? formValues.localityName : "",
                 postalCode: formValues.postalCode,
                 municipality: {
-                  idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId, 
-                  name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "", 
+                  idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId,
+                  name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "",
                   state: {
                     idState: isNaN(+this.stateNameId) ? 0 : +this.stateNameId,
                     name: formValues.stateName
@@ -245,10 +245,22 @@ export class FormPatientPersonalDataComponent {
             }
           }
         },
-        maritalStatusId: +formValues.maritalStatus,
-        occupationId: +formValues.occupation,
-        ethnicGroupId: +formValues.ethnicGroup,
-        religionId: +formValues.religion,
+        maritalStatus: {
+          idMaritalStatus: +formValues.maritalStatus,
+          maritalStatus: this.patientService.maritalStatusOptions.find(option => option.value === formValues.maritalStatus)?.label || ""
+        },
+        occupation: {
+          idOccupation: +formValues.occupation,
+          occupation: this.patientService.occupationOptions.find(option => option.value === formValues.occupation)?.label || ""
+        },
+        ethnicGroup: {
+          idEthnicGroup: +formValues.ethnicGroup,
+          ethnicGroup: this.patientService.ethnicGroupOptions.find(option => option.value === formValues.ethnicGroup)?.label || ""
+        },
+        religion: {
+          idReligion: +formValues.religion,
+          religion: this.patientService.religionOptions.find(option => option.value === formValues.religion)?.label || ""
+        },
         guardian: this.minorPatient ? {
           idGuardian: 0,
           firstName: formValues.firstGuardianName,
@@ -256,13 +268,13 @@ export class FormPatientPersonalDataComponent {
           phone: formValues.phoneGuardian,
           email: formValues.emailGuardian,
           parentalStatus: {
-            idCatalogOption: +formValues.parentsMaritalStatus, 
-            optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label, 
+            idCatalogOption: +formValues.parentsMaritalStatus,
+            optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "",
             idCatalog: 12,
           },
           doctorName: formValues.doctorName
         } : null
-      };  
+      };      
       this.apiService
         .postService({
           headers: new HttpHeaders({

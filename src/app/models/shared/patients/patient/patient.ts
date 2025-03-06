@@ -11,22 +11,82 @@ import { personRequest, personResponse } from "src/app/models/models-students/pe
 import { MatExpansionPanelDescription } from "@angular/material/expansion"
 
 export interface patientRequest {
-
-  idPatient: number | null,
-  admissionDate: Date,
-  isMinor: boolean,
-  hasDisability: boolean,
-  nationalityId: number,
-  person: personRequest,
-  address: addressRequest,
-  maritalStatusId: number,
-  occupationId: number,
-  ethnicGroupId: number,
-  religionId: number,
-  guardian: guardianRequest
-
+  hasDisability: boolean;
+  nationalityId: number;
+  person: {
+    curp: string;
+    firstName: string;
+    secondName: string;
+    firstLastName: string;
+    secondLastName: string;
+    phone: string;
+    birthDate: string;
+    email: string;
+    gender: {
+      idGender: number;
+      gender: string;
+    }
+  };
+  address: {
+    idAddress: number;
+    streetNumber: string;
+    interiorNumber: string;
+    housing: {
+      idHousing: number;
+      category: string;
+    };
+    street: {
+      idStreet: number;
+      name: string;
+      neighborhood: {
+        idNeighborhood: number;
+        name: string;
+        locality: {
+          idLocality: number;
+          name: string;
+          postalCode: string;
+          municipality: {
+            idMunicipality: number;
+            name: string;
+            state: {
+              idState: number;
+              name: string;
+            }
+          }
+        }
+      }
+    }
+  };
+  maritalStatus: {
+    idMaritalStatus: number;
+    maritalStatus: string;
+  };
+  occupation: {
+    idOccupation: number;
+    occupation: string;
+  };
+  ethnicGroup: {
+    idEthnicGroup: number;
+    ethnicGroup: string;
+  };
+  religion: {
+    idReligion: number;
+    religion: string;
+  };
+  guardian?: {
+    idGuardian: number;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    parentalStatus: {
+      idCatalogOption: number;
+      optionName: string;
+      idCatalog: number;
+    };
+    doctorName: string;
+  };
 }
-
 
 export interface Patient {
     idPatient: string,
