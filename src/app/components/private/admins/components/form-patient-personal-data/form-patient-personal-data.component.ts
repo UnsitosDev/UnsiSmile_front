@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,7 @@ import { inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 
 
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { AlertModel, StudentItems } from '@mean/models';
 import { PatientService } from 'src/app/services/patient/patient.service';
 import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
@@ -32,6 +32,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmLeaveComponent } from '../../../students/components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { MatCardModule } from '@angular/material/card';
+import { studentService } from 'src/app/services/student.service';
 
 
 @Component({
@@ -53,12 +54,14 @@ export class FormPatientPersonalDataComponent {
   private toastr = inject(ToastrService);
   readonly dialog = inject(MatDialog);
   minorPatient: boolean = false;
+  private studentService = inject(studentService);
 
   formGroup!: FormGroup;
   personal: FormField[] = [];
   address: FormField[] = [];
   other: FormField[] = [];
   guardian: FormField[] = [];
+  studentFields: FormField[] = [];
   private currentPage: number = 0;
   // Variables para navegación
   private navigationSubscription!: Subscription;
@@ -68,6 +71,9 @@ export class FormPatientPersonalDataComponent {
   private navigationComplete: boolean = false;
   private additionalRoutes = ['/students/user'];
   private route = inject(Router);
+  @ViewChild('stepper') stepper!: MatStepper;
+  patientId: number | null = null; // Añadir esta propiedad
+  canAccessStudentTab: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -84,10 +90,18 @@ export class FormPatientPersonalDataComponent {
     this.address = this.addressDataFields.getAddressFields();
     this.other = this.otherDataFields.getOtherDataFields();
     this.guardian = this.guardianField.getGuardianDataFields();
+    this.studentFields = this.studentService.studentFields; // Agregar esta línea
 
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
     [...this.personal, ...this.address, ...this.other, ...this.guardian].forEach(field => {
+      this.formGroup.addControl(
+        field.name,
+        this.fb.control(field.value || '', field.validators || [])
+      );
+    });
+
+    this.studentFields.forEach(field => {
       this.formGroup.addControl(
         field.name,
         this.fb.control(field.value || '', field.validators || [])
@@ -112,6 +126,19 @@ export class FormPatientPersonalDataComponent {
           // Detiene la navegación y mostramos el diálogo
           this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_CREATE_PATIENT);
         }
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.stepper.selectionChange.subscribe((e: any) => {
+      // Si está intentando ir a la última pestaña (alumno) y no está habilitada
+      const lastStepIndex = this.minorPatient ? 4 : 3;
+      if (e.selectedIndex === lastStepIndex && !this.canAccessStudentTab) {
+        // Prevenir la navegación volviendo al índice anterior
+        setTimeout(() => {
+          this.stepper.selectedIndex = e.previouslySelectedIndex;
+        });
       }
     });
   }
@@ -298,6 +325,90 @@ export class FormPatientPersonalDataComponent {
     }
   }
 
+  // Agregar nuevo método para buscar paciente por CURP
+  searchPatientByCurp(curp: string) {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_PATIENTS}?keyword=${curp}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          if (response.content && response.content.length > 0) {
+            const patient = response.content[0];
+            this.patientId = patient.idPatient;
+            
+            this.stepper.next();
+          } else {
+            this.toastr.error('Error al obtener el ID del paciente', 'Error');
+          }
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
+  }
+
+  assignStudentToPatient() {
+    const formValues = this.formGroup.value;
+    
+    if (!this.patientId || !formValues.studentEnrollment) {
+      this.toastr.error('Faltan datos requeridos para la asignación', 'Error');
+      return;
+    }
+
+    const assignmentData = {
+      patientId: this.patientId.toString(),
+      studentEnrollment: formValues.studentEnrollment
+    };
+
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: UriConstants.POST_PATIENT_STUDENT,
+        data: assignmentData,
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Alumno asignado correctamente', 'Éxito');
+          this.router.navigate(['/admin/patients']);
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
+  }
+
+  handleStudentEnrollmentSearch(searchTerm: string) {
+    if (searchTerm && searchTerm.length >= 2) {
+      this.apiService.getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_STUDENTS}?keyword=${searchTerm}`,
+        data: {},
+      }).subscribe({
+        next: (response) => {
+          const enrollmentField = this.studentFields.find(field => field.name === 'studentEnrollment');
+          if (enrollmentField && response.content) {
+            enrollmentField.options = response.content.map((student: any) => ({
+              value: student.enrollment,
+              label: `${student.enrollment} - ${student.person.firstName} ${student.person.firstLastName}`
+            }));
+          }
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        }
+      });
+    }
+  }
+
   onScroll(event: any): void {
     const element = event.target;
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
@@ -310,5 +421,6 @@ export class FormPatientPersonalDataComponent {
 
     }
   }
+
 
 }

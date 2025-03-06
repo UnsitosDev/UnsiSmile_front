@@ -86,3 +86,20 @@ button{
   background-color: var(--tertiary);
   color: var(--side-text) !important;
 }
+
+
+.no-odontogram-content {
+  background-color: var(--on-primary);
+  text-align: center;
+  padding: 20px;
+  color: var(--on-secondary);
+}
+
+.empty-icon {
+  margin-bottom: 15px;
+  color: var(--tertiary);
+}
+
+.no-odontogram p {
+  margin: 8px 0;
+}

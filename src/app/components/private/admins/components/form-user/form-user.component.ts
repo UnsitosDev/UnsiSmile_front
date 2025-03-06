@@ -8,6 +8,9 @@ import { AlertComponent } from 'src/app/shared/components/alert/alert.component'
 import { ToastrService } from 'ngx-toastr';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';  // Agregar esta importación
+import { ProfileResponse } from 'src/app/models/shared/profile/profile.model';
+import { Subject } from 'rxjs';
+import { ProfilePictureService } from 'src/app/services/profile-picture.service';
 
 @Component({
   selector: 'app-form-user',
@@ -17,7 +20,8 @@ import { Router } from '@angular/router';  // Agregar esta importación
   styleUrl: './form-user.component.scss'
 })
 export class FormUserComponent implements OnInit {
-  private userService = inject(ApiService<studentResponse, {}>);
+  private userService = inject(ApiService<any, {}>);
+  private profileService = inject(ApiService<ProfileResponse, {}>);
   private route = inject(Router);  
   tabs = ['Descripción General', 'Editar Datos', 'Cambiar Contraseña'];
   activeTab = signal(0);
@@ -28,6 +32,7 @@ export class FormUserComponent implements OnInit {
   confirmarContrasena = signal('');
   foto = signal<string | null>(null);
   user!: studentUserResponse | AdminResponse;
+  isStudent = signal(false);
   successMessage = signal<string | null>(null);
   private toastr=inject (ToastrService);
   mostrarContrasenaActual = signal(false);
@@ -35,13 +40,23 @@ export class FormUserComponent implements OnInit {
   mostrarConfirmarContrasena = signal(false);
   modoEdicion = signal(false);
   welcomeMessage = signal(''); 
+  profilePicture = signal<string | null>(null);
+  private profilePictureUpdated = new Subject<string | null>();
+  employeeNumber = signal('');
+  birthDate = signal<string | null>(null);
 
   constructor(
-    private router: Router
-  ) {}
+    private router: Router,
+    private profilePictureService: ProfilePictureService
+  ) {
+    this.profilePictureService.profilePictureUpdated.subscribe((newProfilePicture) => {
+      this.foto.set(newProfilePicture);
+    });
+  }
 
   ngOnInit() {
     this.fetchUserData();
+    this.fetchProfilePicture();
   }
 
   setActiveTab(index: number) {
@@ -50,7 +65,22 @@ export class FormUserComponent implements OnInit {
 
   actualizarDatosUsuario() {
     console.log('Actualizando datos de usuario:', { nombre: this.nombre(), email: this.email() });
-    //lógica para actualizar los datos en el backend
+    // lógica para actualizar los datos en el backend
+    const payload = {
+      employeeNumber: this.isStudent() ? (this.user as studentUserResponse).enrollment : this.employeeNumber(),
+      person: {
+        curp: this.user.person.curp,
+        firstName: this.user.person.firstName,
+        secondName: this.user.person.secondName,
+        firstLastName: this.user.person.firstLastName,
+        secondLastName: this.user.person.secondLastName,
+        phone: this.user.person.phone,
+        birthDate: this.birthDate(),
+        email: this.user.person.email,
+        gender: this.user.person.gender
+      }
+    };
+    // Lógica para enviar el payload al backend
   }
 
   actualizarContrasena() {
@@ -65,7 +95,6 @@ export class FormUserComponent implements OnInit {
       confirmPassword: this.confirmarContrasena()
     };
 
-    console.log('Payload:', payload); // Verificar el payload
 
     this.userService
       .patchService({
@@ -78,21 +107,40 @@ export class FormUserComponent implements OnInit {
           this.nuevaContrasena.set('');
           this.confirmarContrasena.set('');
           this.toastr.success('Contraseña actualizada exitosamente');
-          this.router.navigate(['/admin/dashboard']); 
+          this.router.navigate(['/dashboard']); 
         },
         error: (error) => {
-        this.toastr.error(error,'Error');        }
+        this.toastr.error(error);        }
       });
   }
 
   subirFoto(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        this.foto.set(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append('picture', file);
+
+      this.userService
+        .patchService({
+          url: `${UriConstants.UPDATE_PROFILE_PICTURE}`,
+          data: formData,
+          headers: {}
+        })
+        .subscribe({
+          next: (response) => {
+            this.toastr.success('Foto de perfil actualizada exitosamente');
+            // Esperar un momento antes de recargar la imagen
+            setTimeout(() => {
+              this.fetchProfilePicture();
+            }, 1000);
+          },
+          error: (error) => {
+            console.error('Error completo:', error);
+            this.toastr.error(error);
+            input.value = '';
+          }
+        });
     }
   }
 
@@ -105,12 +153,42 @@ export class FormUserComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.user = data;
+          this.isStudent.set('enrollment' in data);
+          if (this.isStudent()) {
+            this.employeeNumber.set(data.enrollment);
+          } else {
+            this.employeeNumber.set(data.employeeNumber);
+          }
+          this.birthDate.set(data.person.birthDate.join('-'));
           this.setWelcomeMessage();        },
         error: (error) => {
           console.error('Error fetching user data:', error);
         },
       });
   }
+
+  fetchProfilePicture() {
+    this.profileService
+      .getService({
+        url: `${UriConstants.GET_USER_PROFILE_PICTURE}`,
+        responseType: 'blob' // Importante para recibir la imagen como blob
+      })
+      .subscribe({
+        next: (blob: Blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const newProfilePicture = reader.result as string;
+            this.foto.set(newProfilePicture);
+            this.profilePictureService.updateProfilePicture(newProfilePicture);
+          };
+          reader.readAsDataURL(blob);
+        },
+        error: (error) => {
+          console.error('Error al obtener la foto de perfil:', error);
+        },
+      });
+  }
+  
 
   setWelcomeMessage() {
     switch (this.user.person.gender.idGender) {
@@ -129,13 +207,8 @@ export class FormUserComponent implements OnInit {
 
   toggleEdicion() {
     if (this.modoEdicion()) {
-      // Si estamos saliendo del modo edición, preguntamos si quiere guardar
-      if (confirm('¿Desea guardar los cambios?')) {
-        this.actualizarDatosUsuario();
-      } else {
-        // Si no quiere guardar, revertimos los cambios
-        this.fetchUserData();
-      }
+      // Si estamos saliendo del modo edición, revertimos los cambios
+      this.fetchUserData();
     }
     this.modoEdicion.set(!this.modoEdicion());
   }

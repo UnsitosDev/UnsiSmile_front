@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, inject, Output, EventEmitter, signal } from '@angular/core';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
 import { StudentItems, AdminItems, MenuItem } from '@mean/models';
 import {
@@ -12,6 +12,8 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '@mean/services';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Router, RouterLinkActive } from '@angular/router';
+import { Subject } from 'rxjs';
+import { ProfilePictureService } from 'src/app/services/profile-picture.service';
 
 
 
@@ -30,17 +32,25 @@ export class SideNavComponent implements OnInit {
   user!: studentUserResponse | AdminResponse;
   welcomeMessage: string = 'Bienvenido'; 
   @Output() menuSelect = new EventEmitter<void>();
+  profilePicture = signal<string | null>(null);
+  private profilePictureUpdated = new Subject<string | null>();
 
   constructor(
       private authService: AuthService,
       private router: Router,
+      private profilePictureService: ProfilePictureService
 
-    ) {}
+    ) {
+      this.profilePictureService.profilePictureUpdated.subscribe((newProfilePicture) => {
+        this.profilePicture.set(newProfilePicture);
+      });
+    }
 
   @Input() isSidebarOpen = false;
 
   ngOnInit() {
     this.fetchUserData();
+    this.fetchProfilePicture();
   }
 
   fetchUserData() {
@@ -56,6 +66,28 @@ export class SideNavComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error fetching user data:', error);
+        },
+      });
+  }
+
+  fetchProfilePicture() {
+    this.userService
+      .getService({
+        url: `${UriConstants.GET_USER_PROFILE_PICTURE}`,
+        responseType: 'blob' // Importante para recibir la imagen como blob
+      })
+      .subscribe({
+        next: (blob: Blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const newProfilePicture = reader.result as string;
+            this.profilePicture.set(newProfilePicture);
+            this.profilePictureService.updateProfilePicture(newProfilePicture);
+          };
+          reader.readAsDataURL(blob);
+        },
+        error: (error) => {
+          console.error('Error al obtener la foto de perfil:', error);
         },
       });
   }

@@ -38,7 +38,8 @@ export class OdontogramData {
       return {
         idCondition: condition.idToothCondition,
         condition: condition.description,
-        description: ""
+        description: "",
+        selected: false
       };
     });
   }
@@ -48,7 +49,8 @@ export class OdontogramData {
       return {
         idCondition: condition.idToothFaceCondition,
         condition: condition.description,
-        description: ""
+        description: "",
+        selected: false
       };
     });
   }
