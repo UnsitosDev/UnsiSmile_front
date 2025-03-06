@@ -1,7 +1,12 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, Inject, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 interface ProgressNote {
   id: number;
   title: string;
@@ -42,12 +47,14 @@ interface ProgressNote {
 })
 export class DialogUploadProgressNoteComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<DialogUploadProgressNoteComponent>);
+  apiService = inject(ApiService);  
+  private toastr = inject(ToastrService); 
   file: File | null = null;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ProgressNote) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { idProgressNote: string }) { }
 
   ngOnInit(): void {
-    console.log(this.data)
+    console.log();
   }
 
   closeDialog(): void {
@@ -62,8 +69,31 @@ export class DialogUploadProgressNoteComponent implements OnInit {
   }
 
   sendFile() {
+    if (!this.file) {
+      this.toastr.warning('Por favor, selecciona un archivo.');
+      return;
+    }
 
+    const formData = new FormData();
+    formData.append('progressNoteFiles', this.file);
+    formData.append('progressNoteId', this.data.idProgressNote.toString());
 
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Accept': 'application/json'
+        }),
+        url: `${UriConstants.POST_EVOLUTION_NOTE_FILE}`,
+        data: formData,
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Nota guardada');
+          this.closeDialog();
+        },
+        error: (error) => {
+          this.toastr.warning(error);
+        },
+      });
   }
-
 }
