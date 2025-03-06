@@ -1,38 +1,52 @@
 <div class="button-container">
   <div></div>
   <div>
-      <button type="button" mat-button (click)="openDialog()">Nueva nota <i class="fas fa-plus"></i></button>
+    <button type="button" mat-button (click)="openDialog()">
+      Nueva nota <i class="fas fa-plus"></i>
+    </button>
   </div>
 </div>
 
 <mat-list class="list-custom">
   <div mat-subheader>Notas de Evolución</div>
-  @if (progressNotesData && progressNotesData.content.length > 0) {
-      @for (note of progressNotesData.content; track note.idProgressNote) {
-        <mat-list-item>
-          <div class="note-content">
+  @if (progressNotesData && progressNotesData.content.length > 0) { @for (note
+  of progressNotesData.content; track note.idProgressNote) {
+  <mat-list-item>
+    <div class="note-content">
+      <div class="note-info">
+        <div matListItemTitle>Nota de evolución</div>
+        <div matListItemLine>
+          {{ note.creationDate | date : "dd/MM/yyyy HH:mm" }}
+        </div>
+      </div>
 
-              <div class="note-info">
-                  <div matListItemTitle>Nota de evolución</div>
-                  <div matListItemLine>{{ note.creationDate | date: 'dd/MM/yyyy HH:mm' }}</div>
-              </div>
-
-              <div class="icon-container">
-                  <mat-icon class="action-icon" (click)="viewNote(note)">visibility</mat-icon>
-                  <mat-icon class="action-icon" (click)="attachDocument(note)">attach_file</mat-icon>
-              </div>
-          </div>
-      </mat-list-item>
-      }
-  } @else {
-      <mat-list-item>
-          <div matListItemTitle>No hay notas de evolución disponibles</div>
-      </mat-list-item>
+      <div class="icon-container">
+        <mat-icon class="action-icon" (click)="viewNote(note)"
+          >visibility</mat-icon
+        >
+        <!-- Verificar si hay archivos -->
+        @if (note.files && note.files.length > 0) {
+        <!-- Mostrar el archivo -->
+        <mat-icon class="action-icon" (click)="downloadFile(note.files[0].idProgressNoteFile)">file_download</mat-icon>
+        } @else {
+        <!-- Si no hay archivos, mostrar el icono para adjuntar un documento -->
+        <mat-icon class="action-icon" (click)="attachDocument(note)"
+          >attach_file</mat-icon
+        >
+        }
+      </div>
+    </div>
+  </mat-list-item>
+  } } @else {
+  <mat-list-item>
+    <div matListItemTitle>No hay notas de evolución disponibles</div>
+  </mat-list-item>
   }
 </mat-list>
 
 <div class="button-container">
-  <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
-  <div>
-  </div>
+  <button type="button" mat-button (click)="previousTab()">
+    <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR
+  </button>
+  <div></div>
 </div>

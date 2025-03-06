@@ -29,9 +29,16 @@ interface ProgressNote {
   indications: string;
   student: string;
   professor: string;
-  files: any[];
+  files: ProgressNoteFile[] | null;
   patient: Patient;
   creationDate: string;
+}
+
+interface ProgressNoteFile {
+  idProgressNoteFile: string;
+  fileName: string;
+  extension: string;
+  url: string;
 }
 @Component({
   selector: 'app-progress-notes',
@@ -127,6 +134,43 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
     });
   }
 
+  downloadFile(idProgressNoteFile: string) {
+    console.log('Descargando archivo con ID:', idProgressNoteFile);
+    this.apiService
+      .getService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url: `${UriConstants.DOWNLOAD_EVOLUTION_NOTE}/${idProgressNoteFile}`,
+      data: {},
+      responseType: 'blob', // Indicar que la respuesta es un Blob (archivo)
+      })
+      .subscribe({
+      next: (response: Blob) => {
+        // Crear un Blob a partir de la respuesta
+        const blob = new Blob([response], { type: response.type || 'application/octet-stream' });
+    
+        // Crear un enlace temporal para descargar el archivo
+        const link = document.createElement('a');
+        const url = window.URL.createObjectURL(blob);
+        link.href = url;
+    
+        // Asignar un nombre al archivo descargado
+        link.download = 'Nota_de_evolución';
+    
+        // Agregar el enlace al DOM y simular un clic
+        document.body.appendChild(link);
+        link.click();
+    
+        // Limpiar el enlace y liberar memoria
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Error al descargar el archivo: ', error);
+      },
+      });
+  }
   previousTab() {
     this.previousMatTab.emit();
   }
