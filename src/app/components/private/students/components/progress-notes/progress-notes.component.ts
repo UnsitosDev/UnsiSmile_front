@@ -91,6 +91,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.getProgressNotes();  
     });
   }
 
@@ -101,6 +102,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.getProgressNotes();  
     });
   }
 
@@ -111,6 +113,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.getProgressNotes();
     });
   }
 

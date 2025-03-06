@@ -92,7 +92,7 @@ export class DialogUploadProgressNoteComponent implements OnInit {
           this.closeDialog();
         },
         error: (error) => {
-          this.toastr.warning(error);
+          this.toastr.error(error);
         },
       });
   }

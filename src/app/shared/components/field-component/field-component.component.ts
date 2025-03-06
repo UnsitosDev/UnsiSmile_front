@@ -312,14 +312,4 @@ export class FieldComponentComponent implements OnChanges {
         },
       });
   }
-
-  onScroll(event: Event): void {
-    const selectElement = event.target as HTMLElement;
-    const isAtBottom =
-      selectElement.scrollTop + selectElement.clientHeight >= selectElement.scrollHeight;
-
-    if (isAtBottom) {
-      this.progressNotesService.loadMoreProfesores(); 
-    }
-  }
 }

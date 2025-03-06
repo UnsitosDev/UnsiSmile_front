@@ -164,32 +164,16 @@ export class ProgressNotesService {
     }
 
     private getProfesorOptions(): void {
-        if (!this.hasMorePages) return;
-
-        this.profesorService.getProfesorArea(this.currentPage).subscribe({
-            next: (response: ApiResponse) => {
+        this.profesorService.getProfesorArea().subscribe({
+            next: (response) => {
                 const profesorField = this.formProgressNotes.find(
                     (field) => field.name === 'professorClinicalAreaId'
                 );
-
                 if (profesorField) {
-                    // Inicializar options como un array vacío si es undefined
-                    if (!profesorField.options) {
-                        profesorField.options = [];
-                    }
-
-                    // Mapear la respuesta a las opciones del select
-                    const newOptions = response.content.map((profesor: ProfesorResponse) => ({
-                        value: profesor.idProfessorClinicalArea,
-                        label: profesor.professorName,
+                    profesorField.options = response.map((profesor: any) => ({
+                        value: profesor.idCatalogOption,
+                        label: profesor.optionName,
                     }));
-
-                    // Agregar las nuevas opciones a las existentes
-                    profesorField.options = [...profesorField.options, ...newOptions];
-
-                    // Actualizar la página y verificar si hay más páginas
-                    this.currentPage++;
-                    this.hasMorePages = !response.last;
                 }
             },
             error: (error) => {
@@ -199,9 +183,5 @@ export class ProgressNotesService {
     }
 
 
-    // Método para cargar más datos cuando el usuario hace scroll
-    public loadMoreProfesores(): void {
-        this.getProfesorOptions();
-    }
 }
 

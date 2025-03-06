@@ -296,7 +296,7 @@ export class UriConstants {
   // Obtener estado civil de los padres
   public static readonly GET_PARENTS_MARITAL_STATUS = basePath + '/catalog-options/catalog' 
   // Obtener profesores encargados de area
-  public static readonly GET_PROFESOR_AREA = basePath + '/professors/professor-clinical-areas'
+  public static readonly GET_PROFESOR_AREA = basePath + '/catalog-options/catalog'
   // Obtener una lista paginada de notas de evolución de un paciente
   public static readonly GET_PAGINATED_EVOLUTION_NOTES = basePath + '/progress-notes';
   // Obtener nota para descarga

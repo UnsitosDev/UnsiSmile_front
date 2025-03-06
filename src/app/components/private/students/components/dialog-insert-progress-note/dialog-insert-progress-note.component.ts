@@ -67,9 +67,10 @@ export class DialogInsertProgressNoteComponent implements OnInit {
         .subscribe({
           next: (response) => {
             this.closeDialog();
+            this.toastr.success('Nota guardada');
           },
           error: (error) => {
-            this.toastr.warning(error);
+            this.toastr.error(error);
           },
         });
     } else {
