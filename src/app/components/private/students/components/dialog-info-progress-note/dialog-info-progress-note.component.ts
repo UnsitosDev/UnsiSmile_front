@@ -51,10 +51,9 @@ export class DialogInfoProgressNoteComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: { note: ProgressNote, patientId: string, patientData: cardPatient, medicalRecordNumber: number, progressNoteData: any }) { }
 
   ngOnInit(): void {
-    console.log('note', this.data.note);
-    console.log('patient', this.data.patientData);
-    console.log('medicalRecordNumber', this.data.medicalRecordNumber);
+    
   }
+  
   closeDialog(): void {
     this.dialogRef.close();
   }

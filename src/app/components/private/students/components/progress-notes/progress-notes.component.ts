@@ -15,6 +15,7 @@ import { TabsHandler } from '@mean/shared';
 import { DialogInfoProgressNoteComponent } from '../dialog-info-progress-note/dialog-info-progress-note.component';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { DialogUploadProgressNoteComponent } from '../dialog-upload-progress-note/dialog-upload-progress-note.component';
+import { ToastrService } from 'ngx-toastr';
 
 interface ProgressNote {
   idProgressNote: string;
@@ -55,13 +56,13 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   @Input({ required: true }) patientId!: string;
   @Input({ required: true }) data!: cardPatient;
   @Input({ required: true }) medicalRecordNumber!: number;
+  private toastr = inject(ToastrService);
   apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   progressNotesData: PaginatedData<ProgressNote> | null = null;
 
   ngOnInit(): void {
     this.getProgressNotes();
-    console.log('Datos del paciente:', this.data);
   }
 
   public getProgressNotes() {
@@ -76,30 +77,9 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
       .subscribe({
         next: (response) => {
           this.progressNotesData = response;
-          console.log('Notas de evolución:', this.progressNotesData);
         },
         error: (error) => {
-          console.error(error);
-        },
-      });
-  }
-
-  idFile: string = '';
-  downloadNote() {
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.DOWNLOAD_EVOLUTION_NOTE}/${this.idFile}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-        },
-        error: (error) => {
-          console.error(error);
+          this.toastr.error(error);
         },
       });
   }
@@ -135,7 +115,6 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   }
 
   downloadFile(idProgressNoteFile: string) {
-    console.log('Descargando archivo con ID:', idProgressNoteFile);
     this.apiService
       .getService({
       headers: new HttpHeaders({
@@ -143,31 +122,26 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
       }),
       url: `${UriConstants.DOWNLOAD_EVOLUTION_NOTE}/${idProgressNoteFile}`,
       data: {},
-      responseType: 'blob', // Indicar que la respuesta es un Blob (archivo)
+      responseType: 'blob', 
       })
       .subscribe({
       next: (response: Blob) => {
-        // Crear un Blob a partir de la respuesta
         const blob = new Blob([response], { type: response.type || 'application/octet-stream' });
     
-        // Crear un enlace temporal para descargar el archivo
         const link = document.createElement('a');
         const url = window.URL.createObjectURL(blob);
         link.href = url;
     
-        // Asignar un nombre al archivo descargado
         link.download = 'Nota_de_evolución';
     
-        // Agregar el enlace al DOM y simular un clic
         document.body.appendChild(link);
         link.click();
     
-        // Limpiar el enlace y liberar memoria
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
       },
       error: (error) => {
-        console.error('Error al descargar el archivo: ', error);
+        this.toastr.error(error);
       },
       });
   }
