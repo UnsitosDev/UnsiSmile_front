@@ -10,6 +10,7 @@
 <mat-list class="list-custom">
   <div mat-subheader>Notas de Evolución</div>
   @if (progressNotesData && progressNotesData.content.length > 0) { @for (note
+    
   of progressNotesData.content; track note.idProgressNote) {
   <mat-list-item>
     <div class="note-content">
@@ -21,22 +22,19 @@
       </div>
 
       <div class="icon-container">
-        <mat-icon class="action-icon" (click)="viewNote(note)"
-          >visibility</mat-icon
-        >
-        <!-- Verificar si hay archivos -->
+        <i class="fas fa-eye" (click)="viewNote(note)"></i>        <!-- Verificar si hay archivos -->
         @if (note.files && note.files.length > 0) {
         <!-- Mostrar el archivo -->
-        <mat-icon class="action-icon" (click)="downloadFile(note.files[0].idProgressNoteFile)">file_download</mat-icon>
+        <i class="fas fa-download" (click)="downloadFile(note.files[0].idProgressNoteFile)"></i>
         } @else {
         <!-- Si no hay archivos, mostrar el icono para adjuntar un documento -->
-        <mat-icon class="action-icon" (click)="attachDocument(note)"
-          >attach_file</mat-icon
-        >
+        <i class="fas fa-paperclip" (click)="attachDocument(note)"></i>
         }
       </div>
     </div>
   </mat-list-item>
+  <hr>
+
   } } @else {
   <mat-list-item>
     <div matListItemTitle>No hay notas de evolución disponibles</div>

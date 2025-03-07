@@ -44,7 +44,7 @@ interface ProgressNoteFile {
 @Component({
   selector: 'app-progress-notes',
   standalone: true,
-  imports: [MatDividerModule, MatListModule, MatIconModule, CommonModule],
+  imports: [MatDividerModule, MatListModule, MatIconModule, CommonModule, MatIconModule],
   templateUrl: './progress-notes.component.html',
   styleUrl: './progress-notes.component.scss'
 })
