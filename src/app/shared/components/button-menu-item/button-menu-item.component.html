@@ -1,4 +1,8 @@
-<a [routerLink]="link" routerLinkActive="active" class="menu-item">
+<a [routerLink]="link" 
+   routerLinkActive="active" 
+   [routerLinkActiveOptions]="{exact: false}"
+   [class.active]="isLinkActive(link)"
+   class="menu-item">
   <fa-icon [icon]="fontAwesomeIcon"></fa-icon>
   <div class="menu-text">
     <span>{{ buttonText }}</span>

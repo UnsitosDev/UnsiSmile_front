@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Seleccione las condiciones a eliminar del diente {{data.tooth.idTooth}}</h2>
+    <mat-dialog-content>
+      @if (data.tooth.conditions.length > 0) {
+        <div class="tooth-conditions">
+          <h3>Condiciones del diente</h3>
+          @for (condition of data.tooth.conditions; track condition.idCondition) {
+            <mat-checkbox [(ngModel)]="condition.selected">
+              {{condition.condition}}
+            </mat-checkbox>
+          }
+        </div>
+      }
+
+      @for (face of data.tooth.faces; track face.idFace) {
+        @if ((face.conditions?.length ?? 0) > 0) {
+          <div class="face-conditions">
+            <h3>Condiciones de la cara {{face.idFace}}</h3>
+            @for (condition of face.conditions; track condition.idCondition) {
+              <mat-checkbox [(ngModel)]="condition.selected">
+                {{condition.condition}}
+              </mat-checkbox>
+            }
+          </div>
+        }
+      }
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancelar</button>
+      <button mat-button color="warn" (click)="onConfirmDelete()">Eliminar</button>
+    </mat-dialog-actions>
