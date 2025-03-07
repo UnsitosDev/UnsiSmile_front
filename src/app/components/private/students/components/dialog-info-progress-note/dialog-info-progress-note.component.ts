@@ -7,7 +7,6 @@ import { MatList, MatListModule } from '@angular/material/list';
 import { jsPDF } from 'jspdf';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 
-// Define la interfaz para el objeto 'ProgressNote'
 interface ProgressNote {
   id: number;
   title: string;
@@ -59,13 +58,13 @@ export class DialogInfoProgressNoteComponent implements OnInit {
   }
 
   formatBirthDate(birthDate: [number, number, number]): string {
-    const [year, month, day] = birthDate; // Desestructurar el arreglo
-    return `${day}/${month}/${year}`; // Devolver la fecha formateada
+    const [year, month, day] = birthDate; 
+    return `${day}/${month}/${year}`;
   }
 
   formatCreationDate(creationDate: string): string {
     const date = new Date(creationDate);
-    return date.toLocaleString(); // Formato localizado
+    return date.toLocaleString();
   }
 
   generatePdf(): void {
@@ -131,8 +130,6 @@ export class DialogInfoProgressNoteComponent implements OnInit {
         { label: 'Número de expediente:', value: this.data.medicalRecordNumber?.toString() }, // Convertir número a string
         { label: 'Fecha y hora de elaboración:', value: this.formatCreationDate(this.data.note.creationDate) }
       ];
-
-      console.log('Datos del paciente para el PDF:', patientData);
 
       // Posición inicial para los datos del paciente
       let currentX = margin + 10; // Margen izquierdo

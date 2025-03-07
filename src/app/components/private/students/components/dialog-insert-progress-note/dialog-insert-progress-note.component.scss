@@ -1,23 +1,25 @@
 .content {
     width: 90vw;
-    /* Usa el 90% del ancho de la ventana */
     max-width: 900px;
-    /* Limita el ancho máximo */
     overflow-y: auto;
-    /* Agrega scroll vertical si el contenido es muy largo */
-    padding: 30px;
-    /* Padding general */
+    padding: 20px;
+    background-color: var(--on-primary);
 }
 
-/* Estilos para dispositivos móviles */
+/* Estilos para móvil */
 @media (max-width: 600px) {
     .content {
-        width: 100vw;
-        /* Ocupa todo el ancho de la pantalla */
-        max-width: 100vw;
-        /* Limita el ancho máximo al 100% del viewport */
-        padding: 15px;
-        /* Reduce el padding en móviles */
+        max-width: 260px;
+        padding: 10px;
+        background-color: var(--on-primary);
+    }
+}
+/* Estilos para tabletas */
+@media (min-width: 700px) {
+    .content {
+        max-width: 420px;
+        padding: 10px;
+        background-color: var(--on-primary);
     }
 }
 
