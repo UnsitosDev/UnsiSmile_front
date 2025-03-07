@@ -23,6 +23,8 @@ button {
     background-color: var(--tertiary);
     color: var(--side-text) !important;
     border-radius: 2px;
+    padding: 8px 16px;
+
 }
 
 .mat-mdc-card-title {
@@ -72,3 +74,12 @@ hr{
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.list-custom {
+    height: 500px; /* Altura fija */
+    overflow-y: auto; /* Habilitar scroll vertical */
+  }
+
+  .load{
+    text-align: center;
+  }
