@@ -61,8 +61,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   private toastr = inject(ToastrService);
   currentPage: number = 0;
   isLastPage: boolean = false;
-  isLoading: boolean = false; // Para controlar el estado de carga
-  errorMessage: string | null = null; // Para almacenar mensajes de error
+  isLoading: boolean = false;
   apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   progressNotesData: PaginatedData<ProgressNote> | null = null;
@@ -71,10 +70,13 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
     this.getProgressNotes();
   }
 
-  public getProgressNotes(page: number = 0) {
-    console.log('Fetching page:', page); // Depuración
+  public getProgressNotes(page: number = 0, resetPagination: boolean = false) {
+    if (resetPagination) {
+      this.currentPage = 0;
+      this.progressNotesData = null;
+    }
+
     this.isLoading = true;
-    this.errorMessage = null;
 
     this.apiService
       .getService({
@@ -86,7 +88,6 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
       })
       .subscribe({
         next: (response) => {
-          console.log('API Response:', response); // Depuración
           if (!this.progressNotesData) {
             this.progressNotesData = response;
           } else {
@@ -96,12 +97,10 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
             this.progressNotesData.totalPages = response.totalPages;
           }
           this.isLoading = false;
-          this.isLastPage = response.last; // Verifica si es la última página
+          this.isLastPage = response.last;
         },
         error: (error) => {
-          console.error('API Error:', error); // Depuración
-          this.toastr.error('Failed to load progress notes. Please try again.');
-          this.errorMessage = 'Failed to load progress notes. Please try again.';
+          this.toastr.error(error);
           this.isLoading = false;
         },
       });
@@ -121,7 +120,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.getProgressNotes();
+      this.getProgressNotes(0, true);
     });
   }
 
@@ -132,7 +131,6 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.getProgressNotes();
     });
   }
 
@@ -143,10 +141,9 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.getProgressNotes();
+      this.getProgressNotes(0, true);
     });
   }
-
   downloadFile(idProgressNoteFile: string) {
     this.apiService
       .getService({
