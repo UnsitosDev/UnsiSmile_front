@@ -44,6 +44,9 @@ export class FormUpdateAdminComponent implements OnInit {
   admin: FormField[] = [];
   private apiService = inject(ApiService<any>);
   alertConfig = new AlertModel.AlertaClass(false, '', AlertModel.AlertSeverity.ERROR);
+  alertMessage: string = '';
+  alertSeverity: string = AlertModel.AlertSeverity.ERROR;
+  showAlert: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
