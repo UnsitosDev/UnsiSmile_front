@@ -62,6 +62,13 @@ export default [
                             import('./components/form-insert-admin/form-insert-admin.component').then(
                                 (m) => m.FormInsertAdminComponent
                             ),
+                    },
+                    {
+                        path: 'updateAdmin/:employeeNumber',
+                        loadComponent: () =>
+                            import('./components/form-update-admin/form-update-admin.component').then(
+                                (m) => m.FormUpdateAdminComponent
+                            ),
                     }
                 ]
             },

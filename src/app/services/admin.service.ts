@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
-import { curpValidator, phoneNumberValidator, employeeNumberValidator } from '../utils/validators';
+import { curpValidator, phoneNumberValidator, employeeNumberValidator, emailValidator } from '../utils/validators';
 import { PatientService } from './patient/patient.service';
 import { FieldNames } from '../models/form-fields/form-utils';
 
@@ -99,7 +99,7 @@ export class adminService {
             label: 'Correo electrónico',
             name: 'email',
             required: true,
-            validators: [Validators.required, Validators.email],
+            validators: [Validators.required, Validators.email, emailValidator()],
             errorMessages: {
                 required: 'El campo Correo electrónico es requerido.',
                 lastError: 'Por favor, introduce un correo electrónico válido.'
