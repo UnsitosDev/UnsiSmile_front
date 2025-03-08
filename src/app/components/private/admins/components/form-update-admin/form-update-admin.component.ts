@@ -16,6 +16,8 @@ import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { AlertModel } from '@mean/models';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form-update-admin',
@@ -36,6 +38,7 @@ import { AlertModel } from '@mean/models';
   styleUrl: './form-update-admin.component.scss'
 })
 export class FormUpdateAdminComponent implements OnInit {
+  private toastr = inject(ToastrService);
   employeeNumber: string = '';
   formGroup!: FormGroup;
   admin: FormField[] = [];
@@ -114,8 +117,6 @@ export class FormUpdateAdminComponent implements OnInit {
         });
       },
       error: (error) => {
-        console.error('Error al cargar los datos del administrador:', error);
-        this.alertConfig.open = true;
         this.alertConfig.singleMessage = 'Error al cargar los datos del administrador';
       },
     });
@@ -132,9 +133,9 @@ export class FormUpdateAdminComponent implements OnInit {
   // Agregar método para guardar cambios
   onSubmit() {
     if (this.formGroup.valid) {
-      const formValues = this.formGroup.value;
+      const formValues = this.formGroup.value; // Usar getRawValue para obtener todos los valores, incluso los deshabilitados
       const AdminData = {
-        employeeNumber: this.employeeNumber, // Usar el employeeNumber original
+        employeeNumber: formValues.employeeNumber,
         person: {
           curp: formValues.curp,
           firstName: formValues.firstName,
@@ -150,31 +151,26 @@ export class FormUpdateAdminComponent implements OnInit {
         }
       };
 
+
       this.apiService.patchService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.PATCH_ADMIN_BY_EMPLOYEENUMBER}${this.employeeNumber}`,
+        url: `${UriConstants.PATCH_ADMIN_BY_EMPLOYEENUMBER}${formValues.employeeNumber}`,
         data: AdminData,
       }).subscribe({
         next: () => {
-          this.alertConfig.severity = AlertModel.AlertSeverity.SUCCESS;
-          this.alertConfig.singleMessage = 'Administrador actualizado exitosamente';
-          this.alertConfig.open = true;
+          this.toastr.success(Messages.SUCCES_UPDATE_ADMIN, 'Éxito');
           setTimeout(() => {
             this.router.navigate(['/admin/admins']);
           }, 2000);
         },
         error: (error) => {
-          console.error('Error al actualizar:', error);
-          this.alertConfig.severity = AlertModel.AlertSeverity.ERROR;
-          this.alertConfig.singleMessage = 'Error al actualizar el administrador';
-          this.alertConfig.open = true;
+          this.toastr.error(error);
         },
       });
     } else {
- this.alertConfig.singleMessage = 'Por favor, complete todos los campos requeridos correctamente';
-      this.alertConfig.open = true;
+      this.toastr.warning(Messages.WARNING_INSERT_CYCLE, 'Error');
     }
   }
 }

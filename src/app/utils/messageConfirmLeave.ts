@@ -27,6 +27,8 @@ export class Messages {
     // Mensajes para insertar administradores
     public static readonly WARNING_INSERT_ADMIN = 'Completa correctamente todos los campos para registrar al administrador'
     public static readonly SUCCES_INSERT_ADMIN = 'Administrador creado'
+    public static readonly SUCCES_UPDATE_ADMIN = 'Administrador actualizado'
+
 
     // Mensajes para subir alumnos
     public static readonly WARNING_INSERT_CYCLE = 'Completa todos los campos'
