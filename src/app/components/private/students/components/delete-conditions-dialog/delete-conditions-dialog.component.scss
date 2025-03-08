@@ -1,0 +1,16 @@
+mat-dialog-content {
+  min-height: 150px;
+  max-height: 60vh;
+}
+.tooth-conditions,
+.face-conditions {
+  margin-bottom: 1rem;
+}
+mat-checkbox {
+  display: block;
+  margin: 0.5rem 0;
+}
+h3 {
+  margin-bottom: 0.25rem;
+  color: var(--text-color);
+}

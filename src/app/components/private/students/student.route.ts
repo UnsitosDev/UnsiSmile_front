@@ -10,10 +10,22 @@ export default [
         children: [
             {
                 path: 'patients',
-                loadComponent: () =>
-                    import('@mean/students').then(
-                        (m) => m.StudentsPatientsComponent
-                    ),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('@mean/students').then(
+                                (m) => m.StudentsPatientsComponent
+                            ),
+                    },
+                    {
+                        path: 'addPatient',
+                        loadComponent: () =>
+                            import('./components/form-patient-personal-data/form-patient-personal-data.component').then(
+                                (m) => m.FormPatientPersonalDataComponent
+                            ),
+                    }
+                ]
             },
             {
                 path: 'odontogram',
@@ -65,13 +77,6 @@ export default [
                     ),
             },
             {
-                path: 'addPatient',
-                loadComponent: () =>
-                    import('./components/form-patient-personal-data/form-patient-personal-data.component').then(
-                        (m) => m.FormPatientPersonalDataComponent
-                    ),
-            },
-            {
                 path: 'dashboard',
                 loadComponent: () =>
                     import('../admins/components/dashboard/dashboard.component').then(
@@ -81,7 +86,7 @@ export default [
             {
                 path: 'user',
                 loadComponent: () =>
-                    import('./components/form-user/form-user.component').then(
+                    import('../admins/components/form-user/form-user.component').then(
                         (m) => m.FormUserComponent
                     ),
             },

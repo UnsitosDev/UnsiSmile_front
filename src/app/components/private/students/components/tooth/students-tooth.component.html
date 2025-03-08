@@ -1,15 +1,22 @@
 <div class="tooth-container">
   <div class="boxTooth">
 
+    @if (hasConditions() && state !== 'read') {
+    <button 
+      class="delete-conditions-btn" 
+      (click)="deleteConditions.emit(data)"
+      matTooltip="Eliminar condiciones">
+      <i title="Eliminar condiciones" class="fas fa-trash"></i>
+      
+    </button>
+  }
+
     @if(state != 'read'){
       @if (data.status) {
-        <button class="removeButton" (click)="toggleTooth.emit(data)">-</button>
+        <button title="Diente no presente" class="removeButton" (click)="toggleTooth.emit(data)">-</button>
         } @else {
-        <button class="addButton" (click)="toggleTooth.emit(data)">+</button>
+        <button title="Diente presente" class="addButton" (click)="toggleTooth.emit(data)">+</button>
         }
-        <ng-template #addButton>
-          <button class="addButton" (click)="toggleTooth.emit(data)">+</button>
-        </ng-template>
     }
 
     <small class="idTooth">{{

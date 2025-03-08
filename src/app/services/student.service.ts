@@ -165,6 +165,53 @@ export class studentService {
       
     ];
 
+    public studentFields: FormField[] = [
+        {
+          type: 'autocompleteoptions',
+          label: 'Matrícula del Alumno',
+          name: 'studentEnrollment',
+          required: false,
+          errorMessages: {
+            required: 'La matrícula es requerida'
+          },
+          onInputChange: {
+            changeFunction: this.handleStudentEnrollmentSearch.bind(this),
+            length: 2  // Aquí se define el número mínimo de caracteres
+          }
+        }
+      ];
+
+      handleStudentEnrollmentSearch(searchTerm: string) {
+        if (searchTerm && searchTerm.length >= 2) {  // Aquí se valida la longitud
+          this.apiService.getService({
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.GET_STUDENTS}?keyword=${searchTerm}`,
+            data: {},
+          }).subscribe({
+            next: (response) => {
+              
+              const enrollmentField = this.studentFields.find(field => field.name === 'studentEnrollment');
+              if (enrollmentField && response.content) {
+                // Mapear solo las matrículas y nombres de los estudiantes
+                enrollmentField.options = response.content.map((student: any) => {
+                  const option = {
+                    value: student.enrollment,
+                    label: `${student.enrollment} - ${student.person.firstName} ${student.person.firstLastName}`
+                  };
+                  return option;
+                });
+                
+              }
+            },
+            error: (error) => {
+                console.error('Error al obtener estudiantes del servidor:', error);
+            }
+          });
+        }
+      }
+
     // Eventos
 
     constructor() {
@@ -211,7 +258,6 @@ export class studentService {
     }
 
     private handleGroupClick(): void {
-        console.log('Iniciando carga de grupos...');
         this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -219,14 +265,11 @@ export class studentService {
             url: UriConstants.GET_GROUPS,
             data: {}
         }).subscribe({
-            next: (response: any) => {
-                console.log('Respuesta del servidor (grupos):', response);
-                
+            next: (response: any) => {                
                 try {
                     const groups = Array.isArray(response) ? response : response.content;
                     
                     if (!groups) {
-                        console.error('No se encontraron grupos en la respuesta');
                         return;
                     }
 
@@ -240,7 +283,6 @@ export class studentService {
                     const groupField = this.personalDataFields.find(field => field.name === 'group');
                     if (groupField) {
                         groupField.options = this.groupOptions;
-                        console.log('Opciones de grupo actualizadas:', this.groupOptions);
                     }
                 } catch (error) {
                     console.error('Error al procesar los grupos:', error);

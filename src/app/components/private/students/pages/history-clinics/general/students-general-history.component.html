@@ -5,8 +5,13 @@
       </mat-card>
       <br>
       @if (mappedHistoryData) {
-          <mat-card-title><strong>Historia clinica {{mappedHistoryData.title}}</strong></mat-card-title>             
-          <mat-card class="custom">
+        <mat-card-title>
+            <div class="title-container">
+              <span><strong>Historia clínica {{mappedHistoryData.title}}</strong></span>
+              <span><strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong></span>
+            </div>
+        </mat-card-title>
+        <mat-card class="custom">
               <mat-tab-group [(selectedIndex)]="currentIndex">
                   @for (tab of mappedHistoryData.tabs; track tab) {
                       <mat-tab [label]="tab.title">

@@ -15,14 +15,25 @@ export class StudentsToolbarComponent {
   @Input() toolbar!: Toolbar;
   @Output() handleAction = new EventEmitter<ICondition>();
   @Input({ required: true }) state!: "create" | "update" | "read" | "read-latest";
+  @Input() marked!: ICondition;
 
   ToothConditionsConstants = ToothConditionsConstants 
 
-  selectSymbol(symbol: ICondition) {
+  isSymbolSelected(symbol: ICondition): boolean {
+    return this.marked?.condition === symbol.condition;
+  }
+
+  selectSymbol(symbol: ICondition): void {
     if (this.state === 'read') {
       return;
     }
-    this.handleAction.emit(symbol);
+
+    this.handleAction.emit({
+      description: symbol.description,
+      condition: symbol.condition,
+      idCondition: symbol.idCondition,
+      selected: false
+    });
   }
 
   isNormalCondition(condition: string): boolean {

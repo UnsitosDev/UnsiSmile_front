@@ -10,38 +10,60 @@ export default [
         children: [
             {
                 path: 'students',
-                loadComponent: () =>
-                    import('./components/table-students/table-students.component').then(
-                        (m) => m.TableStudentsComponent
-                    ),
-            },
-            {
-                path: 'addStudent',
-                loadComponent: () =>
-                    import('./components/form-insert-student/form-insert-student.component').then(
-                        (m) => m.FormInsertStudentComponent
-                    ),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./components/table-students/table-students.component').then(
+                                (m) => m.TableStudentsComponent
+                            ),
+                    },
+                    {
+                        path: 'addStudent',
+                        loadComponent: () =>
+                            import('./components/form-insert-student/form-insert-student.component').then(
+                                (m) => m.FormInsertStudentComponent
+                            ),
+                    }
+                ]
             },
             {
                 path: 'patients',
-                loadComponent: () =>
-                    import('../admins/components/table-patients-admin/admin-patients.component').then(
-                        (m) => m.AdminPatientsComponent
-                    ),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('../admins/components/table-patients-admin/admin-patients.component').then(
+                                (m) => m.AdminPatientsComponent
+                            ),
+                    },
+                    {
+                        path: 'addPatient',
+                        loadComponent: () =>
+                            import('../admins/components/form-patient-personal-data/form-patient-personal-data.component').then(
+                                (m) => m.FormPatientPersonalDataComponent
+                            ),
+                    }
+                ]
             },
             {
-                path: 'addPatient',
-                loadComponent: () =>
-                    import('../admins/components/form-patient-personal-data/form-patient-personal-data.component').then(
-                        (m) => m.FormPatientPersonalDataComponent
-                    ),
-            },
-            {
-                path: 'addAdmin',
-                loadComponent: () =>
-                    import('./components/form-insert-admin/form-insert-admin.component').then(
-                        (m) => m.FormInsertAdminComponent
-                    ),
+                path: 'admins',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./components/table-admin/table-admin.component').then(
+                                (m) => m.TableAdminComponent
+                            ),
+                    },
+                    {
+                        path: 'addAdmin',
+                        loadComponent: () =>
+                            import('./components/form-insert-admin/form-insert-admin.component').then(
+                                (m) => m.FormInsertAdminComponent
+                            ),
+                    }
+                ]
             },
             {
                 path: 'dashboard',
@@ -69,13 +91,6 @@ export default [
                 loadComponent: () =>
                     import('./components/form-user/form-user.component').then(
                         (m) => m.FormUserComponent
-                    ),
-            },
-            {
-                path: 'admins',
-                loadComponent: () =>
-                    import('./components/table-admin/table-admin.component').then(
-                        (m) => m.TableAdminComponent
                     ),
             },
             {
