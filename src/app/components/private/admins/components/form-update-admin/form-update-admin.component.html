@@ -1,5 +1,5 @@
 <mat-card class="full-width-card">
-  <mat-card-title><strong>Detalles del Administrador</strong></mat-card-title>
+  <mat-card-title><strong>Actualizar Administrador</strong></mat-card-title>
 </mat-card>
 <mat-stepper class="background" linear #stepper>
   <mat-step>
@@ -16,8 +16,11 @@
         }
       </div>
       <div class="button-container">
-        <button mat-flat-button color="primary" (click)="onBack()">
-          <i class="fas fa-arrow-left"></i> VOLVER
+        <button mat-flat-button color="warn" (click)="onBack()" class="mr-2">
+          <i class="fas fa-arrow-left"></i> CANCELAR
+        </button>
+        <button mat-flat-button color="primary" (click)="onSubmit()">
+          GUARDAR <i class="fas fa-save"></i>
         </button>
       </div>
     </form>

@@ -52,6 +52,13 @@ export class FormUpdateAdminComponent implements OnInit {
   ngOnInit() {
     this.employeeNumber = this.route.snapshot.params['employeeNumber'];
     this.admin = this.adminFields.getPersonalDataFields();
+    
+    // Asegurarnos de que se carguen las opciones de género antes de inicializar el form
+    const genderField = this.admin.find(field => field.name === 'gender');
+    if (genderField && genderField.onClick) {
+      genderField.onClick(new MouseEvent('click'));
+    }
+    
     this.initForm();
     this.loadAdminData();
   }
@@ -61,7 +68,10 @@ export class FormUpdateAdminComponent implements OnInit {
     this.admin.forEach(field => {
       this.formGroup.addControl(
         field.name,
-        this.fb.control({ value: '', disabled: true }, field.validators || [])
+        this.fb.control({ 
+          value: '', 
+          disabled: false 
+        }, field.validators || [])
       );
     });
   }
@@ -75,6 +85,9 @@ export class FormUpdateAdminComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
+        // Formatear la fecha antes de asignarla
+        const birthDate = response.person.birthDate ? new Date(response.person.birthDate).toISOString().split('T')[0] : '';
+        
         this.formGroup.patchValue({
           employeeNumber: response.employeeNumber,
           curp: response.person.curp,
@@ -83,9 +96,21 @@ export class FormUpdateAdminComponent implements OnInit {
           firstLastName: response.person.firstLastName,
           secondLastName: response.person.secondLastName,
           phone: response.person.phone,
-          birthDate: response.person.birthDate,
+          birthDate: birthDate, // Usar la fecha formateada
           email: response.person.email,
-          gender: response.person.gender.idGender
+          gender: response.person.gender.idGender.toString() // Convertir a string
+        });
+
+        // Forzar la actualización del select de género
+        const genderField = this.admin.find(field => field.name === 'gender');
+        if (genderField) {
+          genderField.value = response.person.gender.idGender.toString();
+        }
+
+        // Marcar el formulario como "touched" para que se muestren los valores
+        Object.keys(this.formGroup.controls).forEach(key => {
+          const control = this.formGroup.get(key);
+          control?.markAsTouched();
         });
       },
       error: (error) => {
@@ -102,5 +127,54 @@ export class FormUpdateAdminComponent implements OnInit {
 
   onBack() {
     this.router.navigate(['/admin/admins']);
+  }
+
+  // Agregar método para guardar cambios
+  onSubmit() {
+    if (this.formGroup.valid) {
+      const formValues = this.formGroup.value;
+      const AdminData = {
+        employeeNumber: this.employeeNumber, // Usar el employeeNumber original
+        person: {
+          curp: formValues.curp,
+          firstName: formValues.firstName,
+          secondName: formValues.secondName || '',
+          firstLastName: formValues.firstLastName,
+          secondLastName: formValues.secondLastName,
+          phone: formValues.phone || '',
+          birthDate: formValues.birthDate,
+          email: formValues.email,
+          gender: {
+            idGender: parseInt(formValues.gender)
+          }
+        }
+      };
+
+      this.apiService.patchService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.PATCH_ADMIN_BY_EMPLOYEENUMBER}${this.employeeNumber}`,
+        data: AdminData,
+      }).subscribe({
+        next: () => {
+          this.alertConfig.severity = AlertModel.AlertSeverity.SUCCESS;
+          this.alertConfig.singleMessage = 'Administrador actualizado exitosamente';
+          this.alertConfig.open = true;
+          setTimeout(() => {
+            this.router.navigate(['/admin/admins']);
+          }, 2000);
+        },
+        error: (error) => {
+          console.error('Error al actualizar:', error);
+          this.alertConfig.severity = AlertModel.AlertSeverity.ERROR;
+          this.alertConfig.singleMessage = 'Error al actualizar el administrador';
+          this.alertConfig.open = true;
+        },
+      });
+    } else {
+ this.alertConfig.singleMessage = 'Por favor, complete todos los campos requeridos correctamente';
+      this.alertConfig.open = true;
+    }
   }
 }
