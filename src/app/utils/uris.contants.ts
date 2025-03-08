@@ -197,6 +197,7 @@ export class UriConstants {
   public static readonly POST_ADMIN = basePath + '/administrators';
   public static readonly GET_ADMIN = basePath + '/administrators';
   public static readonly PATCH_ADMIN = basePath + '/administrators';
+  public static readonly GET_ADMIN_BY_EMPLOYEENUMBER = basePath + '/administrators/';
 
 
   // vital-signs-controller
