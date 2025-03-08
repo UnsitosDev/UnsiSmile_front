@@ -108,10 +108,12 @@ export class FormUpdateStudentComponent implements OnInit {
   onSubmit() {
     if (this.formGroup.valid) {
       const formValues = this.formGroup.value;
+      
+      // Asegurarnos de que todos los ID sean strings como espera la API
       const studentData = {
         enrollment: formValues.enrollment,
         user: {
-          idUser: this.userId,
+          idUser: this.userId.toString(), // Convertir a string
           username: formValues.email,
           password: this.userPassword,
           role: {
@@ -136,29 +138,33 @@ export class FormUpdateStudentComponent implements OnInit {
         group: {
           id: parseInt(formValues.group),
           groupName: '',
-          semesterNumber: formValues.semester,
+          semesterNumber: formValues.semester.toString(), // Convertir a string
           career: {
-            idCareer: formValues.career,
-            career: ''
+            idCareer: formValues.career.toString(), // Convertir a string
+            career: 'Licenciatura en Odontología'
           }
         }
       };
 
-      console.log('Datos a enviar:', studentData);
+      // Agregar logs para depuración
+      console.log('URL de actualización:', `${UriConstants.PUT_STUDENT}${this.matricula}`);
+      console.log('Datos enviados:', JSON.stringify(studentData, null, 2));
 
       const url = `${UriConstants.PUT_STUDENT}${this.matricula}`;
-      this.apiService.putService({ // Cambiado de patchService a putService
+      this.apiService.putService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
         url,
         data: studentData,
       }).subscribe({
-        next: () => {
+        next: (response) => {
+          console.log('Respuesta del servidor:', response); // Log de respuesta
           this.toastr.success('Estudiante actualizado con éxito', 'Éxito');
           this.router.navigate(['/admin/students']);
         },
         error: (error) => {
+          console.error('Error completo:', error); // Log de error detallado
           this.toastr.error('Error al actualizar el estudiante: ' + error.message, 'Error');
         }
       });
