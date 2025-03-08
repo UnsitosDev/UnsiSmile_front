@@ -111,14 +111,13 @@ export class FormUpdateStudentComponent implements OnInit {
       const studentData = {
         enrollment: formValues.enrollment,
         user: {
-          idUser: this.userId, // Usar el ID del usuario cargado
+          idUser: this.userId,
           username: formValues.email,
-          password: this.userPassword, // Usar la contraseña cargada
+          password: this.userPassword,
           role: {
             idRole: 2,
             role: 'ROLE_STUDENT'
-          },
-          status: this.userStatus // Usar el estado cargado
+          }
         },
         person: {
           curp: formValues.curp,
@@ -130,26 +129,25 @@ export class FormUpdateStudentComponent implements OnInit {
           birthDate: new Date(formValues.birthDate).toISOString().split('T')[0],
           email: formValues.email,
           gender: {
-            idGender: +formValues.gender,
+            idGender: parseInt(formValues.gender),
             gender: ''
           }
         },
         group: {
-          id: +formValues.group,
-          groupName: null, // Asignar el nombre del grupo si está disponible
+          id: parseInt(formValues.group),
+          groupName: '',
           semesterNumber: formValues.semester,
           career: {
             idCareer: formValues.career,
-            career: '' // Asignar el nombre de la carrera si está disponible
+            career: ''
           }
-        },
-        studentStatus: this.userStatus, // Asegurarse de incluir el estado del estudiante
+        }
       };
 
-      console.log('Datos enviados:', studentData); // Mostrar los datos en la consola
+      console.log('Datos a enviar:', studentData);
 
       const url = `${UriConstants.PUT_STUDENT}${this.matricula}`;
-      this.apiService.patchService({
+      this.apiService.putService({ // Cambiado de patchService a putService
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
