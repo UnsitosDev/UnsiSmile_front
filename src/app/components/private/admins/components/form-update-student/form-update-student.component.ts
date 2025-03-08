@@ -64,29 +64,40 @@ export class FormUpdateStudentComponent implements OnInit {
   }
 
   loadStudentData(matricula: string) {
-    const url = `${UriConstants.GET_STUDENT_BY_ENROLLMENT}/${matricula}`;
+    const url = `${UriConstants.GET_STUDENTS}?keyword=${matricula}`;
     this.apiService.getService({ url }).subscribe({
-      next: (student: any) => {
-        this.formGroup.patchValue({
-          firstName: student.person.firstName,
-          secondName: student.person.secondName,
-          firstLastName: student.person.firstLastName,
-          secondLastName: student.person.secondLastName,
-          enrollment: student.enrollment,
-          curp: student.person.curp,
-          phone: student.person.phone,
-          birthDate: new Date(student.person.birthDate), // Convertir la fecha a un objeto Date
-          email: student.person.email,
-          gender: student.person.gender.idGender.toString(), // Convertir el idGender a string
-          career: student.group?.career?.idCareer,
-          semester: student.group?.semesterNumber,
-          group: student.group?.idGroup
-        });
+      next: (response: any) => {
+        console.log('Respuesta completa:', response);
+        if (response.content && response.content.length > 0) {
+          const student = response.content[0]; // Tomamos el primer estudiante del array
+          console.log('Datos del estudiante:', student);
+          
+          this.formGroup.patchValue({
+            firstName: student.person.firstName,
+            secondName: student.person.secondName,
+            firstLastName: student.person.firstLastName,
+            secondLastName: student.person.secondLastName,
+            enrollment: student.enrollment,
+            curp: student.person.curp,
+            phone: student.person.phone,
+            birthDate: new Date(student.person.birthDate),
+            email: student.person.email,
+            gender: student.person.gender.idGender.toString(),
+            career: student.group.career.idCareer,
+            semester: student.group.semester.idSemester,
+            group: student.group.idGroup.toString() // Convertimos a string y usamos idGroup
+          });
 
-        // Guardar valores adicionales en propiedades de la clase
-        this.userId = student.user.id;
-        this.userPassword = student.user.password || ''; // Asegurarse de que la contraseña no sea undefined
-        this.userStatus = student.user.status;
+          console.log('Valor del grupo asignado:', student.group.idGroup);
+          console.log('Estado del formulario:', this.formGroup.value);
+
+          // Guardar valores adicionales
+          this.userId = student.user.id;
+          this.userPassword = student.user.password || '';
+          this.userStatus = student.user.status;
+        } else {
+          this.toastr.error('No se encontró el estudiante', 'Error');
+        }
       },
       error: (error) => {
         this.toastr.error('Error al cargar los datos del estudiante: ' + error.message, 'Error');
