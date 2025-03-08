@@ -28,6 +28,9 @@ export class DialogHistoryClinicsComponent implements OnInit {
   private router = inject(Router);
   private dialogRef = inject(MatDialogRef<DialogHistoryClinicsComponent>);
   private data = inject(MAT_DIALOG_DATA);
+  constructor(@Inject(MAT_DIALOG_DATA) public dataRoleAndObject: { objeto: any; role: string }) {
+    console.log('Received data:', dataRoleAndObject);
+  }
   idClinicalHistoryCatalog!: 0;
   ngOnInit(): void {
     this.getConfigHistories();

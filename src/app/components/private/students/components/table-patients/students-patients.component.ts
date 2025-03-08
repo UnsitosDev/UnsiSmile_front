@@ -40,6 +40,7 @@ export class StudentsPatientsComponent implements OnInit {
   searchTerm: string = ''; // Variable para almacenar el término de búsqueda
   totalElements: number = 0; // Agregar esta propiedad
   sortField: string = 'person.firstName';
+  role = 'student'
   sortAsc: boolean = true;
   sortableColumns = {
     'nombres': 'person.firstName',
@@ -90,9 +91,10 @@ export class StudentsPatientsComponent implements OnInit {
   }
 
   editar(objeto: any) {
+    console.log('Datos enviados al diálogo:', { objeto, role: this.role });
     this.dialog.open(DialogHistoryClinicsComponent, {
       width: '650px',
-      data: objeto,
+      data: { objeto, role: this.role },
     });
   }
 
