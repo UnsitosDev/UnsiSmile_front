@@ -45,6 +45,12 @@ export class FormUpdateStudentComponent implements OnInit {
   constructor(private route: ActivatedRoute, private studentService: studentService) {}
 
   ngOnInit() {
+    // Asegurarnos de que se carguen las opciones de género antes de inicializar el form
+    const genderField = this.studentFields.find(field => field.name === 'gender');
+    if (genderField && genderField.onClick) {
+      genderField.onClick(new MouseEvent('click'));
+    }
+
     this.route.params.subscribe(params => {
       this.matricula = params['matricula'];
       this.loadStudentData(this.matricula);
@@ -58,9 +64,6 @@ export class FormUpdateStudentComponent implements OnInit {
         this.fb.control(field.value || '', field.validators || [])
       );
     });
-
-    // Cargar opciones de género
-    this.studentService.handleGenderClick({} as MouseEvent);
   }
 
   loadStudentData(matricula: string) {
@@ -85,6 +88,20 @@ export class FormUpdateStudentComponent implements OnInit {
             group: student.group.idGroup.toString() // Convertimos a string y usamos idGroup
           });
 
+          const genderField = this.studentFields.find(field => field.name === 'gender');
+          if (genderField) {
+            genderField.value = student.person.gender.idGender.toString();
+            
+            if (genderField.onClick) {
+              genderField.onClick(new MouseEvent('click'));
+            }
+          }
+
+          Object.keys(this.formGroup.controls).forEach(key => {
+            const control = this.formGroup.get(key);
+            control?.markAsTouched();
+          });
+
           // Guardar valores adicionales
           this.userId = student.user.id;
           this.userPassword = student.user.password || '';
@@ -103,11 +120,10 @@ export class FormUpdateStudentComponent implements OnInit {
     if (this.formGroup.valid) {
       const formValues = this.formGroup.value;
       
-      // Asegurarnos de que todos los ID sean strings como espera la API
       const studentData = {
         enrollment: formValues.enrollment,
         user: {
-          idUser: this.userId.toString(), // Convertir a string
+          idUser: this.userId.toString(), 
           username: formValues.email,
           password: this.userPassword,
           role: {
