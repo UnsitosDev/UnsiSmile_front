@@ -108,6 +108,13 @@ export default [
                     ),
             },
             {
+                path: 'updateStudent/:matricula',
+                loadComponent: () =>
+                    import('./components/form-update-student/form-update-student.component').then(
+                        (m) => m.FormUpdateStudentComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

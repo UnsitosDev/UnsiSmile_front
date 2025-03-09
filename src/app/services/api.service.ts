@@ -77,4 +77,15 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
       catchError(this.handleError)
     );
   }
+
+  /** Para realizar las peticiones PUT */
+  putService(reqParams: ApiModel.ReqParams): Observable<PUT> {
+    const options = {
+      params: reqParams.params ? reqParams.params : {}
+    };
+    return this.http.put<PUT>(reqParams.url, reqParams.data, options).pipe(
+      map((res) => res),
+      catchError(this.handleError)
+    );
+  }
 }

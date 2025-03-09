@@ -87,6 +87,8 @@ export class TableStudentsComponent implements OnInit {
       this.openDetailsDialog(accion.fila);
     } else if (accion.accion === 'MostrarAlerta') {
       this.showAlert();
+    } else if (accion.accion === 'Actualizar') {
+      this.updateStudent(accion.fila);
     }
   }
 
@@ -210,5 +212,9 @@ export class TableStudentsComponent implements OnInit {
         });
       }
     });
+  }
+
+  updateStudent(student: any) {
+    this.router.navigate(['/admin/updateStudent', student.matricula]);
   }
 }

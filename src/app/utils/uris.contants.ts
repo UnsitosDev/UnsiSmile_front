@@ -190,8 +190,12 @@ export class UriConstants {
   public static readonly GET_STUDENTS = basePath + '/students';
   public static readonly POST_STUDENTS = basePath + '/students';
   public static readonly PATCH_STUDENTS = basePath + '/students';
-  public static readonly GET_STUDENTS_ENROLLMENT = basePath + '/students/enrollments';
 
+  public static readonly GET_STUDENT_BY_ENROLLMENT = basePath + '/students';
+  public static readonly PUT_STUDENT = basePath + '/students/';
+  public static readonly PATCH_STUDENT = basePath + '/students/';
+
+  public static readonly GET_STUDENTS_ENROLLMENT = basePath + '/students/enrollments';
 
 
   public static readonly POST_ADMIN = basePath + '/administrators';
@@ -199,7 +203,6 @@ export class UriConstants {
   public static readonly PATCH_ADMIN = basePath + '/administrators';
   public static readonly GET_ADMIN_BY_EMPLOYEENUMBER = basePath + '/administrators/';
   public static readonly PATCH_ADMIN_BY_EMPLOYEENUMBER = basePath + '/administrators/';
-
 
   // vital-signs-controller
   public static readonly GETID_VITAL_SIGNS =
