@@ -67,11 +67,8 @@ export class FormUpdateStudentComponent implements OnInit {
     const url = `${UriConstants.GET_STUDENTS}?keyword=${matricula}`;
     this.apiService.getService({ url }).subscribe({
       next: (response: any) => {
-        console.log('Respuesta completa:', response);
         if (response.content && response.content.length > 0) {
-          const student = response.content[0]; // Tomamos el primer estudiante del array
-          console.log('Datos del estudiante:', student);
-          
+          const student = response.content[0]; // Tomamos el primer estudiante del array          
           this.formGroup.patchValue({
             firstName: student.person.firstName,
             secondName: student.person.secondName,
@@ -87,9 +84,6 @@ export class FormUpdateStudentComponent implements OnInit {
             semester: student.group.semester.idSemester,
             group: student.group.idGroup.toString() // Convertimos a string y usamos idGroup
           });
-
-          console.log('Valor del grupo asignado:', student.group.idGroup);
-          console.log('Estado del formulario:', this.formGroup.value);
 
           // Guardar valores adicionales
           this.userId = student.user.id;
@@ -132,7 +126,7 @@ export class FormUpdateStudentComponent implements OnInit {
           email: formValues.email,
           gender: {
             idGender: parseInt(formValues.gender),
-            gender: ''
+            gender: 'Masculino' // Valor temporal
           }
         },
         group: {
@@ -146,12 +140,10 @@ export class FormUpdateStudentComponent implements OnInit {
         }
       };
 
-      // Agregar logs para depuración
-      console.log('URL de actualización:', `${UriConstants.PUT_STUDENT}${this.matricula}`);
-      console.log('Datos enviados:', JSON.stringify(studentData, null, 2));
+    
 
-      const url = `${UriConstants.PUT_STUDENT}${this.matricula}`;
-      this.apiService.putService({
+      const url = `${UriConstants.PATCH_STUDENT}${this.matricula}`;
+      this.apiService.patchService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
@@ -159,17 +151,19 @@ export class FormUpdateStudentComponent implements OnInit {
         data: studentData,
       }).subscribe({
         next: (response) => {
-          console.log('Respuesta del servidor:', response); // Log de respuesta
           this.toastr.success('Estudiante actualizado con éxito', 'Éxito');
           this.router.navigate(['/admin/students']);
         },
         error: (error) => {
-          console.error('Error completo:', error); // Log de error detallado
           this.toastr.error('Error al actualizar el estudiante: ' + error.message, 'Error');
         }
       });
     } else {
       this.toastr.warning('Por favor, complete todos los campos requeridos', 'Advertencia');
     }
+  }
+
+  onCancel() {
+    this.router.navigate(['/admin/students']);
   }
 }
