@@ -19,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UriConstants } from '@mean/utils';
+import { ProgressNotesService } from 'src/app/services/form-progress-notes.service';
 
 @Component({
   selector: 'app-field-component',
@@ -39,6 +40,7 @@ export class FieldComponentComponent implements OnChanges {
   @Output() setFieldValue = new EventEmitter<any>();
   @Output() setFileValue = new EventEmitter<any>();
   @Output() ageStatusChange = new EventEmitter<boolean>(); 
+  progressNotesService = inject(ProgressNotesService);
   apiService = inject(ApiService);
   isTextRequired: boolean = false;
   datePipe = inject(DatePipe);
@@ -310,5 +312,4 @@ export class FieldComponentComponent implements OnChanges {
         },
       });
   }
-
 }

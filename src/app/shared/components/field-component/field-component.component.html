@@ -73,6 +73,9 @@
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
         <input matInput type="number" [required]="!!field.required" [pattern]="field.validationFnt?.regex || ''"  [placeholder]="field.placeholder" [value]="field.answerField?.answerNumeric" [formControlName]="field.name" (input)="onValueChange($event)"/>   
+        @if (formGroup.get(field.name)?.hasError('lastError') && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
+          <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
+        }
         @if (formGroup.get(field.name)?.hasError('required')) {
           <mat-error class="error-message">
             El campo {{ field.label }} es requerido
@@ -176,8 +179,15 @@
         <mat-label>{{ field.label }}</mat-label>
         <textarea matInput [required]="!!field.required" [placeholder]="field.placeholder" [value]="field.answerField?.answerText" [formControlName]="field.name" (input)="onValueChange($event)"></textarea>
     
-        @if (formGroup.get(field.name)?.hasError('required') && field.required) {
-          <mat-error class="error-message">El campo {{ field.label }} es requerido</mat-error>
+        @if (formGroup.get(field.name)?.hasError('required')) {
+          <mat-error class="error-message">
+            El campo {{ field.label }} es requerido
+          </mat-error>
+        }
+        @if (formGroup.get(field.name)?.hasError('pattern')) {
+          <mat-error class="error-message">
+            {{ field.validationFnt?.message }}
+          </mat-error>
         }
 
       </mat-form-field>

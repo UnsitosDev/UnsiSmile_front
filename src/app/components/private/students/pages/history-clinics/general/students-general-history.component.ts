@@ -28,13 +28,14 @@ import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
 
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
-  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent],
+  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, ProgressNotesComponent],
 })
 
 export class StudentsGeneralHistoryComponent implements OnInit {
@@ -46,6 +47,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private patientService = inject(ApiService<Patient, {}>);
   readonly dialog = inject(MatDialog);
   private toastr = inject(ToastrService);
+  public medicalRecordNumber! : number;
   public id!: number;
   public idpatient!: string;
   public year?: number;
@@ -83,6 +85,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
+          this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
         }
       });
       this.fetchPatientData();

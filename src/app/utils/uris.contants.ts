@@ -300,5 +300,15 @@ export class UriConstants {
   // Obtener formatos generales
   public static readonly GET_FORMATS = basePath + '/form-sections'
   // Obtener estado civil de los padres
-  public static readonly GET_PARENTS_MARITAL_STATUS = basePath + '/catalog-options/catalog'  
+  public static readonly GET_PARENTS_MARITAL_STATUS = basePath + '/catalog-options/catalog' 
+  // Obtener profesores encargados de area
+  public static readonly GET_PROFESOR_AREA = basePath + '/catalog-options/catalog'
+  // Obtener una lista paginada de notas de evolución de un paciente
+  public static readonly GET_PAGINATED_EVOLUTION_NOTES = basePath + '/progress-notes';
+  // Obtener nota para descarga
+  public static readonly DOWNLOAD_EVOLUTION_NOTE = basePath + '/progress-notes/files';
+  // Crear un registro de nota de evolucion
+  public static readonly POST_EVOLUTION_NOTE = basePath + '/progress-notes';
+  // Subir nota de evoluvion
+  public static readonly POST_EVOLUTION_NOTE_FILE = basePath + '/progress-notes/files';
 }

@@ -1,0 +1,40 @@
+.content {
+    width: 90vw;
+    max-width: 900px;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: var(--on-primary);
+}
+
+/* Estilos para móvil */
+@media (max-width: 600px) {
+    .content {
+        max-width: 260px;
+        padding: 10px;
+        background-color: var(--on-primary);
+    }
+}
+/* Estilos para tabletas */
+@media (min-width: 700px) {
+    .content {
+        max-width: 420px;
+        padding: 10px;
+        background-color: var(--on-primary);
+    }
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+
+mat-icon {
+    cursor: pointer;
+}
+
+button{
+    background-color: var(--tertiary);
+    color: white !important;
+}
