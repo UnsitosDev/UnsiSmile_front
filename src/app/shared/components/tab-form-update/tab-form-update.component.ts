@@ -15,7 +15,7 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import {
@@ -55,17 +55,17 @@ export class TabFormUpdateComponent {
   @Input() fieldsSubTab!: subSeccion;
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
-
   fb = inject(FormBuilder);
   route = inject(ActivatedRoute);
   apiService = inject(ApiService);
   private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
   private toastr = inject(ToastrService);
+  router = inject(Router); 
   formGroup!: FormGroup;
   id: number = 0; // Variable para el parámetro 'id'
   patientID: number = 0; // Variable para el parámetro 'patientID'
   patientUuid!: string;
-
+  disabledControl = false;
   ngOnInit(): void {
     this.section();
     this.route.paramMap.subscribe((params) => {
@@ -74,8 +74,24 @@ export class TabFormUpdateComponent {
       this.patientUuid = params.get('patient')!; // uuid paciente
       this.cdr.detectChanges(); // Fuerza la detección de cambios
     });
+    this.checkUrlForAdmin(); 
   }
 
+  checkUrlForAdmin() {
+    const url = this.router.url; 
+    if (url.includes('admin')) {
+      this.disableForm(); 
+    }
+  }
+
+  disableForm() {
+    if (this.formGroup) {
+      Object.keys(this.formGroup.controls).forEach((controlName) => {
+        this.formGroup.get(controlName)?.disable(); 
+      });
+    }
+    this.disabledControl = true;
+  }
   // Construcción de secciones y campos dinámicos en el formulario
   section() {
     // Inicializamos el formGroup vacío para agregar controles dinámicamente

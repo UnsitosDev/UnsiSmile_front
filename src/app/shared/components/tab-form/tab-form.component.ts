@@ -23,7 +23,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar'; 
 import { MatTabsModule } from '@angular/material/tabs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import {
@@ -70,12 +70,14 @@ export class TabFormComponent implements TabsHandler {
   apiService = inject(ApiService);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
+  router = inject(Router); 
   formGroup!: FormGroup;
   id: number = 0; // Variable para el parámetro 'id'
   patientID: number = 0; // Variable para el parámetro 'patientID'
   private toastr = inject(ToastrService);
   patientUuid!: string;
   sendFile!: boolean;
+  disabledControl = false;
 
   ngOnInit(): void {
     this.section();
@@ -85,6 +87,23 @@ export class TabFormComponent implements TabsHandler {
       this.patientUuid = params.get('patient')!; // uuid paciente
       this.cdr.detectChanges(); // Fuerza la detección de cambios
     });
+    this.checkUrlForAdmin();
+  }
+
+  checkUrlForAdmin() {
+    const url = this.router.url; 
+    if (url.includes('admin')) {
+      this.disableForm(); 
+    }
+  }
+
+  disableForm() {
+    if (this.formGroup) {
+      Object.keys(this.formGroup.controls).forEach((controlName) => {
+        this.formGroup.get(controlName)?.disable(); 
+      });
+    }
+    this.disabledControl = true;
   }
 
   // Construcción de secciones y campos dinámicos en el formulario

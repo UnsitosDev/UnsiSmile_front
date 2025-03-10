@@ -32,13 +32,14 @@ import { UriConstants } from '@mean/utils';
 
 })
 export class FieldComponentComponent implements OnChanges {
-   @Input() field!: FormField;
+  @Input() field!: FormField;
   @Input() formGroup!: FormGroup;
   @Input() errors: any;
   @Input() fieldValue: any;
   @Output() setFieldValue = new EventEmitter<any>();
   @Output() setFileValue = new EventEmitter<any>();
   @Output() ageStatusChange = new EventEmitter<boolean>(); 
+  @Input() disabledMultivalued: boolean = false;
   apiService = inject(ApiService);
   isTextRequired: boolean = false;
   datePipe = inject(DatePipe);
