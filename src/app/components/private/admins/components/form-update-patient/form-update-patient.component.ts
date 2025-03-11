@@ -66,17 +66,23 @@ export class FormUpdatePatientComponent implements OnInit {
     this.other = this.personalDataFields.getOtherDataFields();
     this.guardian = this.personalDataFields.getGuardianDataFields();
     
-    // Inicializar el género inmediatamente
-    const genderField = this.personal.find(field => field.name === 'gender');
-    if (genderField?.onClick) {
-      genderField.onClick(new MouseEvent('click'));
-    }
+    // Inicializar campos que requieren carga inmediata
+    const fieldsToInitialize = [
+      { list: this.personal, fieldName: 'gender' },
+      { list: this.other, fieldName: 'nationality' },
+      { list: this.other, fieldName: 'maritalStatus' },
+      { list: this.address, fieldName: 'housingCategory' }  // Agregar inicialización de categoría de vivienda
+    ];
+
+    fieldsToInitialize.forEach(({ list, fieldName }) => {
+      const field = list.find(f => f.name === fieldName);
+      if (field?.onClick) {
+        field.onClick(new MouseEvent('click'));
+      }
+    });
 
     // Inicializar otros campos
     this.other.forEach(field => {
-      if (field.onClick) {
-        field.onClick(new MouseEvent('click'));
-      }
       if (field.onInputChange) {
         field.onInputChange.changeFunction('', 0, 1000);
       }
@@ -100,18 +106,21 @@ export class FormUpdatePatientComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
+        console.log('Respuesta del servidor:', response);
         this.minorPatient = response.isMinor;
         this.setFormValues(response);
       },
       error: (error) => {
+        console.error('Error al cargar los datos del paciente:', error);
         this.toastr.error('Error al cargar los datos del paciente');
       }
     });
   }
 
   private setFormValues(patient: any) {
-    // Formatear la fecha de nacimiento
+    // Formatear las fechas
     const birthDate = patient.person.birthDate ? new Date(patient.person.birthDate).toISOString().split('T')[0] : '';
+    const admissionDate = patient.admissionDate ? new Date(patient.admissionDate).toISOString().split('T')[0] : '';
     
     const formData = {
       // Datos personales
@@ -137,11 +146,13 @@ export class FormUpdatePatientComponent implements OnInit {
       housingCategory: patient.address.housing.idHousing,
 
       // Otros datos
-      nationality: patient.nationality.idNationality,
-      maritalStatus: patient.maritalStatus.idMaritalStatus,
-      occupation: patient.occupation.idOccupation,
-      ethnicGroup: patient.ethnicGroup.idEthnicGroup,
-      religion: patient.religion.idReligion,
+      nationality: patient.nationality?.idNationality?.toString(),
+      maritalStatus: patient.maritalStatus?.idMaritalStatus?.toString(),
+      occupation: patient.occupation?.idOccupation?.toString(),
+      ethnicGroup: patient.ethnicGroup?.idEthnicGroup?.toString(),
+      religion: patient.religion?.idReligion?.toString(),
+      lastConsultation: admissionDate,
+      consultationReason: patient.consultationReason || ''
     };
 
     Object.assign(formData, {
@@ -166,11 +177,22 @@ export class FormUpdatePatientComponent implements OnInit {
 
     this.formGroup.patchValue(formData);
 
-    // Forzar la actualización del campo de género
-    const genderField = this.personal.find(field => field.name === 'gender');
-    if (genderField) {
-      genderField.value = patient.person.gender.idGender.toString();
-    }
+    // Forzar la actualización de los campos select
+    const fieldsToUpdate = [
+      { list: this.personal, fieldName: 'gender', value: patient.person.gender.idGender.toString() },
+      { list: this.other, fieldName: 'nationality', value: patient.nationality?.idNationality?.toString() },
+      { list: this.other, fieldName: 'maritalStatus', value: patient.maritalStatus?.idMaritalStatus?.toString() },
+      { list: this.address, fieldName: 'housingCategory', value: patient.address.housing.idHousing.toString() }  // Agregar actualización de categoría de vivienda
+    ];
+
+    fieldsToUpdate.forEach(({ list, fieldName, value }) => {
+      const field = list.find(f => f.name === fieldName);
+      if (field) {
+        field.value = value;
+      }
+    });
+
+    
   }
 
   onBack() {
