@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog'; // Importa MAT_DIALOG_DATA
 import { HistoryData } from 'src/app/models/form-fields/form-field.interface';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-dialog-history-clinics',
   standalone: true,
@@ -27,8 +28,9 @@ export class DialogHistoryClinicsComponent implements OnInit {
   private apiService = inject(ApiService<ClinicalHistoryCatalog>);
   private router = inject(Router);
   private dialogRef = inject(MatDialogRef<DialogHistoryClinicsComponent>);
+  private toastr = inject(ToastrService);
+  
   constructor(@Inject(MAT_DIALOG_DATA) public dataRoleAndObject: { objeto: any; role: string }) {
-    console.log('Received data:', dataRoleAndObject);
   }
   idClinicalHistoryCatalog!: 0;
   ngOnInit(): void {
@@ -93,7 +95,6 @@ export class DialogHistoryClinicsComponent implements OnInit {
       this.pushUrl = 'admin'
       this.dialogRef.close();
       this.getConfigHistories();
-      console.log('ruta para enviar', this.dataRoleAndObject.role);
       const existingHistory = this.patientConfigHistories.find(h =>
         h.clinicalHistoryName === history.clinicalHistoryName &&
         h.patientClinicalHistoryId !== 0 &&
@@ -104,10 +105,9 @@ export class DialogHistoryClinicsComponent implements OnInit {
         // Usar el ID de la historia clínica existente
         this.idPatientClinicalHistory = existingHistory.patientClinicalHistoryId; 
         // Navegar a la historia clínica existente
-        console.log('Es posible navegar a la ruta');
         this.navigateToHistory(history, this.idPatientClinicalHistory);
       } else {
-        console.log('Historia clinica no disponible');
+        this.toastr.error("Historia clínica no disponible. Aún no ha sido creada por el alumno.");
       }
     }
 
