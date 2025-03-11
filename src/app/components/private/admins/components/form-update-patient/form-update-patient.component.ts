@@ -66,6 +66,13 @@ export class FormUpdatePatientComponent implements OnInit {
     this.other = this.personalDataFields.getOtherDataFields();
     this.guardian = this.personalDataFields.getGuardianDataFields();
     
+    // Inicializar el género inmediatamente
+    const genderField = this.personal.find(field => field.name === 'gender');
+    if (genderField?.onClick) {
+      genderField.onClick(new MouseEvent('click'));
+    }
+
+    // Inicializar otros campos
     this.other.forEach(field => {
       if (field.onClick) {
         field.onClick(new MouseEvent('click'));
@@ -103,7 +110,9 @@ export class FormUpdatePatientComponent implements OnInit {
   }
 
   private setFormValues(patient: any) {
-    // Mapear los datos del paciente al formulario
+    // Formatear la fecha de nacimiento
+    const birthDate = patient.person.birthDate ? new Date(patient.person.birthDate).toISOString().split('T')[0] : '';
+    
     const formData = {
       // Datos personales
       firstName: patient.person.firstName,
@@ -112,7 +121,7 @@ export class FormUpdatePatientComponent implements OnInit {
       secondLastName: patient.person.secondLastName,
       curp: patient.person.curp,
       phone: patient.person.phone,
-      birthDate: patient.person.birthDate,
+      birthDate: birthDate, // Usar la fecha formateada
       email: patient.person.email,
       gender: patient.person.gender.idGender.toString(),
 
@@ -156,6 +165,12 @@ export class FormUpdatePatientComponent implements OnInit {
     }
 
     this.formGroup.patchValue(formData);
+
+    // Forzar la actualización del campo de género
+    const genderField = this.personal.find(field => field.name === 'gender');
+    if (genderField) {
+      genderField.value = patient.person.gender.idGender.toString();
+    }
   }
 
   onBack() {
