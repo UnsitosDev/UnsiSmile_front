@@ -16,7 +16,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '@mean/services';
+import { ApiService, AuthService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import {
   formSectionFields,
@@ -25,6 +25,7 @@ import {
 import { FieldComponentComponent } from '../field-component/field-component.component';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 interface updateFormData {
   idPatientClinicalHistory: number;
@@ -60,6 +61,10 @@ export class TabFormUpdateComponent {
   apiService = inject(ApiService);
   private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
   private toastr = inject(ToastrService);
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  role!: string;
   router = inject(Router); 
   formGroup!: FormGroup;
   id: number = 0; // Variable para el parámetro 'id'
@@ -74,12 +79,15 @@ export class TabFormUpdateComponent {
       this.patientUuid = params.get('patient')!; // uuid paciente
       this.cdr.detectChanges(); // Fuerza la detección de cambios
     });
-    this.checkUrlForAdmin(); 
+    this.getRole(); 
   }
 
-  checkUrlForAdmin() {
-    const url = this.router.url; 
-    if (url.includes('admin')) {
+  getRole() {
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+
+    if (this.role !== 'ROLE_STUDENT') {
       this.disableForm(); 
     }
   }

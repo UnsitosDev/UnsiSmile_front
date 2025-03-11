@@ -24,7 +24,7 @@ import {
 } from '@angular/material/snack-bar'; 
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '@mean/services';
+import { ApiService, AuthService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import {
   formSectionFields,
@@ -34,6 +34,7 @@ import { FieldComponentComponent } from 'src/app/shared/components/field-compone
 import { TabsHandler } from '../../interfaces/tabs_handler';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 interface FormData {
   idPatientClinicalHistory: number;
@@ -71,6 +72,10 @@ export class TabFormComponent implements TabsHandler {
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
   router = inject(Router); 
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  role!: string;
   formGroup!: FormGroup;
   id: number = 0; // Variable para el parámetro 'id'
   patientID: number = 0; // Variable para el parámetro 'patientID'
@@ -87,15 +92,19 @@ export class TabFormComponent implements TabsHandler {
       this.patientUuid = params.get('patient')!; // uuid paciente
       this.cdr.detectChanges(); // Fuerza la detección de cambios
     });
-    this.checkUrlForAdmin();
+    this.getRole();
   }
 
-  checkUrlForAdmin() {
-    const url = this.router.url; 
-    if (url.includes('admin')) {
+  getRole() {
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+
+    if (this.role !== 'ROLE_STUDENT') {
       this.disableForm(); 
     }
   }
+
 
   disableForm() {
     if (this.formGroup) {
