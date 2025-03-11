@@ -27,6 +27,8 @@ export class Messages {
     // Mensajes para insertar administradores
     public static readonly WARNING_INSERT_ADMIN = 'Completa correctamente todos los campos para registrar al administrador'
     public static readonly SUCCES_INSERT_ADMIN = 'Administrador creado'
+    public static readonly SUCCES_UPDATE_ADMIN = 'Administrador actualizado'
+
 
     // Mensajes para subir alumnos
     public static readonly WARNING_INSERT_CYCLE = 'Completa todos los campos'
@@ -43,4 +45,7 @@ export class Messages {
     public static readonly WARNING_NO_FILE_SELECTED_FORMATS = 'Selecciona algun archivo'
     public static readonly SUCCESS_FORMATS = 'Formatos guardados.' 
     public static readonly NO_FILES_YET = 'Aún no hay archivos disponibles.';
+
+    // Mensajes para notas de evolución
+    public static readonly WARNING_PROGRESS_NOTE = 'Por favor, complete todos los campos requeridos.';
 }

@@ -15,8 +15,7 @@ export function bloodPressureValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const bloodPressurePattern = /^\d{2,3}\/\d{2,3}$/;
     const valid = bloodPressurePattern.test(control.value);
-    
-    return valid ? null : { lastError: { value: control.value } }; // Manejo de errores unificado
+    return valid ? null : { lastError: { value: control.value } };
   };
 }
 
@@ -122,6 +121,42 @@ export function enrollmentValidator(): ValidatorFn {
     }
     const enrollmentPattern = /^\d{10}$/;
     const valid = enrollmentPattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}
+
+// Validador de temperatura
+export function temperatureValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const temperaturePattern = /^(3[0-9](\.[0-9]{1,2})?|4[0-4](\.[0-9]{1,2})?|45(\.[0-9]{1,2})?)$/;
+    const valid = temperaturePattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}
+
+// Validador de frecuencia cardíaca
+export function heartRateValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const heartRatePattern = /^(?:[4-9]\d|1\d{2}|200)$/;
+    const valid = heartRatePattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}
+
+// Validador de frecuencia respiratoria
+export function respiratoryRateValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const respiratoryRatePattern = /^(?:1[2-9]|2\d|30)$/;
+    const valid = respiratoryRatePattern.test(control.value);
+    return valid ? null : { lastError: { value: control.value } };
+  };
+}
+
+// Validador de saturación de oxígeno
+export function oxygenSaturationValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const oxygenSaturationPattern = /^(?:[9][0-9]|100)$/;
+    const valid = oxygenSaturationPattern.test(control.value);
     return valid ? null : { lastError: { value: control.value } };
   };
 }

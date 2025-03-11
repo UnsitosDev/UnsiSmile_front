@@ -1,0 +1,48 @@
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+h5 {
+    text-align: center;
+}
+
+.content {
+    background-color: var(--on-primary);
+    padding: 20px;
+}
+
+mat-icon {
+    cursor: pointer;
+}
+
+button {
+    color: rgb(197, 0, 0);
+    display: inline-flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.icon-text-container {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+}
+
+.text {
+    font-size: 16px;
+}
+
+.download {
+    text-align: right;
+}

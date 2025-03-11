@@ -1,0 +1,33 @@
+mat-icon {
+    cursor: pointer;
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+.custom {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button {
+    background-color: var(--tertiary);
+    color: white !important;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+.content{
+    padding: 10px;
+}
