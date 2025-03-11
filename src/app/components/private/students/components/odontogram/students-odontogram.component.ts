@@ -13,7 +13,7 @@ import { forkJoin } from 'rxjs';
 import { StudentsToolbarComponent } from './../toolbar-odontogram/students-toolbar.component';
 import { StudentsToothComponent } from './../tooth/students-tooth.component';
 
-import { ApiService, OdontogramData, store } from '@mean/services';
+import { ApiService, AuthService, OdontogramData, store } from '@mean/services';
 import { Constants, ToothConditionsConstants } from '@mean/utils';
 
 import { HttpHeaders } from '@angular/common/http';
@@ -34,6 +34,7 @@ import { DeleteConditionsDialogComponent } from '../delete-conditions-dialog/del
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 interface ToothEvent {
   faceId: string;
@@ -70,6 +71,10 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
     | 'read'
     | 'read-latest';
   private toastr = inject(ToastrService);
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  role!: string;
 
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
@@ -98,6 +103,13 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   ngOnInit(): void {
     this.loadConditions();
     this.initializeState();
+    this.getRole();
+  }
+
+  getRole(){
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
   }
 
   private initializeState(): void {
