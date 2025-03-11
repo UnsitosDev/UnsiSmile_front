@@ -122,6 +122,10 @@ export class FormUpdatePatientComponent implements OnInit {
     const birthDate = patient.person.birthDate ? new Date(patient.person.birthDate).toISOString().split('T')[0] : '';
     const admissionDate = patient.admissionDate ? new Date(patient.admissionDate).toISOString().split('T')[0] : '';
     
+    // Extraer los datos de la calle
+    const street = patient.address.street;
+    const streetValue = street.idStreet ? street.idStreet.toString() : street.name;
+    
     const formData = {
       // Datos personales
       firstName: patient.person.firstName,
@@ -134,13 +138,13 @@ export class FormUpdatePatientComponent implements OnInit {
       email: patient.person.email,
       gender: patient.person.gender.idGender.toString(),
 
-      // Dirección
+      // Dirección (actualizar la parte de la calle)
       postalCode: patient.address.street.neighborhood.locality.postalCode,
       stateName: patient.address.street.neighborhood.locality.municipality.state.name,
       municipalityName: patient.address.street.neighborhood.locality.municipality.name,
       localityName: patient.address.street.neighborhood.locality.name,
       neighborhoodName: patient.address.street.neighborhood.name,
-      streetName: patient.address.street.name,
+      streetName: streetValue, // Usar el valor procesado
       exteriorNumber: patient.address.streetNumber,
       interiorNumber: patient.address.interiorNumber,
       housingCategory: patient.address.housing.idHousing,
@@ -182,7 +186,12 @@ export class FormUpdatePatientComponent implements OnInit {
       { list: this.personal, fieldName: 'gender', value: patient.person.gender.idGender.toString() },
       { list: this.other, fieldName: 'nationality', value: patient.nationality?.idNationality?.toString() },
       { list: this.other, fieldName: 'maritalStatus', value: patient.maritalStatus?.idMaritalStatus?.toString() },
-      { list: this.address, fieldName: 'housingCategory', value: patient.address.housing.idHousing.toString() }  // Agregar actualización de categoría de vivienda
+      { list: this.address, fieldName: 'housingCategory', value: patient.address.housing.idHousing.toString() },  // Agregar actualización de categoría de vivienda
+      { 
+        list: this.address, 
+        fieldName: 'streetName', 
+        value: street.name // Usar el nombre de la calle para mostrar
+      }
     ];
 
     fieldsToUpdate.forEach(({ list, fieldName, value }) => {
@@ -192,6 +201,10 @@ export class FormUpdatePatientComponent implements OnInit {
       }
     });
 
+    // Inicializar y cargar las opciones de calle si hay un ID de colonia
+    if (patient.address.street.neighborhood.idNeighborhood) {
+      this.personalDataFields.handleStreetClick('', 0, 1000, patient.address.street.neighborhood.idNeighborhood.toString());
+    }
     
   }
 
