@@ -66,6 +66,15 @@ export class FormUpdatePatientComponent implements OnInit {
     this.other = this.personalDataFields.getOtherDataFields();
     this.guardian = this.personalDataFields.getGuardianDataFields();
     
+    this.other.forEach(field => {
+      if (field.onClick) {
+        field.onClick(new MouseEvent('click'));
+      }
+      if (field.onInputChange) {
+        field.onInputChange.changeFunction('', 0, 1000);
+      }
+    });
+    
     this.formGroup = this.fb.group({});
     [...this.personal, ...this.address, ...this.other, ...this.guardian].forEach(field => {
       this.formGroup.addControl(
@@ -125,6 +134,14 @@ export class FormUpdatePatientComponent implements OnInit {
       ethnicGroup: patient.ethnicGroup.idEthnicGroup,
       religion: patient.religion.idReligion,
     };
+
+    Object.assign(formData, {
+      nationality: patient.nationality?.idNationality?.toString(),
+      maritalStatus: patient.maritalStatus?.idMaritalStatus?.toString(),
+      occupation: patient.occupation?.idOccupation?.toString(),
+      ethnicGroup: patient.ethnicGroup?.idEthnicGroup?.toString(),
+      religion: patient.religion?.idReligion?.toString()
+    });
 
     // Si es menor de edad, agregar datos del tutor
     if (patient.guardian) {

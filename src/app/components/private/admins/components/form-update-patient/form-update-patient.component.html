@@ -44,7 +44,7 @@
     </form>
   </mat-step>
 
-  <mat-step >
+  <mat-step>
     <form [formGroup]="formGroup">
       <ng-template matStepLabel>OTROS DATOS</ng-template>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
@@ -58,12 +58,18 @@
         }
       </div>
       <div class="button-container">
-        <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
+        <button mat-flat-button color="primary" matStepperPrevious>
+          <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR
+        </button>
         @if (minorPatient) {
-          <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+          <button mat-flat-button color="primary" matStepperNext>
+            SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
+          </button>
         }
         @if (!minorPatient) {
-          <button mat-flat-button color="primary" (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
+          <button mat-flat-button color="primary" (click)="onSubmit()">
+            GUARDAR <i class="fas fa-save"></i>
+          </button>
         }
       </div>
     </form>
