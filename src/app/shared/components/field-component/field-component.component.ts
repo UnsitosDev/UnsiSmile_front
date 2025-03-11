@@ -39,7 +39,8 @@ export class FieldComponentComponent implements OnChanges {
   @Input() fieldValue: any;
   @Output() setFieldValue = new EventEmitter<any>();
   @Output() setFileValue = new EventEmitter<any>();
-  @Output() ageStatusChange = new EventEmitter<boolean>(); 
+  @Output() ageStatusChange = new EventEmitter<boolean>();
+  @Input() disabledMultivalued: boolean = false; 
   progressNotesService = inject(ProgressNotesService);
   apiService = inject(ApiService);
   isTextRequired: boolean = false;
