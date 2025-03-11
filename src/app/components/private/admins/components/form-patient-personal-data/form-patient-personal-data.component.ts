@@ -73,6 +73,7 @@ export class FormPatientPersonalDataComponent {
   private route = inject(Router);
   @ViewChild('stepper') stepper!: MatStepper;
   patientId: number | null = null; // Añadir esta propiedad
+  patientCurp: string = ''; // Añadir esta propiedad
   canAccessStudentTab: boolean = false;
 
   constructor(
@@ -237,7 +238,7 @@ export class FormPatientPersonalDataComponent {
           email: formValues.email,
           gender: {
             idGender: +formValues.gender,
-            gender: "" // Si tienes el nombre del género, puedes asignarlo aquí
+            gender: this.patientService.genderOptions.find(option => option.value === formValues.gender)?.label || ""
           }
         },
         address: {
@@ -313,8 +314,12 @@ export class FormPatientPersonalDataComponent {
           next: (response) => {
             this.isNavigationPrevented = false;
             this.navigationComplete = true;
-            this.router.navigate(['/students/patients']);
             this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
+            this.canAccessStudentTab = true; // Habilitar la pestaña de alumno
+            this.patientCurp = formValues.curp; // Guardar la CURP del paciente
+            setTimeout(() => {
+              this.searchPatientByCurp(this.patientCurp); // Buscar el ID usando la CURP
+            });
           },
           error: (error) => {
             this.toastr.error(error, 'Error');
@@ -327,6 +332,11 @@ export class FormPatientPersonalDataComponent {
 
   // Agregar nuevo método para buscar paciente por CURP
   searchPatientByCurp(curp: string) {
+    if (!curp) {
+      this.toastr.error('CURP no válida', 'Error');
+      return;
+    }
+
     this.apiService
       .getService({
         headers: new HttpHeaders({
@@ -343,11 +353,11 @@ export class FormPatientPersonalDataComponent {
             
             this.stepper.next();
           } else {
-            this.toastr.error('Error al obtener el ID del paciente', 'Error');
+            this.toastr.error('No se encontró el paciente con la CURP proporcionada', 'Error');
           }
         },
         error: (error) => {
-          this.toastr.error(error);
+          this.toastr.error('Error al buscar el paciente: ' + error, 'Error');
         },
       });
   }
