@@ -250,21 +250,31 @@ export class FormPatientPersonalDataComponent {
             category: "" // Si tienes el nombre de la categoría, agrégalo aquí
           },
           street: {
-            idStreet: isNaN(+formValues.streetName) ? 0 : +formValues.streetName,
-            name: isNaN(+formValues.streetName) ? formValues.streetName : '',
+            idStreet: +formValues.streetName > 0 ? +formValues.streetName :
+                      (this.patientService.streetsOptions.find(option =>
+                          option.label.toLowerCase() === formValues.streetName?.toLowerCase())?.value || '0'),
+            name: formValues.streetName || '',
             neighborhood: {
-              idNeighborhood: isNaN(+formValues.neighborhoodName) ? 0 : +formValues.neighborhoodName,
-              name: isNaN(+formValues.neighborhoodName) ? formValues.neighborhoodName : '',
+              idNeighborhood: +formValues.neighborhoodName > 0 ? +formValues.neighborhoodName :
+                            (this.patientService.neighborhoodOptions.find(option =>
+                                option.label.toLowerCase() === formValues.neighborhoodName?.toLowerCase())?.value || '0'),
+              name: formValues.neighborhoodName || '',
               locality: {
-                idLocality: isNaN(+this.localityId) || +this.localityId === 0 ? 0 : +this.localityId,
-                name: isNaN(+this.localityId) || +this.localityId === 0 ? formValues.localityName : "",
+                idLocality: +this.localityId > 0 ? +this.localityId :
+                          (this.patientService.localityOptions.find(option =>
+                              option.label.toLowerCase() === formValues.localityName?.toLowerCase())?.value || '0'),
+                name: formValues.localityName || "",
                 postalCode: formValues.postalCode,
                 municipality: {
-                  idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId,
-                  name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "",
+                  idMunicipality: +this.municipalityNameId > 0 ? +this.municipalityNameId :
+                                (this.patientService.municipalityOptions.find(option =>
+                                    option.label.toLowerCase() === formValues.municipalityName?.toLowerCase())?.value || '0'),
+                  name: formValues.municipalityName || "",
                   state: {
-                    idState: isNaN(+this.stateNameId) ? 0 : +this.stateNameId,
-                    name: formValues.stateName
+                    idState: +this.stateNameId > 0 ? +this.stateNameId : 
+                            (this.patientService.stateOptions.find(option => 
+                                option.label.toLowerCase() === formValues.stateName?.toLowerCase())?.value || '0'),
+                    name: formValues.stateName || "",
                   }
                 }
               }
@@ -301,7 +311,7 @@ export class FormPatientPersonalDataComponent {
           doctorName: formValues.doctorName
         } : null
       };      
-      
+      console.log('JSON completo a enviar:', JSON.stringify(patientData, null, 2));   
       this.apiService
         .postService({
           headers: new HttpHeaders({
