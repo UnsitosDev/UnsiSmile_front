@@ -341,31 +341,39 @@ export class FormUpdatePatientComponent implements OnInit {
           }
         },
         address: {
-          idAddress: this.addressId, // Usar el ID guardado en lugar de 0
+          idAddress: 0,
           streetNumber: formValues.exteriorNumber,
           interiorNumber: formValues.interiorNumber,
           housing: {
             idHousing: +formValues.housingCategory,
-            category: this.patientService.housingOptions.find(option => 
-              option.value === formValues.housingCategory.toString()
-            )?.label || ""
+            category: "" // Si tienes el nombre de la categoría, agrégalo aquí
           },
           street: {
-            idStreet: +this.streetId,
-            name: formValues.streetName,
+            idStreet: +formValues.streetName > 0 ? +formValues.streetName :
+                      (this.patientService.streetsOptions.find(option =>
+                          option.label.toLowerCase() === formValues.streetName?.toLowerCase())?.value || '0'),
+            name: formValues.streetName || '',
             neighborhood: {
-              idNeighborhood: +this.neighborhoodId,
-              name: formValues.neighborhoodName,
+              idNeighborhood: +formValues.neighborhoodName > 0 ? +formValues.neighborhoodName :
+                            (this.patientService.neighborhoodOptions.find(option =>
+                                option.label.toLowerCase() === formValues.neighborhoodName?.toLowerCase())?.value || '0'),
+              name: formValues.neighborhoodName || '',
               locality: {
-                idLocality: +this.localityId,
-                name: formValues.localityName,
+                idLocality: +this.localityId > 0 ? +this.localityId :
+                          (this.patientService.localityOptions.find(option =>
+                              option.label.toLowerCase() === formValues.localityName?.toLowerCase())?.value || '0'),
+                name: formValues.localityName || "",
                 postalCode: formValues.postalCode,
                 municipality: {
-                  idMunicipality: +this.municipalityNameId,
-                  name: formValues.municipalityName,
+                  idMunicipality: +this.municipalityNameId > 0 ? +this.municipalityNameId :
+                                (this.patientService.municipalityOptions.find(option =>
+                                    option.label.toLowerCase() === formValues.municipalityName?.toLowerCase())?.value || '0'),
+                  name: formValues.municipalityName || "",
                   state: {
-                    idState: +this.stateNameId,
-                    name: formValues.stateName
+                    idState: +this.stateNameId > 0 ? +this.stateNameId : 
+                            (this.patientService.stateOptions.find(option => 
+                                option.label.toLowerCase() === formValues.stateName?.toLowerCase())?.value || '0'),
+                    name: formValues.stateName || "",
                   }
                 }
               }
