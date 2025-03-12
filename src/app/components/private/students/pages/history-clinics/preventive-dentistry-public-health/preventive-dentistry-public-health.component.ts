@@ -27,11 +27,12 @@ import { Subscription } from 'rxjs';
 import { StudentItems } from '@mean/models';
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { ProfilaxisComponent } from "../../../components/profilaxis/profilaxis.component";
 
 @Component({
   selector: 'app-preventive-dentistry-public-health',
   standalone: true,
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent],
+  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent, ProfilaxisComponent],
   templateUrl: './preventive-dentistry-public-health.component.html',
   styleUrl: './preventive-dentistry-public-health.component.scss'
 })
