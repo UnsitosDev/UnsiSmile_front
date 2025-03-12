@@ -314,8 +314,8 @@ export class FormFieldsService {
             type: 'input',
             label: 'Motivo de Consulta',
             name: 'consultationReason',
-            required: true,
-            validators: [Validators.required],
+            required: false,
+            validators: [],
             errorMessages: {
                 required: 'El campo Motivo de Consulta es requerido.'
             }
