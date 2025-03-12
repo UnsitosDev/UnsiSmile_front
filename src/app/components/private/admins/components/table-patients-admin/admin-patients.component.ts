@@ -86,7 +86,6 @@ export class AdminPatientsComponent implements OnInit {
   }
 
   editar(objeto: any) {
-    console.log('Datos enviados al diálogo:', { objeto, role: this.role });
     this.dialog.open(DialogHistoryClinicsComponent, {
       width: '650px',
       data: { objeto, role: this.role },
