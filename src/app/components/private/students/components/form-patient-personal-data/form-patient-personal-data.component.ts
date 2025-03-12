@@ -224,18 +224,26 @@ export class FormPatientPersonalDataComponent {
             category: "" // Si tienes el nombre de la categoría, agrégalo aquí
           },
           street: {
-            idStreet: isNaN(+formValues.streetName) ? 0 : +formValues.streetName,
-            name: isNaN(+formValues.streetName) ? formValues.streetName : '',
+            idStreet: +formValues.streetName > 0 ? +formValues.streetName :
+                      (this.patientService.streetsOptions.find(option =>
+                          option.label.toLowerCase() === formValues.streetName?.toLowerCase())?.value || '0'),
+            name: formValues.streetName || '',
             neighborhood: {
-              idNeighborhood: isNaN(+formValues.neighborhoodName) ? 0 : +formValues.neighborhoodName,
-              name: isNaN(+formValues.neighborhoodName) ? formValues.neighborhoodName : '',
+              idNeighborhood: +formValues.neighborhoodName > 0 ? +formValues.neighborhoodName :
+                            (this.patientService.neighborhoodOptions.find(option =>
+                                option.label.toLowerCase() === formValues.neighborhoodName?.toLowerCase())?.value || '0'),
+              name: formValues.neighborhoodName || '',
               locality: {
-                idLocality: isNaN(+this.localityId) || +this.localityId === 0 ? 0 : +this.localityId,
-                name: isNaN(+this.localityId) || +this.localityId === 0 ? formValues.localityName : "",
+                idLocality: +this.localityId > 0 ? +this.localityId :
+                          (this.patientService.localityOptions.find(option =>
+                              option.label.toLowerCase() === formValues.localityName?.toLowerCase())?.value || '0'),
+                name: formValues.localityName || "",
                 postalCode: formValues.postalCode,
                 municipality: {
-                  idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId,
-                  name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "",
+                  idMunicipality: +this.municipalityNameId > 0 ? +this.municipalityNameId :
+                                (this.patientService.municipalityOptions.find(option =>
+                                    option.label.toLowerCase() === formValues.municipalityName?.toLowerCase())?.value || '0'),
+                  name: formValues.municipalityName || "",
                   state: {
                     idState: +this.stateNameId > 0 ? +this.stateNameId : 
                             (this.patientService.stateOptions.find(option => 
