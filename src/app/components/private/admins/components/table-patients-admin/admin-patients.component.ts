@@ -85,7 +85,6 @@ export class AdminPatientsComponent implements OnInit {
   }
 
   edit(objeto: any) {
-    console.log('Navegando a editar con número de empleado:', objeto['numero empleado']);
     this.router.navigate(['/admin/patients/updatePatient', objeto.patientID]);
   }
 

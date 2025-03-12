@@ -146,6 +146,61 @@ export class FormUpdatePatientComponent implements OnInit {
   }
 
   private setFormValues(patient: any) {
+    // Imprimir los datos recibidos del backend
+    console.log('Datos recibidos del backend:', JSON.stringify({
+      paciente: {
+        id: patient.idPatient,
+        esMenor: patient.isMinor,
+        tieneDiscapacidad: patient.hasDisability,
+        datosPersonales: {
+          curp: patient.person.curp,
+          nombre: patient.person.firstName,
+          segundoNombre: patient.person.secondName,
+          apellidoPaterno: patient.person.firstLastName,
+          apellidoMaterno: patient.person.secondLastName,
+          telefono: patient.person.phone,
+          fechaNacimiento: patient.person.birthDate,
+          email: patient.person.email,
+          genero: patient.person.gender
+        },
+        direccion: {
+          idDireccion: patient.address.idAddress,
+          numeroExterior: patient.address.streetNumber,
+          numeroInterior: patient.address.interiorNumber,
+          tipoVivienda: patient.address.housing,
+          calle: {
+            id: patient.address.street.idStreet,
+            nombre: patient.address.street.name,
+            colonia: {
+              id: patient.address.street.neighborhood.idNeighborhood,
+              nombre: patient.address.street.neighborhood.name,
+              localidad: {
+                id: patient.address.street.neighborhood.locality.idLocality,
+                nombre: patient.address.street.neighborhood.locality.name,
+                codigoPostal: patient.address.street.neighborhood.locality.postalCode,
+                municipio: {
+                  id: patient.address.street.neighborhood.locality.municipality.idMunicipality,
+                  nombre: patient.address.street.neighborhood.locality.municipality.name,
+                  estado: {
+                    id: patient.address.street.neighborhood.locality.municipality.state.idState,
+                    nombre: patient.address.street.neighborhood.locality.municipality.state.name
+                  }
+                }
+              }
+            }
+          }
+        },
+        otrosDatos: {
+          nacionalidad: patient.nationality,
+          estadoCivil: patient.maritalStatus,
+          ocupacion: patient.occupation,
+          grupoEtnico: patient.ethnicGroup,
+          religion: patient.religion
+        },
+        tutor: patient.guardian
+      }
+    }, null, 2));
+
     // Formatear las fechas
     const birthDate = patient.person.birthDate ? new Date(patient.person.birthDate).toISOString().split('T')[0] : '';
     const admissionDate = patient.admissionDate ? new Date(patient.admissionDate).toISOString().split('T')[0] : '';
@@ -296,20 +351,20 @@ export class FormUpdatePatientComponent implements OnInit {
             )?.label || ""
           },
           street: {
-            idStreet: isNaN(+formValues.streetName) ? 0 : +formValues.streetName,
-            name: isNaN(+formValues.streetName) ? formValues.streetName : '',
+            idStreet: +this.streetId,
+            name: formValues.streetName,
             neighborhood: {
-              idNeighborhood: isNaN(+formValues.neighborhoodName) ? 0 : +formValues.neighborhoodName,
-              name: isNaN(+formValues.neighborhoodName) ? formValues.neighborhoodName : '',
+              idNeighborhood: +this.neighborhoodId,
+              name: formValues.neighborhoodName,
               locality: {
-                idLocality: isNaN(+this.localityId) || +this.localityId === 0 ? 0 : +this.localityId,
-                name: isNaN(+this.localityId) || +this.localityId === 0 ? formValues.localityName : "",
+                idLocality: +this.localityId,
+                name: formValues.localityName,
                 postalCode: formValues.postalCode,
                 municipality: {
-                  idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId,
-                  name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "",
+                  idMunicipality: +this.municipalityNameId,
+                  name: formValues.municipalityName,
                   state: {
-                    idState: isNaN(+this.stateNameId) ? 0 : +this.stateNameId,
+                    idState: +this.stateNameId,
                     name: formValues.stateName
                   }
                 }
@@ -347,7 +402,8 @@ export class FormUpdatePatientComponent implements OnInit {
           doctorName: formValues.doctorName
         } : null
       };
-      
+      console.log('JSON completo a enviar:', JSON.stringify(patientData, null, 2));
+
       this.apiService
         .patchService({
           headers: new HttpHeaders({
@@ -360,7 +416,8 @@ export class FormUpdatePatientComponent implements OnInit {
           next: (response) => {
             this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
             setTimeout(() => {
-            });
+              this.router.navigate(['/admin/patients']); // Agregar esta línea
+            }, 1000); // Redirigir después de 1 segundo
           },
           error: (error) => {
             this.toastr.error(error, 'Error');
