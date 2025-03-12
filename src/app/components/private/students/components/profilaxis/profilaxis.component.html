@@ -1,1 +1,53 @@
-<p>profilaxis works!</p>
+<div class="svg-container">
+    @for (figure of figures; track $index) {
+      <svg width="70" height="70" xmlns="http://www.w3.org/2000/svg" class="svg-figure">
+        <!-- Cuadrado base -->
+        <rect width="70" height="70" fill="none" stroke="black" stroke-width="2" />
+  
+        <!-- Línea diagonal de esquina a esquina (de arriba-izquierda a abajo-derecha) -->
+        <line x1="0" y1="0" x2="70" y2="70" stroke="black" stroke-width="2" />
+  
+        <!-- Línea diagonal de esquina a esquina (de arriba-derecha a abajo-izquierda) -->
+        <line x1="70" y1="0" x2="0" y2="70" stroke="black" stroke-width="2" />
+  
+        <!-- Triángulo superior-izquierdo (Lado 1) -->
+        <polygon points="0,0 70,70 0,70" fill="none" stroke="black" stroke-width="2" />
+  
+        <!-- Triángulo superior-derecho (Lado 2) -->
+        <polygon points="70,0 100,100 70,70" fill="none" stroke="black" stroke-width="2" />
+  
+        <!-- Triángulo inferior-izquierdo (Lado 3) -->
+        <polygon points="0,70 100,100 70,70" fill="none" stroke="black" stroke-width="2" />
+  
+        <!-- Triángulo inferior-derecho (Lado 4) -->
+        <polygon points="70,70 100,100 70,0"  fill="lightcoral" stroke="black" stroke-width="2" />
+      </svg>
+    }
+  </div>
+
+  <div class="svg-container">
+    @for (figure of figures; track $index) {
+      <svg width="70" height="70" xmlns="http://www.w3.org/2000/svg" class="svg-figure">
+        <!-- Cuadrado base -->
+        <rect width="70" height="70" fill="none" stroke="black" stroke-width="2" />
+  
+        <!-- Línea diagonal de esquina a esquina (de arriba-izquierda a abajo-derecha) -->
+        <line x1="0" y1="0" x2="70" y2="70" stroke="black" stroke-width="2" />
+  
+        <!-- Línea diagonal de esquina a esquina (de arriba-derecha a abajo-izquierda) -->
+        <line x1="70" y1="0" x2="0" y2="70" stroke="black" stroke-width="2" />
+  
+        <!-- Triángulo superior-izquierdo (Lado 1) -->
+        <polygon points="0,0 70,70 0,70" fill="none" stroke="black" stroke-width="2" />
+  
+        <!-- Triángulo superior-derecho (Lado 2) -->
+        <polygon points="70,0 100,100 70,70" fill="none" stroke="black" stroke-width="2" />
+  
+        <!-- Triángulo inferior-izquierdo (Lado 3) -->
+        <polygon points="0,70 100,100 70,70" fill="none" stroke="black" stroke-width="2" />
+  
+        <!-- Triángulo inferior-derecho (Lado 4) -->
+        <polygon points="70,70 100,100 70,0"  fill="lightcoral" stroke="black" stroke-width="2" />
+      </svg>
+    }
+  </div>

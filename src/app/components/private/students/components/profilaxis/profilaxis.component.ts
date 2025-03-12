@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './profilaxis.component.scss'
 })
 export class ProfilaxisComponent {
-
+  figures = Array(16).fill(0);
+  figureSize = 100; 
 }
