@@ -47,7 +47,7 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> implements OnI
 
   ngOnInit() {
     const returnUrl = this.route.snapshot.queryParams['returnUrl'];
-    this.returnUrl = returnUrl ? decodeURIComponent(returnUrl) : '/';
+    this.returnUrl = returnUrl ? decodeURIComponent(returnUrl) : '';
   }
 
   handleLogin() {
