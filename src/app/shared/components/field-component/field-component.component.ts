@@ -33,13 +33,14 @@ import { ProgressNotesService } from 'src/app/services/form-progress-notes.servi
 
 })
 export class FieldComponentComponent implements OnChanges {
-   @Input() field!: FormField;
+  @Input() field!: FormField;
   @Input() formGroup!: FormGroup;
   @Input() errors: any;
   @Input() fieldValue: any;
   @Output() setFieldValue = new EventEmitter<any>();
   @Output() setFileValue = new EventEmitter<any>();
-  @Output() ageStatusChange = new EventEmitter<boolean>(); 
+  @Output() ageStatusChange = new EventEmitter<boolean>();
+  @Input() disabledMultivalued: boolean = false; 
   progressNotesService = inject(ProgressNotesService);
   apiService = inject(ApiService);
   isTextRequired: boolean = false;

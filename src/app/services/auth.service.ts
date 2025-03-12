@@ -48,12 +48,13 @@ export class AuthService {
    * @param {string} role - El rol del usuario.
    */
 
-  redirectByRole(role: string): void {
-    const roleRoutes: { [key: string]: string } = {
-      ROLE_STUDENT: '/students',
-      ROLE_ADMIN: '/admin',
-    };
-    const route = roleRoutes[role];
+  redirectByRole(role: string, returnUrl?: string): void {
+    let route = '';
+    if (role === 'ROLE_STUDENT') {
+      route = returnUrl ? `/${returnUrl}` : '/students';
+    } else if (role === 'ROLE_ADMIN') {
+      route = returnUrl ? `/${returnUrl}` : '/admin';
+    }
 
     if (route) {
       this.router.navigate([route]);

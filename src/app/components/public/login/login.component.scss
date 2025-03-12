@@ -105,6 +105,10 @@ form.sign-in-form {
   cursor: pointer;
   transition: 0.5s;
   text-align: center;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .btn:hover {

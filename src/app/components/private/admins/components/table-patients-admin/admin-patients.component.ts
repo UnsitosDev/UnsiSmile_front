@@ -31,6 +31,7 @@ export class AdminPatientsComponent implements OnInit {
   patientsList: patientsTableData[] = [];
   columnas: string[] = [];
   title: string = 'Pacientes';
+  role = 'admin';
   currentPage = 0;
   itemsPerPage = 10;
   private apiService = inject(ApiService<PatientResponse>);
@@ -75,17 +76,27 @@ export class AdminPatientsComponent implements OnInit {
   }
 
   onAction(accion: Accion) {
-    if (accion.accion === 'Modificar') {  // Cambiado de 'Editar' a 'Modificar'
-      this.edit(accion.fila);
+    if (accion.accion === 'Editar') {  // Cambiado de 'Editar' a 'Modificar'
+      this.editar(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
       this.openDetailsDialog(accion.fila);
+    }  else if (accion.accion === 'Modificar') {
+      this.edit(accion.fila);
     }
   }
 
   edit(objeto: any) {
     this.router.navigate(['/admin/patients/updatePatient', objeto.patientID]);
+  }
+
+
+  editar(objeto: any) {
+    this.dialog.open(DialogHistoryClinicsComponent, {
+      width: '650px',
+      data: { objeto, role: this.role },
+    });
   }
 
    // Agregar método para abrir el diálogo de detalles
@@ -119,15 +130,15 @@ export class AdminPatientsComponent implements OnInit {
           this.totalElements = response.totalElements;
           this.patientsList = response.content.map((patient: Patient) => {
             const person = patient.person;
-            const medicalHistory = patient.medicalHistoryResponse?.idMedicalHistory ?? 0;
             return {
+              patientID: patient.idPatient, 
               nombres: person.firstName,
               apellidos: `${person.firstLastName} ${person.secondLastName}`,
               correo: person.email,
               curp: person.curp,
-              idMedicalHistory: medicalHistory,
-              patientID: patient.idPatient,
-              estatus: 'Activo'  // Valor por defecto
+              telefono: person.phone,
+              fechaNacimiento: person.birthDate,
+              estatus: 'Activo'
             };
           });
         } else {

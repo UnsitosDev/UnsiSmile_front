@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService, AuthService } from '@mean/services';
 import { BaseComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
@@ -23,9 +23,10 @@ import { TokenData } from './model/tokenData';
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, LoadingComponent],
 })
-export class LoginComponent extends BaseComponent<Get, PostLogin> {
+export class LoginComponent extends BaseComponent<Get, PostLogin> implements OnInit{
   private userService = inject(AuthService);
   showPassword: boolean = false;
+  returnUrl: string = '/';
 
   @Output() onSubmitLoginEvent = new EventEmitter();
   private toastr=inject (ToastrService);
@@ -34,6 +35,7 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
     private readonly api: ApiService<Get, PostLogin>,
     private readonly fb: FormBuilder,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
     private readonly authServise: AuthService,
   ) {
     super(api);
@@ -41,6 +43,11 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
       user: ['', Validators.required],
       password: ['', Validators.required],
     });
+  }
+
+  ngOnInit() {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'];
+    this.returnUrl = returnUrl ? decodeURIComponent(returnUrl) : '';
   }
 
   handleLogin() {
@@ -71,7 +78,7 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> {
           if (tokenData.firstLogin) {
             this.router.navigate(['/new-password']);
           } else {
-            this.userService.redirectByRole(tokenData.role[0].authority);
+            this.userService.redirectByRole(tokenData.role[0].authority, this.returnUrl);
           }
         },
         error: (error) => {

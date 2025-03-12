@@ -1,9 +1,11 @@
 <div class="button-container">
   <div></div>
   <div>
-    <button type="button" mat-button (click)="openDialog()">
-      Nueva nota <i class="fas fa-plus"></i>
-    </button>
+    @if (role == 'ROLE_STUDENT') {
+      <button type="button" mat-button (click)="openDialog()">
+        Nueva nota <i class="fas fa-plus"></i>
+      </button>
+    }
   </div>
 </div>
 
@@ -28,7 +30,9 @@
             @if (note.files && note.files.length > 0) {
               <i class="fas fa-download" (click)="downloadFile(note.files[0].idProgressNoteFile)" aria-label="Download File"></i>
             } @else {
-              <i class="fas fa-paperclip" (click)="attachDocument(note)" aria-label="Attach Document"></i>
+              @if (role == 'ROLE_STUDENT') {
+                <i class="fas fa-paperclip" (click)="attachDocument(note)" aria-label="Attach Document"></i>
+              }
             }
           </div>
         </div>
