@@ -286,7 +286,6 @@ export class FormPatientPersonalDataComponent {
           doctorName: formValues.doctorName
         } : null
       };   
-      console.log('JSON completo a enviar:', JSON.stringify(patientData, null, 2));   
       this.apiService
         .postService({
           headers: new HttpHeaders({

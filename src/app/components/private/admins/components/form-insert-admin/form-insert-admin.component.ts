@@ -95,7 +95,6 @@ export class FormInsertAdminComponent {
         },
       };
 
-      console.log('Datos a enviar:', AdminData);
 
       this.apiService
         .postService({
