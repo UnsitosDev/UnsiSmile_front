@@ -380,7 +380,7 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
     }
     // Estados
     stateData: PaginatedData<stateRequest>[] = [];
-    stateOptions: stateOptions[] = [];
+    stateOptions:  Array<{ value: string; label: string }> = [];
     
     getStateData(searchTerm: string) {
         this.apiService

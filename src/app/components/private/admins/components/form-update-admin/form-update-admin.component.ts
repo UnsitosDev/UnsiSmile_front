@@ -136,7 +136,7 @@ export class FormUpdateAdminComponent implements OnInit {
   // Agregar método para guardar cambios
   onSubmit() {
     if (this.formGroup.valid) {
-      const formValues = this.formGroup.value; // Usar getRawValue para obtener todos los valores, incluso los deshabilitados
+      const formValues = this.formGroup.value;
       const AdminData = {
         employeeNumber: formValues.employeeNumber,
         person: {
