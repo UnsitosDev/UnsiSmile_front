@@ -237,8 +237,10 @@ export class FormPatientPersonalDataComponent {
                   idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId,
                   name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "",
                   state: {
-                    idState: isNaN(+this.stateNameId) ? 0 : +this.stateNameId,
-                    name: formValues.stateName
+                    idState: +this.stateNameId > 0 ? +this.stateNameId : 
+                            (this.patientService.stateOptions.find(option => 
+                                option.label.toLowerCase() === formValues.stateName?.toLowerCase())?.value || '0'),
+                    name: formValues.stateName || "",
                   }
                 }
               }
@@ -274,7 +276,8 @@ export class FormPatientPersonalDataComponent {
           },
           doctorName: formValues.doctorName
         } : null
-      };      
+      };   
+      console.log('JSON completo a enviar:', JSON.stringify(patientData, null, 2));   
       this.apiService
         .postService({
           headers: new HttpHeaders({
