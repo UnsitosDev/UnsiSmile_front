@@ -5,12 +5,13 @@ import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { ApiService } from '@mean/services';
+import { ApiService, AuthService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { PatientEvaluation, Row, SurfaceEvaluation, SurfaceMeasurement, TabStructure, ToothEvaluation } from '@mean/models';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
@@ -26,6 +27,10 @@ export class HistoryInitialBagComponent implements OnInit {
   private formSectionId = 8;
   private plaqueIndex = 0;
   private bleedingIndex = 0;
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  role!: string;
   periodontogram!: PatientEvaluation;
   @Input({ required: true }) patientId!: string;
   @Input({ required: true }) idQuestion!: number;
@@ -75,8 +80,15 @@ export class HistoryInitialBagComponent implements OnInit {
   ngOnInit(): void {
     this.initializeTables();
     this.getPeriodontogram();
+    this.getRole();
   }
 
+  getRole(){
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+  }
+  
   store(): void {
     switch (this.state) {
       case 'create':

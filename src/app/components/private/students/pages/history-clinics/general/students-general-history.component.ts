@@ -14,7 +14,7 @@ import { HistoryInitialBagComponent } from "../../../components/form-history-ini
 import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
 
 // Servicios
-import { ApiService } from '@mean/services';
+import { ApiService, AuthService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
@@ -29,6 +29,7 @@ import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 @Component({
   selector: 'app-students-general-history',
@@ -47,7 +48,10 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private patientService = inject(ApiService<Patient, {}>);
   readonly dialog = inject(MatDialog);
   private toastr = inject(ToastrService);
-  public medicalRecordNumber! : number;
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  public medicalRecordNumber!: number;
   public id!: number;
   public idpatient!: string;
   public year?: number;
@@ -74,10 +78,16 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private additionalRoutes = ['/students/user'];
   firstLabel: string = '';
   previousLabel: string = '';
+  role!: string;
 
   constructor() { }
 
   ngOnInit(): void {
+
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+
     this.router.params.subscribe((params) => {
       this.id = params['id']; // Id Historia Clinica
       this.idpatient = params['patient']; // Id Paciente
@@ -183,8 +193,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
               parentalStatus: this.patient.guardian.parentalStatus ? {
                 idCatalogOption: this.patient.guardian.parentalStatus.idCatalogOption,
                 optionName: this.patient.guardian.parentalStatus.optionName
-              } : { idCatalogOption: 0, optionName: '' }, 
-              doctorName: this.patient.guardian.doctorName || '' 
+              } : { idCatalogOption: 0, optionName: '' },
+              doctorName: this.patient.guardian.doctorName || ''
             };
           } else {
             this.guardianData = null;
@@ -215,7 +225,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     const [year, month, day] = dateArray;
     return `${day}/${month}/${year}`;
   }
-  
+
   onNextTab(): void {
     this.currentIndex++; // Incrementar el índice del tab activo
     if (this.currentIndex >= this.mappedHistoryData.tabs.length) {
