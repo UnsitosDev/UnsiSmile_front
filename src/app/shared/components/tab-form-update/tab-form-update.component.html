@@ -9,6 +9,7 @@
                       [field]="field"
                       [formGroup]="formGroup"
                       [errors]="field.errorMessages"
+                      [disabledMultivalued]="disabledControl"
                       (setFieldValue)="handleFieldValue($event)"
                       (setFileValue)="handleFileValue($event)"
                       >
@@ -27,6 +28,7 @@
                         [field]="childField"
                         [formGroup]="formGroup"
                         [errors]="childField.errorMessages"
+                        [disabledMultivalued]="disabledControl" 
                         (setFieldValue)="handleFieldValue($event)">
                       </app-field-component>
                     }
@@ -36,7 +38,9 @@
             <div class="button-container">
               <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
               <div>
-                <button type="button" (click)="handleSubmission()" mat-button> ACTUALIZAR <i class="fas fa-save"></i></button>
+                @if (!disabledControl) {
+                  <button type="button" (click)="handleSubmission()" mat-button> ACTUALIZAR <i class="fas fa-save"></i></button>
+                }    
                 <button type="button" (click)="nextTab()" mat-button> AVANZAR <i class="fas fa-long-arrow-alt-right"></i></button>
               </div>
             </div>

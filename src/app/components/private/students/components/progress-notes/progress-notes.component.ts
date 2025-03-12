@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogInsertProgressNoteComponent } from '../dialog-insert-progress-note/dialog-insert-progress-note.component';
-import { ApiService } from '@mean/services';
+import { ApiService, AuthService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { Patient } from 'src/app/models/shared/patients/patient/patient';
@@ -18,6 +18,7 @@ import { DialogUploadProgressNoteComponent } from '../dialog-upload-progress-not
 import { ToastrService } from 'ngx-toastr';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 interface ProgressNote {
   idProgressNote: string;
@@ -59,6 +60,10 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   @Input({ required: true }) data!: cardPatient;
   @Input({ required: true }) medicalRecordNumber!: number;
   private toastr = inject(ToastrService);
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  role!: string;
   currentPage: number = 0;
   isLastPage: boolean = false;
   isLoading: boolean = false;
@@ -69,6 +74,13 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   ngOnInit(): void {
     this.getProgressNotes();
   }
+
+  getRole() {
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+  }
+
 
   public getProgressNotes(page: number = 0, resetPagination: boolean = false) {
     if (resetPagination) {
