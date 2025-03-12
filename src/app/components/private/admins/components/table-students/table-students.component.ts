@@ -42,7 +42,7 @@ export class TableStudentsComponent implements OnInit {
   isChecked: boolean = false;
   searchTerm: string = '';
   totalElements: number = 0;
-  sortField: string = 'person.firstName';
+  sortField: string = 'student.person.firstName';
   sortAsc: boolean = true;
   sortableColumns = {
     'nombre': 'student.person.firstName',
