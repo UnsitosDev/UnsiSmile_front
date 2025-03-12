@@ -13,6 +13,7 @@ import { FormFieldsService } from 'src/app/services/form-fields.service';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { PatientService } from 'src/app/services/patient/patient.service';
 
 @Component({
   selector: 'app-form-update-patient',
@@ -32,6 +33,7 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 export class FormUpdatePatientComponent implements OnInit {
   private toastr = inject(ToastrService);
   private apiService = inject(ApiService<any>);
+  private patientService = inject(PatientService);
   
   patientId: string = '';
   formGroup!: FormGroup;
@@ -42,6 +44,12 @@ export class FormUpdatePatientComponent implements OnInit {
   minorPatient: boolean = false;
   private currentPage: number = 0;
 
+  localityId: string = '';
+  municipalityNameId: string = '';
+  stateNameId: string = '';
+  neighborhoodId: string = '';
+  streetId: string = ''; // Agregar esta propiedad
+  private addressId: number = 0; // Agregar la propiedad addressId a la clase
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +64,28 @@ export class FormUpdatePatientComponent implements OnInit {
       this.patientId = params['idPatient'];
       if (this.patientId) {
         this.loadPatientData();
+      }
+    });
+  }
+
+  handlePostalCodeClick(param: string): void {
+    this.patientService.getPostalCode(param).subscribe({
+      next: (response) => {
+        
+        // Actualiza los campos de autocompletado
+        this.formGroup.get('localityName')?.setValue(response[0].name);
+        this.formGroup.get('municipalityName')?.setValue(response[0].municipality.name);
+        this.formGroup.get('stateName')?.setValue(response[0].municipality.state.name);
+
+        // Guardar los ids
+        this.localityId = response[0].idLocality?.toString();
+        this.municipalityNameId = response[0].municipality?.idMunicipality?.toString();
+        this.stateNameId = response[0].municipality?.state?.idState?.toString();
+
+        // Cargar las colonias usando el ID de localidad
+        if (this.localityId) {
+          this.personalDataFields.handleNeighborhoodClick('', 0, 1000, this.localityId);
+        }
       }
     });
   }
@@ -106,12 +136,10 @@ export class FormUpdatePatientComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
-        console.log('Respuesta del servidor:', response);
         this.minorPatient = response.isMinor;
         this.setFormValues(response);
       },
       error: (error) => {
-        console.error('Error al cargar los datos del paciente:', error);
         this.toastr.error('Error al cargar los datos del paciente');
       }
     });
@@ -126,6 +154,14 @@ export class FormUpdatePatientComponent implements OnInit {
     const street = patient.address.street;
     const streetValue = street.idStreet ? street.idStreet.toString() : street.name;
     
+    // Guardar los IDs de la dirección con valores específicos
+    this.stateNameId = patient.address.street.neighborhood.locality.municipality.state.idState.toString();
+    this.municipalityNameId = patient.address.street.neighborhood.locality.municipality.idMunicipality.toString();
+    this.localityId = patient.address.street.neighborhood.locality.idLocality.toString();
+    this.neighborhoodId = patient.address.street.neighborhood.idNeighborhood.toString();
+    this.streetId = patient.address.street.idStreet.toString(); // Guardar el ID de la calle
+    this.addressId = patient.address.idAddress;  // Agregar esta línea
+
     const formData = {
       // Datos personales
       firstName: patient.person.firstName,
@@ -190,7 +226,14 @@ export class FormUpdatePatientComponent implements OnInit {
       { 
         list: this.address, 
         fieldName: 'streetName', 
-        value: street.name // Usar el nombre de la calle para mostrar
+        value: street.name,
+        id: street.idStreet
+      },
+      {
+        list: this.address,
+        fieldName: 'neighborhoodName',
+        value: patient.address.street.neighborhood.name,
+        id: patient.address.street.neighborhood.idNeighborhood
       }
     ];
 
@@ -201,11 +244,20 @@ export class FormUpdatePatientComponent implements OnInit {
       }
     });
 
-    // Inicializar y cargar las opciones de calle si hay un ID de colonia
-    if (patient.address.street.neighborhood.idNeighborhood) {
-      this.personalDataFields.handleStreetClick('', 0, 1000, patient.address.street.neighborhood.idNeighborhood.toString());
+    // Inicializar y cargar las opciones en orden correcto
+    if (this.stateNameId && this.stateNameId !== '0') {
+      this.personalDataFields.handleStateClick(formData.stateName || '', 0, 1000);
+      if (this.municipalityNameId && this.municipalityNameId !== '0') {
+        this.personalDataFields.handleMunicipalityClick(formData.municipalityName || '', 0, 1000, this.stateNameId);
+        if (this.localityId && this.localityId !== '0') {
+          this.personalDataFields.handleLocalityClick(formData.localityName || '', 0, 1000, this.municipalityNameId);
+          if (this.neighborhoodId && this.neighborhoodId !== '0') {
+            this.personalDataFields.handleNeighborhoodClick(formData.neighborhoodName || '', 0, 1000, this.localityId);
+            this.personalDataFields.handleStreetClick('', 0, 1000, this.neighborhoodId);
+          }
+        }
+      }
     }
-    
   }
 
   onBack() {
@@ -213,12 +265,109 @@ export class FormUpdatePatientComponent implements OnInit {
   }
 
   onSubmit() {
+    const formValues = this.formGroup.value;
     if (this.formGroup.valid) {
-      // Implementar la lógica de actualización
-      this.toastr.success('Paciente actualizado con éxito');
-      this.router.navigate(['/admin/patients']);
+      const patientData = {
+        isMinor: this.minorPatient,
+        hasDisability: true,
+        nationalityId: +formValues.nationality,
+        person: {
+          curp: formValues.curp,
+          firstName: formValues.firstName,
+          secondName: formValues.secondName,
+          firstLastName: formValues.firstLastName,
+          secondLastName: formValues.secondLastName,
+          phone: formValues.phone,
+          birthDate: formValues.birthDate,
+          email: formValues.email,
+          gender: {
+            idGender: +formValues.gender,
+            gender: this.patientService.genderOptions.find(option => option.value === formValues.gender)?.label || ""
+          }
+        },
+        address: {
+          idAddress: this.addressId, // Usar el ID guardado en lugar de 0
+          streetNumber: formValues.exteriorNumber,
+          interiorNumber: formValues.interiorNumber,
+          housing: {
+            idHousing: +formValues.housingCategory,
+            category: this.patientService.housingOptions.find(option => 
+              option.value === formValues.housingCategory.toString()
+            )?.label || ""
+          },
+          street: {
+            idStreet: isNaN(+formValues.streetName) ? 0 : +formValues.streetName,
+            name: isNaN(+formValues.streetName) ? formValues.streetName : '',
+            neighborhood: {
+              idNeighborhood: isNaN(+formValues.neighborhoodName) ? 0 : +formValues.neighborhoodName,
+              name: isNaN(+formValues.neighborhoodName) ? formValues.neighborhoodName : '',
+              locality: {
+                idLocality: isNaN(+this.localityId) || +this.localityId === 0 ? 0 : +this.localityId,
+                name: isNaN(+this.localityId) || +this.localityId === 0 ? formValues.localityName : "",
+                postalCode: formValues.postalCode,
+                municipality: {
+                  idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId,
+                  name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "",
+                  state: {
+                    idState: isNaN(+this.stateNameId) ? 0 : +this.stateNameId,
+                    name: formValues.stateName
+                  }
+                }
+              }
+            }
+          }
+        },
+        maritalStatus: {
+          idMaritalStatus: +formValues.maritalStatus,
+          maritalStatus: this.patientService.maritalStatusOptions.find(option => option.value === formValues.maritalStatus)?.label || ""
+        },
+        occupation: {
+          idOccupation: isNaN(+formValues.occupation) ? 0 : +formValues.occupation,
+          occupation: isNaN(+formValues.occupation) ? formValues.occupation : (this.patientService.occupationOptions.find(option => option.value === formValues.occupation)?.label || "")
+        },
+        ethnicGroup: {
+          idEthnicGroup: +formValues.ethnicGroup,
+          ethnicGroup: this.patientService.ethnicGroupOptions.find(option => option.value === formValues.ethnicGroup)?.label || ""
+        },
+        religion: {
+          idReligion: +formValues.religion,
+          religion: this.patientService.religionOptions.find(option => option.value === formValues.religion)?.label || ""
+        },
+        guardian: this.minorPatient ? {
+          idGuardian: 0,
+          firstName: formValues.firstGuardianName,
+          lastName: formValues.lastGuardianName,
+          phone: formValues.phoneGuardian,
+          email: formValues.emailGuardian,
+          parentalStatus: {
+            idCatalogOption: +formValues.parentsMaritalStatus,
+            optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "",
+            idCatalog: 12,
+          },
+          doctorName: formValues.doctorName
+        } : null
+      };
+      
+      this.apiService
+        .patchService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.PATCH_PATIENT_BY_ID}${this.patientId}`,
+          data: patientData,
+        })
+        .subscribe({
+          next: (response) => {
+            this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
+            setTimeout(() => {
+            });
+          },
+          error: (error) => {
+            this.toastr.error(error, 'Error');
+          },
+        });
     } else {
-      this.toastr.warning(Messages.WARNING_INSERT_PATIENT);
+      this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
   }
 

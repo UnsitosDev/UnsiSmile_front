@@ -212,7 +212,7 @@ export class FormPatientPersonalDataComponent {
           email: formValues.email,
           gender: {
             idGender: +formValues.gender,
-            gender: "" // Si tienes el nombre del género, puedes asignarlo aquí
+            gender: this.patientService.genderOptions.find(option => option.value === formValues.gender)?.label || ""
           }
         },
         address: {
