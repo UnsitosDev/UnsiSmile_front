@@ -73,6 +73,7 @@ export class FormInsertAdminComponent {
   }
 
   onSubmit() {
+    this.markFormGroupTouched(this.formGroup);
     if (this.formGroup.valid) {
       const formValues = this.formGroup.value;
       
@@ -136,6 +137,20 @@ export class FormInsertAdminComponent {
 
   public closeAlert() {
     this.alertConfig.open = false;
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(controlName => {
+      const control = formGroup.get(controlName);
+      if (control) {
+        control.markAsTouched();
+        control.updateValueAndValidity(); 
+      }
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 
 }

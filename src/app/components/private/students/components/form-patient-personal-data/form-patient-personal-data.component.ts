@@ -195,6 +195,7 @@ export class FormPatientPersonalDataComponent {
 
 
   onSubmit() {
+    this.markFormGroupTouched(this.formGroup);
     const formValues = this.formGroup.value;
     if (this.formGroup.valid) {
       const patientData = {
@@ -321,6 +322,20 @@ export class FormPatientPersonalDataComponent {
       this.personalDataFields.handleLocalityClick('', this.currentPage);
 
     }
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(controlName => {
+      const control = formGroup.get(controlName);
+      if (control) {
+        control.markAsTouched();
+        control.updateValueAndValidity(); 
+      }
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 
 }
