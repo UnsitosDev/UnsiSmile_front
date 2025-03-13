@@ -73,6 +73,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
 
   ngOnInit(): void {
     this.getProgressNotes();
+    this.getRole();
   }
 
   getRole() {
