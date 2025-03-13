@@ -1,11 +1,9 @@
 .svg-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; 
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .svg-figure {
-    margin: 0; 
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Separación de 10px entre figuras */
+}
+
+.svg-figure {
+  margin: 0; /* Asegura que no haya margen adicional */
+}

@@ -1,52 +1,49 @@
-    <div class="svg-container">
-        @for (figure of figures; track $index) {
-          <svg width="70" height="70" xmlns="http://www.w3.org/2000/svg" class="svg-figure">
-            <!-- Cuadrado base -->
-            <rect width="70" height="70" fill="none" stroke="black" stroke-width="2" />
-      
-            <!-- Línea diagonal de esquina a esquina (de arriba-izquierda a abajo-derecha) -->
-            <line x1="0" y1="0" x2="70" y2="70" stroke="black" stroke-width="2" />
-      
-            <!-- Línea diagonal de esquina a esquina (de arriba-derecha a abajo-izquierda) -->
-            <line x1="70" y1="0" x2="0" y2="70" stroke="black" stroke-width="2" />
-      
-            <!-- Triángulo superior-izquierdo (Lado 1) -->
-            <polygon points="0,0 35,35 0,70" fill="none" stroke="black" stroke-width="2" />
-      
-            <!-- Triángulo superior-derecho (Lado 2) -->
-            <polygon points="70,0 35,35 70,70" fill="none" stroke="black" stroke-width="2" />
-      
-            <!-- Triángulo inferior-izquierdo (Lado 3) -->
-            <polygon points="0,70 35,35 70,70" fill="none" stroke="black" stroke-width="2" />
-      
-            <!-- Triángulo inferior-derecho (Lado 4) -->
-            <polygon points="70,70 35,35 70,0" fill="none" stroke="black" stroke-width="2" />
-          </svg>
-        }
-      </div>
-    <div class="svg-container">
-      @for (figure of figures; track $index) {
-        <svg width="70" height="70" xmlns="http://www.w3.org/2000/svg" class="svg-figure">
-          <!-- Cuadrado base -->
-          <rect width="70" height="70" fill="none" stroke="black" stroke-width="2" />
-    
-          <!-- Línea diagonal de esquina a esquina (de arriba-izquierda a abajo-derecha) -->
-          <line x1="0" y1="0" x2="70" y2="70" stroke="black" stroke-width="2" />
-    
-          <!-- Línea diagonal de esquina a esquina (de arriba-derecha a abajo-izquierda) -->
-          <line x1="70" y1="0" x2="0" y2="70" stroke="black" stroke-width="2" />
-    
-          <!-- Triángulo superior-izquierdo (Lado 1) -->
-          <polygon points="0,0 35,35 0,70" fill="none" stroke="black" stroke-width="2" />
-    
-          <!-- Triángulo superior-derecho (Lado 2) -->
-          <polygon points="70,0 35,35 70,70" fill="none" stroke="black" stroke-width="2" />
-    
-          <!-- Triángulo inferior-izquierdo (Lado 3) -->
-          <polygon points="0,70 35,35 70,70" fill="red" stroke="black" stroke-width="2" />
-    
-          <!-- Triángulo inferior-derecho (Lado 4) -->
-          <polygon points="70,70 35,35 70,0" fill="none" stroke="black" stroke-width="2" />
-        </svg>
-      }
-    </div>
+<div class="svg-container">
+  @for (figure of figures; track $index) {
+  <svg
+    width="70"
+    height="70"
+    xmlns="http://www.w3.org/2000/svg"
+    class="svg-figure"
+  >
+    <!-- Cuadrado base -->
+    <rect width="70" height="70" fill="none" stroke="black" stroke-width="2" />
+
+    <!-- Triángulo superior-izquierdo -->
+    <polygon
+      points="0,0 35,35 0,70"
+      [attr.fill]="isSelected('polygon1-' + $index) ? 'red' : 'transparent'"
+      stroke="black"
+      stroke-width="2"
+      (click)="changeColor('polygon1-' + $index)"
+    />
+
+    <!-- Triángulo superior-derecho -->
+    <polygon
+      points="70,0 35,35 70,70"
+      [attr.fill]="isSelected('polygon2-' + $index) ? 'red' : 'transparent'"
+      stroke="black"
+      stroke-width="2"
+      (click)="changeColor('polygon2-' + $index)"
+    />
+
+    <!-- Triángulo inferior-izquierdo -->
+    <polygon
+      points="0,70 35,35 70,70"
+      [attr.fill]="isSelected('polygon3-' + $index) ? 'red' : 'transparent'"
+      stroke="black"
+      stroke-width="2"
+      (click)="changeColor('polygon3-' + $index)"
+    />
+
+    <!-- Triángulo inferior-derecho -->
+    <polygon
+      points="0,0 35,35 70,0"
+      [attr.fill]="isSelected('polygon4-' + $index) ? 'red' : 'transparent'"
+      stroke="black"
+      stroke-width="2"
+      (click)="changeColor('polygon4-' + $index)"
+    />
+  </svg>
+  }
+</div>
