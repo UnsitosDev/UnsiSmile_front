@@ -3,14 +3,15 @@
   <div class="figure-wrapper">
     <!-- Botones -->
     <div class="button-container">
-      @if (toothDisabled) {
-        <button title="Diente no presente" class="removeButton" (click)="deleteTooth()">-</button>
+      @if (toothDisabled[$index]) {
+        <button title="Diente no presente" class="removeButton" (click)="deleteTooth($index)">-</button>
       }@else{
-        <button title="Diente presente" class="addButton" (click)="restoreTooth()">+</button>
+        <button title="Diente presente" class="addButton" (click)="restoreTooth($index)">+</button>
       }
     </div>
 
-    <!-- SVG -->
+    <!-- SVG (solo se muestra si el diente está habilitado) -->
+    @if (toothDisabled[$index]) {
     <svg
       width="70"
       height="70"
@@ -56,6 +57,7 @@
         (click)="changeColor('polygon4-' + $index)"
       />
     </svg>
+    }
   </div>
   }
 </div>

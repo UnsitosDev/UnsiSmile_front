@@ -8,7 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './profilaxis.component.scss'
 })
 export class ProfilaxisComponent {
-  toothDisabled: boolean = true;
+  // Arreglo para almacenar el estado de visibilidad de cada diente
+  toothDisabled: boolean[] = Array(16).fill(true); // Inicialmente, todos los dientes están visibles
+
   figures = Array(16).fill(0); // Arreglo de 16 elementos
 
   // Conjunto para almacenar los polígonos seleccionados
@@ -31,11 +33,30 @@ export class ProfilaxisComponent {
     return this.selectedPolygons.has(polygonId);
   }
 
-  deleteTooth() {
-    this.toothDisabled = false;
+  // Método para ocultar un diente y borrar sus condiciones
+  deleteTooth(index: number) {
+    this.toothDisabled[index] = false; // Oculta el diente en la posición `index`
+
+    // Eliminar todos los polígonos seleccionados asociados a este diente
+    this.clearPolygonsForTooth(index);
   }
 
-  restoreTooth() {
-    this.toothDisabled = true;
+  // Método para restaurar un diente
+  restoreTooth(index: number) {
+    this.toothDisabled[index] = true; // Muestra el diente en la posición `index`
+  }
+
+  // Método para limpiar los polígonos seleccionados de un diente específico
+  clearPolygonsForTooth(index: number) {
+    // Definimos los IDs de los polígonos asociados a este diente
+    const polygonIds = [
+      `polygon1-${index}`,
+      `polygon2-${index}`,
+      `polygon3-${index}`,
+      `polygon4-${index}`,
+    ];
+
+    // Eliminamos cada polígono del conjunto `selectedPolygons`
+    polygonIds.forEach((id) => this.selectedPolygons.delete(id));
   }
 }
