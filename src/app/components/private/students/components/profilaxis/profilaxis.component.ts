@@ -8,8 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './profilaxis.component.scss'
 })
 export class ProfilaxisComponent {
+  toothDisabled: boolean = true;
   figures = Array(16).fill(0); // Arreglo de 16 elementos
-  figureSize = 70; // Tamaño de la figura (ancho y alto)
 
   // Variable para almacenar el polígono seleccionado
   selectedPolygon: string | null = null;
@@ -24,4 +24,14 @@ export class ProfilaxisComponent {
   isSelected(polygonId: string): boolean {
     console.log("selected: ", this.selectedPolygon);
     return this.selectedPolygon === polygonId;
-  }}
+  }
+
+  deleteTooth(){
+    this.toothDisabled = false;
+  }
+
+  resotreTooth(){
+    this.toothDisabled = true;
+  }
+
+}
