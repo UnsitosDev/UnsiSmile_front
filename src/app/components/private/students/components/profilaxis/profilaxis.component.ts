@@ -11,27 +11,31 @@ export class ProfilaxisComponent {
   toothDisabled: boolean = true;
   figures = Array(16).fill(0); // Arreglo de 16 elementos
 
-  // Variable para almacenar el polígono seleccionado
-  selectedPolygon: string | null = null;
+  // Conjunto para almacenar los polígonos seleccionados
+  selectedPolygons: Set<string> = new Set();
 
   // Método para cambiar el color de un polígono al hacer clic
   changeColor(polygonId: string) {
-    this.selectedPolygon = polygonId; // Almacena el polígono seleccionado
-    console.log("Poligono seleccionado: ", this.selectedPolygon);
+    if (this.selectedPolygons.has(polygonId)) {
+      // Si el polígono ya está seleccionado, lo eliminamos
+      this.selectedPolygons.delete(polygonId);
+    } else {
+      // Si no está seleccionado, lo agregamos
+      this.selectedPolygons.add(polygonId);
+    }
+    console.log("Polígonos seleccionados: ", this.selectedPolygons);
   }
 
   // Método para verificar si un polígono está seleccionado
   isSelected(polygonId: string): boolean {
-    console.log("selected: ", this.selectedPolygon);
-    return this.selectedPolygon === polygonId;
+    return this.selectedPolygons.has(polygonId);
   }
 
-  deleteTooth(){
+  deleteTooth() {
     this.toothDisabled = false;
   }
 
-  resotreTooth(){
+  restoreTooth() {
     this.toothDisabled = true;
   }
-
 }
