@@ -11,6 +11,7 @@ export class ProfilaxisComponent {
   // Arreglo para almacenar el estado de visibilidad de cada diente
   toothDisabled: boolean[] = Array(16).fill(true); // Inicialmente, todos los dientes están visibles
   toothDeactivated: boolean[] = Array(16).fill(false); // Inicialmente, ningún diente está deshabilitado
+  showTriangle: boolean[] = Array(16).fill(false); // Inicialmente, el triángulo está oculto
 
   figures = Array(16).fill(0); // Arreglo de 16 elementos
 
@@ -61,8 +62,10 @@ export class ProfilaxisComponent {
     polygonIds.forEach((id) => this.selectedPolygons.delete(id));
   }
 
+  // Método para desactivar un diente y mostrar el triángulo
   deactivateTooth(index: number) {
     this.clearPolygonsForTooth(index);
     this.toothDeactivated[index] = !this.toothDeactivated[index]; // Cambia el estado de deshabilitación
+    this.showTriangle[index] = this.toothDeactivated[index]; // Muestra/oculta el triángulo
   }
 }
