@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
 
 @Component({
   selector: 'app-profilaxis',
@@ -7,16 +8,21 @@ import { Component } from '@angular/core';
   templateUrl: './profilaxis.component.html',
   styleUrl: './profilaxis.component.scss'
 })
-export class ProfilaxisComponent {
-  // Arreglo para almacenar el estado de visibilidad de cada diente
+export class ProfilaxisComponent implements OnInit{
+  teeth = storeProphylaxis.theetProphylaxis; // Asigna los dientes a una propiedad
   toothDisabled: boolean[] = Array(16).fill(true); // Inicialmente, todos los dientes están visibles
   toothDeactivated: boolean[] = Array(16).fill(false); // Inicialmente, ningún diente está deshabilitado
   showTriangle: boolean[] = Array(16).fill(false); // Inicialmente, el triángulo está oculto
 
-  figures = Array(16).fill(0); // Arreglo de 16 elementos
-
   // Conjunto para almacenar los polígonos seleccionados
   selectedPolygons: Set<string> = new Set();
+
+  ngOnInit(): void {
+    // Inicializa los estados para cada diente
+    this.toothDisabled = this.teeth.map(() => true); // Todos los dientes están habilitados por defecto
+    this.toothDeactivated = this.teeth.map(() => false); // Ningún diente está desactivado por defecto
+    this.showTriangle = this.teeth.map(() => false); // El triángulo está oculto por defecto
+  }
 
   // Método para cambiar el color de un polígono al hacer clic
   changeColor(polygonId: string) {
