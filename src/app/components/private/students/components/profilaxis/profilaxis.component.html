@@ -1,12 +1,22 @@
 <div class="svg-container">
   @for (figure of figures; track $index) {
   <div class="figure-wrapper">
-    <!-- Botones -->
+    <!-- Botones de eliminar/restaurar -->
     <div class="button-container">
       @if (toothDisabled[$index]) {
-        <button title="Diente no presente" class="removeButton" (click)="deleteTooth($index)">-</button>
+        <button
+          title="Diente no presente"
+          class="removeButton"
+          (click)="deleteTooth($index)"
+          [disabled]="toothDeactivated[$index]"
+        >-</button>
       }@else{
-        <button title="Diente presente" class="addButton" (click)="restoreTooth($index)">+</button>
+        <button
+          title="Diente presente"
+          class="addButton"
+          (click)="restoreTooth($index)"
+          [disabled]="toothDeactivated[$index]"
+        >+</button>
       }
     </div>
 
@@ -17,6 +27,7 @@
       height="70"
       xmlns="http://www.w3.org/2000/svg"
       class="svg-figure"
+      [class.deactivated]="toothDeactivated[$index]"
     >
       <!-- Cuadrado base -->
       <rect width="70" height="70" fill="none" stroke="black" stroke-width="2" />
@@ -27,7 +38,7 @@
         [attr.fill]="isSelected('polygon1-' + $index) ? 'red' : 'transparent'"
         stroke="black"
         stroke-width="2"
-        (click)="changeColor('polygon1-' + $index)"
+        (click)="!toothDeactivated[$index] && changeColor('polygon1-' + $index)" 
       />
 
       <!-- Triángulo superior-derecho -->
@@ -36,7 +47,7 @@
         [attr.fill]="isSelected('polygon2-' + $index) ? 'red' : 'transparent'"
         stroke="black"
         stroke-width="2"
-        (click)="changeColor('polygon2-' + $index)"
+        (click)="!toothDeactivated[$index] && changeColor('polygon2-' + $index)"
       />
 
       <!-- Triángulo inferior-izquierdo -->
@@ -45,7 +56,7 @@
         [attr.fill]="isSelected('polygon3-' + $index) ? 'red' : 'transparent'"
         stroke="black"
         stroke-width="2"
-        (click)="changeColor('polygon3-' + $index)"
+        (click)="!toothDeactivated[$index] && changeColor('polygon3-' + $index)"
       />
 
       <!-- Triángulo inferior-derecho -->
@@ -54,10 +65,15 @@
         [attr.fill]="isSelected('polygon4-' + $index) ? 'red' : 'transparent'"
         stroke="black"
         stroke-width="2"
-        (click)="changeColor('polygon4-' + $index)"
+        (click)="!toothDeactivated[$index] && changeColor('polygon4-' + $index)"
       />
     </svg>
     }
+
+    <!-- Botón para deshabilitar el diente -->
+    <button class="icon-button" (click)="deactivateTooth($index)">
+      <i class="fas fa-caret-up"></i>
+    </button>
   </div>
   }
 </div>

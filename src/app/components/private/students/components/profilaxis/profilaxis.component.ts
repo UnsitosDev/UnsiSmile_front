@@ -10,6 +10,7 @@ import { Component } from '@angular/core';
 export class ProfilaxisComponent {
   // Arreglo para almacenar el estado de visibilidad de cada diente
   toothDisabled: boolean[] = Array(16).fill(true); // Inicialmente, todos los dientes están visibles
+  toothDeactivated: boolean[] = Array(16).fill(false); // Inicialmente, ningún diente está deshabilitado
 
   figures = Array(16).fill(0); // Arreglo de 16 elementos
 
@@ -58,5 +59,10 @@ export class ProfilaxisComponent {
 
     // Eliminamos cada polígono del conjunto `selectedPolygons`
     polygonIds.forEach((id) => this.selectedPolygons.delete(id));
+  }
+
+  deactivateTooth(index: number) {
+    this.clearPolygonsForTooth(index);
+    this.toothDeactivated[index] = !this.toothDeactivated[index]; // Cambia el estado de deshabilitación
   }
 }

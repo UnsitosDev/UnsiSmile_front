@@ -41,3 +41,11 @@
 .svg-figure {
   display: block; /* Asegura que los SVG se comporten como bloques */
 }
+
+i{font-size: 25px;}
+
+/* Estilos para el diente deshabilitado */
+.deactivated {
+  opacity: 0.3; 
+  filter: grayscale(100%) brightness(80%) blur(1px);
+}
