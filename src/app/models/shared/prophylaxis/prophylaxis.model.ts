@@ -1,5 +1,6 @@
 export interface ThoothProphylaxis {
-    faces: IFaceProphylaxis,
+    idTooth: number,
+    faces: IFaceProphylaxis[];
     conditions: IConditionProphylaxis[]
 }
 
@@ -12,4 +13,8 @@ export interface IConditionProphylaxis {
     idCondition: number,
     condition: string,
     description: string
+}
+
+export interface IProphylaxis {
+    theetProphylaxis: ThoothProphylaxis[]
 }
