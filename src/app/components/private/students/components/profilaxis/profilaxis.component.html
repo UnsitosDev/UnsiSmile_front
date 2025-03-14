@@ -1,7 +1,6 @@
 <div class="svg-container">
   @for (tooth of teeth; track $index) {
   <div class="figure-wrapper">
-    <!-- Botones de eliminar/restaurar -->
     <div class="button-container">
       @if (toothDisabled[$index]) {
         <button
@@ -20,64 +19,57 @@
       }
     </div>
 
-    <!-- SVG (solo se muestra si el diente está habilitado) -->
     @if (toothDisabled[$index]) {
     <svg
-      width="70"
-      height="70"
+      width="35"
+      height="35"
       xmlns="http://www.w3.org/2000/svg"
       class="svg-figure"
       [class.deactivated]="toothDeactivated[$index]"
     >
-      <!-- Cuadrado base -->
       <rect
-        width="70"
-        height="70"
+        width="35"
+        height="35"
         fill="none"
         stroke="var(--text)" 
         stroke-width="2"
       />
 
-      <!-- Triángulo superior-izquierdo -->
       <polygon
-        points="0,0 35,35 0,70"
+        points="0,0 17.5,17.5 0,35"
         [attr.fill]="isSelected('polygon1-' + $index) ? 'red' : 'transparent'"
         stroke="var(--text)" 
         stroke-width="2"
         (click)="!toothDeactivated[$index] && changeColor('polygon1-' + $index)" 
       />
 
-      <!-- Triángulo superior-derecho -->
       <polygon
-        points="70,0 35,35 70,70"
+        points="35,0 17.5,17.5 35,35"
         [attr.fill]="isSelected('polygon2-' + $index) ? 'red' : 'transparent'"
         stroke="var(--text)"
         stroke-width="2"
         (click)="!toothDeactivated[$index] && changeColor('polygon2-' + $index)"
       />
 
-      <!-- Triángulo inferior-izquierdo -->
       <polygon
-        points="0,70 35,35 70,70"
+        points="0,35 17.5,17.5 35,35"
         [attr.fill]="isSelected('polygon3-' + $index) ? 'red' : 'transparent'"
         stroke="var(--text)" 
         stroke-width="2"
         (click)="!toothDeactivated[$index] && changeColor('polygon3-' + $index)"
       />
 
-      <!-- Triángulo inferior-derecho -->
       <polygon
-        points="0,0 35,35 70,0"
+        points="0,0 17.5,17.5 35,0"
         [attr.fill]="isSelected('polygon4-' + $index) ? 'red' : 'transparent'"
         stroke="var(--text)" 
         stroke-width="2"
         (click)="!toothDeactivated[$index] && changeColor('polygon4-' + $index)"
       />
 
-      <!-- Triángulo modificado (solo se muestra si showTriangle[$index] es true) -->
       @if (showTriangle[$index]) {
       <polygon
-        points="35,10 70,50 0,50" 
+        points="17.5,5 35,25 0,25" 
         stroke="red"         
         fill="transparent"   
         stroke-width="2"     
@@ -85,21 +77,20 @@
       }
     </svg>
     }
+    <p>{{tooth.idTooth}}</p>
 
-    <!-- Botón para deshabilitar el diente (solo se muestra si el diente está habilitado) -->
     @if (toothDisabled[$index]) {
       <button class="icon-button" title="Diente extraido" (click)="deactivateTooth($index)">
-        <!-- Ícono de triángulo con contornos -->
         <svg
-          width="24"
-          height="24"
+          width="12"
+          height="12"
           xmlns="http://www.w3.org/2000/svg"
         >
           <polygon
-            points="12,2 22,22 2,22"
+            points="6,1 11,11 1,11"
             fill="none"
             stroke="var(--text)" 
-            stroke-width="2"
+            stroke-width="1"
           />
         </svg>
       </button>
