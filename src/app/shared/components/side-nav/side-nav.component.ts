@@ -14,6 +14,7 @@ import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Router, RouterLinkActive } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ProfilePictureService } from 'src/app/services/profile-picture.service';
+import { AdminProfile, StudentProfile } from 'src/app/models/shared/profile/profile.model';
 
 
 
@@ -28,8 +29,8 @@ import { ProfilePictureService } from 'src/app/services/profile-picture.service'
 export class SideNavComponent implements OnInit {
   userLink = '';  // Inicializamos vacía para luego asignarle el valor correcto
   public menuItems: MenuItem[] = [];
-  private userService = inject(ApiService<studentResponse, {}>);
-  user!: studentUserResponse | AdminResponse;
+  private userService = inject(ApiService);
+  user!: StudentProfile | AdminProfile;
   welcomeMessage: string = 'Bienvenido'; 
   @Output() menuSelect = new EventEmitter<void>();
   profilePicture = signal<string | null>(null);
@@ -50,7 +51,6 @@ export class SideNavComponent implements OnInit {
 
   ngOnInit() {
     this.fetchUserData();
-    this.fetchProfilePicture();
   }
 
   fetchUserData() {
@@ -59,10 +59,13 @@ export class SideNavComponent implements OnInit {
         url: `${UriConstants.GET_USER_INFO}`,
       })
       .subscribe({
-        next: (data) => {
+        next: (data: StudentProfile | AdminProfile) => {
           this.user = data;
           this.setMenuItems();
-          this.setWelcomeMessage(); 
+          this.setWelcomeMessage();
+          if (this.user.user.profilePicture != null) {
+            this.fetchProfilePicture();
+          }
         },
         error: (error) => {
           console.error('Error fetching user data:', error);

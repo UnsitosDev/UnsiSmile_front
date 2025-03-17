@@ -7,46 +7,46 @@
       </h1>
       <p class="text-slate-500 text-sm">Clínica de Odontología</p>
     </div>
-    
+
     <div class="nav-content">
       <!-- Profile section (fixed) -->
       <div id="profile" class="px-6 py-10">
         <p class="text-slate-500">{{ welcomeMessage }}</p>
         <br>
-        <a [routerLink]="userLink" class="inline-flex space-x-2 items-center">
-          <span>
-            <img
-              class="rounded-full w-8 h-8"
-              [src]="profilePicture() || 'https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png'"
-              alt="Foto de perfil"
-            />
-          </span>
-          @if (user) {
-            <span class="text-sm md:text-base font-bold"> {{ user.person.firstName + " " + user.person.firstLastName }} </span>
+          <a [routerLink]="userLink" class="inline-flex space-x-2 items-center">
+            <span>
+              <img
+                class="rounded-full w-8 h-8"
+                [src]="profilePicture() || '../../assets/default-profile-pic.png'"
+                alt="Foto de perfil"
+                />
+            </span>
+            @if (user) {
+              <span class="text-sm md:text-base font-bold"> {{ user.person.firstName + " " + user.person.firstLastName }} </span>
+            }
+          </a>  
+        </div>
+
+        <!-- Scrollable navigation items -->
+        <div id="nav" class="w-full px-6">
+          @for(items of menuItems; track $index){
+            <app-button-menu-item
+              (click)="onMenuItemSelect()"
+              link="{{ items.routerlink }}"
+              buttonText="{{ items.buttonText }}"
+              description="{{ items.buttonDescription }}"
+              [fontAwesomeIcon]="items.fontAwesomeIcon"
+            ></app-button-menu-item>
           }
-        </a>
-      </div>
-      
-      <!-- Scrollable navigation items -->
-      <div id="nav" class="w-full px-6">
-        @for(items of menuItems; track $index){
-          <app-button-menu-item
-            (click)="onMenuItemSelect()"
-            link="{{ items.routerlink }}"
-            buttonText="{{ items.buttonText }}"
-            description="{{ items.buttonDescription }}"
-            [fontAwesomeIcon]="items.fontAwesomeIcon"
-          ></app-button-menu-item>
-        }
-      </div>
-      
-      <!-- Logout section (fixed) -->
-      <div class="logout-section">
-        <button (click)="logout()" class="logout-button">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>Cerrar sesión</span>
-        </button>
+        </div>
+
+        <!-- Logout section (fixed) -->
+        <div class="logout-section">
+          <button (click)="logout()" class="logout-button">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Cerrar sesión</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>

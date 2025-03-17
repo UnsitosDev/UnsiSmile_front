@@ -99,7 +99,7 @@ export class FormUserComponent implements OnInit {
         next: (data) => {
           this.user = data;
           this.setWelcomeMessage();
-          console.log('user data: ', data);
+          console.log('Datos de usuario:', this.user);
         },
         error: (error) => {
           console.error('Error fetching user data:', error);
