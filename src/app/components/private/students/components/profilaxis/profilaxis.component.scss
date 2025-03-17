@@ -1,78 +1,58 @@
-  .svg-container {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan si no caben en una línea */
-  }
+.quadrant-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dos columnas */
+  grid-template-rows: 1fr 1fr;    /* Dos filas */
+  gap: 16px; /* Espacio entre cuadrantes */
+}
 
-  .figure-wrapper {
-    display: flex;
-    flex-direction: column; /* Coloca los botones arriba y el SVG debajo */
-    align-items: center; /* Centra los elementos horizontalmente */
-    gap: 5px; /* Espacio entre los botones y el SVG */
-  }
+.quadrant {
+  display: flex;
+  flex-direction: row; /* Cambia a fila para que los dientes estén en línea */
+  flex-wrap: wrap; /* Envuelve los dientes si no caben en una línea */
+  gap: 8px; /* Espacio entre dientes */
+}
 
-  .button-container {
-    display: flex;
-    justify-content: space-between; /* Separa los botones */
-    width: 70px; /* Mismo ancho que el SVG */
-  }
+.figure-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
 
-  .addButton,
-  .removeButton {
-    width: 16px;
-    border-radius: 10px;
-    padding: 0;
-    cursor: pointer;
-    border: none; /* Elimina el borde por defecto */
-  }
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 70px;
+}
 
-  .addButton {
-    background: green;
-    color: white;
-  }
+.addButton,
+.removeButton {
+  width: 16px;
+  border-radius: 10px;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+}
 
-  .removeButton {
-    background: red;
-    color: white;
-  }
+.addButton {
+  background: green;
+  color: white;
+}
 
-  .svg-figure {
-    display: block; /* Asegura que los SVG se comporten como bloques */
-  }
+.removeButton {
+  background: red;
+  color: white;
+}
 
-  i{font-size: 25px;}
+.svg-figure {
+  display: block;
+}
 
-  /* Estilos para el diente deshabilitado */
-  .deactivated {
-    opacity: 0.3; 
-    filter: grayscale(100%) brightness(80%) blur(1px);
-  }
+.deactivated {
+  opacity: 0.3;
+  filter: grayscale(100%) brightness(80%) blur(1px);
+}
 
-  p{
-    color: var(--text);
-  }
-
-  .quadrant-container {
-    display: grid;
-    grid-template-columns: 5fr 5fr; /* Dos columnas */
-    grid-template-rows: 1fr 1fr;    /* Dos filas */
-    gap: 16px; /* Espacio entre cuadrantes */
-  }
-
-  .quadrant {
-    display: flex;
-    flex-direction: row; /* Cambia a fila para que los dientes estén en línea */
-    flex-wrap: wrap; /* Envuelve los dientes si no caben en una línea */
-    gap: 8px; /* Espacio entre dientes */
-  }
-
-
-  .tooth {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ccc;
-    padding: 8px;
-    background-color: #f9f9f9;
-  }
+p {
+  color: var(--text);
+}

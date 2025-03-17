@@ -11,59 +11,63 @@ import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
 })
 export class ProfilaxisComponent implements OnInit {
   teeth = storeProphylaxis.theetProphylaxis;
-  toothDisabled: boolean[] = Array(16).fill(true);
-  toothDeactivated: boolean[] = Array(16).fill(false);
-  showTriangle: boolean[] = Array(16).fill(false);
-  selectedPolygons: Set<string> = new Set();
+  toothDisabled: { [key: number]: boolean } = {};
+  toothDeactivated: { [key: number]: boolean } = {};
+  showTriangle: { [key: number]: boolean } = {};
+  selectedFaces: { [key: string]: boolean } = {}; // Estado de las caras seleccionadas
 
   ngOnInit(): void {
-    this.toothDisabled = this.teeth.map(() => true);
-    this.toothDeactivated = this.teeth.map(() => false);
-    this.showTriangle = this.teeth.map(() => false);
+    // Inicializamos el estado de cada diente y sus caras
+    this.teeth.forEach((tooth) => {
+      this.toothDisabled[tooth.idTooth] = true;
+      this.toothDeactivated[tooth.idTooth] = false;
+      this.showTriangle[tooth.idTooth] = false;
+
+      // Inicializamos el estado de las caras
+      tooth.faces.forEach((face) => {
+        const faceId = `${tooth.idTooth}-${face.idFace}`;
+        this.selectedFaces[faceId] = false;
+      });
+    });
   }
 
-  changeColor(polygonId: string) {
-    if (this.selectedPolygons.has(polygonId)) {
-      this.selectedPolygons.delete(polygonId);
-    } else {
-      this.selectedPolygons.add(polygonId);
-    }
-    console.log("Polígonos seleccionados: ", this.selectedPolygons);
+  changeColor(faceId: string) {
+    this.selectedFaces[faceId] = !this.selectedFaces[faceId];
+    console.log("Caras seleccionadas: ", this.selectedFaces);
   }
 
-  isSelected(polygonId: string): boolean {
-    return this.selectedPolygons.has(polygonId);
+  isSelected(faceId: string): boolean {
+    return this.selectedFaces[faceId];
   }
 
-  deleteTooth(index: number) {
-    this.toothDisabled[index] = false;
-    this.clearPolygonsForTooth(index);
+  deleteTooth(idTooth: number) {
+    this.toothDisabled[idTooth] = false;
+    this.clearFacesForTooth(idTooth);
   }
 
-  restoreTooth(index: number) {
-    this.toothDisabled[index] = true;
+  restoreTooth(idTooth: number) {
+    this.toothDisabled[idTooth] = true;
   }
 
-  clearPolygonsForTooth(index: number) {
-    const polygonIds = [
-      `polygon1-${index}`,
-      `polygon2-${index}`,
-      `polygon3-${index}`,
-      `polygon4-${index}`,
-    ];
-    polygonIds.forEach((id) => this.selectedPolygons.delete(id));
+  clearFacesForTooth(idTooth: number) {
+    this.teeth
+      .find((tooth) => tooth.idTooth === idTooth)
+      ?.faces.forEach((face) => {
+        const faceId = `${idTooth}-${face.idFace}`;
+        this.selectedFaces[faceId] = false;
+      });
   }
 
-  deactivateTooth(index: number) {
-    this.clearPolygonsForTooth(index);
-    this.toothDeactivated[index] = !this.toothDeactivated[index];
-    this.showTriangle[index] = this.toothDeactivated[index];
+  deactivateTooth(idTooth: number) {
+    this.clearFacesForTooth(idTooth);
+    this.toothDeactivated[idTooth] = !this.toothDeactivated[idTooth];
+    this.showTriangle[idTooth] = this.toothDeactivated[idTooth];
   }
 
   getQuadrant(teeth: ThoothProphylaxis[], quadrant: number): ThoothProphylaxis[] {
     if (quadrant >= 1 && quadrant <= 4) {
       return teeth
-        .filter((tooth: ThoothProphylaxis) => {
+        .filter((tooth) => {
           const id = tooth.idTooth;
           switch (quadrant) {
             case 1:
@@ -78,7 +82,7 @@ export class ProfilaxisComponent implements OnInit {
               return false;
           }
         })
-        .sort((a: ThoothProphylaxis, b: ThoothProphylaxis) => {
+        .sort((a, b) => {
           if (quadrant === 1 || quadrant === 4) {
             return b.idTooth - a.idTooth;
           } else {
