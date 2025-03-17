@@ -1,100 +1,112 @@
-<div class="svg-container">
-  @for (tooth of teeth; track $index) {
-  <div class="figure-wrapper">
-    <div class="button-container">
-      @if (toothDisabled[$index]) {
-        <button
-          title="Diente no presente"
-          class="removeButton"
-          (click)="deleteTooth($index)"
-          [disabled]="toothDeactivated[$index]"
-        >-</button>
-      }@else{
-        <button
-          title="Diente presente"
-          class="addButton"
-          (click)="restoreTooth($index)"
-          [disabled]="toothDeactivated[$index]"
-        >+</button>
-      }
-    </div>
+<div class="quadrant-container">
+  <!-- Cuadrante 1: Arriba a la izquierda -->
+  <div class="quadrant">
+    @for (tooth of getQuadrant(teeth, 1); track tooth.idTooth; let idx = $index) {
+      <div class="figure-wrapper">
+        <div class="button-container">
+          @if (toothDisabled[idx]) {
+            <button
+              title="Diente no presente"
+              class="removeButton"
+              (click)="deleteTooth(idx)"
+              [disabled]="toothDeactivated[idx]"
+            >
+              -
+            </button>
+          } @else {
+            <button
+              title="Diente presente"
+              class="addButton"
+              (click)="restoreTooth(idx)"
+              [disabled]="toothDeactivated[idx]"
+            >
+              +
+            </button>
+          }
+        </div>
 
-    @if (toothDisabled[$index]) {
-    <svg
-      width="35"
-      height="35"
-      xmlns="http://www.w3.org/2000/svg"
-      class="svg-figure"
-      [class.deactivated]="toothDeactivated[$index]"
-    >
-      <rect
-        width="35"
-        height="35"
-        fill="none"
-        stroke="var(--text)" 
-        stroke-width="2"
-      />
+        @if (toothDisabled[idx]) {
+          <svg
+            width="35"
+            height="35"
+            xmlns="http://www.w3.org/2000/svg"
+            class="svg-figure"
+            [class.deactivated]="toothDeactivated[idx]"
+          >
+            <rect
+              width="35"
+              height="35"
+              fill="none"
+              stroke="var(--text)"
+              stroke-width="2"
+            />
 
-      <polygon
-        points="0,0 17.5,17.5 0,35"
-        [attr.fill]="isSelected('polygon1-' + $index) ? 'red' : 'transparent'"
-        stroke="var(--text)" 
-        stroke-width="2"
-        (click)="!toothDeactivated[$index] && changeColor('polygon1-' + $index)" 
-      />
+            <polygon
+              points="0,0 17.5,17.5 0,35"
+              [attr.fill]="isSelected('polygon1-' + idx) ? 'red' : 'transparent'"
+              stroke="var(--text)"
+              stroke-width="2"
+              (click)="!toothDeactivated[idx] && changeColor('polygon1-' + idx)"
+            />
 
-      <polygon
-        points="35,0 17.5,17.5 35,35"
-        [attr.fill]="isSelected('polygon2-' + $index) ? 'red' : 'transparent'"
-        stroke="var(--text)"
-        stroke-width="2"
-        (click)="!toothDeactivated[$index] && changeColor('polygon2-' + $index)"
-      />
+            <polygon
+              points="35,0 17.5,17.5 35,35"
+              [attr.fill]="isSelected('polygon2-' + idx) ? 'red' : 'transparent'"
+              stroke="var(--text)"
+              stroke-width="2"
+              (click)="!toothDeactivated[idx] && changeColor('polygon2-' + idx)"
+            />
 
-      <polygon
-        points="0,35 17.5,17.5 35,35"
-        [attr.fill]="isSelected('polygon3-' + $index) ? 'red' : 'transparent'"
-        stroke="var(--text)" 
-        stroke-width="2"
-        (click)="!toothDeactivated[$index] && changeColor('polygon3-' + $index)"
-      />
+            <polygon
+              points="0,35 17.5,17.5 35,35"
+              [attr.fill]="isSelected('polygon3-' + idx) ? 'red' : 'transparent'"
+              stroke="var(--text)"
+              stroke-width="2"
+              (click)="!toothDeactivated[idx] && changeColor('polygon3-' + idx)"
+            />
 
-      <polygon
-        points="0,0 17.5,17.5 35,0"
-        [attr.fill]="isSelected('polygon4-' + $index) ? 'red' : 'transparent'"
-        stroke="var(--text)" 
-        stroke-width="2"
-        (click)="!toothDeactivated[$index] && changeColor('polygon4-' + $index)"
-      />
+            <polygon
+              points="0,0 17.5,17.5 35,0"
+              [attr.fill]="isSelected('polygon4-' + idx) ? 'red' : 'transparent'"
+              stroke="var(--text)"
+              stroke-width="2"
+              (click)="!toothDeactivated[idx] && changeColor('polygon4-' + idx)"
+            />
 
-      @if (showTriangle[$index]) {
-      <polygon
-        points="17.5,5 35,25 0,25" 
-        stroke="red"         
-        fill="transparent"   
-        stroke-width="2"     
-      />
-      }
-    </svg>
-    }
-    <p>{{tooth.idTooth}}</p>
+            @if (showTriangle[idx]) {
+              <polygon
+                points="17.5,5 35,25 0,25"
+                stroke="red"
+                fill="transparent"
+                stroke-width="2"
+              />
+            }
+          </svg>
+        }
 
-    @if (toothDisabled[$index]) {
-      <button class="icon-button" title="Diente extraido" (click)="deactivateTooth($index)">
-        <svg
-          width="12"
-          height="12"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polygon
-            points="6,1 11,11 1,11"
-            fill="none"
-            stroke="var(--text)" 
-            stroke-width="1"
-          />
-        </svg>
-      </button>
+        <p>{{ tooth.idTooth }}</p>
+
+        @if (toothDisabled[idx]) {
+          <button
+            class="icon-button"
+            title="Diente extraido"
+            (click)="deactivateTooth(idx)"
+          >
+            <svg
+              width="12"
+              height="12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <polygon
+                points="6,1 11,11 1,11"
+                fill="none"
+                stroke="var(--text)"
+                stroke-width="1"
+              />
+            </svg>
+          </button>
+        }
+      </div>
     }
   </div>
-  }
 </div>
