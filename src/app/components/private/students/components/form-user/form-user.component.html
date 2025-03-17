@@ -8,7 +8,9 @@
       <img [src]="foto() || '../../assets/default-profile-pic.png'"
         alt="Foto de perfil">
     </div>
-    <h2 class="profile-name">{{user.person.firstName}} {{user.person.firstLastName}}</h2>
+    @if (user.person) {
+      <h2 class="profile-name">{{user.person.firstName}} {{user.person.firstLastName}}</h2>
+    }
     <p class="profile-role">Usuario</p>
     <label class="btn btn-primary" [class.disabled]="!modoEdicion()">
       Cambiar foto
