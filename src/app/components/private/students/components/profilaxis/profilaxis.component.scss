@@ -1,15 +1,15 @@
 .quadrant-container {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Dos columnas */
-  grid-template-rows: 1fr 1fr;    /* Dos filas */
-  gap: 16px; /* Espacio entre cuadrantes */
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
 }
 
 .quadrant {
   display: flex;
-  flex-direction: row; /* Cambia a fila para que los dientes estén en línea */
-  flex-wrap: wrap; /* Envuelve los dientes si no caben en una línea */
-  gap: 8px; /* Espacio entre dientes */
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .figure-wrapper {

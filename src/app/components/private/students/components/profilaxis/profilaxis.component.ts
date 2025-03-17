@@ -7,23 +7,22 @@ import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
   standalone: true,
   imports: [],
   templateUrl: './profilaxis.component.html',
-  styleUrl: './profilaxis.component.scss'
+  styleUrl: './profilaxis.component.scss',
 })
 export class ProfilaxisComponent implements OnInit {
   teeth = storeProphylaxis.theetProphylaxis;
   toothDisabled: { [key: number]: boolean } = {};
   toothDeactivated: { [key: number]: boolean } = {};
   showTriangle: { [key: number]: boolean } = {};
-  selectedFaces: { [key: string]: boolean } = {}; // Estado de las caras seleccionadas
+  selectedFaces: { [key: string]: boolean } = {};
+  TheetData: { [key: number]: ThoothProphylaxis } = {};
 
   ngOnInit(): void {
-    // Inicializamos el estado de cada diente y sus caras
     this.teeth.forEach((tooth) => {
       this.toothDisabled[tooth.idTooth] = true;
       this.toothDeactivated[tooth.idTooth] = false;
       this.showTriangle[tooth.idTooth] = false;
 
-      // Inicializamos el estado de las caras
       tooth.faces.forEach((face) => {
         const faceId = `${tooth.idTooth}-${face.idFace}`;
         this.selectedFaces[faceId] = false;
@@ -31,25 +30,39 @@ export class ProfilaxisComponent implements OnInit {
     });
   }
 
-  changeColor(faceId: string) {
+  isToothEnabled(idTooth: number): boolean {
+    return this.toothDisabled[idTooth];
+  }
+
+  isToothDeactivated(idTooth: number): boolean {
+    return this.toothDeactivated[idTooth];
+  }
+
+  toggleTriangleVisibility(idTooth: number): void {
+    this.showTriangle[idTooth] = !this.showTriangle[idTooth];
+  }
+
+  changeColor(faceId: string): void {
     this.selectedFaces[faceId] = !this.selectedFaces[faceId];
-    console.log("Caras seleccionadas: ", this.selectedFaces);
+    this.updateToothConditions();
   }
 
   isSelected(faceId: string): boolean {
     return this.selectedFaces[faceId];
   }
 
-  deleteTooth(idTooth: number) {
+  deleteTooth(idTooth: number): void {
     this.toothDisabled[idTooth] = false;
     this.clearFacesForTooth(idTooth);
+    this.updateToothConditions();
   }
 
-  restoreTooth(idTooth: number) {
+  restoreTooth(idTooth: number): void {
     this.toothDisabled[idTooth] = true;
+    this.updateToothConditions();
   }
 
-  clearFacesForTooth(idTooth: number) {
+  clearFacesForTooth(idTooth: number): void {
     this.teeth
       .find((tooth) => tooth.idTooth === idTooth)
       ?.faces.forEach((face) => {
@@ -58,10 +71,78 @@ export class ProfilaxisComponent implements OnInit {
       });
   }
 
-  deactivateTooth(idTooth: number) {
+  deactivateTooth(idTooth: number): void {
     this.clearFacesForTooth(idTooth);
     this.toothDeactivated[idTooth] = !this.toothDeactivated[idTooth];
     this.showTriangle[idTooth] = this.toothDeactivated[idTooth];
+    this.updateToothConditions();
+  }
+
+  updateToothConditions(): void {
+    this.teeth.forEach((tooth) => {
+      if (!this.toothDisabled[tooth.idTooth]) {
+        if (!tooth.conditions.some((cond) => cond.condition === 'no presente')) {
+          tooth.conditions.push({
+            idCondition: 1,
+            condition: 'no presente',
+            description: 'Diente no presente',
+          });
+        }
+      } else {
+        tooth.conditions = tooth.conditions.filter(
+          (cond) => cond.condition !== 'no presente'
+        );
+      }
+
+      if (this.toothDeactivated[tooth.idTooth]) {
+        if (!tooth.conditions.some((cond) => cond.condition === 'extraído')) {
+          tooth.conditions.push({
+            idCondition: 2,
+            condition: 'extraído',
+            description: 'Diente extraído',
+          });
+        }
+      } else {
+        tooth.conditions = tooth.conditions.filter(
+          (cond) => cond.condition !== 'extraído'
+        );
+      }
+
+      tooth.faces.forEach((face) => {
+        const faceId = `${tooth.idTooth}-${face.idFace}`;
+        if (this.selectedFaces[faceId]) {
+          if (!face.conditions?.some((cond) => cond.condition === 'marcado')) {
+            face.conditions = face.conditions || [];
+            face.conditions.push({
+              idCondition: 3,
+              condition: 'marcado',
+              description: '',
+            });
+          }
+        } else {
+          face.conditions = face.conditions?.filter(
+            (cond) => cond.condition !== 'marcado'
+          );
+        }
+      });
+
+      this.updateTeeth(tooth);
+    });
+  }
+
+  updateTeeth(tooth: ThoothProphylaxis): void {
+    if (
+      tooth.conditions.length > 0 ||
+      tooth.faces.some((face) => face.conditions && face.conditions.length > 0)
+    ) {
+      this.TheetData[tooth.idTooth] = { ...tooth };
+    } else {
+      delete this.TheetData[tooth.idTooth];
+    }
+  }
+
+  generateModifiedTeethObject(): void {
+    const teethToPost = Object.values(this.TheetData);
   }
 
   getQuadrant(teeth: ThoothProphylaxis[], quadrant: number): ThoothProphylaxis[] {
