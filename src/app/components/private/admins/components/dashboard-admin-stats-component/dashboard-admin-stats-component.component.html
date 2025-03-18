@@ -1,0 +1,73 @@
+<div class="p-6">
+    @if (loading) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (_ of [1,2,3,4,5]; track $index) {
+          <div class="animate-pulse bg-gray-200 rounded-lg h-32"></div>
+        }
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Total Patients -->
+        <app-dashboard-card
+          class="transform transition-all duration-300 hover:scale-105"
+          title="Total de pacientes"
+          [value]="stats.totalPatients || 0"
+          icon="fas fa-users"
+          cardType="numeric"
+          valueClass="text-blue-600 text-2xl font-bold">
+        </app-dashboard-card>
+  
+        <!-- Patients by Nationality -->
+        <app-dashboard-card
+          class="transform transition-all duration-300 hover:scale-105"
+          title="Pacientes por nacionalidad"
+          icon="fas fa-globe"
+          cardType="list"
+          [listItems]="getNationalities()">
+        </app-dashboard-card>
+  
+        <!-- Monthly Patients -->
+        <app-dashboard-card
+          class="transform transition-all duration-300 hover:scale-105"
+          title="Pacientes en el último mes"
+          [value]="stats.patientsRegisteredLastMonth || 0"
+          icon="fas fa-calendar-alt"
+          cardType="numeric"
+          valueClass="text-blue-600 text-2xl font-bold">
+        </app-dashboard-card>
+      </div>
+      
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
+        <!-- Total Professors -->
+      <app-dashboard-card
+        class="transform transition-all duration-300 hover:scale-105"
+        title="Total de profesores"
+        icon="fas fa-chalkboard-teacher"
+        cardType="numeric"
+        [value]="stats.totalProfessors || 0"
+        [colorBar]="'bg-blue-500'"
+      ></app-dashboard-card>
+  
+      <!-- Total Students -->
+      <app-dashboard-card
+        class="transform transition-all duration-300 hover:scale-105"
+        title="Total de estudiantes"
+        icon="fas fa-user-graduate"
+        cardType="numeric"
+        [value]="stats.totalStudents || 0"
+        [colorBar]="'bg-green-500'"
+      ></app-dashboard-card>
+  
+      <app-dashboard-card
+        class="transform transition-all duration-300 hover:scale-105"
+        title="Total de pacientes con discapacidad"
+        icon="fas fa-wheelchair"
+        cardType="numeric"
+        [value]="stats.patientsWithDisability"
+        [colorBar]="'bg-purple-500'"
+      ></app-dashboard-card>
+      </div>
+    }
+  </div>
+  
