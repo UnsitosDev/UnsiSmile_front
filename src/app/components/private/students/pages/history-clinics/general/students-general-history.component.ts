@@ -30,6 +30,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
+import { HttpHeaders } from '@angular/common/http';
+import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 
 @Component({
   selector: 'app-students-general-history',
@@ -208,6 +210,49 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         },
       });
     }
+  }
+
+  openConfirmDialog() {
+    const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
+      width: '300px',
+      data: { idPatientClinicalHistory: this.idPatientClinicalHistory },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getStatusHc();
+      }
+    });
+  }
+
+  status!: StatusClinicalHistoryResponse;
+
+  statusMap: { [key: string]: string } = {
+    IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
+    APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
+    REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
+  };
+
+  getStatusHc() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.status = response;
+        },
+        error: (error) => {
+        },
+      });
+  }
+
+  translateStatus(status: string): string {
+    return this.statusMap[status] || status;
   }
 
 

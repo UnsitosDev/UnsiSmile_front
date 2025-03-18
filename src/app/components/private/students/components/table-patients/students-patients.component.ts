@@ -39,7 +39,7 @@ export class StudentsPatientsComponent implements OnInit {
   isChecked: boolean = false;
   searchTerm: string = ''; // Variable para almacenar el término de búsqueda
   totalElements: number = 0; // Agregar esta propiedad
-  sortField: string = 'person.firstName';
+  sortField: string = 'person.student.firstName';
   role = 'student'
   sortAsc: boolean = true;
   sortableColumns = {
