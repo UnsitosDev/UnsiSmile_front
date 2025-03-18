@@ -1,12 +1,11 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { studentResponse, studentUserResponse } from 'src/app/shared/interfaces/student/student';
-import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
+import { MatCardModule } from '@angular/material/card';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { ToastrService } from 'ngx-toastr';
-import { MatCardModule } from '@angular/material/card';
+import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
+import { studentResponse, studentUserResponse } from 'src/app/shared/interfaces/student/student';
 
 @Component({
   selector: 'app-form-user',
