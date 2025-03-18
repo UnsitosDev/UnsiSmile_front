@@ -1,1 +1,58 @@
-<p>dashboard-student-stats-component works!</p>
+@if (loading) {
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for (_ of [1,2,3,4,5]; track $index) {
+    <div class="animate-pulse bg-gray-200 rounded-lg h-32"></div>
+    }
+</div>
+} @else {
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Total Patients -->
+    <app-dashboard-card
+        class="transform transition-all duration-300 hover:scale-105"
+        title="Pacientes"
+        [value]="stats.totalPatients || 0"
+        icon="fas fa-users"
+        cardType="numeric"
+        valueClass="text-blue-600 text-2xl font-bold"
+    >
+    </app-dashboard-card>
+    <app-dashboard-card
+        class="transform transition-all duration-300 hover:scale-105"
+        title="Pacientes entre 18 y 60 años"
+        [value]="stats.patientsBetween18And60"
+        icon="fas fa-user-friends"
+        cardType="numeric"
+        valueClass="text-blue-600 text-2xl font-bold"
+    >
+    </app-dashboard-card>
+    <app-dashboard-card
+        class="transform transition-all duration-300 hover:scale-105"
+        title="Pacientes menores de edad"
+        [value]="stats.patientsUnder18"
+        icon="fas fa-child"
+        cardType="numeric"
+        valueClass="text-blue-600 text-2xl font-bold"
+    >
+    </app-dashboard-card>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
+    <!-- Total Professors -->
+    <app-dashboard-card
+        class="transform transition-all duration-300 hover:scale-105"
+        title="Total de pacientes mayores de 60 años"
+        icon="fas fa-user-plus"
+        cardType="numeric"
+        [value]="stats.patientsOver60"
+        [colorBar]="'bg-purple-500'"
+    ></app-dashboard-card>
+    <app-dashboard-card
+        class="transform transition-all duration-300 hover:scale-105"
+        title="Total de pacientes en el último mes"
+        icon="fas fa-calendar-alt"
+        cardType="numeric"
+        [value]="stats.patientsRegisteredLastMonth"
+        [colorBar]="'bg-purple-500'"
+    ></app-dashboard-card>
+</div>
+}
