@@ -9,7 +9,7 @@
             <div class="title-container">
               <span><strong>Historia clínica {{mappedHistoryData.title}}</strong></span>
               <span>
-                <strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong> - 
+                <strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong> &nbsp;
                 @if (mappedHistoryData.tabs[currentIndex].status === 'NO_STATUS') {
                   <button class="button-custom" (click)="openConfirmDialog()">
                     Enviar a revisión <i class="fas fa-file-upload"></i>
