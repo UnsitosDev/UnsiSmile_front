@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,7 @@ import { inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 
 
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { AlertModel, StudentItems } from '@mean/models';
 import { PatientService } from 'src/app/services/patient/patient.service';
 import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
@@ -32,6 +32,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmLeaveComponent } from '../../../students/components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { MatCardModule } from '@angular/material/card';
+import { studentService } from 'src/app/services/student.service';
 
 
 @Component({
@@ -53,12 +54,14 @@ export class FormPatientPersonalDataComponent {
   private toastr = inject(ToastrService);
   readonly dialog = inject(MatDialog);
   minorPatient: boolean = false;
+  private studentService = inject(studentService);
 
   formGroup!: FormGroup;
   personal: FormField[] = [];
   address: FormField[] = [];
   other: FormField[] = [];
   guardian: FormField[] = [];
+  studentFields: FormField[] = [];
   private currentPage: number = 0;
   // Variables para navegación
   private navigationSubscription!: Subscription;
@@ -68,6 +71,10 @@ export class FormPatientPersonalDataComponent {
   private navigationComplete: boolean = false;
   private additionalRoutes = ['/students/user'];
   private route = inject(Router);
+  @ViewChild('stepper') stepper!: MatStepper;
+  patientId: number | null = null; // Añadir esta propiedad
+  patientCurp: string = ''; // Añadir esta propiedad
+  canAccessStudentTab: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -84,10 +91,18 @@ export class FormPatientPersonalDataComponent {
     this.address = this.addressDataFields.getAddressFields();
     this.other = this.otherDataFields.getOtherDataFields();
     this.guardian = this.guardianField.getGuardianDataFields();
+    this.studentFields = this.studentService.studentFields; // Agregar esta línea
 
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
     [...this.personal, ...this.address, ...this.other, ...this.guardian].forEach(field => {
+      this.formGroup.addControl(
+        field.name,
+        this.fb.control(field.value || '', field.validators || [])
+      );
+    });
+
+    this.studentFields.forEach(field => {
       this.formGroup.addControl(
         field.name,
         this.fb.control(field.value || '', field.validators || [])
@@ -112,6 +127,19 @@ export class FormPatientPersonalDataComponent {
           // Detiene la navegación y mostramos el diálogo
           this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_CREATE_PATIENT);
         }
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.stepper.selectionChange.subscribe((e: any) => {
+      // Si está intentando ir a la última pestaña (alumno) y no está habilitada
+      const lastStepIndex = this.minorPatient ? 4 : 3;
+      if (e.selectedIndex === lastStepIndex && !this.canAccessStudentTab) {
+        // Prevenir la navegación volviendo al índice anterior
+        setTimeout(() => {
+          this.stepper.selectedIndex = e.previouslySelectedIndex;
+        });
       }
     });
   }
@@ -193,104 +221,213 @@ export class FormPatientPersonalDataComponent {
 
 
   onSubmit() {
+    this.markFormGroupTouched(this.formGroup);
     const formValues = this.formGroup.value;
-
     if (this.formGroup.valid) {
-        // Crear un objeto para la dirección con valores por defecto
-        const addressData = {
-            idAddress: 0,
-            streetNumber: formValues.exteriorNumber || '',
-            interiorNumber: formValues.interiorNumber || '',
-            housing: {
-                idHousing: formValues.housingCategory ? +formValues.housingCategory : 0,
-                category: ""
-            },
-            street: {
-                idStreet: 0,  // Valor por defecto
-                name: formValues.streetName || '',  // Usar el valor ingresado manualmente
-                neighborhood: {
-                    idNeighborhood: 0,  // Valor por defecto
-                    name: formValues.neighborhoodName || '',  // Usar el valor ingresado manualmente
-                    locality: {
-                        idLocality: this.localityId ? +this.localityId : 0,
-                        name: formValues.localityName || "",
-                        postalCode: formValues.postalCode || "",
-                        municipality: {
-                            idMunicipality: this.municipalityNameId ? +this.municipalityNameId : 0,
-                            name: formValues.municipalityName || "",
-                            state: {
-                                idState: this.stateNameId ? +this.stateNameId : 0,
-                                name: formValues.stateName || ""
-                            }
-                        }
-                    }
+      const patientData = {
+        isMinor: this.minorPatient,
+        hasDisability: true,
+        nationalityId: +formValues.nationality,
+        person: {
+          curp: formValues.curp,
+          firstName: formValues.firstName,
+          secondName: formValues.secondName,
+          firstLastName: formValues.firstLastName,
+          secondLastName: formValues.secondLastName,
+          phone: formValues.phone,
+          birthDate: formValues.birthDate,
+          email: formValues.email,
+          gender: {
+            idGender: +formValues.gender,
+            gender: this.patientService.genderOptions.find(option => option.value === formValues.gender)?.label || ""
+          }
+        },
+        address: {
+          idAddress: 0,
+          streetNumber: formValues.exteriorNumber,
+          interiorNumber: formValues.interiorNumber,
+          housing: {
+            idHousing: +formValues.housingCategory,
+            category: "" // Si tienes el nombre de la categoría, agrégalo aquí
+          },
+          street: {
+            idStreet: +formValues.streetName > 0 ? +formValues.streetName :
+                      (this.patientService.streetsOptions.find(option =>
+                          option.label.toLowerCase() === formValues.streetName?.toLowerCase())?.value || '0'),
+            name: formValues.streetName || '',
+            neighborhood: {
+              idNeighborhood: +formValues.neighborhoodName > 0 ? +formValues.neighborhoodName :
+                            (this.patientService.neighborhoodOptions.find(option =>
+                                option.label.toLowerCase() === formValues.neighborhoodName?.toLowerCase())?.value || '0'),
+              name: formValues.neighborhoodName || '',
+              locality: {
+                idLocality: +this.localityId > 0 ? +this.localityId :
+                          (this.patientService.localityOptions.find(option =>
+                              option.label.toLowerCase() === formValues.localityName?.toLowerCase())?.value || '0'),
+                name: formValues.localityName || "",
+                postalCode: formValues.postalCode,
+                municipality: {
+                  idMunicipality: +this.municipalityNameId > 0 ? +this.municipalityNameId :
+                                (this.patientService.municipalityOptions.find(option =>
+                                    option.label.toLowerCase() === formValues.municipalityName?.toLowerCase())?.value || '0'),
+                  name: formValues.municipalityName || "",
+                  state: {
+                    idState: +this.stateNameId > 0 ? +this.stateNameId : 
+                            (this.patientService.stateOptions.find(option => 
+                                option.label.toLowerCase() === formValues.stateName?.toLowerCase())?.value || '0'),
+                    name: formValues.stateName || "",
+                  }
                 }
+              }
             }
-        };
-
-        // Crear el objeto principal con los datos del paciente
-        const patientData = {
-            isMinor: this.minorPatient,
-            hasDisability: true,
-            nationalityId: formValues.nationality ? +formValues.nationality : 0,
-            person: {
-                curp: formValues.curp || '',
-                firstName: formValues.firstName || '',
-                secondName: formValues.secondName || '',
-                firstLastName: formValues.firstLastName || '',
-                secondLastName: formValues.secondLastName || '',
-                phone: formValues.phone || '',
-                birthDate: formValues.birthDate || null,
-                email: formValues.email || '',
-                gender: {
-                    idGender: formValues.gender ? +formValues.gender : 0,
-                    gender: ""
-                }
-            },
-            address: addressData,
-            maritalStatusId: formValues.maritalStatus ? +formValues.maritalStatus : 0,
-            occupationId: formValues.occupation ? +formValues.occupation : 0,
-            ethnicGroupId: formValues.ethnicGroup ? +formValues.ethnicGroup : 0,
-            religionId: formValues.religion ? +formValues.religion : 0,
-            guardian: this.minorPatient ? {
-                idGuardian: 0,
-                firstName: formValues.firstGuardianName || '',
-                lastName: formValues.lastGuardianName || '',
-                phone: formValues.phoneGuardian || '',
-                email: formValues.emailGuardian || '',
-                parentalStatus: {
-                  idCatalogOption: +formValues.parentsMaritalStatus, 
-                  optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label, 
-                  idCatalog: 12,
-                },
-                doctorName: formValues.doctorName
-            } : null
-        };
-
-        // Hacer la petición al backend
-        this.apiService
-            .postService({
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                }),
-                url: `${UriConstants.POST_PATIENT}`,
-                data: patientData,
-            })
-            .subscribe({
-                next: (response) => {
-                    this.isNavigationPrevented = false;
-                    this.navigationComplete = true;
-                    this.router.navigate(['/admin/patients']);
-                    this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
-                },
-                error: (error) => {
-                    this.toastr.error('Error al guardar el paciente: ' + (error.error?.message || 'Error desconocido'), 'Error');
-                },
+          }
+        },
+        maritalStatus: {
+          idMaritalStatus: +formValues.maritalStatus,
+          maritalStatus: this.patientService.maritalStatusOptions.find(option => option.value === formValues.maritalStatus)?.label || ""
+        },
+        occupation: {
+          idOccupation: isNaN(+formValues.occupation) ? 0 : +formValues.occupation,
+          occupation: isNaN(+formValues.occupation) ? formValues.occupation : (this.patientService.occupationOptions.find(option => option.value === formValues.occupation)?.label || "")
+        },
+        ethnicGroup: {
+          idEthnicGroup: +formValues.ethnicGroup,
+          ethnicGroup: this.patientService.ethnicGroupOptions.find(option => option.value === formValues.ethnicGroup)?.label || ""
+        },
+        religion: {
+          idReligion: +formValues.religion,
+          religion: this.patientService.religionOptions.find(option => option.value === formValues.religion)?.label || ""
+        },
+        guardian: this.minorPatient ? {
+          idGuardian: 0,
+          firstName: formValues.firstGuardianName,
+          lastName: formValues.lastGuardianName,
+          phone: formValues.phoneGuardian,
+          email: formValues.emailGuardian,
+          parentalStatus: {
+            idCatalogOption: +formValues.parentsMaritalStatus,
+            optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "",
+            idCatalog: 12,
+          },
+          doctorName: formValues.doctorName
+        } : null
+      };      
+      this.apiService
+        .postService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.POST_PATIENT}`,
+          data: patientData,
+        })
+        .subscribe({
+          next: (response) => {
+            this.isNavigationPrevented = false;
+            this.navigationComplete = true;
+            this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
+            this.canAccessStudentTab = true; // Habilitar la pestaña de alumno
+            this.patientCurp = formValues.curp; // Guardar la CURP del paciente
+            setTimeout(() => {
+              this.searchPatientByCurp(this.patientCurp); // Buscar el ID usando la CURP
             });
+          },
+          error: (error) => {
+            this.toastr.error(error, 'Error');
+          },
+        });
     } else {
-        this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
+      this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
-}
+  }
+
+  // Agregar nuevo método para buscar paciente por CURP
+  searchPatientByCurp(curp: string) {
+    if (!curp) {
+      this.toastr.error('CURP no válida', 'Error');
+      return;
+    }
+
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_PATIENTS}?keyword=${curp}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          if (response.content && response.content.length > 0) {
+            const patient = response.content[0];
+            this.patientId = patient.idPatient;
+            
+            this.stepper.next();
+          } else {
+            this.toastr.error('No se encontró el paciente con la CURP proporcionada', 'Error');
+          }
+        },
+        error: (error) => {
+          this.toastr.error('Error al buscar el paciente: ' + error, 'Error');
+        },
+      });
+  }
+
+  assignStudentToPatient() {
+    const formValues = this.formGroup.value;
+    
+    if (!this.patientId || !formValues.studentEnrollment) {
+      this.toastr.error('Faltan datos requeridos para la asignación', 'Error');
+      return;
+    }
+
+    const assignmentData = {
+      patientId: this.patientId.toString(),
+      studentEnrollment: formValues.studentEnrollment
+    };
+
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: UriConstants.POST_PATIENT_STUDENT,
+        data: assignmentData,
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Alumno asignado correctamente', 'Éxito');
+          this.router.navigate(['/admin/patients']);
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
+  }
+
+  handleStudentEnrollmentSearch(searchTerm: string) {
+    if (searchTerm && searchTerm.length >= 2) {
+      this.apiService.getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_STUDENTS}?keyword=${searchTerm}`,
+        data: {},
+      }).subscribe({
+        next: (response) => {
+          const enrollmentField = this.studentFields.find(field => field.name === 'studentEnrollment');
+          if (enrollmentField && response.content) {
+            enrollmentField.options = response.content.map((student: any) => ({
+              value: student.enrollment,
+              label: `${student.enrollment} - ${student.person.firstName} ${student.person.firstLastName}`
+            }));
+          }
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        }
+      });
+    }
+  }
 
   onScroll(event: any): void {
     const element = event.target;
@@ -303,6 +440,20 @@ export class FormPatientPersonalDataComponent {
       this.personalDataFields.handleStreetClick('', this.currentPage);
 
     }
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(controlName => {
+      const control = formGroup.get(controlName);
+      if (control) {
+        control.markAsTouched();
+        control.updateValueAndValidity(); 
+      }
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 
 }

@@ -14,7 +14,7 @@ import { HistoryInitialBagComponent } from "../../../components/form-history-ini
 import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
 
 // Servicios
-import { ApiService } from '@mean/services';
+import { ApiService, AuthService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
@@ -28,15 +28,15 @@ import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
-import { HttpHeaders } from '@angular/common/http';
-import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
+import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
-  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent],
+  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, ProgressNotesComponent],
 })
 
 export class StudentsGeneralHistoryComponent implements OnInit {
@@ -49,6 +49,10 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   private toastr = inject(ToastrService);
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  public medicalRecordNumber!: number;
   public id!: number;
   public idpatient!: string;
   public year?: number;
@@ -75,11 +79,16 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private additionalRoutes = ['/students/user'];
   firstLabel: string = '';
   previousLabel: string = '';
-  
-  
+  role!: string;
+
   constructor() { }
 
   ngOnInit(): void {
+
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+
     this.router.params.subscribe((params) => {
       this.id = params['id']; // Id Historia Clinica
       this.idpatient = params['patient']; // Id Paciente
@@ -87,6 +96,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
+          this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
         }
       });
       this.fetchPatientData();
@@ -186,8 +196,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
               parentalStatus: this.patient.guardian.parentalStatus ? {
                 idCatalogOption: this.patient.guardian.parentalStatus.idCatalogOption,
                 optionName: this.patient.guardian.parentalStatus.optionName
-              } : { idCatalogOption: 0, optionName: '' }, 
-              doctorName: this.patient.guardian.doctorName || '' 
+              } : { idCatalogOption: 0, optionName: '' },
+              doctorName: this.patient.guardian.doctorName || ''
             };
           } else {
             this.guardianData = null;
@@ -218,50 +228,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     const [year, month, day] = dateArray;
     return `${day}/${month}/${year}`;
   }
-  
-  openConfirmDialog() {
-      const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-        width: '300px',
-        data: { idPatientClinicalHistory: this.idPatientClinicalHistory }, 
-      });
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.getStatusHc();
-        }
-      });
-    }
-
-  status!: StatusClinicalHistoryResponse;
-  
-  statusMap: { [key: string]: string } = {
-    IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
-    APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
-    REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
-  };
-
-  getStatusHc(){
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-            }),
-              url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}`,
-              data: { },
-            })
-            .subscribe({
-              next: (response) => {
-                this.status = response;
-              },
-                error: (error) => {
-              },
-            });
-  }
-
-  translateStatus(status: string): string {
-    return this.statusMap[status] || status; 
-  }
-  
   onNextTab(): void {
     this.currentIndex++; // Incrementar el índice del tab activo
     if (this.currentIndex >= this.mappedHistoryData.tabs.length) {

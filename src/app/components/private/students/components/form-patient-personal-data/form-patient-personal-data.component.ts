@@ -195,6 +195,7 @@ export class FormPatientPersonalDataComponent {
 
 
   onSubmit() {
+    this.markFormGroupTouched(this.formGroup);
     const formValues = this.formGroup.value;
     if (this.formGroup.valid) {
       const patientData = {
@@ -212,7 +213,7 @@ export class FormPatientPersonalDataComponent {
           email: formValues.email,
           gender: {
             idGender: +formValues.gender,
-            gender: ""
+            gender: this.patientService.genderOptions.find(option => option.value === formValues.gender)?.label || ""
           }
         },
         address: {
@@ -221,34 +222,56 @@ export class FormPatientPersonalDataComponent {
           interiorNumber: formValues.interiorNumber,
           housing: {
             idHousing: +formValues.housingCategory,
-            category: ""
+            category: "" // Si tienes el nombre de la categoría, agrégalo aquí
           },
           street: {
-            idStreet: isNaN(+formValues.streetName) ? 0 : +formValues.streetName,
-            name: isNaN(+formValues.streetName) ? formValues.streetName : '',
+            idStreet: +formValues.streetName > 0 ? +formValues.streetName :
+                      (this.patientService.streetsOptions.find(option =>
+                          option.label.toLowerCase() === formValues.streetName?.toLowerCase())?.value || '0'),
+            name: formValues.streetName || '',
             neighborhood: {
-              idNeighborhood: isNaN(+formValues.neighborhoodName) ? 0 : +formValues.neighborhoodName,
-              name: isNaN(+formValues.neighborhoodName) ? formValues.neighborhoodName : '',
+              idNeighborhood: +formValues.neighborhoodName > 0 ? +formValues.neighborhoodName :
+                            (this.patientService.neighborhoodOptions.find(option =>
+                                option.label.toLowerCase() === formValues.neighborhoodName?.toLowerCase())?.value || '0'),
+              name: formValues.neighborhoodName || '',
               locality: {
-                idLocality: isNaN(+this.localityId) || +this.localityId === 0 ? 0 : +this.localityId, 
-                name: isNaN(+this.localityId) || +this.localityId === 0 ? formValues.localityName : "", 
+                idLocality: +this.localityId > 0 ? +this.localityId :
+                          (this.patientService.localityOptions.find(option =>
+                              option.label.toLowerCase() === formValues.localityName?.toLowerCase())?.value || '0'),
+                name: formValues.localityName || "",
                 postalCode: formValues.postalCode,
                 municipality: {
-                  idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId, 
-                  name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "", 
+                  idMunicipality: +this.municipalityNameId > 0 ? +this.municipalityNameId :
+                                (this.patientService.municipalityOptions.find(option =>
+                                    option.label.toLowerCase() === formValues.municipalityName?.toLowerCase())?.value || '0'),
+                  name: formValues.municipalityName || "",
                   state: {
-                    idState: isNaN(+this.stateNameId) ? 0 : +this.stateNameId,
-                    name: formValues.stateName
+                    idState: +this.stateNameId > 0 ? +this.stateNameId : 
+                            (this.patientService.stateOptions.find(option => 
+                                option.label.toLowerCase() === formValues.stateName?.toLowerCase())?.value || '0'),
+                    name: formValues.stateName || "",
                   }
                 }
               }
             }
           }
         },
-        maritalStatusId: +formValues.maritalStatus,
-        occupationId: +formValues.occupation,
-        ethnicGroupId: +formValues.ethnicGroup,
-        religionId: +formValues.religion,
+        maritalStatus: {
+          idMaritalStatus: +formValues.maritalStatus,
+          maritalStatus: this.patientService.maritalStatusOptions.find(option => option.value === formValues.maritalStatus)?.label || ""
+        },
+        occupation: {
+          idOccupation: isNaN(+formValues.occupation) ? 0 : +formValues.occupation,
+          occupation: isNaN(+formValues.occupation) ? formValues.occupation : (this.patientService.occupationOptions.find(option => option.value === formValues.occupation)?.label || "")
+        },
+        ethnicGroup: {
+          idEthnicGroup: +formValues.ethnicGroup,
+          ethnicGroup: this.patientService.ethnicGroupOptions.find(option => option.value === formValues.ethnicGroup)?.label || ""
+        },
+        religion: {
+          idReligion: +formValues.religion,
+          religion: this.patientService.religionOptions.find(option => option.value === formValues.religion)?.label || ""
+        },
         guardian: this.minorPatient ? {
           idGuardian: 0,
           firstName: formValues.firstGuardianName,
@@ -256,13 +279,13 @@ export class FormPatientPersonalDataComponent {
           phone: formValues.phoneGuardian,
           email: formValues.emailGuardian,
           parentalStatus: {
-            idCatalogOption: +formValues.parentsMaritalStatus, 
-            optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label, 
+            idCatalogOption: +formValues.parentsMaritalStatus,
+            optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "",
             idCatalog: 12,
           },
           doctorName: formValues.doctorName
         } : null
-      };  
+      };   
       this.apiService
         .postService({
           headers: new HttpHeaders({
@@ -298,6 +321,20 @@ export class FormPatientPersonalDataComponent {
       this.personalDataFields.handleLocalityClick('', this.currentPage);
 
     }
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(controlName => {
+      const control = formGroup.get(controlName);
+      if (control) {
+        control.markAsTouched();
+        control.updateValueAndValidity(); 
+      }
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 
 }

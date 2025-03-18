@@ -23,7 +23,14 @@
               <mat-tab-group [(selectedIndex)]="currentIndex">
                   @for (tab of mappedHistoryData.tabs; track tab) {
                       <mat-tab [label]="tab.title">
-                          @if (tab.title === 'Odontograma inicial' && !tab.isAnswered) {
+                          @if (tab.title === 'Nota de evolución' && !tab.isAnswered) {
+                            <app-progress-notes
+                            [patientId]="idpatient"
+                            [data]="patientData"
+                            [medicalRecordNumber]="medicalRecordNumber"
+                            ></app-progress-notes>
+                          } 
+                          @if (tab.title === 'Odontograma inicial' && !tab.isAnswered && role == 'ROLE_STUDENT') {
                               <app-students-odontogram
                               [state]="'create'" 
                               [patientId]="idpatient" 
@@ -36,7 +43,32 @@
                               >
                               </app-students-odontogram>
                           }
-                          @if (tab.title === 'Odontograma final' && !tab.isAnswered) {
+                          @if (tab.title === 'Odontograma inicial' && !tab.isAnswered && role == 'ROLE_ADMIN') {
+                            <app-students-odontogram
+                              [state]="'read'" 
+                              [patientId]="idpatient" 
+                              [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                              [idClinicalHistoryPatient]=idPatientClinicalHistory
+                              [idFormSection]=6
+                              [idClinicalHistoryPatient]=idPatientClinicalHistory
+                              (nextMatTab)="onNextTab()"
+                              (previousMatTab)="onPreviousTab()"
+                              >
+                              </app-students-odontogram>
+                          }
+                          @if (tab.title === 'Odontograma final' && !tab.isAnswered && role == 'ROLE_ADMIN') {
+                              <app-students-odontogram
+                              [state]="'read'" 
+                              [patientId]="idpatient"
+                              [idClinicalHistoryPatient]=idPatientClinicalHistory
+                              [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                              [idFormSection]=7
+                              (nextMatTab)="onNextTab()"
+                              (previousMatTab)="onPreviousTab()"
+                              >
+                              </app-students-odontogram>
+                          }
+                          @if (tab.title === 'Odontograma final' && !tab.isAnswered && role == 'ROLE_STUDENT') {
                               <app-students-odontogram
                               [state]="'read-latest'" 
                               [patientId]="idpatient"
@@ -80,14 +112,14 @@
                               (previousMatTab)="onPreviousTab()"
                               ></app-history-initial-bag>
                           }
-                          @if (tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial') {
+                          @if (tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial' && tab.title !== 'Nota de evolución') {
                               <app-tab-form-update
                               [fieldsTab]="tab" 
                               (nextMatTab)="onNextTab()"
                               (previousMatTab)="onPreviousTab()"
                               ></app-tab-form-update>
                           }
-                          @if (!tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial') {
+                          @if (!tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial' && tab.title !== 'Nota de evolución') {
                               <app-tab-form 
                               [fieldsTab]="tab" 
                               (nextMatTab)="onNextTab()"

@@ -14,10 +14,13 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './button-menu-item.component.html',
   styleUrl: './button-menu-item.component.scss'
 })
-
 export class ButtonMenuItemComponent {
   @Input() buttonText: string = '';
   @Input() description: string = '';
   @Input() fontAwesomeIcon: any = faUser;
   @Input() link: string = '/students/dashboard';
+
+  isLinkActive(link: string): boolean {
+    return window.location.pathname.startsWith(link);
+  }
 }

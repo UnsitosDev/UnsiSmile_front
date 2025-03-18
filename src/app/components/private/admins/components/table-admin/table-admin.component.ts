@@ -78,7 +78,7 @@ export class TableAdminComponent implements OnInit {
   }
 
   onAction(accion: Accion) {
-    if (accion.accion === 'Editar') {
+    if (accion.accion === 'Modificar') {  // Cambiado de 'Editar' a 'Modificar'
       this.edit(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
@@ -88,7 +88,8 @@ export class TableAdminComponent implements OnInit {
   }
 
   edit(objeto: any) {
-    console.log('Editar admin', objeto);
+    console.log('Navegando a editar con número de empleado:', objeto['numero empleado']);
+    this.router.navigate(['/admin/admins/updateAdmin', objeto['numero empleado']]);
   }
 
   delete(nombre: string) {

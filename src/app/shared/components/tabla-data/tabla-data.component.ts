@@ -86,6 +86,8 @@ export class TablaDataComponent implements OnInit, OnDestroy {
     if (accion === 'changeStatus') {
       const newStatus = row.estatus === 'Activo' ? 'Inactivo' : 'Activo';
       this.statusChange.emit({ row, newStatus });
+    } else if (accion === 'edit') {  // Cambiado de 'Modificar' a 'edit'
+      this.action.emit({ accion: 'Editar', fila: row });  // Emitimos 'Editar' como acción
     } else {
       this.action.emit({ accion: accion, fila: row });
     }

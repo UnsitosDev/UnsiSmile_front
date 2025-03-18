@@ -13,7 +13,7 @@ import { forkJoin } from 'rxjs';
 import { StudentsToolbarComponent } from './../toolbar-odontogram/students-toolbar.component';
 import { StudentsToothComponent } from './../tooth/students-tooth.component';
 
-import { ApiService, OdontogramData, store } from '@mean/services';
+import { ApiService, AuthService, OdontogramData, store } from '@mean/services';
 import { Constants, ToothConditionsConstants } from '@mean/utils';
 
 import { HttpHeaders } from '@angular/common/http';
@@ -29,6 +29,12 @@ import {
 import { TabsHandler } from '@mean/shared';
 import { mapOdontogramResponseToOdontogramData } from '@mean/students';
 import { UriConstants } from '@mean/utils';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteConditionsDialogComponent } from '../delete-conditions-dialog/delete-conditions-dialog.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 interface ToothEvent {
   faceId: string;
@@ -44,18 +50,31 @@ interface ToothEvent {
     StudentsToolbarComponent,
     MatTabsModule,
     MatButtonModule,
+    MatCardModule,
+    MatListModule,
+    MatIconModule,
   ],
   templateUrl: './students-odontogram.component.html',
   styleUrl: './students-odontogram.component.scss',
 })
 export class StudentsOdontogramComponent implements OnInit, TabsHandler {
+  constructor(private dialog: MatDialog) {}
+
   private odontogramService = inject(ApiService<{}, OdontogramPost>);
   @Input({ required: true }) patientId!: string;
   @Input({ required: true }) idQuestion!: number;
   @Input({ required: true }) idClinicalHistoryPatient!: number;
   @Input({ required: true }) idFormSection!: number;
-  @Input({ required: true }) state!: 'create' | 'update' | 'read' | 'read-latest';
+  @Input({ required: true }) state!:
+    | 'create'
+    | 'update'
+    | 'read'
+    | 'read-latest';
   private toastr = inject(ToastrService);
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  role!: string;
 
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
@@ -84,6 +103,13 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   ngOnInit(): void {
     this.loadConditions();
     this.initializeState();
+    this.getRole();
+  }
+
+  getRole(){
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
   }
 
   private initializeState(): void {
@@ -104,18 +130,18 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   }
   loadLatestExistingOdontogram() {
     this.odontogramService
-    .getService({
-      url: `${UriConstants.GET_LAST_ODONTOGRAM_BY_PATIENT}/${this.patientId}`,
-    })
-    .subscribe({
-      next: (response) => {
-        this.data = this.mapResponseToOdontogram(response);
-        this.renderOdontogram = true;
-      },
-      error: (error) => {
-        this.renderOdontogram = false;
-      },
-    });
+      .getService({
+        url: `${UriConstants.GET_LAST_ODONTOGRAM_BY_PATIENT}/${this.patientId}`,
+      })
+      .subscribe({
+        next: (response) => {
+          this.data = this.mapResponseToOdontogram(response);
+          this.renderOdontogram = true;
+        },
+        error: (error) => {
+          this.renderOdontogram = false;
+        },
+      });
   }
 
   loadExistingOdontogramByIdForm() {
@@ -131,7 +157,6 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         },
         error: (error) => {},
       });
-
   }
 
   private initializeNewOdontogram(): void {
@@ -199,17 +224,8 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       idCondition: event.idCondition,
       condition: event.condition,
       description: event.description,
+      selected: true,
     };
-    this.toastr.info(`${event.condition}`, 'Condición seleccionada:', {
-      timeOut: 1000,
-      positionClass: 'toast-bottom-right',
-      closeButton: false,
-      progressBar: true,
-      extendedTimeOut: 500,
-      tapToDismiss: true,
-      easeTime: 300,
-      newestOnTop: true
-    });
   }
 
   /**
@@ -218,9 +234,9 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
    */
   toggleTooth(data: ITooth) {
     data.status = !data.status;
-    if(data.status){
-      this.removeConditionToTooth(data.idTooth, Constants.REMOVED_TOOTH_ID)
-    }else{
+    if (data.status) {
+      this.removeConditionToTooth(data.idTooth, Constants.REMOVED_TOOTH_ID);
+    } else {
       this.addConditionToTooth(data.idTooth, Constants.REMOVED_TOOTH_ID);
     }
   }
@@ -409,9 +425,8 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         });
     }
   }
-  
-  store(): void {
 
+  store(): void {
     switch (this.state) {
       case 'create':
         this.storeOdontogram();
@@ -479,5 +494,70 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         })),
       })),
     };
+  }
+
+  openDeleteConditionsDialog(tooth: ITooth): void {
+    const dialogRef = this.dialog.open(DeleteConditionsDialogComponent, {
+      width: '400px',
+      data: { tooth },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.removeSelectedConditions(tooth.idTooth, result);
+      }
+    });
+  }
+
+  private removeSelectedConditions(
+    toothId: number,
+    selected: {
+      toothConditions: ICondition[];
+      faceConditions: { idFace: string; conditions: ICondition[] }[];
+    }
+  ): void {
+    const toothForPost = this.findOrCreateTooth(toothId);
+    const toothForDisplay = this.findOrCreateTooth(toothId, true);
+
+    // Eliminar condiciones seleccionadas del diente
+    if (selected.toothConditions.length > 0) {
+      const conditionIds = selected.toothConditions.map((c) => c.idCondition);
+      toothForPost.conditions = toothForPost.conditions.filter(
+        (c) => !conditionIds.includes(c.idCondition)
+      );
+      toothForDisplay.conditions = toothForDisplay.conditions.filter(
+        (c) => !conditionIds.includes(c.idCondition)
+      );
+    }
+
+    // Eliminar condiciones seleccionadas de las caras
+    selected.faceConditions.forEach((fc) => {
+      if (fc.conditions.length > 0) {
+        const conditionIds = fc.conditions.map((c) => c.idCondition);
+
+        // Actualizar cara en POST
+        const postFace = toothForPost.faces.find((f) => f.idFace === fc.idFace);
+        if (postFace) {
+          postFace.conditions = (postFace.conditions || []).filter(
+            (c) => !conditionIds.includes(c.idCondition)
+          );
+        }
+
+        // Actualizar cara en display
+        const displayFace = toothForDisplay.faces.find(
+          (f) => f.idFace === fc.idFace
+        );
+        if (displayFace) {
+          displayFace.conditions = (displayFace.conditions || []).filter(
+            (c) => !conditionIds.includes(c.idCondition)
+          );
+        }
+      }
+    });
+
+    this.toastr.success('Condiciones eliminadas correctamente', 'Éxito', {
+      timeOut: 2000,
+      positionClass: 'toast-bottom-right',
+    });
   }
 }

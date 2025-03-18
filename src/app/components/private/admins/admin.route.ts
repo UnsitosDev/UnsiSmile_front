@@ -10,38 +10,74 @@ export default [
         children: [
             {
                 path: 'students',
-                loadComponent: () =>
-                    import('./components/table-students/table-students.component').then(
-                        (m) => m.TableStudentsComponent
-                    ),
-            },
-            {
-                path: 'addStudent',
-                loadComponent: () =>
-                    import('./components/form-insert-student/form-insert-student.component').then(
-                        (m) => m.FormInsertStudentComponent
-                    ),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./components/table-students/table-students.component').then(
+                                (m) => m.TableStudentsComponent
+                            ),
+                    },
+                    {
+                        path: 'addStudent',
+                        loadComponent: () =>
+                            import('./components/form-insert-student/form-insert-student.component').then(
+                                (m) => m.FormInsertStudentComponent
+                            ),
+                    }
+                ]
             },
             {
                 path: 'patients',
-                loadComponent: () =>
-                    import('../admins/components/table-patients-admin/admin-patients.component').then(
-                        (m) => m.AdminPatientsComponent
-                    ),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('../admins/components/table-patients-admin/admin-patients.component').then(
+                                (m) => m.AdminPatientsComponent
+                            ),
+                    },
+                    {
+                        path: 'addPatient',
+                        loadComponent: () =>
+                            import('../admins/components/form-patient-personal-data/form-patient-personal-data.component').then(
+                                (m) => m.FormPatientPersonalDataComponent
+                            ),
+                    },
+                    {
+                        path: 'updatePatient/:idPatient',
+                        loadComponent: () =>
+                            import('../admins/components/form-update-patient/form-update-patient.component').then(
+                                (m) => m.FormUpdatePatientComponent
+                            ),
+                    }
+                ]
             },
             {
-                path: 'addPatient',
-                loadComponent: () =>
-                    import('../admins/components/form-patient-personal-data/form-patient-personal-data.component').then(
-                        (m) => m.FormPatientPersonalDataComponent
-                    ),
-            },
-            {
-                path: 'addAdmin',
-                loadComponent: () =>
-                    import('./components/form-insert-admin/form-insert-admin.component').then(
-                        (m) => m.FormInsertAdminComponent
-                    ),
+                path: 'admins',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./components/table-admin/table-admin.component').then(
+                                (m) => m.TableAdminComponent
+                            ),
+                    },
+                    {
+                        path: 'addAdmin',
+                        loadComponent: () =>
+                            import('./components/form-insert-admin/form-insert-admin.component').then(
+                                (m) => m.FormInsertAdminComponent
+                            ),
+                    },
+                    {
+                        path: 'updateAdmin/:employeeNumber',
+                        loadComponent: () =>
+                            import('./components/form-update-admin/form-update-admin.component').then(
+                                (m) => m.FormUpdateAdminComponent
+                            ),
+                    }
+                ]
             },
             {
                 path: 'dashboard',
@@ -72,17 +108,59 @@ export default [
                     ),
             },
             {
-                path: 'admins',
-                loadComponent: () =>
-                    import('./components/table-admin/table-admin.component').then(
-                        (m) => m.TableAdminComponent
-                    ),
-            },
-            {
                 path: 'upload-files',
                 loadComponent: () =>
                     import('./components/admin-files-section/admin-files-section.component').then(
                         (m) => m.AdminFilesSectionComponent
+                    ),
+            },
+            {
+                path: 'updateStudent/:matricula',
+                loadComponent: () =>
+                    import('./components/form-update-student/form-update-student.component').then(
+                        (m) => m.FormUpdateStudentComponent
+                    ),
+            },
+            {
+            path: 'general/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para historia clinica general
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/general/students-general-history.component').then(
+                        (m) => m.StudentsGeneralHistoryComponent
+                    ),
+            },
+            {
+                path: 'periodontics/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para historia clinica periodoncia
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/periodontics/students-periodontics-history.component').then(
+                        (m) => m.StudentsPeriodonticsHistoryComponent
+                    ),
+            },
+            {
+                path: 'oralSurgery/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para la historia clinica cirujia bucal
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/oral-surgery/students-oral-surgery-history.component').then(
+                        (m) => m.StudentsOralSurgeryHistoryComponent
+                    ),
+            },
+            {
+                path: 'dentalOperation/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para operatoria dental
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/dental-operation/students-dental-operation.component').then(
+                        (m) => m.StudentsDentalOperationComponent
+                    ),
+            },
+            {
+                path: 'oralProsthesis/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para operatoria dental
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/oral-prosthesis/oral-prosthesis.component').then(
+                        (m) => m.OralProsthesisComponent
+                    ),
+            },
+            {
+                path: 'preventiveDentistryPublicHealth/:id/patient/:patient/patientHistoryId/:patientID', // Ruta para HISTORIA CLÍNICA CLÍNICA DE ODONTOLOGÍA PREVENTIVA Y SALUD PÚBLICA
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
+                        (m) => m.PreventiveDentistryPublicHealthComponent
                     ),
             },
             {

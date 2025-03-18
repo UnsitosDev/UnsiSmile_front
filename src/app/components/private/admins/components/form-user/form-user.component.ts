@@ -32,6 +32,7 @@ export class FormUserComponent implements OnInit {
   confirmarContrasena = signal('');
   foto = signal<string | null>(null);
   user!: studentUserResponse | AdminResponse;
+  isStudent = signal(false);
   successMessage = signal<string | null>(null);
   private toastr=inject (ToastrService);
   mostrarContrasenaActual = signal(false);
@@ -41,6 +42,8 @@ export class FormUserComponent implements OnInit {
   welcomeMessage = signal(''); 
   profilePicture = signal<string | null>(null);
   private profilePictureUpdated = new Subject<string | null>();
+  employeeNumber = signal('');
+  birthDate = signal<string | null>(null);
 
   constructor(
     private router: Router,
@@ -62,7 +65,22 @@ export class FormUserComponent implements OnInit {
 
   actualizarDatosUsuario() {
     console.log('Actualizando datos de usuario:', { nombre: this.nombre(), email: this.email() });
-    //lógica para actualizar los datos en el backend
+    // lógica para actualizar los datos en el backend
+    const payload = {
+      employeeNumber: this.isStudent() ? (this.user as studentUserResponse).enrollment : this.employeeNumber(),
+      person: {
+        curp: this.user.person.curp,
+        firstName: this.user.person.firstName,
+        secondName: this.user.person.secondName,
+        firstLastName: this.user.person.firstLastName,
+        secondLastName: this.user.person.secondLastName,
+        phone: this.user.person.phone,
+        birthDate: this.birthDate(),
+        email: this.user.person.email,
+        gender: this.user.person.gender
+      }
+    };
+    // Lógica para enviar el payload al backend
   }
 
   actualizarContrasena() {
@@ -135,6 +153,13 @@ export class FormUserComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.user = data;
+          this.isStudent.set('enrollment' in data);
+          if (this.isStudent()) {
+            this.employeeNumber.set(data.enrollment);
+          } else {
+            this.employeeNumber.set(data.employeeNumber);
+          }
+          this.birthDate.set(data.person.birthDate.join('-'));
           this.setWelcomeMessage();        },
         error: (error) => {
           console.error('Error fetching user data:', error);
@@ -182,13 +207,8 @@ export class FormUserComponent implements OnInit {
 
   toggleEdicion() {
     if (this.modoEdicion()) {
-      // Si estamos saliendo del modo edición, preguntamos si quiere guardar
-      if (confirm('¿Desea guardar los cambios?')) {
-        this.actualizarDatosUsuario();
-      } else {
-        // Si no quiere guardar, revertimos los cambios
-        this.fetchUserData();
-      }
+      // Si estamos saliendo del modo edición, revertimos los cambios
+      this.fetchUserData();
     }
     this.modoEdicion.set(!this.modoEdicion());
   }

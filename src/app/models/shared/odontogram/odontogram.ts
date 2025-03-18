@@ -1,5 +1,6 @@
 // odontogram.interface.ts
 export interface ICondition {
+selected: any
     idCondition: number,
     condition: string,
     description: string

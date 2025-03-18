@@ -1,10 +1,21 @@
 <mat-list>
   <div mat-subheader class="custom"><strong>HISTORIA CLINICA</strong></div>
   <mat-divider></mat-divider>
-  @for (history of patientConfigHistories; track history) {
-    <mat-list-item (click)="selectHistory(history)">
-      <mat-icon matListItemIcon>folder</mat-icon>
-      <div matListItemTitle>{{ history.clinicalHistoryName }}</div>
-    </mat-list-item>
+  
+  @if (this.dataRoleAndObject.role == 'student') {
+    @for (history of patientConfigHistories; track history) {
+      <mat-list-item (click)="selectHistory(history)">
+        <mat-icon matListItemIcon>folder</mat-icon>
+        <div matListItemTitle>{{ history.clinicalHistoryName }}</div>
+      </mat-list-item>
+    }
+  }
+  @if (this.dataRoleAndObject.role == 'admin') {
+    @for (history of patientConfigHistories; track history) {
+      <mat-list-item (click)="selectHistoryAdmin(history)">
+        <mat-icon matListItemIcon>folder</mat-icon>
+        <div matListItemTitle>{{ history.clinicalHistoryName }}</div>
+      </mat-list-item>
+    }
   }
 </mat-list>

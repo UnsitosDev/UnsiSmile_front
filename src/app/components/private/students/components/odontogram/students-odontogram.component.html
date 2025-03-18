@@ -16,6 +16,7 @@
                   @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 1);
                   track tooth.idTooth) {
                   <app-students-tooth
+                    (deleteConditions)="openDeleteConditionsDialog($event)"
                     [state]="state"
                     [data]="tooth"
                     [index]="$index"
@@ -30,6 +31,7 @@
                   @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 2);
                   track tooth.idTooth) {
                   <app-students-tooth
+                    (deleteConditions)="openDeleteConditionsDialog($event)"
                     [state]="state"
                     [data]="tooth"
                     [index]="$index"
@@ -47,6 +49,7 @@
                   @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 4);
                   track tooth.idTooth) {
                   <app-students-tooth
+                    (deleteConditions)="openDeleteConditionsDialog($event)"
                     [state]="state"
                     [data]="tooth"
                     [index]="$index"
@@ -61,6 +64,7 @@
                   @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 3);
                   track tooth.idTooth) {
                   <app-students-tooth
+                    (deleteConditions)="openDeleteConditionsDialog($event)"
                     [state]="state"
                     [data]="tooth"
                     [index]="$index"
@@ -86,6 +90,7 @@
                   @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 5);
                   track tooth.idTooth) {
                   <app-students-tooth
+                    (deleteConditions)="openDeleteConditionsDialog($event)"
                     [state]="state"
                     [data]="tooth"
                     [index]="$index"
@@ -100,6 +105,7 @@
                   @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 6);
                   track tooth.idTooth) {
                   <app-students-tooth
+                    (deleteConditions)="openDeleteConditionsDialog($event)"
                     [state]="state"
                     [data]="tooth"
                     [index]="$index"
@@ -117,6 +123,7 @@
                   @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 8);
                   track tooth.idTooth) {
                   <app-students-tooth
+                    (deleteConditions)="openDeleteConditionsDialog($event)"
                     [state]="state"
                     [data]="tooth"
                     [index]="$index"
@@ -131,6 +138,7 @@
                   @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 7);
                   track tooth.idTooth) {
                   <app-students-tooth
+                    (deleteConditions)="openDeleteConditionsDialog($event)"
                     [state]="state"
                     [data]="tooth"
                     [index]="$index"
@@ -153,6 +161,7 @@
       [toolbar]="toolbar"
       (handleAction)="handleAction($event)"
       [state]="state"
+      [marked]="this.marked"
     />
     }
   
@@ -161,15 +170,21 @@
         <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR
       </button>
       <div>
-        <button type="button" (click)="store()" mat-button [disabled]="false">
-          GUARDAR <i class="fas fa-save"></i>
-        </button>
+        @if (role == 'ROLE_STUDENT') {
+          <button type="button" mat-button (click)="store()"> GUARDAR <i class="fas fa-save"></i></button>
+        }
         <button type="button" (click)="nextTab()" mat-button> AVANZAR <i class="fas fa-long-arrow-alt-right"></i></button>
       </div>
     </div>
   </div>
   
 }@else {
-  <h1>No existe aún antecedentes de un odontograma.</h1>
-  <p>Inserte los datos de un odontograma :)</p>
+  <mat-card class="no-odontogram">
+    <div class="no-odontogram-content">
+      <mat-icon class="empty-icon" color="primary"><i class="fas fa-error"></i></mat-icon>
+      <p><strong>No se han encontrado un odontograma.</strong></p>
+      <p>Rellene el inical para poder acceder a este.</p>
+      <p>Si tienes alguna duda, por favor contacta a tu administrador.</p>
+    </div>
+  </mat-card>
 }
