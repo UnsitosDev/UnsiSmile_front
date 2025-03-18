@@ -5,6 +5,10 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 
+interface sendToReview {
+  idPatientClinicalHistory: number;
+  idFormSection: number
+}
 @Component({
   selector: 'app-dialog-confirm-send-to-review',
   standalone: true,
@@ -15,24 +19,25 @@ import { UriConstants } from '@mean/utils';
 export class DialogConfirmSendToReviewComponent {
   readonly dialogRef = inject(MatDialogRef<DialogConfirmSendToReviewComponent>);
   private apiService = inject(ApiService);
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+  public data = inject(MAT_DIALOG_DATA) as sendToReview;
 
   sendToReview() {
+    console.log(this.data)
     this.apiService
       .putService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.PUT_CLINICAL_HISTORY_REVIEW}/${this.data.idPatientClinicalHistory}`,
+        url: `${UriConstants.PUT_CLINICAL_HISTORY_REVIEW}/${this.data.idPatientClinicalHistory}/${this.data.idFormSection}`, 
         data: {},
       })
       .subscribe({
         next: (response) => {
           this.dialogRef.close(true);
+          console.log('ok')
         },
         error: (error) => {
-          this.dialogRef.close(false); 
+          this.dialogRef.close(false);
         },
       });
   }

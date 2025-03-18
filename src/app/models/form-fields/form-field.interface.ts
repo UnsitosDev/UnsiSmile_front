@@ -25,6 +25,7 @@ export interface formSectionFields {
     seccion: FormField[] | null;
     component?: string;
     isAnswered?: boolean;
+    idFormSection: number;
 }
 
 export interface subSeccion {

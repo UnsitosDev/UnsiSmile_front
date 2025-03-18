@@ -213,9 +213,16 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   }
 
   openConfirmDialog() {
+    // Acceder a la pestaña actual usando activeTabIndex
+    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
+
+    // Mostrar el título y el idFormSection de la pestaña actual
+    console.log('id: ', this.idPatientClinicalHistory);
+    console.log('Título de la pestaña actual:', currentTab.title);
+    console.log('idFormSection de la pestaña actual:', currentTab.idFormSection);
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
       width: '300px',
-      data: { idPatientClinicalHistory: this.idPatientClinicalHistory },
+      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: currentTab.idFormSection },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

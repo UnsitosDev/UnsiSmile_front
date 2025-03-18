@@ -22,7 +22,8 @@ export function mapFormSectionToFormSectionFields(section: FormSection): formSec
             : null, // Si no hay subsecciones, asigna null
         seccion: section.questions.map((question) => mapQuestionToFormField(question)),
         component: determineSeccion(section), 
-        isAnswered: section.isAnswered // Verifica si la sección ha sido respondida
+        isAnswered: section.isAnswered, // Verifica si la sección ha sido respondida
+        idFormSection: section.idFormSection
     };
 }
 
