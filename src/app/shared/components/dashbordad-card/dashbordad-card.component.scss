@@ -1,0 +1,34 @@
+.bg {
+  background-color: var(--secondary);
+}
+
+.tx {
+  color: var(--on-secondary);
+}
+
+.tt {
+  color: var(--text);
+}
+
+.icon {
+  color: var(--primary-icon);
+}
+
+.text {
+  color: var(--on-tertiary);
+}
+
+.custom-list {
+  color: var(--on-secondary);
+}
+
+.custom-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+.custom-list li {
+  margin-bottom: 0.25rem;
+}
+
