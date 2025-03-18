@@ -83,7 +83,7 @@ export class ProfilaxisComponent implements OnInit {
       if (!this.toothDisabled[tooth.idTooth]) {
         if (!tooth.conditions.some((cond) => cond.condition === 'no presente')) {
           tooth.conditions.push({
-            idCondition: 1,
+            idCondition: 13,
             condition: 'no presente',
             description: 'Diente no presente',
           });
@@ -97,7 +97,7 @@ export class ProfilaxisComponent implements OnInit {
       if (this.toothDeactivated[tooth.idTooth]) {
         if (!tooth.conditions.some((cond) => cond.condition === 'extraído')) {
           tooth.conditions.push({
-            idCondition: 2,
+            idCondition: 3,
             condition: 'extraído',
             description: 'Diente extraído',
           });
@@ -114,7 +114,7 @@ export class ProfilaxisComponent implements OnInit {
           if (!face.conditions?.some((cond) => cond.condition === 'marcado')) {
             face.conditions = face.conditions || [];
             face.conditions.push({
-              idCondition: 3,
+              idCondition: 5,
               condition: 'marcado',
               description: '',
             });
