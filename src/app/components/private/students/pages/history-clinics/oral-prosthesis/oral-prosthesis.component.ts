@@ -77,6 +77,7 @@ export class OralProsthesisComponent {
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
+          this.getStatusHc();
         }
       });
       this.fetchPatientData();
@@ -102,7 +103,6 @@ export class OralProsthesisComponent {
         }
       }
     });
-    this.getStatusHc();
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {

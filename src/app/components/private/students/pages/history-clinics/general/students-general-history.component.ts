@@ -101,6 +101,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
           this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
+          this.getStatusHc();
         }
       });
       this.fetchPatientData();
@@ -126,8 +127,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         }
       }
     });
-
-    this.getStatusHc();
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
