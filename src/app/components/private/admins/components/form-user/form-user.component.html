@@ -5,7 +5,7 @@
   <!-- Sidebar con foto y nombre -->
   <div class="profile-sidebar">
     <div class="profile-photo">
-      <img [src]="foto() || 'https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png'"
+      <img [src]="foto() || '../../../assets/images/default-profile.png'"
         alt="Foto de perfil">
     </div>
     <h2 class="profile-name">{{user.person.firstName}} {{user.person.firstLastName}}</h2>
@@ -19,7 +19,7 @@
              [disabled]="!modoEdicion()"
              max-size="5000000">
     </label>
-  </div>
+  </div>    
 
   <!-- Contenido principal -->
   <div class="profile-main">
