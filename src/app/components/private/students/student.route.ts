@@ -79,7 +79,7 @@ export default [
             {
                 path: 'dashboard',
                 loadComponent: () =>
-                    import('../admins/components/dashboard/dashboard.component').then(
+                    import('./components/dashboard/dashboard.component').then(
                         (m) => m.DashboardComponent
                     ),
             },

@@ -11,12 +11,12 @@ import {
   studentResponse,
   studentUserResponse,
 } from 'src/app/shared/interfaces/student/student';
-import { DashboardStudentStatsComponentComponent } from '../../../students/components/dashboard-student-stats-component/dashboard-student-stats-component.component';
+import { DashboardAdminStatsComponent } from '../dashboard-admin-stats-component/dashboard-admin-stats-component.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FontAwesomeModule, DashboardStudentStatsComponentComponent],
+  imports: [FontAwesomeModule, DashboardAdminStatsComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })  

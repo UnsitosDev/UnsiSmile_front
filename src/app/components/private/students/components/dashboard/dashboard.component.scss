@@ -7,16 +7,14 @@ main{
 }
 
 .bg-1{
-  background-color: var(--on-tertiary) ;
+  background-color: var(--primary) ;
 }
 
 .tx {
-
-  color: var(--text);
-  text-align: left;
+  color: var( --on-tertiary);
+  text-align: center;
 }
 
 .tt{
   color: var(--on-background);
  }
- 
