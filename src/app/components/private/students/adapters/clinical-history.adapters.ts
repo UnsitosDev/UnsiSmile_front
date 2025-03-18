@@ -23,7 +23,8 @@ export function mapFormSectionToFormSectionFields(section: FormSection): formSec
         seccion: section.questions.map((question) => mapQuestionToFormField(question)),
         component: determineSeccion(section), 
         isAnswered: section.isAnswered, // Verifica si la sección ha sido respondida
-        idFormSection: section.idFormSection
+        idFormSection: section.idFormSection,
+        status: section.status
     };
 }
 

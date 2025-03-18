@@ -10,17 +10,19 @@
               <span><strong>Historia clínica {{mappedHistoryData.title}}</strong></span>
               <span>
                 <strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong> - 
-                @if (!status) {
-                    <button class="button-custom" (click)="openConfirmDialog()">Enviar a revisión <i class="fas fa-file-upload"></i></button>
+                @if (mappedHistoryData.tabs[currentIndex].status == 'NO_STATUS') {
+                  <button class="button-custom" (click)="openConfirmDialog()">
+                    Enviar a revisión <i class="fas fa-file-upload"></i>
+                  </button>
                 }
-                @if (status) {
-                    <span class="status" [innerHTML]="translateStatus(status.status)"></span>
+                @if (mappedHistoryData.tabs[currentIndex].status !== 'NO_STATUS') {
+                  <span class="status" [innerHTML]="translateStatus(mappedHistoryData.tabs[currentIndex].status)"></span>
                 }
               </span> 
             </div>
         </mat-card-title>
         <mat-card class="custom">
-              <mat-tab-group [(selectedIndex)]="currentIndex">
+              <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
                   @for (tab of mappedHistoryData.tabs; track tab) {
                       <mat-tab [label]="tab.title">
                           @if (tab.title === 'Nota de evolución' && !tab.isAnswered) {

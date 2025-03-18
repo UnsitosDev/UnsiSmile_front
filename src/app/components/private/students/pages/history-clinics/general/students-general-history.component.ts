@@ -99,6 +99,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
           this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
+          console.log(this.mappedHistoryData)
         }
       });
       this.fetchPatientData();
@@ -212,23 +213,20 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     }
   }
 
-  openConfirmDialog() {
-    // Acceder a la pestaña actual usando activeTabIndex
-    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
+  onTabChange(index: number) {
+    this.currentIndex = index;
+    this.getStatusHc();
+  }
 
-    // Mostrar el título y el idFormSection de la pestaña actual
-    console.log('id: ', this.idPatientClinicalHistory);
-    console.log('Título de la pestaña actual:', currentTab.title);
-    console.log('idFormSection de la pestaña actual:', currentTab.idFormSection);
+  openConfirmDialog() {
+    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
       width: '300px',
       data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: currentTab.idFormSection },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getStatusHc();
-      }
+      this.getStatusHc();
     });
   }
 
@@ -241,19 +239,26 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   };
 
   getStatusHc() {
+    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
+
+    if (currentTab.status === 'NO_STATUS' || currentTab.status === 'NO_REQUIRED') {
+      return;
+    }
+
     this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}`,
+        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}/${currentTab.idFormSection}`,
         data: {},
       })
       .subscribe({
         next: (response) => {
-          this.status = response;
+          this.status = response.status;
         },
         error: (error) => {
+          console.error('Error al obtener el estado:', error);
         },
       });
   }

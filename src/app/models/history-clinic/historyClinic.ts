@@ -21,6 +21,7 @@ export interface FormSection {
     isAnswered: boolean;
     subSections: SubSection[]; // Array de SubSection
     questions: Question[];
+    status: string;
 }
 
 export interface SubSection {
