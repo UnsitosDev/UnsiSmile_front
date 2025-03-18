@@ -101,7 +101,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
           this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
-          console.log(this.mappedHistoryData)
         }
       });
       this.fetchPatientData();
