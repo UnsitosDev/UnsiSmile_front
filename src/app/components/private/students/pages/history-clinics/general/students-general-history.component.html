@@ -10,12 +10,12 @@
               <span><strong>Historia clínica {{mappedHistoryData.title}}</strong></span>
               <span>
                 <strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong> - 
-                @if (mappedHistoryData.tabs[currentIndex].status == 'NO_STATUS') {
+                @if (mappedHistoryData.tabs[currentIndex].status === 'NO_STATUS') {
                   <button class="button-custom" (click)="openConfirmDialog()">
                     Enviar a revisión <i class="fas fa-file-upload"></i>
                   </button>
                 }
-                @if (mappedHistoryData.tabs[currentIndex].status !== 'NO_STATUS') {
+                @if (mappedHistoryData.tabs[currentIndex].status !== 'NO_STATUS' && mappedHistoryData.tabs[currentIndex].status !== 'NO_REQUIRED') {
                   <span class="status" [innerHTML]="translateStatus(mappedHistoryData.tabs[currentIndex].status)"></span>
                 }
               </span> 

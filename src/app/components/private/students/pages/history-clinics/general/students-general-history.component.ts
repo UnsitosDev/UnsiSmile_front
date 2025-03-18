@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -52,6 +52,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   private toastr = inject(ToastrService);
   private userService = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef);
+  private getStatus = false;
   private token!: string;
   private tokenData!: TokenData;
   public medicalRecordNumber!: number;
@@ -226,7 +228,10 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.getStatusHc();
+      if (result) {
+        this.getStatus = true;
+        this.getStatusHc(true);
+      }
     });
   }
 
@@ -238,10 +243,11 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
   };
 
-  getStatusHc() {
+  getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
 
-    if (currentTab.status === 'NO_STATUS' || currentTab.status === 'NO_REQUIRED') {
+    // Si no se fuerza la solicitud y el tab tiene NO_STATUS o NO_REQUIRED, no hacemos la solicitud
+    if (!forceRequest && (currentTab.status === 'NO_STATUS' || currentTab.status === 'NO_REQUIRED')) {
       return;
     }
 
@@ -255,10 +261,11 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.status = response.status;
+          currentTab.status = response.status;
+          this.cdr.detectChanges();
         },
         error: (error) => {
-          console.error('Error al obtener el estado:', error);
+          console.error(error);
         },
       });
   }
