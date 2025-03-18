@@ -1,0 +1,42 @@
+<div class="bg rounded-lg shadow overflow-hidden" [ngClass]="containerClass">
+  <div class="p-6 flex flex-col h-40 min-h-40" [ngClass]="backgroundClass">
+    <div class="flex justify-between items-start">
+      <div class="w-full">
+        <h3 class="text-lg tt font-semibold text-gray-700">{{ title }}</h3>
+
+        <!-- Contenido numérico simple -->
+        @if (cardType === 'numeric' && value !== undefined) {
+          <p class="text-3xl font-bold mt-2" [ngClass]="valueClass">
+            {{ value }}
+          </p>
+        }
+
+        <!-- Contenido de texto -->
+        @if (cardType === 'text') {
+          <p class="text-xl font-bold mt-2">
+            {{ content }}
+          </p>
+        }
+
+        <!-- Contenido como lista -->
+        @if (cardType === 'list') {
+          <ul class="custom-list mt-2 overflow-y-auto max-h-24">
+            @for (item of listItems; track item) {
+              <li>
+                <span [innerHTML]="item.icon || '🌍'"></span> {{ item.name }}: {{ item.count }}
+              </li>
+            }
+          </ul>
+        }
+      </div>
+      @if (icon) {
+        <i [ngClass]="icon" class="fa-3x icon ml-2 shrink-0"></i>
+      }
+    </div>
+
+    <!-- Barra de color en la parte inferior (opcional) -->
+    @if (colorBar) {
+      <div class="h-2 mt-auto -mx-6 -mb-6" [ngClass]="colorBar"></div>
+    }
+  </div>
+</div>
