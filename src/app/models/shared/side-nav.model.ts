@@ -70,18 +70,18 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUse
       },
     ];
 
-    export const TeacherItems: MenuItem[] = [
+    export const ProfessorItems: MenuItem[] = [
       {
         fontAwesomeIcon: faHome,
         buttonText: 'Inicio',
         buttonDescription: 'Información relevante',
-        routerlink: '/teacher/dashboard'
+        routerlink: '/professor/dashboard'
       },
       {
         fontAwesomeIcon: faHospitalUser,
         buttonText: 'Estudiantes',
         buttonDescription: 'Ver estudiantes',
-        routerlink: '/teacher/student'
+        routerlink: '/professor/students'
       },
     ];
     

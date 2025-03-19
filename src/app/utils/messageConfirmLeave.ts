@@ -19,6 +19,7 @@ export class Messages {
     // Mensajes para insertar pacientes
     public static readonly WARNING_INSERT_PATIENT = 'Completa correctamente todos los campos para registrar al paciente'
     public static readonly SUCCES_INSERT_PATIENT = 'Paciente creado'
+    public static readonly SUCCES_UPDATE_PATIENT = 'Paciente actualizado'
 
     // Mensajes para insertar alumnos
     public static readonly WARNING_INSERT_STUDENT = 'Completa correctamente todos los campos para registrar al alumno'

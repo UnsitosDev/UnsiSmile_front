@@ -422,7 +422,7 @@ export class FormUpdatePatientComponent implements OnInit {
         })
         .subscribe({
           next: (response) => {
-            this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
+            this.toastr.success(Messages.SUCCES_UPDATE_PATIENT, 'Éxito');
             setTimeout(() => {
               this.router.navigate(['/admin/patients']); // Agregar esta línea
             }, 1000); // Redirigir después de 1 segundo

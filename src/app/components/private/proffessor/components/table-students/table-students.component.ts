@@ -16,11 +16,16 @@ import {
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { StudentsGeneralHistoryComponent } from '../../../students/pages/history-clinics/general/students-general-history.component';
 import { studentRequest } from 'src/app/shared/interfaces/student/student';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { DetailsStudentComponent } from '../../../admins/components/details-student/details-student.component';
+import { ConfirmationAlertComponent } from '../../../admins/components/confirmation-alert/confirmation-alert.component';
 
 @Component({
   selector: 'app-table-students',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
   templateUrl: './table-students.component.html',
   styleUrls: ['./table-students.component.scss']
 })
@@ -29,12 +34,23 @@ export class TableStudentsComponent implements OnInit {
   columns: string[] = [];
   title: string = 'Estudiantes';
   private apiService = inject(ApiService<studentRequest[]>);
+  private searchSubject = new Subject<string>();
+  private dataSharingService = inject(DataSharingService);
 
   currentPage = 0;
   itemsPerPage = 10;
   isChecked: boolean = false;
   searchTerm: string = '';
   totalElements: number = 0;
+  sortField: string = 'student.person.firstName';
+  sortAsc: boolean = true;
+  sortableColumns = {
+    'nombre': 'student.person.firstName',
+    'apellido': 'student.person.firstLastName',
+    'correo': 'student.person.email',
+    'matricula': 'student.enrollment',
+    'estatus': 'student.user.status'  // Agregado el campo estatus
+  };
 
   constructor(
     public dialog: MatDialog,
@@ -45,6 +61,15 @@ export class TableStudentsComponent implements OnInit {
   ngOnInit(): void {
     this.columns = getEntityPropiedades('student');
     this.getAlumnos();
+    
+    // Configurar el observable para la búsqueda con debounce
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      this.currentPage = 0;
+      this.getAlumnos(this.currentPage, this.itemsPerPage, searchTerm);
+    });
   }
 
   openDialog(objeto: any) {
@@ -58,8 +83,12 @@ export class TableStudentsComponent implements OnInit {
       this.edit(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
+    } else if (accion.accion === 'Detalles') {
+      this.openDetailsDialog(accion.fila);
     } else if (accion.accion === 'MostrarAlerta') {
       this.showAlert();
+    } else if (accion.accion === 'Actualizar') {
+      this.updateStudent(accion.fila);
     }
   }
 
@@ -92,8 +121,9 @@ export class TableStudentsComponent implements OnInit {
   }
 
   getAlumnos(page: number = 0, size: number = 10, keyword: string = '') {
-    const encodedKeyword = encodeURIComponent(keyword.trim());
-    const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}`;
+    const encodedKeyword = encodeURIComponent(keyword);
+    const sortField = this.sortField.startsWith('student.') ? this.sortField : `student.${this.sortField}`;
+    const url = `${UriConstants.GET_STUDENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${sortField}&asc=${this.sortAsc}`;
     
     this.apiService.getService({
       headers: new HttpHeaders({
@@ -103,27 +133,26 @@ export class TableStudentsComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
-        if (Array.isArray(response.content)) {
+        if (response && response.content && Array.isArray(response.content)) {
           this.totalElements = response.totalElements;
-          this.studentsList = response.content.map((student: studentRequest) => {
-            const person = student.person;
-            const user = student.user;
-            const studen = student;
-            return {
-              nombre: person.firstName,
-              apellido: `${person.firstLastName} ${person.secondLastName}`,
-              correo: person.email,
-              matricula: studen.enrollment,
-            };
-          });
+          this.studentsList = response.content.map((student: studentRequest) => ({
+            nombre: student.person?.firstName || 'N/A',
+            apellido: `${student.person?.firstLastName || ''} ${student.person?.secondLastName || ''}`.trim() || 'N/A',
+            correo: student.person?.email || 'N/A',
+            matricula: student.enrollment || 'N/A',
+            estatus: student.user?.status ? 'Activo' : 'Inactivo',
+            curp: student.person?.curp || 'N/A',
+            telefono: student.person?.phone || 'N/A',
+            fechaNacimiento: student.person?.birthDate || 'N/A'
+          }));
         } else {
-          console.error('La respuesta no contiene un array en content.');
+          console.warn('Respuesta inesperada del servidor:', response);
           this.studentsList = [];
           this.totalElements = 0;
         }
       },
       error: (error) => {
-        console.error('Error en la autenticación:', error);
+        console.error('Error al obtener estudiantes:', error);
         this.studentsList = [];
         this.totalElements = 0;
       },
@@ -131,7 +160,61 @@ export class TableStudentsComponent implements OnInit {
   }
 
   onPageChange(event: number) {
-    this.currentPage = event - 1; // Restamos 1 porque el backend espera páginas base 0
+    this.currentPage = event - 1; 
+    this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm); 
+  }
+
+  onSort(event: {field: string, asc: boolean}) {
+    this.sortField = event.field;
+    this.sortAsc = event.asc;
     this.getAlumnos(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  openDetailsDialog(student: any): void {
+    this.dataSharingService.setAdminData(student);
+    const dialogRef = this.dialog.open(DetailsStudentComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  onStatusChange(event: { row: any, newStatus: string }) {
+    const dialogRef = this.dialog.open(ConfirmationAlertComponent, {
+      width: '300px',
+      data: { message: `¿Estás seguro de que deseas cambiar el estatus a ${event.newStatus}?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const enrollment = event.row.matricula;
+        const url = `${UriConstants.POST_STUDENTS}/${enrollment}/toggle-status`;
+
+        this.apiService.patchService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url,
+          data: {}
+        }).subscribe({
+          next: () => {
+            event.row.estatus = event.newStatus;
+          },
+          error: (error) => {
+            console.error('Error al cambiar el estado del estudiante:', error);
+          }
+        });
+      }
+    });
+  }
+
+  updateStudent(student: any) {
+    this.router.navigate(['/admin/updateStudent', student.matricula]);
   }
 }

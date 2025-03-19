@@ -1,6 +1,14 @@
-import { Component, Input, OnInit, inject, Output, EventEmitter, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  inject,
+  Output,
+  EventEmitter,
+  signal,
+} from '@angular/core';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
-import { StudentItems, AdminItems, MenuItem } from '@mean/models';
+import { StudentItems, AdminItems, MenuItem, ProfessorItems } from '@mean/models';
 import {
   studentResponse,
   studentUserResponse,
@@ -8,15 +16,13 @@ import {
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
-import { RouterModule } from '@angular/router'; 
+import { RouterModule } from '@angular/router';
 import { AuthService } from '@mean/services';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Router, RouterLinkActive } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ProfilePictureService } from 'src/app/services/profile-picture.service';
-
-
-
+import { AdminProfile, ProfessorProfile, StudentProfile } from 'src/app/models/shared/profile/profile.model';
 
 @Component({
   selector: 'app-side-nav',
@@ -26,31 +32,31 @@ import { ProfilePictureService } from 'src/app/services/profile-picture.service'
   styleUrl: './side-nav.component.scss',
 })
 export class SideNavComponent implements OnInit {
-  userLink = '';  // Inicializamos vacía para luego asignarle el valor correcto
+  userLink = ''; // Inicializamos vacía para luego asignarle el valor correcto
   public menuItems: MenuItem[] = [];
   private userService = inject(ApiService<studentResponse, {}>);
-  user!: studentUserResponse | AdminResponse;
-  welcomeMessage: string = 'Bienvenido'; 
+  user!: StudentProfile | AdminProfile | ProfessorProfile;
+  welcomeMessage: string = 'Bienvenido';
   @Output() menuSelect = new EventEmitter<void>();
   profilePicture = signal<string | null>(null);
   private profilePictureUpdated = new Subject<string | null>();
 
   constructor(
-      private authService: AuthService,
-      private router: Router,
-      private profilePictureService: ProfilePictureService
-
-    ) {
-      this.profilePictureService.profilePictureUpdated.subscribe((newProfilePicture) => {
+    private authService: AuthService,
+    private router: Router,
+    private profilePictureService: ProfilePictureService
+  ) {
+    this.profilePictureService.profilePictureUpdated.subscribe(
+      (newProfilePicture) => {
         this.profilePicture.set(newProfilePicture);
-      });
-    }
+      }
+    );
+  }
 
   @Input() isSidebarOpen = false;
 
   ngOnInit() {
     this.fetchUserData();
-    this.fetchProfilePicture();
   }
 
   fetchUserData() {
@@ -59,10 +65,13 @@ export class SideNavComponent implements OnInit {
         url: `${UriConstants.GET_USER_INFO}`,
       })
       .subscribe({
-        next: (data) => {
+        next: (data: AdminProfile | StudentProfile | ProfessorProfile ) => {
           this.user = data;
           this.setMenuItems();
-          this.setWelcomeMessage(); 
+          this.setWelcomeMessage();
+          if(this.user.user.profilePictureId){
+            this.fetchProfilePicture();
+          }
         },
         error: (error) => {
           console.error('Error fetching user data:', error);
@@ -74,7 +83,7 @@ export class SideNavComponent implements OnInit {
     this.userService
       .getService({
         url: `${UriConstants.GET_USER_PROFILE_PICTURE}`,
-        responseType: 'blob' // Importante para recibir la imagen como blob
+        responseType: 'blob', // Importante para recibir la imagen como blob
       })
       .subscribe({
         next: (blob: Blob) => {
@@ -95,13 +104,16 @@ export class SideNavComponent implements OnInit {
   setMenuItems() {
     if (this.user.user.role.role === 'ROLE_STUDENT') {
       this.menuItems = StudentItems;
-      this.userLink = '/students/user';  
+      this.userLink = '/students/user';
     } else if (this.user.user.role.role === 'ROLE_ADMIN') {
       this.menuItems = AdminItems;
-      this.userLink = '/admin/user';  
+      this.userLink = '/admin/user';
+    } else if (this.user.user.role.role === 'ROLE_PROFESSOR') {
+      this.menuItems = ProfessorItems;
+      this.userLink = '/professor/user';
     }
   }
-  
+
   setWelcomeMessage() {
     switch (this.user.person.gender.idGender) {
       case 1:
@@ -115,14 +127,14 @@ export class SideNavComponent implements OnInit {
         break;
     }
   }
-  
-    logout(): void {
-      const token = this.authService.getToken();
-      if (token) {
-        sessionStorage.removeItem(SessionStorageConstants.USER_TOKEN);
-      }
-      this.router.navigate(['/']);
+
+  logout(): void {
+    const token = this.authService.getToken();
+    if (token) {
+      sessionStorage.removeItem(SessionStorageConstants.USER_TOKEN);
     }
+    this.router.navigate(['/']);
+  }
 
   onMenuItemSelect() {
     if (window.innerWidth <= 768) {

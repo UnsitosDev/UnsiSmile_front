@@ -317,8 +317,9 @@ export class UriConstants {
   public static readonly POST_EVOLUTION_NOTE = basePath + '/progress-notes';
   // Subir nota de evoluvion
   public static readonly POST_EVOLUTION_NOTE_FILE = basePath + '/progress-notes/files';
-  // Enviar historia clinica a revision
-  public static readonly PUT_CLINICAL_HISTORY_REVIEW = basePath + '/medicalHistories/status/sendToReview'
-  // Obtener el estado de la historia clinica
-  public static readonly GET_CLINICAL_HISTORY_STATUS = basePath + '/medicalHistories/status';
+  
+  public static readonly GET_ADMIN_DASHBOARD = basePath + '/dashboards/admins';
+  public static readonly GET_STUDENT_DASHBOARD = basePath + '/dashboards/students';
+  public static readonly GET_PROFESSORS_DASHBOARD = basePath + '/dashboards/teachers';
+  
 }

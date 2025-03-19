@@ -1,15 +1,16 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { studentResponse, studentUserResponse } from 'src/app/shared/interfaces/student/student';
-import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
+import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router'; // Agregar esta importación
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { ToastrService } from 'ngx-toastr';
-import { MatCardModule } from '@angular/material/card';
-import { Router } from '@angular/router';  // Agregar esta importación
-import { ProfileResponse } from 'src/app/models/shared/profile/profile.model';
 import { Subject } from 'rxjs';
+import {
+  AdminProfile,
+  ProfileResponse,
+  StudentProfile,
+} from 'src/app/models/shared/profile/profile.model';
 import { ProfilePictureService } from 'src/app/services/profile-picture.service';
 
 @Component({
@@ -17,12 +18,12 @@ import { ProfilePictureService } from 'src/app/services/profile-picture.service'
   standalone: true,
   imports: [FormsModule, MatCardModule],
   templateUrl: './form-user.component.html',
-  styleUrl: './form-user.component.scss'
+  styleUrl: './form-user.component.scss',
 })
 export class FormUserComponent implements OnInit {
   private userService = inject(ApiService<any, {}>);
   private profileService = inject(ApiService<ProfileResponse, {}>);
-  private route = inject(Router);  
+  private route = inject(Router);
   tabs = ['Descripción General', 'Editar Datos', 'Cambiar Contraseña'];
   activeTab = signal(0);
   nombre = signal('');
@@ -31,15 +32,15 @@ export class FormUserComponent implements OnInit {
   nuevaContrasena = signal('');
   confirmarContrasena = signal('');
   foto = signal<string | null>(null);
-  user!: studentUserResponse | AdminResponse;
+  user!: StudentProfile | AdminProfile;
   isStudent = signal(false);
   successMessage = signal<string | null>(null);
-  private toastr=inject (ToastrService);
+  private toastr = inject(ToastrService);
   mostrarContrasenaActual = signal(false);
   mostrarNuevaContrasena = signal(false);
   mostrarConfirmarContrasena = signal(false);
   modoEdicion = signal(false);
-  welcomeMessage = signal(''); 
+  welcomeMessage = signal('');
   profilePicture = signal<string | null>(null);
   private profilePictureUpdated = new Subject<string | null>();
   employeeNumber = signal('');
@@ -49,14 +50,15 @@ export class FormUserComponent implements OnInit {
     private router: Router,
     private profilePictureService: ProfilePictureService
   ) {
-    this.profilePictureService.profilePictureUpdated.subscribe((newProfilePicture) => {
-      this.foto.set(newProfilePicture);
-    });
+    this.profilePictureService.profilePictureUpdated.subscribe(
+      (newProfilePicture) => {
+        this.foto.set(newProfilePicture);
+      }
+    );
   }
 
   ngOnInit() {
     this.fetchUserData();
-    this.fetchProfilePicture();
   }
 
   setActiveTab(index: number) {
@@ -64,10 +66,11 @@ export class FormUserComponent implements OnInit {
   }
 
   actualizarDatosUsuario() {
-    console.log('Actualizando datos de usuario:', { nombre: this.nombre(), email: this.email() });
     // lógica para actualizar los datos en el backend
     const payload = {
-      employeeNumber: this.isStudent() ? (this.user as studentUserResponse).enrollment : this.employeeNumber(),
+      employeeNumber: this.isStudent()
+        ? (this.user as StudentProfile).enrollment
+        : this.employeeNumber(),
       person: {
         curp: this.user.person.curp,
         firstName: this.user.person.firstName,
@@ -77,8 +80,8 @@ export class FormUserComponent implements OnInit {
         phone: this.user.person.phone,
         birthDate: this.birthDate(),
         email: this.user.person.email,
-        gender: this.user.person.gender
-      }
+        gender: this.user.person.gender,
+      },
     };
     // Lógica para enviar el payload al backend
   }
@@ -92,14 +95,13 @@ export class FormUserComponent implements OnInit {
     const payload = {
       oldPassword: this.contrasenaActual(),
       newPassword: this.nuevaContrasena(),
-      confirmPassword: this.confirmarContrasena()
+      confirmPassword: this.confirmarContrasena(),
     };
-
 
     this.userService
       .patchService({
         url: `${UriConstants.PATCH_UPDATE_PASSWORD}`,
-        data: payload 
+        data: payload,
       })
       .subscribe({
         next: () => {
@@ -107,10 +109,11 @@ export class FormUserComponent implements OnInit {
           this.nuevaContrasena.set('');
           this.confirmarContrasena.set('');
           this.toastr.success('Contraseña actualizada exitosamente');
-          this.router.navigate(['/dashboard']); 
+          this.router.navigate(['/dashboard']);
         },
         error: (error) => {
-        this.toastr.error(error);        }
+          this.toastr.error(error);
+        },
       });
   }
 
@@ -125,7 +128,7 @@ export class FormUserComponent implements OnInit {
         .patchService({
           url: `${UriConstants.UPDATE_PROFILE_PICTURE}`,
           data: formData,
-          headers: {}
+          headers: {},
         })
         .subscribe({
           next: (response) => {
@@ -139,12 +142,11 @@ export class FormUserComponent implements OnInit {
             console.error('Error completo:', error);
             this.toastr.error(error);
             input.value = '';
-          }
+          },
         });
     }
   }
 
-  
   fetchUserData() {
     this.userService
       .getService({
@@ -160,7 +162,11 @@ export class FormUserComponent implements OnInit {
             this.employeeNumber.set(data.employeeNumber);
           }
           this.birthDate.set(data.person.birthDate.join('-'));
-          this.setWelcomeMessage();        },
+          this.setWelcomeMessage();
+          if (this.user.user.profilePictureId) {
+            this.fetchProfilePicture();
+          }
+        },
         error: (error) => {
           console.error('Error fetching user data:', error);
         },
@@ -171,7 +177,7 @@ export class FormUserComponent implements OnInit {
     this.profileService
       .getService({
         url: `${UriConstants.GET_USER_PROFILE_PICTURE}`,
-        responseType: 'blob' // Importante para recibir la imagen como blob
+        responseType: 'blob', // Importante para recibir la imagen como blob
       })
       .subscribe({
         next: (blob: Blob) => {
@@ -188,7 +194,6 @@ export class FormUserComponent implements OnInit {
         },
       });
   }
-  
 
   setWelcomeMessage() {
     switch (this.user.person.gender.idGender) {
@@ -198,10 +203,9 @@ export class FormUserComponent implements OnInit {
       case 2:
         this.welcomeMessage.set(`¡BIENVENIDA ${this.user.person.firstName}!`);
         break;
-        case 99:
+      case 99:
         this.welcomeMessage.set(`¡BIENVENIDE ${this.user.person.firstName}!`);
         break;
-     
     }
   }
 
@@ -212,7 +216,4 @@ export class FormUserComponent implements OnInit {
     }
     this.modoEdicion.set(!this.modoEdicion());
   }
-
 }
-
-
