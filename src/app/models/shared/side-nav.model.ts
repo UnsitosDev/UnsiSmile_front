@@ -1,4 +1,4 @@
-import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUserGraduate, faUserShield, faFileArchive} from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUserGraduate, faUserShield, faFileArchive, faFileArrowDown, faFileClipboard} from '@fortawesome/free-solid-svg-icons';
 
 
     export interface MenuItem {
@@ -83,6 +83,12 @@ import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUse
         buttonDescription: 'Ver estudiantes',
         routerlink: '/professor/students'
       },
+      {
+        fontAwesomeIcon: faFileClipboard,
+        buttonText: 'Historias Clinicas',
+        buttonDescription: 'Revisar Historias Clinicas',
+        routerlink: '/professor/history-clinics'
+      }
     ];
     
   
