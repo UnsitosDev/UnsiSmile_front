@@ -54,6 +54,8 @@ export class AuthService {
       route = returnUrl ? `/${returnUrl}` : '/students';
     } else if (role === 'ROLE_ADMIN') {
       route = returnUrl ? `/${returnUrl}` : '/admin';
+    } else if (role === 'ROLE_PROFESSOR') {
+      route = returnUrl ? `/${returnUrl}` : '/professor';
     }
 
     if (route) {

@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
-import { StudentItems, AdminItems, MenuItem } from '@mean/models';
+import { StudentItems, AdminItems, MenuItem, ProfessorItems } from '@mean/models';
 import {
   studentResponse,
   studentUserResponse,
@@ -22,7 +22,7 @@ import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Router, RouterLinkActive } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ProfilePictureService } from 'src/app/services/profile-picture.service';
-import { AdminProfile, StudentProfile } from 'src/app/models/shared/profile/profile.model';
+import { AdminProfile, ProfessorProfile, StudentProfile } from 'src/app/models/shared/profile/profile.model';
 
 @Component({
   selector: 'app-side-nav',
@@ -35,7 +35,7 @@ export class SideNavComponent implements OnInit {
   userLink = ''; // Inicializamos vacía para luego asignarle el valor correcto
   public menuItems: MenuItem[] = [];
   private userService = inject(ApiService<studentResponse, {}>);
-  user!: StudentProfile | AdminProfile;
+  user!: StudentProfile | AdminProfile | ProfessorProfile;
   welcomeMessage: string = 'Bienvenido';
   @Output() menuSelect = new EventEmitter<void>();
   profilePicture = signal<string | null>(null);
@@ -65,7 +65,7 @@ export class SideNavComponent implements OnInit {
         url: `${UriConstants.GET_USER_INFO}`,
       })
       .subscribe({
-        next: (data: AdminProfile | StudentProfile) => {
+        next: (data: AdminProfile | StudentProfile | ProfessorProfile ) => {
           this.user = data;
           this.setMenuItems();
           this.setWelcomeMessage();
@@ -108,6 +108,9 @@ export class SideNavComponent implements OnInit {
     } else if (this.user.user.role.role === 'ROLE_ADMIN') {
       this.menuItems = AdminItems;
       this.userLink = '/admin/user';
+    } else if (this.user.user.role.role === 'ROLE_PROFESSOR') {
+      this.menuItems = ProfessorItems;
+      this.userLink = '/professor/user';
     }
   }
 

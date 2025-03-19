@@ -54,3 +54,10 @@ export interface StudentProfile {
   group: null;
   studentStatus: string;
 }
+
+export interface ProfessorProfile {
+  employeeNumber: string;
+  person: Person;
+  user: User;
+  }
+

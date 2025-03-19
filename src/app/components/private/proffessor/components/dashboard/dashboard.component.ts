@@ -9,6 +9,7 @@ import {
   studentUserResponse,
 } from 'src/app/shared/interfaces/student/student';
 import { DashboardAdminStatsComponent } from '../../../admins/components/dashboard-admin-stats-component/dashboard-admin-stats-component.component';
+import { ProfessorResponse } from 'src/app/models/shared/professor/professor.model';
 //import { DashboardAdminStatsComponent } from '../dashboard-admin-stats-component/dashboard-admin-stats-component.component';
 
 @Component({
@@ -24,7 +25,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private userService = inject(ApiService<studentResponse, {}>);
-  user!: studentUserResponse | AdminResponse;
+  user!: ProfessorResponse;
   welcomeMessage: string = 'Bienvenido a UnsiSmile';
 
   ngOnInit() {

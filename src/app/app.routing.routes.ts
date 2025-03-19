@@ -24,8 +24,9 @@ const routes: Routes = [
     canActivate: [adminGuard, PasswordChangeGuard],
   },
   {
-    path: 'proffesor',
+    path: 'professor',
     loadChildren: () => import('./components/private/proffessor/teacher.route'),
+    canActivate: [proffesorGuard, PasswordChangeGuard],
   },
   {
     path: 'new-password',
