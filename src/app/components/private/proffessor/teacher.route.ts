@@ -28,6 +28,13 @@ export default [
                     ),
             },
             {
+                path: 'history-clinics',
+                loadComponent: () =>
+                    import('../proffessor/components/review-history-clinics/review-history-clinics.component').then(
+                        (m) => m.ReviewHistoryClinicsComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
