@@ -27,6 +27,7 @@ export interface formSectionFields {
     isAnswered?: boolean;
     idFormSection: number;
     status: string;
+    requiresReview: boolean;
 }
 
 export interface subSeccion {

@@ -50,6 +50,7 @@ export class StudentsOralSurgeryHistoryComponent {
   private year?: number;
   private month?: number;
   private day?: number;
+  private getStatus = false;
   private nextpage: boolean = true;
   private patient!: Patient;
   public patientData!: cardPatient;
@@ -73,6 +74,7 @@ export class StudentsOralSurgeryHistoryComponent {
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = mappedData;
+          this.getStatusHc();
         }
       });
       this.fetchPatientData();
@@ -98,7 +100,6 @@ export class StudentsOralSurgeryHistoryComponent {
         }
       }
     });
-    this.getStatusHc();
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
@@ -193,35 +194,50 @@ export class StudentsOralSurgeryHistoryComponent {
     REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
   };
 
-  getStatusHc() {
+  onTabChange(index: number) {
+    this.currentIndex = index;
+    this.getStatusHc();
+  }
+
+  openConfirmDialog() {
+    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
+    const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
+      width: '300px',
+      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: currentTab.idFormSection },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getStatus = true;
+        this.getStatusHc(true);
+      }
+    });
+  }
+
+  getStatusHc(forceRequest: boolean = false) {
+    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
+
+    // Si no se fuerza la solicitud y el tab tiene NO_STATUS o NO_REQUIRED, no hacemos la solicitud
+    if (!forceRequest && (currentTab.status === 'NO_STATUS' || currentTab.status === 'NO_REQUIRED')) {
+      return;
+    }
+
     this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}`,
+        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}/${currentTab.idFormSection}`,
         data: {},
       })
       .subscribe({
         next: (response) => {
-          this.status = response;
+          currentTab.status = response.status;
         },
-        error: () => {
+        error: (error) => {
+          console.error(error);
         },
       });
-  }
-
-  openConfirmDialog() {
-    const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      width: '300px',
-      data: { idPatientClinicalHistory: this.idPatientClinicalHistory },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getStatusHc();
-      }
-    });
   }
 
   translateStatus(status: string): string {
