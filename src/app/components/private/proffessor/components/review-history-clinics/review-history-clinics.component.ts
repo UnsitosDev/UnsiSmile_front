@@ -7,7 +7,9 @@ import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { patientsTableDataProfessor } from 'src/app/models/shared/patients';
 import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient/patient';
-import { getEntityPropiedades } from 'src/app/models/tabla/tabla-columna';
+import { Accion, getEntityPropiedades } from 'src/app/models/tabla/tabla-columna';
+import { Router } from '@angular/router';
+import { DialogHistoryClinicsComponent } from '../../../students/components/dialog-history-clinics/dialog-history-clinics.component';
 
 @Component({
   selector: 'app-review-history-clinics',
@@ -19,6 +21,8 @@ import { getEntityPropiedades } from 'src/app/models/tabla/tabla-columna';
 export class ReviewHistoryClinicsComponent implements OnInit {
   private readonly apiService = inject(ApiService<PatientResponse>);
   private readonly dialog = inject(MatDialog);
+  readonly router = inject(Router);
+
 
   patientsList: patientsTableDataProfessor[] = [];
   title = 'Pacientes con historias clínicas por revisar';
@@ -40,6 +44,20 @@ export class ReviewHistoryClinicsComponent implements OnInit {
     this.columns = [...getEntityPropiedades('professor')];
     this.getClinicalHistoriesToReview();
     this.getPatients();
+  }
+
+  onAction(accion: Accion) {
+    if (accion.accion === 'Editar') {
+      this.getListHc(accion.fila);
+    }
+
+  }
+  getListHc(objeto: any) {
+    console.log(objeto);
+    this.dialog.open(DialogHistoryClinicsComponent, {
+      width: '650px',
+      data: { objeto },
+    });
   }
 
   getClinicalHistoriesToReview(): void {

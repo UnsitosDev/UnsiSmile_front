@@ -11,6 +11,7 @@
   [showSearchIcon]="true"
   [showEditIcon]="true"
   [showFolderIcon]="true"
+  (action)="onAction($event)"
   (pageSizeChange)="onPageSizeChange($event)"
   (pageChange)="onPageChange($event)"
   (searchChange)="onSearch($event)"
