@@ -89,9 +89,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.token = this.userService.getToken() ?? "";
-    this.tokenData = this.userService.getTokenDataUser(this.token);
-    this.role = this.tokenData.role[0].authority;
+    this.getRole();
 
     this.router.params.subscribe((params) => {
       this.id = params['id']; // Id Historia Clinica
@@ -99,7 +97,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       this.idPatientClinicalHistory = params['patientID']; // idPatientClinicalHistory
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
-          this.mappedHistoryData = mappedData;
+          this.mappedHistoryData = this.processMappedData(mappedData, this.role);
           this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
           this.getStatusHc();
         }
@@ -127,6 +125,20 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         }
       }
     });
+  }
+
+  getRole() {
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+  }
+
+  private processMappedData(mappedData: dataTabs, role: string): dataTabs {
+    let processedData = { ...mappedData };
+    if (role === 'ROLE_PROFESSOR') {
+      processedData.tabs = processedData.tabs.filter(tab => tab.status === 'IN_REVIEW');
+    }
+    return processedData;
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
