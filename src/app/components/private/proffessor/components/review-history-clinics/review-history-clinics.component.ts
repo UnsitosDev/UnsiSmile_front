@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 
 @Component({
   selector: 'app-review-history-clinics',
   standalone: true,
-  imports: [],
+  imports: [MatCardModule],
   templateUrl: './review-history-clinics.component.html',
   styleUrl: './review-history-clinics.component.scss'
 })
