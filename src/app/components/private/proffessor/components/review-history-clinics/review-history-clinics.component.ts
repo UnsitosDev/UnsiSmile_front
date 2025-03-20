@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-import { patientsTableData } from 'src/app/models/shared/patients';
+import { patientsTableDataProfessor } from 'src/app/models/shared/patients';
 import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient/patient';
 import { getEntityPropiedades } from 'src/app/models/tabla/tabla-columna';
 
@@ -20,7 +20,7 @@ export class ReviewHistoryClinicsComponent implements OnInit {
   private readonly apiService = inject(ApiService<PatientResponse>);
   private readonly dialog = inject(MatDialog);
 
-  patientsList: patientsTableData[] = [];
+  patientsList: patientsTableDataProfessor[] = [];
   title = 'Pacientes con historias clínicas por revisar';
   columns: string[] = [];
   currentPage = 0;
@@ -33,13 +33,11 @@ export class ReviewHistoryClinicsComponent implements OnInit {
   readonly sortableColumns = {
     nombres: 'person.firstName',
     apellidos: 'person.firstLastName',
-    correo: 'person.email',
     curp: 'person.curp',
-    estatus: 'user.status',
   };
 
   ngOnInit(): void {
-    this.columns = [...getEntityPropiedades('patients'), 'estatus'];
+    this.columns = [...getEntityPropiedades('professor')];
     this.getClinicalHistoriesToReview();
     this.getPatients();
   }
@@ -54,54 +52,59 @@ export class ReviewHistoryClinicsComponent implements OnInit {
       asc: true,
     };
 
-    this.apiService.getService({
-      url: `${UriConstants.GET_HC_TO_REVIEW}`,
-      params,
-    }).subscribe({
-      next: (response) => {
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
+    this.apiService
+      .getService({
+        url: `${UriConstants.GET_HC_TO_REVIEW}`,
+        params,
+      })
+      .subscribe({
+        next: (response) => {
+          // Handle response
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
 
   getPatients(page: number = 0, size: number = 10, keyword: string = ''): void {
     const encodedKeyword = encodeURIComponent(keyword.trim());
     const url = `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
 
-    this.apiService.getService({
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      url,
-      data: {},
-    }).subscribe({
-      next: (response) => {
-        if (Array.isArray(response.content)) {
-          this.totalElements = response.totalElements;
-          this.patientsList = response.content.map((patient: Patient) => {
-            const { person } = patient;
-            return {
-              patientID: patient.idPatient,
-              nombres: `${person.firstName} ${person.secondName}`,
-              apellidos: `${person.firstLastName} ${person.secondLastName}`,
-              correo: person.email,
-              curp: person.curp,
-              telefono: person.phone,
-              fechaNacimiento: person.birthDate,
-              estatus: 'Activo',
-            };
-          });
-        } else {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        url,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          if (Array.isArray(response.content)) {
+            this.totalElements = response.totalElements;
+            this.patientsList = response.content.map((patient: Patient) => {
+              const { person } = patient;
+              return {
+                patientID: patient.idPatient,
+                nombres: `${person.firstName} ${person.secondName}`,
+                apellidos: `${person.firstLastName} ${person.secondLastName}`,
+                correo: person.email,
+                curp: person.curp,
+                telefono: person.phone,
+                fechaNacimiento: person.birthDate,
+                expediente: patient.medicalRecordNumber,
+              };
+            });
+          } else {
+            this.patientsList = [];
+            this.totalElements = 0;
+          }
+        },
+        error: (error) => {
+          console.error(error);
           this.patientsList = [];
           this.totalElements = 0;
-        }
-      },
-      error: (error) => {
-        console.log(error);
-        this.patientsList = [];
-        this.totalElements = 0;
-      },
-    });
+        },
+      });
   }
 
   onSearch(keyword: string): void {
