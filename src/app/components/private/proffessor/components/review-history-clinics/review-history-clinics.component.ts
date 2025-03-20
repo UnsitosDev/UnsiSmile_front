@@ -82,7 +82,7 @@ export class ReviewHistoryClinicsComponent implements OnInit {
             const { person } = patient;
             return {
               patientID: patient.idPatient,
-              nombres: person.firstName,
+              nombres: `${person.firstName} ${person.secondName}`,
               apellidos: `${person.firstLastName} ${person.secondLastName}`,
               correo: person.email,
               curp: person.curp,
