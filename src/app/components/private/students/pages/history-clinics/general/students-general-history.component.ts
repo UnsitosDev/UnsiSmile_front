@@ -86,6 +86,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   previousLabel: string = '';
   role!: string;
   currentSectionId: number | null = null;
+  currentStatus: string | null = null;
 
   constructor() { }
 
@@ -133,6 +134,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   getFirstTab(){
     if (this.mappedHistoryData.tabs.length > 0) {
       this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+      this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
     }
   }
 

@@ -18,15 +18,18 @@ import { MatRadioModule } from '@angular/material/radio';
 export class MenuAssessMedicalHistoryComponent {
   @Input() idClinicalHistoryPatient!: number;
   @Input() selectedIndex: number | null = null;
+  @Input() status: string | null = null;
+
   readonly dialog = inject(MatDialog);
 
   data!: {
     idClinicalHistoryPatient: number;
     selectedIndex: number | null;
+    status: string | null;
   };
 
   openDialog(): void {
-    this.data = { idClinicalHistoryPatient: this.idClinicalHistoryPatient, selectedIndex: this.selectedIndex };
+    this.data = { idClinicalHistoryPatient: this.idClinicalHistoryPatient, selectedIndex: this.selectedIndex, status: this.status };
     const dialogRef = this.dialog.open(DialogSendReview, { data: this.data });
     dialogRef.afterClosed().subscribe(result => { });
   }
@@ -48,6 +51,6 @@ export class DialogSendReview implements OnInit {
   selectedIndex = this.data.selectedIndex;
 
   ngOnInit(): void {
-
+    console.log('data => ', this.data);
   }
 }
