@@ -1,0 +1,17 @@
+.card-custom {
+    min-width: 700px !important;
+}
+
+.custom-container {
+    padding: 10px !important;
+}
+
+textarea:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+button{
+    background-color: var(--on-hover);
+    color: white !important;
+}

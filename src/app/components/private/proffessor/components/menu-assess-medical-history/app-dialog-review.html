@@ -1,0 +1,19 @@
+<div class="card-custom">
+    <mat-card-title><strong>Calificar Historia Clínica</strong></mat-card-title>
+</div>
+
+<mat-card class="custom-container">
+    <mat-radio-group aria-label="Seleccione una opción">
+        <mat-radio-button value="1">Aprobar</mat-radio-button>
+        <mat-radio-button value="2">Rechazar</mat-radio-button>
+        <mat-radio-button value="3">En Revisión</mat-radio-button>
+    </mat-radio-group>
+    <br>
+    <form>
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Observaciones</mat-label>
+            <textarea matInput placeholder="Escriba aquí las observaciones sobre la historia clínica..."></textarea> 
+        </mat-form-field>
+    </form>
+    <button mat-button>Enviar calificación</button>
+</mat-card>
