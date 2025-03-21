@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { ApiService } from '@mean/services';
@@ -50,7 +51,7 @@ interface IsaveReview {
   templateUrl: './app-dialog-review.html',
   styleUrl: './menu-assess-medical-history.component.scss',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatCardModule, MatRadioModule, FormsModule, MatFormFieldModule, MatInputModule,],
+  imports: [MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatCardModule, MatRadioModule, FormsModule, MatFormFieldModule, MatInputModule,],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogSendReview {
@@ -87,6 +88,10 @@ export class DialogSendReview {
           console.error(error);
         },
       });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 
 }

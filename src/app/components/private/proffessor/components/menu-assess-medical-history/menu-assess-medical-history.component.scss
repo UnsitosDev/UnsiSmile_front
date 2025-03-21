@@ -15,3 +15,13 @@ button{
     background-color: var(--on-hover);
     color: white !important;
 }
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+mat-icon {
+    cursor: pointer;
+}
