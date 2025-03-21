@@ -8,11 +8,11 @@ import { MatMenuModule } from '@angular/material/menu';
   templateUrl: './menu-assess-medical-history.component.html',
   styleUrl: './menu-assess-medical-history.component.scss'
 })
-export class MenuAssessMedicalHistoryComponent implements OnInit {
+export class MenuAssessMedicalHistoryComponent {
   @Input() idClinicalHistoryPatient!: number;
-  @Input() selectedIndex!: number; 
+  @Input() selectedIndex: number | null = null; 
 
-  ngOnInit(): void {
+  updateStatusHc(){
     console.log('idClinicalHistoryPatient:', this.idClinicalHistoryPatient);
     console.log('selectedIndex:', this.selectedIndex);
   }

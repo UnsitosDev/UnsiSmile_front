@@ -85,6 +85,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   firstLabel: string = '';
   previousLabel: string = '';
   role!: string;
+  currentSectionId: number | null = null;
 
   constructor() { }
 
@@ -100,6 +101,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = this.processMappedData(mappedData, this.role);
           this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
+          this.getFirstTab();
           this.getStatusHc();
         }
       });
@@ -126,6 +128,12 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         }
       }
     });
+  }
+
+  getFirstTab(){
+    if (this.mappedHistoryData.tabs.length > 0) {
+      this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+    }
   }
 
   getRole() {
@@ -226,9 +234,9 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     }
   }
 
-  onTabChange(index: number) {
-    this.currentIndex = index;
-    this.getStatusHc();
+  onTabChange(index: number): void {
+    this.currentIndex = index; 
+    this.currentSectionId = this.mappedHistoryData.tabs[index].idFormSection; // Actualiza el idFormSection
   }
 
   openConfirmDialog() {

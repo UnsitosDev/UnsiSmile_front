@@ -1,5 +1,5 @@
 <button [matMenuTriggerFor]="menu">Calificar</button>
 <mat-menu #menu="matMenu">
-  <button mat-menu-item>Aprobar</button>
-  <button mat-menu-item>Rechazar</button>
+  <button mat-menu-item (click)="updateStatusHc()">Aprobar</button>
+  <button mat-menu-item (click)="updateStatusHc()">Rechazar</button>
 </mat-menu>

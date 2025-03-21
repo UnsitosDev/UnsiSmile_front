@@ -21,7 +21,7 @@
                 @if (mappedHistoryData.tabs[currentIndex].status !== 'NO_STATUS' && mappedHistoryData.tabs[currentIndex].status !== 'NO_REQUIRED' && role == 'ROLE_PROFESSOR') {
                   <app-menu-assess-medical-history
                   [idClinicalHistoryPatient]=idPatientClinicalHistory
-                  [selectedIndex]="mappedHistoryData.tabs[0].idFormSection" 
+                  [selectedIndex]="currentSectionId" 
                   ></app-menu-assess-medical-history>
                 }
               </span> 
