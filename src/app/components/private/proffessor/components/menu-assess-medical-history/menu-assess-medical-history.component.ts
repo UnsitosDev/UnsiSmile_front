@@ -6,6 +6,9 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-menu-assess-medical-history',
@@ -35,22 +38,55 @@ export class MenuAssessMedicalHistoryComponent {
   }
 }
 
+interface IsaveReview {
+  status: string;
+  message: string;
+  idPatientClinicalHistory: number;
+  idSection: number
+}
+
 @Component({
   selector: 'app-dialog-review',
   templateUrl: './app-dialog-review.html',
   styleUrl: './menu-assess-medical-history.component.scss',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatCardModule, MatRadioModule, FormsModule, MatFormFieldModule, MatInputModule, ],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatCardModule, MatRadioModule, FormsModule, MatFormFieldModule, MatInputModule,],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogSendReview implements OnInit {
+export class DialogSendReview {
   readonly dialogRef = inject(MatDialogRef<DialogSendReview>);
   readonly data = inject(MAT_DIALOG_DATA);
+  readonly apiService = inject(ApiService)
+  readonly toastr = inject(ToastrService);
 
-  idClinicalHistoryPatient = this.data.idClinicalHistoryPatient;
-  selectedIndex = this.data.selectedIndex;
+  public idClinicalHistoryPatient = this.data.idClinicalHistoryPatient;
+  public selectedIndex = this.data.selectedIndex;
+  public status = this.data.status;
+  public newStatus = '';
+  public message = '';
 
-  ngOnInit(): void {
-    console.log('data => ', this.data);
+
+  saveReviewHc() {
+    const data: IsaveReview = {
+      status: this.newStatus,
+      message: this.message,
+      idPatientClinicalHistory: this.idClinicalHistoryPatient,
+      idSection: this.selectedIndex ?? 0,
+    };
+
+    this.apiService
+      .postService({
+        url: `${UriConstants.SAVE_REVIEW_HC}`,
+        data: data
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Éxito')
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
+
 }
