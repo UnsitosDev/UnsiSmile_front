@@ -15,8 +15,14 @@
                     Enviar a revisión <i class="fas fa-file-upload"></i>
                   </button>
                 }
-                @if (mappedHistoryData.tabs[currentIndex].status !== 'NO_STATUS' && mappedHistoryData.tabs[currentIndex].status !== 'NO_REQUIRED') {
+                @if (mappedHistoryData.tabs[currentIndex].status !== 'NO_STATUS' && mappedHistoryData.tabs[currentIndex].status !== 'NO_REQUIRED' && role !== 'ROLE_PROFESSOR') {
                   <span class="status" [innerHTML]="translateStatus(mappedHistoryData.tabs[currentIndex].status)"></span>
+                }
+                @if (mappedHistoryData.tabs[currentIndex].status !== 'NO_STATUS' && mappedHistoryData.tabs[currentIndex].status !== 'NO_REQUIRED' && role == 'ROLE_PROFESSOR') {
+                  <app-menu-assess-medical-history
+                  [idClinicalHistoryPatient]=idPatientClinicalHistory
+                  [selectedIndex]="mappedHistoryData.tabs[0].idFormSection" 
+                  ></app-menu-assess-medical-history>
                 }
               </span> 
             </div>
