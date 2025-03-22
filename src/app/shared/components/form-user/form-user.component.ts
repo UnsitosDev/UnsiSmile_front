@@ -45,6 +45,12 @@ export class FormUserComponent implements OnInit {
   private profilePictureUpdated = new Subject<string | null>();
   employeeNumber = signal('');
   birthDate = signal<string | null>(null);
+  selectedGender = signal(1);
+  genders = [
+    { idGender: 1, gender: 'Masculino' },
+    { idGender: 2, gender: 'Femenino' },
+    { idGender: 99, gender: 'No binario' }
+  ];
 
   constructor(
     private router: Router,
@@ -80,7 +86,10 @@ export class FormUserComponent implements OnInit {
         phone: this.user.person.phone,
         birthDate: this.birthDate(),
         email: this.user.person.email,
-        gender: this.user.person.gender,
+        gender: {
+          idGender: this.selectedGender(),
+          gender: this.genders.find(g => g.idGender === this.selectedGender())?.gender || ''
+        },
       },
     };
     // Lógica para enviar el payload al backend
@@ -155,6 +164,7 @@ export class FormUserComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.user = data;
+          this.selectedGender.set(data.person.gender.idGender);
           this.isStudent.set('enrollment' in data);
           if (this.isStudent()) {
             this.employeeNumber.set(data.enrollment);

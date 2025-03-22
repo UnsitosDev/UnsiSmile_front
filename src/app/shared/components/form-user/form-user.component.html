@@ -105,6 +105,18 @@
                     [class.readonly]="!modoEdicion()">
                 </div>
                 <div class="form-group">
+                  <label for="gender">Género</label>
+                  <select id="gender" name="gender" 
+                    [(ngModel)]="selectedGender" 
+                    class="form-control"
+                    [disabled]="!modoEdicion()"
+                    [class.readonly]="!modoEdicion()">
+                    @for(gender of genders; track gender.idGender) {
+                      <option [value]="gender.idGender">{{gender.gender}}</option>
+                    }
+                  </select>
+                </div>
+                <div class="form-group">
                   <label for="identifier">{{ isStudent() ? 'Matrícula' : 'Número de Empleado' }}</label>
                   <input id="identifier" type="text" name="identifier" 
                     [(ngModel)]="employeeNumber" 

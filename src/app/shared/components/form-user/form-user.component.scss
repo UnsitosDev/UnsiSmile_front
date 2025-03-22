@@ -493,15 +493,39 @@
 .form-control {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid var(--outline);
+  border: 1px solid #e2e8f0; // Asegura que siempre tenga el borde
   border-radius: 0.5rem;
-  background-color: var(--surface);
+  background-color: #f8fafc;
   color: var(--on-surface);
   transition: all 0.3s ease;
 
   &:focus {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: white;
+  }
+
+  // Estilos específicos para el select
+  &:not([disabled]) {
+    &:focus {
+      border-color: var(--primary);
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(149, 155, 165, 0.1);
+    }
+  }
+
+  &[disabled] {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0; // Mantiene el borde cuando está deshabilitado
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  // Estilos para las opciones del select
+  option {
+    background-color: white;
+    color: var(--on-surface);
+    padding: 0.5rem;
   }
 }
 
