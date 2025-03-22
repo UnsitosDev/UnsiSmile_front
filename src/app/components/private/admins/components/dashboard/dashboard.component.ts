@@ -12,6 +12,7 @@ import {
   studentUserResponse,
 } from 'src/app/shared/interfaces/student/student';
 import { DashboardAdminStatsComponent } from '../dashboard-admin-stats-component/dashboard-admin-stats-component.component';
+import { WelcomeMessageService } from 'src/app/services/welcome-message.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +27,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private userService = inject(ApiService<studentResponse, {}>);
+  private welcomeMessageService = inject(WelcomeMessageService);
   user!: studentUserResponse | AdminResponse;
   welcomeMessage: string = 'Bienvenido a UnsiSmile';
 
@@ -50,16 +52,8 @@ export class DashboardComponent implements OnInit {
   }
 
   setWelcomeMessage() {
-    switch (this.user.person.gender.idGender) {
-      case 1:
-        this.welcomeMessage = 'Bienvenido a UnsiSmile';
-        break;
-      case 2:
-        this.welcomeMessage = 'Bienvenida a UnsiSmile';
-        break;
-      case 99:
-        this.welcomeMessage = 'Bienvenide a UnsiSmile';
-        break;
+    if (this.user?.person?.gender?.idGender) {
+      this.welcomeMessage = this.welcomeMessageService.getWelcomeMessage(this.user.person.gender.idGender);
     }
   }
 }
