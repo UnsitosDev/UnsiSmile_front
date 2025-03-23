@@ -1,12 +1,26 @@
 /* Estilos para el contenedor de la tarjeta (mat-card) */
 .table-card {
   max-width: 100%;
+  overflow: hidden;
   background-color: var(--on-primary);
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de la tabla con scroll horizontal */
+.table-container {
+  overflow-x: auto;
+  max-width: 100%;
+  width: 100%;
 }
 
 /* Estilos para la tabla */
 .odontogram-table {
   width: 100%;
+  min-width: 800px;
+  border-collapse: collapse;
 }
 
 /* Estilos para las celdas de la tabla */
