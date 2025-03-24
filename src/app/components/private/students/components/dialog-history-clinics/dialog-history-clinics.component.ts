@@ -211,19 +211,21 @@ export class DialogHistoryClinicsComponent implements OnInit {
     const status = 'IN_REVIEW';
     this.apiService
       .getService({
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.dataRoleAndObject.objeto.patientID}&status=${status}`,
-      data: {},
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.dataRoleAndObject.objeto.patientID}&status=${status}`,
+        data: {},
       })
       .subscribe({
-      next: (response) => {
-        this.patientConfigHistories = response;
-      },
-      error: (error) => {
-        console.error(error);
-      },
+        next: (response: ClinicalHistory[]) => {
+          this.patientConfigHistories = response.filter(
+            (history) => history.patientClinicalHistoryId !== 0 && history.patientId !== null
+          );
+        },
+        error: (error) => {
+          console.error(error);
+        },
       });
   }
 
