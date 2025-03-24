@@ -2,7 +2,7 @@
   <div mat-subheader class="custom"><strong>HISTORIA CLINICA</strong></div>
   <mat-divider></mat-divider>
   
-  @if (this.dataRoleAndObject.role == 'student') {
+  @if (this.role == 'ROLE_STUDENT') {
     @for (history of patientConfigHistories; track history) {
       <mat-list-item (click)="selectHistory(history)">
         <mat-icon matListItemIcon>folder</mat-icon>
@@ -10,7 +10,7 @@
       </mat-list-item>
     }
   }
-  @if (this.dataRoleAndObject.role == 'admin') {
+  @if (this.role == 'ROLE_ADMIN') {
     @for (history of patientConfigHistories; track history) {
       <mat-list-item (click)="selectHistoryAdmin(history)">
         <mat-icon matListItemIcon>folder</mat-icon>
