@@ -150,8 +150,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
   private processMappedData(mappedData: dataTabs, role: string): dataTabs {
     let processedData = { ...mappedData };
-    if (role === 'ROLE_PROFESSOR') {
-      processedData.tabs = processedData.tabs.filter(tab => tab.status === 'IN_REVIEW');
+    if (role === ROLES.PROFESSOR) {
+      processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
     }
     return processedData;
   }
