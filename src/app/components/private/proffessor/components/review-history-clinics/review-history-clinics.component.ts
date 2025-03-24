@@ -23,7 +23,6 @@ export class ReviewHistoryClinicsComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
   readonly router = inject(Router);
 
-
   patientsList: patientsTableDataProfessor[] = [];
   title = 'Pacientes con historias clínicas por revisar';
   columns: string[] = [];
@@ -43,15 +42,14 @@ export class ReviewHistoryClinicsComponent implements OnInit {
   ngOnInit(): void {
     this.columns = [...getEntityPropiedades('professor')];
     this.getClinicalHistoriesToReview();
-    this.getPatients();
   }
 
   onAction(accion: Accion) {
     if (accion.accion === 'Editar') {
       this.getListHc(accion.fila);
     }
-
   }
+
   getListHc(objeto: any) {
     console.log(objeto);
     this.dialog.open(DialogHistoryClinicsComponent, {
@@ -77,39 +75,15 @@ export class ReviewHistoryClinicsComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          // Handle response
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
-  }
-
-  getPatients(page: number = 0, size: number = 10, keyword: string = ''): void {
-    const encodedKeyword = encodeURIComponent(keyword.trim());
-    const url = `${UriConstants.GET_PATIENTS}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
-
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-        url,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
           if (Array.isArray(response.content)) {
             this.totalElements = response.totalElements;
             this.patientsList = response.content.map((patient: Patient) => {
-              const { person } = patient;
+              const { person, medicalRecordNumber } = patient;
               return {
-                patientID: patient.idPatient,
                 nombres: `${person.firstName} ${person.secondName}`,
                 apellidos: `${person.firstLastName} ${person.secondLastName}`,
-                correo: person.email,
                 curp: person.curp,
-                telefono: person.phone,
-                fechaNacimiento: person.birthDate,
-                expediente: patient.medicalRecordNumber,
+                expediente: medicalRecordNumber 
               };
             });
           } else {
@@ -128,23 +102,23 @@ export class ReviewHistoryClinicsComponent implements OnInit {
   onSearch(keyword: string): void {
     this.searchTerm = keyword;
     this.currentPage = 0;
-    this.getPatients(this.currentPage, this.itemsPerPage, this.searchTerm);
+    this.getClinicalHistoriesToReview();
   }
-
+  
   onPageChange(page: number): void {
     this.currentPage = page - 1;
-    this.getPatients(this.currentPage, this.itemsPerPage, this.searchTerm);
+    this.getClinicalHistoriesToReview();
   }
-
+  
   onPageSizeChange(newSize: number): void {
     this.itemsPerPage = newSize;
     this.currentPage = 0;
-    this.getPatients(this.currentPage, this.itemsPerPage, this.searchTerm);
+    this.getClinicalHistoriesToReview();
   }
-
+  
   onSort(event: { field: string; asc: boolean }): void {
     this.sortField = event.field;
     this.sortAsc = event.asc;
-    this.getPatients(this.currentPage, this.itemsPerPage, this.searchTerm);
+    this.getClinicalHistoriesToReview();
   }
 }

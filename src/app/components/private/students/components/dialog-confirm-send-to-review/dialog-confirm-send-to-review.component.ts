@@ -22,7 +22,6 @@ export class DialogConfirmSendToReviewComponent {
   public data = inject(MAT_DIALOG_DATA) as sendToReview;
 
   sendToReview() {
-    console.log(this.data)
     this.apiService
       .putService({
         headers: new HttpHeaders({
