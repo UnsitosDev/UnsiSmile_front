@@ -82,7 +82,8 @@ export class DialogSendReview {
       })
       .subscribe({
         next: (response) => {
-          this.toastr.success('Éxito')
+          this.toastr.success('La revisión se envió con éxito')
+          this.closeDialog(); 
         },
         error: (error) => {
           console.error(error);
