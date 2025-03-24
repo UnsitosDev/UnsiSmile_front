@@ -29,11 +29,14 @@ import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { HttpHeaders } from '@angular/common/http';
 import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
+import { MenuAssessMedicalHistoryComponent } from "../../../../proffessor/components/menu-assess-medical-history/menu-assess-medical-history.component";
+import { STATUS } from 'src/app/utils/statusToReview';
+import { ROLES } from 'src/app/utils/roles';
 
 @Component({
   selector: 'app-students-dental-operation',
   standalone: true,
-  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent],
+  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent],
   templateUrl: './students-dental-operation.component.html',
   styleUrl: './students-dental-operation.component.scss'
 })
@@ -56,7 +59,7 @@ export class StudentsDentalOperationComponent {
   public guardianData: cardGuardian | null = null;
   public currentIndex: number = 0; // Índice del tab activo
   public mappedHistoryData!: dataTabs;
-  private idPatientClinicalHistory!: number;
+  public idPatientClinicalHistory!: number;
   // Variables para navegación
   private navigationSubscription!: Subscription;
   private navigationTarget: string = ''; // Ruta de navegación cancelada
@@ -64,7 +67,12 @@ export class StudentsDentalOperationComponent {
   private isNavigationPrevented: boolean = true; // Variable para evitar navegación inicialmente
   private navigationComplete: boolean = false; // Flag para manejar la navegación completada
   private additionalRoutes = ['/students/user'];
-
+  currentSectionId: number | null = null;
+  currentStatus: string | null = null;
+  STATUS = STATUS;
+  ROL = ROLES;
+  role!: string;
+  public medicalRecordNumber!: number;
   constructor() { }
 
   ngOnInit(): void {
@@ -74,7 +82,9 @@ export class StudentsDentalOperationComponent {
       this.idPatientClinicalHistory = params['patientID']; // idPatientClinicalHistory
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
-          this.mappedHistoryData = mappedData;
+          this.mappedHistoryData = this.processMappedData(mappedData, this.role);
+          this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
+          this.getFirstTab();
           this.getStatusHc();
         }
       });
@@ -212,9 +222,24 @@ export class StudentsDentalOperationComponent {
     REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
   };
 
-  onTabChange(index: number) {
-    this.currentIndex = index;
-    this.getStatusHc();
+  onTabChange(index: number): void {
+    this.currentIndex = index; 
+    this.currentSectionId = this.mappedHistoryData.tabs[index].idFormSection; 
+  }
+
+  getFirstTab(){
+    if (this.mappedHistoryData.tabs.length > 0) {
+      this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+      this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
+    }
+  }
+
+  private processMappedData(mappedData: dataTabs, role: string): dataTabs {
+    let processedData = { ...mappedData };
+    if (role === ROLES.PROFESSOR) {
+      processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
+    }
+    return processedData;
   }
 
   openConfirmDialog() {
@@ -259,7 +284,7 @@ export class StudentsDentalOperationComponent {
   }
 
   translateStatus(status: string): string {
-    return this.statusMap[status] || status; 
+    return this.statusMap[status] || status;
   }
 
   onNextTab(): void {
