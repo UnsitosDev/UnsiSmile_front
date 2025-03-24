@@ -86,7 +86,7 @@ export default [
             {
                 path: 'user',
                 loadComponent: () =>
-                    import('../admins/components/form-user/form-user.component').then(
+                    import('../../../shared/components/form-user/form-user.component').then(
                         (m) => m.FormUserComponent
                     ),
             },
