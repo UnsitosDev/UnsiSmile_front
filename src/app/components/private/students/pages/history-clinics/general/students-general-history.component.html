@@ -10,19 +10,27 @@
               <span><strong>Historia clínica {{mappedHistoryData.title}}</strong></span>
               <span>
                 <strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong> &nbsp;
-                @if (mappedHistoryData.tabs[currentIndex].requiresReview && mappedHistoryData.tabs[currentIndex].status == 'NO_STATUS') {
+                @if (mappedHistoryData.tabs[currentIndex].requiresReview && 
+                    mappedHistoryData.tabs[currentIndex].status === STATUS.NO_STATUS && 
+                    role !== ROL.ADMIN) {
                   <button class="button-custom" (click)="openConfirmDialog()">
                     Enviar a revisión <i class="fas fa-file-upload"></i>
                   </button>
                 }
-                @if (mappedHistoryData.tabs[currentIndex].status !== 'NO_STATUS' && mappedHistoryData.tabs[currentIndex].status !== 'NO_REQUIRED' && role !== 'ROLE_PROFESSOR') {
+
+                @if (mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_STATUS && 
+                    mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_REQUIRED && 
+                    role !== ROL.PROFESSOR) {
                   <span class="status" [innerHTML]="translateStatus(mappedHistoryData.tabs[currentIndex].status)"></span>
                 }
-                @if (mappedHistoryData.tabs[currentIndex].status !== 'NO_STATUS' && mappedHistoryData.tabs[currentIndex].status !== 'NO_REQUIRED' && role == 'ROLE_PROFESSOR') {
+
+                @if (mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_STATUS && 
+                    mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_REQUIRED && 
+                    role === ROL.PROFESSOR) {
                   <app-menu-assess-medical-history
-                  [idClinicalHistoryPatient]=idPatientClinicalHistory
-                  [selectedIndex]="currentSectionId" 
-                  [status]="currentStatus"
+                    [idClinicalHistoryPatient]="idPatientClinicalHistory"
+                    [selectedIndex]="currentSectionId" 
+                    [status]="currentStatus"
                   ></app-menu-assess-medical-history>
                 }
               </span> 

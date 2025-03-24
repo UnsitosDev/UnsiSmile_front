@@ -14,7 +14,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog'; // Importa MAT_DIALO
 import { HistoryData } from 'src/app/models/form-fields/form-field.interface';
 import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
-import { ROLE_ADMIN, ROLE_PROFESSOR, ROLE_STUDENT } from 'src/app/utils/roles';
+import { ROLES } from 'src/app/utils/roles';
 @Component({
   selector: 'app-dialog-history-clinics',
   standalone: true,
@@ -34,6 +34,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
   private userService = inject(AuthService);
   private token!: string;
   private tokenData!: TokenData;
+  ROL = ROLES;
   role!: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public dataRoleAndObject: { objeto: any; role: string }) {
@@ -46,17 +47,16 @@ export class DialogHistoryClinicsComponent implements OnInit {
 
   getHistoriClinicBasedOnRole() {
     switch (this.role) {
-      case ROLE_ADMIN:
+      case ROLES.ADMIN:
         this.getConfigHistories();
         break;
-      case ROLE_PROFESSOR:
+      case ROLES.PROFESSOR:
         this.getConfigHistoriesToReview();
         break;
-      case ROLE_STUDENT:
+      case ROLES.STUDENT:
         this.getConfigHistories();
         break;
       default:
-        console.error('Rol no reconocido');
         break;
     }
   }

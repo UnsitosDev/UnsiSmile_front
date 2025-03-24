@@ -33,6 +33,8 @@ import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { HttpHeaders } from '@angular/common/http';
 import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { MenuAssessMedicalHistoryComponent } from "../../../../proffessor/components/menu-assess-medical-history/menu-assess-medical-history.component";
+import { STATUS } from 'src/app/utils/statusToReview';
+import { ROLES } from 'src/app/utils/roles';
 
 @Component({
   selector: 'app-students-general-history',
@@ -87,6 +89,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   role!: string;
   currentSectionId: number | null = null;
   currentStatus: string | null = null;
+  STATUS = STATUS;
+  ROL = ROLES;
 
   constructor() { }
 
