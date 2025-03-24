@@ -14,6 +14,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog'; // Importa MAT_DIALO
 import { HistoryData } from 'src/app/models/form-fields/form-field.interface';
 import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
+import { ROLE_ADMIN, ROLE_PROFESSOR, ROLE_STUDENT } from 'src/app/utils/roles';
 @Component({
   selector: 'app-dialog-history-clinics',
   standalone: true,
@@ -39,8 +40,25 @@ export class DialogHistoryClinicsComponent implements OnInit {
   }
   idClinicalHistoryCatalog!: 0;
   ngOnInit(): void {
-    this.getConfigHistories();
     this.getRole();
+    this.getHistoriClinicBasedOnRole();
+  }
+
+  getHistoriClinicBasedOnRole() {
+    switch (this.role) {
+      case ROLE_ADMIN:
+        this.getConfigHistories();
+        break;
+      case ROLE_PROFESSOR:
+        this.getConfigHistoriesToReview();
+        break;
+      case ROLE_STUDENT:
+        this.getConfigHistories();
+        break;
+      default:
+        console.error('Rol no reconocido');
+        break;
+    }
   }
 
   getRole() {
@@ -189,5 +207,24 @@ export class DialogHistoryClinicsComponent implements OnInit {
       });
   }
 
+  getConfigHistoriesToReview() {
+    const status = 'IN_REVIEW';
+    this.apiService
+      .getService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.dataRoleAndObject.objeto.patientID}&status=${status}`,
+      data: {},
+      })
+      .subscribe({
+      next: (response) => {
+        this.patientConfigHistories = response;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+      });
+  }
 
 }
