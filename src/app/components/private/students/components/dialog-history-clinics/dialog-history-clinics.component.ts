@@ -144,7 +144,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
   selectHistoryToReview(history: ClinicalHistory) {
     this.pushUrl = 'professor'
     this.dialogRef.close();
-    this.getConfigHistories();
+    this.getConfigHistoriesToReview();
     const existingHistory = this.patientConfigHistories.find(h =>
       h.clinicalHistoryName === history.clinicalHistoryName &&
       h.patientClinicalHistoryId !== 0 &&

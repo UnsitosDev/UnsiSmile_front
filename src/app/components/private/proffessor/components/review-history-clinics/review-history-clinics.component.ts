@@ -80,6 +80,7 @@ export class ReviewHistoryClinicsComponent implements OnInit {
             this.patientsList = response.content.map((patient: Patient) => {
               const { person, medicalRecordNumber } = patient;
               return {
+                patientID: patient.idPatient, 
                 nombres: `${person.firstName} ${person.secondName}`,
                 apellidos: `${person.firstLastName} ${person.secondLastName}`,
                 curp: person.curp,
