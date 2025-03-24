@@ -60,3 +60,46 @@ i{
     }
   }
 }
+
+.sub-menu {
+  padding-left: 1.5rem; // Indentación para los sub-ítems
+  background-color: var(--submenu-background); // Color de fondo del submenú
+  border-radius: 0 0 10px 10px; // Bordes redondeados en la parte inferior
+
+  .sub-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: var(--submenu-hover); // Color de fondo al pasar el mouse
+      border-radius: 10px;
+    }
+
+    &.active {
+      background-color: var(--submenu-active); // Color de fondo cuando está activo
+      border-radius: 10px;
+    }
+
+    fa-icon {
+      margin-right: 0.75rem;
+    }
+
+    .menu-text {
+      display: flex;
+      flex-direction: column;
+
+      span {
+        font-weight: bold;
+      }
+
+      small {
+        font-size: 0.75rem;
+        color: var(--side-text-light);
+      }
+    }
+  }
+}
