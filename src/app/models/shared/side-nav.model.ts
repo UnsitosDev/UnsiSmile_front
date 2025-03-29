@@ -94,7 +94,7 @@ export const ProfessorItems: MenuItem[] = [
         fontAwesomeIcon: faTasks,
         buttonText: 'En Revisión',
         buttonDescription: 'Calificar historias clínicas',
-        routerlink: '/professor/dashboard'
+        routerlink: '/professor/history-clinics'
       },
       {
         fontAwesomeIcon: faCheck,
