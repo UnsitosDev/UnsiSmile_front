@@ -22,6 +22,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Primer Nombre',
             name: 'firstName',
+            placeholder: 'Ej: Juan',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -32,6 +33,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Segundo Nombre',
             name: 'secondName',
+            placeholder: 'Ej: Carlos',
             errorMessages: {
                 required: 'El campo Segundo Nombre es requerido.'
             }
@@ -40,6 +42,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Apellido Paterno',
             name: 'firstLastName',
+            placeholder: 'Ej: García',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -50,6 +53,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Apellido Materno',
             name: 'secondLastName',
+            placeholder: 'Ej: López',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -60,6 +64,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'CURP',
             name: 'curp',
+            placeholder: 'Ej: GALJ901231HDFNNS09',
             validators: [Validators.required, curpValidator()],
             errorMessages: {
                 required: 'El campo CURP es requerido.',
@@ -70,6 +75,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Teléfono',
             name: 'phone',
+            placeholder: 'Ej: 9511234567',
             required: false,
             validators: [phoneNumberValidator()],
             errorMessages: {
@@ -91,6 +97,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Correo electrónico',
             name: 'email',
+            placeholder: 'Ej: ejemplo@dominio.com',
             validators: [
                 Validators.required,
                 emailValidator()
@@ -118,6 +125,7 @@ export class FormFieldsService {
             type: 'inputEvent',
             label: 'Código postal',
             name: 'postalCode',
+            placeholder: 'Ej: 68000',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -132,6 +140,7 @@ export class FormFieldsService {
             type: 'autocomplete',
             label: 'Nombre de estado',
             name: 'stateName',
+            placeholder: 'Ej: Oaxaca',
             value: this.patientService.state,
             required: true,
             validators: [Validators.required],
@@ -147,6 +156,7 @@ export class FormFieldsService {
             type: 'autocomplete',
             label: 'Nombre de municipio',
             name: 'municipalityName',
+            placeholder: 'Ej: Oaxaca de Juárez',
             value: this.patientService.municipality,
             required: true,
             validators: [Validators.required],
@@ -162,6 +172,7 @@ export class FormFieldsService {
             type: 'autocomplete',
             label: 'Nombre de localidad',
             name: 'localityName',
+            placeholder: 'Ej: Centro',
             value: this.patientService.locality,
             required: true,
             validators: [Validators.required],
@@ -177,6 +188,7 @@ export class FormFieldsService {
             type: 'autocomplete',
             label: 'Nombre de colonia',
             name: 'neighborhoodName',
+            placeholder: 'Ej: Reforma',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -191,6 +203,7 @@ export class FormFieldsService {
             type: 'autocompleteoptions',
             label: 'Nombre de calle',
             name: 'streetName',
+            placeholder: 'Ej: Independencia',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -205,6 +218,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Número Exterior',
             name: 'exteriorNumber',
+            placeholder: 'Ej: 123',
             required: true,
             validators: [Validators.required, addressesNumber()],
             errorMessages: {
@@ -216,6 +230,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Número Interior',
             name: 'interiorNumber',
+            placeholder: 'Ej: 4',
             validators: [addressesNumber()],
             errorMessages: {
                 lastError: 'El campo Número Interior debe contener solo números.'
@@ -261,6 +276,7 @@ export class FormFieldsService {
             type: 'autocompleteoptions',
             label: 'Ocupación',
             name: 'occupation',
+            placeholder: 'Ej: Actor',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -275,6 +291,7 @@ export class FormFieldsService {
             type: 'autocompleteoptions',
             label: 'Grupo étnico',
             name: 'ethnicGroup',
+            placeholder:  'Ej: Amuzgo',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -289,6 +306,7 @@ export class FormFieldsService {
             type: 'autocompleteoptions',
             label: 'Religión',
             name: 'religion',
+            placeholder: 'Ej: Católico',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -318,6 +336,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Nombre',
             name: 'firstGuardianName',
+            placeholder: 'Ej: María',
             required: false,
             errorMessages: {
                 required: 'El campo Nombre es requerido.'
@@ -327,6 +346,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Apellido',
             name: 'lastGuardianName',
+            placeholder: 'Ej: Sánchez Torres',
             required: false,
             errorMessages: {
                 required: 'El campo Apellido es requerido.'
@@ -336,6 +356,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Teléfono',
             name: 'phoneGuardian',
+            placeholder: 'Ej: 9511234567',
             required: false,
             validators: [phoneNumberValidator()],
             errorMessages: {
@@ -346,6 +367,7 @@ export class FormFieldsService {
             type: 'input',
             label: 'Correo Electrónico',
             name: 'emailGuardian',
+            placeholder: 'Ej: ejemplo@dominio.com',
             required: false,
             validators: [emailValidator()],
             errorMessages: {
