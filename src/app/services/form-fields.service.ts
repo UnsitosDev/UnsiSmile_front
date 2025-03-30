@@ -310,16 +310,6 @@ export class FormFieldsService {
                 futureDate: 'La fecha de última consulta no puede ser una fecha futura'
             }
         },
-        {
-            type: 'input',
-            label: 'Motivo de Consulta',
-            name: 'consultationReason',
-            required: false,
-            validators: [],
-            errorMessages: {
-                required: 'El campo Motivo de Consulta es requerido.'
-            }
-        },
 
     ];
 
