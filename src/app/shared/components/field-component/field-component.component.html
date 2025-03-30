@@ -109,6 +109,7 @@
                  [matDatepicker]="datepicker"
                  [formControlName]="field.name" 
                  [max]="maxDate"
+                 [placeholder]="field.placeholder || 'DD/MM/AAAA'"
                  (dateChange)="onValueChangeDate($event)"
                  (dateInput)="onValueChangeDate($event)"> 
           <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
@@ -124,7 +125,11 @@
     @case ('inputEvent') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-          <input matInput [value]="fieldValue" [formControlName]="field.name" (input)="onInputChange($event)" />
+          <input matInput 
+                 [value]="fieldValue" 
+                 [formControlName]="field.name" 
+                 [placeholder]="field.placeholder"
+                 (input)="onInputChange($event)" />
             @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
               <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
             }

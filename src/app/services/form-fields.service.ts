@@ -86,6 +86,7 @@ export class FormFieldsService {
             type: 'datepicker',
             label: 'Fecha de Nacimiento',
             name: 'birthDate',
+            placeholder: 'DD/MM/AAAA',
             required: true,
             validators: [Validators.required, noFutureDateValidator()],
             errorMessages: {
@@ -321,6 +322,7 @@ export class FormFieldsService {
             type: 'datepicker',
             label: 'Última Consulta',
             name: 'lastConsultation',
+            placeholder: 'DD/MM/AAAA',
             required: true,
             validators: [Validators.required, noFutureDateValidator()],
             errorMessages: {
