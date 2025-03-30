@@ -115,7 +115,7 @@ export class StudentsPeriodonticsHistoryComponent {
           this.navigationTarget = targetUrl;
 
           // Detiene la navegación y mostramos el diálogo
-          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_GENERAL);
+          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_PERIODONTICS);
         }
       }
     });
