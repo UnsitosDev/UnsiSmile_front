@@ -114,6 +114,21 @@ export class FormPatientPersonalDataComponent {
         }
       }
     });
+     // Precargar el grupo étnico con ID 1 y establecerlo en el formulario
+     this.patientService.getEthnicGroupById(1).subscribe(response => {
+      if (response) {
+          // Asignar el valor al control del formulario después de que las opciones estén cargadas
+          setTimeout(() => {
+              const ethnicGroupField = this.other.find(field => field.name === 'ethnicGroup');
+              if (ethnicGroupField) {
+                  ethnicGroupField.value = '1'; // Establecer el valor predeterminado en el campo
+              }
+              this.formGroup.get('ethnicGroup')?.setValue('1');
+              // Forzar la detección de cambios para actualizar la vista
+              this.formGroup.get('ethnicGroup')?.updateValueAndValidity();
+          }, 100);
+      }
+  });
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
