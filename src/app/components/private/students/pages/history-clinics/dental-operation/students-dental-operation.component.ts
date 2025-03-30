@@ -14,7 +14,7 @@ import { StudentsOdontogramComponent } from '../../../components/odontogram/stud
 import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
 
 // Servicios
-import { ApiService } from '@mean/services';
+import { ApiService, AuthService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
@@ -32,6 +32,7 @@ import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-c
 import { MenuAssessMedicalHistoryComponent } from "../../../../proffessor/components/menu-assess-medical-history/menu-assess-medical-history.component";
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 @Component({
   selector: 'app-students-dental-operation',
@@ -49,6 +50,10 @@ export class StudentsDentalOperationComponent {
   readonly dialog = inject(MatDialog);
   private id!: number;
   private idpatient!: string;
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  public medicalRecordNumber!: number;
   private year?: number;
   private month?: number;
   private day?: number;
@@ -67,15 +72,19 @@ export class StudentsDentalOperationComponent {
   private isNavigationPrevented: boolean = true; // Variable para evitar navegación inicialmente
   private navigationComplete: boolean = false; // Flag para manejar la navegación completada
   private additionalRoutes = ['/students/user'];
+  firstLabel: string = '';
+  previousLabel: string = '';
+  role!: string;
   currentSectionId: number | null = null;
   currentStatus: string | null = null;
   STATUS = STATUS;
   ROL = ROLES;
-  role!: string;
-  public medicalRecordNumber!: number;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.getRole();
+
     this.router.params.subscribe((params) => {
       this.id = params['id']; // Id Historia Clinica
       this.idpatient = params['patient']; // Id Paciente
@@ -111,6 +120,28 @@ export class StudentsDentalOperationComponent {
         }
       }
     });
+  }
+
+  getFirstTab() {
+    if (this.mappedHistoryData.tabs.length > 0) {
+      this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+      this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
+      console.log(this.currentSectionId);
+    }
+  }
+
+  getRole() {
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+  }
+
+  private processMappedData(mappedData: dataTabs, role: string): dataTabs {
+    let processedData = { ...mappedData };
+    if (role === ROLES.PROFESSOR) {
+      processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
+    }
+    return processedData;
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
@@ -222,24 +253,9 @@ export class StudentsDentalOperationComponent {
     REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
   };
 
-  onTabChange(index: number): void {
-    this.currentIndex = index; 
-    this.currentSectionId = this.mappedHistoryData.tabs[index].idFormSection; 
-  }
-
-  getFirstTab(){
-    if (this.mappedHistoryData.tabs.length > 0) {
-      this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
-      this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
-    }
-  }
-
-  private processMappedData(mappedData: dataTabs, role: string): dataTabs {
-    let processedData = { ...mappedData };
-    if (role === ROLES.PROFESSOR) {
-      processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
-    }
-    return processedData;
+  onTabChange(index: number) {
+    this.currentIndex = index;
+    this.getStatusHc();
   }
 
   openConfirmDialog() {
@@ -261,7 +277,7 @@ export class StudentsDentalOperationComponent {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
 
     // Si no se fuerza la solicitud y el tab tiene NO_STATUS o NO_REQUIRED, no hacemos la solicitud
-    if (!forceRequest && (currentTab.status === 'NO_STATUS' || currentTab.status === 'NO_REQUIRED')) {
+    if (!forceRequest && (currentTab.status === STATUS.NO_REQUIRED || currentTab.status === STATUS.NO_REQUIRED)) {
       return;
     }
 
