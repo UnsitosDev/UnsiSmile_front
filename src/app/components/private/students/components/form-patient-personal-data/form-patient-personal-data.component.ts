@@ -115,38 +115,7 @@ export class FormPatientPersonalDataComponent {
       }
     });
 
-    this.preloadDefaultEthnicGroup();
-    this.preloadDefaultReligion();
-  }
 
-  private preloadDefaultEthnicGroup(): void {
-    this.patientService.getEthnicGroupById(1).subscribe(response => {
-      if (response) {
-        setTimeout(() => {
-          const ethnicGroupField = this.other.find(field => field.name === 'ethnicGroup');
-          if (ethnicGroupField) {
-            ethnicGroupField.value = '1';
-          }
-          this.formGroup.get('ethnicGroup')?.setValue('1');
-          this.formGroup.get('ethnicGroup')?.updateValueAndValidity();
-        }, 100);
-      }
-    });
-  }
-
-  private preloadDefaultReligion(): void {
-    this.patientService.getReligionById(999999).subscribe(response => {
-      if (response) {
-        setTimeout(() => {
-          const religionField = this.other.find(field => field.name === 'religion');
-          if (religionField) {
-            religionField.value = '999999';
-          }
-          this.formGroup.get('religion')?.setValue('999999');
-          this.formGroup.get('religion')?.updateValueAndValidity();
-        }, 100);
-      }
-    });
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
