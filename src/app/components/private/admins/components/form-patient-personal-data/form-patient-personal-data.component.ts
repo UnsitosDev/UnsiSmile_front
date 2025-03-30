@@ -145,6 +145,20 @@ export class FormPatientPersonalDataComponent {
             }, 100);
         }
     });
+
+    // Precargar la religión con ID 999999 y establecerla en el formulario
+    this.patientService.getReligionById(999999).subscribe(response => {
+        if (response) {
+            setTimeout(() => {
+                const religionField = this.other.find(field => field.name === 'religion');
+                if (religionField) {
+                    religionField.value = '999999';
+                }
+                this.formGroup.get('religion')?.setValue('999999');
+                this.formGroup.get('religion')?.updateValueAndValidity();
+            }, 100);
+        }
+    });
   }
 
   ngAfterViewInit() {

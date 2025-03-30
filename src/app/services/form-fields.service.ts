@@ -389,6 +389,7 @@ export class FormFieldsService {
         this.handleParentsMaritalStatusClick({} as MouseEvent);
         // Inicializar el campo de grupo étnico con la opción predeterminada
         this.initializeEthnicGroupField();
+        this.initializeReligionField();
     }
 
     private initializeEthnicGroupField(): void {
@@ -407,6 +408,28 @@ export class FormFieldsService {
                         ethnicGroupField.options.push({
                             value: '1',
                             label: response.ethnicGroup
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    private initializeReligionField(): void {
+        this.patientService.getReligionById(999999).subscribe(response => {
+            if (response) {
+                const religionField = this.otherDataFields.find(field => field.name === FieldNames.RELIGION);
+                if (religionField) {
+                    religionField.value = '999999';
+                    if (!religionField.options) {
+                        religionField.options = [];
+                    }
+                    
+                    const optionExists = religionField.options.some(option => option.value === '999999');
+                    if (!optionExists) {
+                        religionField.options.push({
+                            value: '999999',
+                            label: response.religion
                         });
                     }
                 }

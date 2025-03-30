@@ -619,6 +619,32 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             }),
         );
     }
+
+    getReligionById(id: number): Observable<any> {
+        const url = `${UriConstants.GET_RELIGION}/${id}`;
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: url,
+            data: {},
+        }).pipe(
+            map((response) => {
+                const existingOption = this.religionOptions.find(option => option.value === id.toString());
+                if (!existingOption) {
+                    this.religionOptions.push({
+                        value: response.idReligion.toString(),
+                        label: response.religion
+                    });
+                }
+                return response;
+            }),
+            catchError(error => {
+                console.error('Error al obtener la religión por ID:', error);
+                return of(null);
+            })
+        );
+    }
     
     parentsMaritalStatus: PaginatedData<parentsMaritalStatusResponse>[] = [];
     parentsMaritalStatusOptions: Array<{ value: string; label: string }> = [];
