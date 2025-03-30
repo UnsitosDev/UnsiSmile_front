@@ -387,6 +387,31 @@ export class FormFieldsService {
         this.handleMaritalStatusClick({} as MouseEvent);
         //this.handleOcupationClick({} as MouseEvent);
         this.handleParentsMaritalStatusClick({} as MouseEvent);
+        // Inicializar el campo de grupo étnico con la opción predeterminada
+        this.initializeEthnicGroupField();
+    }
+
+    private initializeEthnicGroupField(): void {
+        this.patientService.getEthnicGroupById(1).subscribe(response => {
+            if (response) {
+                const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
+                if (ethnicGroupField) {
+                    ethnicGroupField.value = '1';
+                    if (!ethnicGroupField.options) {
+                        ethnicGroupField.options = [];
+                    }
+                    
+                    // Asegurarse de que la opción exista en las opciones del select
+                    const optionExists = ethnicGroupField.options.some(option => option.value === '1');
+                    if (!optionExists) {
+                        ethnicGroupField.options.push({
+                            value: '1',
+                            label: response.ethnicGroup
+                        });
+                    }
+                }
+            }
+        });
     }
 
     private handleGenderClick(event: MouseEvent): void {
@@ -665,7 +690,11 @@ export class FormFieldsService {
     private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 3): void {
         this.patientService.getEthnicGroupDataPaginated(searchTerm, page, size).subscribe(response => {
             const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
-            ethnicGroupField && (ethnicGroupField.options = this.patientService.ethnicGroupOptions);
+            if (ethnicGroupField) {
+                ethnicGroupField.options = this.patientService.ethnicGroupOptions;
+                // Asegúrate de que las opciones incluyan el grupo étnico precargado
+                this.patientService.getEthnicGroupById(1);
+            }
         });
     }
 

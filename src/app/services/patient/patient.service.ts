@@ -548,6 +548,33 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
         );
     }
 
+    getEthnicGroupById(id: number): Observable<any> {
+        const url = `${UriConstants.GET_ETHNIC_GROUP}/${id}`;
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: url,
+            data: {},
+        }).pipe(
+            map((response) => {
+                // Asegurarse de que el grupo étnico esté en las opciones
+                const existingOption = this.ethnicGroupOptions.find(option => option.value === id.toString());
+                if (!existingOption) {
+                    this.ethnicGroupOptions.push({
+                        value: response.idEthnicGroup.toString(),
+                        label: response.ethnicGroup
+                    });
+                }
+                return response;
+            }),
+            catchError(error => {
+                console.error('Error al obtener el grupo étnico por ID:', error);
+                return of(null);
+            })
+        );
+    }
+
     religionData: PaginatedData<religionResponse>[] = [];
     getReligionData(searchTerm: string) {
         this.apiService
