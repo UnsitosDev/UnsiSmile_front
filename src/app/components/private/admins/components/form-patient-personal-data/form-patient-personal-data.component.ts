@@ -91,7 +91,7 @@ export class FormPatientPersonalDataComponent {
     this.address = this.addressDataFields.getAddressFields();
     this.other = this.otherDataFields.getOtherDataFields();
     this.guardian = this.guardianField.getGuardianDataFields();
-    this.studentFields = this.studentService.studentFields; // Agregar esta línea
+    this.studentFields = this.studentService.studentFields;
 
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
@@ -128,36 +128,6 @@ export class FormPatientPersonalDataComponent {
           this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_CREATE_PATIENT);
         }
       }
-    });
-
-    // Precargar el grupo étnico con ID 1 y establecerlo en el formulario
-    this.patientService.getEthnicGroupById(1).subscribe(response => {
-        if (response) {
-            // Asignar el valor al control del formulario después de que las opciones estén cargadas
-            setTimeout(() => {
-                const ethnicGroupField = this.other.find(field => field.name === 'ethnicGroup');
-                if (ethnicGroupField) {
-                    ethnicGroupField.value = '1'; // Establecer el valor predeterminado en el campo
-                }
-                this.formGroup.get('ethnicGroup')?.setValue('1');
-                // Forzar la detección de cambios para actualizar la vista
-                this.formGroup.get('ethnicGroup')?.updateValueAndValidity();
-            }, 100);
-        }
-    });
-
-    // Precargar la religión con ID 999999 y establecerla en el formulario
-    this.patientService.getReligionById(999999).subscribe(response => {
-        if (response) {
-            setTimeout(() => {
-                const religionField = this.other.find(field => field.name === 'religion');
-                if (religionField) {
-                    religionField.value = '999999';
-                }
-                this.formGroup.get('religion')?.setValue('999999');
-                this.formGroup.get('religion')?.updateValueAndValidity();
-            }, 100);
-        }
     });
   }
 

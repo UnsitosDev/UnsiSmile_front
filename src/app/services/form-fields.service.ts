@@ -291,11 +291,11 @@ export class FormFieldsService {
             type: 'autocompleteoptions',
             label: 'Grupo étnico',
             name: 'ethnicGroup',
-            placeholder:  'Ej: Amuzgo',
+            placeholder: 'Ej: Amuzgo',
             required: true,
             validators: [Validators.required],
             errorMessages: {
-                required: 'El campo Grupo étnico es opcional.'
+                required: 'El campo Grupo étnico es requerido'
             },
             onInputChange: {
                 changeFunction: this.handleEthnicGroupClick.bind(this),
@@ -310,13 +310,12 @@ export class FormFieldsService {
             required: true,
             validators: [Validators.required],
             errorMessages: {
-                required: 'El campo Religión es opcional.'
+                required: 'El campo Religión es requerido'
             },
             onInputChange: {
                 changeFunction: this.handleReligionClick.bind(this),
                 length: 5
             }
-
         },
         {
             type: 'datepicker',
@@ -397,56 +396,7 @@ export class FormFieldsService {
         this.handleHousingClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
-        //this.handleOcupationClick({} as MouseEvent);
         this.handleParentsMaritalStatusClick({} as MouseEvent);
-        // Inicializar el campo de grupo étnico con la opción predeterminada
-        this.initializeEthnicGroupField();
-        this.initializeReligionField();
-    }
-
-    private initializeEthnicGroupField(): void {
-        this.patientService.getEthnicGroupById(1).subscribe(response => {
-            if (response) {
-                const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
-                if (ethnicGroupField) {
-                    ethnicGroupField.value = '1';
-                    if (!ethnicGroupField.options) {
-                        ethnicGroupField.options = [];
-                    }
-                    
-                    // Asegurarse de que la opción exista en las opciones del select
-                    const optionExists = ethnicGroupField.options.some(option => option.value === '1');
-                    if (!optionExists) {
-                        ethnicGroupField.options.push({
-                            value: '1',
-                            label: response.ethnicGroup
-                        });
-                    }
-                }
-            }
-        });
-    }
-
-    private initializeReligionField(): void {
-        this.patientService.getReligionById(999999).subscribe(response => {
-            if (response) {
-                const religionField = this.otherDataFields.find(field => field.name === FieldNames.RELIGION);
-                if (religionField) {
-                    religionField.value = '999999';
-                    if (!religionField.options) {
-                        religionField.options = [];
-                    }
-                    
-                    const optionExists = religionField.options.some(option => option.value === '999999');
-                    if (!optionExists) {
-                        religionField.options.push({
-                            value: '999999',
-                            label: response.religion
-                        });
-                    }
-                }
-            }
-        });
     }
 
     private handleGenderClick(event: MouseEvent): void {
@@ -727,8 +677,6 @@ export class FormFieldsService {
             const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
             if (ethnicGroupField) {
                 ethnicGroupField.options = this.patientService.ethnicGroupOptions;
-                // Asegúrate de que las opciones incluyan el grupo étnico precargado
-                this.patientService.getEthnicGroupById(1);
             }
         });
     }
