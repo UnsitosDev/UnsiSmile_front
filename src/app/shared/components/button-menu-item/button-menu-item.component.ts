@@ -19,17 +19,11 @@ export class ButtonMenuItemComponent {
   @Input() buttonText: string = '';
   @Input() description: string = '';
   @Input() fontAwesomeIcon: any = faUser;
-  @Input() subItems: MenuItem[] = []; 
   @Input() link: string = '/students/dashboard';
 
-  isDropdownOpen: boolean = false;
 
   isLinkActive(link: string): boolean {
     return window.location.pathname.startsWith(link);
   }
 
-  toggleDropdown(event: Event) {
-    event.preventDefault(); // Evita la navegación si el ítem tiene sub-ítems
-    this.isDropdownOpen = !this.isDropdownOpen; 
-  }
 }

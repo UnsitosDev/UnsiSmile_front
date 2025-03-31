@@ -6,7 +6,6 @@ export interface MenuItem {
   buttonText: string;
   buttonDescription: string;
   routerlink: string;
-  subItems?: MenuItem[];
 }
 
 
@@ -88,27 +87,7 @@ export const ProfessorItems: MenuItem[] = [
     fontAwesomeIcon: faFileClipboard,
     buttonText: 'Historias Clinicas',
     buttonDescription: 'Revisar Historias Clinicas',
-    routerlink: '/professor/history-clinics',
-    subItems: [
-      {
-        fontAwesomeIcon: faTasks,
-        buttonText: 'En Revisión',
-        buttonDescription: 'Calificar historias clínicas',
-        routerlink: '/professor/history-clinics'
-      },
-      {
-        fontAwesomeIcon: faCheck,
-        buttonText: 'Aprobadas',
-        buttonDescription: 'Historias clínicas aprobadas',
-        routerlink: '/professor/dashboard'
-      },
-      {
-        fontAwesomeIcon: faClose,
-        buttonText: 'Rechazadas',
-        buttonDescription: 'Historias clínicas rechazadas',
-        routerlink: '/professor/dashboard'
-      }
-    ]
+    routerlink: '/professor/history-clinics'
   }
 ];
 

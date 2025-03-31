@@ -2,31 +2,10 @@
    routerLinkActive="active" 
    [routerLinkActiveOptions]="{exact: false}"
    [class.active]="isLinkActive(link)"
-   (click)="toggleDropdown($event)"
    class="menu-item">
   <fa-icon [icon]="fontAwesomeIcon"></fa-icon>
   <div class="menu-text">
     <span>{{ buttonText }}</span>
     <small>{{ description }}</small>
   </div>
-  @if (subItems.length > 0) {
-    <fa-icon [icon]="isDropdownOpen ? 'chevron-up' : 'chevron-down'" class="dropdown-icon"></fa-icon>
-  }
 </a>
-@if (subItems.length > 0 && isDropdownOpen) {
-  <div class="sub-menu">
-    @for (subItem of subItems; track subItem.routerlink) {
-      <a [routerLink]="subItem.routerlink" 
-         routerLinkActive="active" 
-         [routerLinkActiveOptions]="{exact: false}"
-         [class.active]="isLinkActive(subItem.routerlink)"
-         class="sub-menu-item">
-        <fa-icon [icon]="subItem.fontAwesomeIcon"></fa-icon>
-        <div class="menu-text">
-          <span>{{ subItem.buttonText }}</span>
-          <small>{{ subItem.buttonDescription }}</small>
-        </div>
-      </a>
-    }
-  </div>
-}
