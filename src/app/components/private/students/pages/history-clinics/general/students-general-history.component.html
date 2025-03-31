@@ -24,6 +24,12 @@
                   <span class="status" [innerHTML]="translateStatus(mappedHistoryData.tabs[currentIndex].status)"></span>
                 }
 
+                @if (mappedHistoryData.tabs[currentIndex].status == STATUS.REJECTED) {
+                  <button class="button-custom" (click)="openConfirmDialog()">
+                    <i class="fas fa-file-upload"></i>
+                  </button>
+              }
+
                 @if (mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_STATUS && 
                     mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_REQUIRED && 
                     role === ROL.PROFESSOR) {

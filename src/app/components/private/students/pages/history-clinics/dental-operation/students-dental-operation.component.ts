@@ -72,8 +72,6 @@ export class StudentsDentalOperationComponent {
   private isNavigationPrevented: boolean = true; // Variable para evitar navegación inicialmente
   private navigationComplete: boolean = false; // Flag para manejar la navegación completada
   private additionalRoutes = ['/students/user'];
-  firstLabel: string = '';
-  previousLabel: string = '';
   role!: string;
   currentSectionId: number | null = null;
   currentStatus: string | null = null;

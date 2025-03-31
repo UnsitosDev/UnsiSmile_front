@@ -8,19 +8,40 @@
           <span><strong>Historia clínica {{mappedHistoryData.title}}</strong></span>
           <span>
             <strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong> &nbsp; 
-            @if (mappedHistoryData.tabs[currentIndex].requiresReview && mappedHistoryData.tabs[currentIndex].status == 'NO_STATUS') {
-                <button class="button-custom" (click)="openConfirmDialog()">
-                  Enviar a revisión <i class="fas fa-file-upload"></i>
-                </button>
-            }
-            @if (mappedHistoryData.tabs[currentIndex].status !== 'NO_STATUS' && mappedHistoryData.tabs[currentIndex].status !== 'NO_REQUIRED') {
-                <span class="status" [innerHTML]="translateStatus(mappedHistoryData.tabs[currentIndex].status)"></span>
-            }
+                @if (mappedHistoryData.tabs[currentIndex].requiresReview && 
+                    mappedHistoryData.tabs[currentIndex].status === STATUS.NO_STATUS && 
+                    role !== ROL.ADMIN) {
+                  <button class="button-custom" (click)="openConfirmDialog()">
+                    Enviar a revisión <i class="fas fa-file-upload"></i>
+                  </button>
+                }
+
+                @if (mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_STATUS && 
+                    mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_REQUIRED && 
+                    role !== ROL.PROFESSOR) {
+                  <span class="status" [innerHTML]="translateStatus(mappedHistoryData.tabs[currentIndex].status)"></span> &nbsp;
+                }
+
+                @if (mappedHistoryData.tabs[currentIndex].status == STATUS.REJECTED) {
+                  <button class="button-custom" (click)="openConfirmDialog()">
+                    <i class="fas fa-file-upload"></i>
+                  </button>
+                }
+
+                @if (mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_STATUS && 
+                    mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_REQUIRED && 
+                    role === ROL.PROFESSOR) {
+                  <app-menu-assess-medical-history
+                    [idClinicalHistoryPatient]="idPatientClinicalHistory"
+                    [selectedIndex]="currentSectionId" 
+                    [status]="currentStatus"
+                  ></app-menu-assess-medical-history>
+                }
           </span> 
         </div>
     </mat-card-title>
     <mat-card class="custom">
-            <mat-tab-group [(selectedIndex)]="currentIndex">
+            <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
                 @for (tab of mappedHistoryData.tabs; track tab) {
                     <mat-tab [label]="tab.title">
                         @if (tab.isAnswered) {
