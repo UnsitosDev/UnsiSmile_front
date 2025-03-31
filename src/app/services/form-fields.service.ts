@@ -292,7 +292,7 @@ export class FormFieldsService {
             type: 'autocompleteoptions',
             label: 'Grupo étnico',
             name: 'ethnicGroup',
-            placeholder: 'Ej: Amuzgo',
+            placeholder: 'Ej: No especificada',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -307,7 +307,7 @@ export class FormFieldsService {
             type: 'autocompleteoptions',
             label: 'Religión',
             name: 'religion',
-            placeholder: 'Ej: Católico',
+            placeholder: 'Ej: Religión no especificada',
             required: true,
             validators: [Validators.required],
             errorMessages: {
