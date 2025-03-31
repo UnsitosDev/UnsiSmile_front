@@ -10,11 +10,22 @@ import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient
 import { Accion, getEntityPropiedades } from 'src/app/models/tabla/tabla-columna';
 import { Router } from '@angular/router';
 import { DialogHistoryClinicsComponent } from '../../../students/components/dialog-history-clinics/dialog-history-clinics.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { STATUS } from 'src/app/utils/statusToReview';
 
 @Component({
   selector: 'app-review-history-clinics',
   standalone: true,
-  imports: [MatCardModule, TablaDataComponent],
+  imports: [MatCardModule, TablaDataComponent, MatCheckboxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule],
   templateUrl: './review-history-clinics.component.html',
   styleUrl: './review-history-clinics.component.scss',
 })
@@ -22,16 +33,18 @@ export class ReviewHistoryClinicsComponent implements OnInit {
   private readonly apiService = inject(ApiService<PatientResponse>);
   private readonly dialog = inject(MatDialog);
   readonly router = inject(Router);
-
-  patientsList: patientsTableDataProfessor[] = [];
-  title = 'Pacientes con historias clínicas por revisar';
-  columns: string[] = [];
-  currentPage = 0;
-  itemsPerPage = 10;
-  searchTerm = '';
-  totalElements = 0;
-  sortField = 'person.firstName';
-  sortAsc = true;
+  public selectedStatus!: string; 
+  public statusControl = new FormControl(STATUS.IN_REVIEW); 
+  public STATUS = STATUS;
+  public patientsList: patientsTableDataProfessor[] = [];
+  public title = '';
+  public columns: string[] = [];
+  public currentPage = 0;
+  public itemsPerPage = 10;
+  public searchTerm = '';
+  public totalElements = 0;
+  public sortField = 'person.firstName';
+  public sortAsc = true;
 
   readonly sortableColumns = {
     nombres: 'person.firstName',
@@ -59,7 +72,8 @@ export class ReviewHistoryClinicsComponent implements OnInit {
   }
 
   getClinicalHistoriesToReview(): void {
-    const status = 'IN_REVIEW';
+    const status = this.statusControl.value;
+    this.setTitleBasedOnStatus(status);
     const params = {
       status,
       page: 0,
@@ -98,6 +112,22 @@ export class ReviewHistoryClinicsComponent implements OnInit {
           this.totalElements = 0;
         },
       });
+  }
+
+  setTitleBasedOnStatus(status: string | null): void {
+    switch (status) {
+      case STATUS.IN_REVIEW:
+        this.title = 'Historias Clínicas en Revisión';
+        break;
+      case STATUS.REJECTED:
+        this.title = 'Historias Clínicas Rechazadas';
+        break;
+      case STATUS.APPROVED:
+        this.title = 'Historias Clínicas Aprobadas';
+        break;
+      default:
+        this.title = 'Historias Clínicas';
+    }
   }
 
   onSearch(keyword: string): void {
