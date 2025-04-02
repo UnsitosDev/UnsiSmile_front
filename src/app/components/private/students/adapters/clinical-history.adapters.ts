@@ -129,19 +129,21 @@ export function determineFieldType(answerType: AnswerType): 'inputText' | 'input
 export function determineFieldGrids(answerType: AnswerType): string {
     switch (answerType.description) {
         case 'MULTIVALUED':
-            return 'col-span-12'; // Ocupa todo el ancho
+            return 'w-full md:col-span-12';
         case 'BOOLEAN':
-            return 'col-span-12'; // Ocupa todo el ancho
+            return 'w-full md:col-span-12';
         case 'SHORT_TEXT':
-            return 'col-span-4'; // Ocupa un tercio
+            return 'w-full md:col-span-4';
         case 'NUMERIC':
-            return 'col-span-4'; // Ocupa un tercio
+            return 'w-full md:col-span-4';
         case 'PHOTO':
-            return 'col-span-12'; // Ocupa todo el ancho
+            return 'w-full md:col-span-12';
         case 'LONG_TEXT':
-            return 'col-span-12'  // Ocupa todo el ancho
+            return 'w-full md:col-span-12';
+        case 'CATALOG':
+            return 'w-full md:col-span-4';
         default:
-            return 'col-span-4'; // Valor por defecto
+            return 'w-full md:col-span-12';
     }
 }
 
