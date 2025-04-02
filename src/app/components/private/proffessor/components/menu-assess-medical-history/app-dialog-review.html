@@ -1,0 +1,29 @@
+<mat-card>
+    <mat-card-title>
+        <div class="title-container card-custom">
+            <span><strong>Calificar Historia Clínica</strong></span>
+            <mat-icon matListItemIcon (click)="closeDialog()">close</mat-icon>
+        </div>
+    </mat-card-title>
+</mat-card>
+
+<mat-card class="custom-container">
+    <mat-radio-group aria-label="Seleccione una opción" [(ngModel)]="newStatus">
+        <mat-radio-button value="APPROVED">Aprobar</mat-radio-button>
+        <mat-radio-button value="REJECTED">Rechazar</mat-radio-button>
+        <mat-radio-button value="IN_REVIEW">En Revisión</mat-radio-button>
+    </mat-radio-group>
+    <br>
+    <form>
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Observaciones</mat-label>
+            <textarea
+                matInput
+                placeholder="Escriba aquí las observaciones sobre la historia clínica..."
+                [(ngModel)]="message"
+                name="message"
+            ></textarea>
+        </mat-form-field>
+    </form>
+    <button mat-button (click)="saveReviewHc()">Enviar calificación</button>
+</mat-card>

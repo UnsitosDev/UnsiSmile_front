@@ -10,11 +10,10 @@ import { MatInputModule } from '@angular/material/input';
 // Componentes
 import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
 import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
 
 // Servicios
-import { ApiService } from '@mean/services';
+import { ApiService, AuthService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
@@ -24,14 +23,20 @@ import { UriConstants } from '@mean/utils';
 import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { Subscription } from 'rxjs';
-import { StudentItems } from '@mean/models';
+import { StatusClinicalHistoryResponse, StudentItems } from '@mean/models';
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { HttpHeaders } from '@angular/common/http';
+import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
+import { MenuAssessMedicalHistoryComponent } from "../../../../proffessor/components/menu-assess-medical-history/menu-assess-medical-history.component";
+import { STATUS } from 'src/app/utils/statusToReview';
+import { ROLES } from 'src/app/utils/roles';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 @Component({
   selector: 'app-students-periodontics-history',
   standalone: true,
-  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent],
+  imports: [ MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent],
   templateUrl: './students-periodontics-history.component.html',
   styleUrl: './students-periodontics-history.component.scss'
 })
@@ -40,14 +45,20 @@ export class StudentsPeriodonticsHistoryComponent {
   private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
   private patientService = inject(ApiService<Patient, {}>);
+  private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  public medicalRecordNumber!: number;
   private id!: number;
   private idpatient!: string;
-  private idPatientClinicalHistory!: number;
+  public idPatientClinicalHistory!: number;
   private year?: number;
   private month?: number;
   private day?: number;
   private nextpage: boolean = true;
+  private getStatus = false;
   private patient!: Patient;
   public patientData!: cardPatient;
   public guardianData: cardGuardian | null = null;
@@ -60,17 +71,27 @@ export class StudentsPeriodonticsHistoryComponent {
   private isNavigationPrevented: boolean = true; // Variable para evitar navegación inicialmente
   private navigationComplete: boolean = false; // Flag para manejar la navegación completada
   private additionalRoutes = ['/students/user'];
-
+  public role!: string;
+  public currentSectionId: number | null = null;
+  public currentStatus: string | null = null;
+  public STATUS = STATUS;
+  public ROL = ROLES;
   constructor() { }
 
   ngOnInit(): void {
+
+    this.getRole();
+
     this.router.params.subscribe((params) => {
       this.id = params['id']; // Id Historia Clinica
       this.idpatient = params['patient']; // Id Paciente
       this.idPatientClinicalHistory = params['patientID']; // idPatientClinicalHistory
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
-          this.mappedHistoryData = mappedData;
+          this.mappedHistoryData = this.processMappedData(mappedData, this.role);
+          this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
+          this.getFirstTab();
+          this.getStatusHc();
         }
       });
       this.fetchPatientData();
@@ -98,6 +119,28 @@ export class StudentsPeriodonticsHistoryComponent {
     });
   }
 
+  getFirstTab() {
+    if (this.mappedHistoryData.tabs.length > 0) {
+      this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+      this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
+      console.log(this.currentSectionId);
+    }
+  }
+
+  getRole() {
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+  }
+
+  private processMappedData(mappedData: dataTabs, role: string): dataTabs {
+    let processedData = { ...mappedData };
+    if (role === ROLES.PROFESSOR) {
+      processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
+    }
+    return processedData;
+  }
+
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
     // Inicialmente, mantenemos al usuario en la misma página si no se ha aceptado la navegación
     if (this.isNavigationPrevented) {
@@ -109,7 +152,7 @@ export class StudentsPeriodonticsHistoryComponent {
       width: '400px',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: {message}
+      data: { message }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -168,8 +211,8 @@ export class StudentsPeriodonticsHistoryComponent {
               parentalStatus: this.patient.guardian.parentalStatus ? {
                 idCatalogOption: this.patient.guardian.parentalStatus.idCatalogOption,
                 optionName: this.patient.guardian.parentalStatus.optionName
-              } : { idCatalogOption: 0, optionName: '' }, 
-              doctorName: this.patient.guardian.doctorName || '' 
+              } : { idCatalogOption: 0, optionName: '' },
+              doctorName: this.patient.guardian.doctorName || ''
             };
           } else {
             this.guardianData = null;
@@ -199,6 +242,63 @@ export class StudentsPeriodonticsHistoryComponent {
     return `${day}/${month}/${year}`;
   }
 
+  status: StatusClinicalHistoryResponse | null = null;
+
+  statusMap: { [key: string]: string } = {
+    IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
+    APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
+    REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
+  };
+
+  onTabChange(index: number) {
+    this.currentIndex = index;
+    this.getStatusHc();
+  }
+
+  openConfirmDialog() {
+    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
+    const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
+      width: '300px',
+      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: currentTab.idFormSection },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getStatus = true;
+        this.getStatusHc(true);
+      }
+    });
+  }
+
+  getStatusHc(forceRequest: boolean = false) {
+    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
+
+    // Si no se fuerza la solicitud y el tab tiene NO_STATUS o NO_REQUIRED, no hacemos la solicitud
+    if (!forceRequest && (currentTab.status === STATUS.NO_REQUIRED || currentTab.status === STATUS.NO_REQUIRED)) {
+      return;
+    }
+
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}/${currentTab.idFormSection}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          currentTab.status = response.status;
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+  }
+
+  translateStatus(status: string): string {
+    return this.statusMap[status] || status;
+  }
   onNextTab(): void {
     this.currentIndex++; // Incrementar el índice del tab activo
     if (this.currentIndex >= this.mappedHistoryData.tabs.length) {
