@@ -79,15 +79,23 @@ export class StudentsPatientsComponent implements OnInit {
   }
 
   onAction(accion: Accion) {
-    if (accion.accion == 'Editar') {
+    if (accion.accion === 'Editar') {  // Cambiado de 'Editar' a 'Modificar'
       this.editar(accion.fila);
-    } else if (accion.accion == 'Eliminar') {
-      this.eliminar(accion.fila.nombre);
-    } else if (accion.accion == 'Detalles') {
+    } else if (accion.accion === 'Eliminar') {
+      this.delete(accion.fila.nombre);
+    } else if (accion.accion === 'Detalles') {
       this.openDetailsDialog(accion.fila);
-    } else if (accion.accion == 'MostrarAlerta') {
-      this.mostrarAlerta();
+    }  else if (accion.accion === 'Modificar') {
+      this.edit(accion.fila);
     }
+  }
+  
+  delete(nombre: string) {
+    console.log('eliminar', nombre);
+  }
+
+  edit(objeto: any) {
+    this.router.navigate(['/students/patients/updatePatient', objeto.patientID]);
   }
 
   editar(objeto: any) {
