@@ -588,7 +588,7 @@ export class FormUpdatePatientComponent {
         next: (response) => {
           this.toastr.success(Messages.SUCCES_UPDATE_PATIENT, 'Éxito');
           setTimeout(() => {
-            this.router.navigate(['/admin/patients']);
+            this.router.navigate(['/students/patients']);
           }, 1000);
         },
         error: (error) => {
@@ -598,5 +598,9 @@ export class FormUpdatePatientComponent {
     } else {
       this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
+  }
+
+  onBack() {
+    this.router.navigate(['/students/patients']);
   }
 }

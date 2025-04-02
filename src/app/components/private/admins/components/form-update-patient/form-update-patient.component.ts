@@ -599,4 +599,9 @@ export class FormUpdatePatientComponent implements OnInit {
       this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
   }
+
+  onBack() {
+    this.router.navigate(['/admin/patients']);
+  }
+
 }
