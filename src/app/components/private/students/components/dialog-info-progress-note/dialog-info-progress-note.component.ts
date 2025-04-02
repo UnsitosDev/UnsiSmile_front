@@ -7,7 +7,6 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatList, MatListModule } from '@angular/material/list';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-import { jsPDF } from 'jspdf';
 import { ToastrService } from 'ngx-toastr';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 
