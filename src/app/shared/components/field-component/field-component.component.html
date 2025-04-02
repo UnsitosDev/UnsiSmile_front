@@ -1,11 +1,10 @@
 <div [formGroup]="formGroup">
   @switch (field.type) {    
     @case('multivalued') {
-      <div class="grid grid-cols-12 gap-4 items-center">
-        <div class="col-span-6 p-4">
-          <label>{{ field.label }}</label>
-        </div>
-        <div class="col-span-2 p-4">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div class="md:col-span-8 col-span-12 flex flex-wrap items-center gap-4 p-4">
+          <label class="flex-1 min-w-[50%] md:min-w-0">{{ field.label }}</label>
+          
           <section class="example-section">
             <mat-checkbox 
               class="example-margin" 
@@ -15,7 +14,8 @@
             </mat-checkbox>
           </section>
         </div>
-        <div class="col-span-4 p-4">
+    
+        <div class="md:col-span-4 col-span-12 p-4">
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>Ampliar Respuesta</mat-label>
             <input 
@@ -30,17 +30,23 @@
       </div>
     }
     @case ('boolean') {
-      <div class="grid grid-cols-12 gap-4 items-center">
-        <div class="col-span-9 p-4">
-          <label>{{ field.label }}</label>
-        </div>
-        <div class="col-span-3 p-4">
-          <section class="example-section">
-            <mat-checkbox class="example-margin" [formControlName]="field.name" (change)="onValueChangeCheck($event)" [checked]="field.answerField?.answerBoolean"></mat-checkbox>
-          </section>
-        </div>
+      <div class="flex items-center gap-4 p-4 flex-wrap sm:flex-nowrap">
+        <!-- Label: Puede crecer y hacer saltos de línea -->
+        <label class="flex-1 min-w-[50px] break-words">
+          {{ field.label }}
+        </label>
+        
+        <!-- Checkbox: Nunca salta de línea -->
+        <section class="example-section flex-shrink-0">
+          <mat-checkbox
+            class="example-margin"
+            [formControlName]="field.name"
+            (change)="onValueChangeCheck($event)"
+            [checked]="field.answerField?.answerBoolean">
+          </mat-checkbox>
+        </section>
       </div>
-      <hr> 
+      <hr>
     }
     @case ('input') {
       <mat-form-field appearance="fill" class="w-full">

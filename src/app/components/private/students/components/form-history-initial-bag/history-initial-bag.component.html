@@ -90,11 +90,13 @@
 </div>
 
 <div class="button-container">
-  <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
+  <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> <span class="hidden sm:inline"> ANTERIOR</span> </button>
   <div>
     @if (role == 'ROLE_STUDENT') {
       <button type="button" mat-button (click)="store()"> GUARDAR <i class="fas fa-save"></i></button>
     }
-    <button type="button" (click)="nextTab()" mat-button> AVANZAR <i class="fas fa-long-arrow-alt-right"></i></button>
+    <button type="button" (click)="nextTab()" mat-button > 
+      <span class="hidden sm:inline">AVANZAR </span>
+      <i class="fas fa-long-arrow-alt-right"></i></button>
   </div>
 </div>

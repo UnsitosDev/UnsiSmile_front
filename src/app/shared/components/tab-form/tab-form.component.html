@@ -1,17 +1,16 @@
 <div class="mx-8 pb-8 custom">
   <form [formGroup]="formGroup">
     @if (fieldsTab.seccion) {
-      <div class="grid grid-cols-12 gap-4 mt-4"> <!-- Contenedor de la cuadrícula -->
-        @for (field of fieldsTab.seccion; track field) { <!-- Usando @for con track -->
-          <div class="{{ field.grids }}"> <!-- Aplica la clase de grid a cada campo -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mt-4">
+        @for (field of fieldsTab.seccion; track field) {
+          <div class="{{ field.grids }}">
             <app-field-component
               [field]="field"
               [formGroup]="formGroup"
               [errors]="field.errorMessages"
               [disabledMultivalued]="disabledControl"
               (setFieldValue)="handleFieldValue($event)"
-              (setFileValue)="handleFileValue($event)"
-              >
+              (setFileValue)="handleFileValue($event)">
             </app-field-component>
           </div>
         }
@@ -35,12 +34,18 @@
       </div>
     }
     <div class="button-container">
-      <button (click)="previousTab()" type="button" mat-button matStepperNext><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
+      <button (click)="previousTab()" type="button" mat-button matStepperNext>
+        <i class="fas fa-long-arrow-alt-left"></i>&nbsp;
+        <span class="hidden sm:inline">ANTERIOR</span>
+      </button>
       <div>
         @if (!disabledControl) {
           <button type="button" (click)="handleSubmission()" mat-button> GUARDAR <i class="fas fa-save"></i></button>
-        }
-        <button type="button" (click)="nextTab()" mat-button> AVANZAR <i class="fas fa-long-arrow-alt-right"></i></button>
+        }    
+        <button type="button" (click)="nextTab()" mat-button>
+          <span class="hidden sm:inline">AVANZAR</span>&nbsp;
+          <i class="fas fa-long-arrow-alt-right"></i>
+        </button>              
       </div>
     </div>
   </form>
