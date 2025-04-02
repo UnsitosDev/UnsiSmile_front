@@ -8,13 +8,15 @@
       <ng-template matStepLabel>DATOS PERSONALES</ng-template>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
         @for (field of personal; track $index) {
-          <app-field-component 
-            [field]="field" 
-            [formGroup]="formGroup" 
-            [errors]="field.errorMessages"
-            (setFieldValue)="onFieldValueChange($event)"
-            (ageStatusChange)="onAgeStatusChange($event)">
-          </app-field-component>
+          @if (shouldShowField(field)) {
+            <app-field-component 
+              [field]="field" 
+              [formGroup]="formGroup" 
+              [errors]="field.errorMessages"
+              (setFieldValue)="onFieldValueChange($event)"
+              (ageStatusChange)="onAgeStatusChange($event)">
+            </app-field-component>
+          }
         }      
       </div>
       <div class="button-container">
@@ -29,12 +31,14 @@
       <ng-template matStepLabel>DOMICILIO</ng-template>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6" (scroll)="onScroll($event)">
         @for (field of address; track $index) {
-          <app-field-component 
-          [field]="field" 
-          [formGroup]="formGroup" 
-          [errors]="field.errorMessages"
-          (setFieldValue)="onFieldValueChange($event)">
-          </app-field-component>
+          @if (shouldShowField(field)) {
+            <app-field-component 
+            [field]="field" 
+            [formGroup]="formGroup" 
+            [errors]="field.errorMessages"
+            (setFieldValue)="onFieldValueChange($event)">
+            </app-field-component>
+          }
         }
       </div>
       <div class="button-container">
@@ -49,12 +53,14 @@
       <ng-template matStepLabel>OTROS DATOS</ng-template>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
         @for (field of other; track $index) {
-          <app-field-component 
-          [field]="field" 
-          [formGroup]="formGroup" 
-          [errors]="field.errorMessages"
-          (setFieldValue)="onFieldValueChange($event)">
-          </app-field-component>
+          @if (shouldShowField(field)) {
+            <app-field-component 
+            [field]="field" 
+            [formGroup]="formGroup" 
+            [errors]="field.errorMessages"
+            (setFieldValue)="onFieldValueChange($event)">
+            </app-field-component>
+          }
         }
       </div>
       <div class="button-container">
@@ -81,12 +87,14 @@
         <ng-template matStepLabel>DATOS DEL TUTOR</ng-template>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
           @for (field of guardian; track $index) {
-            <app-field-component 
-            [field]="field" 
-            [formGroup]="formGroup" 
-            [errors]="field.errorMessages"
-            (setFieldValue)="onFieldValueChange($event)">
-            </app-field-component>
+            @if (shouldShowField(field)) {
+              <app-field-component 
+              [field]="field" 
+              [formGroup]="formGroup" 
+              [errors]="field.errorMessages"
+              (setFieldValue)="onFieldValueChange($event)">
+              </app-field-component>
+            }
           }
         </div>
         <div class="button-container">
