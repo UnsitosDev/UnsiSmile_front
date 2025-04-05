@@ -45,18 +45,16 @@ export class FormUpdateStudentComponent implements OnInit {
   constructor(private route: ActivatedRoute, private studentService: studentService) {}
 
   ngOnInit() {
+    // Cargar los campos de estudiante primero
+    this.studentFields = this.studentService.getPersonalDataFields();
+    
     // Asegurarnos de que se carguen las opciones de género antes de inicializar el form
     const genderField = this.studentFields.find(field => field.name === 'gender');
     if (genderField && genderField.onClick) {
       genderField.onClick(new MouseEvent('click'));
     }
 
-    this.route.params.subscribe(params => {
-      this.matricula = params['matricula'];
-      this.loadStudentData(this.matricula);
-    });
-
-    this.studentFields = this.studentService.getPersonalDataFields();
+    // Inicializar el formulario después de cargar los campos y las opciones de género
     this.formGroup = this.fb.group({});
     this.studentFields.forEach(field => {
       const control = this.fb.control({
@@ -65,6 +63,12 @@ export class FormUpdateStudentComponent implements OnInit {
       }, field.validators || []);
       this.formGroup.addControl(field.name, control);
     });
+
+    // Suscribirse a los parámetros de ruta y cargar datos del estudiante
+    this.route.params.subscribe(params => {
+      this.matricula = params['matricula'];
+      this.loadStudentData(this.matricula);
+    });
   }
 
   loadStudentData(matricula: string) {
@@ -72,7 +76,23 @@ export class FormUpdateStudentComponent implements OnInit {
     this.apiService.getService({ url }).subscribe({
       next: (response: any) => {
         if (response.content && response.content.length > 0) {
-          const student = response.content[0]; // Tomamos el primer estudiante del array          
+          const student = response.content[0]; // Tomamos el primer estudiante del array
+          
+          // Asegurar que el género se cargue correctamente
+          const genderField = this.studentFields.find(field => field.name === 'gender');
+          if (genderField && genderField.onClick) {
+            genderField.onClick(new MouseEvent('click'));
+            setTimeout(() => {
+              // Establecer el valor después de que se hayan cargado las opciones
+              this.formGroup.patchValue({
+                gender: student.person.gender.idGender.toString(),
+              });
+              
+              // Marcar el control como "touched" para que muestre el valor seleccionado
+              this.formGroup.get('gender')?.markAsTouched();
+            }, 100);
+          }
+
           this.formGroup.patchValue({
             firstName: student.person.firstName,
             secondName: student.person.secondName,
@@ -83,10 +103,9 @@ export class FormUpdateStudentComponent implements OnInit {
             phone: student.person.phone,
             birthDate: new Date(student.person.birthDate),
             email: student.person.email,
-            gender: student.person.gender.idGender.toString(),
             career: student.group.career.idCareer,
             semester: student.group.semester.idSemester,
-            group: student.group.idGroup.toString() // Convertimos a string y usamos idGroup
+            group: student.group.idGroup.toString()
           });
 
           // Asegurar que los campos CURP, birthDate y enrollment estén deshabilitados
@@ -98,15 +117,6 @@ export class FormUpdateStudentComponent implements OnInit {
           }
           if (this.formGroup.get('enrollment')) {
             this.formGroup.get('enrollment')?.disable();
-          }
-
-          const genderField = this.studentFields.find(field => field.name === 'gender');
-          if (genderField) {
-            genderField.value = student.person.gender.idGender.toString();
-            
-            if (genderField.onClick) {
-              genderField.onClick(new MouseEvent('click'));
-            }
           }
 
           Object.keys(this.formGroup.controls).forEach(key => {
