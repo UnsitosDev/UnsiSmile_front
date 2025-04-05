@@ -145,6 +145,8 @@ export class UriConstants {
   public static readonly GETID_PERSON = basePath + '/persons/';
   public static readonly GET_PERSON = basePath + '/persons';
   public static readonly POST_PERSON = basePath + '/persons';
+  public static readonly PATCH_PERSON_BY_CURP = basePath + '/people/'; // Nuevo endpoint para actualizar por CURP
+
   // grupos
   public static readonly GETID_GROUPS = basePath + '/groups/';
   public static readonly GET_GROUPS = basePath + '/groups';
