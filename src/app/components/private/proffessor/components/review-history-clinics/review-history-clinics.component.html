@@ -1,0 +1,28 @@
+<mat-card class="full-width-card">
+    <mat-card-title><strong>Gestión de Historias Clínicas - Revisión y Aprobación</strong></mat-card-title>
+</mat-card>
+<br>
+<mat-form-field appearance="fill" class="w-full">
+  <mat-label>Seleccione historias clínicas: Por revisar, Aprobadas o Rechazadas</mat-label>
+  <mat-select [formControl]="statusControl" (selectionChange)="getClinicalHistoriesToReview()">
+    <mat-option [value]="STATUS.IN_REVIEW">Historias clinicas por revisar</mat-option>
+    <mat-option [value]="STATUS.APPROVED">Historias clinicas aprovadas</mat-option>
+    <mat-option [value]="STATUS.REJECTED">Historias clinicas rechazadas</mat-option>
+  </mat-select>
+</mat-form-field>
+<br>
+<app-tabla-data
+  [titulo]="title"
+  [columns]="columns"
+  [data]="patientsList"
+  [totalItems]="totalElements"
+  [sortableColumns]="sortableColumns"
+  [showSearchIcon]="true"
+  [showEditIcon]="true"
+  [showFolderIcon]="true"
+  (action)="onAction($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (pageChange)="onPageChange($event)"
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)">
+</app-tabla-data>

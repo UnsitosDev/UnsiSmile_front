@@ -1,25 +1,30 @@
-export interface Ipatients{
-    nombre: string,
-    edad : number
-    sexo : string
-    telefono : number
-    email : string
-  }
-export class patientsTableData{
+export interface Ipatients {
+  nombre: string,
+  edad: number
+  sexo: string
+  telefono: number
+  email: string
+}
+export class patientsTableData {
   nombres = ''
-  apellidos =  ''
-  correo= ''
-  curp =  ''
+  apellidos = ''
+  correo = ''
+  curp = ''
   idMedicalHistory = 0
-  estatus= ''  // Nuevo campo
+  estatus = ''  // Nuevo campo
+}
 
+export class patientsTableDataProfessor {
+  nombres = ''
+  apellidos = ''
+  curp = ''
+  expediente  = 0
+}
 
-  }
+export class columnPatientsTableData {
+  nombres = ''
+  apellidos = ''
+  correo = ''
+  curp = ''
 
-  export class columnPatientsTableData{
-    nombres = ''
-    apellidos =  ''
-    correo= ''
-    curp =  ''
-  
-    }
+}

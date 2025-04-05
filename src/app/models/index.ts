@@ -6,3 +6,4 @@ export * from './shared/odontogram/odontogram.model';
 export * from './shared/odontogram/odontogram';
 export * from './shared/periodontogram.model'
 export * from './shared/formats.model'
+export * from './shared/statusHc'

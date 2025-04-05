@@ -22,7 +22,10 @@ export function mapFormSectionToFormSectionFields(section: FormSection): formSec
             : null, // Si no hay subsecciones, asigna null
         seccion: section.questions.map((question) => mapQuestionToFormField(question)),
         component: determineSeccion(section), 
-        isAnswered: section.isAnswered // Verifica si la sección ha sido respondida
+        isAnswered: section.isAnswered, // Verifica si la sección ha sido respondida
+        idFormSection: section.idFormSection,
+        status: section.status,
+        requiresReview: section.requiresReview
     };
 }
 
@@ -129,19 +132,21 @@ export function determineFieldType(answerType: AnswerType): 'inputText' | 'input
 export function determineFieldGrids(answerType: AnswerType): string {
     switch (answerType.description) {
         case 'MULTIVALUED':
-            return 'col-span-12'; // Ocupa todo el ancho
+            return 'w-full md:col-span-12';
         case 'BOOLEAN':
-            return 'col-span-12'; // Ocupa todo el ancho
+            return 'w-full md:col-span-12';
         case 'SHORT_TEXT':
-            return 'col-span-4'; // Ocupa un tercio
+            return 'w-full md:col-span-4';
         case 'NUMERIC':
-            return 'col-span-4'; // Ocupa un tercio
+            return 'w-full md:col-span-4';
         case 'PHOTO':
-            return 'col-span-12'; // Ocupa todo el ancho
+            return 'w-full md:col-span-12';
         case 'LONG_TEXT':
-            return 'col-span-12'  // Ocupa todo el ancho
+            return 'w-full md:col-span-12';
+        case 'CATALOG':
+            return 'w-full md:col-span-4';
         default:
-            return 'col-span-4'; // Valor por defecto
+            return 'w-full md:col-span-12';
     }
 }
 

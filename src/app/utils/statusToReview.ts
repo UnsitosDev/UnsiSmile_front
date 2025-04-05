@@ -1,0 +1,7 @@
+export const STATUS = {
+    NO_STATUS: 'NO_STATUS',
+    NO_REQUIRED: 'NO_REQUIRED',
+    IN_REVIEW: 'IN_REVIEW',
+    APPROVED: 'APPROVED',
+    REJECTED: 'REJECTED',
+};  
