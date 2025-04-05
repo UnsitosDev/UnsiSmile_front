@@ -59,10 +59,11 @@ export class FormUpdateStudentComponent implements OnInit {
     this.studentFields = this.studentService.getPersonalDataFields();
     this.formGroup = this.fb.group({});
     this.studentFields.forEach(field => {
-      this.formGroup.addControl(
-        field.name,
-        this.fb.control(field.value || '', field.validators || [])
-      );
+      const control = this.fb.control({
+        value: field.value || '',
+        disabled: field.disabled || false
+      }, field.validators || []);
+      this.formGroup.addControl(field.name, control);
     });
   }
 
@@ -87,6 +88,17 @@ export class FormUpdateStudentComponent implements OnInit {
             semester: student.group.semester.idSemester,
             group: student.group.idGroup.toString() // Convertimos a string y usamos idGroup
           });
+
+          // Asegurar que los campos CURP, birthDate y enrollment estén deshabilitados
+          if (this.formGroup.get('curp')) {
+            this.formGroup.get('curp')?.disable();
+          }
+          if (this.formGroup.get('birthDate')) {
+            this.formGroup.get('birthDate')?.disable();
+          }
+          if (this.formGroup.get('enrollment')) {
+            this.formGroup.get('enrollment')?.disable();
+          }
 
           const genderField = this.studentFields.find(field => field.name === 'gender');
           if (genderField) {
@@ -118,7 +130,13 @@ export class FormUpdateStudentComponent implements OnInit {
 
   onSubmit() {
     if (this.formGroup.valid) {
-      const formValues = this.formGroup.value;
+      // Obtener todos los valores, incluyendo los campos deshabilitados
+      const formValues = {
+        ...this.formGroup.value,
+        curp: this.formGroup.get('curp')?.value,
+        birthDate: this.formGroup.get('birthDate')?.value,
+        enrollment: this.formGroup.get('enrollment')?.value
+      };
       
       const studentData = {
         enrollment: formValues.enrollment,
@@ -155,8 +173,6 @@ export class FormUpdateStudentComponent implements OnInit {
           }
         }
       };
-
-    
 
       const url = `${UriConstants.PATCH_STUDENT}${this.matricula}`;
       this.apiService.patchService({

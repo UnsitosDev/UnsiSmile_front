@@ -77,6 +77,7 @@ export interface FormField {
     label: string;
     validations?: ValidationField[];
     required?: boolean;
+    disabled?: boolean;
     options?: FormFieldOption[];
     validators?: ValidatorFn[];
     value?: any;
