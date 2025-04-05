@@ -155,6 +155,14 @@ export class FormUpdatePatientComponent {
     this.other = this.personalDataFields.getOtherDataFields();
     this.guardian = this.personalDataFields.getGuardianDataFields();
     
+    // Marcar los campos de CURP y fecha de nacimiento como deshabilitados
+    const personalFieldsToDisable = ['curp', 'birthDate'];
+    this.personal.forEach(field => {
+      if (personalFieldsToDisable.includes(field.name)) {
+        field.disabled = true;
+      }
+    });
+    
     const fieldsToInitialize = [
       { list: this.personal, fieldName: 'gender' },
       { list: this.other, fieldName: 'nationality' },
@@ -179,7 +187,10 @@ export class FormUpdatePatientComponent {
     [...this.personal, ...this.address, ...this.other, ...this.guardian].forEach(field => {
       this.formGroup.addControl(
         field.name,
-        this.fb.control(field.value || '', field.validators || [])
+        this.fb.control({
+          value: field.value || '',
+          disabled: field.disabled || false
+        }, field.validators || [])
       );
     });
   }
@@ -422,6 +433,14 @@ export class FormUpdatePatientComponent {
 
     this.formGroup.patchValue(formData);
 
+    // Asegurar que los campos CURP y birthDate estén deshabilitados
+    if (this.formGroup.get('curp')) {
+      this.formGroup.get('curp')?.disable();
+    }
+    if (this.formGroup.get('birthDate')) {
+      this.formGroup.get('birthDate')?.disable();
+    }
+
     const fieldsToUpdate = [
       { list: this.personal, fieldName: 'gender', value: patient.person.gender.idGender.toString() },
       { list: this.other, fieldName: 'nationality', value: patient.nationality?.idNationality?.toString() },
@@ -485,8 +504,14 @@ export class FormUpdatePatientComponent {
   }
 
   onSubmit() {
-    const formValues = this.formGroup.value;
     if (this.formGroup.valid) {
+      // Obtener todos los valores, incluyendo los campos deshabilitados
+      const formValues = {
+        ...this.formGroup.value,
+        curp: this.formGroup.get('curp')?.value,
+        birthDate: this.formGroup.get('birthDate')?.value
+      };
+      
       const patientData = {
         person: {
           curp: formValues.curp,
