@@ -56,6 +56,7 @@ export class adminService {
             label: 'Numero de trabajador',
             name: 'employeeNumber',
             required: true,
+            disabled: true,
             validators: [Validators.required, employeeNumberValidator()],
             errorMessages: {
                 required: 'El campo Numero de trabajador es requerido.',
@@ -67,6 +68,7 @@ export class adminService {
             label: 'CURP',
             name: 'curp',
             required: true,
+            disabled: true,
             validators: [Validators.required, curpValidator()],
             errorMessages: {
                 required: 'El campo CURP es requerido.',
@@ -89,6 +91,7 @@ export class adminService {
             label: 'Fecha de Nacimiento',
             name: 'birthDate',
             required: true,
+            disabled: true,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Fecha de Nacimiento es requerido.'

@@ -76,7 +76,7 @@ export class FormUpdateAdminComponent implements OnInit {
         field.name,
         this.fb.control({ 
           value: '', 
-          disabled: false 
+          disabled: field.disabled || false 
         }, field.validators || [])
       );
     });
@@ -92,7 +92,7 @@ export class FormUpdateAdminComponent implements OnInit {
     }).subscribe({
       next: (response) => {
         // Formatear la fecha antes de asignarla
-        const birthDate = response.person.birthDate ? new Date(response.person.birthDate).toISOString().split('T')[0] : '';
+        const birthDate = response.person.birthDate ? new Date(response.person.birthDate) : '';
         
         this.formGroup.patchValue({
           employeeNumber: response.employeeNumber,
@@ -102,10 +102,21 @@ export class FormUpdateAdminComponent implements OnInit {
           firstLastName: response.person.firstLastName,
           secondLastName: response.person.secondLastName,
           phone: response.person.phone,
-          birthDate: birthDate, // Usar la fecha formateada
+          birthDate: birthDate, // Usar objeto Date para el datepicker
           email: response.person.email,
           gender: response.person.gender.idGender.toString() // Convertir a string
         });
+
+        // Asegurar que los campos específicos estén deshabilitados
+        if (this.formGroup.get('employeeNumber')) {
+          this.formGroup.get('employeeNumber')?.disable();
+        }
+        if (this.formGroup.get('curp')) {
+          this.formGroup.get('curp')?.disable();
+        }
+        if (this.formGroup.get('birthDate')) {
+          this.formGroup.get('birthDate')?.disable();
+        }
 
         // Forzar la actualización del select de género
         const genderField = this.admin.find(field => field.name === 'gender');
@@ -136,7 +147,14 @@ export class FormUpdateAdminComponent implements OnInit {
   // Agregar método para guardar cambios
   onSubmit() {
     if (this.formGroup.valid) {
-      const formValues = this.formGroup.value;
+      // Obtener todos los valores, incluyendo los campos deshabilitados
+      const formValues = {
+        ...this.formGroup.value,
+        employeeNumber: this.formGroup.get('employeeNumber')?.value,
+        curp: this.formGroup.get('curp')?.value,
+        birthDate: this.formGroup.get('birthDate')?.value
+      };
+      
       const AdminData = {
         employeeNumber: formValues.employeeNumber,
         person: {
@@ -146,14 +164,15 @@ export class FormUpdateAdminComponent implements OnInit {
           firstLastName: formValues.firstLastName,
           secondLastName: formValues.secondLastName,
           phone: formValues.phone || '',
-          birthDate: formValues.birthDate,
+          birthDate: formValues.birthDate instanceof Date 
+            ? formValues.birthDate.toISOString().split('T')[0] 
+            : formValues.birthDate,
           email: formValues.email,
           gender: {
             idGender: parseInt(formValues.gender)
           }
         }
       };
-
 
       this.apiService.patchService({
         headers: new HttpHeaders({
