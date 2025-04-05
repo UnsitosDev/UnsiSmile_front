@@ -1,4 +1,4 @@
-import { columnPatientsTableData, patientsTableData } from "../shared/patients";
+import { columnPatientsTableData, patientsTableData, patientsTableDataProfessor } from "../shared/patients";
 import { studentsTableData } from "../shared/students";
 import { AdminTableData } from "../shared/admin/admin";
 
@@ -24,6 +24,9 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
       break;
     case 'admin':
       clase = new AdminTableData();  // Agregamos el caso para admin
+      break;
+    case 'professor':
+      clase = new patientsTableDataProfessor();
       break;
   }
 
