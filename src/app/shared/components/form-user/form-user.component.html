@@ -56,6 +56,7 @@
                     <p><strong>Teléfono:</strong> {{user.person.phone}}</p>
                     <p><strong>Género:</strong> {{user.person.gender.gender}}</p>
                     <p><strong>Curp:</strong> {{user.person.curp}}</p>
+                    <p><strong>{{ isStudent() ? 'Matrícula:' : 'Número de Empleado:' }}</strong> {{ employeeNumber() }}</p>
                   </div>
                 </div>
               </div>
