@@ -24,6 +24,13 @@ export default [
                             import('./components/form-patient-personal-data/form-patient-personal-data.component').then(
                                 (m) => m.FormPatientPersonalDataComponent
                             ),
+                    },
+                    {
+                        path: 'updatePatient/:idPatient',
+                        loadComponent: () =>
+                            import('./components/form-update-patient/form-update-patient.component').then(
+                                (m) => m.FormUpdatePatientComponent
+                            ),
                     }
                 ]
             },

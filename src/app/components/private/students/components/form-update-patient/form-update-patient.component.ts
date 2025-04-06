@@ -30,7 +30,7 @@ import { PatientService } from 'src/app/services/patient/patient.service';
   templateUrl: './form-update-patient.component.html',
   styleUrl: './form-update-patient.component.scss'
 })
-export class FormUpdatePatientComponent implements OnInit {
+export class FormUpdatePatientComponent {
   private toastr = inject(ToastrService);
   private apiService = inject(ApiService<any>);
   private patientService = inject(PatientService);
@@ -154,6 +154,14 @@ export class FormUpdatePatientComponent implements OnInit {
     this.address = this.personalDataFields.getAddressFields();
     this.other = this.personalDataFields.getOtherDataFields();
     this.guardian = this.personalDataFields.getGuardianDataFields();
+    
+    // Marcar los campos de CURP y fecha de nacimiento como deshabilitados
+    const personalFieldsToDisable = ['curp', 'birthDate'];
+    this.personal.forEach(field => {
+      if (personalFieldsToDisable.includes(field.name)) {
+        field.disabled = true;
+      }
+    });
     
     const fieldsToInitialize = [
       { list: this.personal, fieldName: 'gender' },
@@ -503,7 +511,7 @@ export class FormUpdatePatientComponent implements OnInit {
         curp: this.formGroup.get('curp')?.value,
         birthDate: this.formGroup.get('birthDate')?.value
       };
-
+      
       const patientData = {
         person: {
           curp: formValues.curp,
@@ -605,7 +613,7 @@ export class FormUpdatePatientComponent implements OnInit {
         next: (response) => {
           this.toastr.success(Messages.SUCCES_UPDATE_PATIENT, 'Éxito');
           setTimeout(() => {
-            this.router.navigate(['/admin/patients']);
+            this.router.navigate(['/students/patients']);
           }, 1000);
         },
         error: (error) => {
@@ -618,7 +626,6 @@ export class FormUpdatePatientComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['/admin/patients']);
+    this.router.navigate(['/students/patients']);
   }
-
 }
