@@ -86,24 +86,10 @@ export class TableProfessorAdminComponent implements OnInit {
   }
 
    openDetailsDialog(admin: ProfessorTableData): void {
-      this.dataSharingService.setAdminData(admin);
-      const dialogRef = this.dialog.open(DetailsAdminComponent, {
-        width: '800px',
-        maxWidth: '90vw',
-        maxHeight: '90vh', // Limita la altura al 90% de la ventana
-        height: 'auto',
-        panelClass: 'custom-dialog-container'
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-      });
     }
 
   edit(objeto: any) {
-    console.log('Navegando a editar con número de empleado:', objeto['numero empleado']);
-    this.router.navigate(['/admin/admins/updateAdmin', objeto['numero empleado']]);
-  }
+   }
 
   delete(nombre: string) {
     console.log('eliminar admin', nombre);
