@@ -56,6 +56,7 @@
                     <p><strong>Teléfono:</strong> {{user.person.phone}}</p>
                     <p><strong>Género:</strong> {{user.person.gender.gender}}</p>
                     <p><strong>Curp:</strong> {{user.person.curp}}</p>
+                    <p><strong>{{ isStudent() ? 'Matrícula:' : 'Número de Empleado:' }}</strong> {{ employeeNumber() }}</p>
                   </div>
                 </div>
               </div>
@@ -81,9 +82,25 @@
                     [class.readonly]="!modoEdicion()">
                 </div>
                 <div class="form-group">
-                  <label for="apellido">Apellido</label>
+                  <label for="secondName">Segundo Nombre</label>
+                  <input id="secondName" type="text" name="secondName" 
+                    [(ngModel)]="user.person.secondName" 
+                    class="form-control" 
+                    [readonly]="!modoEdicion()"
+                    [class.readonly]="!modoEdicion()">
+                </div>
+                <div class="form-group">
+                  <label for="apellido">Primer Apellido</label>
                   <input id="apellido" type="text" name="apellido" 
                     [(ngModel)]="user.person.firstLastName" 
+                    class="form-control"
+                    [readonly]="!modoEdicion()"
+                    [class.readonly]="!modoEdicion()">
+                </div>
+                <div class="form-group">
+                  <label for="apellido">Segundo Apellido</label>
+                  <input id="apellido" type="text" name="apellido" 
+                    [(ngModel)]="user.person.secondLastName" 
                     class="form-control"
                     [readonly]="!modoEdicion()"
                     [class.readonly]="!modoEdicion()">
@@ -115,46 +132,6 @@
                       <option [value]="gender.idGender">{{gender.gender}}</option>
                     }
                   </select>
-                </div>
-                <div class="form-group">
-                  <label for="identifier">{{ isStudent() ? 'Matrícula' : 'Número de Empleado' }}</label>
-                  <input id="identifier" type="text" name="identifier" 
-                    [(ngModel)]="employeeNumber" 
-                    class="form-control" 
-                    [readonly]="!modoEdicion()"
-                    [class.readonly]="!modoEdicion()">
-                </div>
-                <div class="form-group">
-                  <label for="secondName">Segundo Nombre</label>
-                  <input id="secondName" type="text" name="secondName" 
-                    [(ngModel)]="user.person.secondName" 
-                    class="form-control" 
-                    [readonly]="!modoEdicion()"
-                    [class.readonly]="!modoEdicion()">
-                </div>
-                <div class="form-group">
-                  <label for="secondLastName">Segundo Apellido</label>
-                  <input id="secondLastName" type="text" name="secondLastName" 
-                    [(ngModel)]="user.person.secondLastName" 
-                    class="form-control" 
-                    [readonly]="!modoEdicion()"
-                    [class.readonly]="!modoEdicion()">
-                </div>
-                <div class="form-group">
-                  <label for="curp">CURP</label>
-                  <input id="curp" type="text" name="curp" 
-                    [(ngModel)]="user.person.curp" 
-                    class="form-control" 
-                    [readonly]="!modoEdicion()"
-                    [class.readonly]="!modoEdicion()">
-                </div>
-                <div class="form-group">
-                  <label for="birthDate">Fecha de Nacimiento</label>
-                  <input id="birthDate" type="date" name="birthDate" 
-                    [(ngModel)]="birthDate" 
-                    class="form-control" 
-                    [readonly]="!modoEdicion()"
-                    [class.readonly]="!modoEdicion()">
                 </div>
               </div>
               <button type="submit" class="btn btn-primary" [hidden]="!modoEdicion()">Guardar cambios</button>

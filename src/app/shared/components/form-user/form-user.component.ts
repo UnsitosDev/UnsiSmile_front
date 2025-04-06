@@ -72,27 +72,38 @@ export class FormUserComponent implements OnInit {
   }
 
   actualizarDatosUsuario() {
-    // lógica para actualizar los datos en el backend
+    // Crear el payload con los datos de la sección de edición
     const payload = {
-      employeeNumber: this.isStudent()
-        ? (this.user as StudentProfile).enrollment
-        : this.employeeNumber(),
-      person: {
-        curp: this.user.person.curp,
-        firstName: this.user.person.firstName,
-        secondName: this.user.person.secondName,
-        firstLastName: this.user.person.firstLastName,
-        secondLastName: this.user.person.secondLastName,
-        phone: this.user.person.phone,
-        birthDate: this.birthDate(),
-        email: this.user.person.email,
-        gender: {
-          idGender: this.selectedGender(),
-          gender: this.genders.find(g => g.idGender === this.selectedGender())?.gender || ''
-        },
-      },
+      firstName: this.user.person.firstName,
+      secondName: this.user.person.secondName,
+      firstLastName: this.user.person.firstLastName,
+      secondLastName: this.user.person.secondLastName,
+      phone: this.user.person.phone,
+      email: this.user.person.email,
+      gender: {
+        idGender: this.selectedGender(),
+        gender: this.genders.find(g => g.idGender === this.selectedGender())?.gender || ''
+      }
     };
-    // Lógica para enviar el payload al backend
+    
+    // Llamar al servicio con el nuevo endpoint
+    this.userService
+      .patchService({
+        url: `${UriConstants.PATCH_PERSON_BY_CURP}${this.user.person.curp}`,
+        data: payload,
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Datos actualizados exitosamente');
+          this.modoEdicion.set(false);
+          // Actualizar los datos locales con los datos del servidor
+          this.fetchUserData();
+        },
+        error: (error) => {
+          this.toastr.error(error || 'Error al actualizar los datos');
+          console.error('Error al actualizar los datos:', error);
+        },
+      });
   }
 
   actualizarContrasena() {
