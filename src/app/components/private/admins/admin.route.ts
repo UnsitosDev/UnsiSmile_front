@@ -24,7 +24,14 @@ export default [
                             import('./components/form-insert-student/form-insert-student.component').then(
                                 (m) => m.FormInsertStudentComponent
                             ),
-                    }
+                    },
+                    {
+                        path: 'updateStudent/:matricula',
+                        loadComponent: () =>
+                            import('./components/form-update-student/form-update-student.component').then(
+                                (m) => m.FormUpdateStudentComponent
+                            ),
+                    },
                 ]
             },
             {
@@ -51,6 +58,7 @@ export default [
                                 (m) => m.FormUpdatePatientComponent
                             ),
                     }
+                    
                 ]
             },
             {
@@ -76,7 +84,7 @@ export default [
                             import('./components/form-update-admin/form-update-admin.component').then(
                                 (m) => m.FormUpdateAdminComponent
                             ),
-                    }
+                    },
                 ]
             },
             {
@@ -112,13 +120,6 @@ export default [
                 loadComponent: () =>
                     import('./components/admin-files-section/admin-files-section.component').then(
                         (m) => m.AdminFilesSectionComponent
-                    ),
-            },
-            {
-                path: 'updateStudent/:matricula',
-                loadComponent: () =>
-                    import('./components/form-update-student/form-update-student.component').then(
-                        (m) => m.FormUpdateStudentComponent
                     ),
             },
             {

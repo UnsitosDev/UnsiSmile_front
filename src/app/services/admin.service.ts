@@ -56,6 +56,7 @@ export class adminService {
             label: 'Numero de trabajador',
             name: 'employeeNumber',
             required: true,
+            disabled: true,
             validators: [Validators.required, employeeNumberValidator()],
             errorMessages: {
                 required: 'El campo Numero de trabajador es requerido.',
@@ -67,6 +68,7 @@ export class adminService {
             label: 'CURP',
             name: 'curp',
             required: true,
+            disabled: true,
             validators: [Validators.required, curpValidator()],
             errorMessages: {
                 required: 'El campo CURP es requerido.',
@@ -89,6 +91,7 @@ export class adminService {
             label: 'Fecha de Nacimiento',
             name: 'birthDate',
             required: true,
+            disabled: true,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Fecha de Nacimiento es requerido.'
@@ -122,14 +125,24 @@ export class adminService {
     // Eventos
 
     constructor(){
-        this.handleGenderClick({} as MouseEvent);
-    
+        // Cargar el género inmediatamente al inicializar el servicio
+        this.patientService.getGender();
+        
+        // Forzar la actualización del campo de género con las opciones disponibles
+        setTimeout(() => {
+            this.handleGenderClick({} as MouseEvent);
+        }, 0);
     }
 
     private handleGenderClick(event: MouseEvent): void {
         this.patientService.getGender();
         const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);
-        genderField && (genderField.options = this.patientService.genderOptions);
+        if (genderField) {
+            genderField.options = this.patientService.genderOptions;
+            if (genderField.options && genderField.options.length > 0) {
+                genderField.value = genderField.options[0].value; // Seleccionar el primer valor por defecto
+            }
+        }
     }
 
     // Formularios

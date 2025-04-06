@@ -79,21 +79,22 @@ export class TableStudentsComponent implements OnInit {
   }
 
   onAction(accion: Accion) {
-    if (accion.accion === 'Editar') {
-      this.edit(accion.fila);
+    if (accion.accion === 'Editar') {  // Cambiado de 'Editar' a 'Modificar'
+      this.editar(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
       this.openDetailsDialog(accion.fila);
-    } else if (accion.accion === 'MostrarAlerta') {
-      this.showAlert();
-    } else if (accion.accion === 'Actualizar') {
-      this.updateStudent(accion.fila);
+    }  else if (accion.accion === 'Modificar') {
+      this.edit(accion.fila);
     }
   }
 
+   editar(objeto: any) {
+    }
+
   edit(objeto: any) {
-    this.router.navigate(['/students', 'historyClinic', objeto.user.id]);
+    this.router.navigate(['/admin/students/updateStudent', objeto.matricula]);
   }
 
   delete(nombre: string) {
