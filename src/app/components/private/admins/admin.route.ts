@@ -165,6 +165,13 @@ export default [
                     ),
             },
             {
+                path: 'professors',
+                loadComponent: () =>
+                    import('./components/table-professor-admin/table-professor-admin.component').then(
+                        (m) => m.TableProfessorAdminComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
