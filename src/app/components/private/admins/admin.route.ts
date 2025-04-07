@@ -165,6 +165,32 @@ export default [
                     ),
             },
             {
+                path: 'professors',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./components/table-professor-admin/table-professor-admin.component').then(
+                                (m) => m.TableProfessorAdminComponent
+                            ),
+                    },
+                    {
+                        path: 'addProfessor',
+                        loadComponent: () =>
+                            import('./components/form-insert-professor/form-insert-professor.component').then(
+                                (m) => m.FormInsertProfessorComponent
+                            ),
+                    },
+                    {
+                        path: 'updateAdmin/:employeeNumber',
+                        loadComponent: () =>
+                            import('./components/form-update-admin/form-update-admin.component').then(
+                                (m) => m.FormUpdateAdminComponent
+                            ),
+                    },
+                ]
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

@@ -51,6 +51,12 @@ export const AdminItems: MenuItem[] = [
     routerlink: '/admin/patients'
   },
   {
+    fontAwesomeIcon: faFileUpload,
+    buttonText: 'Profesores',
+    buttonDescription: 'Ver profesores',
+    routerlink: '/admin/professors'
+  },
+  {
     fontAwesomeIcon: faUserShield,
     buttonText: 'Administrador',
     buttonDescription: 'Ver administradores',
