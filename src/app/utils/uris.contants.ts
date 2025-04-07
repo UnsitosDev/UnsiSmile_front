@@ -141,6 +141,8 @@ export class UriConstants {
   public static readonly POSTB_AUTH = basePath + '/auth/register';
   public static readonly PATCH_UPDATE_PASSWORD =
     basePath + '/auth/updatePassword';
+  public static readonly PATCH_AUTH = basePath + '/auth/resetPasswordToDefault';
+
   //person controller
   public static readonly GETID_PERSON = basePath + '/persons/';
   public static readonly GET_PERSON = basePath + '/persons';
