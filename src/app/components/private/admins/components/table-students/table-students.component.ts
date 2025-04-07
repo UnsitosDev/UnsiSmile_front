@@ -21,6 +21,7 @@ import { MatCardModule } from '@angular/material/card';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { DetailsStudentComponent } from '../details-student/details-student.component';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-table-students',
@@ -36,6 +37,8 @@ export class TableStudentsComponent implements OnInit {
   private apiService = inject(ApiService<studentRequest[]>);
   private searchSubject = new Subject<string>();
   private dataSharingService = inject(DataSharingService);
+  private toastr = inject(ToastrService);
+  
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -87,10 +90,40 @@ export class TableStudentsComponent implements OnInit {
       this.openDetailsDialog(accion.fila);
     }  else if (accion.accion === 'Modificar') {
       this.edit(accion.fila);
-    }
+    } else if (accion.accion === 'Restablecer') {
+    this.reset(accion.fila);
   }
-
+  }
+  
    editar(objeto: any) {
+    }
+
+    reset(objeto: any) {
+      const dialogRef = this.dialog.open(ConfirmationAlertComponent, {
+        width: '300px',
+        data: { message: `¿Estás seguro de que deseas restablecer la contraseña de ${objeto.nombre}?` }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          const enrollment = objeto.matricula;
+          const url = `${UriConstants.PATCH_AUTH}?username=${enrollment}`;
+          this.apiService.patchService({
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+            }),
+            url,
+            data: {}
+          }).subscribe({
+            next: () => {
+              this.toastr.success('Contraseña restablecida con éxito', 'Éxito');
+            },
+            error: (error) => {
+              this.toastr.error('Error al restablecer la contraseña: ' + error.message, 'Error');
+            }
+          });
+        }
+      });
     }
 
   edit(objeto: any) {
