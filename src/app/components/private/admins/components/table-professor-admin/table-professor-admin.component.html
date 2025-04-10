@@ -1,25 +1,24 @@
 <mat-card class="full-width-card">
-  <mat-card-title><strong>Estudiantes - Consulta y Administración</strong></mat-card-title>
+  <mat-card-title><strong>Profesores - Consulta y Administración</strong></mat-card-title>
 </mat-card>
 
 <br>
 <div class="flex justify-end">
-    <button class="mr-10" mat-flat-button color="primary" routerLink="/admin/students/addStudent">
+    <button class="mr-10" mat-flat-button color="primary" routerLink="/admin/professors/addProfessor">
         <i class="fas fa-user-plus"></i>  
-        Nuevo Estudiante
+        Nuevo Profesor
     </button>
 </div>
 <br>
+
 <app-tabla-data
   [titulo]="title"
   [columns]="columns"
-  [data]="studentsList"
+  [data]="professorsList"
   [totalItems]="totalElements"
   [sortableColumns]="sortableColumns"
   [showSearchIcon]="true"
   [showEditIcon]="true"
-  [showFolderIcon]="false"
-  [showStatusIcon]="true"
   (pageChange)="onPageChange($event)"
   (pageSizeChange)="onPageSizeChange($event)"
   (action)="onAction($event)"
