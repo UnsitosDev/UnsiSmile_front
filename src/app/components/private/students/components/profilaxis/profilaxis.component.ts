@@ -1,6 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
+import { Component, inject, OnInit } from '@angular/core';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
 import { ThoothProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.model';
 import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
+
+
+interface ConditionFace {
+  idToothFaceCondition: number;
+  description: string;
+}
+
+interface ConditionTooth { 
+  idToothCondition: number;
+  description: string;
+}
 
 @Component({
   selector: 'app-profilaxis',
@@ -10,6 +25,10 @@ import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
   styleUrl: './profilaxis.component.scss',
 })
 export class ProfilaxisComponent implements OnInit {
+  private api = inject(ApiService);
+  public toastr = inject(ToastrService);
+  public toothConditions: ConditionTooth[] = [];
+  public faceConditions: ConditionFace[] = [];
   teeth = storeProphylaxis.theetProphylaxis;
   toothDisabled: { [key: number]: boolean } = {};
   toothDeactivated: { [key: number]: boolean } = {};
@@ -18,6 +37,12 @@ export class ProfilaxisComponent implements OnInit {
   TheetData: { [key: number]: ThoothProphylaxis } = {};
 
   ngOnInit(): void {
+    this.conditionsFace();
+    this.conditionsTooth();
+    this.disableAllTeeth();
+  }
+
+  disableAllTeeth() {
     this.teeth.forEach((tooth) => {
       this.toothDisabled[tooth.idTooth] = true;
       this.toothDeactivated[tooth.idTooth] = false;
@@ -78,51 +103,75 @@ export class ProfilaxisComponent implements OnInit {
     this.updateToothConditions();
   }
 
-  updateToothConditions(): void {
+  private updateToothConditions(): void {
     this.teeth.forEach((tooth) => {
       if (!this.toothDisabled[tooth.idTooth]) {
-        if (!tooth.conditions.some((cond) => cond.condition === 'no presente')) {
+        const noPresenteCondition = this.toothConditions.find(
+          (cond) => cond.description === 'Diente no presente'
+        );
+        if (noPresenteCondition && !tooth.conditions.some((cond) => cond.idCondition === noPresenteCondition.idToothCondition)) {
           tooth.conditions.push({
-            idCondition: 13,
+            idCondition: noPresenteCondition.idToothCondition,
             condition: 'no presente',
-            description: 'Diente no presente',
+            description: noPresenteCondition.description,
           });
         }
       } else {
-        tooth.conditions = tooth.conditions.filter(
-          (cond) => cond.condition !== 'no presente'
+        const noPresenteCondition = this.toothConditions.find(
+          (cond) => cond.description === 'Diente no presente'
         );
+        if (noPresenteCondition) {
+          tooth.conditions = tooth.conditions.filter(
+            (cond) => cond.idCondition !== noPresenteCondition.idToothCondition
+          );
+        }
       }
 
       if (this.toothDeactivated[tooth.idTooth]) {
-        if (!tooth.conditions.some((cond) => cond.condition === 'extraído')) {
+        const extraidoCondition = this.toothConditions.find(
+          (cond) => cond.description === 'Diente extraido'
+        );
+        if (extraidoCondition && !tooth.conditions.some((cond) => cond.idCondition === extraidoCondition.idToothCondition)) {
           tooth.conditions.push({
-            idCondition: 3,
+            idCondition: extraidoCondition.idToothCondition,
             condition: 'extraído',
-            description: 'Diente extraído',
+            description: extraidoCondition.description,
           });
         }
       } else {
-        tooth.conditions = tooth.conditions.filter(
-          (cond) => cond.condition !== 'extraído'
+        const extraidoCondition = this.toothConditions.find(
+          (cond) => cond.description === 'Diente extraido'
         );
+        if (extraidoCondition) {
+          tooth.conditions = tooth.conditions.filter(
+            (cond) => cond.idCondition !== extraidoCondition.idToothCondition
+          );
+        }
       }
 
       tooth.faces.forEach((face) => {
         const faceId = `${tooth.idTooth}-${face.idFace}`;
         if (this.selectedFaces[faceId]) {
-          if (!face.conditions?.some((cond) => cond.condition === 'marcado')) {
+          const marcadoCondition = this.faceConditions.find(
+            (cond) => cond.description === 'Marcado'
+          );
+          if (marcadoCondition && !face.conditions?.some((cond) => cond.idCondition === marcadoCondition.idToothFaceCondition)) {
             face.conditions = face.conditions || [];
             face.conditions.push({
-              idCondition: 5,
+              idCondition: marcadoCondition.idToothFaceCondition,
               condition: 'marcado',
-              description: '',
+              description: marcadoCondition.description,
             });
           }
         } else {
-          face.conditions = face.conditions?.filter(
-            (cond) => cond.condition !== 'marcado'
+          const marcadoCondition = this.faceConditions.find(
+            (cond) => cond.description === 'Marcado'
           );
+          if (marcadoCondition) {
+            face.conditions = face.conditions?.filter(
+              (cond) => cond.idCondition !== marcadoCondition.idToothFaceCondition
+            );
+          }
         }
       });
 
@@ -173,5 +222,45 @@ export class ProfilaxisComponent implements OnInit {
     } else {
       return [];
     }
+  }
+
+  public conditionsFace() {
+    this.api
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_CONDITION_PROFILAXIS_FACE}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.faceConditions = response;
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
+  }
+
+  public conditionsTooth() {
+    this.api
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_CONDITION_PROFILAXIS_TOOTH}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.toothConditions = response;
+          console.log(response);
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
   }
 }
