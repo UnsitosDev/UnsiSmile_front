@@ -27,25 +27,17 @@ import { Subscription } from 'rxjs';
 import { StatusClinicalHistoryResponse, StudentItems } from '@mean/models';
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
-<<<<<<< HEAD
-import { ProfilaxisComponent } from "../../../components/profilaxis/profilaxis.component";
-=======
 import { HttpHeaders } from '@angular/common/http';
 import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { MenuAssessMedicalHistoryComponent } from "../../../../proffessor/components/menu-assess-medical-history/menu-assess-medical-history.component";
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
->>>>>>> dev
 
 @Component({
   selector: 'app-preventive-dentistry-public-health',
   standalone: true,
-<<<<<<< HEAD
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent, ProfilaxisComponent],
-=======
   imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent],
->>>>>>> dev
   templateUrl: './preventive-dentistry-public-health.component.html',
   styleUrl: './preventive-dentistry-public-health.component.scss'
 })
