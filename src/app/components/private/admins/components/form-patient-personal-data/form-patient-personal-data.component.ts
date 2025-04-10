@@ -73,6 +73,7 @@ export class FormPatientPersonalDataComponent {
   private route = inject(Router);
   @ViewChild('stepper') stepper!: MatStepper;
   patientId: number | null = null; // Añadir esta propiedad
+  patientCurp: string = ''; // Añadir esta propiedad
   canAccessStudentTab: boolean = false;
 
   constructor(
@@ -90,7 +91,7 @@ export class FormPatientPersonalDataComponent {
     this.address = this.addressDataFields.getAddressFields();
     this.other = this.otherDataFields.getOtherDataFields();
     this.guardian = this.guardianField.getGuardianDataFields();
-    this.studentFields = this.studentService.studentFields; // Agregar esta línea
+    this.studentFields = this.studentService.studentFields;
 
     // Construcción del formulario
     this.formGroup = this.fb.group({}); // Inicializar el FormGroup
@@ -218,9 +219,34 @@ export class FormPatientPersonalDataComponent {
     this.minorPatient = isMinor;
   }
 
+  private validateEthnicGroup(value: string): boolean {
+    return this.patientService.ethnicGroupOptions.some(option => 
+      option.value === value || option.label.toLowerCase() === value.toLowerCase()
+    );
+  }
+
+  private validateReligion(value: string): boolean {
+    return this.patientService.religionOptions.some(option => 
+      option.value === value || option.label.toLowerCase() === value.toLowerCase()
+    );
+  }
 
   onSubmit() {
+    this.markFormGroupTouched(this.formGroup);
     const formValues = this.formGroup.value;
+
+    // Validar grupo étnico
+    if (!this.validateEthnicGroup(formValues.ethnicGroup)) {
+      this.toastr.error('Debe seleccionar un grupo étnico válido de la lista', 'Error de validación');
+      return;
+    }
+
+    // Validar religión
+    if (!this.validateReligion(formValues.religion)) {
+      this.toastr.error('Debe seleccionar una religión válida de la lista', 'Error de validación');
+      return;
+    }
+
     if (this.formGroup.valid) {
       const patientData = {
         isMinor: this.minorPatient,
@@ -237,7 +263,7 @@ export class FormPatientPersonalDataComponent {
           email: formValues.email,
           gender: {
             idGender: +formValues.gender,
-            gender: "" // Si tienes el nombre del género, puedes asignarlo aquí
+            gender: this.patientService.genderOptions.find(option => option.value === formValues.gender)?.label || ""
           }
         },
         address: {
@@ -249,21 +275,31 @@ export class FormPatientPersonalDataComponent {
             category: "" // Si tienes el nombre de la categoría, agrégalo aquí
           },
           street: {
-            idStreet: isNaN(+formValues.streetName) ? 0 : +formValues.streetName,
-            name: isNaN(+formValues.streetName) ? formValues.streetName : '',
+            idStreet: +formValues.streetName > 0 ? +formValues.streetName :
+                      (this.patientService.streetsOptions.find(option =>
+                          option.label.toLowerCase() === formValues.streetName?.toLowerCase())?.value || '0'),
+            name: formValues.streetName || '',
             neighborhood: {
-              idNeighborhood: isNaN(+formValues.neighborhoodName) ? 0 : +formValues.neighborhoodName,
-              name: isNaN(+formValues.neighborhoodName) ? formValues.neighborhoodName : '',
+              idNeighborhood: +formValues.neighborhoodName > 0 ? +formValues.neighborhoodName :
+                            (this.patientService.neighborhoodOptions.find(option =>
+                                option.label.toLowerCase() === formValues.neighborhoodName?.toLowerCase())?.value || '0'),
+              name: formValues.neighborhoodName || '',
               locality: {
-                idLocality: isNaN(+this.localityId) || +this.localityId === 0 ? 0 : +this.localityId,
-                name: isNaN(+this.localityId) || +this.localityId === 0 ? formValues.localityName : "",
+                idLocality: +this.localityId > 0 ? +this.localityId :
+                          (this.patientService.localityOptions.find(option =>
+                              option.label.toLowerCase() === formValues.localityName?.toLowerCase())?.value || '0'),
+                name: formValues.localityName || "",
                 postalCode: formValues.postalCode,
                 municipality: {
-                  idMunicipality: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? 0 : +this.municipalityNameId,
-                  name: isNaN(+this.municipalityNameId) || +this.municipalityNameId === 0 ? formValues.municipalityName : "",
+                  idMunicipality: +this.municipalityNameId > 0 ? +this.municipalityNameId :
+                                (this.patientService.municipalityOptions.find(option =>
+                                    option.label.toLowerCase() === formValues.municipalityName?.toLowerCase())?.value || '0'),
+                  name: formValues.municipalityName || "",
                   state: {
-                    idState: isNaN(+this.stateNameId) ? 0 : +this.stateNameId,
-                    name: formValues.stateName
+                    idState: +this.stateNameId > 0 ? +this.stateNameId : 
+                            (this.patientService.stateOptions.find(option => 
+                                option.label.toLowerCase() === formValues.stateName?.toLowerCase())?.value || '0'),
+                    name: formValues.stateName || "",
                   }
                 }
               }
@@ -300,7 +336,6 @@ export class FormPatientPersonalDataComponent {
           doctorName: formValues.doctorName
         } : null
       };      
-      
       this.apiService
         .postService({
           headers: new HttpHeaders({
@@ -313,8 +348,12 @@ export class FormPatientPersonalDataComponent {
           next: (response) => {
             this.isNavigationPrevented = false;
             this.navigationComplete = true;
-            this.router.navigate(['/students/patients']);
             this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
+            this.canAccessStudentTab = true; // Habilitar la pestaña de alumno
+            this.patientCurp = formValues.curp; // Guardar la CURP del paciente
+            setTimeout(() => {
+              this.searchPatientByCurp(this.patientCurp); // Buscar el ID usando la CURP
+            });
           },
           error: (error) => {
             this.toastr.error(error, 'Error');
@@ -327,6 +366,11 @@ export class FormPatientPersonalDataComponent {
 
   // Agregar nuevo método para buscar paciente por CURP
   searchPatientByCurp(curp: string) {
+    if (!curp) {
+      this.toastr.error('CURP no válida', 'Error');
+      return;
+    }
+
     this.apiService
       .getService({
         headers: new HttpHeaders({
@@ -343,11 +387,11 @@ export class FormPatientPersonalDataComponent {
             
             this.stepper.next();
           } else {
-            this.toastr.error('Error al obtener el ID del paciente', 'Error');
+            this.toastr.error('No se encontró el paciente con la CURP proporcionada', 'Error');
           }
         },
         error: (error) => {
-          this.toastr.error(error);
+          this.toastr.error('Error al buscar el paciente: ' + error, 'Error');
         },
       });
   }
@@ -422,5 +466,18 @@ export class FormPatientPersonalDataComponent {
     }
   }
 
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(controlName => {
+      const control = formGroup.get(controlName);
+      if (control) {
+        control.markAsTouched();
+        control.updateValueAndValidity(); 
+      }
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
 
 }

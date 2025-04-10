@@ -1,11 +1,10 @@
 <div [formGroup]="formGroup">
   @switch (field.type) {    
     @case('multivalued') {
-      <div class="grid grid-cols-12 gap-4 items-center">
-        <div class="col-span-6 p-4">
-          <label>{{ field.label }}</label>
-        </div>
-        <div class="col-span-2 p-4">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div class="md:col-span-8 col-span-12 flex flex-wrap items-center gap-4 p-4">
+          <label class="flex-1 min-w-[50%] md:min-w-0">{{ field.label }}</label>
+          
           <section class="example-section">
             <mat-checkbox 
               class="example-margin" 
@@ -15,7 +14,8 @@
             </mat-checkbox>
           </section>
         </div>
-        <div class="col-span-4 p-4">
+    
+        <div class="md:col-span-4 col-span-12 p-4">
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>Ampliar Respuesta</mat-label>
             <input 
@@ -30,22 +30,28 @@
       </div>
     }
     @case ('boolean') {
-      <div class="grid grid-cols-12 gap-4 items-center">
-        <div class="col-span-9 p-4">
-          <label>{{ field.label }}</label>
-        </div>
-        <div class="col-span-3 p-4">
-          <section class="example-section">
-            <mat-checkbox class="example-margin" [formControlName]="field.name" (change)="onValueChangeCheck($event)" [checked]="field.answerField?.answerBoolean"></mat-checkbox>
-          </section>
-        </div>
+      <div class="flex items-center gap-4 p-4 flex-wrap sm:flex-nowrap">
+        <!-- Label: Puede crecer y hacer saltos de línea -->
+        <label class="flex-1 min-w-[50px] break-words">
+          {{ field.label }}
+        </label>
+        
+        <!-- Checkbox: Nunca salta de línea -->
+        <section class="example-section flex-shrink-0">
+          <mat-checkbox
+            class="example-margin"
+            [formControlName]="field.name"
+            (change)="onValueChangeCheck($event)"
+            [checked]="field.answerField?.answerBoolean">
+          </mat-checkbox>
+        </section>
       </div>
-      <hr> 
+      <hr>
     }
     @case ('input') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-        <input matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)"/>
+        <input matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)" [disabled]="field.disabled ?? false"/>
         @if (formGroup.get(field.name)?.hasError('lastError') && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
           <mat-error>{{ errors?.lastError }}</mat-error>
         }
@@ -109,9 +115,11 @@
                  [matDatepicker]="datepicker"
                  [formControlName]="field.name" 
                  [max]="maxDate"
+                 [disabled]="field.disabled ?? false"
+                 [placeholder]="field.placeholder || 'DD/MM/AAAA'"
                  (dateChange)="onValueChangeDate($event)"
                  (dateInput)="onValueChangeDate($event)"> 
-          <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="datepicker" [disabled]="field.disabled"></mat-datepicker-toggle>
           <mat-datepicker #datepicker></mat-datepicker>   
           @if (formGroup.get(field.name)?.errors?.['futureDate'] && formGroup.get(field.name)?.touched) {
             <mat-error>{{ errors?.futureDate }}</mat-error>
@@ -124,7 +132,11 @@
     @case ('inputEvent') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{ field.label }}</mat-label>
-          <input matInput [value]="fieldValue" [formControlName]="field.name" (input)="onInputChange($event)" />
+          <input matInput 
+                 [value]="fieldValue" 
+                 [formControlName]="field.name" 
+                 [placeholder]="field.placeholder"
+                 (input)="onInputChange($event)" />
             @if (hasLastError(field.name) && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
               <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
             }
@@ -136,7 +148,12 @@
     @case ('autocomplete') {
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>{{field.label}}</mat-label>
-          <input type="text" matInput [formControlName]="field.name" [matAutocomplete]="auto" (input)="onInputAutocomplete($event)">
+          <input type="text" 
+                 matInput 
+                 [formControlName]="field.name" 
+                 [matAutocomplete]="auto" 
+                 [placeholder]="field.placeholder"
+                 (input)="onInputAutocomplete($event)">
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             @for (option of field.options; track option.value) {
               <mat-option [value]="option.label">{{ option.label }}</mat-option>
@@ -147,7 +164,12 @@
     @case ('autocompleteoptions') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>{{field.label}}</mat-label>
-        <input type="text" matInput [formControlName]="field.name" [matAutocomplete]="auto" (input)="onInputAutocomplete($event)">
+        <input type="text" 
+               matInput 
+               [formControlName]="field.name" 
+               [matAutocomplete]="auto" 
+               [placeholder]="field.placeholder"
+               (input)="onInputAutocomplete($event)">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionLabel(field)">
           @for (option of field.options; track option.value) {
             <mat-option [value]="option.value">{{ option.label }}</mat-option>

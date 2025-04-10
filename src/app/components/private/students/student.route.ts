@@ -24,6 +24,13 @@ export default [
                             import('./components/form-patient-personal-data/form-patient-personal-data.component').then(
                                 (m) => m.FormPatientPersonalDataComponent
                             ),
+                    },
+                    {
+                        path: 'updatePatient/:idPatient',
+                        loadComponent: () =>
+                            import('./components/form-update-patient/form-update-patient.component').then(
+                                (m) => m.FormUpdatePatientComponent
+                            ),
                     }
                 ]
             },
@@ -79,14 +86,14 @@ export default [
             {
                 path: 'dashboard',
                 loadComponent: () =>
-                    import('../admins/components/dashboard/dashboard.component').then(
+                    import('./components/dashboard/dashboard.component').then(
                         (m) => m.DashboardComponent
                     ),
             },
             {
                 path: 'user',
                 loadComponent: () =>
-                    import('../admins/components/form-user/form-user.component').then(
+                    import('../../../shared/components/form-user/form-user.component').then(
                         (m) => m.FormUserComponent
                     ),
             },

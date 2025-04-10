@@ -380,7 +380,7 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
     }
     // Estados
     stateData: PaginatedData<stateRequest>[] = [];
-    stateOptions: stateOptions[] = [];
+    stateOptions:  Array<{ value: string; label: string }> = [];
     
     getStateData(searchTerm: string) {
         this.apiService
@@ -548,6 +548,33 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
         );
     }
 
+    getEthnicGroupById(id: number): Observable<any> {
+        const url = `${UriConstants.GET_ETHNIC_GROUP}/${id}`;
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: url,
+            data: {},
+        }).pipe(
+            map((response) => {
+                // Asegurarse de que el grupo étnico esté en las opciones
+                const existingOption = this.ethnicGroupOptions.find(option => option.value === id.toString());
+                if (!existingOption) {
+                    this.ethnicGroupOptions.push({
+                        value: response.idEthnicGroup.toString(),
+                        label: response.ethnicGroup
+                    });
+                }
+                return response;
+            }),
+            catchError(error => {
+                console.error('Error al obtener el grupo étnico por ID:', error);
+                return of(null);
+            })
+        );
+    }
+
     religionData: PaginatedData<religionResponse>[] = [];
     getReligionData(searchTerm: string) {
         this.apiService
@@ -590,6 +617,32 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
                 }));
                 return this.religionOptions;  
             }),
+        );
+    }
+
+    getReligionById(id: number): Observable<any> {
+        const url = `${UriConstants.GET_RELIGION}/${id}`;
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: url,
+            data: {},
+        }).pipe(
+            map((response) => {
+                const existingOption = this.religionOptions.find(option => option.value === id.toString());
+                if (!existingOption) {
+                    this.religionOptions.push({
+                        value: response.idReligion.toString(),
+                        label: response.religion
+                    });
+                }
+                return response;
+            }),
+            catchError(error => {
+                console.error('Error al obtener la religión por ID:', error);
+                return of(null);
+            })
         );
     }
     

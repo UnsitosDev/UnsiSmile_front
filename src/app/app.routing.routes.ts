@@ -5,6 +5,7 @@ import { adminGuard } from './guards/admin.guard';
 import { PasswordChangeGuard } from './guards/password-change.guard';
 import { NewPasswordGuard } from './guards/new-password.guard';
 import { NewPasswordComponent } from './shared/components/new-password/new-password.component';
+import { proffesorGuard } from './guards/proffessor.guard';
 
 const routes: Routes = [
   {
@@ -21,6 +22,11 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./components/private/admins/admin.route'),
     canActivate: [adminGuard, PasswordChangeGuard],
+  },
+  {
+    path: 'professor',
+    loadChildren: () => import('./components/private/proffessor/teacher.route'),
+    canActivate: [proffesorGuard, PasswordChangeGuard],
   },
   {
     path: 'new-password',

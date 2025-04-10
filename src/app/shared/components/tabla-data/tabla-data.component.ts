@@ -50,6 +50,7 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   @Input() showSearchIcon: boolean = false;
   @Input() showEditIcon: boolean = false;
   @Input() showFolderIcon: boolean = false;
+  @Input() showStatusIcon: boolean = false;
 
   @Output() action: EventEmitter<Accion> = new EventEmitter();
 
@@ -86,8 +87,8 @@ export class TablaDataComponent implements OnInit, OnDestroy {
     if (accion === 'changeStatus') {
       const newStatus = row.estatus === 'Activo' ? 'Inactivo' : 'Activo';
       this.statusChange.emit({ row, newStatus });
-    } else if (accion === 'Modificar') {
-      this.action.emit({ accion: 'Actualizar', fila: row });
+    } else if (accion === 'edit') {  // Cambiado de 'Modificar' a 'edit'
+      this.action.emit({ accion: 'Editar', fila: row });  // Emitimos 'Editar' como acción
     } else {
       this.action.emit({ accion: accion, fila: row });
     }

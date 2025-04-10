@@ -65,6 +65,7 @@ export class studentService {
             label: 'Matrícula',
             name: 'enrollment',
             required: true,
+            disabled: true,
             validators: [Validators.required, enrollmentValidator()],
             errorMessages: {
                 required: 'El campo Matrícula es requerido.',
@@ -76,6 +77,7 @@ export class studentService {
             label: 'CURP',
             name: 'curp',
             validators: [Validators.required, curpValidator()],
+            disabled: true,
             errorMessages: {
                 required: 'El campo CURP es requerido.',
                 lastError: 'Introduzca una CURP válida'
@@ -100,6 +102,7 @@ export class studentService {
                 Validators.required,
                 minimumAgeValidator(18)
             ],
+            disabled: true,
             errorMessages: {
                 required: 'El campo Fecha de Nacimiento es requerido.',
                 underage: 'Debes ser mayor de 18 años'
@@ -174,6 +177,7 @@ export class studentService {
           errorMessages: {
             required: 'La matrícula es requerida'
           },
+          disabled: true,
           onInputChange: {
             changeFunction: this.handleStudentEnrollmentSearch.bind(this),
             length: 2  // Aquí se define el número mínimo de caracteres
@@ -219,10 +223,16 @@ export class studentService {
     }
 
     private loadInitialData(): void {
-        this.handleGenderClick({} as MouseEvent);
-        this.handleCareerClick();
-        this.handleGroupClick();
-        this.handleSemesterClick();
+        // Cargar el género inmediatamente al inicializar el servicio
+        this.patientService.getGender();
+        
+        // Forzar la actualización del campo de género con las opciones disponibles
+        setTimeout(() => {
+            this.handleGenderClick({} as MouseEvent);
+            this.handleCareerClick();
+            this.handleGroupClick();
+            this.handleSemesterClick();
+        }, 0);
     }
 
     public handleGenderClick(event: MouseEvent): void {
@@ -230,7 +240,7 @@ export class studentService {
         const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);
         if (genderField) {
             genderField.options = this.patientService.genderOptions;
-            if (genderField.options.length > 0) {
+            if (genderField.options && genderField.options.length > 0) {
                 genderField.value = genderField.options[0].value; // Seleccionar el primer valor por defecto
             }
         }

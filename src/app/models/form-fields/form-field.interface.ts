@@ -25,6 +25,9 @@ export interface formSectionFields {
     seccion: FormField[] | null;
     component?: string;
     isAnswered?: boolean;
+    idFormSection: number;
+    status: string;
+    requiresReview: boolean;
 }
 
 export interface subSeccion {
@@ -77,6 +80,7 @@ export interface FormField {
     label: string;
     validations?: ValidationField[];
     required?: boolean;
+    disabled?: boolean;
     options?: FormFieldOption[];
     validators?: ValidatorFn[];
     value?: any;

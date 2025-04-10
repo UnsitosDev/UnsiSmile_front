@@ -2,75 +2,77 @@
   <mat-card-title><strong>{{ tab[tableKey].title }}</strong></mat-card-title>             
   <mat-card class="table-card">
     <mat-card-content>
-      <table class="odontogram-table">
-        <thead>
-          <tr>
-            <th class="symbol-column">SIGNO</th>
-            @for (column of tab[tableKey].columns; track column) {
-              <th class="data-column">{{ column }}</th>
-            }
-          </tr>
-        </thead>
-        <tbody>
-          @for (row of tab[tableKey].rows; track row.symbol; let rowIndex = $index) {
+      <div class="table-container">
+        <table class="odontogram-table">
+          <thead>
             <tr>
-              <td class="symbol-column">{{ row.symbol }}</td>
-              @for (column of tab[tableKey].columns; track column; let columnIndex = $index) {
-                <td>
-                  @if (row.symbol === 'P. B.' || row.symbol === 'N. I.') {
-                    <!-- Inputs numéricos para P. B. y N. I. -->
-                    <input
-                      type="text"
-                      [value]="row.values[columnIndex * 3 + 0] || ''"
-                      (input)="onInputChange(tableKey, row, $event, columnIndex, 0)"
-                      [disabled]="state === 'read'"
-                    />
-                    <input
-                      type="text"
-                      [value]="row.values[columnIndex * 3 + 1] || ''"
-                      (input)="onInputChange(tableKey, row, $event, columnIndex, 1)"
-                      [disabled]="state === 'read'"
-                    />
-                    <input
-                      type="text"
-                      [value]="row.values[columnIndex * 3 + 2] || ''"
-                      (input)="onInputChange(tableKey, row, $event, columnIndex, 2)"
-                      [disabled]="state === 'read'"
-                    />
-                  } @else if (row.symbol === 'M. D.') {
-                    <!-- Input numérico para M. D. -->
-                    <input
-                      type="text"
-                      [value]="row.values[columnIndex] || ''"
-                      (input)="onInputChange(tableKey, row, $event, columnIndex, 0)"
-                      [disabled]="state === 'read'"
-                    />
-                  } @else if (row.symbol === 'SANGRA' || row.symbol === 'PLACA' || row.symbol === 'CALCULO') {
-                    <!-- Checkboxes para SANGRA, PLACA y CALCULO -->
-                    <section class="example-section">
-                      <mat-checkbox
-                        [checked]="row.values[columnIndex * 3 + 0] || false"
-                        (change)="onInputChange(tableKey, row, $event, columnIndex, 0)"
-                        [disabled]="state === 'read'"
-                      ></mat-checkbox>
-                      <mat-checkbox
-                        [checked]="row.values[columnIndex * 3 + 1] || false"
-                        (change)="onInputChange(tableKey, row, $event, columnIndex, 1)"
-                        [disabled]="state === 'read'"
-                      ></mat-checkbox>
-                      <mat-checkbox
-                        [checked]="row.values[columnIndex * 3 + 2] || false"
-                        (change)="onInputChange(tableKey, row, $event, columnIndex, 2)"
-                        [disabled]="state === 'read'"
-                      ></mat-checkbox>
-                    </section>
-                  }
-                </td>
+              <th class="symbol-column">SIGNO</th>
+              @for (column of tab[tableKey].columns; track column) {
+                <th class="data-column">{{ column }}</th>
               }
             </tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @for (row of tab[tableKey].rows; track row.symbol; let rowIndex = $index) {
+              <tr>
+                <td class="symbol-column">{{ row.symbol }}</td>
+                @for (column of tab[tableKey].columns; track column; let columnIndex = $index) {
+                  <td>
+                    @if (row.symbol === 'P. B.' || row.symbol === 'N. I.') {
+                      <!-- Inputs numéricos para P. B. y N. I. -->
+                      <input
+                        type="text"
+                        [value]="row.values[columnIndex * 3 + 0] || ''"
+                        (input)="onInputChange(tableKey, row, $event, columnIndex, 0)"
+                        [disabled]="state === 'read'"
+                      />
+                      <input
+                        type="text"
+                        [value]="row.values[columnIndex * 3 + 1] || ''"
+                        (input)="onInputChange(tableKey, row, $event, columnIndex, 1)"
+                        [disabled]="state === 'read'"
+                      />
+                      <input
+                        type="text"
+                        [value]="row.values[columnIndex * 3 + 2] || ''"
+                        (input)="onInputChange(tableKey, row, $event, columnIndex, 2)"
+                        [disabled]="state === 'read'"
+                      />
+                    } @else if (row.symbol === 'M. D.') {
+                      <!-- Input numérico para M. D. -->
+                      <input
+                        type="text"
+                        [value]="row.values[columnIndex] || ''"
+                        (input)="onInputChange(tableKey, row, $event, columnIndex, 0)"
+                        [disabled]="state === 'read'"
+                      />
+                    } @else if (row.symbol === 'SANGRA' || row.symbol === 'PLACA' || row.symbol === 'CALCULO') {
+                      <!-- Checkboxes para SANGRA, PLACA y CALCULO -->
+                      <section class="example-section">
+                        <mat-checkbox
+                          [checked]="row.values[columnIndex * 3 + 0] || false"
+                          (change)="onInputChange(tableKey, row, $event, columnIndex, 0)"
+                          [disabled]="state === 'read'"
+                        ></mat-checkbox>
+                        <mat-checkbox
+                          [checked]="row.values[columnIndex * 3 + 1] || false"
+                          (change)="onInputChange(tableKey, row, $event, columnIndex, 1)"
+                          [disabled]="state === 'read'"
+                        ></mat-checkbox>
+                        <mat-checkbox
+                          [checked]="row.values[columnIndex * 3 + 2] || false"
+                          (change)="onInputChange(tableKey, row, $event, columnIndex, 2)"
+                          [disabled]="state === 'read'"
+                        ></mat-checkbox>
+                      </section>
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </mat-card-content>
   </mat-card>
 }
@@ -88,11 +90,13 @@
 </div>
 
 <div class="button-container">
-  <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR </button>
+  <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> <span class="hidden sm:inline"> ANTERIOR</span> </button>
   <div>
     @if (role == 'ROLE_STUDENT') {
       <button type="button" mat-button (click)="store()"> GUARDAR <i class="fas fa-save"></i></button>
     }
-    <button type="button" (click)="nextTab()" mat-button> AVANZAR <i class="fas fa-long-arrow-alt-right"></i></button>
+    <button type="button" (click)="nextTab()" mat-button > 
+      <span class="hidden sm:inline">AVANZAR </span>
+      <i class="fas fa-long-arrow-alt-right"></i></button>
   </div>
 </div>

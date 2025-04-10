@@ -1,0 +1,20 @@
+.fondo {
+  background: var(--secondary);
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+::ng-deep .mat-step-header .mat-step-label {
+  color: var(--on-secondary);
+}
+
+::ng-deep .mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: var(--side-text);  
+}

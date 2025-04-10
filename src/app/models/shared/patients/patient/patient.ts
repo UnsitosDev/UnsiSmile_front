@@ -102,6 +102,7 @@ export interface Patient {
     religion: religionResponse,
     guardian: guardianResponse,
     medicalHistoryResponse: medicalHistoryResponse
+    medicalRecordNumber?: number
 }
 
 

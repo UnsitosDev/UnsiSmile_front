@@ -141,10 +141,14 @@ export class UriConstants {
   public static readonly POSTB_AUTH = basePath + '/auth/register';
   public static readonly PATCH_UPDATE_PASSWORD =
     basePath + '/auth/updatePassword';
+  public static readonly PATCH_AUTH = basePath + '/auth/resetPasswordToDefault';
+
   //person controller
   public static readonly GETID_PERSON = basePath + '/persons/';
   public static readonly GET_PERSON = basePath + '/persons';
   public static readonly POST_PERSON = basePath + '/persons';
+  public static readonly PATCH_PERSON_BY_CURP = basePath + '/people/'; // Nuevo endpoint para actualizar por CURP
+
   // grupos
   public static readonly GETID_GROUPS = basePath + '/groups/';
   public static readonly GET_GROUPS = basePath + '/groups';
@@ -250,6 +254,9 @@ export class UriConstants {
   // Patient controller
   public static readonly POST_PATIENT = basePath + '/patients';
   public static readonly POST_GUARDIAN = basePath + '/guardian';
+  public static readonly GET_PATIENT_BY_ID = basePath + '/patients/';
+  public static readonly PATCH_PATIENT_BY_ID = basePath + '/patients/';
+
 
   public static readonly POST_PATIENT_STUDENT = basePath + '/patients/students';
 
@@ -314,4 +321,20 @@ export class UriConstants {
   public static readonly POST_EVOLUTION_NOTE = basePath + '/progress-notes';
   // Subir nota de evoluvion
   public static readonly POST_EVOLUTION_NOTE_FILE = basePath + '/progress-notes/files';
+  
+  public static readonly GET_ADMIN_DASHBOARD = basePath + '/dashboards/admins';
+  public static readonly GET_STUDENT_DASHBOARD = basePath + '/dashboards/students';
+  public static readonly GET_PROFESSORS_DASHBOARD = basePath + '/dashboards/teachers';
+
+  // Enviar historia clinica a revision
+  public static readonly PUT_CLINICAL_HISTORY_REVIEW = basePath + '/medicalHistories/status/sendToReview'
+  // Obtener el estado de la historia clinica
+  public static readonly GET_CLINICAL_HISTORY_STATUS = basePath + '/medicalHistories/status';
+  public static readonly GET_HC_TO_REVIEW = basePath +'/medicalHistories/status/list'
+  public static readonly SAVE_REVIEW_HC = basePath + '/medicalHistories/status'
+
+  public static readonly GET_PROFESSORS = basePath + '/professors';
+  public static readonly POST_PROFESSORS = basePath + '/professors';
+  public static readonly PATCH_PROFESSORS = basePath + '/professors';
+  
 }

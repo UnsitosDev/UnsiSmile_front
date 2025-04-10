@@ -24,7 +24,14 @@ export default [
                             import('./components/form-insert-student/form-insert-student.component').then(
                                 (m) => m.FormInsertStudentComponent
                             ),
-                    }
+                    },
+                    {
+                        path: 'updateStudent/:matricula',
+                        loadComponent: () =>
+                            import('./components/form-update-student/form-update-student.component').then(
+                                (m) => m.FormUpdateStudentComponent
+                            ),
+                    },
                 ]
             },
             {
@@ -43,7 +50,15 @@ export default [
                             import('../admins/components/form-patient-personal-data/form-patient-personal-data.component').then(
                                 (m) => m.FormPatientPersonalDataComponent
                             ),
+                    },
+                    {
+                        path: 'updatePatient/:idPatient',
+                        loadComponent: () =>
+                            import('../admins/components/form-update-patient/form-update-patient.component').then(
+                                (m) => m.FormUpdatePatientComponent
+                            ),
                     }
+                    
                 ]
             },
             {
@@ -69,7 +84,7 @@ export default [
                             import('./components/form-update-admin/form-update-admin.component').then(
                                 (m) => m.FormUpdateAdminComponent
                             ),
-                    }
+                    },
                 ]
             },
             {
@@ -96,7 +111,7 @@ export default [
             {
                 path: 'user',
                 loadComponent: () =>
-                    import('./components/form-user/form-user.component').then(
+                    import('../../../shared/components/form-user/form-user.component').then(
                         (m) => m.FormUserComponent
                     ),
             },
@@ -105,13 +120,6 @@ export default [
                 loadComponent: () =>
                     import('./components/admin-files-section/admin-files-section.component').then(
                         (m) => m.AdminFilesSectionComponent
-                    ),
-            },
-            {
-                path: 'updateStudent/:matricula',
-                loadComponent: () =>
-                    import('./components/form-update-student/form-update-student.component').then(
-                        (m) => m.FormUpdateStudentComponent
                     ),
             },
             {
@@ -155,6 +163,32 @@ export default [
                     import('../students/pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
                         (m) => m.PreventiveDentistryPublicHealthComponent
                     ),
+            },
+            {
+                path: 'professors',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./components/table-professor-admin/table-professor-admin.component').then(
+                                (m) => m.TableProfessorAdminComponent
+                            ),
+                    },
+                    {
+                        path: 'addProfessor',
+                        loadComponent: () =>
+                            import('./components/form-insert-professor/form-insert-professor.component').then(
+                                (m) => m.FormInsertProfessorComponent
+                            ),
+                    },
+                    {
+                        path: 'updateAdmin/:employeeNumber',
+                        loadComponent: () =>
+                            import('./components/form-update-admin/form-update-admin.component').then(
+                                (m) => m.FormUpdateAdminComponent
+                            ),
+                    },
+                ]
             },
             {
                 path: '**',
