@@ -294,10 +294,31 @@ export class ProfilaxisComponent implements OnInit {
       idPatientClinicalHistory: this.idPatientClinicalHistory,
       idFormSection: this.idFormSection
     };
-
-    // Mostramos en consola
-    console.log(payload);
-
     return payload;
   }
+
+  store(){
+    this.postProfilaxis();
+  }
+
+  postProfilaxis() {
+    const payload = this.generateModifiedTeethObject(); 
+    this.api
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POS_PROFILAXIS}`,
+        data: payload,
+      })
+      .subscribe({
+        next: (response) => {
+          console.log('ok');
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
+  }
 }
+
