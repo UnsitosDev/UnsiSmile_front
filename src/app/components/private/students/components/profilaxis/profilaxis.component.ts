@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
@@ -12,7 +12,7 @@ interface ConditionFace {
   description: string;
 }
 
-interface ConditionTooth { 
+interface ConditionTooth {
   idToothCondition: number;
   description: string;
 }
@@ -29,6 +29,10 @@ export class ProfilaxisComponent implements OnInit {
   public toastr = inject(ToastrService);
   public toothConditions: ConditionTooth[] = [];
   public faceConditions: ConditionFace[] = [];
+  @Input({ required: true }) idPatient!: string;
+  @Input({ required: true }) idPatientClinicalHistory!: number;
+  @Input({ required: true }) idFormSection!: number;
+  idQuestion: number = 244;
   teeth = storeProphylaxis.theetProphylaxis;
   toothDisabled: { [key: number]: boolean } = {};
   toothDeactivated: { [key: number]: boolean } = {};
@@ -190,10 +194,6 @@ export class ProfilaxisComponent implements OnInit {
     }
   }
 
-  generateModifiedTeethObject(): void {
-    const teethToPost = Object.values(this.TheetData);
-  }
-
   getQuadrant(teeth: ThoothProphylaxis[], quadrant: number): ThoothProphylaxis[] {
     if (quadrant >= 1 && quadrant <= 4) {
       return teeth
@@ -262,5 +262,42 @@ export class ProfilaxisComponent implements OnInit {
           this.toastr.error(error);
         },
       });
+  }
+
+  generateModifiedTeethObject(): any {
+    const teethWithConditions = this.teeth.filter(tooth => {
+      const hasToothConditions = tooth.conditions.length > 0;
+      const hasFaceConditions = tooth.faces.some(face =>
+        face.conditions && face.conditions.length > 0
+      );
+      return hasToothConditions || hasFaceConditions;
+    });
+
+    const theetProphylaxis = teethWithConditions.map(tooth => ({
+      idTooth: tooth.idTooth,
+      conditions: tooth.conditions.map(condition => ({
+        idCondition: condition.idCondition
+      })),
+      faces: tooth.faces.map(face => ({
+        idFace: +face.idFace,
+        conditions: face.conditions?.map(fc => ({
+          idToothFaceCondition: fc.idCondition,
+          description: this.faceConditions.find(f => f.idToothFaceCondition === fc.idCondition)?.description
+        })) || []
+      }))
+    }));
+
+    const payload = {
+      theetProphylaxis,
+      idPatient: this.idPatient,
+      idQuestion: this.idQuestion,
+      idPatientClinicalHistory: this.idPatientClinicalHistory,
+      idFormSection: this.idFormSection
+    };
+
+    // Mostramos en consola
+    console.log(payload);
+
+    return payload;
   }
 }

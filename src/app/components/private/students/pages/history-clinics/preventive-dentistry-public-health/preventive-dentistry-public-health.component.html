@@ -59,7 +59,11 @@
                         ></app-tab-form>
                         }
                         @if (tab.title == "Profilaxis Dental" && !tab.isAnswered) {
-                            <app-profilaxis></app-profilaxis>
+                            <app-profilaxis
+                            [idPatient]="idpatient" 
+                            [idPatientClinicalHistory]="idPatientClinicalHistory"
+                            [idFormSection]="tab.idFormSection"
+                            ></app-profilaxis>
                         }
                     </mat-tab>
               }

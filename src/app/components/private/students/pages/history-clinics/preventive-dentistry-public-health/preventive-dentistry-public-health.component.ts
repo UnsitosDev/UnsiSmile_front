@@ -50,7 +50,7 @@ export class PreventiveDentistryPublicHealthComponent {
   private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   private id!: number;
-  private idpatient!: string;
+  public idpatient!: string;
   private userService = inject(AuthService);
   private token!: string;
   private tokenData!: TokenData;
