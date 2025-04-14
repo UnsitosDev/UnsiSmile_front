@@ -191,6 +191,13 @@ export default [
                 ]
             },
             {
+                path: 'createArea', // Ruta para HISTORIA CLÍNICA CLÍNICA DE ODONTOLOGÍA PREVENTIVA Y SALUD PÚBLICA
+                loadComponent: () =>
+                    import('./components/form-create-area/form-create-area.component').then(
+                        (m) => m.FormCreateAreaComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
