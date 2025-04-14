@@ -250,7 +250,7 @@ export class FormPatientPersonalDataComponent {
     if (this.formGroup.valid) {
       const patientData = {
         isMinor: this.minorPatient,
-        hasDisability: true,
+        hasDisability: formValues.hasDisability,
         nationalityId: +formValues.nationality,
         person: {
           curp: formValues.curp,
