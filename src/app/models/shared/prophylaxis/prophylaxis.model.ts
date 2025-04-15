@@ -18,3 +18,27 @@ export interface IConditionProphylaxis {
 export interface IProphylaxis {
     theetProphylaxis: ThoothProphylaxis[]
 }
+
+export interface ProphylaxisEntry {
+    idDentalProphylaxis: number;
+    teethProphylaxis: ToothProphylaxis[];
+}
+
+export interface ToothProphylaxis {
+    idTooth: string;
+    faces: ToothFace[];
+    conditions: DentalCondition[];
+}
+
+export interface ToothFace {
+    idFace: string;
+    conditions: DentalCondition[];
+}
+
+export interface DentalCondition {
+    idCondition: number;
+    condition: string;
+    description: string;
+}
+
+// Para el array completo

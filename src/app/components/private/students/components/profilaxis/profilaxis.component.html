@@ -457,3 +457,86 @@
 </div>
 
 <button (click)="store()">Payload</button>
+
+<div class="quadrant-container">
+  <!-- Mostrar cada registro de profilaxis -->
+  @for (record of registerProfilaxis; track record.idDentalProphylaxis) {
+    <div class="prophylaxis-record">
+      <h3>Registro de Profilaxis #{{record.idDentalProphylaxis}}</h3>
+      
+      <div class="quadrant">
+        <!-- Cuadrante 1 (11-18) -->
+        @for (tooth of getQuadrantv2(record.teethProphylaxis, 1); track tooth.idTooth) {
+          <div class="figure-wrapper">
+            <div class="tooth-info">
+              <p>{{tooth.idTooth}}</p>
+              
+              <!-- Usar función del componente en lugar de expresión inline -->
+              @if (hasCondition(tooth, 'Diente no presente')) {
+                <span class="tooth-status absent"></span>
+              }
+            </div>
+
+            <!-- Mostrar SVG solo si el diente está presente -->
+            @if (!hasCondition(tooth, 'Diente no presente')) {
+              <svg width="35" height="35" class="svg-figure">
+                <rect width="35" height="35" fill="none" stroke="var(--text)" stroke-width="2"/>
+                
+                <!-- Cara 1 -->
+                <polygon
+                  points="0,0 17.5,17.5 0,35"
+                  [attr.fill]="isFaceMarked(tooth, '1') ? 'red' : 'transparent'"
+                  stroke="var(--text)"
+                  stroke-width="2"
+                />
+                
+                <!-- Cara 2 -->
+                <polygon
+                  points="35,0 17.5,17.5 35,35"
+                  [attr.fill]="isFaceMarked(tooth, '2') ? 'red' : 'transparent'"
+                  stroke="var(--text)"
+                  stroke-width="2"
+                />
+                
+                <!-- Cara 3 -->
+                <polygon
+                  points="0,35 17.5,17.5 35,35"
+                  [attr.fill]="isFaceMarked(tooth, '3') ? 'red' : 'transparent'"
+                  stroke="var(--text)"
+                  stroke-width="2"
+                />
+                
+                <!-- Cara 4 -->
+                <polygon
+                  points="0,0 17.5,17.5 35,0"
+                  [attr.fill]="isFaceMarked(tooth, '4') ? 'red' : 'transparent'"
+                  stroke="var(--text)"
+                  stroke-width="2"
+                />
+              </svg>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Repetir para los otros cuadrantes (2, 3, 4) -->
+      <div class="quadrant">
+        @for (tooth of getQuadrantv2(record.teethProphylaxis, 2); track tooth.idTooth) {
+          <!-- Misma estructura que cuadrante 1 -->
+        }
+      </div>
+      
+      <div class="quadrant">
+        @for (tooth of getQuadrantv2(record.teethProphylaxis, 3); track tooth.idTooth) {
+          <!-- Misma estructura que cuadrante 1 -->
+        }
+      </div>
+      
+      <div class="quadrant">
+        @for (tooth of getQuadrantv2(record.teethProphylaxis, 4); track tooth.idTooth) {
+          <!-- Misma estructura que cuadrante 1 -->
+        }
+      </div>
+    </div>
+  }
+</div>

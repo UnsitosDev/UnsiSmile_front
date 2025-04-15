@@ -3,6 +3,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
+import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { ThoothProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.model';
 import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
 
@@ -29,6 +30,8 @@ export class ProfilaxisComponent implements OnInit {
   public toastr = inject(ToastrService);
   public toothConditions: ConditionTooth[] = [];
   public faceConditions: ConditionFace[] = [];
+  public allprophylaxis!: PaginatedData<ThoothProphylaxis>;
+  public registerProfilaxis: any;
   @Input({ required: true }) idPatient!: string;
   @Input({ required: true }) idPatientClinicalHistory!: number;
   @Input({ required: true }) idFormSection!: number;
@@ -45,6 +48,77 @@ export class ProfilaxisComponent implements OnInit {
     this.conditionsTooth();
     this.disableAllTeeth();
     this.getProphylaxis();
+    this.registerProfilaxis = [
+      {
+        idDentalProphylaxis: 2,
+        teethProphylaxis: [
+          {
+            idTooth: "13",
+            faces: [
+              {
+                idFace: "3",
+                conditions: [
+                  {
+                    idCondition: 5,
+                    condition: "Marcado",
+                    description: "Tooth face condition description"
+                  }
+                ]
+              }
+            ],
+            conditions: []
+          },
+          {
+            idTooth: "43",
+            faces: [
+              {
+                idFace: "3",
+                conditions: [
+                  {
+                    idCondition: 5,
+                    condition: "Marcado",
+                    description: "Tooth face condition description"
+                  }
+                ]
+              }
+            ],
+            conditions: []
+          }
+        ]
+      },
+      {
+        idDentalProphylaxis: 1,
+        teethProphylaxis: [
+          {
+            idTooth: "11",
+            faces: [],
+            conditions: [
+              {
+                idCondition: 13,
+                condition: "Diente no presente",
+                description: "Diente no presente"
+              }
+            ]
+          },
+          {
+            idTooth: "12",
+            faces: [
+              {
+                idFace: "1",
+                conditions: [
+                  {
+                    idCondition: 5,
+                    condition: "Marcado",
+                    description: "Tooth face condition description"
+                  }
+                ]
+              }
+            ],
+            conditions: []
+          }
+        ]
+      }
+    ];
   }
 
   disableAllTeeth() {
@@ -225,6 +299,33 @@ export class ProfilaxisComponent implements OnInit {
     }
   }
 
+  // Función para verificar condiciones
+  hasCondition(tooth: any, conditionName: string): boolean {
+    return tooth.conditions?.some((c: any) => c.condition === conditionName) || false;
+  }
+
+  // Función para verificar caras marcadas
+  isFaceMarked(tooth: any, faceId: string): boolean {
+    return tooth.faces?.some((f: any) => f.idFace === faceId && f.conditions?.length > 0) || false;
+  }
+
+  // Función getQuadrant actualizada
+  getQuadrantv2(teeth: any[], quadrant: number): any[] {
+    return teeth.filter(tooth => {
+      const toothNumber = parseInt(tooth.idTooth);
+      switch (quadrant) {
+        case 1: return toothNumber >= 11 && toothNumber <= 18;
+        case 2: return toothNumber >= 21 && toothNumber <= 28;
+        case 3: return toothNumber >= 31 && toothNumber <= 38;
+        case 4: return toothNumber >= 41 && toothNumber <= 48;
+        default: return false;
+      }
+    }).sort((a, b) => {
+      const numA = parseInt(a.idTooth);
+      const numB = parseInt(b.idTooth);
+      return quadrant === 1 || quadrant === 4 ? numB - numA : numA - numB;
+    });
+  }
   public conditionsFace() {
     this.api
       .getService({
@@ -236,7 +337,6 @@ export class ProfilaxisComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.faceConditions = response;
         },
         error: (error) => {
@@ -257,7 +357,6 @@ export class ProfilaxisComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.toothConditions = response;
-          console.log(response);
         },
         error: (error) => {
           this.toastr.error(error);
@@ -276,14 +375,16 @@ export class ProfilaxisComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          console.log(response);
+          this.allprophylaxis = response;
+          this.registerProfilaxis = this.allprophylaxis.content;
+          console.log('p', this.registerProfilaxis);
         },
         error: (error) => {
           this.toastr.error(error);
         },
       });
   }
-  
+
 
   generateModifiedTeethObject(): any {
     const teethWithConditions = this.teeth.filter(tooth => {
@@ -318,12 +419,12 @@ export class ProfilaxisComponent implements OnInit {
     return payload;
   }
 
-  store(){
+  store() {
     this.postProfilaxis();
   }
 
   postProfilaxis() {
-    const payload = this.generateModifiedTeethObject(); 
+    const payload = this.generateModifiedTeethObject();
     this.api
       .postService({
         headers: new HttpHeaders({
