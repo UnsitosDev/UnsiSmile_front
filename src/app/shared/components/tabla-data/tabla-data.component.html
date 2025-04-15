@@ -73,6 +73,13 @@
                    <i class="fas fa-key"></i>
                 </a>
                 }
+                @if (showInsertIcon) {
+                  <a class="text-blue-600 hover:text-blue-700 mr-4" 
+                     (click)="onAction('Insertar', data)"
+                     title="Asignar área">
+                     <i class="fas fa-stethoscope"></i>              
+                     </a>
+                  }
             </td>
           </tr>
         }

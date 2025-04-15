@@ -82,11 +82,18 @@ export class TableProfessorAdminComponent implements OnInit {
       this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
       this.openDetailsDialog(accion.fila);
+    } else if (accion.accion === 'Insertar') {
+      this.openInsertArea(accion.fila);
     }
   }
 
    openDetailsDialog(admin: ProfessorTableData): void {
     }
+
+    openInsertArea(admin: ProfessorTableData): void {
+      
+    }
+
 
   edit(objeto: any) {
    }
