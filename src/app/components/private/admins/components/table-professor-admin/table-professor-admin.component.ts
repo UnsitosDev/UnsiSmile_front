@@ -90,10 +90,15 @@ export class TableProfessorAdminComponent implements OnInit {
    openDetailsDialog(admin: ProfessorTableData): void {
     }
 
-    openInsertArea(admin: ProfessorTableData): void {
-      
+    openInsertArea(objeto: any){
+      // Accedemos a 'numero empleado' ya que así está definido en el mapeo
+      const employeeNumber = objeto['numero empleado'];
+      if (employeeNumber) {
+        this.router.navigate(['/admin/professorArea', employeeNumber]);
+      } else {
+        console.error('Número de empleado no encontrado');
+      }
     }
-
 
   edit(objeto: any) {
    }

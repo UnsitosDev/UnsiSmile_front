@@ -198,6 +198,13 @@ export default [
                     ),
             },
             {
+                path: 'professorArea/:employeeNumber', // Modificado para incluir el parámetro
+                loadComponent: () =>
+                    import('./components/form-professor-area/form-professor-area.component').then(
+                        (m) => m.FormProfessorAreaComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
