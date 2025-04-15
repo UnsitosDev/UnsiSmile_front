@@ -48,77 +48,7 @@ export class ProfilaxisComponent implements OnInit {
     this.conditionsTooth();
     this.disableAllTeeth();
     this.getProphylaxis();
-    this.registerProfilaxis = [
-      {
-        idDentalProphylaxis: 2,
-        teethProphylaxis: [
-          {
-            idTooth: "13",
-            faces: [
-              {
-                idFace: "3",
-                conditions: [
-                  {
-                    idCondition: 5,
-                    condition: "Marcado",
-                    description: "Tooth face condition description"
-                  }
-                ]
-              }
-            ],
-            conditions: []
-          },
-          {
-            idTooth: "43",
-            faces: [
-              {
-                idFace: "3",
-                conditions: [
-                  {
-                    idCondition: 5,
-                    condition: "Marcado",
-                    description: "Tooth face condition description"
-                  }
-                ]
-              }
-            ],
-            conditions: []
-          }
-        ]
-      },
-      {
-        idDentalProphylaxis: 1,
-        teethProphylaxis: [
-          {
-            idTooth: "11",
-            faces: [],
-            conditions: [
-              {
-                idCondition: 13,
-                condition: "Diente no presente",
-                description: "Diente no presente"
-              }
-            ]
-          },
-          {
-            idTooth: "12",
-            faces: [
-              {
-                idFace: "1",
-                conditions: [
-                  {
-                    idCondition: 5,
-                    condition: "Marcado",
-                    description: "Tooth face condition description"
-                  }
-                ]
-              }
-            ],
-            conditions: []
-          }
-        ]
-      }
-    ];
+    this.registerProfilaxis = [];
   }
 
   disableAllTeeth() {
