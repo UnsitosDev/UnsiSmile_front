@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form-professor-area',
@@ -29,6 +30,8 @@ export class FormProfessorAreaComponent implements OnInit {
   areaForm: FormGroup;
   areas: any[] = [];
   private apiService = inject(ApiService);
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
 
   constructor(
     private route: ActivatedRoute,
@@ -67,8 +70,31 @@ export class FormProfessorAreaComponent implements OnInit {
 
   onSubmit() {
     if (this.areaForm.valid) {
-      console.log('Área seleccionada:', this.areaForm.value.selectedArea);
-      // Aquí implementarías la lógica para guardar el área seleccionada
+      const professorArea = {
+        idProfessorClinicalArea: 0,
+        idClinicalArea: this.areaForm.value.selectedArea,
+        idProfessor: this.employeeNumber
+      };
+
+      this.apiService.postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: UriConstants.POST_PROFESSOR_CLINICAL_AREAS,
+        data: professorArea,
+      }).subscribe({
+        next: (response) => {
+          this.toastr.success('Área clínica asignada exitosamente');
+          this.router.navigate(['/admin/professors']);
+        },
+        error: (error) => {
+          console.error('Error al asignar área:', error);
+          this.toastr.error(
+            error.error?.message || 'Error al asignar el área clínica',
+            'Error'
+          );
+        }
+      });
     }
   }
 }
