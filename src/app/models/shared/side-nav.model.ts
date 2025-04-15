@@ -66,7 +66,7 @@ export const AdminItems: MenuItem[] = [
     fontAwesomeIcon: faFileArrowDown,
     buttonText: 'Areas',
     buttonDescription: 'Crear nueva area',
-    routerlink: '/admin/createArea'
+    routerlink: '/admin/areas'
   },
   {
     fontAwesomeIcon: faFileUpload,

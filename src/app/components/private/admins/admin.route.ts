@@ -205,6 +205,13 @@ export default [
                     ),
             },
             {
+                path: 'areas',
+                loadComponent: () =>
+                    import('./components/table-area-admin/table-area-admin.component').then(
+                        (m) => m.TableAreaAdminComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

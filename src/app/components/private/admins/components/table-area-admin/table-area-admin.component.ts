@@ -1,0 +1,96 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+
+@Component({
+  selector: 'app-table-area-admin',
+  standalone: true,
+  imports: [TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
+  templateUrl: './table-area-admin.component.html',
+  styleUrl: './table-area-admin.component.scss'
+})
+export class TableAreaAdminComponent implements OnInit {
+  areasList: any[] = [];
+  columns: string[] = ['nombre'];
+  title: string = 'Áreas Clínicas';
+  private apiService = inject(ApiService);
+  private searchSubject = new Subject<string>();
+
+  currentPage = 0;
+  itemsPerPage = 10;
+  searchTerm: string = '';
+  totalElements: number = 0;
+  sortField: string = 'clinicalArea';
+  sortAsc: boolean = true;
+  sortableColumns = {
+    'nombre': 'clinicalArea'
+  };
+
+  ngOnInit(): void {
+    this.getAreas();
+
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      this.currentPage = 0;
+      this.getAreas(this.currentPage, this.itemsPerPage, searchTerm);
+    });
+  }
+
+  getAreas(page: number = 0, size: number = 10, keyword: string = '') {
+    const encodedKeyword = encodeURIComponent(keyword);
+    const url = `${UriConstants.GET_CLINICAL_AREAS}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
+    
+    this.apiService.getService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url,
+      data: {},
+    }).subscribe({
+      next: (response) => {
+        if (response && response.content) {
+          this.totalElements = response.totalElements;
+          this.areasList = response.content.map((area: any) => ({
+            nombre: area.clinicalArea,
+            id: area.idClinicalArea
+          }));
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar áreas:', error);
+        this.areasList = [];
+        this.totalElements = 0;
+      }
+    });
+  }
+
+  onPageChange(event: number) {
+    this.currentPage = event - 1;
+    this.getAreas(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  onPageSizeChange(newSize: number) {
+    this.itemsPerPage = newSize;
+    this.currentPage = 0;
+    this.getAreas(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  onSearch(keyword: string) {
+    this.searchTerm = keyword;
+    this.searchSubject.next(keyword);
+  }
+
+  onSort(event: { field: string, asc: boolean }) {
+    this.sortField = event.field;
+    this.sortAsc = event.asc;
+    this.getAreas(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+}
