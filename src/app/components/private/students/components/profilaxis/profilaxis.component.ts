@@ -366,6 +366,7 @@ export class ProfilaxisComponent implements OnInit {
       .subscribe({
         next: (response) => {
           console.log('ok');
+          this.getProphylaxis();
         },
         error: (error) => {
           this.toastr.error(error);
