@@ -13,7 +13,7 @@ import { forkJoin } from 'rxjs';
 import { StudentsToolbarComponent } from './../toolbar-odontogram/students-toolbar.component';
 import { StudentsToothComponent } from './../tooth/students-tooth.component';
 
-import { ApiService, AuthService, OdontogramData, store } from '@mean/services';
+import { ApiService, AuthService, createOdontogramHandler, OdontogramData } from '@mean/services';
 import { Constants, ToothConditionsConstants } from '@mean/utils';
 
 import { HttpHeaders } from '@angular/common/http';
@@ -92,7 +92,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   isEditing = false;
   renderOdontogram = false;
 
-  data: IOdontogramHandler = store;
+  data: IOdontogramHandler = createOdontogramHandler();
   odontogram: IOdontogram = { teeth: [] };
   options: ICondition[] = [];
   faces: IFace[] = [];
