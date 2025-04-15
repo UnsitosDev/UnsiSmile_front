@@ -44,6 +44,7 @@ export class ProfilaxisComponent implements OnInit {
     this.conditionsFace();
     this.conditionsTooth();
     this.disableAllTeeth();
+    this.getProphylaxis();
   }
 
   disableAllTeeth() {
@@ -263,6 +264,26 @@ export class ProfilaxisComponent implements OnInit {
         },
       });
   }
+
+  public getProphylaxis() {
+    this.api
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_PROFILAXIS}/patients/${this.idPatient}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
+  }
+  
 
   generateModifiedTeethObject(): any {
     const teethWithConditions = this.teeth.filter(tooth => {
