@@ -1,1 +1,20 @@
-<p>form-create-area works!</p>
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Crear Nueva Área</strong></mat-card-title>
+  <mat-card-content>
+    <div class="custom">
+      <form [formGroup]="areaForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Nombre del Área Clínica</mat-label>
+          <input matInput formControlName="clinicalArea" required>
+        </mat-form-field>
+        <div class="button-container">
+          <button mat-flat-button color="primary" type="submit" [disabled]="!areaForm.valid">
+            CREAR ÁREA <i class="fas fa-save"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<app-loading/>
