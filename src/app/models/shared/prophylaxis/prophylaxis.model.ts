@@ -41,28 +41,3 @@ export interface DentalCondition {
     description: string;
 }
 
-
-// response
-
-export interface DentalProphylaxis {
-    idDentalProphylaxis: number;
-    teethProphylaxis: ToothProphylaxis[];
-  }
-  
-  export interface ToothProphylaxis {
-    idTooth: string;
-    faces: Face[];
-    conditions: Condition[]; // puede ser un array vacío
-  }
-  
-  export interface Face {
-    idFace: string;
-    conditions: Condition[];
-  }
-  
-  export interface Condition {
-    idCondition: number;
-    condition: string;
-    description: string;
-  }
-  
