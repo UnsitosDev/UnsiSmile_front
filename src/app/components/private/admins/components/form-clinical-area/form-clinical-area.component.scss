@@ -117,19 +117,20 @@ mat-list {
 }
 
 button[type="button"] {
-  margin-top: 10px;
-  width: 200px;
+  margin-top: 20px;
+  min-width: 250px;
+  height: 45px;
   background-color: var(--tertiary);
   color: white !important;
+  font-size: 16px;
+  padding: 0 24px;
+  border-radius: 4px;
   
   i {
-    margin-left: 8px;
+    margin-left: 12px;
+    font-size: 14px;
   }
 
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
 }
 
 button[color="warn"] {
