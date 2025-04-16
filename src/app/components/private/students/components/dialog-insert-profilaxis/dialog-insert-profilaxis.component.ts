@@ -323,13 +323,18 @@ export class DialogInsertProfilaxisComponent implements OnInit {
       idPatientClinicalHistory: this.idPatientClinicalHistory,
       idFormSection: this.idFormSection
     };
-    
+
     return payload;
   }
 
-  store() {
-    this.postProfilaxis();
+  public store() {
+    if (this.hasAtLeastOneCondition()) {
+      this.postProfilaxis();
+    } else {
+      this.toastr.warning('Debe seleccionar al menos una condición en caras o dientes');
+    }
   }
+
 
   postProfilaxis() {
     const payload = this.generateModifiedTeethObject();
@@ -343,12 +348,24 @@ export class DialogInsertProfilaxisComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.dialogRef.close();
+          this.dialogRef.close(true);
           this.toastr.success('Profilaxis guardada correctamente');
         },
         error: (error) => {
           this.toastr.error(error);
         },
       });
+  }
+
+  private hasAtLeastOneCondition(): boolean {
+    return this.teeth.some(tooth => {
+      const hasToothConditions = tooth.conditions.length > 0;
+      
+      const hasFaceConditions = tooth.faces.some(face => 
+        face.conditions && face.conditions.length > 0
+      );
+      
+      return hasToothConditions || hasFaceConditions;
+    });
   }
 }

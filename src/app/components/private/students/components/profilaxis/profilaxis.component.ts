@@ -47,7 +47,9 @@ export class ProfilaxisComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.getProphylaxis();
+      if (result) {
+        this.getProphylaxis(this.indexPage, true);
+      }
     });
   }
 
