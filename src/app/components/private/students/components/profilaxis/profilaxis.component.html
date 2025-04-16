@@ -141,7 +141,7 @@
         <!-- Cuadrante 3 (31-38) -->
         <div class="p-2">
           <div class="flex gap-[5px] justify-end">
-            @for (toothNumber of [38,37,36,35,34,33,32,31]; track toothNumber) {
+            @for (toothNumber of [48,47,46,45,44,43,42,41]; track toothNumber) {
               @if (findTooth(record.teethProphylaxis, toothNumber); as tooth) {
                 <div class="flex flex-col items-center min-w-[40px]">
                   @if (!hasCondition(tooth, 'Diente no presente')) {
@@ -201,7 +201,7 @@
         <!-- Cuadrante 4 (41-48) -->
         <div class="p-2">
           <div class="flex gap-[5px] justify-start">
-            @for (toothNumber of [41,42,43,44,45,46,47,48]; track toothNumber) {
+            @for (toothNumber of [31,32,33,34,35,36,37,38]; track toothNumber) {
               @if (findTooth(record.teethProphylaxis, toothNumber); as tooth) {
                 <div class="flex flex-col items-center min-w-[40px]">
                   @if (!hasCondition(tooth, 'Diente no presente')) {
