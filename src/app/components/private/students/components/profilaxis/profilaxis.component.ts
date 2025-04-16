@@ -229,14 +229,14 @@ export class ProfilaxisComponent implements OnInit {
     }
   }
 
-  // Función para verificar condiciones
+  // Función para verificar condiciones (ya existente)
   hasCondition(tooth: any, conditionName: string): boolean {
-    return tooth.conditions?.some((c: any) => c.condition === conditionName) || false;
+    return tooth?.conditions?.some((c: any) => c.condition === conditionName) || false;
   }
 
-  // Función para verificar caras marcadas
+  // Función para verificar caras marcadas (ya existente)
   isFaceMarked(tooth: any, faceId: string): boolean {
-    return tooth.faces?.some((f: any) => f.idFace === faceId && f.conditions?.length > 0) || false;
+    return tooth?.faces?.some((f: any) => f.idFace === faceId && f.conditions?.length > 0) || false;
   }
 
   // Función getQuadrant actualizada
@@ -256,6 +256,7 @@ export class ProfilaxisComponent implements OnInit {
       return quadrant === 1 || quadrant === 4 ? numB - numA : numA - numB;
     });
   }
+
   public conditionsFace() {
     this.api
       .getService({
@@ -287,6 +288,7 @@ export class ProfilaxisComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.toothConditions = response;
+          console.log('toothConditions', this.toothConditions);
         },
         error: (error) => {
           this.toastr.error(error);
@@ -373,5 +375,11 @@ export class ProfilaxisComponent implements OnInit {
         },
       });
   }
+
+  // Función para encontrar un diente específico en los datos
+  findTooth(teeth: any[], toothNumber: number): any | null {
+    return teeth.find(t => parseInt(t.idTooth) === toothNumber) || null;
+  }
+
 }
 
