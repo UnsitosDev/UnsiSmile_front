@@ -2,11 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Accion } from 'src/app/models/tabla/tabla-columna';
 
 @Component({
   selector: 'app-table-area-admin',
@@ -31,6 +32,9 @@ export class TableAreaAdminComponent implements OnInit {
   sortableColumns = {
     'nombre': 'clinicalArea'
   };
+  constructor(
+    public router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.getAreas();
@@ -82,6 +86,31 @@ export class TableAreaAdminComponent implements OnInit {
     this.currentPage = 0;
     this.getAreas(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
+
+    onAction(accion: Accion) {
+      console.log('Acción recibida:', accion); // Para debugging
+      if (accion.accion === 'Insertar') {
+        this.openInsertArea(accion.fila);
+      } else if (accion.accion === 'Modificar') {
+        this.edit(accion.fila);
+      }
+    }
+
+    openInsertArea(objeto: any){
+      console.log('Objeto recibido:', objeto); // Para debugging
+      const areaId = objeto.id;
+      console.log('ID del área:', areaId); // Para debugging
+      if (areaId) {
+        console.log('Navegando a:', '/admin/clinicalArea/' + areaId); // Para debugging
+        this.router.navigate(['/admin/clinicalArea', areaId]);
+      } else {
+        console.error('Id de area no encontrado');
+      }
+    }
+
+    edit(objeto: any) {
+    }
+ 
 
   onSearch(keyword: string) {
     this.searchTerm = keyword;

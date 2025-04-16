@@ -12,15 +12,17 @@
 <br>
 
 <app-tabla-data
-  [titulo]="title"
-  [columns]="columns"
-  [data]="areasList"
-  [totalItems]="totalElements"
-  [sortableColumns]="sortableColumns"
-  [showSearchIcon]="false"
-  [showEditIcon]="false"
-  (pageChange)="onPageChange($event)"
-  (pageSizeChange)="onPageSizeChange($event)"
-  (searchChange)="onSearch($event)"
-  (sortChange)="onSort($event)">
+[titulo]="title"
+[columns]="columns"
+[data]="areasList"
+[totalItems]="totalElements"
+[sortableColumns]="sortableColumns"
+[showSearchIcon]="false"
+[showEditIcon]="false"
+[showInsertIcon]="true"
+(pageChange)="onPageChange($event)"
+(pageSizeChange)="onPageSizeChange($event)"
+(action)="onAction($event)"
+(searchChange)="onSearch($event)"
+(sortChange)="onSort($event)">
 </app-tabla-data>

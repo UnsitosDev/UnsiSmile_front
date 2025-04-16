@@ -212,6 +212,13 @@ export default [
                     ),
             },
             {
+                path: 'clinicalArea/:id', // Modificado para incluir el parámetro
+                loadComponent: () =>
+                    import('./components/form-clinical-area/form-clinical-area.component').then(
+                        (m) => m.FormClinicalAreaComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
