@@ -1,5 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject, Input, OnInit } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
@@ -21,7 +22,7 @@ interface ConditionTooth {
 @Component({
   selector: 'app-profilaxis',
   standalone: true,
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './profilaxis.component.html',
   styleUrl: './profilaxis.component.scss',
 })
