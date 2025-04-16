@@ -4,299 +4,302 @@
   </button>  
 </div>
 <div class="space-y-8">
-  @for (record of registerProfilaxis.content; track record.idDentalProphylaxis) {
-    <div class="p-4">
-
-      <mat-accordion>
-        <mat-expansion-panel hideToggle>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Sesión {{record.idDentalProphylaxis}} </mat-panel-title>
-            <mat-panel-description> Fecha de realización:  </mat-panel-description>
-          </mat-expansion-panel-header>
-          <!-- Contenedor de cuadrantes -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Cuadrante 1 (11-18) -->
-            <div class="p-2">
-              <div class="flex gap-[5px] justify-end">
-                @for (toothNumber of [18,17,16,15,14,13,12,11]; track toothNumber) {
-                  @if (findTooth(record.teethProphylaxis, toothNumber); as tooth) {
-                    <div class="flex flex-col items-center min-w-[40px]">
-                      @if (!hasCondition(tooth, 'Diente no presente')) {
-                        <svg width="32" height="32" class="mt-1">
-                          <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                          
-                          <!-- Cara 1 -->
-                          <polygon
-                            points="0,0 16,16 0,32"
-                            [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 2 -->
-                          <polygon
-                            points="32,0 16,16 32,32"
-                            [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 3 -->
-                          <polygon
-                            points="0,32 16,16 32,32"
-                            [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 4 -->
-                          <polygon
-                            points="0,0 16,16 32,0"
-                            [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-
-                          @if (hasCondition(tooth, 'Diente extraido')) {
+  @if (registerProfilaxis) {
+    @for (record of registerProfilaxis.content; track record.idDentalProphylaxis) {
+      <div class="p-4">
+  
+        <mat-accordion>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Sesión {{record.idDentalProphylaxis}} </mat-panel-title>
+              <mat-panel-description> Fecha de realización:  </mat-panel-description>
+            </mat-expansion-panel-header>
+            <!-- Contenedor de cuadrantes -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Cuadrante 1 (11-18) -->
+              <div class="p-2">
+                <div class="flex gap-[5px] justify-end">
+                  @for (toothNumber of [18,17,16,15,14,13,12,11]; track toothNumber) {
+                    @if (findTooth(record.teethProphylaxis, toothNumber); as tooth) {
+                      <div class="flex flex-col items-center min-w-[40px]">
+                        @if (!hasCondition(tooth, 'Diente no presente')) {
+                          <svg width="32" height="32" class="mt-1">
+                            <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
+                            
+                            <!-- Cara 1 -->
                             <polygon
-                              points="16,5 30,25 2,25"
-                              fill="none"
-                              stroke="#ef4444"
+                              points="0,0 16,16 0,32"
+                              [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
                               stroke-width="1.5"
                             />
-                          }
-                        </svg>
-                        
-                    
-                      } @else {
-                        <span class="text-[10px] mt-1">Ausente</span>
-                      }
-                      <span class="text-xs font-medium">{{toothNumber}}</span>
-                    </div>
-                  } @else {
-                    <!-- Diente sin datos (mostrar vacío) -->
-                    <div class="flex flex-col items-center min-w-[40px]">
-                      <svg width="32" height="32" class="mt-1 opacity-30">
-                        <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                      </svg>
-                      <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
-                    </div>
-                  }
-                }
-              </div>
-            </div>
-
-            <!-- Cuadrante 2 (21-28) -->
-            <div class="p-2">
-              <div class="flex gap-[5px] justify-start">
-                @for (toothNumber of [21,22,23,24,25,26,27,28]; track toothNumber) {
-                  @if (findTooth(record.teethProphylaxis, toothNumber); as tooth) {
-                    <div class="flex flex-col items-center min-w-[40px]">
-                      @if (!hasCondition(tooth, 'Diente no presente')) {
-                        <svg width="32" height="32" class="mt-1">
-                          <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                          
-                          <!-- Cara 1 -->
-                          <polygon
-                            points="0,0 16,16 0,32"
-                            [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 2 -->
-                          <polygon
-                            points="32,0 16,16 32,32"
-                            [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 3 -->
-                          <polygon
-                            points="0,32 16,16 32,32"
-                            [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 4 -->
-                          <polygon
-                            points="0,0 16,16 32,0"
-                            [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-
-                          @if (hasCondition(tooth, 'Diente extraido')) {
+                            
+                            <!-- Cara 2 -->
                             <polygon
-                              points="16,5 30,25 2,25"
-                              fill="none"
-                              stroke="#ef4444"
+                              points="32,0 16,16 32,32"
+                              [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
                               stroke-width="1.5"
                             />
-                          }
-                        </svg>
-                      } @else {
-                        <span class="text-[10px] mt-1">Ausente</span>
-                      }
-                      <span class="text-xs font-medium">{{toothNumber}}</span>
-                    </div>
+                            
+                            <!-- Cara 3 -->
+                            <polygon
+                              points="0,32 16,16 32,32"
+                              [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+                            
+                            <!-- Cara 4 -->
+                            <polygon
+                              points="0,0 16,16 32,0"
+                              [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+  
+                            @if (hasCondition(tooth, 'Diente extraido')) {
+                              <polygon
+                                points="16,5 30,25 2,25"
+                                fill="none"
+                                stroke="#ef4444"
+                                stroke-width="1.5"
+                              />
+                            }
+                          </svg>
+                          
+                      
+                        } @else {
+                          <span class="text-[10px] mt-1">Ausente</span>
+                        }
+                        <span class="text-xs font-medium">{{toothNumber}}</span>
+                      </div>
                     } @else {
-                    <!-- Diente sin datos -->
-                    <div class="flex flex-col items-center min-w-[40px]">
-                      <svg width="32" height="32" class="mt-1 opacity-30">
-                        <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                      </svg>
-                      <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
-                    </div>
-                  }
-                }
-              </div>
-            </div>
-
-            <!-- Cuadrante 3 (31-38) -->
-            <div class="p-2">
-              <div class="flex gap-[5px] justify-end">
-                @for (toothNumber of [48,47,46,45,44,43,42,41]; track toothNumber) {
-                  @if (findTooth(record.teethProphylaxis, toothNumber); as tooth) {
-                    <div class="flex flex-col items-center min-w-[40px]">
-                      @if (!hasCondition(tooth, 'Diente no presente')) {
-                        <svg width="32" height="32" class="mt-1">
+                      <!-- Diente sin datos (mostrar vacío) -->
+                      <div class="flex flex-col items-center min-w-[40px]">
+                        <svg width="32" height="32" class="mt-1 opacity-30">
                           <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                          
-                          <!-- Cara 1 -->
-                          <polygon
-                            points="0,0 16,16 0,32"
-                            [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 2 -->
-                          <polygon
-                            points="32,0 16,16 32,32"
-                            [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 3 -->
-                          <polygon
-                            points="0,32 16,16 32,32"
-                            [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 4 -->
-                          <polygon
-                            points="0,0 16,16 32,0"
-                            [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-
-                          @if (hasCondition(tooth, 'Diente extraido')) {
+                        </svg>
+                        <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+  
+              <!-- Cuadrante 2 (21-28) -->
+              <div class="p-2">
+                <div class="flex gap-[5px] justify-start">
+                  @for (toothNumber of [21,22,23,24,25,26,27,28]; track toothNumber) {
+                    @if (findTooth(record.teethProphylaxis, toothNumber); as tooth) {
+                      <div class="flex flex-col items-center min-w-[40px]">
+                        @if (!hasCondition(tooth, 'Diente no presente')) {
+                          <svg width="32" height="32" class="mt-1">
+                            <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
+                            
+                            <!-- Cara 1 -->
                             <polygon
-                              points="16,5 30,25 2,25"
-                              fill="none"
-                              stroke="#ef4444"
+                              points="0,0 16,16 0,32"
+                              [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
                               stroke-width="1.5"
                             />
-                          }
-                        </svg>
+                            
+                            <!-- Cara 2 -->
+                            <polygon
+                              points="32,0 16,16 32,32"
+                              [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+                            
+                            <!-- Cara 3 -->
+                            <polygon
+                              points="0,32 16,16 32,32"
+                              [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+                            
+                            <!-- Cara 4 -->
+                            <polygon
+                              points="0,0 16,16 32,0"
+                              [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+  
+                            @if (hasCondition(tooth, 'Diente extraido')) {
+                              <polygon
+                                points="16,5 30,25 2,25"
+                                fill="none"
+                                stroke="#ef4444"
+                                stroke-width="1.5"
+                              />
+                            }
+                          </svg>
+                        } @else {
+                          <span class="text-[10px] mt-1">Ausente</span>
+                        }
+                        <span class="text-xs font-medium">{{toothNumber}}</span>
+                      </div>
                       } @else {
-                        <span class="text-[10px] mt-1">Ausente</span>
-                      }
-                      <span class="text-xs font-medium">{{toothNumber}}</span>
-                    </div>
+                      <!-- Diente sin datos -->
+                      <div class="flex flex-col items-center min-w-[40px]">
+                        <svg width="32" height="32" class="mt-1 opacity-30">
+                          <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
+                        </svg>
+                        <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+  
+              <!-- Cuadrante 3 (31-38) -->
+              <div class="p-2">
+                <div class="flex gap-[5px] justify-end">
+                  @for (toothNumber of [48,47,46,45,44,43,42,41]; track toothNumber) {
+                    @if (findTooth(record.teethProphylaxis, toothNumber); as tooth) {
+                      <div class="flex flex-col items-center min-w-[40px]">
+                        @if (!hasCondition(tooth, 'Diente no presente')) {
+                          <svg width="32" height="32" class="mt-1">
+                            <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
+                            
+                            <!-- Cara 1 -->
+                            <polygon
+                              points="0,0 16,16 0,32"
+                              [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+                            
+                            <!-- Cara 2 -->
+                            <polygon
+                              points="32,0 16,16 32,32"
+                              [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+                            
+                            <!-- Cara 3 -->
+                            <polygon
+                              points="0,32 16,16 32,32"
+                              [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+                            
+                            <!-- Cara 4 -->
+                            <polygon
+                              points="0,0 16,16 32,0"
+                              [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+  
+                            @if (hasCondition(tooth, 'Diente extraido')) {
+                              <polygon
+                                points="16,5 30,25 2,25"
+                                fill="none"
+                                stroke="#ef4444"
+                                stroke-width="1.5"
+                              />
+                            }
+                          </svg>
+                        } @else {
+                          <span class="text-[10px] mt-1">Ausente</span>
+                        }
+                        <span class="text-xs font-medium">{{toothNumber}}</span>
+                      </div>
+                      } @else {
+                      <!-- Diente sin datos -->
+                      <div class="flex flex-col items-center min-w-[40px]">
+                        <svg width="32" height="32" class="mt-1 opacity-30">
+                          <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
+                        </svg>
+                        <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+  
+              <!-- Cuadrante 4 (41-48) -->
+              <div class="p-2">
+                <div class="flex gap-[5px] justify-start">
+                  @for (toothNumber of [31,32,33,34,35,36,37,38]; track toothNumber) {
+                    @if (findTooth(record.teethProphylaxis, toothNumber); as tooth) {
+                      <div class="flex flex-col items-center min-w-[40px]">
+                        @if (!hasCondition(tooth, 'Diente no presente')) {
+                          <svg width="32" height="32" class="mt-1">
+                            <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
+                            
+                            <!-- Cara 1 -->
+                            <polygon
+                              points="0,0 16,16 0,32"
+                              [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+                            
+                            <!-- Cara 2 -->
+                            <polygon
+                              points="32,0 16,16 32,32"
+                              [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+                            
+                            <!-- Cara 3 -->
+                            <polygon
+                              points="0,32 16,16 32,32"
+                              [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+                            
+                            <!-- Cara 4 -->
+                            <polygon
+                              points="0,0 16,16 32,0"
+                              [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
+                              stroke="#333"
+                              stroke-width="1.5"
+                            />
+  
+                            @if (hasCondition(tooth, 'Diente extraido')) {
+                              <polygon
+                                points="16,5 30,25 2,25"
+                                fill="none"
+                                stroke="#ef4444"
+                                stroke-width="1.5"
+                              />
+                            }
+                          </svg>
+                        } @else {
+                          <span class="text-[10px] mt-1">Ausente</span>
+                        }
+                        <span class="text-xs font-medium">{{toothNumber}}</span>
+                      </div>
                     } @else {
-                    <!-- Diente sin datos -->
-                    <div class="flex flex-col items-center min-w-[40px]">
-                      <svg width="32" height="32" class="mt-1 opacity-30">
-                        <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                      </svg>
-                      <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
-                    </div>
-                  }
-                }
-              </div>
-            </div>
-
-            <!-- Cuadrante 4 (41-48) -->
-            <div class="p-2">
-              <div class="flex gap-[5px] justify-start">
-                @for (toothNumber of [31,32,33,34,35,36,37,38]; track toothNumber) {
-                  @if (findTooth(record.teethProphylaxis, toothNumber); as tooth) {
-                    <div class="flex flex-col items-center min-w-[40px]">
-                      @if (!hasCondition(tooth, 'Diente no presente')) {
-                        <svg width="32" height="32" class="mt-1">
+                      <!-- Diente sin datos -->
+                      <div class="flex flex-col items-center min-w-[40px]">
+                        <svg width="32" height="32" class="mt-1 opacity-30">
                           <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                          
-                          <!-- Cara 1 -->
-                          <polygon
-                            points="0,0 16,16 0,32"
-                            [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 2 -->
-                          <polygon
-                            points="32,0 16,16 32,32"
-                            [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 3 -->
-                          <polygon
-                            points="0,32 16,16 32,32"
-                            [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-                          
-                          <!-- Cara 4 -->
-                          <polygon
-                            points="0,0 16,16 32,0"
-                            [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
-                            stroke="#333"
-                            stroke-width="1.5"
-                          />
-
-                          @if (hasCondition(tooth, 'Diente extraido')) {
-                            <polygon
-                              points="16,5 30,25 2,25"
-                              fill="none"
-                              stroke="#ef4444"
-                              stroke-width="1.5"
-                            />
-                          }
                         </svg>
-                      } @else {
-                        <span class="text-[10px] mt-1">Ausente</span>
-                      }
-                      <span class="text-xs font-medium">{{toothNumber}}</span>
-                    </div>
-                  } @else {
-                    <!-- Diente sin datos -->
-                    <div class="flex flex-col items-center min-w-[40px]">
-                      <svg width="32" height="32" class="mt-1 opacity-30">
-                        <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                      </svg>
-                      <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
-                    </div>
+                        <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
+                      </div>
+                    }
                   }
-                }
+                </div>
               </div>
             </div>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    }
   }
+  
 </div>
 <div class="p-4 flex justify-center">
   <button matbutton color="primary" class="button-custom" (click)="loadMore()">Cargar sesiones anteriores</button>

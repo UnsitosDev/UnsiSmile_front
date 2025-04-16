@@ -34,7 +34,6 @@ export class ProfilaxisComponent implements OnInit {
   }
 
   openInsertProphylaxis() {
-    console.log('openInsertProphylaxis');
     const dialogRef = this.dialog.open(DialogInsertProfilaxisComponent, {
       disableClose: false,
       width: '1000vh',
@@ -106,7 +105,6 @@ export class ProfilaxisComponent implements OnInit {
 
           this.isLoading = false;
           this.isLastPage = response.last;
-          console.log('Profilaxis data:', this.registerProfilaxis);
         },
         error: (error) => {
           this.isLoading = false;
