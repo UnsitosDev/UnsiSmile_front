@@ -9,6 +9,28 @@ import { ThoothProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis
 import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
+interface Condition {
+  idCondition: number;
+  condition: string;
+  description: string;
+}
+
+interface Face {
+  idFace: string;
+  conditions: Condition[];
+}
+
+interface ToothProphylaxis {
+  idTooth: string;
+  faces: Face[];
+  conditions: Condition[];
+}
+
+interface DentalProphylaxis {
+  idDentalProphylaxis: number;
+  teethProphylaxis: ToothProphylaxis[];
+}
+
 @Component({
   selector: 'app-profilaxis',
   standalone: true,
@@ -19,8 +41,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 export class ProfilaxisComponent implements OnInit {
   private api = inject(ApiService);
   public toastr = inject(ToastrService);
-  public allprophylaxis!: PaginatedData<ThoothProphylaxis>;
-  public registerProfilaxis: any;
+  public registerProfilaxis!: PaginatedData<DentalProphylaxis>;
   readonly dialog = inject(MatDialog);
   @Input({ required: true }) idPatient!: string;
   @Input({ required: true }) idPatientClinicalHistory!: number;
@@ -29,7 +50,6 @@ export class ProfilaxisComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProphylaxis();
-    this.registerProfilaxis = [];
   }
 
   openInsertProphylaxis() {
@@ -71,8 +91,8 @@ export class ProfilaxisComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.allprophylaxis = response;
-          this.registerProfilaxis = this.allprophylaxis.content;
+          this.registerProfilaxis = response;
+          console.log('Profilaxis data:', this.registerProfilaxis);
         },
         error: (error) => {
           this.toastr.error(error);
