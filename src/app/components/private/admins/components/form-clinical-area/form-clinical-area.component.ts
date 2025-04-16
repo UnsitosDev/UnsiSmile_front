@@ -10,6 +10,16 @@ import { HttpHeaders } from '@angular/common/http';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
+
+interface Professor {
+  employeeNumber: string;
+  person: {
+    firstName: string;
+    firstLastName: string;
+  };
+}
 
 @Component({
   selector: 'app-form-clinical-area',
@@ -20,7 +30,9 @@ import { ToastrService } from 'ngx-toastr';
     MatFormFieldModule,
     MatSelectModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatPaginatorModule,
+    MatInputModule
   ],
   templateUrl: './form-clinical-area.component.html',
   styleUrl: './form-clinical-area.component.scss'
@@ -28,10 +40,16 @@ import { ToastrService } from 'ngx-toastr';
 export class FormClinicalAreaComponent implements OnInit {
   areaId: string | null = null;
   professorForm: FormGroup;
-  professors: any[] = [];
+  professors: Professor[] = [];
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
   private router = inject(Router);
+  totalElements: number = 0;
+  pageSize: number = 10;
+  pageIndex: number = 0;
+  orderBy: string = 'person.firstName';
+  ascending: boolean = true;
+  searchKeyword: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -48,8 +66,8 @@ export class FormClinicalAreaComponent implements OnInit {
     };
   
 
-  loadProfessors(page: number = 0, size: number = 10) {
-    const url = `${UriConstants.GET_PROFESSORS}?page=${page}&size=${size}`;
+  loadProfessors(page: number = this.pageIndex, size: number = this.pageSize) {
+    const url = `${UriConstants.GET_PROFESSORS}?page=${page}&size=${size}&order=${this.orderBy}&asc=${this.ascending}&keyword=${this.searchKeyword}`;
     
     this.apiService.getService({
       headers: new HttpHeaders({
@@ -70,13 +88,29 @@ export class FormClinicalAreaComponent implements OnInit {
     });
   }
 
+  handlePageEvent(e: PageEvent) {
+    this.pageIndex = e.pageIndex;
+    this.pageSize = e.pageSize;
+    this.loadProfessors();
+  }
+
+  onSearch(event: any) {
+    this.searchKeyword = event.target.value;
+    this.pageIndex = 0;
+    this.loadProfessors();
+  }
+
   onSubmit() {
     if (this.professorForm.valid && this.areaId) {
+      const selectedProfessorNumber = this.professorForm.value.selectedProfessor;
+      
       const professorArea = {
         idProfessorClinicalArea: 0,
         idClinicalArea: this.areaId,
-        idProfessor: this.professorForm.value.selectedProfessor
+        idProfessor: selectedProfessorNumber // Usar el número de empleado directamente
       };
+
+      console.log('Enviando datos:', professorArea); // Para debugging
 
       this.apiService.postService({
         headers: new HttpHeaders({
