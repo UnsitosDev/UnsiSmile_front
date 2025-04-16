@@ -1,5 +1,8 @@
+import { DialogRef } from '@angular/cdk/dialog';
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
@@ -7,9 +10,6 @@ import { ToastrService } from 'ngx-toastr';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { ThoothProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.model';
 import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
-import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-
 
 interface ConditionFace {
   idToothFaceCondition: number;
@@ -22,23 +22,20 @@ interface ConditionTooth {
 }
 
 @Component({
-  selector: 'app-profilaxis',
+  selector: 'app-dialog-insert-profilaxis',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule],
-  templateUrl: './profilaxis.component.html',
-  styleUrl: './profilaxis.component.scss',
+  imports: [MatCardModule, MatIconModule],
+  templateUrl: './dialog-insert-profilaxis.component.html',
+  styleUrl: './dialog-insert-profilaxis.component.scss'
 })
-export class ProfilaxisComponent implements OnInit {
+export class DialogInsertProfilaxisComponent implements OnInit {
+  public dialogRef = inject(MatDialogRef<DialogInsertProfilaxisComponent>);
   private api = inject(ApiService);
   public toastr = inject(ToastrService);
   public toothConditions: ConditionTooth[] = [];
   public faceConditions: ConditionFace[] = [];
   public allprophylaxis!: PaginatedData<ThoothProphylaxis>;
   public registerProfilaxis: any;
-  readonly dialog = inject(MatDialog);
-  @Input({ required: true }) idPatient!: string;
-  @Input({ required: true }) idPatientClinicalHistory!: number;
-  @Input({ required: true }) idFormSection!: number;
   idQuestion: number = 244;
   teeth = storeProphylaxis.theetProphylaxis;
   toothDisabled: { [key: number]: boolean } = {};
@@ -51,8 +48,6 @@ export class ProfilaxisComponent implements OnInit {
     this.conditionsFace();
     this.conditionsTooth();
     this.disableAllTeeth();
-    this.getProphylaxis();
-    this.registerProfilaxis = [];
   }
 
   disableAllTeeth() {
@@ -66,6 +61,10 @@ export class ProfilaxisComponent implements OnInit {
         this.selectedFaces[faceId] = false;
       });
     });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 
   isToothEnabled(idTooth: number): boolean {
@@ -203,7 +202,7 @@ export class ProfilaxisComponent implements OnInit {
     }
   }
 
-  getQuadrant(teeth: ThoothProphylaxis[], quadrant: number): ThoothProphylaxis[] {
+  public getQuadrant(teeth: ThoothProphylaxis[], quadrant: number): ThoothProphylaxis[] {
     if (quadrant >= 1 && quadrant <= 4) {
       return teeth
         .filter((tooth) => {
@@ -233,37 +232,8 @@ export class ProfilaxisComponent implements OnInit {
     }
   }
 
-  openInsertProphylaxis() {
-    console.log('openInsertProphylaxis');
-    const dialogRef = this.dialog.open(DialogInsertProfilaxisComponent, {
-      disableClose: false,
-      width: '1000vh',
-      data: {
-        idPatient: this.idPatient,
-        idQuestion: this.idQuestion,
-        idPatientClinicalHistory: this.idPatientClinicalHistory,
-        idFormSection: this.idFormSection
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-
-    });
-  }
-
-
-  // Función para verificar condiciones (ya existente)
-  hasCondition(tooth: any, conditionName: string): boolean {
-    return tooth?.conditions?.some((c: any) => c.condition === conditionName) || false;
-  }
-
-  // Función para verificar caras marcadas (ya existente)
-  isFaceMarked(tooth: any, faceId: string): boolean {
-    return tooth?.faces?.some((f: any) => f.idFace === faceId && f.conditions?.length > 0) || false;
-  }
-
   // Función getQuadrant actualizada
-  getQuadrantv2(teeth: any[], quadrant: number): any[] {
+  public getQuadrantv2(teeth: any[], quadrant: number): any[] {
     return teeth.filter(tooth => {
       const toothNumber = parseInt(tooth.idTooth);
       switch (quadrant) {
@@ -319,28 +289,6 @@ export class ProfilaxisComponent implements OnInit {
       });
   }
 
-  public getProphylaxis() {
-    this.api
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_PROFILAXIS}/patients/${this.idPatient}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.allprophylaxis = response;
-          this.registerProfilaxis = this.allprophylaxis.content;
-          console.log('p', this.registerProfilaxis);
-        },
-        error: (error) => {
-          this.toastr.error(error);
-        },
-      });
-  }
-
-
   generateModifiedTeethObject(): any {
     const teethWithConditions = this.teeth.filter(tooth => {
       const hasToothConditions = tooth.conditions.length > 0;
@@ -365,11 +313,7 @@ export class ProfilaxisComponent implements OnInit {
     }));
 
     const payload = {
-      theetProphylaxis,
-      idPatient: this.idPatient,
-      idQuestion: this.idQuestion,
-      idPatientClinicalHistory: this.idPatientClinicalHistory,
-      idFormSection: this.idFormSection
+
     };
     return payload;
   }
@@ -390,19 +334,12 @@ export class ProfilaxisComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          console.log('ok');
-          this.getProphylaxis();
+          this.dialogRef.close();
+          this.toastr.success('Profilaxis guardada correctamente');
         },
         error: (error) => {
           this.toastr.error(error);
         },
       });
   }
-
-  // Función para encontrar un diente específico en los datos
-  findTooth(teeth: any[], toothNumber: number): any | null {
-    return teeth.find(t => parseInt(t.idTooth) === toothNumber) || null;
-  }
-
 }
-
