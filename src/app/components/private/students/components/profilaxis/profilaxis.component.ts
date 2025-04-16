@@ -9,11 +9,12 @@ import { ThoothProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis
 import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DentalProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.response.model';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-profilaxis',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule],
+  imports: [MatIconModule, MatDialogModule, MatExpansionModule],
   templateUrl: './profilaxis.component.html',
   styleUrl: './profilaxis.component.scss',
 })
