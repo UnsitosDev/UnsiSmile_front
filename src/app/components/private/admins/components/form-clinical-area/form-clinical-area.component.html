@@ -1,8 +1,8 @@
 <mat-card class="full-width-card">
-  <mat-card-title><strong>Asignar Profesor al Área Clínica</strong></mat-card-title>
+  <mat-card-title><strong>Asignar Profesores al Área Clínica</strong></mat-card-title>
   <mat-card-content>
     <div class="custom">
-      <form [formGroup]="professorForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="professorForm">
         <mat-form-field>
           <mat-label>Seleccionar Profesor</mat-label>
           <mat-select formControlName="selectedProfessor">
@@ -11,12 +11,28 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="addProfessor()" [disabled]="!professorForm.get('selectedProfessor')?.value">
+          AGREGAR A LA LISTA <i class="fas fa-plus"></i>
+        </button>
+      </form>
+
+      <div class="selected-professors" *ngIf="selectedProfessors.length > 0">
+        <h3>Profesores seleccionados:</h3>
+        <mat-list>
+          <mat-list-item *ngFor="let prof of selectedProfessors">
+            {{ prof.person.firstName }} {{ prof.person.firstLastName }} - {{ prof.employeeNumber }}
+            <button mat-icon-button color="warn" (click)="removeProfessor(prof.employeeNumber)">
+              <i class="fas fa-times"></i>
+            </button>
+          </mat-list-item>
+        </mat-list>
+        
         <div class="button-container">
-          <button mat-flat-button color="primary" type="submit" [disabled]="!professorForm.valid">
-            ASIGNAR PROFESOR <i class="fas fa-save"></i>
+          <button mat-flat-button color="primary" (click)="onSubmit()">
+            GUARDAR PROFESORES <i class="fas fa-save"></i>
           </button>
         </div>
-      </form>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

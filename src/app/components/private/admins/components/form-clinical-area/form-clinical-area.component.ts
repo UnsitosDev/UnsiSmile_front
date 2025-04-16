@@ -12,6 +12,8 @@ import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
+import { MatList } from '@angular/material/list';
+import {MatListItem} from '@angular/material/list';
 
 interface Professor {
   employeeNumber: string;
@@ -25,6 +27,8 @@ interface Professor {
   selector: 'app-form-clinical-area',
   standalone: true,
   imports: [
+    MatListItem,
+    MatList,
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -50,13 +54,14 @@ export class FormClinicalAreaComponent implements OnInit {
   orderBy: string = 'person.firstName';
   ascending: boolean = true;
   searchKeyword: string = '';
+  selectedProfessors: Professor[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder
   ) {
     this.professorForm = this.fb.group({
-      selectedProfessor: ['', Validators.required]
+      selectedProfessor: ['']
     });
   }
 
@@ -100,37 +105,50 @@ export class FormClinicalAreaComponent implements OnInit {
     this.loadProfessors();
   }
 
+  addProfessor() {
+    const selectedProf = this.professors.find(
+      p => p.employeeNumber === this.professorForm.get('selectedProfessor')?.value
+    );
+    
+    if (selectedProf && !this.selectedProfessors.some(p => p.employeeNumber === selectedProf.employeeNumber)) {
+      this.selectedProfessors.push(selectedProf);
+      this.professorForm.get('selectedProfessor')?.reset();
+    }
+  }
+
+  removeProfessor(employeeNumber: string) {
+    this.selectedProfessors = this.selectedProfessors.filter(
+      p => p.employeeNumber !== employeeNumber
+    );
+  }
+
   onSubmit() {
-    if (this.professorForm.valid && this.areaId) {
-      const selectedProfessorNumber = this.professorForm.value.selectedProfessor;
-      
-      const professorArea = {
-        idProfessorClinicalArea: 0,
-        idClinicalArea: this.areaId,
-        idProfessor: selectedProfessorNumber // Usar el número de empleado directamente
-      };
+    if (this.areaId && this.selectedProfessors.length > 0) {
+      const requests = this.selectedProfessors.map(professor => {
+        const professorArea = {
+          idProfessorClinicalArea: 0,
+          idClinicalArea: this.areaId,
+          idProfessor: professor.employeeNumber
+        };
 
-      console.log('Enviando datos:', professorArea); // Para debugging
-
-      this.apiService.postService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: UriConstants.POST_PROFESSOR_CLINICAL_AREAS,
-        data: professorArea,
-      }).subscribe({
-        next: (response) => {
-          this.toastr.success('Profesor asignado exitosamente al área clínica');
-          this.router.navigate(['/admin/areas']);
-        },
-        error: (error) => {
-          console.error('Error al asignar profesor:', error);
-          this.toastr.error(
-            error.error?.message || 'Error al asignar el profesor al área clínica',
-            'Error'
-          );
-        }
+        return this.apiService.postService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: UriConstants.POST_PROFESSOR_CLINICAL_AREAS,
+          data: professorArea,
+        }).toPromise();
       });
+
+      Promise.all(requests)
+        .then(() => {
+          this.toastr.success('Profesores asignados exitosamente al área clínica');
+          this.router.navigate(['/admin/areas']);
+        })
+        .catch(error => {
+          console.error('Error al asignar profesores:', error);
+          this.toastr.error('Error al asignar los profesores al área clínica', 'Error');
+        });
     }
   }
 }
