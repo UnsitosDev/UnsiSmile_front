@@ -52,3 +52,10 @@
 p {
   color: var(--text);
 }
+
+.button-custom {
+  background-color: var(--tertiary);
+  color: var(--side-text) !important;
+  border-radius: 2px;
+  padding: 8px 16px;
+}

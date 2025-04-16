@@ -1,7 +1,8 @@
-<button matbutton color="primary" (click)="openInsertProphylaxis()">
-  Agregar
-</button>
-
+<div class="p-4">
+  <button matbutton color="primary" (click)="openInsertProphylaxis()" class="button-custom">
+    Agregar
+  </button>  
+</div>
 <div class="space-y-8">
   @for (record of registerProfilaxis; track record.idDentalProphylaxis) {
     <div class="p-4">
