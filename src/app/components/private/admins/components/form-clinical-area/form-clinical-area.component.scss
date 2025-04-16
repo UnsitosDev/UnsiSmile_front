@@ -4,6 +4,10 @@ mat-form-field {
   max-width: 400px;
 }
 
+.mat-mdc-card-content:last-child {
+  background-color: var(--secondary);
+}
+
 .custom {
   text-align: center;
   margin-top: 20px;
@@ -79,9 +83,9 @@ mat-paginator {
   max-width: 600px;
   margin-top: 30px;
   padding: 25px;
-  border: 2px solid #e0e0e0;
+  border: 0.5px solid var(--on-secondary);
   border-radius: 8px;
-  background-color: #fafafa;
+  background-color: var(--secondary);
 
   h3 {
     color: var(--tertiary);
@@ -94,24 +98,26 @@ mat-paginator {
 mat-list {
   border-radius: 4px;
   overflow: hidden;
+  background-color: var(--secondary);
+  box-shadow: var(--on-secondary);
+
   
   mat-list-item {
     height: 60px !important;
     margin-bottom: 10px;
-    background-color: white;
+    background-color: var(--secondary);
     border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 0 16px;
-
-    &:hover {
-      background-color: #f5f5f5;
-    }
+    border: 0.5px var(--on-secondary) solid;
+    margin: 0px;
 
     ::ng-deep .mdc-list-item__content {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
+      padding: 5px;
+      color: rgb(212, 0, 0);
     }
   }
 }
