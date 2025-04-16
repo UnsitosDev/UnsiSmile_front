@@ -97,11 +97,8 @@ export class TableAreaAdminComponent implements OnInit {
     }
 
     openInsertArea(objeto: any){
-      console.log('Objeto recibido:', objeto); // Para debugging
       const areaId = objeto.id;
-      console.log('ID del área:', areaId); // Para debugging
       if (areaId) {
-        console.log('Navegando a:', '/admin/clinicalArea/' + areaId); // Para debugging
         this.router.navigate(['/admin/clinicalArea', areaId]);
       } else {
         console.error('Id de area no encontrado');

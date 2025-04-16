@@ -48,7 +48,7 @@ export class FormProfessorAreaComponent implements OnInit {
   }
 
   loadAreas(page: number = 0, size: number = 10) {
-    const url = `${UriConstants.GET_CLINICAL_AREAS}?page=${page}&size=${size}&order=clinicalArea&asc=true`;
+    const url = `${UriConstants.GET_CLINICAL_AREAS}?page=${page}&size=${size}`;
     
     this.apiService.getService({
       headers: new HttpHeaders({
