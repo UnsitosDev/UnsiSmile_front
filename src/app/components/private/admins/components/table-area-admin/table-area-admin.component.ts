@@ -93,7 +93,6 @@ export class TableAreaAdminComponent implements OnInit {
   }
 
     onAction(accion: Accion) {
-      console.log('Acción recibida:', accion); // Para debugging
       if (accion.accion === 'Insertar') {
         this.openInsertArea(accion.fila);
       } else if (accion.accion === 'Modificar') {
@@ -162,8 +161,6 @@ export class TableAreaAdminComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.log('Error al obtener los profesores:', error);
-        // En caso de error, mantenemos al menos los datos del área visible
         this.dataSharingService.setAreaData({
           clinicalArea: {
             idClinicalArea: area.id,

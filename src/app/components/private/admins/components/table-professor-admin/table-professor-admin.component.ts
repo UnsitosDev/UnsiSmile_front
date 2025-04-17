@@ -82,29 +82,17 @@ export class TableProfessorAdminComponent implements OnInit {
       this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
       this.openDetailsDialog(accion.fila);
-    } else if (accion.accion === 'Insertar') {
-      this.openInsertArea(accion.fila);
-    }
+    } 
   }
 
    openDetailsDialog(admin: ProfessorTableData): void {
     }
 
-    openInsertArea(objeto: any){
-      // Accedemos a 'numero empleado' ya que así está definido en el mapeo
-      const employeeNumber = objeto['numero empleado'];
-      if (employeeNumber) {
-        this.router.navigate(['/admin/professorArea', employeeNumber]);
-      } else {
-        console.error('Número de empleado no encontrado');
-      }
-    }
 
   edit(objeto: any) {
    }
 
   delete(nombre: string) {
-    console.log('eliminar admin', nombre);
   }
 
 
@@ -112,9 +100,7 @@ export class TableProfessorAdminComponent implements OnInit {
   getProfessors(page: number = 0, size: number = 10, keyword: string = '') {
     const encodedKeyword = encodeURIComponent(keyword);
     const url = `${UriConstants.GET_PROFESSORS}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
-    
-    console.log('URL de la petición:', url);
-    
+        
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
