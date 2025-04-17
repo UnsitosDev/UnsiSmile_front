@@ -8,6 +8,9 @@ import { UriConstants } from '@mean/utils';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
+import { MatDialog } from '@angular/material/dialog';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { DetailsAreaComponent } from '../details-area/details-area.component';
 
 @Component({
   selector: 'app-table-area-admin',
@@ -18,10 +21,12 @@ import { Accion } from 'src/app/models/tabla/tabla-columna';
 })
 export class TableAreaAdminComponent implements OnInit {
   areasList: any[] = [];
-  columns: string[] = ['nombre'];
+  columns: string[] = ['nombre'];  // Mantener solo la columna de nombre
   title: string = 'Áreas Clínicas';
   private apiService = inject(ApiService);
   private searchSubject = new Subject<string>();
+  private dialog = inject(MatDialog);
+  private dataSharingService = inject(DataSharingService);
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -93,6 +98,8 @@ export class TableAreaAdminComponent implements OnInit {
         this.openInsertArea(accion.fila);
       } else if (accion.accion === 'Modificar') {
         this.edit(accion.fila);
+      } else if (accion.accion === 'Detalles') {
+        this.openDetailsDialog(accion.fila);
       }
     }
 
@@ -108,6 +115,65 @@ export class TableAreaAdminComponent implements OnInit {
     edit(objeto: any) {
     }
  
+  openDetailsDialog(area: any): void {
+    // Primero mostramos los datos básicos del área
+    this.dataSharingService.setAreaData({
+      clinicalArea: {
+        idClinicalArea: area.id,
+        clinicalArea: area.nombre
+      },
+      professors: []
+    });
+    
+    // Abrimos el diálogo
+    const dialogRef = this.dialog.open(DetailsAreaComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+
+    // Obtenemos los profesores asignados al área
+    const url = `${UriConstants.GET_PROFESSOR_CLINICAL_AREAS}`;
+    
+    this.apiService.getService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url,
+      data: {},
+    }).subscribe({
+      next: (response) => {
+        if (response && response.content) {
+          // Filtramos los profesores que corresponden al área seleccionada
+          const areaProfs = response.content.filter((prof: any) => 
+            prof.clinicalArea && prof.clinicalArea.idClinicalArea === area.id
+          );
+          
+          // Actualizamos los datos con la lista filtrada de profesores
+          this.dataSharingService.setAreaData({
+            clinicalArea: {
+              idClinicalArea: area.id,
+              clinicalArea: area.nombre
+            },
+            professors: areaProfs
+          });
+        }
+      },
+      error: (error) => {
+        console.log('Error al obtener los profesores:', error);
+        // En caso de error, mantenemos al menos los datos del área visible
+        this.dataSharingService.setAreaData({
+          clinicalArea: {
+            idClinicalArea: area.id,
+            clinicalArea: area.nombre
+          },
+          professors: []
+        });
+      }
+    });
+  }
 
   onSearch(keyword: string) {
     this.searchTerm = keyword;

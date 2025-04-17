@@ -340,5 +340,5 @@ export class UriConstants {
   public static readonly POST_CLINICAL_AREA = basePath + '/professors/clinical-areas';
   public static readonly GET_CLINICAL_AREAS = basePath + '/professors/clinical-areas';
   public static POST_PROFESSOR_CLINICAL_AREAS = basePath + '/professors/professor-clinical-areas';
-  
+  public static GET_PROFESSOR_CLINICAL_AREAS = basePath + '/professors/professor-clinical-areas';
 }
