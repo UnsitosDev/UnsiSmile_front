@@ -52,6 +52,7 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   @Input() showFolderIcon: boolean = false;
   @Input() showStatusIcon: boolean = false;
   @Input() showInsertIcon: boolean = false;
+  @Input() showDeleteIcon: boolean = false;
 
 
   @Output() action: EventEmitter<Accion> = new EventEmitter();
