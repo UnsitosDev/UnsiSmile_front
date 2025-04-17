@@ -191,7 +191,7 @@ export default [
                 ]
             },
             {
-                path: 'createArea', // Ruta para HISTORIA CLÍNICA CLÍNICA DE ODONTOLOGÍA PREVENTIVA Y SALUD PÚBLICA
+                path: 'create_Area', // Ruta para HISTORIA CLÍNICA CLÍNICA DE ODONTOLOGÍA PREVENTIVA Y SALUD PÚBLICA
                 loadComponent: () =>
                     import('./components/form-create-area/form-create-area.component').then(
                         (m) => m.FormCreateAreaComponent
