@@ -17,5 +17,6 @@ export interface ToothProphylaxis {
 
 export interface DentalProphylaxis {
   idDentalProphylaxis: number;
+  date: string;
   teethProphylaxis: ToothProphylaxis[];
 }

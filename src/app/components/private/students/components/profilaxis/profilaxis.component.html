@@ -12,7 +12,7 @@
           <mat-expansion-panel hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title> Sesión {{record.idDentalProphylaxis}} </mat-panel-title>
-              <mat-panel-description> Fecha de realización:  </mat-panel-description>
+              <mat-panel-description> Fecha de realización: {{formatDate(record.date)}}  </mat-panel-description>
             </mat-expansion-panel-header>
             <!-- Contenedor de cuadrantes -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -301,6 +301,11 @@
   }
   
 </div>
-<div class="p-4 flex justify-center">
-  <button matbutton color="primary" class="button-custom" (click)="loadMore()">Cargar sesiones anteriores</button>
-</div>
+
+@if (!isLastPage) {
+  <div class="p-4 flex justify-center">
+    <button mat-button color="primary" (click)="loadMore()" [disabled]="isLoading" class="button-custom">
+      {{ isLoading ? 'Cargando...' : 'Cargar más' }}
+    </button>
+  </div> 
+}
