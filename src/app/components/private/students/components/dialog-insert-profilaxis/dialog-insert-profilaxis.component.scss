@@ -1,7 +1,7 @@
 .title-container {
     display: flex;
     justify-content: space-between;
-    color: white;
+    color: white !important;
 }
 
 span{
@@ -16,13 +16,6 @@ span{
 
 }
 
-.quadrant-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    place-items: center;
-}
-
 .quadrant {
     display: flex;
     flex-direction: row;
@@ -31,11 +24,14 @@ span{
     padding: 5px;
 }
 
-.figure-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+@media (max-width: 768px) {
+    .figure-wrapper {
+        width: 27px; 
+    }
+}
+
+mat-icon {
+    cursor: pointer;
 }
 
 .button-container {
