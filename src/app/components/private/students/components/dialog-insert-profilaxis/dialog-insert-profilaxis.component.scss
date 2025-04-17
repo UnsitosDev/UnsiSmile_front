@@ -1,16 +1,15 @@
 .title-container {
     display: flex;
     justify-content: space-between;
-    color: white !important;
 }
 
-span{
+span {
     color: var(--text);
 }
 
 .button-custom {
     background-color: var(--tertiary);
-    color: var(--side-text) !important;
+    color: var(--side-text);
     border-radius: 2px;
     padding: 8px 16px;
 
@@ -26,7 +25,7 @@ span{
 
 @media (max-width: 768px) {
     .figure-wrapper {
-        width: 27px; 
+        width: 27px;
     }
 }
 
@@ -50,13 +49,13 @@ mat-icon {
 }
 
 .addButton {
-    background: green;
-    color: white;
+    background: var(--green-color);
+    color: var(--white-color);
 }
 
 .removeButton {
-    background: red;
-    color: white;
+    background: var(--red-color);
+    color: var(--white-color);
 }
 
 .svg-figure {
@@ -66,4 +65,3 @@ mat-icon {
 p {
     color: var(--text);
 }
-

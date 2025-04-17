@@ -236,24 +236,6 @@ export class DialogInsertProfilaxisComponent implements OnInit {
     }
   }
 
-  // Función getQuadrant actualizada
-  public getQuadrantv2(teeth: any[], quadrant: number): any[] {
-    return teeth.filter(tooth => {
-      const toothNumber = parseInt(tooth.idTooth);
-      switch (quadrant) {
-        case 1: return toothNumber >= 11 && toothNumber <= 18;
-        case 2: return toothNumber >= 21 && toothNumber <= 28;
-        case 3: return toothNumber >= 31 && toothNumber <= 38;
-        case 4: return toothNumber >= 41 && toothNumber <= 48;
-        default: return false;
-      }
-    }).sort((a, b) => {
-      const numA = parseInt(a.idTooth);
-      const numB = parseInt(b.idTooth);
-      return quadrant === 1 || quadrant === 4 ? numB - numA : numA - numB;
-    });
-  }
-
   public conditionsFace() {
     this.api
       .getService({

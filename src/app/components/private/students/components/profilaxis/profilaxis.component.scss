@@ -26,25 +26,6 @@
   width: 50px;
 }
 
-.addButton,
-.removeButton {
-  width: 16px;
-  border-radius: 10px;
-  padding: 0;
-  cursor: pointer;
-  border: none;
-}
-
-.addButton {
-  background: green;
-  color: white;
-}
-
-.removeButton {
-  background: red;
-  color: white;
-}
-
 .svg-figure {
   display: block;
 }
@@ -55,13 +36,13 @@ p {
 
 .button-custom {
   background-color: var(--tertiary);
-  color: var(--side-text) !important;
+  color: var(--side-text);
   border-radius: 2px;
   padding: 8px 16px;
 }
 
 mat-expansion-panel {
   margin-bottom: 8px;
-  border-radius: 4px !important;
+  border-radius: 4px;
   background-color: var(--on-primary);
 }
