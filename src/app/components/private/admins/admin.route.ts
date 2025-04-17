@@ -219,6 +219,13 @@ export default [
                     ),
             },
             {
+                path: 'professorsArea/:id',
+                loadComponent: () =>
+                    import('./components/table-professor-clinical/table-professor-clinical.component').then(
+                        (m) => m.TableProfessorClinicalComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

@@ -1,1 +1,12 @@
-<p>table-professor-clinical works!</p>
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Profesores del Área: {{areaName}}</strong></mat-card-title>
+</mat-card>
+<br>
+
+<app-tabla-data
+  [titulo]="title"
+  [columns]="columns"
+  [data]="professorsList"
+  [showSearchIcon]="false"
+  [showInsertIcon]="false">
+</app-tabla-data>
