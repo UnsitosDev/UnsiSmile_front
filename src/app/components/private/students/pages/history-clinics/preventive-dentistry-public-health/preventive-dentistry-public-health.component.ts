@@ -33,11 +33,12 @@ import { MenuAssessMedicalHistoryComponent } from "../../../../proffessor/compon
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
+import { ProfilaxisComponent } from "../../../components/profilaxis/profilaxis.component";
 
 @Component({
   selector: 'app-preventive-dentistry-public-health',
   standalone: true,
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent],
+  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent, ProfilaxisComponent],
   templateUrl: './preventive-dentistry-public-health.component.html',
   styleUrl: './preventive-dentistry-public-health.component.scss'
 })
@@ -49,7 +50,7 @@ export class PreventiveDentistryPublicHealthComponent {
   private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   private id!: number;
-  private idpatient!: string;
+  public idpatient!: string;
   private userService = inject(AuthService);
   private token!: string;
   private tokenData!: TokenData;
