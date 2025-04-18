@@ -20,10 +20,12 @@
         <h3>Profesores seleccionados:</h3>
         <mat-list>
           <mat-list-item *ngFor="let prof of selectedProfessors">
-            {{ prof.person.firstName }} {{ prof.person.firstLastName }} - {{ prof.employeeNumber }}
-            <button mat-icon-button color="warn" (click)="removeProfessor(prof.employeeNumber)">
-              <i class="fas fa-times"></i>
-            </button>
+            <div class="list-item-content">
+              <span class="professor-info">{{ prof.person.firstName }} {{ prof.person.firstLastName }} - {{ prof.employeeNumber }}</span>
+              <button mat-icon-button class="delete-button" (click)="removeProfessor(prof.employeeNumber)" matTooltip="Eliminar profesor">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
           </mat-list-item>
         </mat-list>
         

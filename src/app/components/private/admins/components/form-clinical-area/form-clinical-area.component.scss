@@ -61,7 +61,7 @@ button {
   background-color: var(--tertiary);
   padding: 8px;
   border-radius: 2px;
-  color: white;
+  color: var( --border);
   margin-bottom: 0 !important;
 }
 
@@ -127,7 +127,7 @@ button[type="button"] {
   min-width: 250px;
   height: 45px;
   background-color: var(--tertiary);
-  color: white !important;
+  color: var( --border) !important;
   font-size: 16px;
   padding: 0 24px;
   border-radius: 4px;
@@ -141,7 +141,7 @@ button[type="button"] {
 
 button[color="warn"] {
   background-color: transparent;
-  color: #f44336 !important;
+  color: var(--status-red) !important;
   min-width: 40px;
   width: 40px;
   height: 40px;
@@ -149,6 +149,48 @@ button[color="warn"] {
   
   &:hover {
     background-color: rgba(244, 67, 54, 0.1);
+  }
+}
+
+button[color="warn"], .delete-button {
+  background-color: transparent;
+  color: var(--status-red) !important;
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+    transform: scale(1.1);
+    i {
+      color: var(--status-red);
+    }
+  }
+
+  i {
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
+}
+
+.list-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+
+  .professor-info {
+    flex: 1;
+    text-align: left;
+    color: var(--on-secondary);
+    margin-right: 16px;
+  }
+
+  .delete-button {
+    flex: 0 0 auto;
   }
 }
 
