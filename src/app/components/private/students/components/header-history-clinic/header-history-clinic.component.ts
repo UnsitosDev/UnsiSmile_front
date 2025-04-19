@@ -25,6 +25,12 @@ export class HeaderHistoryClinicComponent {
   public ROL = ROLES;
   public role!: string;
 
+  statusMap: { [key: string]: string } = {
+    IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
+    APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
+    REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
+  };
+
   openConfirmDialog() {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
     const data = {
@@ -42,5 +48,9 @@ export class HeaderHistoryClinicComponent {
         console.log('Confirmed:', result);
       }
     });
+  }
+
+  translateStatus(status: string): string {
+    return this.statusMap[status] || status;
   }
 }
