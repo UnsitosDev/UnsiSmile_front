@@ -31,17 +31,16 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { HttpHeaders } from '@angular/common/http';
-import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
-import { MenuAssessMedicalHistoryComponent } from "../../../../proffessor/components/menu-assess-medical-history/menu-assess-medical-history.component";
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
+import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
 
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
-  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, ProgressNotesComponent, MenuAssessMedicalHistoryComponent],
+  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, ProgressNotesComponent, HeaderHistoryClinicComponent],
 })
 
 export class StudentsGeneralHistoryComponent implements OnInit {
@@ -87,8 +86,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public role!: string;
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-  public STATUS = STATUS;
-  public ROL = ROLES;
 
   constructor() { }
 
@@ -243,29 +240,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     this.currentSectionId = this.mappedHistoryData.tabs[index].idFormSection; // Actualiza el idFormSection
   }
 
-  openConfirmDialog() {
-    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
-    const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      width: '300px',
-      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: currentTab.idFormSection },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getStatus = true;
-        this.getStatusHc(true);
-      }
-    });
-  }
-
-  status!: StatusClinicalHistoryResponse;
-
-  statusMap: { [key: string]: string } = {
-    IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
-    APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
-    REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
-  };
-
   getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
 
@@ -292,12 +266,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         },
       });
   }
-
-  translateStatus(status: string): string {
-    return this.statusMap[status] || status;
-  }
-
-
 
   // Método auxiliar para obtener el nombre completo
   private getFullName(firstName: string, secondName: string, firstLastName: string, secondLastName: string): string {

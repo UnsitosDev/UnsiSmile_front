@@ -17,13 +17,14 @@ import { MatDialog } from '@angular/material/dialog';
 export class HeaderHistoryClinicComponent {
   @Input({ required: true }) mappedHistoryData!: dataTabs;
   @Input({ required: true }) idPatientClinicalHistory!: number;
-  @Input() currentSectionId!: number;
-  @Input() currentStatus!: string;
+  @Input({ required: true }) currentSectionId!: number | null;
+  @Input({ required: true }) currentStatus!: string | null;
+  @Input({ required: true }) currentIndex!: number;
+  @Input({ required: true }) role!: string;
+
   public dialog = inject(MatDialog);
-  public currentIndex: number = 0;
   public STATUS = STATUS;
   public ROL = ROLES;
-  public role!: string;
 
   statusMap: { [key: string]: string } = {
     IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
@@ -34,8 +35,8 @@ export class HeaderHistoryClinicComponent {
   openConfirmDialog() {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
     const data = {
-      idPatientClinicalHistory : +this.idPatientClinicalHistory,
-      idFormSection : currentTab.idFormSection
+      idPatientClinicalHistory: +this.idPatientClinicalHistory,
+      idFormSection: currentTab.idFormSection
     }
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
       width: '300px',
@@ -44,7 +45,6 @@ export class HeaderHistoryClinicComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Confirmed:', result);
       }
     });
   }

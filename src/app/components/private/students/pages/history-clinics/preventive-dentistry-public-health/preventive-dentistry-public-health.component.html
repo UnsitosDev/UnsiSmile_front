@@ -3,8 +3,16 @@
 </mat-card>
 <br>
 @if (mappedHistoryData) {
-    <app-header-history-clinic [mappedHistoryData]="mappedHistoryData" [idPatientClinicalHistory]="idPatientClinicalHistory">
-    </app-header-history-clinic>
+    <mat-card-title>
+        <app-header-history-clinic 
+        [mappedHistoryData]="mappedHistoryData"
+        [idPatientClinicalHistory]="idPatientClinicalHistory"
+        [currentSectionId]="currentSectionId"
+        [currentStatus]="currentStatus"
+        [currentIndex]="currentIndex"
+        [role]="role">
+        </app-header-history-clinic>
+    </mat-card-title>
     <mat-card class="custom">
             <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
                 @for (tab of mappedHistoryData.tabs; track tab) {

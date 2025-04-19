@@ -93,6 +93,8 @@ export class PreventiveDentistryPublicHealthComponent {
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = this.processMappedData(mappedData, this.role);
           this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
+          this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+          this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
           this.getFirstTab();
           this.getStatusHc();
         }

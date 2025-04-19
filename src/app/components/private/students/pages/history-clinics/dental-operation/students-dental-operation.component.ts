@@ -33,11 +33,12 @@ import { MenuAssessMedicalHistoryComponent } from "../../../../proffessor/compon
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
+import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
 
 @Component({
   selector: 'app-students-dental-operation',
   standalone: true,
-  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent],
+  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent, HeaderHistoryClinicComponent],
   templateUrl: './students-dental-operation.component.html',
   styleUrl: './students-dental-operation.component.scss'
 })
