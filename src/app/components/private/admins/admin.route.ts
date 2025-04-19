@@ -219,7 +219,7 @@ export default [
                     ),
             },
             {
-                path: 'professorsArea/:id',
+                path: 'professors_area/:id',
                 loadComponent: () =>
                     import('./components/table-professor-clinical/table-professor-clinical.component').then(
                         (m) => m.TableProfessorClinicalComponent

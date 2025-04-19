@@ -5,6 +5,10 @@ import { UriConstants } from '@mean/utils';
 import { ActivatedRoute } from '@angular/router';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { MatCardModule } from '@angular/material/card';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Accion } from 'src/app/models/tabla/tabla-columna';
 
 @Component({
   selector: 'app-table-professor-clinical',
@@ -27,6 +31,8 @@ export class TableProfessorClinicalComponent implements OnInit {
 
   private apiService = inject(ApiService);
   private route = inject(ActivatedRoute);
+  private toastr = inject(ToastrService);
+  private dialog = inject(MatDialog);
 
   ngOnInit() {
     this.areaId = this.route.snapshot.paramMap.get('id');
@@ -51,17 +57,17 @@ export class TableProfessorClinicalComponent implements OnInit {
           this.areaName = response.clinicalArea;
           this.totalElements = response.professors.totalElements;
 
-          // Mapeamos los profesores desde la respuesta paginada
+          // Mapeamos incluyendo explícitamente el ID de asignación
           this.professorsList = response.professors.content.map((prof: any) => {
-            const professorData = {
+            const mappedProf = {
               nombre: prof.person.firstName || '',
               apellido: `${prof.person.firstLastName || ''} ${prof.person.secondLastName || ''}`.trim(),
               correo: prof.person.email || '',
-              'numero empleado': prof.employeeNumber || ''
+              'numero empleado': prof.employeeNumber || '',
+              idAsignacion: prof.idProfessorClinicalArea 
             };
-            return professorData;
+            return mappedProf;
           });
-
         }
       },
       error: (error) => {
@@ -83,5 +89,46 @@ export class TableProfessorClinicalComponent implements OnInit {
     if (this.areaId) {
       this.loadProfessors(this.areaId);
     }
+  }
+
+  onAction(accion: Accion) {
+    if (accion.accion === 'Eliminar') {
+      this.deleteProfessorArea(accion.fila);
+    }
+  }
+
+  deleteProfessorArea(professor: any) {
+    const dialogRef = this.dialog.open(ConfirmationAlertComponent, {
+      width: '350px',
+      data: { 
+        title: 'Confirmar eliminación',
+        message: `¿Está seguro que desea eliminar al profesor "${professor.nombre} ${professor.apellido}" del área clínica?` 
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && professor.idAsignacion) { // Verificamos que exista el ID
+        
+        this.apiService.deleteService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.DELETE_PROFESSOR_CLINICAL_AREAS}${professor.idAsignacion}`,
+          data: {}
+        }).subscribe({
+          next: () => {
+            this.toastr.success('Profesor eliminado del área clínica con éxito');
+            if (this.areaId) {
+              this.loadProfessors(this.areaId);
+            }
+          },
+          error: (error) => {
+            this.toastr.error('Error al eliminar el profesor del área clínica');
+          }
+        });
+      } else if (result) {
+        this.toastr.error('No se encontró el ID de asignación del profesor');
+      }
+    });
   }
 }

@@ -343,4 +343,5 @@ export class UriConstants {
   public static POST_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas';
   public static GET_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas';
   public static GET_PROFESSOR_CLINICAL_AREA_BY_ID = basePath + '/professor-clinical-areas/';
+  public static DELETE_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas/';
 }

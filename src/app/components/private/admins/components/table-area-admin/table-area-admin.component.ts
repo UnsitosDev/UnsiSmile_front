@@ -120,7 +120,7 @@ export class TableAreaAdminComponent implements OnInit {
     }
  
   openDetailsDialog(area: any): void {
-    this.router.navigate(['/admin/professorsArea', area.id]);
+    this.router.navigate(['/admin/professors_area', area.id]);
   }
 
   onSearch(keyword: string) {
