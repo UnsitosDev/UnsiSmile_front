@@ -41,7 +41,6 @@ export class HeaderHistoryClinicComponent {
       width: '300px',
       data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: currentTab.idFormSection },
     });
-    console.log(data);
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
