@@ -19,6 +19,11 @@ export class TableProfessorClinicalComponent implements OnInit {
   title: string = 'Profesores del Área Clínica';
   areaId: string | null = null;
   areaName: string = '';
+  currentPage = 0;
+  pageSize = 10;
+  totalElements = 0;
+  sortField = 'professor.person.firstName';
+  sortAsc = true;
 
   private apiService = inject(ApiService);
   private route = inject(ActivatedRoute);
@@ -31,7 +36,7 @@ export class TableProfessorClinicalComponent implements OnInit {
   }
 
   loadProfessors(areaId: string) {
-    const url = `${UriConstants.GET_CLINICAL_AREAS}/${areaId}`;
+    const url = `${UriConstants.GET_CLINICAL_AREAS}/${areaId}?professorPage=${this.currentPage}&professorSize=${this.pageSize}&professorOrder=${this.sortField}&professorAsc=${this.sortAsc}`;
     
     this.apiService.getService({
       headers: new HttpHeaders({
@@ -41,31 +46,42 @@ export class TableProfessorClinicalComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
-        console.log('Respuesta completa del servidor:', response);
         
         if (response) {
           this.areaName = response.clinicalArea;
-          console.log('Nombre del área:', this.areaName);
+          this.totalElements = response.professors.totalElements;
 
-          // Mapeamos los profesores desde la respuesta
-          this.professorsList = response.professors.map((prof: any) => {
+          // Mapeamos los profesores desde la respuesta paginada
+          this.professorsList = response.professors.content.map((prof: any) => {
             const professorData = {
               nombre: prof.person.firstName || '',
               apellido: `${prof.person.firstLastName || ''} ${prof.person.secondLastName || ''}`.trim(),
               correo: prof.person.email || '',
               'numero empleado': prof.employeeNumber || ''
             };
-            console.log('Datos del profesor procesado:', professorData);
             return professorData;
           });
 
-          console.log('Lista final de profesores:', this.professorsList);
         }
       },
       error: (error) => {
-        console.error('Error al cargar profesores:', error);
         this.professorsList = [];
       }
     });
+  }
+
+  onPageChange(event: number) {
+    this.currentPage = event - 1;
+    if (this.areaId) {
+      this.loadProfessors(this.areaId);
+    }
+  }
+
+  onPageSizeChange(newSize: number) {
+    this.pageSize = newSize;
+    this.currentPage = 0;
+    if (this.areaId) {
+      this.loadProfessors(this.areaId);
+    }
   }
 }

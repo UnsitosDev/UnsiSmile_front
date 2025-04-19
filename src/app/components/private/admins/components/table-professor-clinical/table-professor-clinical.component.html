@@ -7,5 +7,8 @@
   [titulo]="title"
   [columns]="columns"
   [data]="professorsList"
-  [showDeleteIcon]="true">
+  [totalItems]="totalElements"
+  [showDeleteIcon]="true"
+  (pageChange)="onPageChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)">
 </app-tabla-data>
