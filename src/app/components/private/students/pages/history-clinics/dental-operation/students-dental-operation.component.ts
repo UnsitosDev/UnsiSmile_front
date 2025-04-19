@@ -76,8 +76,6 @@ export class StudentsDentalOperationComponent {
   public role!: string;
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-  public STATUS = STATUS;
-  public ROL = ROLES;
 
   constructor() { }
 
@@ -244,32 +242,9 @@ export class StudentsDentalOperationComponent {
     return `${day}/${month}/${year}`;
   }
 
-  status: StatusClinicalHistoryResponse | null = null;
-
-  statusMap: { [key: string]: string } = {
-    IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
-    APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
-    REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
-  };
-
   onTabChange(index: number) {
     this.currentIndex = index;
     this.getStatusHc();
-  }
-
-  openConfirmDialog() {
-    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
-    const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      width: '300px',
-      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: currentTab.idFormSection },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getStatus = true;
-        this.getStatusHc(true);
-      }
-    });
   }
 
   getStatusHc(forceRequest: boolean = false) {
@@ -296,10 +271,6 @@ export class StudentsDentalOperationComponent {
           console.error(error);
         },
       });
-  }
-
-  translateStatus(status: string): string {
-    return this.statusMap[status] || status;
   }
 
   onNextTab(): void {
