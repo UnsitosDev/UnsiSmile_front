@@ -77,8 +77,6 @@ export class PreventiveDentistryPublicHealthComponent {
   public role!: string;
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-  public STATUS = STATUS;
-  public ROL = ROLES;
 
   constructor() { }
 
