@@ -338,8 +338,7 @@ export class UriConstants {
 
   public static readonly POST_CLINICAL_AREA = basePath + '/clinical-areas';
   public static readonly GET_CLINICAL_AREAS = basePath + '/clinical-areas';
-  public static readonly DELETE_PROFESSOR_CLINICAL_AREA = basePath + '/professor-areas'; // Para actualizar el estatus del profesor en el área clínica
-
+  public static readonly DELETE_CLINICAL_AREA = basePath + '/clinical-areas'; 
 
   public static POST_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas';
   public static GET_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas';

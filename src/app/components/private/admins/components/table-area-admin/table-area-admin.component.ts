@@ -11,6 +11,8 @@ import { Accion } from 'src/app/models/tabla/tabla-columna';
 import { MatDialog } from '@angular/material/dialog';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { DetailsAreaComponent } from '../details-area/details-area.component';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 
 @Component({
   selector: 'app-table-area-admin',
@@ -27,6 +29,7 @@ export class TableAreaAdminComponent implements OnInit {
   private searchSubject = new Subject<string>();
   private dialog = inject(MatDialog);
   private dataSharingService = inject(DataSharingService);
+  private toastr = inject(ToastrService);
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -99,6 +102,8 @@ export class TableAreaAdminComponent implements OnInit {
         this.edit(accion.fila);
       } else if (accion.accion === 'Detalles') {
         this.openDetailsDialog(accion.fila);
+      } else if (accion.accion === 'Eliminar') {
+        this.deleteArea(accion.fila);
       }
     }
 
@@ -127,5 +132,36 @@ export class TableAreaAdminComponent implements OnInit {
     this.sortField = event.field;
     this.sortAsc = event.asc;
     this.getAreas(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  deleteArea(area: any) {
+    const dialogRef = this.dialog.open(ConfirmationAlertComponent, {
+      width: '350px',
+      data: { 
+        title: 'Confirmar eliminación',
+        message: `¿Está seguro que desea eliminar el área clínica "${area.nombre}"?` 
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.apiService.deleteService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.DELETE_CLINICAL_AREA}/${area.id}`,
+          data: {}
+        }).subscribe({
+          next: () => {
+            this.toastr.success('Área clínica eliminada con éxito');
+            this.getAreas(this.currentPage, this.itemsPerPage, this.searchTerm);
+          },
+          error: (error) => {
+            console.error('Error al eliminar el área:', error);
+            this.toastr.error('Error al eliminar el área clínica');
+          }
+        });
+      }
+    });
   }
 }
