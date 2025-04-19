@@ -75,8 +75,7 @@ export class StudentsOralSurgeryHistoryComponent {
   public role!: string;
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-  public STATUS = STATUS;
-  public ROL = ROLES;
+ 
   constructor() { }
 
   ngOnInit(): void 
@@ -226,14 +225,6 @@ export class StudentsOralSurgeryHistoryComponent {
     }
   }
 
-  status: StatusClinicalHistoryResponse | null = null;
-
-  statusMap: { [key: string]: string } = {
-    IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
-    APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
-    REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
-  };
-
   onTabChange(index: number) {
     this.currentIndex = index;
     this.getStatusHc();
@@ -278,10 +269,6 @@ export class StudentsOralSurgeryHistoryComponent {
           console.error(error);
         },
       });
-  }
-
-  translateStatus(status: string): string {
-    return this.statusMap[status] || status;
   }
 
   // Método auxiliar para obtener el nombre completo
