@@ -3,7 +3,7 @@
 </mat-card>
 <br>
 @if (mappedHistoryData) {
-    <app-header-history-clinic [mappedHistoryData]="mappedHistoryData">
+    <app-header-history-clinic [mappedHistoryData]="mappedHistoryData" [idPatientClinicalHistory]="idPatientClinicalHistory">
     </app-header-history-clinic>
     <mat-card class="custom">
             <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { MenuAssessMedicalHistoryComponent } from "../../../proffessor/components/menu-assess-medical-history/menu-assess-medical-history.component";
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
@@ -15,12 +15,12 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './header-history-clinic.component.scss'
 })
 export class HeaderHistoryClinicComponent {
-  @Input() mappedHistoryData!: dataTabs;
-  @Input() idPatientClinicalHistory!: number;
+  @Input({ required: true }) mappedHistoryData!: dataTabs;
+  @Input({ required: true }) idPatientClinicalHistory!: number;
   @Input() currentSectionId!: number;
   @Input() currentStatus!: string;
+  public dialog = inject(MatDialog);
   public currentIndex: number = 0;
-  public dialog!: MatDialog;
   public STATUS = STATUS;
   public ROL = ROLES;
   public role!: string;
@@ -39,7 +39,6 @@ export class HeaderHistoryClinicComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Handle the confirmation result here
         console.log('Confirmed:', result);
       }
     });

@@ -33,7 +33,6 @@ export class DialogConfirmSendToReviewComponent {
       .subscribe({
         next: (response) => {
           this.dialogRef.close(true);
-          console.log('ok')
         },
         error: (error) => {
           this.dialogRef.close(false);
