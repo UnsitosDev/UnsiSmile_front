@@ -2,6 +2,69 @@ button {
     background-color: var(--secondary);
 }
 
+
 .dialog-content {
-    padding: 16px;
+    background-color: var(--on-primary);
+    display: flex;
+    flex-direction: column;
+    max-height: 70vh;
+    width: 600px;
+
+    h2 {
+        margin-bottom: 16px;
+    }
+
+    .professor-list {
+        overflow-y: auto;
+        max-height: 50vh;
+        border-radius: 4px;
+        padding: 8px;
+        
+        @media (max-width: 639px) {
+            padding: 0; 
+        }
+
+        .custom-list-item {
+            cursor: pointer;
+
+            // Resetear estilos de Material
+            .mdc-list-item__primary-text {
+                color: inherit;
+            }
+
+            &:hover {
+                background-color: var(--on-hover);
+
+                .item-content,
+                .item-text {
+                    color: white !important;
+                }
+            }
+
+            &.selected {
+                background-color: var(--on-hover);
+                font-weight: 500;
+
+                .item-content,
+                .item-text {
+                    color: white !important;
+                }
+            }
+        }
+    }
+
+    mat-dialog-actions {
+        margin-top: 16px;
+        padding: 16px 0 0;
+    }
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-white);
+}
+
+.buttons{
+    background-color: var(--on-primary);
 }
