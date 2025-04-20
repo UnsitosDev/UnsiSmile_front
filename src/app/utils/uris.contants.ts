@@ -328,9 +328,9 @@ export class UriConstants {
 
   public static readonly POST_CLINICAL_HISTORY_REVIEW = basePath + '/medical-records/status/send-to-review/patient-medical-records'
   // Obtener el estado de la historia clinica
-  public static readonly GET_CLINICAL_HISTORY_STATUS = basePath + '/medical-histories/status';
-  public static readonly GET_HC_TO_REVIEW = basePath +'/medicalHistories/status/list'
-  public static readonly SAVE_REVIEW_HC = basePath + '/medicalHistories/status'
+  public static readonly GET_CLINICAL_HISTORY_STATUS = basePath + '/medical-records/status';
+  public static readonly GET_HC_TO_REVIEW = basePath +'/medical-records/status/list'
+  public static readonly SAVE_REVIEW_HC = basePath + '/medical-records/status'
 
   public static readonly GET_PROFESSORS = basePath + '/professors';
   public static readonly POST_PROFESSORS = basePath + '/professors';
