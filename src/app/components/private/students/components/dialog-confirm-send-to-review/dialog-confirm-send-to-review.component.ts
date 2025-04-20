@@ -98,7 +98,6 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.dialogRef.close(true);
-          console.log('ok', response);
         },
         error: (error) => {
           this.dialogRef.close(false);

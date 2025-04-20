@@ -123,7 +123,6 @@ export class StudentsDentalOperationComponent {
     if (this.mappedHistoryData.tabs.length > 0) {
       this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
       this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
-      console.log(this.currentSectionId);
     }
   }
 
