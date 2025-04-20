@@ -39,7 +39,6 @@ export class HeaderHistoryClinicComponent {
       idFormSection: currentTab.idFormSection
     }
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      width: '300px',
       data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: currentTab.idFormSection },
     });
 
