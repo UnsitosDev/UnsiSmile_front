@@ -219,7 +219,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
       })
       .subscribe({
         next: (response: ClinicalHistory[]) => {
-          if (this.ROL.ROLE_CLINICAL_AREA_SUPERVISOR) {
+          if (this.role = this.ROL.ROLE_CLINICAL_AREA_SUPERVISOR) {
             this.patientConfigHistories = response.filter(
               (history) => history.patientClinicalHistoryId !== 0 && history.patientId !== null
             );
