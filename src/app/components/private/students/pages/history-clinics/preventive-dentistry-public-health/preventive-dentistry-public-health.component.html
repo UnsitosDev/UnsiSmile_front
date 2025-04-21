@@ -44,19 +44,26 @@
             <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
                 @for (tab of mappedHistoryData.tabs; track tab) {
                     <mat-tab [label]="tab.title">
-                        @if (tab.isAnswered) {
+                        @if (tab.isAnswered && tab.title !== 'Profilaxis Dental') {
                             <app-tab-form-update
                             [fieldsTab]="tab" 
                             (nextMatTab)="onNextTab()"
                             (previousMatTab)="onPreviousTab()"
                             ></app-tab-form-update>
                         }
-                        @if (!tab.isAnswered) {
+                        @if (!tab.isAnswered && tab.title !== 'Profilaxis Dental') {
                             <app-tab-form 
                             [fieldsTab]="tab" 
                             (nextMatTab)="onNextTab()"
                             (previousMatTab)="onPreviousTab()"
                         ></app-tab-form>
+                        }
+                        @if (tab.title == "Profilaxis Dental" && !tab.isAnswered) {
+                            <app-profilaxis
+                            [idPatient]="idpatient" 
+                            [idPatientClinicalHistory]="idPatientClinicalHistory"
+                            [idFormSection]="tab.idFormSection"
+                            ></app-profilaxis>
                         }
                     </mat-tab>
               }
