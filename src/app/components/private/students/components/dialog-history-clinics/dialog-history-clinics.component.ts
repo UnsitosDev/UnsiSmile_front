@@ -15,6 +15,7 @@ import { HistoryData } from 'src/app/models/form-fields/form-field.interface';
 import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { ROLES } from 'src/app/utils/roles';
+import { STATUS } from 'src/app/utils/statusToReview';
 @Component({
   selector: 'app-dialog-history-clinics',
   standalone: true,
@@ -35,6 +36,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
   private token!: string;
   private tokenData!: TokenData;
   ROL = ROLES;
+  STATUS = STATUS;
   role!: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public dataRoleAndObject: { objeto: any; role: string }) {
@@ -55,6 +57,9 @@ export class DialogHistoryClinicsComponent implements OnInit {
         break;
       case ROLES.STUDENT:
         this.getConfigHistories();
+        break;
+      case ROLES.ROLE_CLINICAL_AREA_SUPERVISOR:
+        this.getConfigHistoriesToReview();
         break;
       default:
         break;
@@ -208,22 +213,19 @@ export class DialogHistoryClinicsComponent implements OnInit {
   }
 
   getConfigHistoriesToReview() {
-    const status = 'IN_REVIEW';
     this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.dataRoleAndObject.objeto.patientID}&status=${status}`,
+        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.dataRoleAndObject.objeto.patientID}&status=${this.STATUS.IN_REVIEW}`,
         data: {},
       })
       .subscribe({
         next: (response: ClinicalHistory[]) => {
-          if (this.role = this.ROL.ROLE_CLINICAL_AREA_SUPERVISOR) {
             this.patientConfigHistories = response.filter(
               (history) => history.patientClinicalHistoryId !== 0 && history.patientId !== null
             );
-          } 
         },
         error: (error) => {
           console.error(error);

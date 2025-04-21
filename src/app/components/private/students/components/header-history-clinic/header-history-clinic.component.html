@@ -24,7 +24,7 @@
 
         @if (mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_STATUS && 
             mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_REQUIRED && 
-            role === ROL.PROFESSOR) {
+            role === ROL.ROLE_CLINICAL_AREA_SUPERVISOR) {
             <app-menu-assess-medical-history
                 [idClinicalHistoryPatient]="idPatientClinicalHistory"
                 [selectedIndex]="currentSectionId" 
