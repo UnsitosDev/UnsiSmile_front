@@ -344,4 +344,10 @@ export class UriConstants {
   public static GET_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas';
   public static GET_PROFESSOR_CLINICAL_AREA_BY_ID = basePath + '/professor-clinical-areas/';
   public static DELETE_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas/';
+
+  public static readonly GET_CONDITION_PROFILAXIS_FACE = basePath + '/medical-histories/tooth-face-conditions/prophylaxis';
+  public static readonly GET_CONDITION_PROFILAXIS_TOOTH = basePath + '/medical-histories/tooth-conditions/prophylaxis';
+  public static readonly POS_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis'; 
+  public static readonly GET_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis';
+
 }
