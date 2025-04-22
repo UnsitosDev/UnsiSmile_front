@@ -335,13 +335,17 @@ export class FormPatientPersonalDataComponent {
           phone: formValues.phoneGuardian,
           email: formValues.emailGuardian,
           parentalStatus: {
-            idCatalogOption: +formValues.parentsMaritalStatus || 0,
-            optionName: formValues.parentsMaritalStatus ? (this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "") : "",
+            idCatalogOption: +formValues.parentsMaritalStatus,
+            optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "",
             idCatalog: 12,
           },
           doctorName: formValues.doctorName
         } : null
       };      
+
+      // Imprimir el JSON en la consola para ver su estructura
+      console.log('JSON enviado para crear paciente:', JSON.stringify(patientData, null, 2));
+      
       this.apiService
         .postService({
           headers: new HttpHeaders({
@@ -352,6 +356,9 @@ export class FormPatientPersonalDataComponent {
         })
         .subscribe({
           next: (response) => {
+            // También podemos mostrar la respuesta del servidor
+            console.log('Respuesta del servidor:', response);
+            
             this.isNavigationPrevented = false;
             this.navigationComplete = true;
             this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
@@ -362,12 +369,33 @@ export class FormPatientPersonalDataComponent {
             });
           },
           error: (error) => {
+            // También mostrar errores detallados
+            console.error('Error al crear el paciente:', error);
             this.toastr.error(error, 'Error');
           },
         });
     } else {
       this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
+      console.log('Formulario inválido. Errores:', this.getFormValidationErrors());
     }
+  }
+  
+  // Método auxiliar para obtener todos los errores de validación
+  getFormValidationErrors() {
+    const result: any[] = [];
+    Object.keys(this.formGroup.controls).forEach(key => {
+      const controlErrors = this.formGroup.get(key)?.errors;
+      if (controlErrors) {
+        Object.keys(controlErrors).forEach(keyError => {
+          result.push({
+            control: key,
+            error: keyError,
+            value: controlErrors[keyError]
+          });
+        });
+      }
+    });
+    return result;
   }
 
   // Agregar nuevo método para buscar paciente por CURP
