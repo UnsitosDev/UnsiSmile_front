@@ -77,9 +77,7 @@ export class TableAreaAdminComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error al cargar áreas:', error);
-        this.areasList = [];
-        this.totalElements = 0;
+        this.toastr.error('Error al obtener las áreas clínicas');
       }
     });
   }
@@ -110,17 +108,15 @@ export class TableAreaAdminComponent implements OnInit {
     openInsertArea(objeto: any){
       const areaId = objeto.id;
       if (areaId) {
-        this.router.navigate(['/admin/clinicalArea', areaId]);
-      } else {
-        console.error('Id de area no encontrado');
-      }
+        this.router.navigate(['/admin/clinical-area', areaId]);
+      } 
     }
 
     edit(objeto: any) {
     }
  
   openDetailsDialog(area: any): void {
-    this.router.navigate(['/admin/professors_area', area.id]);
+    this.router.navigate(['/admin/professors-area', area.id]);
   }
 
   onSearch(keyword: string) {
@@ -157,7 +153,6 @@ export class TableAreaAdminComponent implements OnInit {
             this.getAreas(this.currentPage, this.itemsPerPage, this.searchTerm);
           },
           error: (error) => {
-            console.error('Error al eliminar el área:', error);
             this.toastr.error('Error al eliminar el área clínica');
           }
         });

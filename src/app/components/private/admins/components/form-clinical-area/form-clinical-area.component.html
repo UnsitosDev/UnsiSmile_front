@@ -11,9 +11,11 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <button mat-flat-button color="primary" type="button" (click)="addProfessor()" [disabled]="!professorForm.get('selectedProfessor')?.value">
-          AGREGAR A LA LISTA <i class="fas fa-plus"></i>
-        </button>
+        <div class="button-container">
+          <button  mat-flat-button color="primary" type="button" (click)="addProfessor()">
+            Agregar a la lista <i class="fas fa-plus"></i>
+          </button>
+        </div>
       </form>
 
       <div class="selected-professors" *ngIf="selectedProfessors.length > 0">
@@ -31,7 +33,7 @@
         
         <div class="button-container">
           <button mat-flat-button color="primary" (click)="onSubmit()">
-            GUARDAR PROFESORES <i class="fas fa-save"></i>
+            Guardar profesores <i class="fas fa-save"></i>
           </button>
         </div>
       </div>

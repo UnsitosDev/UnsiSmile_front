@@ -6,9 +6,11 @@
         <mat-form-field>
           <mat-label>Seleccionar Área Clínica</mat-label>
           <mat-select formControlName="selectedArea">
-            <mat-option *ngFor="let area of areas" [value]="area.idClinicalArea">
-              {{ area.clinicalArea }}
-            </mat-option>
+            @for (area of areas; track area.idClinicalArea) {
+              <mat-option [value]="area.idClinicalArea">
+                {{ area.clinicalArea }}
+              </mat-option>
+            }
           </mat-select>
         </mat-form-field>
         <div class="button-container">

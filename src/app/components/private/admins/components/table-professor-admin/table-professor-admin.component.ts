@@ -17,6 +17,7 @@ import { ProfessorTableData } from 'src/app/models/shared/professor/professor';
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 import { DetailsAdminComponent } from '../details-admin/details-admin.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-table-professor-admin',
@@ -41,6 +42,8 @@ export class TableProfessorAdminComponent implements OnInit {
   private apiService = inject(ApiService<any[]>);
   private searchSubject = new Subject<string>();
   private dataSharingService = inject(DataSharingService);
+  private toastr = inject(ToastrService);
+  
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -124,7 +127,6 @@ export class TableProfessorAdminComponent implements OnInit {
             };
           });
         } else {
-          console.warn('Respuesta inesperada del servidor:', response);
           this.professorsList = [];
           this.totalElements = 0;
         }
@@ -159,7 +161,7 @@ export class TableProfessorAdminComponent implements OnInit {
     this.getProfessors(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
-  onStatusChange(event: { row: any, newStatus: string }) {
+  onStatusChange(event: { row: ProfessorTableData, newStatus: string }) {
     const dialogRef = this.dialog.open(ConfirmationAlertComponent, {
       width: '300px',
       data: { message: `¿Estás seguro de que deseas cambiar el estatus a ${event.newStatus}?` }
@@ -181,7 +183,8 @@ export class TableProfessorAdminComponent implements OnInit {
             event.row.estatus = event.newStatus;
           },
           error: (error) => {
-            console.error('Error al cambiar el estado del profesor:', error);
+            this.toastr.error('Error al cambiar el estado del profesor', 'Error', {
+            });
           }
         });
       }

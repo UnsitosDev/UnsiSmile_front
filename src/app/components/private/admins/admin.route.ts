@@ -191,17 +191,10 @@ export default [
                 ]
             },
             {
-                path: 'create_Area', // Ruta para HISTORIA CLÍNICA CLÍNICA DE ODONTOLOGÍA PREVENTIVA Y SALUD PÚBLICA
+                path: 'create-area',
                 loadComponent: () =>
                     import('./components/form-create-area/form-create-area.component').then(
                         (m) => m.FormCreateAreaComponent
-                    ),
-            },
-            {
-                path: 'professorArea/:employeeNumber', // Modificado para incluir el parámetro
-                loadComponent: () =>
-                    import('./components/form-professor-area/form-professor-area.component').then(
-                        (m) => m.FormProfessorAreaComponent
                     ),
             },
             {
@@ -212,14 +205,14 @@ export default [
                     ),
             },
             {
-                path: 'clinicalArea/:id', // Modificado para incluir el parámetro
+                path: 'clinical-area/:id', // Modificado para incluir el parámetro
                 loadComponent: () =>
                     import('./components/form-clinical-area/form-clinical-area.component').then(
                         (m) => m.FormClinicalAreaComponent
                     ),
             },
             {
-                path: 'professors_area/:id',
+                path: 'professors-area/:id',
                 loadComponent: () =>
                     import('./components/table-professor-clinical/table-professor-clinical.component').then(
                         (m) => m.TableProfessorClinicalComponent
