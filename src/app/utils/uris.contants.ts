@@ -260,7 +260,7 @@ export class UriConstants {
 
   public static readonly POST_PATIENT_STUDENT = basePath + '/patients/students';
 
-  public static readonly GET_USER_INFO = basePath + '/users/userInformation';
+  public static readonly GET_USER_INFO = basePath + '/users/user-information';
   public static readonly GET_USER_PROFILE = basePath + '/users/profile';
   public static readonly GET_USER_PROFILE_PICTURE = basePath + '/users/profile-picture';
   public static readonly UPDATE_PROFILE_PICTURE = basePath + '/users/update-profile-picture';

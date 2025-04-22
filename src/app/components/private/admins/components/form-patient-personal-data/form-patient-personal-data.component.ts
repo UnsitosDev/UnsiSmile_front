@@ -54,6 +54,7 @@ export class FormPatientPersonalDataComponent {
   private toastr = inject(ToastrService);
   readonly dialog = inject(MatDialog);
   minorPatient: boolean = false;
+  disabledPatient: boolean = false;  // Nueva variable para controlar si el paciente es discapacitado
   private studentService = inject(studentService);
 
   formGroup!: FormGroup;
@@ -109,6 +110,11 @@ export class FormPatientPersonalDataComponent {
       );
     });
 
+    // Agregamos un observador para el campo de discapacidad
+    this.formGroup.get('hasDisability')?.valueChanges.subscribe(value => {
+      this.disabledPatient = value === 'true';
+    });
+
     // Combina las rutas de StudentItems y las adicionales
     const allRoutes = [
       ...StudentItems.map(item => item.routerlink),
@@ -134,7 +140,7 @@ export class FormPatientPersonalDataComponent {
   ngAfterViewInit() {
     this.stepper.selectionChange.subscribe((e: any) => {
       // Si está intentando ir a la última pestaña (alumno) y no está habilitada
-      const lastStepIndex = this.minorPatient ? 4 : 3;
+      const lastStepIndex = (this.minorPatient || this.disabledPatient) ? 4 : 3;
       if (e.selectedIndex === lastStepIndex && !this.canAccessStudentTab) {
         // Prevenir la navegación volviendo al índice anterior
         setTimeout(() => {
@@ -250,7 +256,7 @@ export class FormPatientPersonalDataComponent {
     if (this.formGroup.valid) {
       const patientData = {
         isMinor: this.minorPatient,
-        hasDisability: formValues.hasDisability,
+        hasDisability: formValues.hasDisability === 'true',
         nationalityId: +formValues.nationality,
         person: {
           curp: formValues.curp,
@@ -322,15 +328,15 @@ export class FormPatientPersonalDataComponent {
           idReligion: +formValues.religion,
           religion: this.patientService.religionOptions.find(option => option.value === formValues.religion)?.label || ""
         },
-        guardian: this.minorPatient ? {
+        guardian: (this.minorPatient || this.disabledPatient) ? {
           idGuardian: 0,
           firstName: formValues.firstGuardianName,
           lastName: formValues.lastGuardianName,
           phone: formValues.phoneGuardian,
           email: formValues.emailGuardian,
           parentalStatus: {
-            idCatalogOption: +formValues.parentsMaritalStatus,
-            optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "",
+            idCatalogOption: +formValues.parentsMaritalStatus || 0,
+            optionName: formValues.parentsMaritalStatus ? (this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "") : "",
             idCatalog: 12,
           },
           doctorName: formValues.doctorName
