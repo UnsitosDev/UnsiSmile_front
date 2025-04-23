@@ -10,7 +10,6 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
 import { MatDialog } from '@angular/material/dialog';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
-import { DetailsAreaComponent } from '../details-area/details-area.component';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 
