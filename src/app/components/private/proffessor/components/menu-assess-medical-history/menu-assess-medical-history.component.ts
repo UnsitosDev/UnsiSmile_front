@@ -31,10 +31,11 @@ export class MenuAssessMedicalHistoryComponent {
     idClinicalHistoryPatient: number;
     selectedIndex: number | null;
     status: string | null;
+    idReviewStatus: number | null;
   };
 
   openDialog(): void {
-    this.data = { idClinicalHistoryPatient: this.idClinicalHistoryPatient, selectedIndex: this.selectedIndex, status: this.status };
+    this.data = { idClinicalHistoryPatient: this.idClinicalHistoryPatient, selectedIndex: this.selectedIndex, status: this.status, idReviewStatus: this.idReviewStatus };
     const dialogRef = this.dialog.open(DialogSendReview, { data: this.data });
     dialogRef.afterClosed().subscribe(result => { });
   }
@@ -72,7 +73,7 @@ export class DialogSendReview {
     };
 
     this.apiService
-      .postService({
+      .patchService({
         url: `${UriConstants.SAVE_REVIEW_HC}`,
         data: data
       })
