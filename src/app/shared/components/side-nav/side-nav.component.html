@@ -9,8 +9,8 @@
     </div>
     
     <div class="nav-content">
-      <!-- Profile section (fixed) -->
-      <div id="profile" class="px-6 py-10">
+      <!-- Profile section -->
+      <div id="profile" class="px-6 py-4">
         <p class="text-slate-500">{{ welcomeMessage }}</p>
         <br>
         <a [routerLink]="userLink" class="inline-flex space-x-2 items-center">
@@ -40,7 +40,7 @@
         }
       </div>
       
-      <!-- Logout section (fixed) -->
+      <!-- Logout section -->
       <div class="logout-section">
         <button (click)="logout()" class="logout-button">
           <i class="fas fa-sign-out-alt"></i>

@@ -63,6 +63,12 @@ export const AdminItems: MenuItem[] = [
     routerlink: '/admin/admins'
   },
   {
+    fontAwesomeIcon: faFileArrowDown,
+    buttonText: 'Areas',
+    buttonDescription: 'Crear nueva area',
+    routerlink: '/admin/areas'
+  },
+  {
     fontAwesomeIcon: faFileUpload,
     buttonText: 'Cargar Alumnos',
     buttonDescription: 'Subir Excel de Alumnos.',

@@ -1,0 +1,28 @@
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Áreas clínicas - consulta y administración</strong></mat-card-title>
+</mat-card>
+<br>
+
+<div class="flex justify-end">
+    <button class="mr-10" mat-flat-button color="primary" routerLink="/admin/create-area">
+        <i class="fas fa-plus"></i>  
+        Nueva área <!--  -->línica
+    </button>
+</div>
+<br>
+
+<app-tabla-data
+[titulo]="title"
+[columns]="columns"
+[data]="areasList"
+[totalItems]="totalElements"
+[sortableColumns]="sortableColumns"
+[showSearchIcon]="true"
+[showInsertIcon]="true"
+[showDeleteIcon]="true"
+(pageChange)="onPageChange($event)"
+(pageSizeChange)="onPageSizeChange($event)"
+(action)="onAction($event)"
+(searchChange)="onSearch($event)"
+(sortChange)="onSort($event)">
+</app-tabla-data>

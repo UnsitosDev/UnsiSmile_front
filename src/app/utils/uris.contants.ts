@@ -139,9 +139,8 @@ export class UriConstants {
   // auth-controller
   public static readonly POST_AUTH = basePath + '/auth/register';
   public static readonly POSTB_AUTH = basePath + '/auth/register';
-  public static readonly PATCH_UPDATE_PASSWORD =
-    basePath + '/auth/updatePassword';
-  public static readonly PATCH_AUTH = basePath + '/auth/resetPasswordToDefault';
+  public static readonly PATCH_UPDATE_PASSWORD = basePath + '/auth/update-password';
+  public static readonly PATCH_AUTH = basePath + '/auth/reset-password-to-default';
 
   //person controller
   public static readonly GETID_PERSON = basePath + '/persons/';
@@ -260,7 +259,7 @@ export class UriConstants {
 
   public static readonly POST_PATIENT_STUDENT = basePath + '/patients/students';
 
-  public static readonly GET_USER_INFO = basePath + '/users/userInformation';
+  public static readonly GET_USER_INFO = basePath + '/users/user-information';
   public static readonly GET_USER_PROFILE = basePath + '/users/profile';
   public static readonly GET_USER_PROFILE_PICTURE = basePath + '/users/profile-picture';
   public static readonly UPDATE_PROFILE_PICTURE = basePath + '/users/update-profile-picture';
@@ -336,8 +335,19 @@ export class UriConstants {
   public static readonly GET_PROFESSORS = basePath + '/professors';
   public static readonly POST_PROFESSORS = basePath + '/professors';
   public static readonly PATCH_PROFESSORS = basePath + '/professors';
+
+  public static readonly POST_CLINICAL_AREA = basePath + '/clinical-areas';
+  public static readonly GET_CLINICAL_AREAS = basePath + '/clinical-areas';
+  public static readonly DELETE_CLINICAL_AREA = basePath + '/clinical-areas'; 
+
+  public static POST_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas';
+  public static GET_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas';
+  public static GET_PROFESSOR_CLINICAL_AREA_BY_ID = basePath + '/professor-clinical-areas/';
+  public static DELETE_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas/';
+
   public static readonly GET_CONDITION_PROFILAXIS_FACE = basePath + '/medical-histories/tooth-face-conditions/prophylaxis';
   public static readonly GET_CONDITION_PROFILAXIS_TOOTH = basePath + '/medical-histories/tooth-conditions/prophylaxis';
   public static readonly POS_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis'; 
   public static readonly GET_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis';
+
 }
