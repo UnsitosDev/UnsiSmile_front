@@ -92,8 +92,11 @@ export class StudentsOralSurgeryHistoryComponent {
           this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
           this.getFirstTab();
           this.getStatusHc();
-          if (this.role === ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
-            this.mappedHistoryData = this.tabsforReview(this.mappedHistoryData);
+          const processedData = this.getTabsforReview(this.mappedHistoryData);
+          if (processedData) {
+            this.mappedHistoryData = processedData;
+          } else if (this.role === ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+            return;
           }
         }
       });
@@ -122,14 +125,19 @@ export class StudentsOralSurgeryHistoryComponent {
     });
   }
 
-  tabsforReview(mappedData: dataTabs): dataTabs {
+  private getTabsforReview(historyData: dataTabs): dataTabs | null {
+    if (this.role !== ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+      return historyData;
+    }
+
     const filteredData = {
-      ...mappedData,
-      tabs: mappedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW)
+      ...historyData,
+      tabs: historyData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW)
     };
 
     if (filteredData.tabs.length === 0) {
-      this.nextpage = false;
+      this.route.navigate(['/professor/history-clinics']);
+      return null;
     }
 
     return filteredData;
