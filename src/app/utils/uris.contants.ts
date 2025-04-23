@@ -325,12 +325,11 @@ export class UriConstants {
   public static readonly GET_STUDENT_DASHBOARD = basePath + '/dashboards/students';
   public static readonly GET_PROFESSORS_DASHBOARD = basePath + '/dashboards/teachers';
 
-  // Enviar historia clinica a revision
-  public static readonly PUT_CLINICAL_HISTORY_REVIEW = basePath + '/medicalHistories/status/sendToReview'
+  public static readonly POST_CLINICAL_HISTORY_REVIEW = basePath + '/medical-records/status/send-to-review/patient-medical-records'
   // Obtener el estado de la historia clinica
-  public static readonly GET_CLINICAL_HISTORY_STATUS = basePath + '/medicalHistories/status';
-  public static readonly GET_HC_TO_REVIEW = basePath +'/medicalHistories/status/list'
-  public static readonly SAVE_REVIEW_HC = basePath + '/medicalHistories/status'
+  public static readonly GET_CLINICAL_HISTORY_STATUS = basePath + '/medical-records/status';
+  public static readonly GET_HC_TO_REVIEW = basePath +'/medical-records/status/list'
+  public static readonly SAVE_REVIEW_HC = basePath + '/medical-records/status'
 
   public static readonly GET_PROFESSORS = basePath + '/professors';
   public static readonly POST_PROFESSORS = basePath + '/professors';
@@ -349,5 +348,5 @@ export class UriConstants {
   public static readonly GET_CONDITION_PROFILAXIS_TOOTH = basePath + '/medical-histories/tooth-conditions/prophylaxis';
   public static readonly POS_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis'; 
   public static readonly GET_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis';
-
+  public static readonly GET_PROFESSORS_AREAS = basePath + '/professor-clinical-areas'
 }

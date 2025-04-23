@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
-import { StudentItems, AdminItems, MenuItem, ProfessorItems } from '@mean/models';
+import { StudentItems, AdminItems, MenuItem, ProfessorItems, ProfessorClinicalAlreaItems } from '@mean/models';
 import {
   studentResponse,
   studentUserResponse,
@@ -23,6 +23,7 @@ import { Router, RouterLinkActive } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ProfilePictureService } from 'src/app/services/profile-picture.service';
 import { AdminProfile, ProfessorProfile, StudentProfile } from 'src/app/models/shared/profile/profile.model';
+import { ROLES } from 'src/app/utils/roles';
 
 @Component({
   selector: 'app-side-nav',
@@ -37,6 +38,8 @@ export class SideNavComponent implements OnInit {
   private userService = inject(ApiService<studentResponse, {}>);
   user!: StudentProfile | AdminProfile | ProfessorProfile;
   welcomeMessage: string = 'Bienvenido';
+  ROL = ROLES;
+  private rol!: string;
   @Output() menuSelect = new EventEmitter<void>();
   profilePicture = signal<string | null>(null);
   private profilePictureUpdated = new Subject<string | null>();
@@ -65,11 +68,12 @@ export class SideNavComponent implements OnInit {
         url: `${UriConstants.GET_USER_INFO}`,
       })
       .subscribe({
-        next: (data: AdminProfile | StudentProfile | ProfessorProfile ) => {
+        next: (data: AdminProfile | StudentProfile | ProfessorProfile) => {
           this.user = data;
+          this.rol = this.user.user.role.role;
           this.setMenuItems();
           this.setWelcomeMessage();
-          if(this.user.user.profilePictureId){
+          if (this.user.user.profilePictureId) {
             this.fetchProfilePicture();
           }
         },
@@ -110,6 +114,9 @@ export class SideNavComponent implements OnInit {
       this.userLink = '/admin/user';
     } else if (this.user.user.role.role === 'ROLE_PROFESSOR') {
       this.menuItems = ProfessorItems;
+      this.userLink = '/professor/user';
+    } else if (this.rol = this.ROL.ROLE_CLINICAL_AREA_SUPERVISOR) {
+      this.menuItems = ProfessorClinicalAlreaItems;
       this.userLink = '/professor/user';
     }
   }

@@ -2,10 +2,12 @@ import { CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from '@mean/services';
 import { Router } from '@angular/router';
+import { ROLES } from '../utils/roles';
 
 export const proffesorGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
+  const ROL = ROLES;
 
   // Verificar si existe un token en la sesión
   const token = authService.getToken();
@@ -24,7 +26,7 @@ export const proffesorGuard: CanActivateFn = (route, state) => {
   const role = userRole?.[0]?.authority;  // Uso de optional chaining para evitar errores
 
   // Verificar si el rol es de administrador
-  if (role === 'ROLE_PROFESSOR') {
+  if (role === ROL.PROFESSOR || role === ROL.ROLE_CLINICAL_AREA_SUPERVISOR) {
     return true;
   }
 

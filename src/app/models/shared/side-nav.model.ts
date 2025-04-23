@@ -94,6 +94,21 @@ export const ProfessorItems: MenuItem[] = [
     buttonText: 'Estudiantes',
     buttonDescription: 'Ver estudiantes',
     routerlink: '/professor/students'
+  }
+];
+
+export const ProfessorClinicalAlreaItems: MenuItem[] = [
+  {
+    fontAwesomeIcon: faHome,
+    buttonText: 'Inicio',
+    buttonDescription: 'Información relevante',
+    routerlink: '/professor/dashboard'
+  },
+  {
+    fontAwesomeIcon: faHospitalUser,
+    buttonText: 'Estudiantes',
+    buttonDescription: 'Ver estudiantes',
+    routerlink: '/professor/students'
   },
   {
     fontAwesomeIcon: faFileClipboard,

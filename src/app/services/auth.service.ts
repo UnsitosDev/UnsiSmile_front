@@ -8,13 +8,14 @@ import { TokenData } from '../components/public/login/model/tokenData';
 import { AuthModel } from '../models/core/auth.model';
 import { TokenResponse } from '../models/core/TokenResponse';
 import { SessionStorageConstants } from '../utils/session.storage';
+import { ROLES } from '../utils/roles';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(private router: Router, private http: HttpClient) {}
-
+  ROL = ROLES;
   saveToSession(key: string, value: string) {
     sessionStorage.setItem(key, value);
   }
@@ -55,6 +56,8 @@ export class AuthService {
     } else if (role === 'ROLE_ADMIN') {
       route = returnUrl ? `/${returnUrl}` : '/admin';
     } else if (role === 'ROLE_PROFESSOR') {
+      route = returnUrl ? `/${returnUrl}` : '/professor';
+    } else if (role === this.ROL.ROLE_CLINICAL_AREA_SUPERVISOR) {
       route = returnUrl ? `/${returnUrl}` : '/professor';
     }
 

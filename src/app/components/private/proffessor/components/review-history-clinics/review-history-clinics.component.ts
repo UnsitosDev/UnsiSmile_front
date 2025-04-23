@@ -64,7 +64,6 @@ export class ReviewHistoryClinicsComponent implements OnInit {
   }
 
   getListHc(objeto: any) {
-    console.log(objeto);
     this.dialog.open(DialogHistoryClinicsComponent, {
       width: '650px',
       data: { objeto },
