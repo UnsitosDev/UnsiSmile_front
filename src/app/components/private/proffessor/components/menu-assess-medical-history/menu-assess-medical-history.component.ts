@@ -23,6 +23,7 @@ export class MenuAssessMedicalHistoryComponent {
   @Input() idClinicalHistoryPatient!: number;
   @Input() selectedIndex: number | null = null;
   @Input() status: string | null = null;
+  @Input() idReviewStatus: number | null = null;
 
   readonly dialog = inject(MatDialog);
 
@@ -42,8 +43,7 @@ export class MenuAssessMedicalHistoryComponent {
 interface IsaveReview {
   status: string;
   message: string;
-  idPatientClinicalHistory: number;
-  idSection: number
+  idReviewStatus: number
 }
 
 @Component({
@@ -60,19 +60,15 @@ export class DialogSendReview {
   readonly apiService = inject(ApiService)
   readonly toastr = inject(ToastrService);
 
-  public idClinicalHistoryPatient = this.data.idClinicalHistoryPatient;
-  public selectedIndex = this.data.selectedIndex;
-  public status = this.data.status;
   public newStatus = '';
   public message = '';
-
+  public idReviewStatus = this.data.idReviewStatus;
 
   saveReviewHc() {
     const data: IsaveReview = {
       status: this.newStatus,
       message: this.message,
-      idPatientClinicalHistory: this.idClinicalHistoryPatient,
-      idSection: this.selectedIndex ?? 0,
+      idReviewStatus: this.idReviewStatus!
     };
 
     this.apiService
