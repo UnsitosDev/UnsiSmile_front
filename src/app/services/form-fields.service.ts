@@ -119,6 +119,20 @@ export class FormFieldsService {
             },
             onClick: this.handleGenderClick.bind(this)
         },
+        {
+            type: 'select',
+            label: 'Discapacidad',
+            name: 'hasDisability',
+            required: true,
+            validators: [Validators.required],
+            options: [
+                { value: 'true', label: 'Sí' },
+                { value: 'false', label: 'No' }
+            ],
+            errorMessages: {
+                required: 'El campo Discapacidad es requerido.'
+            }
+        },
     ];
 
     private addressFields: FormField[] = [
