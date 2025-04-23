@@ -1,10 +1,10 @@
 <mat-card class="full-width-card">
-  <mat-card-title><strong>Asignar Área al Profesor</strong></mat-card-title>
+  <mat-card-title><strong>Asignar área al profesor</strong></mat-card-title>
   <mat-card-content>
     <div class="custom">
       <form [formGroup]="areaForm" (ngSubmit)="onSubmit()">
         <mat-form-field>
-          <mat-label>Seleccionar Área Clínica</mat-label>
+          <mat-label>Seleccionar área clínica</mat-label>
           <mat-select formControlName="selectedArea">
             @for (area of areas; track area.idClinicalArea) {
               <mat-option [value]="area.idClinicalArea">

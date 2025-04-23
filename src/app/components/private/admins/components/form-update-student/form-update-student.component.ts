@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,7 +18,6 @@ import { FieldComponentComponent } from 'src/app/shared/components/field-compone
   selector: 'app-form-update-student',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
@@ -26,7 +25,7 @@ import { FieldComponentComponent } from 'src/app/shared/components/field-compone
     MatFormFieldModule,
     MatInputModule,
     FieldComponentComponent
-  ],
+],
   templateUrl: './form-update-student.component.html',
   styleUrls: ['./form-update-student.component.scss']
 })

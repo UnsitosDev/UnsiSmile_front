@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+
 import { HttpHeaders } from '@angular/common/http';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
@@ -15,13 +15,12 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-form-professor-area',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
     MatCardModule,
     MatButtonModule
-  ],
+],
   templateUrl: './form-professor-area.component.html',
   styleUrl: './form-professor-area.component.scss'
 })

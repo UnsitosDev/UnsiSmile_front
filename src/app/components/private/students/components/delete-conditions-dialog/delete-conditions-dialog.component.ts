@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,12 +18,11 @@ interface DialogData {
   selector: 'app-delete-conditions-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     MatDialogModule,
     MatButtonModule,
     MatCheckboxModule,
-    FormsModule,
-  ],
+    FormsModule
+],
   templateUrl: './delete-conditions-dialog.component.html',
   styleUrl: './delete-conditions-dialog.component.scss',
 })

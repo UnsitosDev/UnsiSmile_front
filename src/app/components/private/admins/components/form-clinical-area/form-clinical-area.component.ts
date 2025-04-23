@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+
 import { HttpHeaders } from '@angular/common/http';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
@@ -29,7 +29,6 @@ interface Professor {
   imports: [
     MatListItem,
     MatList,
-    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
@@ -37,7 +36,7 @@ interface Professor {
     MatButtonModule,
     MatPaginatorModule,
     MatInputModule
-  ],
+],
   templateUrl: './form-clinical-area.component.html',
   styleUrl: './form-clinical-area.component.scss'
 })

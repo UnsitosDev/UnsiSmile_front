@@ -1,14 +1,16 @@
 <mat-card class="full-width-card">
-  <mat-card-title><strong>Asignar Profesores al Área Clínica</strong></mat-card-title>
+  <mat-card-title><strong>Asignar profesores al área clínica</strong></mat-card-title>
   <mat-card-content>
     <div class="custom">
       <form [formGroup]="professorForm">
         <mat-form-field>
           <mat-label>Seleccionar Profesor</mat-label>
           <mat-select formControlName="selectedProfessor">
-            <mat-option *ngFor="let professor of professors" [value]="professor.employeeNumber">
-              {{ professor.person.firstName }} {{ professor.person.firstLastName }} - {{ professor.employeeNumber }}
-            </mat-option>
+            @for (professor of professors; track professor) {
+              <mat-option [value]="professor.employeeNumber">
+                {{ professor.person.firstName }} {{ professor.person.firstLastName }} - {{ professor.employeeNumber }}
+              </mat-option>
+            }
           </mat-select>
         </mat-form-field>
         <div class="button-container">
@@ -18,25 +20,28 @@
         </div>
       </form>
 
-      <div class="selected-professors" *ngIf="selectedProfessors.length > 0">
-        <h3>Profesores seleccionados:</h3>
-        <mat-list>
-          <mat-list-item *ngFor="let prof of selectedProfessors">
-            <div class="list-item-content">
-              <span class="professor-info">{{ prof.person.firstName }} {{ prof.person.firstLastName }} - {{ prof.employeeNumber }}</span>
-              <button mat-icon-button class="delete-button" (click)="removeProfessor(prof.employeeNumber)" matTooltip="Eliminar profesor">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </div>
-          </mat-list-item>
-        </mat-list>
-        
-        <div class="button-container">
-          <button mat-flat-button color="primary" (click)="onSubmit()">
-            Guardar profesores <i class="fas fa-save"></i>
-          </button>
+      @if (selectedProfessors.length > 0) {
+        <div class="selected-professors">
+          <h3>Profesores seleccionados:</h3>
+          <mat-list>
+            @for (prof of selectedProfessors; track prof) {
+              <mat-list-item>
+                <div class="list-item-content">
+                  <span class="professor-info">{{ prof.person.firstName }} {{ prof.person.firstLastName }} - {{ prof.employeeNumber }}</span>
+                  <button mat-icon-button class="delete-button" (click)="removeProfessor(prof.employeeNumber)" matTooltip="Eliminar profesor">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </mat-list-item>
+            }
+          </mat-list>
+          <div class="button-container">
+            <button mat-flat-button color="primary" (click)="onSubmit()">
+              Guardar profesores <i class="fas fa-save"></i>
+            </button>
+          </div>
         </div>
-      </div>
+      }
     </div>
   </mat-card-content>
 </mat-card>
