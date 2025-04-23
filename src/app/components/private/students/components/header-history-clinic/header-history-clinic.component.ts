@@ -30,6 +30,7 @@ export class HeaderHistoryClinicComponent {
     IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
     APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
     REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
+    NOT_REQUIRED: '&nbsp;',
   };
 
   openConfirmDialog() {
