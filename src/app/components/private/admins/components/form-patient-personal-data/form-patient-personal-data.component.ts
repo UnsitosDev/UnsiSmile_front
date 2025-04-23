@@ -33,6 +33,7 @@ import { DialogConfirmLeaveComponent } from '../../../students/components/dialog
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { MatCardModule } from '@angular/material/card';
 import { studentService } from 'src/app/services/student.service';
+import { DialogConfirmGuardianComponent } from '../dialog-confirm-guardian/dialog-confirm-guardian.component';
 
 
 @Component({
@@ -56,6 +57,7 @@ export class FormPatientPersonalDataComponent {
   minorPatient: boolean = false;
   disabledPatient: boolean = false;  // Nueva variable para controlar si el paciente es discapacitado
   private studentService = inject(studentService);
+  needsGuardian: boolean = false; // Nueva variable para controlar si el paciente discapacitado necesita tutor
 
   formGroup!: FormGroup;
   personal: FormField[] = [];
@@ -83,7 +85,8 @@ export class FormPatientPersonalDataComponent {
     private addressDataFields: FormFieldsService,
     private otherDataFields: FormFieldsService,
     private guardianField: FormFieldsService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef // Agregamos ChangeDetectorRef para forzar la actualización de la vista
   ) { }
 
   ngOnInit(): void {
@@ -112,7 +115,14 @@ export class FormPatientPersonalDataComponent {
 
     // Agregamos un observador para el campo de discapacidad
     this.formGroup.get('hasDisability')?.valueChanges.subscribe(value => {
-      this.disabledPatient = value === 'true';
+      const newValue = value === 'true';
+      
+      // Si cambia de falso a verdadero, mostrar el diálogo
+      if (newValue && !this.disabledPatient) {
+        this.showGuardianConfirmDialog();
+      }
+      
+      this.disabledPatient = newValue;
     });
 
     // Combina las rutas de StudentItems y las adicionales
@@ -137,10 +147,27 @@ export class FormPatientPersonalDataComponent {
     });
   }
 
+  // Modificamos el método del diálogo para forzar la detección de cambios
+  showGuardianConfirmDialog(): void {
+    const dialogRef = this.dialog.open(DialogConfirmGuardianComponent, {
+      width: '500px',
+      panelClass: 'custom-dialog-container',
+      disableClose: true,
+      data: { message: '¿Desea ingresar datos de un tutor para este paciente con discapacidad?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.needsGuardian = !!result;
+      // Forzamos la detección de cambios para actualizar la vista inmediatamente
+      this.cdr.detectChanges();
+    });
+  }
+
   ngAfterViewInit() {
     this.stepper.selectionChange.subscribe((e: any) => {
       // Si está intentando ir a la última pestaña (alumno) y no está habilitada
-      const lastStepIndex = (this.minorPatient || this.disabledPatient) ? 4 : 3;
+      const shouldShowGuardianStep = this.minorPatient || (this.disabledPatient && this.needsGuardian);
+      const lastStepIndex = shouldShowGuardianStep ? 4 : 3;
       if (e.selectedIndex === lastStepIndex && !this.canAccessStudentTab) {
         // Prevenir la navegación volviendo al índice anterior
         setTimeout(() => {
@@ -328,7 +355,7 @@ export class FormPatientPersonalDataComponent {
           idReligion: +formValues.religion,
           religion: this.patientService.religionOptions.find(option => option.value === formValues.religion)?.label || ""
         },
-        guardian: (this.minorPatient || this.disabledPatient) ? {
+        guardian: (this.minorPatient || (this.disabledPatient && this.needsGuardian)) ? {
           idGuardian: 0,
           firstName: formValues.firstGuardianName,
           lastName: formValues.lastGuardianName,
@@ -343,8 +370,6 @@ export class FormPatientPersonalDataComponent {
         } : null
       };      
 
-      // Imprimir el JSON en la consola para ver su estructura
-      console.log('JSON enviado para crear paciente:', JSON.stringify(patientData, null, 2));
       
       this.apiService
         .postService({
@@ -356,9 +381,7 @@ export class FormPatientPersonalDataComponent {
         })
         .subscribe({
           next: (response) => {
-            // También podemos mostrar la respuesta del servidor
-            console.log('Respuesta del servidor:', response);
-            
+            // También podemos mostrar la respuesta del servidor            
             this.isNavigationPrevented = false;
             this.navigationComplete = true;
             this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
@@ -370,13 +393,11 @@ export class FormPatientPersonalDataComponent {
           },
           error: (error) => {
             // También mostrar errores detallados
-            console.error('Error al crear el paciente:', error);
             this.toastr.error(error, 'Error');
           },
         });
     } else {
       this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
-      console.log('Formulario inválido. Errores:', this.getFormValidationErrors());
     }
   }
   
