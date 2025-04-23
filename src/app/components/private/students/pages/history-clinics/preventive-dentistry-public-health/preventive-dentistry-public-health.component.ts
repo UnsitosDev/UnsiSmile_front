@@ -95,6 +95,9 @@ export class PreventiveDentistryPublicHealthComponent {
           this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
           this.getFirstTab();
           this.getStatusHc();
+          if (this.role === ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+            this.mappedHistoryData = this.tabsforReview(this.mappedHistoryData);
+          }
         }
       });
       this.fetchPatientData();
@@ -122,6 +125,19 @@ export class PreventiveDentistryPublicHealthComponent {
     });
   }
 
+  tabsforReview(mappedData: dataTabs): dataTabs {
+    const filteredData = {
+      ...mappedData,
+      tabs: mappedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW)
+    };
+
+    if (filteredData.tabs.length === 0) {
+      this.nextpage = false;
+    }
+
+    return filteredData;
+  }
+  
   getFirstTab() {
     if (this.mappedHistoryData.tabs.length > 0) {
       this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;

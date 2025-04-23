@@ -93,6 +93,9 @@ export class OralProsthesisComponent {
           this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
           this.getFirstTab();
           this.getStatusHc();
+          if (this.role === ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+            this.mappedHistoryData = this.tabsforReview(this.mappedHistoryData);
+          }
         }
       });
       this.fetchPatientData();
@@ -118,6 +121,19 @@ export class OralProsthesisComponent {
         }
       }
     });
+  }
+
+  tabsforReview(mappedData: dataTabs): dataTabs {
+    const filteredData = {
+      ...mappedData,
+      tabs: mappedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW)
+    };
+
+    if (filteredData.tabs.length === 0) {
+      this.nextpage = false;
+    }
+
+    return filteredData;
   }
 
   getFirstTab() {
