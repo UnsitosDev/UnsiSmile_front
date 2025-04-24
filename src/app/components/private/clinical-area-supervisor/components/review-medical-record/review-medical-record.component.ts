@@ -26,10 +26,10 @@ import { STATUS } from 'src/app/utils/statusToReview';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule],
-  templateUrl: './review-history-clinics.component.html',
-  styleUrl: './review-history-clinics.component.scss',
+  templateUrl: './review-medical-record.component.html',
+  styleUrl: './review-medical-record.component.scss',
 })
-export class ReviewHistoryClinicsComponent implements OnInit {
+export class ReviewMedicalRecordComponent implements OnInit {
   private readonly apiService = inject(ApiService<PatientResponse>);
   private readonly dialog = inject(MatDialog);
   readonly router = inject(Router);

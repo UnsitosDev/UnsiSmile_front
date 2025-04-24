@@ -4,7 +4,7 @@
   
   @if (this.role == ROL.STUDENT) {
     @for (history of patientConfigHistories; track history) {
-      <mat-list-item (click)="selectHistory(history)">
+      <mat-list-item (click)="selectMedicalRecordStudent(history)">
         <mat-icon matListItemIcon>folder</mat-icon>
         <div matListItemTitle>{{ history.clinicalHistoryName }}</div>
       </mat-list-item>
@@ -12,15 +12,23 @@
   }
   @if (this.role == ROL.ADMIN) {
     @for (history of patientConfigHistories; track history) {
-      <mat-list-item (click)="selectHistoryAdmin(history)">
+      <mat-list-item (click)="selectMedicalRecordAdmin(history)">
         <mat-icon matListItemIcon>folder</mat-icon>
         <div matListItemTitle>{{ history.clinicalHistoryName }}</div>
       </mat-list-item>
     }
   }
-  @if (this.role == ROL.ROLE_CLINICAL_AREA_SUPERVISOR) {
+  @if (this.role == ROL.PROFESSOR) {
     @for (history of patientConfigHistories; track history) {
-      <mat-list-item (click)="selectHistoryToReview(history)">
+      <mat-list-item (click)="selectMedicalRecordProfessor(history)">
+        <mat-icon matListItemIcon>folder</mat-icon>
+        <div matListItemTitle>{{ history.clinicalHistoryName }}</div>
+      </mat-list-item>
+    }
+  } 
+  @if (this.role == ROL.CLINICAL_AREA_SUPERVISOR) {
+    @for (history of patientConfigHistories; track history) {
+      <mat-list-item (click)="selectMedicalRecordReview(history)">
         <mat-icon matListItemIcon>folder</mat-icon>
         <div matListItemTitle>{{ history.clinicalHistoryName }}</div>
       </mat-list-item>

@@ -15,8 +15,8 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-menu-assess-medical-history',
   standalone: true,
   imports: [],
-  templateUrl: './menu-assess-medical-history.component.html',
-  styleUrl: './menu-assess-medical-history.component.scss',
+  templateUrl: './menu-assess-medical-record.component.html',
+  styleUrl: './menu-assess-medical-record.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuAssessMedicalHistoryComponent {
@@ -50,7 +50,7 @@ interface IsaveReview {
 @Component({
   selector: 'app-dialog-review',
   templateUrl: './app-dialog-review.html',
-  styleUrl: './menu-assess-medical-history.component.scss',
+  styleUrl: './menu-assess-medical-record.component.scss',
   standalone: true,
   imports: [MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatCardModule, MatRadioModule, FormsModule, MatFormFieldModule, MatInputModule,],
   changeDetection: ChangeDetectionStrategy.OnPush,
