@@ -98,7 +98,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
 
   pushUrl = '';
 
-  selectHistory(history: ClinicalHistory) {
+  selectMedicalRecordStudent(history: ClinicalHistory) {
     this.pushUrl = 'students'
     this.dialogRef.close();
     this.getConfigHistories();
@@ -126,7 +126,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  selectHistoryAdmin(history: ClinicalHistory) {
+  selectMedicalRecordAdmin(history: ClinicalHistory) {
     this.pushUrl = 'admin'
     this.dialogRef.close();
     this.getConfigHistories();
@@ -146,7 +146,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  selectHistoryToProfessor(history: ClinicalHistory) {
+  selectMedicalRecordProfessor(history: ClinicalHistory) {
     this.pushUrl = 'professor'
     this.dialogRef.close();
     this.getConfigHistoriesToReview();
@@ -166,7 +166,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  selectHistoryToReview(history: ClinicalHistory) {
+  selectMedicalRecordReview(history: ClinicalHistory) {
     this.pushUrl = 'professor-clinical-area'
     this.dialogRef.close();
     this.getConfigHistoriesToReview();
