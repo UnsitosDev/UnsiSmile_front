@@ -26,7 +26,7 @@
       </mat-list-item>
     }
   } 
-  @if (this.role == ROL.PROFESSOR_CLINICAL_AREA) {
+  @if (this.role == ROL.CLINICAL_AREA_SUPERVISOR) {
     @for (history of patientConfigHistories; track history) {
       <mat-list-item (click)="selectMedicalRecordReview(history)">
         <mat-icon matListItemIcon>folder</mat-icon>

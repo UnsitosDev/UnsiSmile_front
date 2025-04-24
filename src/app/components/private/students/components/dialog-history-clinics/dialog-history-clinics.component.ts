@@ -58,7 +58,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
       case ROLES.STUDENT:
         this.getConfigHistories();
         break;
-      case ROLES.PROFESSOR_CLINICAL_AREA:
+      case ROLES.CLINICAL_AREA_SUPERVISOR:
         this.getConfigHistoriesToReview();
         break;
       default:

@@ -95,7 +95,7 @@ export class StudentsDentalOperationComponent {
           const processedData = this.getTabsforReview(this.mappedHistoryData);
           if (processedData) {
             this.mappedHistoryData = processedData;
-          } else if (this.role === ROLES.PROFESSOR_CLINICAL_AREA) {
+          } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
             return;
           }
         }
@@ -126,7 +126,7 @@ export class StudentsDentalOperationComponent {
   }
 
   private getTabsforReview(historyData: dataTabs): dataTabs | null {
-    if (this.role !== ROLES.PROFESSOR_CLINICAL_AREA) {
+    if (this.role !== ROLES.CLINICAL_AREA_SUPERVISOR) {
       return historyData;
     }
 

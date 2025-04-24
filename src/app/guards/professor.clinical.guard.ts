@@ -21,7 +21,7 @@ export const professorClinicalGuard: CanActivateFn = (route, state) => {
 
   const role = userRole?.[0]?.authority; 
 
-  if (role === ROL.PROFESSOR_CLINICAL_AREA) {
+  if (role === ROL.CLINICAL_AREA_SUPERVISOR) {
     return true;
   }
 

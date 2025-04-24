@@ -13,7 +13,7 @@
   
           @if (mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_STATUS && 
               mappedHistoryData.tabs[currentIndex].status !== STATUS.NO_REQUIRED && 
-              role !== ROL.PROFESSOR_CLINICAL_AREA) {
+              role !== ROL.CLINICAL_AREA_SUPERVISOR) {
               <span class="status" [innerHTML]="translateStatus(mappedHistoryData.tabs[currentIndex].status)"></span> &nbsp;
           }
   
@@ -27,7 +27,7 @@
               </button>
           }
   
-          @if(mappedHistoryData.tabs[currentIndex].status == STATUS.IN_REVIEW && role == ROL.PROFESSOR_CLINICAL_AREA){
+          @if(mappedHistoryData.tabs[currentIndex].status == STATUS.IN_REVIEW && role == ROL.CLINICAL_AREA_SUPERVISOR){
               <app-menu-assess-medical-history
                   [idClinicalHistoryPatient]="idPatientClinicalHistory"
                   [selectedIndex]="currentSectionId" 
