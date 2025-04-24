@@ -30,7 +30,10 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/primeicons/primeicons.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "sockjs-client"
+            ]
           },
           "configurations": {
             "production": {

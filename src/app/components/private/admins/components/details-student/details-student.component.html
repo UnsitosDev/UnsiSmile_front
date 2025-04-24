@@ -1,6 +1,6 @@
 <mat-card class="p-4">
     <div class="card-header">
-        <mat-card-title><strong>Datos del Estudiante</strong></mat-card-title>
+        <mat-card-title><strong>Datos del estudiante</strong></mat-card-title>
         <button class="close-button" (click)="closeDialog()">×</button>
     </div>             
     <mat-card-content>
@@ -10,7 +10,7 @@
                     <div class="detail-item">
                         <div class="detail-header">
                             <i class="far fa-user"></i>
-                            <span>Nombre Completo</span>
+                            <span>Nombre completo</span>
                         </div>
                         <div class="detail-content">{{data.nombre}} {{data.apellido}}</div>
                     </div>
@@ -42,7 +42,7 @@
                     <div class="detail-item">
                         <div class="detail-header">
                             <i class="fas fa-calendar"></i>
-                            <span>Fecha de Nacimiento</span>
+                            <span>Fecha de nacimiento</span>
                         </div>
                         <div class="detail-content">{{data.fechaNacimiento | date:'dd/MM/yyyy'}}</div>
                     </div>
@@ -50,7 +50,7 @@
                     <div class="detail-item">
                         <div class="detail-header">
                             <i class="fas fa-envelope"></i>
-                            <span>Correo Electrónico</span>
+                            <span>Correo electrónico</span>
                         </div>
                         <div class="detail-content">{{data.correo}}</div>
                     </div>

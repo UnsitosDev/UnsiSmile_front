@@ -23,6 +23,13 @@ export interface FormSection {
     questions: Question[];
     status: string;
     requiresReview: boolean;
+    reviewStatus: reviewStatus;
+}
+
+export interface reviewStatus {
+    idReviewStatus: number;
+    status: string;
+    message: string;
 }
 
 export interface SubSection {

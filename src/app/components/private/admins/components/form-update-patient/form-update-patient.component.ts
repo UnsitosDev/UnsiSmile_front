@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -19,14 +19,13 @@ import { PatientService } from 'src/app/services/patient/patient.service';
   selector: 'app-form-update-patient',
   standalone: true,
   imports: [
-    CommonModule, 
     MatCardModule,
     ReactiveFormsModule,
     MatStepperModule,
     MatButtonModule,
     FieldComponentComponent,
     AlertComponent
-  ],
+],
   templateUrl: './form-update-patient.component.html',
   styleUrl: './form-update-patient.component.scss'
 })

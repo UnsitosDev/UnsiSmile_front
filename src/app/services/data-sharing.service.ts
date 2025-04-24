@@ -20,4 +20,11 @@ export class DataSharingService {
   setPatientData(data: any) {
     this.patientDataSubject.next(data);
   }
+
+  private areaDataSubject = new BehaviorSubject<any>(null);
+  areaData$ = this.areaDataSubject.asObservable();
+
+  setAreaData(data: any) {
+    this.areaDataSubject.next(data);
+  }
 }

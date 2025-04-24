@@ -1,0 +1,89 @@
+::ng-deep .mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 1rem;
+  color: var(--side-text);
+  margin-bottom: 1rem !important;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  text-align: center; 
+  display: flex;     
+  justify-content: center; 
+}
+
+.mat-mdc-card {
+  background-color: var(--on-primary);
+  overflow: hidden;
+}
+
+.dialog-content {
+  padding: 1.5rem;
+}
+
+.message-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--input-color);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+}
+
+.question-icon {
+  font-size: 2rem;
+  color: var(--subtext);
+}
+
+p {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin: 0;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center; // Centrar los botones horizontalmente
+  gap: 2rem; // Aumentar el espacio entre botones
+  margin-top: 1rem;
+}
+
+.cancel-button {
+  background-color: var(--status-red); // Color rojo para el botón "No"
+  color: white; // Texto blanco para contraste
+}
+
+.card-header {
+  position: relative;
+  width: 100%;
+}
+
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--input-icon-color);
+  padding: 0;
+  width: 45px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  outline: none !important;
+  
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+::ng-deep .custom-dialog-container .mat-mdc-dialog-surface {
+  padding: 0 !important;
+  overflow: hidden !important;
+  background-color: var(--secondary);
+}

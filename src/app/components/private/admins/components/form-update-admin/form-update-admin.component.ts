@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -23,7 +23,6 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-form-update-admin',
   standalone: true,
   imports: [
-    CommonModule,
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
@@ -33,7 +32,7 @@ import { ToastrService } from 'ngx-toastr';
     FieldComponentComponent,
     AlertComponent,
     MatCardModule
-  ],
+],
   templateUrl: './form-update-admin.component.html',
   styleUrl: './form-update-admin.component.scss'
 })

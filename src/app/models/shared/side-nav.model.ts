@@ -63,6 +63,12 @@ export const AdminItems: MenuItem[] = [
     routerlink: '/admin/admins'
   },
   {
+    fontAwesomeIcon: faFileArrowDown,
+    buttonText: 'Areas',
+    buttonDescription: 'Crear nueva area',
+    routerlink: '/admin/areas'
+  },
+  {
     fontAwesomeIcon: faFileUpload,
     buttonText: 'Cargar Alumnos',
     buttonDescription: 'Subir Excel de Alumnos.',
@@ -77,6 +83,21 @@ export const AdminItems: MenuItem[] = [
 ];
 
 export const ProfessorItems: MenuItem[] = [
+  {
+    fontAwesomeIcon: faHome,
+    buttonText: 'Inicio',
+    buttonDescription: 'Información relevante',
+    routerlink: '/professor/dashboard'
+  },
+  {
+    fontAwesomeIcon: faHospitalUser,
+    buttonText: 'Estudiantes',
+    buttonDescription: 'Ver estudiantes',
+    routerlink: '/professor/students'
+  }
+];
+
+export const ProfessorClinicalAlreaItems: MenuItem[] = [
   {
     fontAwesomeIcon: faHome,
     buttonText: 'Inicio',

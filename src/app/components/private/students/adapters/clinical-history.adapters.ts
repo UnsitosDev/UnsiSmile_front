@@ -24,7 +24,9 @@ export function mapFormSectionToFormSectionFields(section: FormSection): formSec
         component: determineSeccion(section), 
         isAnswered: section.isAnswered, // Verifica si la sección ha sido respondida
         idFormSection: section.idFormSection,
-        status: section.status,
+        status: section.reviewStatus.status,
+        idReviewStatus: section.reviewStatus.idReviewStatus,
+        message: section.reviewStatus.message,
         requiresReview: section.requiresReview
     };
 }

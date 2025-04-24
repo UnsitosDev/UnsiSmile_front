@@ -191,6 +191,34 @@ export default [
                 ]
             },
             {
+                path: 'create-area',
+                loadComponent: () =>
+                    import('./components/form-create-area/form-create-area.component').then(
+                        (m) => m.FormCreateAreaComponent
+                    ),
+            },
+            {
+                path: 'areas',
+                loadComponent: () =>
+                    import('./components/table-area-admin/table-area-admin.component').then(
+                        (m) => m.TableAreaAdminComponent
+                    ),
+            },
+            {
+                path: 'clinical-area/:id', // Modificado para incluir el parámetro
+                loadComponent: () =>
+                    import('./components/form-clinical-area/form-clinical-area.component').then(
+                        (m) => m.FormClinicalAreaComponent
+                    ),
+            },
+            {
+                path: 'professors-area/:id',
+                loadComponent: () =>
+                    import('./components/table-professor-clinical/table-professor-clinical.component').then(
+                        (m) => m.TableProfessorClinicalComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

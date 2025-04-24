@@ -33,11 +33,13 @@ import { MenuAssessMedicalHistoryComponent } from "../../../../proffessor/compon
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
+import { ProfilaxisComponent } from "../../../components/profilaxis/profilaxis.component";
+import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
 
 @Component({
   selector: 'app-preventive-dentistry-public-health',
   standalone: true,
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent],
+  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent, ProfilaxisComponent, HeaderHistoryClinicComponent],
   templateUrl: './preventive-dentistry-public-health.component.html',
   styleUrl: './preventive-dentistry-public-health.component.scss'
 })
@@ -49,7 +51,7 @@ export class PreventiveDentistryPublicHealthComponent {
   private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   private id!: number;
-  private idpatient!: string;
+  public idpatient!: string;
   private userService = inject(AuthService);
   private token!: string;
   private tokenData!: TokenData;
@@ -75,8 +77,6 @@ export class PreventiveDentistryPublicHealthComponent {
   public role!: string;
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-  public STATUS = STATUS;
-  public ROL = ROLES;
 
   constructor() { }
 
@@ -91,8 +91,16 @@ export class PreventiveDentistryPublicHealthComponent {
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = this.processMappedData(mappedData, this.role);
           this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
+          this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+          this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
           this.getFirstTab();
           this.getStatusHc();
+          const processedData = this.getTabsforReview(this.mappedHistoryData);
+          if (processedData) {
+            this.mappedHistoryData = processedData;
+          } else if (this.role === ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+            return;
+          }
         }
       });
       this.fetchPatientData();
@@ -120,11 +128,28 @@ export class PreventiveDentistryPublicHealthComponent {
     });
   }
 
+  private getTabsforReview(historyData: dataTabs): dataTabs | null {
+    if (this.role !== ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+      return historyData;
+    }
+
+    const filteredData = {
+      ...historyData,
+      tabs: historyData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW)
+    };
+
+    if (filteredData.tabs.length === 0) {
+      this.route.navigate(['/professor/history-clinics']);
+      return null;
+    }
+
+    return filteredData;
+  }
+  
   getFirstTab() {
     if (this.mappedHistoryData.tabs.length > 0) {
       this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
       this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
-      console.log(this.currentSectionId);
     }
   }
 
@@ -245,30 +270,10 @@ export class PreventiveDentistryPublicHealthComponent {
 
   status: StatusClinicalHistoryResponse | null = null;
 
-  statusMap: { [key: string]: string } = {
-    IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
-    APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
-    REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
-  };
 
   onTabChange(index: number) {
     this.currentIndex = index;
     this.getStatusHc();
-  }
-
-  openConfirmDialog() {
-    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
-    const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      width: '300px',
-      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: currentTab.idFormSection },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getStatus = true;
-        this.getStatusHc(true);
-      }
-    });
   }
 
   getStatusHc(forceRequest: boolean = false) {
@@ -295,11 +300,6 @@ export class PreventiveDentistryPublicHealthComponent {
           console.error(error);
         },
       });
-  }
-
-
-  translateStatus(status: string): string {
-    return this.statusMap[status] || status;
   }
 
   onNextTab(): void {

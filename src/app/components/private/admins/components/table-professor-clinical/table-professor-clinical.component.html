@@ -1,0 +1,15 @@
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Profesores del área: {{areaName}}</strong></mat-card-title>
+</mat-card>
+<br>
+
+<app-tabla-data
+  [titulo]="title"
+  [columns]="columns"
+  [data]="professorsList"
+  [totalItems]="totalElements"
+  [showDeleteIcon]="true"
+  (pageChange)="onPageChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (action)="onAction($event)">
+</app-tabla-data>
