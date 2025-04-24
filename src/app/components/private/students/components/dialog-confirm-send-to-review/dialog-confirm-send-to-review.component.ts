@@ -10,6 +10,7 @@ import { ProfessorClinicalAreaResponse } from 'src/app/models/clinical-areas/cli
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
 import { MatCardModule } from '@angular/material/card';
+import { ToastrService } from 'ngx-toastr';
 
 interface sendToReview {
   idPatientClinicalHistory: number;
@@ -26,6 +27,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<DialogConfirmSendToReviewComponent>);
   private apiService = inject(ApiService);
   public data = inject(MAT_DIALOG_DATA) as sendToReview;
+  public toastr = inject(ToastrService);
   public professorAreasData!: PaginatedData<ProfessorClinicalAreaResponse>;
   public selectedProfessorId: number | null = null;
   private currentPage = 0;
@@ -97,6 +99,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          this.toastr.success('Enviado a revisión');
           this.dialogRef.close(true);
         },
         error: (error) => {
