@@ -146,8 +146,28 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  selectHistoryToReview(history: ClinicalHistory) {
+  selectHistoryToProfessor(history: ClinicalHistory) {
     this.pushUrl = 'professor'
+    this.dialogRef.close();
+    this.getConfigHistoriesToReview();
+    const existingHistory = this.patientConfigHistories.find(h =>
+      h.clinicalHistoryName === history.clinicalHistoryName &&
+      h.patientClinicalHistoryId !== 0 &&
+      h.patientId !== 0
+    );
+
+    if (existingHistory) {
+      // Usar el ID de la historia clínica existente
+      this.idPatientClinicalHistory = existingHistory.patientClinicalHistoryId;
+      // Navegar a la historia clínica existente
+      this.navigateToHistory(history, this.idPatientClinicalHistory);
+    } else {
+      this.toastr.error("Historia clínica no disponible. Aún no ha sido creada por el alumno.");
+    }
+  }
+
+  selectHistoryToReview(history: ClinicalHistory) {
+    this.pushUrl = 'professor-clinical-area'
     this.dialogRef.close();
     this.getConfigHistoriesToReview();
     const existingHistory = this.patientConfigHistories.find(h =>

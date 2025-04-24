@@ -1,6 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatCard, MatCardModule } from '@angular/material/card';
-import { MenuAssessMedicalHistoryComponent } from "../../../proffessor/components/menu-assess-medical-history/menu-assess-medical-history.component";
+import { MenuAssessMedicalHistoryComponent } from "../../../professor-clinical-area/components/menu-assess-medical-history/menu-assess-medical-history.component";
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';

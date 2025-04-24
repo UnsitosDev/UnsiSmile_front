@@ -102,19 +102,13 @@ export const ProfessorClinicalAlreaItems: MenuItem[] = [
     fontAwesomeIcon: faHome,
     buttonText: 'Inicio',
     buttonDescription: 'Información relevante',
-    routerlink: '/professor/dashboard'
-  },
-  {
-    fontAwesomeIcon: faHospitalUser,
-    buttonText: 'Estudiantes',
-    buttonDescription: 'Ver estudiantes',
-    routerlink: '/professor/students'
+    routerlink: '/professor-clinical-area/dashboard'
   },
   {
     fontAwesomeIcon: faFileClipboard,
     buttonText: 'Historias Clinicas',
     buttonDescription: 'Revisar Historias Clinicas',
-    routerlink: '/professor/history-clinics'
+    routerlink: '/professor-clinical-area/history-clinics'
   }
 ];
 
