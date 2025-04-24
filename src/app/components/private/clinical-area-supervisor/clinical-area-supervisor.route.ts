@@ -4,12 +4,12 @@ export default [
     {
         path: '',
         loadComponent: () =>
-            import('./components/layout-clinical-area-supervisor/layout-professor-clinical-area.component').then(
+            import('./components/layout-clinical-area-supervisor/layout-clinical-area-supervisor.component').then(
                 (m) => m.LayoutClinicalAreaSupervisorComponent
             ),
         children: [
             {
-                path: 'professor-clinical-area',
+                path: 'clinical-area-supervisor',
                 children: [
                     {
                         path: '',

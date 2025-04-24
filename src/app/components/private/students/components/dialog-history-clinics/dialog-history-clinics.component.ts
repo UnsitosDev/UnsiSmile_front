@@ -167,7 +167,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
   }
 
   selectMedicalRecordReview(history: ClinicalHistory) {
-    this.pushUrl = 'professor-clinical-area'
+    this.pushUrl = 'clinical-area-supervisor'
     this.dialogRef.close();
     this.getConfigHistoriesToReview();
     const existingHistory = this.patientConfigHistories.find(h =>
@@ -204,7 +204,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
         this.router.navigate([`/${this.pushUrl}/oral-surgery`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'medical-record-id', patientHistoryId]);
         break;
       case 'Odontología preventiva y salud pública':
-        this.router.navigate([`/${this.pushUrl}/preventiveDentistryPublicHealth`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'medical-record-id', patientHistoryId]);
+        this.router.navigate([`/${this.pushUrl}/preventive-dentistry-public-health`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'medical-record-id', patientHistoryId]);
         break;
       default:
         console.error('Historia clínica no válida');
