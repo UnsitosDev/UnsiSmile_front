@@ -106,7 +106,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
           const processedData = this.getTabsforReview(this.mappedHistoryData);
           if (processedData) {
             this.mappedHistoryData = processedData;
-          } else if (this.role === ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+          } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
             return;
           }
         }
@@ -137,7 +137,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   }
 
   private getTabsforReview(historyData: dataTabs): dataTabs | null {
-    if (this.role !== ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+    if (this.role !== ROLES.CLINICAL_AREA_SUPERVISOR) {
       return historyData;
     }
 
@@ -147,7 +147,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     };
 
     if (filteredData.tabs.length === 0) {
-      this.route.navigate(['/professor/history-clinics']);
+      this.route.navigate(['/clinical-area-supervisor/history-clinics']);
       return null;
     }
 

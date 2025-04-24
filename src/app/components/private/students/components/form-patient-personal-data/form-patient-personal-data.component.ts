@@ -250,7 +250,7 @@ export class FormPatientPersonalDataComponent {
  
    onAgeStatusChange(isMinor: boolean) {
      this.minorPatient = isMinor;
-     
+
      // Si es menor de edad, automáticamente necesita tutor sin importar la discapacidad
      if (isMinor) {
        this.needsGuardian = true;
@@ -449,3 +449,4 @@ export class FormPatientPersonalDataComponent {
    }
  
  }
+ 

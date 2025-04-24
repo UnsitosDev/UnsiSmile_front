@@ -4,12 +4,12 @@ export default [
     {
         path: '',
         loadComponent: () =>
-            import('./components/layout/proffessor-layout.component').then(
-                (m) => m.ProffesorLayoutComponent
+            import('./components/layout-clinical-area-supervisor/layout-clinical-area-supervisor.component').then(
+                (m) => m.LayoutClinicalAreaSupervisorComponent
             ),
         children: [
             {
-                path: 'students',
+                path: 'clinical-area-supervisor',
                 children: [
                     {
                         path: '',
@@ -23,14 +23,14 @@ export default [
             {
                 path: 'dashboard',
                 loadComponent: () =>
-                    import('../proffessor/components/dashboard/dashboard.component').then(
-                        (m) => m.DashboardComponent
+                    import('./components/dashboard/dashboard.component').then(
+                        (m) => m.DashboardProfessorClinicalComponent
                     ),
             },
             {
                 path: 'history-clinics',
                 loadComponent: () =>
-                    import('../clinical-area-supervisor/components/review-medical-record/review-medical-record.component').then(
+                    import('./components/review-medical-record/review-medical-record.component').then(
                         (m) => m.ReviewMedicalRecordComponent
                     ),
             },
