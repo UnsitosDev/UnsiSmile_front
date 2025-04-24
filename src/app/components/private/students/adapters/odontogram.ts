@@ -10,9 +10,10 @@ export function mapOdontogramResponseToOdontogramData(
 ): IOdontogramHandler {
   // Helper function to map conditions
   const mapConditions = (conditions: any[]): ICondition[] => {
-    return conditions.map((cond) => ({
-      ...cond,
-      idCondition: Number(cond.condition),
+    return conditions.map((condition) => ({
+      ...condition,
+      idCondition: condition.idCondition != null ? Number(condition.idCondition) : null,
+      // asignar otros campos si existen...
     }));
   };
 
@@ -25,12 +26,11 @@ export function mapOdontogramResponseToOdontogramData(
     }));
   };
 
-  // Helper function to map teeth
+  // En el mapeo de un diente
   const mapTeeth = (teeth: any[]): ITooth[] => {
     return teeth.map((tooth) => ({
       ...tooth,
       idTooth: Number(tooth.idTooth),
-      //si existe una condicion con id 3, se marca como removido
       status: tooth.conditions.find((cond: ICondition) => cond.idCondition === Constants.REMOVED_TOOTH_ID) ? false : true,
       conditions: mapConditions(tooth.conditions),
       faces: mapFaces(tooth.faces),

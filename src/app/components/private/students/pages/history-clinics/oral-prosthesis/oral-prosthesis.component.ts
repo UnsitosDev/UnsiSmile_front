@@ -28,7 +28,7 @@ import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { HttpHeaders } from '@angular/common/http';
 import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
-import { MenuAssessMedicalHistoryComponent } from "../../../../proffessor/components/menu-assess-medical-history/menu-assess-medical-history.component";
+import { MenuAssessMedicalHistoryComponent } from "../../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component";
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
@@ -96,7 +96,7 @@ export class OralProsthesisComponent {
           const processedData = this.getTabsforReview(this.mappedHistoryData);
           if (processedData) {
             this.mappedHistoryData = processedData;
-          } else if (this.role === ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+          } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
             return;
           }
         }
@@ -127,7 +127,7 @@ export class OralProsthesisComponent {
   }
 
   private getTabsforReview(historyData: dataTabs): dataTabs | null {
-    if (this.role !== ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+    if (this.role !== ROLES.CLINICAL_AREA_SUPERVISOR) {
       return historyData;
     }
 
@@ -137,7 +137,7 @@ export class OralProsthesisComponent {
     };
 
     if (filteredData.tabs.length === 0) {
-      this.route.navigate(['/professor/history-clinics']);
+      this.route.navigate(['/clinical-area-supervisor/history-clinics']);
       return null;
     }
 

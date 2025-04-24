@@ -58,7 +58,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
       case ROLES.STUDENT:
         this.getConfigHistories();
         break;
-      case ROLES.ROLE_CLINICAL_AREA_SUPERVISOR:
+      case ROLES.CLINICAL_AREA_SUPERVISOR:
         this.getConfigHistoriesToReview();
         break;
       default:
@@ -98,7 +98,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
 
   pushUrl = '';
 
-  selectHistory(history: ClinicalHistory) {
+  selectMedicalRecordStudent(history: ClinicalHistory) {
     this.pushUrl = 'students'
     this.dialogRef.close();
     this.getConfigHistories();
@@ -126,7 +126,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  selectHistoryAdmin(history: ClinicalHistory) {
+  selectMedicalRecordAdmin(history: ClinicalHistory) {
     this.pushUrl = 'admin'
     this.dialogRef.close();
     this.getConfigHistories();
@@ -146,8 +146,28 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  selectHistoryToReview(history: ClinicalHistory) {
+  selectMedicalRecordProfessor(history: ClinicalHistory) {
     this.pushUrl = 'professor'
+    this.dialogRef.close();
+    this.getConfigHistoriesToReview();
+    const existingHistory = this.patientConfigHistories.find(h =>
+      h.clinicalHistoryName === history.clinicalHistoryName &&
+      h.patientClinicalHistoryId !== 0 &&
+      h.patientId !== 0
+    );
+
+    if (existingHistory) {
+      // Usar el ID de la historia clínica existente
+      this.idPatientClinicalHistory = existingHistory.patientClinicalHistoryId;
+      // Navegar a la historia clínica existente
+      this.navigateToHistory(history, this.idPatientClinicalHistory);
+    } else {
+      this.toastr.error("Historia clínica no disponible. Aún no ha sido creada por el alumno.");
+    }
+  }
+
+  selectMedicalRecordReview(history: ClinicalHistory) {
+    this.pushUrl = 'clinical-area-supervisor'
     this.dialogRef.close();
     this.getConfigHistoriesToReview();
     const existingHistory = this.patientConfigHistories.find(h =>
@@ -169,22 +189,22 @@ export class DialogHistoryClinicsComponent implements OnInit {
   navigateToHistory(history: ClinicalHistory, patientHistoryId: number) {
     switch (history.clinicalHistoryName) {
       case 'General':
-        this.router.navigate([`/${this.pushUrl}/general`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'patientHistoryId', patientHistoryId]);
+        this.router.navigate([`/${this.pushUrl}/general`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'medical-record-id', patientHistoryId]);
         break;
       case 'Prótesis bucal':
-        this.router.navigate([`/${this.pushUrl}/oralProsthesis`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'patientHistoryId', patientHistoryId]);
+        this.router.navigate([`/${this.pushUrl}/oral-prosthesis`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'medical-record-id', patientHistoryId]);
         break;
       case 'Periodoncia':
-        this.router.navigate([`/${this.pushUrl}/periodontics`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'patientHistoryId', patientHistoryId]);
+        this.router.navigate([`/${this.pushUrl}/periodontics`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'medical-record-id', patientHistoryId]);
         break;
       case 'Operatoria dental':
-        this.router.navigate([`/${this.pushUrl}/dentalOperation`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'patientHistoryId', patientHistoryId]);
+        this.router.navigate([`/${this.pushUrl}/dental-operation`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'medical-record-id', patientHistoryId]);
         break;
       case 'Cirugía bucal':
-        this.router.navigate([`/${this.pushUrl}/oralSurgery`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'patientHistoryId', patientHistoryId]);
+        this.router.navigate([`/${this.pushUrl}/oral-surgery`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'medical-record-id', patientHistoryId]);
         break;
       case 'Odontología preventiva y salud pública':
-        this.router.navigate([`/${this.pushUrl}/preventiveDentistryPublicHealth`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'patientHistoryId', patientHistoryId]);
+        this.router.navigate([`/${this.pushUrl}/preventive-dentistry-public-health`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'medical-record-id', patientHistoryId]);
         break;
       default:
         console.error('Historia clínica no válida');
