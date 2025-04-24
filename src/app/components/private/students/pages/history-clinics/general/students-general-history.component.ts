@@ -147,7 +147,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     };
 
     if (filteredData.tabs.length === 0) {
-      this.route.navigate(['/professor-clinical-area/history-clinics']);
+      this.route.navigate(['/clinical-area-supervisor/history-clinics']);
       return null;
     }
 

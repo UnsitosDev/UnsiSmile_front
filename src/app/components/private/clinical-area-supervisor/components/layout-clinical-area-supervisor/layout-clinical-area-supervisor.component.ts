@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
 
 @Component({
-  selector: 'app-layout-professor-clinical-area',
+  selector: 'app-layout-clinical-area-supervisor',
   standalone: true,
   imports: [
     RouterOutlet, SideNavComponent, HeaderComponent,
