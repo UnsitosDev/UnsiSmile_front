@@ -4,7 +4,7 @@ import { AuthService } from '@mean/services';
 import { Router } from '@angular/router';
 import { ROLES } from '../utils/roles';
 
-export const professorClinicalGuard: CanActivateFn = (route, state) => {
+export const clinicalAreaSupervisorGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const ROL = ROLES;
