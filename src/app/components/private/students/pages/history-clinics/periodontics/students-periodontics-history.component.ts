@@ -95,7 +95,7 @@ export class StudentsPeriodonticsHistoryComponent {
           const processedData = this.getTabsforReview(this.mappedHistoryData);
           if (processedData) {
             this.mappedHistoryData = processedData;
-          } else if (this.role === ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+          } else if (this.role === ROLES.PROFESSOR_CLINICAL_AREA) {
             return;
           }
         }
@@ -126,7 +126,7 @@ export class StudentsPeriodonticsHistoryComponent {
   }
 
   private getTabsforReview(historyData: dataTabs): dataTabs | null {
-    if (this.role !== ROLES.ROLE_CLINICAL_AREA_SUPERVISOR) {
+    if (this.role !== ROLES.PROFESSOR_CLINICAL_AREA) {
       return historyData;
     }
 

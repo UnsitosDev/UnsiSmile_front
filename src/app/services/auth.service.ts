@@ -57,7 +57,7 @@ export class AuthService {
       route = returnUrl ? `/${returnUrl}` : '/admin';
     } else if (role === 'ROLE_PROFESSOR') {
       route = returnUrl ? `/${returnUrl}` : '/professor';
-    } else if (role === this.ROL.ROLE_CLINICAL_AREA_SUPERVISOR) {
+    } else if (role === this.ROL.PROFESSOR_CLINICAL_AREA) {
       route = returnUrl ? `/${returnUrl}` : '/professor-clinical-area';
     }
 
