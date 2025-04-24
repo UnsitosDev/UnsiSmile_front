@@ -92,8 +92,8 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   isEditing = false;
   renderOdontogram = false;
 
-  data: IOdontogramHandler = createOdontogramHandler();
-  odontogram: IOdontogram = { teeth: [] };
+  data: IOdontogramHandler = createOdontogramHandler(); //odontograma que se renderiza
+  odontogram: IOdontogram = { teeth: [] }; //odontograma que se insertará
   options: ICondition[] = [];
   faces: IFace[] = [];
   toolbar: { options: ICondition[] } = { options: [] };
@@ -121,7 +121,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         this.loadExistingOdontogramByIdForm();
         break;
       case 'read':
-        this.loadExistingOdontogram();
+        this.loadExistingOdontogramByIdForm();
         break;
       case 'read-latest':
         this.loadLatestExistingOdontogram();
@@ -134,28 +134,35 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         url: `${UriConstants.GET_LAST_ODONTOGRAM_BY_PATIENT}/${this.patientId}`,
       })
       .subscribe({
-        next: (response) => {
+        next: (response: OdontogramResponse) => {
+          // Update data for rendering
           this.data = this.mapResponseToOdontogram(response);
+
           this.renderOdontogram = true;
         },
         error: (error) => {
           this.renderOdontogram = false;
+          this.toastr.error('Error al cargar el odontograma', 'Error');
         },
       });
   }
 
   loadExistingOdontogramByIdForm() {
-    //obtener el odontograma por idFormSection y por idPatientClinicalHistory
     this.odontogramService
       .getService({
-        url: `${UriConstants.GET_ODONTOGRAM_BY_FORM_ID}/${this.idFormSection}/${this.patientId}`,
+        url: `${UriConstants.GET_ODONTOGRAM_BY_FORM_ID}/form-section/${this.idFormSection}/patient/${this.patientId}`,
       })
       .subscribe({
-        next: (response) => {
+        next: (response: OdontogramResponse) => {
+          // Update data for rendering
           this.data = this.mapResponseToOdontogram(response);
+
           this.renderOdontogram = true;
         },
-        error: (error) => {},
+        error: (error) => {
+          this.renderOdontogram = false;
+          this.toastr.error('Error al cargar el odontograma', 'Error');
+        },
       });
   }
 
@@ -448,23 +455,25 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   storeOdontogram(): void {
     const odontogramStore: OdontogramPost = this.mapOdontogramToPost();
 
-    this.odontogramService
-      .postService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_ODONTOGRAM}`,
-        data: odontogramStore,
-      })
-      .subscribe({
-        next: (response) => {
-          this.nextMatTab.emit();
-          this.nextTabEventEmitted.emit(false);
-        },
-        error: (error) => {
-          console.error('Error storing odontogram:', error);
-        },
-      });
+    console.log(odontogramStore);
+
+    // this.odontogramService
+    //   .postService({
+    //     headers: new HttpHeaders({
+    //       'Content-Type': 'application/json',
+    //     }),
+    //     url: `${UriConstants.POST_ODONTOGRAM}`,
+    //     data: odontogramStore,
+    //   })
+    //   .subscribe({
+    //     next: (response) => {
+    //       this.nextMatTab.emit();
+    //       this.nextTabEventEmitted.emit(false);
+    //     },
+    //     error: (error) => {
+    //       console.error('Error storing odontogram:', error);
+    //     },
+    //   });
   }
 
   previousTab() {
