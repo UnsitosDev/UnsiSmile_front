@@ -8,10 +8,10 @@ import { HeaderComponent, SideNavComponent } from '@mean/shared';
   imports: [
     RouterOutlet, SideNavComponent, HeaderComponent,
   ],
-  templateUrl: './layout-professor-clinical-area.component.html',
-  styleUrl: './layout-professor-clinical-area.component.scss'
+  templateUrl: './layout-clinical-area-supervisor.component.html',
+  styleUrl: './layout-clinical-area-supervisor.component.scss'
 })
-export class LayoutProfessorClinicalAreaComponent {
+export class LayoutClinicalAreaSupervisorComponent {
   isSidebarOpen = false; // Cambiamos el valor inicial a false
 
   ngOnInit() {

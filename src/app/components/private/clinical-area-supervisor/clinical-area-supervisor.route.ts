@@ -4,8 +4,8 @@ export default [
     {
         path: '',
         loadComponent: () =>
-            import('./components/layout-professor-clinical-area/layout-professor-clinical-area.component').then(
-                (m) => m.LayoutProfessorClinicalAreaComponent
+            import('./components/layout-clinical-area-supervisor/layout-professor-clinical-area.component').then(
+                (m) => m.LayoutClinicalAreaSupervisorComponent
             ),
         children: [
             {

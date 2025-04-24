@@ -30,7 +30,7 @@ export default [
             {
                 path: 'history-clinics',
                 loadComponent: () =>
-                    import('../professor-clinical-area/components/review-history-clinics/review-history-clinics.component').then(
+                    import('../clinical-area-supervisor/components/review-history-clinics/review-history-clinics.component').then(
                         (m) => m.ReviewHistoryClinicsComponent
                     ),
             },
