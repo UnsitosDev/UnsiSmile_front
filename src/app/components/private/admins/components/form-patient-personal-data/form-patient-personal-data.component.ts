@@ -113,13 +113,13 @@ export class FormPatientPersonalDataComponent {
       );
     });
 
-    // Agregamos un observador para el campo de discapacidad
     this.formGroup.get('hasDisability')?.valueChanges.subscribe(value => {
       const newValue = value === 'true';
       
-      // Si cambia de falso a verdadero, mostrar el diálogo
-      if (newValue && !this.disabledPatient) {
+      if (newValue && !this.disabledPatient && !this.minorPatient) {
         this.showGuardianConfirmDialog();
+      } else if (this.minorPatient) {
+        this.needsGuardian = true;
       }
       
       this.disabledPatient = newValue;
@@ -147,7 +147,6 @@ export class FormPatientPersonalDataComponent {
     });
   }
 
-  // Modificamos el método del diálogo para forzar la detección de cambios
   showGuardianConfirmDialog(): void {
     const dialogRef = this.dialog.open(DialogConfirmGuardianComponent, {
       width: '500px',
@@ -250,6 +249,14 @@ export class FormPatientPersonalDataComponent {
 
   onAgeStatusChange(isMinor: boolean) {
     this.minorPatient = isMinor;
+    
+    // Si es menor de edad, automáticamente necesita tutor sin importar la discapacidad
+    if (isMinor) {
+      this.needsGuardian = true;
+    } else {
+      // Si no es menor de edad, la necesidad de tutor depende de la discapacidad
+      this.needsGuardian = this.disabledPatient && this.needsGuardian;
+    }
   }
 
   private validateEthnicGroup(value: string): boolean {
