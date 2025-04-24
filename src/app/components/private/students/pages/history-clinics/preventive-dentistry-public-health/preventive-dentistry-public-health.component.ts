@@ -29,7 +29,7 @@ import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { HttpHeaders } from '@angular/common/http';
 import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
-import { MenuAssessMedicalHistoryComponent } from "../../../../professor-clinical-area/components/menu-assess-medical-history/menu-assess-medical-history.component";
+import { MenuAssessMedicalHistoryComponent } from "../../../../clinical-area-supervisor/components/menu-assess-medical-history/menu-assess-medical-history.component";
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';

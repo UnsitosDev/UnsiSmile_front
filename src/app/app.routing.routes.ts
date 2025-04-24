@@ -32,7 +32,7 @@ const routes: Routes = [
   {
     path: 'professor-clinical-area',
     loadChildren: () =>
-      import('./components/private/professor-clinical-area/professor.clinical.route'),
+      import('./components/private/clinical-area-supervisor/professor.clinical.route'),
     canActivate: [professorClinicalGuard, PasswordChangeGuard],
   },
   {

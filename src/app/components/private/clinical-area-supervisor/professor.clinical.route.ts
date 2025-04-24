@@ -23,14 +23,14 @@ export default [
             {
                 path: 'dashboard',
                 loadComponent: () =>
-                    import('../professor-clinical-area/components/dashboard/dashboard.component').then(
+                    import('../clinical-area-supervisor/components/dashboard/dashboard.component').then(
                         (m) => m.DashboardProfessorClinicalComponent
                     ),
             },
             {
                 path: 'history-clinics',
                 loadComponent: () =>
-                    import('../professor-clinical-area/components/review-history-clinics/review-history-clinics.component').then(
+                    import('../clinical-area-supervisor/components/review-history-clinics/review-history-clinics.component').then(
                         (m) => m.ReviewHistoryClinicsComponent
                     ),
             },
