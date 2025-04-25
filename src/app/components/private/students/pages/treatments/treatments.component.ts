@@ -15,8 +15,6 @@ import { ActivatedRoute } from '@angular/router';
 export class TreatmentsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   public patientUuid!: string;
-  public patientData!: cardPatient;
-  public guardianData: cardGuardian | null = null;
 
   ngOnInit(): void {
     this.routeParams();
