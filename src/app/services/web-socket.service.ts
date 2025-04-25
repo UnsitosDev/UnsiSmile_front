@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
+import { UriConstants } from '@mean/utils';
 import { Client, Message, StompSubscription } from '@stomp/stompjs';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import * as SockJS from 'sockjs-client';
 import { AuthService } from './auth.service';
-import { UriConstants } from '@mean/utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WebSocketService {
   private stompClient!: Client;
@@ -14,11 +14,10 @@ export class WebSocketService {
   private connectionPromise!: Promise<void>;
   private token: string;
 
-  // Punto base del host y endpoint STOMP
-  private readonly host = 'http://localhost:8082';
-  private readonly socketEndpoint = '/unsismile/api/v1/notifications';
+  // URL base y endpoint para SockJS
+  private readonly url = `${UriConstants.HOST}/notifications`;
 
-  // Estado de la conexión observable
+  // Estado de la conexión observable (boolean)
   public notificationsStatus = new BehaviorSubject<boolean>(false);
 
   constructor(private authService: AuthService) {
@@ -27,125 +26,131 @@ export class WebSocketService {
   }
 
   /**
-   * Inicializa la conexión STOMP sobre SockJS con logging y manejo de errores.
+   * Inicializa STOMP sobre SockJS.
    */
   private initializeConnection(): void {
-    // Preparar la promesa de conexión
     this.connectionPromise = new Promise((resolve, reject) => {
-      const url = `${this.host}${this.socketEndpoint}`;
-      console.debug(`[WebSocketService] Inicializando conexión a ${url}`);
-
+      console.debug('[WebSocketService] Conectando a', this.url);
       this.stompClient = new Client({
-        webSocketFactory: () => new SockJS(url),
-        connectHeaders: {
-          Authorization: `Bearer ${this.token}`
-        },
+        webSocketFactory: () => new SockJS(this.url),
+        connectHeaders: { Authorization: `Bearer ${this.token}` },
         reconnectDelay: 5000,
-        debug: (msg: string) => console.debug(`[STOMP] ${msg}`),
+        debug: (msg) => console.debug('[STOMP]', msg),
 
         onConnect: () => {
-          console.info('[WebSocketService] Conexión STOMP establecida');
+          console.info('[WebSocketService] Conectado');
           this.isConnected = true;
           this.notificationsStatus.next(true);
           resolve();
         },
 
         onStompError: (frame) => {
-          console.error('[WebSocketService] Error STOMP:', frame);
+          console.error('[WebSocketService] STOMP Error:', frame);
           this.notificationsStatus.next(false);
           reject(frame);
         },
 
-        onWebSocketClose: (evt) => {
-          console.warn('[WebSocketService] WebSocket cerrado:', evt);
+        onWebSocketClose: (event) => {
+          console.warn('[WebSocketService] Cierre WebSocket:', event);
           this.isConnected = false;
           this.notificationsStatus.next(false);
-        }
+        },
       });
 
-      // Activar la conexión
       this.stompClient.activate();
     });
   }
 
   /**
-   * Suscribe al estudiante a su cola de feedback privado.
+   * Suscribe al canal de feedback privado del usuario.
+   * @returns Promise que resuelve en un Observable de mensajes parseados.
    */
-  public subscribeToFeedback(): Subject<Message> {
-    const subject = new Subject<Message>();
-
-    this.connectionPromise
-      .then(() => {
-        console.debug('[WebSocketService] Suscribiéndose a /user/queue/review-feedback');
-        this.stompClient.subscribe('/user/queue/review-feedback', (msg) => subject.next(msg));
-      })
-      .catch((err) => console.error('[WebSocketService] No fue posible suscribirse a feedback:', err));
-
-    return subject;
-  }
-
-  /**
-   * Suscribe a cualquier tópico público bajo /topic.
-   */
-  public subscribe(topic: string): Promise<Subject<Message>> {
+  public subscribeToFeedback<T = any>(): Promise<Observable<T>> {
     return this.connectionPromise.then(() => {
-      console.debug(`[WebSocketService] Suscribiéndose a /topic${topic}`);
-      const subject = new Subject<Message>();
-      const subscription: StompSubscription = this.stompClient.subscribe(`/topic${topic}`, (message) => {
-        subject.next(message);
-      });
-
-      subject.subscribe({ complete: () => subscription.unsubscribe() });
-      return subject;
-    }).catch(err => {
-      console.error(`[WebSocketService] Error al suscribirse a /topic${topic}:`, err);
-      throw err;
+      const subject = new Subject<T>();
+      console.debug(
+        '[WebSocketService] Suscribiendo a /user/queue/review-feedback'
+      );
+      this.stompClient.subscribe(
+        '/user/queue/review-feedback',
+        (msg: Message) => {
+          try {
+            subject.next(JSON.parse(msg.body) as T);
+          } catch (err) {
+            console.error('[WebSocketService] Error parseando feedback:', err);
+          }
+        }
+      );
+      return subject.asObservable();
     });
   }
 
   /**
-   * Publica un mensaje al servidor con autenticación JWT.
+   * Suscribe a un tópico público bajo /topic.
+   * @param topic Ruta (sin el prefijo /topic)
+   */
+  public subscribe<T = any>(topic: string): Promise<Observable<T>> {
+    return this.connectionPromise.then(() => {
+      const subject = new Subject<T>();
+      const dest = `/topic${topic}`;
+      console.debug(`[WebSocketService] Suscribiendo a ${dest}`);
+      const subscription: StompSubscription = this.stompClient.subscribe(
+        dest,
+        (msg: Message) => {
+          try {
+            subject.next(JSON.parse(msg.body) as T);
+          } catch (err) {
+            console.error('[WebSocketService] Error parseando mensaje:', err);
+          }
+        }
+      );
+      subject.subscribe({ complete: () => subscription.unsubscribe() });
+      return subject.asObservable();
+    });
+  }
+
+  /**
+   * Publica un mensaje al servidor.
+   * @param destination Ruta relativa (con /)
    */
   public send<T>(destination: string, body: T): void {
     if (!this.isConnected) {
-      console.error('[WebSocketService] Imposible enviar, WebSocket no está conectado');
-      throw new Error('Conexión WebSocket no establecida');
+      throw new Error('WebSocket no conectado');
     }
-
-    try {
-      console.debug(`[WebSocketService] Publicando en /unsismile${destination}`, body);
-      this.stompClient.publish({
-        destination: `/unsismile${destination}`,
-        body: JSON.stringify(body),
-        headers: { Authorization: `Bearer ${this.token}` }
-      });
-    } catch (err) {
-      console.error('[WebSocketService] Error al publicar mensaje:', err);
-      throw err;
-    }
+    const dest = `/unsismile/api/v1${destination}`;
+    console.debug(`[WebSocketService] Publicando en ${dest}`, body);
+    this.stompClient.publish({
+      destination: dest,
+      body: JSON.stringify(body),
+      headers: { Authorization: `Bearer ${this.token}` },
+    });
   }
 
   /**
-   * Cierra la conexión STOMP y actualiza el estado.
+   * Cierra la conexión WebSocket.
    */
   public disconnect(): void {
-    if (this.stompClient && this.isConnected) {
-      console.info('[WebSocketService] Desconectando WebSocket');
+    if (this.isConnected) {
+      console.info('[WebSocketService] Desconectando');
       this.stompClient.deactivate();
       this.isConnected = false;
       this.notificationsStatus.next(false);
-    } else {
-      console.warn('[WebSocketService] Disconnect llamado sin conexión activa');
     }
   }
 
   /**
-   * Actualiza el token JWT y reinicia la conexión.
+   * Actualiza el token y reconecta.
    */
   public updateToken(newToken: string): void {
-    console.info('[WebSocketService] Actualizando token y reiniciando conexión');
     this.token = newToken;
     this.disconnect();
     this.initializeConnection();
+  }
+
+  /**
+   * Observable del estado de conexión.
+   */
+  public getConnectionStatus(): Observable<boolean> {
+    return this.notificationsStatus.asObservable();
   }
 }
