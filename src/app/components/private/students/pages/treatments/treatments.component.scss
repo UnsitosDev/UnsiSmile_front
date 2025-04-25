@@ -1,3 +1,9 @@
-.custom-background{
+.custom-background {
     background-color: var(--on-primary);
+}
+
+.custom {
+    color: var(--on-secondary);
+    background-color: var(--secondary);
+    border: 1px var(--on-secondary);
 }

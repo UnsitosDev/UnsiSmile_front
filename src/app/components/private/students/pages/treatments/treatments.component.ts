@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import { CardPatientDataComponent } from "../../components/card-patient-data/card-patient-data.component";
+import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatTabsModule],
+  imports: [MatTabsModule, MatCardModule, CardPatientDataComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss'
 })
 export class TreatmentsComponent {
-
+  public patientData!: cardPatient;
+  public guardianData: cardGuardian | null = null;
 }

@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrat
 import { MatCardModule } from '@angular/material/card';
 import { DetailsPatientsComponent } from '../details-patients/details-patients.component';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { TreatmentsComponent } from '../../pages/treatments/treatments.component';
 
 
 @Component({
@@ -99,10 +100,8 @@ export class StudentsPatientsComponent implements OnInit {
   }
 
   editar(objeto: any) {
-    this.dialog.open(DialogHistoryClinicsComponent, {
-      width: '650px',
-      data: { objeto, role: this.role },
-    });
+    console.log(objeto);
+    this.router.navigate(['/students/treatments'], objeto);
   }
 
   eliminar(nombre: string) {

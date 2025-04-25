@@ -112,6 +112,13 @@ export default [
                 ),
             },
             {
+                path: 'treatments',
+                loadComponent: () => 
+                    import('./pages/treatments/treatments.component').then(
+                    (m) => m.TreatmentsComponent
+                ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
