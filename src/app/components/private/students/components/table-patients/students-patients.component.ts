@@ -21,6 +21,7 @@ import { MatCardModule } from '@angular/material/card';
 import { DetailsPatientsComponent } from '../details-patients/details-patients.component';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TreatmentsComponent } from '../../pages/treatments/treatments.component';
+import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
 
 
 @Component({
@@ -99,9 +100,8 @@ export class StudentsPatientsComponent implements OnInit {
     this.router.navigate(['/students/patients/updatePatient', objeto.patientID]);
   }
 
-  editar(objeto: any) {
-    console.log(objeto);
-    this.router.navigate(['/students/treatments'], objeto);
+  editar(objeto: PatientInfo) {
+    this.router.navigate(['/students/treatments/patient/' + objeto.patientID]);
   }
 
   eliminar(nombre: string) {
