@@ -17,7 +17,7 @@
                   <mat-tab [label]="tab.title">
                       @if (tab.title === 'Nota de evolución' && !tab.isAnswered) {
                         <app-progress-notes
-                        [patientId]="idpatient"
+                        [patientId]="patientUuid"
                         [data]="patientData"
                         [medicalRecordNumber]="medicalRecordNumber"
                         ></app-progress-notes>
@@ -25,11 +25,11 @@
                       @if (tab.title === 'Odontograma inicial' && !tab.isAnswered && role == 'ROLE_STUDENT') {
                           <app-students-odontogram
                           [state]="'create'" 
-                          [patientId]="idpatient" 
+                          [patientId]="patientUuid" 
                           [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                          [idClinicalHistoryPatient]=idPatientClinicalHistory
+                          [idClinicalHistoryPatient]=medicalRecordNumber
                           [idFormSection]=6
-                          [idClinicalHistoryPatient]=idPatientClinicalHistory
+                          [idClinicalHistoryPatient]=medicalRecordNumber
                           (nextMatTab)="onNextTab()"
                           (previousMatTab)="onPreviousTab()"
                           >
@@ -38,11 +38,11 @@
                       @if (tab.title === 'Odontograma inicial' && !tab.isAnswered && role == 'ROLE_ADMIN') {
                         <app-students-odontogram
                           [state]="'read'" 
-                          [patientId]="idpatient" 
+                          [patientId]="patientUuid" 
                           [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                          [idClinicalHistoryPatient]=idPatientClinicalHistory
+                          [idClinicalHistoryPatient]=medicalRecordNumber
                           [idFormSection]=6
-                          [idClinicalHistoryPatient]=idPatientClinicalHistory
+                          [idClinicalHistoryPatient]=medicalRecordNumber
                           (nextMatTab)="onNextTab()"
                           (previousMatTab)="onPreviousTab()"
                           >
@@ -51,8 +51,8 @@
                       @if (tab.title === 'Odontograma final' && !tab.isAnswered && role == 'ROLE_ADMIN') {
                           <app-students-odontogram
                           [state]="'read'" 
-                          [patientId]="idpatient"
-                          [idClinicalHistoryPatient]=idPatientClinicalHistory
+                          [patientId]="patientUuid"
+                          [idClinicalHistoryPatient]=medicalRecordNumber
                           [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
                           [idFormSection]=7
                           (nextMatTab)="onNextTab()"
@@ -63,8 +63,8 @@
                       @if (tab.title === 'Odontograma final' && !tab.isAnswered && role == 'ROLE_STUDENT') {
                           <app-students-odontogram
                           [state]="'read-latest'" 
-                          [patientId]="idpatient"
-                          [idClinicalHistoryPatient]=idPatientClinicalHistory
+                          [patientId]="patientUuid"
+                          [idClinicalHistoryPatient]=medicalRecordNumber
                           [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
                           [idFormSection]=7
                           (nextMatTab)="onNextTab()"
@@ -75,8 +75,8 @@
                       @if (tab.title === 'Odontograma final' && tab.isAnswered) {
                         <app-students-odontogram
                         [state]="'read'" 
-                        [patientId]="idpatient"
-                        [idClinicalHistoryPatient]=idPatientClinicalHistory
+                        [patientId]="patientUuid"
+                        [idClinicalHistoryPatient]=medicalRecordNumber
                         [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
                         [idFormSection]=7
                         (nextMatTab)="onNextTab()"
@@ -86,20 +86,20 @@
                     }
                       @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
                           <app-history-initial-bag
-                          [idClinicalHistoryPatient]=idPatientClinicalHistory
+                          [idClinicalHistoryPatient]=medicalRecordNumber
                           [state]="'create'"
                           [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                          [patientId]="idpatient"
+                          [patientId]="patientUuid"
                           (nextMatTab)="onNextTab()"
                           (previousMatTab)="onPreviousTab()"
                           ></app-history-initial-bag>
                       }
                       @if (tab.title === 'Medición de bolsas inicial' && tab.isAnswered) {
                         <app-history-initial-bag
-                        [idClinicalHistoryPatient]=idPatientClinicalHistory
+                        [idClinicalHistoryPatient]=medicalRecordNumber
                           [state]="'read'"
                           [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                          [patientId]="idpatient"
+                          [patientId]="patientUuid"
                           (nextMatTab)="onNextTab()"
                           (previousMatTab)="onPreviousTab()"
                           ></app-history-initial-bag>
@@ -125,11 +125,11 @@
                       @if (tab.title === 'Odontograma inicial' && tab.isAnswered) {
                         <app-students-odontogram
                           [state]="'read'" 
-                          [patientId]="idpatient" 
+                          [patientId]="patientUuid" 
                           [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                          [idClinicalHistoryPatient]=idPatientClinicalHistory
+                          [idClinicalHistoryPatient]=medicalRecordNumber
                           [idFormSection]=6
-                          [idClinicalHistoryPatient]=idPatientClinicalHistory
+                          [idClinicalHistoryPatient]=medicalRecordNumber
                           (nextMatTab)="onNextTab()"
                           (previousMatTab)="onPreviousTab()"
                           >
