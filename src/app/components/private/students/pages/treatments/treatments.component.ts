@@ -15,6 +15,9 @@ import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
 export class TreatmentsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   public patientUuid!: string;
+  private medicalRecordLoaded = false;
+  private isLoading = false;
+  medicalRecordData: any = null;
 
   ngOnInit(): void {
     this.routeParams();
@@ -24,6 +27,32 @@ export class TreatmentsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.patientUuid = params[PATIENT_UUID];
     });
+  }
+
+  onTabChanged(event: any) {
+    if (event.index === 1) {
+      if (!this.medicalRecordLoaded) {
+        this.getMedicalRecordGeneral();
+      }
+    }
+  }
+
+  getMedicalRecordGeneral() {
+    if (this.medicalRecordLoaded) {
+      return;
+    }
+
+    this.isLoading = true;
+
+    // Simulación de petición HTTP 
+    setTimeout(() => {
+      // petición HTTP simulada
+
+      this.medicalRecordData = { /* datos simulados */ };
+      this.medicalRecordLoaded = true;
+      this.isLoading = false;
+      console.log('Datos obtenidos:', this.medicalRecordData);
+    }, 1500);
   }
 
 }
