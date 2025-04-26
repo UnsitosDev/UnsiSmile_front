@@ -9,6 +9,8 @@ import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { ClinicalHistory } from 'src/app/models/history-clinic/historyClinic';
 import { StudentsGeneralHistoryComponent } from "../history-clinics/general/students-general-history.component";
+import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
+import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 
 @Component({
   selector: 'app-treatments',
@@ -20,11 +22,12 @@ import { StudentsGeneralHistoryComponent } from "../history-clinics/general/stud
 export class TreatmentsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private apiService = inject(ApiService);
+  private configMedicalRecord = inject(GeneralHistoryService);
   public patientUuid!: string;
-  public idHistoryGeneral!: number; 
+  public idHistoryGeneral!: number;
   private medicalRecordLoaded = false;
   private isLoading = false;
-  
+
   public patientConfigHistories: ClinicalHistory[] = [];
 
   ngOnInit(): void {
@@ -43,6 +46,14 @@ export class TreatmentsComponent implements OnInit {
         this.getMedicalRecordGeneral();
       }
     }
+  }
+
+  public fetchConfigMedicalRecord(idHistoryGeneral: number, patientUuid: string) {
+    this.configMedicalRecord.getHistoryClinics(patientUuid, idHistoryGeneral ).subscribe({
+      next: (mappedMedicalRecord: dataTabs) => {
+        console.log('Mapped Medical Record:', mappedMedicalRecord);
+      }
+    });
   }
 
   public getMedicalRecordGeneral() {
@@ -73,7 +84,7 @@ export class TreatmentsComponent implements OnInit {
           this.patientConfigHistories = response.filter(
             (history) => history.clinicalHistoryName == "General"
           );
-          this.idHistoryGeneral = this.patientConfigHistories[0].patientClinicalHistoryId;        
+          this.idHistoryGeneral = this.patientConfigHistories[0].patientClinicalHistoryId;
           this.checkMedicalRecordExistence();
         },
         error: (error) => {
@@ -89,9 +100,10 @@ export class TreatmentsComponent implements OnInit {
 
     if (generalHistory) {
       console.log('La historia clínica general existe');
+      this.fetchConfigMedicalRecord(this.idHistoryGeneral, this.patientUuid);
     } else {
       console.log('La historia clínica general no existe');
-      this.createMedicalRecord(); 
+      this.createMedicalRecord();
     }
   }
 
