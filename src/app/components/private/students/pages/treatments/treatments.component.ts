@@ -11,11 +11,12 @@ import { ClinicalHistory } from 'src/app/models/history-clinic/historyClinic';
 import { StudentsGeneralHistoryComponent } from "../history-clinics/general/students-general-history.component";
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
+import { MedicalRecordGeneralTreatmentsComponent } from "../medical-records-treatments/medical-record-general-treatments/medical-record-general-treatments.component";
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatTabsModule, MatCardModule, CardPatientDataComponent, StudentsGeneralHistoryComponent],
+  imports: [MatTabsModule, MatCardModule, CardPatientDataComponent, StudentsGeneralHistoryComponent, MedicalRecordGeneralTreatmentsComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss'
 })
@@ -26,6 +27,7 @@ export class TreatmentsComponent implements OnInit {
   public medicalRecord!: dataTabs;
   public patientUuid!: string;
   public idHistoryGeneral!: number;
+  public patientMedicalRecord!: number;
   public medicalRecordLoaded = false;
   private isLoading = false;
 
@@ -86,6 +88,7 @@ export class TreatmentsComponent implements OnInit {
             (history) => history.clinicalHistoryName == "General"
           );
           this.idHistoryGeneral = this.patientConfigHistories[0].patientClinicalHistoryId;
+          this.patientMedicalRecord = this.patientConfigHistories[0].patientClinicalHistoryId;
           this.checkMedicalRecordExistence();
         },
         error: (error) => {

@@ -44,7 +44,9 @@ import { HeaderHistoryClinicComponent } from "../../../components/header-history
 })
 export class MedicalRecordGeneralTreatmentsComponent {
   @Input() idPatient: number = 0;
-  @Input() medicalRecord!: dataTabs;
+  @Input() patientUuid!: string;
+  @Input() idHistoryGeneral: number = 0;
+  @Input() patientMedicalRecord: number = 0;
   @Output() tabChange = new EventEmitter<{ firstLabel: string, previousLabel: string }>();
   private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
@@ -74,11 +76,12 @@ export class MedicalRecordGeneralTreatmentsComponent {
   currentIndex = 0;
 
   ngOnInit(): void {
-    console.log('hc', this.medicalRecord);
 
+    console.log('ID Patient:', this.patientUuid);
+    console.log('ID History General:', this.idHistoryGeneral);
     this.getRole();
 
-    this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
+    this.historyData.getHistoryClinics(this.patientUuid, this.idHistoryGeneral).subscribe({
       next: (mappedData: dataTabs) => {
         this.mappedHistoryData = this.processMappedData(mappedData, this.role);
         this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
