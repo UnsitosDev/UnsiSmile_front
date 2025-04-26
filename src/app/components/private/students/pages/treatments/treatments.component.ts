@@ -23,9 +23,10 @@ export class TreatmentsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private apiService = inject(ApiService);
   private configMedicalRecord = inject(GeneralHistoryService);
+  public medicalRecord!: dataTabs;
   public patientUuid!: string;
   public idHistoryGeneral!: number;
-  private medicalRecordLoaded = false;
+  public medicalRecordLoaded = false;
   private isLoading = false;
 
   public patientConfigHistories: ClinicalHistory[] = [];
@@ -49,9 +50,9 @@ export class TreatmentsComponent implements OnInit {
   }
 
   public fetchConfigMedicalRecord(idHistoryGeneral: number, patientUuid: string) {
-    this.configMedicalRecord.getHistoryClinics(patientUuid, idHistoryGeneral ).subscribe({
+    this.configMedicalRecord.getHistoryClinics(patientUuid, idHistoryGeneral).subscribe({
       next: (mappedMedicalRecord: dataTabs) => {
-        console.log('Mapped Medical Record:', mappedMedicalRecord);
+        this.medicalRecord = mappedMedicalRecord;
       }
     });
   }
@@ -62,9 +63,9 @@ export class TreatmentsComponent implements OnInit {
     }
 
     this.isLoading = true;
+    this.fetchMedicalRecordConfig();
 
     setTimeout(() => {
-      this.fetchMedicalRecordConfig();
       this.medicalRecordLoaded = true;
       this.isLoading = false;
     }, 200);
@@ -88,7 +89,7 @@ export class TreatmentsComponent implements OnInit {
           this.checkMedicalRecordExistence();
         },
         error: (error) => {
-          console.error('Error al obtener las historias clínicas:', error);
+          console.error(error);
         },
       });
   }

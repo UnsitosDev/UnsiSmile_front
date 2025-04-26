@@ -23,7 +23,9 @@
       <i class="fas fa-folder"></i>
       <span class="ml-2">Historia clínica general</span>
     </ng-template>
-    <app-students-general-history></app-students-general-history>
+    @if (medicalRecordLoaded) {
+      <app-students-general-history [medicalRecord]="medicalRecord"></app-students-general-history>
+    }
   </mat-tab>
 
   <!-- Tab 3: Tratamientos -->

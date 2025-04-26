@@ -45,6 +45,7 @@ import { HeaderHistoryClinicComponent } from "../../../components/header-history
 
 export class StudentsGeneralHistoryComponent implements OnInit {
   @Input() idPatient: number = 0;
+  @Input() medicalRecord!: dataTabs;
   @Output() tabChange = new EventEmitter<{ firstLabel: string, previousLabel: string }>();
   private router = inject(ActivatedRoute);
   private route = inject(Router);
@@ -90,6 +91,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
+    console.log('hc', this.medicalRecord);
 
     this.getRole();
 
