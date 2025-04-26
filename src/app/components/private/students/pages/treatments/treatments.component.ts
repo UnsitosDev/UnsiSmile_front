@@ -29,7 +29,7 @@ export class TreatmentsComponent implements OnInit {
   public idHistoryGeneral!: number;
   public patientMedicalRecord!: number;
   public medicalRecordLoaded = false;
-  private isLoading = false;
+  public isLoading = false;
 
   public patientConfigHistories: ClinicalHistory[] = [];
 
@@ -49,14 +49,6 @@ export class TreatmentsComponent implements OnInit {
         this.getMedicalRecordGeneral();
       }
     }
-  }
-
-  public fetchConfigMedicalRecord(idHistoryGeneral: number, patientUuid: string) {
-    this.configMedicalRecord.getHistoryClinics(patientUuid, idHistoryGeneral).subscribe({
-      next: (mappedMedicalRecord: dataTabs) => {
-        this.medicalRecord = mappedMedicalRecord;
-      }
-    });
   }
 
   public getMedicalRecordGeneral() {
@@ -102,11 +94,7 @@ export class TreatmentsComponent implements OnInit {
       history => history.id === this.idHistoryGeneral && history.patientId == this.patientUuid
     );
 
-    if (generalHistory) {
-      console.log('La historia clínica general existe');
-      this.fetchConfigMedicalRecord(this.idHistoryGeneral, this.patientUuid);
-    } else {
-      console.log('La historia clínica general no existe');
+    if (!generalHistory) {
       this.createMedicalRecord();
     }
   }

@@ -113,6 +113,7 @@
                       }
                       @if (!tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial' && tab.title !== 'Nota de evolución') {
                           <app-tab-form 
+                          [patientMedicalRecord]="patientMedicalRecord"
                           [fieldsTab]="tab" 
                           (nextMatTab)="onNextTab()"
                           (previousMatTab)="onPreviousTab()"                      
