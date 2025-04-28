@@ -252,7 +252,7 @@ export class UriConstants {
   public static readonly GET_STATE = basePath + '/states';
   // Patient controller
   public static readonly POST_PATIENT = basePath + '/patients';
-  public static readonly POST_GUARDIAN = basePath + '/guardian';
+  public static readonly POST_GUARDIAN = basePath + '/guardians';
   public static readonly GET_PATIENT_BY_ID = basePath + '/patients/';
   public static readonly PATCH_PATIENT_BY_ID = basePath + '/patients/';
 

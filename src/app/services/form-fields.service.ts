@@ -352,29 +352,63 @@ export class FormFieldsService {
             label: 'Nombre',
             name: 'firstGuardianName',
             placeholder: 'Ej: María',
-            required: false,
+            required: true,
+            validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nombre es requerido.'
             }
         },
         {
             type: 'input',
-            label: 'Apellido',
-            name: 'lastGuardianName',
-            placeholder: 'Ej: Sánchez Torres',
+            label: 'Segundo Nombre',
+            name: 'secondGuardianName',
+            placeholder: 'Ej: Guadalupe',
             required: false,
             errorMessages: {
-                required: 'El campo Apellido es requerido.'
+                required: 'El campo Segundo Nombre es requerido.'
             }
+        },
+        {
+            type: 'input',
+            label: 'Apellido Paterno',
+            name: 'lastGuardianName',
+            placeholder: 'Ej: Sánchez',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Apellido Paterno es requerido.'
+            }
+        },
+        {
+            type: 'input',
+            label: 'Apellido Materno',
+            name: 'secondLastGuardianName',
+            placeholder: 'Ej: Torres',
+            required: true,
+            errorMessages: {
+                required: 'El campo Apellido Materno es requerido.'
+            }
+        },
+        {
+            type: 'input',
+            label: 'CURP',
+            name: 'guardianCurp',
+            placeholder: 'Ej: GALJ901231HDFNNS09',
+            validators: [Validators.required, curpValidator()],
+            errorMessages: {
+                required: 'El campo CURP es requerido.',
+                lastError: 'Introduzca una CURP válida'
+            },
         },
         {
             type: 'input',
             label: 'Teléfono',
             name: 'phoneGuardian',
             placeholder: 'Ej: 9511234567',
-            required: false,
-            validators: [phoneNumberValidator()],
+            required: true,
+            validators: [Validators.required, phoneNumberValidator()],
             errorMessages: {
+                required: 'El campo Teléfono es requerido.',
                 lastError: 'Por favor, introduce un número de teléfono válido.'
             }
         },
@@ -383,9 +417,10 @@ export class FormFieldsService {
             label: 'Correo Electrónico',
             name: 'emailGuardian',
             placeholder: 'Ej: ejemplo@dominio.com',
-            required: false,
-            validators: [emailValidator()],
+            required: true,
+            validators: [Validators.required, emailValidator()],
             errorMessages: {
+                required: 'El campo Correo Electrónico es requerido.',
                 lastError: 'Por favor, introduce un correo electrónico válido (ejemplo: usuario@dominio.com)'
             }
         },
@@ -393,14 +428,46 @@ export class FormFieldsService {
             type: 'select',
             label: 'Estado civil de los padres',
             name: 'parentsMaritalStatus',
-            required: false,
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Estado civil de los padres es requerido.'
+            },
             onClick: this.handleParentsMaritalStatusClick.bind(this)
         },
         {
             type: 'input',
             label: 'Pediatra o Médico Familiar',
             name: 'doctorName',
-            required: false,
+            placeholder: 'Ej: Dr. Juan Pérez',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Pediatra o Médico Familiar es requerido.'
+            }
+        },
+        {
+            type: 'select',
+            label: 'Género',
+            name: 'guardianGender',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Género es requerido.'
+            },
+            onClick: this.handleGuardianGenderClick.bind(this)  // Cambio aquí para usar un manejador específico
+        },
+        {
+            type: 'datepicker',
+            label: 'Fecha de Nacimiento',
+            name: 'guardianBirthDate',
+            placeholder: 'DD/MM/AAAA',
+            required: true,
+            validators: [Validators.required, noFutureDateValidator()],
+            errorMessages: {
+                required: 'El campo Fecha de nacimiento es requerido.',
+                futureDate: 'La fecha de nacimiento no puede ser una fecha futura'
+            }
         },
     ];
 
@@ -409,6 +476,7 @@ export class FormFieldsService {
 
     constructor() {
         this.handleGenderClick({} as MouseEvent);
+        this.handleGuardianGenderClick({} as MouseEvent); // Añadir inicialización para género del guardián
         this.handleHousingClick({} as MouseEvent);
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
@@ -419,6 +487,13 @@ export class FormFieldsService {
         this.patientService.getGender();
         const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);
         genderField && (genderField.options = this.patientService.genderOptions);
+    }
+
+    // Nuevo método específico para el género del guardián
+    private handleGuardianGenderClick(event: MouseEvent): void {
+        this.patientService.getGender();
+        const guardianGenderField = this.guardianFields.find(field => field.name === 'guardianGender');
+        guardianGenderField && (guardianGenderField.options = this.patientService.genderOptions);
     }
 
     private handleHousingClick(event: MouseEvent): void {

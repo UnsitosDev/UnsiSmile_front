@@ -365,10 +365,20 @@ export class FormPatientPersonalDataComponent {
          },
          guardian: (this.minorPatient || (this.disabledPatient && this.needsGuardian)) ? {
            idGuardian: 0,
-           firstName: formValues.firstGuardianName,
-           lastName: formValues.lastGuardianName,
-           phone: formValues.phoneGuardian,
-           email: formValues.emailGuardian,
+           person: {
+             curp: formValues.guardianCurp,
+             firstName: formValues.firstGuardianName,
+             secondName: formValues.secondGuardianName,
+             firstLastName: formValues.lastGuardianName,
+             secondLastName: formValues.secondLastGuardianName,
+             phone: formValues.phoneGuardian,
+             birthDate: formValues.guardianBirthDate,
+             email: formValues.emailGuardian,
+             gender: {
+               idGender: +formValues.guardianGender,
+               gender: this.patientService.genderOptions.find(option => option.value === formValues.guardianGender)?.label || ""
+             }
+           },
            parentalStatus: {
              idCatalogOption: +formValues.parentsMaritalStatus,
              optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "",
@@ -449,4 +459,3 @@ export class FormPatientPersonalDataComponent {
    }
  
  }
- 
