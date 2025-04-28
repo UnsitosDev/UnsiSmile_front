@@ -61,7 +61,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'inputEvent',
             label: 'CURP',
             name: 'curp',
             placeholder: 'Ej: GALJ901231HDFNNS09',
@@ -70,6 +70,10 @@ export class FormFieldsService {
                 required: 'El campo CURP es requerido.',
                 lastError: 'Introduzca una CURP válida'
             },
+            onInputChange: {
+                changeFunction: this.handleCurpChange.bind(this),
+                length: 18
+            }
         },
         {
             type: 'input',
@@ -555,6 +559,7 @@ export class FormFieldsService {
                                 value: match.value
                             });
                             
+
                             this.selectedNeighborhoodId = match.value;
                             neighborhoodField.value = match.label;
     
@@ -618,9 +623,11 @@ export class FormFieldsService {
                             this.selectedLocalitId = exactMatch.value;
                             localityField.value = exactMatch.label;
                             
+
                             this.clearNeighborhoodOptions();
                             this.clearStreetOptions();
                             
+
                             if (this.selectedLocalitId) {
                                 this.handleNeighborhoodClick('', 0, 1000, this.selectedLocalitId);
                             }
@@ -676,9 +683,11 @@ export class FormFieldsService {
                             this.selectedMunicipalityId = exactMatch.value;
                             municipalityField.value = exactMatch.label;
                             
+
                             this.clearLocalityOptions();
                             this.clearNeighborhoodOptions();
                             
+
                             if (this.selectedMunicipalityId) {
                                 this.handleLocalityClick('', 0, 1000, this.selectedMunicipalityId);
                             }
@@ -726,10 +735,12 @@ export class FormFieldsService {
                             this.selectedStateId = exactMatch.value;
                             stateField.value = exactMatch.label;
                             
+
                             this.clearMunicipalityOptions();
                             this.clearLocalityOptions();
                             this.clearNeighborhoodOptions();
                             
+
                             if (this.selectedStateId) {
                                 this.handleMunicipalityClick('', 0, 1000, this.selectedStateId);
                             }
@@ -857,5 +868,19 @@ export class FormFieldsService {
 
     getGuardianDataFields(): FormField[] {
         return this.guardianFields;
+    }
+
+    // Método para manejar el cambio en el campo CURP
+    public handleCurpChange(curp: string): void {
+        if (curp && curp.length === 18) {
+            this.patientService.getPersonByCurp(curp).subscribe(person => {
+                if (person) {
+                    // Emitir un evento para notificar que se encontró una persona
+                    // Este evento será capturado por el componente
+                    const event = new CustomEvent('personFound', { detail: person });
+                    document.dispatchEvent(event);
+                }
+            });
+        }
     }
 }

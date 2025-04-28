@@ -145,6 +145,11 @@ export class FormPatientPersonalDataComponent {
         }
       }
     });
+
+    // Añadir listener para cuando se encuentra una persona por CURP
+    document.addEventListener('personFound', ((event: CustomEvent) => {
+      this.fillFormWithPersonData(event.detail);
+    }) as EventListener);
   }
 
   showGuardianConfirmDialog(): void {
@@ -208,6 +213,48 @@ export class FormPatientPersonalDataComponent {
     if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
     }
+    
+    // Eliminar el listener cuando se destruye el componente
+    document.removeEventListener('personFound', ((event: CustomEvent) => {
+      this.fillFormWithPersonData(event.detail);
+    }) as EventListener);
+  }
+
+  // Nuevo método para rellenar el formulario con los datos de la persona
+  fillFormWithPersonData(person: any): void {
+    if (!person) return;
+    
+    // Actualizar los campos del formulario con los datos de la persona
+    this.formGroup.patchValue({
+      firstName: person.firstName || '',
+      secondName: person.secondName || '',
+      firstLastName: person.firstLastName || '',
+      secondLastName: person.secondLastName || '',
+      phone: person.phone || '',
+      email: person.email || '',
+      birthDate: person.birthDate ? new Date(person.birthDate) : null,
+    });
+
+    // Si la persona tiene género, seleccionarlo en el dropdown
+    if (person.gender?.idGender) {
+      this.formGroup.patchValue({
+        gender: person.gender.idGender.toString()
+      });
+    }
+
+    // Calcular si es menor de edad
+    if (person.birthDate) {
+      const birthDate = new Date(person.birthDate);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const isMinor = age < 18;
+      
+      // Actualizar el estado del componente para mostrar la pestaña de tutor si es menor
+      this.onAgeStatusChange(isMinor);
+    }
+
+    // Actualizar la vista para reflejar los cambios
+    this.cdr.detectChanges();
   }
 
   onFieldValueChange(event: any) {

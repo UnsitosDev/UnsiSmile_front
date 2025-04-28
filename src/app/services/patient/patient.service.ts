@@ -480,6 +480,7 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
     }
 
     occupationOptionsDataOptions: occupationOptions[]=[];
+
     getOcupationDataPaginated(searchTerm: string, page: number, size: number): Observable<occupationOptions[]> {
         return this.apiService.getService({
             headers: new HttpHeaders({
@@ -529,6 +530,7 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
     }
 
     etnichGroupDataOptions: ethnicGroupOptions[]=[];
+
     getEthnicGroupDataPaginated(searchTerm: string, page: number, size: number): Observable<ethnicGroupOptions[]> {
         return this.apiService.getService({
             headers: new HttpHeaders({
@@ -685,4 +687,17 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
         });
     }
 
+    // Buscar persona por CURP
+    getPersonByCurp(curp: string): Observable<any> {
+        return this.http.get<any>(`${UriConstants.GET_PERSON_BY_CURP}${curp}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+        }).pipe(
+            catchError(error => {
+                console.error('Error al buscar persona por CURP:', error);
+                return of(null);
+            })
+        );
+    }
 }
