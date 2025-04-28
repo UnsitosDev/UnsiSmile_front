@@ -96,7 +96,11 @@ export class FormPatientPersonalDataComponent {
      this.other = this.otherDataFields.getOtherDataFields();
      this.guardian = this.guardianField.getGuardianDataFields();
      this.studentFields = this.studentService.studentFields;
- 
+
+     // Cargar opciones de género y estado civil parental al inicio
+     this.patientService.getGender();
+     this.patientService.getParentsMaritalStatusData();
+
      // Construcción del formulario
      this.formGroup = this.fb.group({}); // Inicializar el FormGroup
      [...this.personal, ...this.address, ...this.other, ...this.guardian].forEach(field => {
@@ -105,14 +109,14 @@ export class FormPatientPersonalDataComponent {
          this.fb.control(field.value || '', field.validators || [])
        );
      });
- 
+
      this.studentFields.forEach(field => {
        this.formGroup.addControl(
          field.name,
          this.fb.control(field.value || '', field.validators || [])
        );
      });
- 
+
      // Agregamos un observador para el campo de discapacidad
      this.formGroup.get('hasDisability')?.valueChanges.subscribe(value => {
        const newValue = value === 'true';
@@ -127,24 +131,34 @@ export class FormPatientPersonalDataComponent {
        
        this.disabledPatient = newValue;
      });
- 
+
      // Combina las rutas de StudentItems y las adicionales
      const allRoutes = [
        ...StudentItems.map(item => item.routerlink),
        ...this.additionalRoutes
      ];
- 
+
      // Interceptamos la navegación antes de que se realice
      this.navigationSubscription = this.route.events.subscribe((event) => {
        if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
          const targetUrl = event.url;
- 
+
          // Verifica si la ruta es una de las que queremos prevenir
          if (allRoutes.includes(targetUrl)) {
            this.navigationTarget = targetUrl;
          }
        }
      });
+
+     // Añadir listener para cuando se encuentra una persona por CURP
+     document.addEventListener('personFound', ((event: CustomEvent) => {
+       this.fillFormWithPersonData(event.detail);
+     }) as EventListener);
+
+     // Añadir listener para cuando se encuentra un tutor por CURP
+     document.addEventListener('guardianFound', ((event: CustomEvent) => {
+       this.fillFormWithGuardianData(event.detail);
+     }) as EventListener);
    }
  
    // Modificamos el método del diálogo para forzar la detección de cambios
@@ -162,7 +176,104 @@ export class FormPatientPersonalDataComponent {
        this.cdr.detectChanges();
      });
    }
- 
+
+   // Nuevo método para rellenar el formulario con los datos de la persona
+   fillFormWithPersonData(person: any): void {
+     if (!person) return;
+     
+     // Actualizar los campos del formulario con los datos de la persona
+     this.formGroup.patchValue({
+       firstName: person.firstName || '',
+       secondName: person.secondName || '',
+       firstLastName: person.firstLastName || '',
+       secondLastName: person.secondLastName || '',
+       phone: person.phone || '',
+       email: person.email || '',
+       birthDate: person.birthDate ? new Date(person.birthDate) : null,
+     });
+
+     // Si la persona tiene género, seleccionarlo en el dropdown
+     if (person.gender?.idGender) {
+       this.formGroup.patchValue({
+         gender: person.gender.idGender.toString()
+       });
+     }
+
+     // Calcular si es menor de edad
+     if (person.birthDate) {
+       const birthDate = new Date(person.birthDate);
+       const today = new Date();
+       const age = today.getFullYear() - birthDate.getFullYear();
+       const isMinor = age < 18;
+       
+       // Actualizar el estado del componente para mostrar la pestaña de tutor si es menor
+       this.onAgeStatusChange(isMinor);
+     }
+
+     // Actualizar la vista para reflejar los cambios
+     this.cdr.detectChanges();
+     
+     // Notificar al usuario
+     this.toastr.info('Se encontraron datos personales asociados a esta CURP. Los campos han sido rellenados automáticamente.', 'Información');
+   }
+
+   // Nuevo método para rellenar el formulario con los datos del tutor
+   fillFormWithGuardianData(guardian: any): void {
+     if (!guardian) return;
+
+     // Asegurarse de que los datos de género estén disponibles antes de rellenar el formulario
+     this.patientService.getGender();
+     
+     // Esperar brevemente para que se carguen las opciones de género
+     setTimeout(() => {
+       // Actualizar los campos del formulario con los datos del tutor
+       this.formGroup.patchValue({
+         firstGuardianName: guardian.person?.firstName || '',
+         secondGuardianName: guardian.person?.secondName || '',
+         lastGuardianName: guardian.person?.firstLastName || '',
+         secondLastGuardianName: guardian.person?.secondLastName || '',
+         phoneGuardian: guardian.person?.phone || '',
+         emailGuardian: guardian.person?.email || '',
+         guardianBirthDate: guardian.person?.birthDate ? new Date(guardian.person.birthDate) : null,
+         doctorName: guardian.doctorName || ''
+       });
+
+       // Si el tutor tiene género, seleccionarlo en el dropdown
+       if (guardian.person?.gender?.idGender) {
+         // Asegurar que las opciones del campo de género estén cargadas
+         const guardianGenderField = this.guardian.find(field => field.name === 'guardianGender');
+         if (guardianGenderField) {
+           guardianGenderField.options = this.patientService.genderOptions;
+         }
+         
+         this.formGroup.patchValue({
+           guardianGender: guardian.person.gender.idGender.toString()
+         });
+       }
+
+       // Asegurar que los datos de estado civil parental estén disponibles
+       this.patientService.getParentsMaritalStatusData();
+       
+       // Si el tutor tiene estado civil parental, seleccionarlo en el dropdown
+       if (guardian.parentalStatus?.idCatalogOption) {
+         const maritalStatusField = this.guardian.find(field => field.name === 'parentsMaritalStatus');
+         if (maritalStatusField) {
+           maritalStatusField.options = this.patientService.parentsMaritalStatusOptions;
+         }
+         
+         this.formGroup.patchValue({
+           parentsMaritalStatus: guardian.parentalStatus.idCatalogOption.toString()
+         });
+       }
+
+       // Actualizar la vista para reflejar los cambios
+       this.cdr.detectChanges();
+       
+       // Notificar al usuario
+       this.toastr.info('Se encontraron datos de tutor asociados a esta CURP. Los campos han sido rellenados automáticamente.', 'Información');
+     }, 300); // Un pequeño retraso para asegurar que los datos se hayan cargado
+   }
+
    ngAfterViewInit() {
      this.stepper.selectionChange.subscribe((e: any) => {
        // Si está intentando ir a la última pestaña (alumno) y no está habilitada
@@ -209,6 +320,15 @@ export class FormPatientPersonalDataComponent {
      if (this.navigationSubscription) {
        this.navigationSubscription.unsubscribe();
      }
+
+     // Eliminar los listeners cuando se destruye el componente
+     document.removeEventListener('personFound', ((event: CustomEvent) => {
+       this.fillFormWithPersonData(event.detail);
+     }) as EventListener);
+
+     document.removeEventListener('guardianFound', ((event: CustomEvent) => {
+       this.fillFormWithGuardianData(event.detail);
+     }) as EventListener);
    }
  
    onFieldValueChange(event: any) {
@@ -246,7 +366,6 @@ export class FormPatientPersonalDataComponent {
    alertMessage: string = '';
    alertSeverity: string = AlertModel.AlertSeverity.ERROR;
    showAlert: boolean = false;
- 
  
    onAgeStatusChange(isMinor: boolean) {
      this.minorPatient = isMinor;
