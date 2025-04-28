@@ -44,36 +44,34 @@ import { HeaderHistoryClinicComponent } from "../../../components/header-history
 })
 export class MedicalRecordGeneralTreatmentsComponent {
   @Input() idPatient: number = 0;
-  @Input() patientUuid!: string;
+  @Input() patientUuid: string = '';
   @Input() idHistoryGeneral: number = 0;
   @Input() patientMedicalRecord: number = 0;
-  @Output() tabChange = new EventEmitter<{ firstLabel: string, previousLabel: string }>();
-  private route = inject(Router);
-  private historyData = inject(GeneralHistoryService);
-  private apiService = inject(ApiService);
+  @Output() tabChange = new EventEmitter<{ firstLabel: string; previousLabel: string }>();
+
+  private readonly route = inject(Router);
+  private readonly historyData = inject(GeneralHistoryService);
+  private readonly apiService = inject(ApiService);
+  private readonly userService = inject(AuthService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  public readonly toastr = inject(ToastrService);
   readonly dialog = inject(MatDialog);
-  private toastr = inject(ToastrService);
-  private userService = inject(AuthService);
-  private cdr = inject(ChangeDetectorRef);
-  public patientData!: cardPatient;
-  private token!: string;
+
+  private token: string = '';
   private tokenData!: TokenData;
-  public medicalRecordNumber!: number;
-  public id!: number;
-  public idpatient!: string;
-  public nextpage: boolean = true;
-  public mappedHistoryData!: dataTabs;
-  public idPatientClinicalHistory!: number;
   private navigationSubscription!: Subscription;
   private navigationTarget: string = '';
   private navigationInProgress: boolean = false;
   private isNavigationPrevented: boolean = true;
   private navigationComplete: boolean = false;
-  private additionalRoutes = ['/students/user'];
-  public role!: string;
+  private readonly additionalRoutes = ['/students/user'];
+
+  public medicalRecordNumber!: number;
+  public mappedHistoryData!: dataTabs;
+  public role: string = '';
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-  currentIndex = 0;
+  public currentIndex: number = 0;
 
   ngOnInit(): void {
 
@@ -200,7 +198,7 @@ export class MedicalRecordGeneralTreatmentsComponent {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}/${currentTab.idFormSection}`,
+        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.patientMedicalRecord}/${currentTab.idFormSection}`,
         data: {},
       })
       .subscribe({
