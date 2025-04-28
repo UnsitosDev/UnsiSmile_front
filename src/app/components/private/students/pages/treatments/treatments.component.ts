@@ -1,35 +1,42 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+
 import { CardPatientDataComponent } from "../../components/card-patient-data/card-patient-data.component";
-import { ActivatedRoute } from '@angular/router';
-import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
-import { ApiService } from '@mean/services';
-import { HttpHeaders } from '@angular/common/http';
-import { UriConstants } from '@mean/utils';
-import { ClinicalHistory } from 'src/app/models/history-clinic/historyClinic';
-import { StudentsGeneralHistoryComponent } from "../history-clinics/general/students-general-history.component";
-import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
-import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { MedicalRecordGeneralTreatmentsComponent } from "../medical-records-treatments/medical-record-general-treatments/medical-record-general-treatments.component";
+
+import { ApiService } from '@mean/services';
+import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
+
+import { ClinicalHistory } from 'src/app/models/history-clinic/historyClinic';
+import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
+import { Treatments } from '@mean/models';
+import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
+
+import { UriConstants } from '@mean/utils';
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatTabsModule, MatCardModule, CardPatientDataComponent, StudentsGeneralHistoryComponent, MedicalRecordGeneralTreatmentsComponent],
+  imports: [MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss'
 })
 export class TreatmentsComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private apiService = inject(ApiService);
-  private configMedicalRecord = inject(GeneralHistoryService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly apiService = inject(ApiService);
+  public readonly configMedicalRecord = inject(GeneralHistoryService);
+  
   public medicalRecord!: dataTabs;
   public patientUuid!: string;
   public idHistoryGeneral!: number;
   public patientMedicalRecord!: number;
   public medicalRecordLoaded = false;
   public isLoading = false;
+  public treatmentsData!: Treatments[];
 
   public patientConfigHistories: ClinicalHistory[] = [];
 
