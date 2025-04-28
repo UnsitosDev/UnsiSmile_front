@@ -150,6 +150,11 @@ export class FormPatientPersonalDataComponent {
     document.addEventListener('personFound', ((event: CustomEvent) => {
       this.fillFormWithPersonData(event.detail);
     }) as EventListener);
+
+    // Añadir listener para cuando se encuentra un tutor por CURP
+    document.addEventListener('guardianFound', ((event: CustomEvent) => {
+      this.fillFormWithGuardianData(event.detail);
+    }) as EventListener);
   }
 
   showGuardianConfirmDialog(): void {
@@ -214,9 +219,13 @@ export class FormPatientPersonalDataComponent {
       this.navigationSubscription.unsubscribe();
     }
     
-    // Eliminar el listener cuando se destruye el componente
+    // Eliminar los listeners cuando se destruye el componente
     document.removeEventListener('personFound', ((event: CustomEvent) => {
       this.fillFormWithPersonData(event.detail);
+    }) as EventListener);
+
+    document.removeEventListener('guardianFound', ((event: CustomEvent) => {
+      this.fillFormWithGuardianData(event.detail);
     }) as EventListener);
   }
 
@@ -255,6 +264,43 @@ export class FormPatientPersonalDataComponent {
 
     // Actualizar la vista para reflejar los cambios
     this.cdr.detectChanges();
+  }
+
+  // Nuevo método para rellenar el formulario con los datos del tutor
+  fillFormWithGuardianData(guardian: any): void {
+    if (!guardian) return;
+
+    // Actualizar los campos del formulario con los datos del tutor
+    this.formGroup.patchValue({
+      firstGuardianName: guardian.person?.firstName || '',
+      secondGuardianName: guardian.person?.secondName || '',
+      lastGuardianName: guardian.person?.firstLastName || '',
+      secondLastGuardianName: guardian.person?.secondLastName || '',
+      phoneGuardian: guardian.person?.phone || '',
+      emailGuardian: guardian.person?.email || '',
+      guardianBirthDate: guardian.person?.birthDate ? new Date(guardian.person.birthDate) : null,
+      doctorName: guardian.doctorName || ''
+    });
+
+    // Si el tutor tiene género, seleccionarlo en el dropdown
+    if (guardian.person?.gender?.idGender) {
+      this.formGroup.patchValue({
+        guardianGender: guardian.person.gender.idGender.toString()
+      });
+    }
+
+    // Si el tutor tiene estado civil parental, seleccionarlo en el dropdown
+    if (guardian.parentalStatus?.idCatalogOption) {
+      this.formGroup.patchValue({
+        parentsMaritalStatus: guardian.parentalStatus.idCatalogOption.toString()
+      });
+    }
+
+    // Actualizar la vista para reflejar los cambios
+    this.cdr.detectChanges();
+    
+    // Notificar al usuario
+    this.toastr.info('Se encontraron datos de tutor asociados a esta CURP. Los campos han sido rellenados automáticamente.', 'Información');
   }
 
   onFieldValueChange(event: any) {
@@ -434,6 +480,11 @@ export class FormPatientPersonalDataComponent {
         } : null
       };        
 
+      // Mostrar el JSON que se está enviando en la consola
+      console.log('JSON enviado al crear paciente:', JSON.stringify(patientData, null, 2));
+      
+      // También podemos mostrar un mensaje toast con la información
+      this.toastr.info('Revisa la consola para ver el JSON que se está enviando');
       
       this.apiService
         .postService({
@@ -461,6 +512,10 @@ export class FormPatientPersonalDataComponent {
           },
         });
     } else {
+      
+      console.log('Datos que se enviarían (formulario inválido):', JSON.stringify(this.formGroup.value, null, 2));
+      console.log('Errores de validación:', this.getFormValidationErrors());
+      
       this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
   }
@@ -599,4 +654,6 @@ export class FormPatientPersonalDataComponent {
     });
   }
 
+  // Nuevo método para construir los datos del paciente
+ 
 }

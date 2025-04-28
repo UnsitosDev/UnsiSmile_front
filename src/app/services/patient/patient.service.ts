@@ -700,4 +700,18 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             })
         );
     }
+
+    // Buscar guardian/tutor por CURP
+    getGuardianByCurp(curp: string): Observable<any> {
+        return this.http.get<any>(`${UriConstants.GET_GUARDIAN_BY_CURP}${curp}`, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+        }).pipe(
+            catchError(error => {
+                console.error('Error al buscar tutor por CURP:', error);
+                return of(null);
+            })
+        );
+    }
 }

@@ -394,7 +394,7 @@ export class FormFieldsService {
             }
         },
         {
-            type: 'input',
+            type: 'inputEvent',
             label: 'CURP',
             name: 'guardianCurp',
             placeholder: 'Ej: GALJ901231HDFNNS09',
@@ -403,6 +403,10 @@ export class FormFieldsService {
                 required: 'El campo CURP es requerido.',
                 lastError: 'Introduzca una CURP válida'
             },
+            onInputChange: {
+                changeFunction: this.handleGuardianCurpChange.bind(this),
+                length: 18
+            }
         },
         {
             type: 'input',
@@ -878,6 +882,19 @@ export class FormFieldsService {
                     // Emitir un evento para notificar que se encontró una persona
                     // Este evento será capturado por el componente
                     const event = new CustomEvent('personFound', { detail: person });
+                    document.dispatchEvent(event);
+                }
+            });
+        }
+    }
+
+    // Método para manejar el cambio en el campo CURP del tutor
+    public handleGuardianCurpChange(curp: string): void {
+        if (curp && curp.length === 18) {
+            this.patientService.getGuardianByCurp(curp).subscribe(guardian => {
+                if (guardian) {
+                    // Emitir un evento para notificar que se encontró un tutor
+                    const event = new CustomEvent('guardianFound', { detail: guardian });
                     document.dispatchEvent(event);
                 }
             });

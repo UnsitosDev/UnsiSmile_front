@@ -350,4 +350,7 @@ export class UriConstants {
   public static readonly POS_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis'; 
   public static readonly GET_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis';
   public static readonly GET_PROFESSORS_AREAS = basePath + '/professor-clinical-areas'
+
+  // Endpoints para guardianes/tutores
+  public static readonly GET_GUARDIAN_BY_CURP = basePath + '/guardians/CURP/';
 }
