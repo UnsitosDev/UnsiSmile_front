@@ -41,12 +41,7 @@ export class DialogNewTreatmentComponent {
   public treatmentData!: Treatments[];
   public dentalOrgan: boolean = false;
   public selectedTreatments: Treatments[] = [];
-
-
-  public readonly range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
-  });
+  public selectedTreatmentsName!: string;
 
   ngOnInit(): void {
     this.fetchTreatmentData();
@@ -77,7 +72,11 @@ export class DialogNewTreatmentComponent {
   }
 
   onTreatmentSelected(event: MatSelectChange): void {
-    console.log('Opción seleccionada (desde variable):', this.selectedTreatments);
+    const selectedTreatment = event.value;    
+    if (selectedTreatment && selectedTreatment.treatmentScope) {
+      this.selectedTreatmentsName = selectedTreatment.treatmentScope.name;
+    }
+    this.selectedTreatments;
   }
 
 }
