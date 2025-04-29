@@ -12,21 +12,24 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 
 import { ToastrService } from 'ngx-toastr';
 
 import { Treatments } from '@mean/models';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
+import { SpanishDateAdapter } from 'src/app/shared/adapters/spanish-date.adapter';
 
 @Component({
   selector: 'app-dialog-new-treatment',
   standalone: true,
   providers: [
     provideNativeDateAdapter(),
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
-  ], imports: [MatListModule, MatDialogModule, MatCardModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule],
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: DateAdapter, useClass: SpanishDateAdapter } 
+  ], 
+  imports: [MatListModule, MatDialogModule, MatCardModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule],
   templateUrl: './dialog-new-treatment.component.html',
   styleUrl: './dialog-new-treatment.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

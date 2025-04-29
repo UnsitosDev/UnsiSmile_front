@@ -26,7 +26,8 @@
       </mat-date-range-input>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
-    
+      <mat-hint class="custom-text">dia/mes/año</mat-hint>
+
       @if (range.controls.start.hasError('matStartDateInvalid')) {
         <mat-error>Invalid start date</mat-error>
       }
