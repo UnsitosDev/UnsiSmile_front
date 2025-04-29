@@ -147,7 +147,6 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         },
         error: (error) => {
           this.renderOdontogram = false;
-          this.toastr.error('Error al cargar el odontograma', 'Error');
         },
       });
   }
