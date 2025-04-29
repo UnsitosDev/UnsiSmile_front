@@ -1,13 +1,9 @@
 <!-- card patient -->
-<mat-card appearance="outlined" class="custom">
+<mat-card appearance="outlined" class="custom mb-4">
   <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
 </mat-card>
 
-<mat-tab-group
-  mat-stretch-tabs="false"
-  mat-align-tabs="start"
-  (selectedTabChange)="onTabChanged($event)"
->
+<mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="onTabChanged($event)">
   <!-- Tab 1: Datos personales -->
   <mat-tab>
     <ng-template mat-tab-label>
@@ -34,6 +30,10 @@
       <i class="fas fa-file"></i>
       <span class="ml-2">Tratamientos</span>
     </ng-template>
-    Contenido tratamientos
+      <div class="p-4">
+        <div class="flex justify-end">
+          <button mat-button class="button-custom !text-white">Crear Tratamiento</button>
+        </div>
+      </div>
   </mat-tab>
 </mat-tab-group>

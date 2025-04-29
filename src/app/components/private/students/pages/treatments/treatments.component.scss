@@ -1,9 +1,15 @@
 .custom-background {
-    background-color: var(--on-primary);
+    background-color: var(--secondary);
 }
 
 .custom {
     color: var(--on-secondary);
     background-color: var(--secondary);
     border: 1px var(--on-secondary);
+}
+
+.button-custom {
+    background-color: var(--status);
+    border-radius: 2px;
+    padding: 8px 16px;
 }

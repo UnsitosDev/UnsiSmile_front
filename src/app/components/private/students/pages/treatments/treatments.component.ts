@@ -17,11 +17,12 @@ import { Treatments } from '@mean/models';
 import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
 
 import { UriConstants } from '@mean/utils';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent],
+  imports: [MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss'
 })
