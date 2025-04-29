@@ -4,7 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 
 import { CardPatientDataComponent } from "../../components/card-patient-data/card-patient-data.component";
@@ -117,7 +117,9 @@ export class TreatmentsComponent implements OnInit {
 
     const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
       width: '800px',
-
+      data: {
+        patientUuid: this.patientUuid
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
