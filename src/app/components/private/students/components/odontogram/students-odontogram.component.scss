@@ -2,29 +2,65 @@
   width: 100%;
   padding: 2rem;
   box-sizing: border-box;
+  background: var(--surface);
 }
 
 .quadrants {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 50px; // Space for horizontal divider
   width: 100%;
   margin: 0 auto;
+  position: relative;
+  
+  // Horizontal divider
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: white;
+    transform: translateY(-50%);
+  }
 }
 
 .upper-row,
 .lower-row {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: center;
+  gap: 2px; // Space for vertical divider
   width: 100%;
+  position: relative;
+
+  // Vertical divider
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background-color: white;
+    transform: translateX(-50%);
+  }
 }
 
 .quadrant {
   display: flex;
-  gap: 0.5rem;
   flex: 1;
-  justify-content: space-between;
+  padding: 1rem;
+  background-color: var(--surface-variant);
+  border-radius: 8px;
+
+  &.right-quadrant {
+    justify-content: flex-end;
+  }
+
+  &.left-quadrant {
+    justify-content: flex-start;
+  }
 }
 
 :host ::ng-deep .mat-tab-body-wrapper {
