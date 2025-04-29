@@ -113,6 +113,7 @@ export class FormPatientPersonalDataComponent {
       );
     });
 
+    // Agregamos observador para cambios en hasDisability
     this.formGroup.get('hasDisability')?.valueChanges.subscribe(value => {
       const newValue = value === 'true';
       
@@ -123,6 +124,9 @@ export class FormPatientPersonalDataComponent {
       }
       
       this.disabledPatient = newValue;
+      
+      // Actualizar validaciones después de cambio de estado
+      this.updateGuardianValidations();
     });
 
     // Combina las rutas de StudentItems y las adicionales
@@ -350,8 +354,12 @@ export class FormPatientPersonalDataComponent {
       // Si no es menor de edad, la necesidad de tutor depende de la discapacidad
       this.needsGuardian = this.disabledPatient && this.needsGuardian;
     }
+    
+    // Actualizar validaciones después de cambio de estado
+    this.updateGuardianValidations();
   }
 
+  // Agregar métodos de validación que faltan
   private validateEthnicGroup(value: string): boolean {
     return this.patientService.ethnicGroupOptions.some(option => 
       option.value === value || option.label.toLowerCase() === value.toLowerCase()
@@ -364,23 +372,59 @@ export class FormPatientPersonalDataComponent {
     );
   }
 
+  // Método para actualizar las validaciones del tutor según se necesite o no
+  updateGuardianValidations() {
+    const shouldRequireGuardian = this.minorPatient || (this.disabledPatient && this.needsGuardian);
+    
+    this.guardian.forEach(field => {
+      const control = this.formGroup.get(field.name);
+      if (control) {
+        if (shouldRequireGuardian) {
+          // Si se requiere tutor, aplicar las validaciones originales
+          if (field.required) {
+            control.setValidators(field.validators || []);
+          }
+        } else {
+          // Si no se requiere tutor, quitar todas las validaciones
+          control.clearValidators();
+        }
+        control.updateValueAndValidity();
+      }
+    });
+  }
+
   onSubmit() {
+    // Actualizar validaciones antes de validar el formulario
+    this.updateGuardianValidations();
+    
     this.markFormGroupTouched(this.formGroup);
     const formValues = this.formGroup.value;
 
-    // Validar grupo étnico
+    // Validar grupo étnico y religión como antes
     if (!this.validateEthnicGroup(formValues.ethnicGroup)) {
       this.toastr.error('Debe seleccionar un grupo étnico válido de la lista', 'Error de validación');
       return;
     }
 
-    // Validar religión
     if (!this.validateReligion(formValues.religion)) {
       this.toastr.error('Debe seleccionar una religión válida de la lista', 'Error de validación');
       return;
     }
 
-    if (this.formGroup.valid) {
+    // Verificar si hay errores en el formulario, filtrando los campos del tutor cuando no se necesitan
+    let hasErrors = false;
+    const shouldRequireGuardian = this.minorPatient || (this.disabledPatient && this.needsGuardian);
+    
+    Object.keys(this.formGroup.controls).forEach(key => {
+      const control = this.formGroup.get(key);
+      const isGuardianField = this.guardian.some(field => field.name === key);
+      
+      if (control?.errors && (!isGuardianField || shouldRequireGuardian)) {
+        hasErrors = true;
+      }
+    });
+    
+    if (!hasErrors) {
       const patientData = {
         isMinor: this.minorPatient,
         hasDisability: formValues.hasDisability === 'true',
@@ -478,13 +522,7 @@ export class FormPatientPersonalDataComponent {
           },
           doctorName: formValues.doctorName
         } : null
-      };        
-
-      // Mostrar el JSON que se está enviando en la consola
-      console.log('JSON enviado al crear paciente:', JSON.stringify(patientData, null, 2));
-      
-      // También podemos mostrar un mensaje toast con la información
-      this.toastr.info('Revisa la consola para ver el JSON que se está enviando');
+      };              
       
       this.apiService
         .postService({
@@ -520,12 +558,16 @@ export class FormPatientPersonalDataComponent {
     }
   }
   
-  // Método auxiliar para obtener todos los errores de validación
   getFormValidationErrors() {
     const result: any[] = [];
+    const shouldRequireGuardian = this.minorPatient || (this.disabledPatient && this.needsGuardian);
+    
     Object.keys(this.formGroup.controls).forEach(key => {
       const controlErrors = this.formGroup.get(key)?.errors;
-      if (controlErrors) {
+      const isGuardianField = this.guardian.some(field => field.name === key);
+      
+      // Solo incluir errores de campos del tutor si se requiere tutor
+      if (controlErrors && (!isGuardianField || shouldRequireGuardian)) {
         Object.keys(controlErrors).forEach(keyError => {
           result.push({
             control: key,
@@ -654,6 +696,4 @@ export class FormPatientPersonalDataComponent {
     });
   }
 
-  // Nuevo método para construir los datos del paciente
- 
 }
