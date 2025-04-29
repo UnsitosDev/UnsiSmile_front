@@ -47,7 +47,7 @@ export class DialogNewTreatmentComponent {
   public treatmentControl = new FormControl<Treatments | null>(null, Validators.required);
   public startDateControl = new FormControl<Date | null>(null, Validators.required);
   public endDateControl = new FormControl<Date | null>(null, Validators.required);
-  public itemTeeth = new FormControl<any[]>([]);
+  public itemTeeth = new FormControl<any[]>([], Validators.required);
 
   public treatmentData: Treatments[] = [];
   public selectedTreatmentsName: string = '';
@@ -70,7 +70,6 @@ export class DialogNewTreatmentComponent {
       .subscribe({
         next: (response: Treatments[]) => {
           this.treatmentData = response;
-          console.log('Tratamientos: ', this.treatmentData)
         },
         error: (error) => {
           console.error(error);
@@ -86,7 +85,17 @@ export class DialogNewTreatmentComponent {
   }
 
   saveTreatment() {
-    if (!this.treatmentControl.value || !this.startDateControl.value) {
+    this.treatmentControl.markAsTouched();
+    this.startDateControl.markAsTouched();
+    this.endDateControl.markAsTouched();
+
+    if (this.selectedTreatmentsName === 'Diente') {
+      this.itemTeeth.markAsTouched();
+    }
+
+    if (!this.treatmentControl.value || !this.startDateControl.value ||
+      (this.selectedTreatmentsName === 'Diente' && this.itemTeeth.value?.length === 0)) {
+      this.toast.error('Por favor, complete todos los campos obligatorios.');
       return;
     }
 
@@ -100,7 +109,7 @@ export class DialogNewTreatmentComponent {
       treatmentId: this.treatmentControl.value.idTreatment,
       startDate: this.startDateControl.value.toISOString(),
       endDate: this.endDateControl.value?.toISOString() || '',
-      professorId: "1696", 
+      professorId: "1696",
       status: STATUS.IN_REVIEW,
       treatmentDetailToothRequest: {
         idTreatmentDetail: 0,
