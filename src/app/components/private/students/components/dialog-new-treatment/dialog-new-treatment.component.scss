@@ -1,4 +1,4 @@
-.custom-dialog{
+.custom-dialog {
     background-color: var(--on-primary);
 }
 
@@ -8,15 +8,33 @@
     color: var(--white-color);
 }
 
-.custom-text-theme{
+.custom-text-theme {
     color: var(--text);
 }
 
-button{
+button {
     background-color: var(--tertiary);
     color: var(--white-color);
 }
 
-.custom-text{
+.custom-text {
     color: var(--on-background);
+}
+
+.teeth-multiselect {
+    .mat-mdc-select-panel {
+        background: transparent;
+
+        .mat-mdc-option {
+            color: var(--on-background);
+        }
+    }
+
+    background-color: transparent;
+    border: none;
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
 }

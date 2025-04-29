@@ -20,6 +20,8 @@ import { Treatments } from '@mean/models';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { SpanishDateAdapter } from 'src/app/shared/adapters/spanish-date.adapter';
+import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
+
 
 @Component({
   selector: 'app-dialog-new-treatment',
@@ -42,6 +44,9 @@ export class DialogNewTreatmentComponent {
   public dentalOrgan: boolean = false;
   public selectedTreatments: Treatments[] = [];
   public selectedTreatmentsName!: string;
+  public teeth = storeProphylaxis.theetProphylaxis;
+  
+  public itemTeeth = new FormControl('');
 
   ngOnInit(): void {
     this.fetchTreatmentData();
