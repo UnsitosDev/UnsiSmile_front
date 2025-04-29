@@ -116,7 +116,8 @@ export class TreatmentsComponent implements OnInit {
   openDialogNewTreatment(): void {
 
     const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
-      width: '400px',
+      width: '800px',
+
     });
 
     dialogRef.afterClosed().subscribe(result => {

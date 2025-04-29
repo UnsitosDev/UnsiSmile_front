@@ -1,1 +1,21 @@
-<p>dialog-new-treatment works!</p>
+<mat-card-title>
+    <div class="title-container">
+      <span><strong>Crear tratamiento</strong></span>
+      <span (click)="closeDialog()" class="close-btn cursor-pointer">
+        <i class="fas fa-times"></i>
+      </span>
+    </div>
+  </mat-card-title>
+<mat-dialog-content class="p-4 custom-dialog">
+    <mat-list>
+        @if (treatmentData) {
+            @for (item of treatmentData; track item.idTreatment) {
+                <mat-list-item>
+                    <span matListItemTitle>{{item.name}}</span>
+                    <span matListItemLine>{{item.clinicalHistoryCatalogName}}</span>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            }
+        }
+    </mat-list>
+</mat-dialog-content>
