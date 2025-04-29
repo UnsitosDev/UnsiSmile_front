@@ -1,46 +1,45 @@
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { JsonPipe } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
-import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+
+import { ToastrService } from 'ngx-toastr';
+
 import { Treatments } from '@mean/models';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dialog-new-treatment',
   standalone: true,
-  imports: [MatListModule, MatDialogModule, MatCardModule, MatButtonModule,
-    MatStepperModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule],
+  providers: [provideNativeDateAdapter()],
+  imports: [MatListModule, MatDialogModule, MatCardModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule],
   templateUrl: './dialog-new-treatment.component.html',
-  styleUrl: './dialog-new-treatment.component.scss'
+  styleUrl: './dialog-new-treatment.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogNewTreatmentComponent {
   private dialogRef = inject(MatDialogRef<DialogNewTreatmentComponent>);
   private readonly apiService = inject(ApiService);
   public readonly troast = inject(ToastrService);
   public treatmentData!: Treatments[];
+  public organoDentario: boolean = false;
 
-  private _formBuilder = inject(FormBuilder);
-
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
+  public readonly range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
   });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
-  
-  isEditable = false;
 
   ngOnInit(): void {
     this.fetchTreatmentData();
