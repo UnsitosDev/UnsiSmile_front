@@ -240,7 +240,6 @@ export class FormUpdatePatientComponent implements OnInit {
         await this.loadStreetData(street.name);
       }
     } catch (error) {
-      console.error('Error loading address data:', error);
       this.toastr.error('Error al cargar los datos de dirección');
     }
   }
@@ -592,7 +591,6 @@ export class FormUpdatePatientComponent implements OnInit {
         } : null
       };
 
-      console.log('JSON completo a enviar:', JSON.stringify(patientData, null, 2));
 
       this.apiService.patchService({
         headers: new HttpHeaders({

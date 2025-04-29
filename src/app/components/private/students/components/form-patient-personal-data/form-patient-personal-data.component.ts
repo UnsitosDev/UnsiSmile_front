@@ -182,50 +182,61 @@ export class FormPatientPersonalDataComponent {
    fillFormWithPersonData(person: any): void {
      if (!person) return;
      
-     // Actualizar los campos del formulario con los datos de la persona
-     this.formGroup.patchValue({
-       firstName: person.firstName || '',
-       secondName: person.secondName || '',
-       firstLastName: person.firstLastName || '',
-       secondLastName: person.secondLastName || '',
-       phone: person.phone || '',
-       email: person.email || '',
-       birthDate: person.birthDate ? new Date(person.birthDate) : null,
-     });
-
-     // Si la persona tiene género, seleccionarlo en el dropdown
-     if (person.gender?.idGender) {
-       this.formGroup.patchValue({
-         gender: person.gender.idGender.toString()
-       });
-     }
-
-     // Calcular si es menor de edad
-     if (person.birthDate) {
-       const birthDate = new Date(person.birthDate);
-       const today = new Date();
-       const age = today.getFullYear() - birthDate.getFullYear();
-       const isMinor = age < 18;
-       
-       // Actualizar el estado del componente para mostrar la pestaña de tutor si es menor
-       this.onAgeStatusChange(isMinor);
-     }
-
-     // Actualizar la vista para reflejar los cambios
-     this.cdr.detectChanges();
+     // Primero cargamos las opciones de género
+     this.patientService.getGender();
      
-     // Notificar al usuario
-     this.toastr.info('Se encontraron datos personales asociados a esta CURP. Los campos han sido rellenados automáticamente.', 'Información');
+     setTimeout(() => {
+       // Actualizar los campos del formulario con los datos de la persona
+       this.formGroup.patchValue({
+         firstName: person.firstName || '',
+         secondName: person.secondName || '',
+         firstLastName: person.firstLastName || '',
+         secondLastName: person.secondLastName || '',
+         phone: person.phone || '',
+         email: person.email || '',
+         birthDate: person.birthDate ? new Date(person.birthDate) : null,
+       });
+       
+       // Si la persona tiene género, asegurarse que el campo tenga las opciones primero
+       if (person.gender?.idGender) {
+         // Buscar el campo de género para actualizar sus opciones
+         const genderField = this.personal.find(field => field.name === 'gender');
+         if (genderField) {
+           genderField.options = this.patientService.genderOptions;
+         }
+         
+         // Luego establecer el valor
+         this.formGroup.patchValue({
+           gender: person.gender.idGender.toString()
+         });
+       }
+
+       // Calcular si es menor de edad
+       if (person.birthDate) {
+         const birthDate = new Date(person.birthDate);
+         const today = new Date();
+         const age = today.getFullYear() - birthDate.getFullYear();
+         const isMinor = age < 18;
+         
+         // Actualizar el estado del componente para mostrar la pestaña de tutor si es menor
+         this.onAgeStatusChange(isMinor);
+       }
+
+       // Forzar actualización de la vista para reflejar los cambios
+       this.cdr.detectChanges();
+       
+     }, 300); // Un pequeño retraso para asegurar que los datos se hayan cargado
    }
 
    // Nuevo método para rellenar el formulario con los datos del tutor
    fillFormWithGuardianData(guardian: any): void {
      if (!guardian) return;
 
-     // Asegurarse de que los datos de género estén disponibles antes de rellenar el formulario
+     // Cargar primero las opciones de género y estado civil parental
      this.patientService.getGender();
+     this.patientService.getParentsMaritalStatusData();
      
-     // Esperar brevemente para que se carguen las opciones de género
+     // Esperar brevemente para que se carguen todas las opciones
      setTimeout(() => {
        // Actualizar los campos del formulario con los datos del tutor
        this.formGroup.patchValue({
@@ -238,40 +249,34 @@ export class FormPatientPersonalDataComponent {
          guardianBirthDate: guardian.person?.birthDate ? new Date(guardian.person.birthDate) : null,
          doctorName: guardian.doctorName || ''
        });
-
-       // Si el tutor tiene género, seleccionarlo en el dropdown
+       
+       // Para el género del tutor
+       const guardianGenderField = this.guardian.find(field => field.name === 'guardianGender');
+       if (guardianGenderField) {
+         guardianGenderField.options = this.patientService.genderOptions;
+       }
+       
        if (guardian.person?.gender?.idGender) {
-         // Asegurar que las opciones del campo de género estén cargadas
-         const guardianGenderField = this.guardian.find(field => field.name === 'guardianGender');
-         if (guardianGenderField) {
-           guardianGenderField.options = this.patientService.genderOptions;
-         }
-         
          this.formGroup.patchValue({
            guardianGender: guardian.person.gender.idGender.toString()
          });
        }
-
-       // Asegurar que los datos de estado civil parental estén disponibles
-       this.patientService.getParentsMaritalStatusData();
        
-       // Si el tutor tiene estado civil parental, seleccionarlo en el dropdown
+       // Para el estado civil parental
+       const maritalStatusField = this.guardian.find(field => field.name === 'parentsMaritalStatus');
+       if (maritalStatusField) {
+         maritalStatusField.options = this.patientService.parentsMaritalStatusOptions;
+       }
+       
        if (guardian.parentalStatus?.idCatalogOption) {
-         const maritalStatusField = this.guardian.find(field => field.name === 'parentsMaritalStatus');
-         if (maritalStatusField) {
-           maritalStatusField.options = this.patientService.parentsMaritalStatusOptions;
-         }
-         
          this.formGroup.patchValue({
            parentsMaritalStatus: guardian.parentalStatus.idCatalogOption.toString()
          });
        }
 
-       // Actualizar la vista para reflejar los cambios
+       // Forzar actualización de la vista para reflejar los cambios
        this.cdr.detectChanges();
        
-       // Notificar al usuario
-       this.toastr.info('Se encontraron datos de tutor asociados a esta CURP. Los campos han sido rellenados automáticamente.', 'Información');
      }, 300); // Un pequeño retraso para asegurar que los datos se hayan cargado
    }
 
