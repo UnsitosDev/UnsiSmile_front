@@ -1,9 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
 
 import { CardPatientDataComponent } from "../../components/card-patient-data/card-patient-data.component";
 import { MedicalRecordGeneralTreatmentsComponent } from "../medical-records-treatments/medical-record-general-treatments/medical-record-general-treatments.component";
@@ -17,20 +19,20 @@ import { Treatments } from '@mean/models';
 import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
 
 import { UriConstants } from '@mean/utils';
-import { MatButton } from '@angular/material/button';
+import { DialogNewTreatmentComponent } from '../../components/dialog-new-treatment/dialog-new-treatment.component';
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
   imports: [MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent],
   templateUrl: './treatments.component.html',
-  styleUrl: './treatments.component.scss'
+  styleUrl: './treatments.component.scss',
 })
 export class TreatmentsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly apiService = inject(ApiService);
   public readonly configMedicalRecord = inject(GeneralHistoryService);
-  
+  public readonly dialog = inject(MatDialog);
   public medicalRecord!: dataTabs;
   public patientUuid!: string;
   public idHistoryGeneral!: number;
@@ -109,5 +111,17 @@ export class TreatmentsComponent implements OnInit {
 
   private createMedicalRecord(): void {
     console.log('Creando nueva historia clínica general...');
+  }
+
+  openDialogNewTreatment(): void {
+
+    const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+      }
+    });
   }
 }
