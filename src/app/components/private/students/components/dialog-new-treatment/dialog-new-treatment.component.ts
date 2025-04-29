@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -23,8 +23,10 @@ import { UriConstants } from '@mean/utils';
 @Component({
   selector: 'app-dialog-new-treatment',
   standalone: true,
-  providers: [provideNativeDateAdapter()],
-  imports: [MatListModule, MatDialogModule, MatCardModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule],
+  providers: [
+    provideNativeDateAdapter(),
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
+  ], imports: [MatListModule, MatDialogModule, MatCardModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule],
   templateUrl: './dialog-new-treatment.component.html',
   styleUrl: './dialog-new-treatment.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,6 +63,7 @@ export class DialogNewTreatmentComponent {
       .subscribe({
         next: (response: Treatments[]) => {
           this.treatmentData = response;
+          console.log('Tratamientos: ', this.treatmentData)
         },
         error: (error) => {
           console.error(error);
