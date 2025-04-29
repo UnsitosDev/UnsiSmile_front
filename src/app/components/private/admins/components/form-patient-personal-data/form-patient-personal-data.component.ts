@@ -335,7 +335,6 @@ export class FormPatientPersonalDataComponent {
       this.cdr.detectChanges();
       
       // Notificar al usuario
-      this.toastr.info('Se encontraron datos de tutor asociados a esta CURP. Los campos han sido rellenados automáticamente.', 'Información');
     }, 300); // Un pequeño retraso para asegurar que los datos se hayan cargado
   }
 
@@ -582,9 +581,7 @@ export class FormPatientPersonalDataComponent {
           },
         });
     } else {
-      
-      console.log('Datos que se enviarían (formulario inválido):', JSON.stringify(this.formGroup.value, null, 2));
-      console.log('Errores de validación:', this.getFormValidationErrors());
+
       
       this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
