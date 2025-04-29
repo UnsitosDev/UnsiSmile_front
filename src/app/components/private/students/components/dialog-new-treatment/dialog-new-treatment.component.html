@@ -6,7 +6,7 @@
       </span>
     </div>
   </mat-card-title>
-<mat-dialog-content class="p-4 custom-dialog">
+<!-- <mat-dialog-content class="p-4 custom-dialog">
     <mat-list>
         @if (treatmentData) {
             @for (item of treatmentData; track item.idTreatment) {
@@ -18,4 +18,39 @@
             }
         }
     </mat-list>
-</mat-dialog-content>
+</mat-dialog-content> -->
+
+<mat-stepper #stepper class="custom-dialog">
+  <mat-step [stepControl]="firstFormGroup" errorMessage="Name is required.">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Fill out your name</ng-template>
+      <mat-dialog-content class="p-4 custom-dialog">
+        <mat-list>
+            @if (treatmentData) {
+                @for (item of treatmentData; track item.idTreatment) {
+                    <mat-list-item>
+                        <span matListItemTitle>{{item.name}}</span>
+                        <span matListItemLine>{{item.clinicalHistoryCatalogName}}</span>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                }
+            }
+        </mat-list>
+    </mat-dialog-content>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" errorMessage="Address is required.">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Selecciona tratamiento</ng-template>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+
