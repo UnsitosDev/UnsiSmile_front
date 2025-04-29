@@ -36,7 +36,7 @@
 
 .symbol-name {
   display: block;
-  margin-top: 0.5rem; /* Ajusta el margen superior para separar el nombre del símbolo */
+  margin-top: 1rem; /* Ajusta el margen superior para separar el nombre del símbolo */
   text-align: center;
   font-size: 12px;
   color: black;
@@ -47,11 +47,6 @@
   left: 0;
   width: 100%;
   text-align: center;
-}
-
-.tooth-symbol-fluorosis {
-  color: red;
-  font-size: 12px;
 }
 
 .custom-text {
