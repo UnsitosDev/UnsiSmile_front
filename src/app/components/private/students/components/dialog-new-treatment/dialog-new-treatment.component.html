@@ -11,9 +11,9 @@
   <div class="flex justify-center">
     <mat-form-field class="mx-2 w-full">
       <mat-label>Tratamiento</mat-label>
-      <mat-select>
-        @for (item of treatmentData; track item.idTreatment) {
-          <mat-option [value]="item">{{item.clinicalHistoryCatalogName}}</mat-option>
+      <mat-select [(value)]="selectedTreatments" (selectionChange)="onTreatmentSelected($event)">
+        @for (item of treatmentData; track $index) {
+          <mat-option [value]="item">{{item.name}}</mat-option>
         }
       </mat-select>
     </mat-form-field>

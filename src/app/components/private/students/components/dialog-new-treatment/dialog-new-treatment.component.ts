@@ -10,7 +10,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 
@@ -39,7 +39,9 @@ export class DialogNewTreatmentComponent {
   private readonly apiService = inject(ApiService);
   public readonly troast = inject(ToastrService);
   public treatmentData!: Treatments[];
-  public organoDentario: boolean = false;
+  public dentalOrgan: boolean = false;
+  public selectedTreatments: Treatments[] = [];
+
 
   public readonly range = new FormGroup({
     start: new FormControl<Date | null>(null),
@@ -72,6 +74,10 @@ export class DialogNewTreatmentComponent {
           console.error(error);
         },
       });
+  }
+
+  onTreatmentSelected(event: MatSelectChange): void {
+    console.log('Opción seleccionada (desde variable):', this.selectedTreatments);
   }
 
 }
