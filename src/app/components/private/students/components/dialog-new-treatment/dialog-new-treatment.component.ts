@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, Input, ViewChild } from '@angular/core';
-import { JsonPipe } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
-
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
-
+import { Validators, FormsModule, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -30,7 +27,18 @@ import { STATUS } from 'src/app/utils/statusToReview';
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     { provide: DateAdapter, useClass: SpanishDateAdapter }
   ],
-  imports: [MatListModule, MatDialogModule, MatCardModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule],
+  imports: [
+    MatListModule,
+    MatDialogModule,
+    MatCardModule,
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule
+  ],
   templateUrl: './dialog-new-treatment.component.html',
   styleUrl: './dialog-new-treatment.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,7 +66,6 @@ export class DialogNewTreatmentComponent {
   }
 
   fetchTreatmentData() {
-
     this.apiService
       .getService({
         headers: new HttpHeaders({
@@ -85,6 +92,15 @@ export class DialogNewTreatmentComponent {
   }
 
   saveTreatment() {
+    if (!this.validateAndMarkControls()) {
+      return;
+    }
+
+    const payload = this.buildTreatmentPayload();
+    this.sendTreatmentRequest(payload);
+  }
+
+  private validateAndMarkControls(): boolean {
     this.treatmentControl.markAsTouched();
     this.startDateControl.markAsTouched();
     this.endDateControl.markAsTouched();
@@ -93,44 +109,54 @@ export class DialogNewTreatmentComponent {
       this.itemTeeth.markAsTouched();
     }
 
-    if (!this.treatmentControl.value || !this.startDateControl.value ||
-      (this.selectedTreatmentsName === 'Diente' && this.itemTeeth.value?.length === 0)) {
-      this.toast.error('Por favor, complete todos los campos obligatorios.');
-      return;
+    const basicFieldsValid = this.treatmentControl.value && this.startDateControl.value;
+    const teethValid =
+      this.selectedTreatmentsName !== 'Diente' ||
+      (this.itemTeeth.value?.length ?? 0) > 0;
+
+    if (!basicFieldsValid || !teethValid) {
+      this.toast.warning('Por favor, complete todos los campos obligatorios.');
+      return false;
     }
 
-    const selectedTeeth = this.itemTeeth.value
-      ? this.itemTeeth.value.map((tooth: any) => tooth.idTooth.toString())
-      : [];
+    return true;
+  }
 
-    const payload: RequestTreatment = {
+  private buildTreatmentPayload(): RequestTreatment {
+    const selectedTeeth =
+      this.itemTeeth.value?.map((tooth) => tooth.idTooth.toString()) || [];
+
+    return {
       idTreatmentDetail: 0,
       patientId: this.data.patientUuid,
-      treatmentId: this.treatmentControl.value.idTreatment,
-      startDate: this.startDateControl.value.toISOString(),
+      treatmentId: this.treatmentControl.value!.idTreatment,
+      startDate: this.startDateControl.value!.toISOString(),
       endDate: this.endDateControl.value?.toISOString() || '',
-      professorId: "1696",
+      professorId: '1696',
       status: STATUS.IN_REVIEW,
       treatmentDetailToothRequest: {
         idTreatmentDetail: 0,
-        idTeeth: selectedTeeth
-      }
-    };
-
-    this.apiService.postService({
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      url: `${UriConstants.POST_TREATMENTS}`,
-      data: payload
-    }).subscribe({
-      next: () => {
-        this.toast.success('Tratamiento creado exitosamente');
-        this.dialogRef.close(true);
+        idTeeth: selectedTeeth,
       },
-      error: (error) => {
-        console.error(error);
-        this.toast.error('Error al crear tratamiento');
-      }
-    });
+    };
+  }
+
+  private sendTreatmentRequest(payload: RequestTreatment): void {
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        url: `${UriConstants.POST_TREATMENTS}`,
+        data: payload,
+      })
+      .subscribe({
+        next: () => {
+          this.toast.success('Tratamiento creado exitosamente');
+          this.dialogRef.close(true);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
 
   closeDialog() {
