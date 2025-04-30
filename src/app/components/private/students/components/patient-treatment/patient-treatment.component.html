@@ -1,1 +1,11 @@
-<p>patient-treatment works!</p>
+<div class="p-4">
+    <mat-list>
+        @for (item of treatmentsPatient?.content; track item.idTreatmentDetail) {
+            <mat-list-item>
+              <span matListItemTitle>Tratamiento: {{item.treatment.name}}</span>
+              Duración: {{ formatArrayDate(item.startDate) }} - {{ formatArrayDate(item.endDate) }}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        }
+      </mat-list>
+</div>
