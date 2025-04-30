@@ -79,7 +79,7 @@ export class PreventiveDentistryPublicHealthComponent {
   public role!: string;
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-
+  ROL = ROLES;
   constructor() { }
 
   ngOnInit(): void {

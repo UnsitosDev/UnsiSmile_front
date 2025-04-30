@@ -114,11 +114,33 @@ export class TreatmentsComponent implements OnInit {
     );
 
     if (!generalHistory) {
-      this.createMedicalRecord();
+      const fetchMedicalRecordGeneral = this.patientConfigHistories.find(
+      history => history.clinicalHistoryName == "General");
+      const medicalRecordGeneraId = fetchMedicalRecordGeneral?.id;
+      this.createMedicalRecord(medicalRecordGeneraId);
     }
   }
 
-  private createMedicalRecord(): void {
+  createMedicalRecord(idClinicalHistoryCatalog: number | undefined): void {
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_CLINICAL_HISTORY}?idPatient=${this.patientUuid}&idClinicalHistory=${idClinicalHistoryCatalog}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.fetchMedicalRecordConfig();
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+  }
+
+  private(): void {
     console.log('Creando nueva historia clínica general...');
   }
 

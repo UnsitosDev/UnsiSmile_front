@@ -103,8 +103,6 @@ export class MedicalRecordGeneralTreatmentsComponent {
     } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
       return;
     }
-
-    console.log('Mapped Data:', this.mappedHistoryData);
   }
 
   private setupNavigationGuard(): void {
