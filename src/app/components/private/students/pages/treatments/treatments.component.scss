@@ -13,3 +13,50 @@
     border-radius: 2px;
     padding: 8px 16px;
 }
+
+.item-container {
+    width: 100%;
+}
+
+.content-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.list-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.view-badge {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 4px 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+mat-list-item {
+    overflow: hidden;
+}
+
+mat-list-item span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.treatment {
+    background: #c4c4c4;
+    color: var(--text);
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    margin-left: 8px;
+    flex-shrink: 0;
+}

@@ -37,11 +37,18 @@
       </div>
       <mat-list>
         @for (item of treatmentsPatient?.content; track item.idTreatmentDetail) {
-            <mat-list-item>
-              <span matListItemTitle>Tratamiento: {{item.treatment.name}}</span>
-              Duración: {{ formatArrayDate(item.startDate) }} - {{ formatArrayDate(item.endDate) }}
+        <section class="item-container">
+          <div class="content-wrapper">
+            <mat-list-item class="list-content">
+              <span matListItemTitle><strong>Tratamiento:</strong> {{item.treatment.name}}</span>
+              <span matListItemLine><strong>Duración:</strong> {{ formatArrayDate(item.startDate) }} - {{ formatArrayDate(item.endDate) }}</span>
             </mat-list-item>
-            <mat-divider></mat-divider>
+            <span class="view-badge" (click)="openTreatment(item)">
+              Ver Tratamiento
+            </span>
+          </div>
+          <mat-divider></mat-divider>
+        </section>
         }
       </mat-list>
   </mat-tab>

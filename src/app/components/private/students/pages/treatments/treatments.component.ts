@@ -151,6 +151,15 @@ export class TreatmentsComponent implements OnInit {
       });
   }
 
+  openTreatment(treatment: TreatmentDetailResponse): void {
+    console.log('Tratamiento seleccionado:', treatment);
+    const data = {
+      patientUuid: this.patientUuid,
+      medicalRecordId: treatment.treatment.clinicalHistoryCatalogId,
+    }
+    console.log('Data:', data);
+  }
+
   formatArrayDate(dateArray: number[]): string {
     if (!dateArray || dateArray.length < 3) return 'Fecha inválida';
     
