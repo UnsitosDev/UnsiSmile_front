@@ -22,11 +22,12 @@ import { UriConstants } from '@mean/utils';
 import { DialogNewTreatmentComponent } from '../../components/dialog-new-treatment/dialog-new-treatment.component';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { MatListModule } from '@angular/material/list';
+import { PreventiveDentistryPublicHealthComponent } from "../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component";
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent],
+  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss',
 })
@@ -37,6 +38,7 @@ export class TreatmentsComponent implements OnInit {
   public readonly dialog = inject(MatDialog);
 
   public medicalRecord!: dataTabs;
+  public medicalRecordId!: number;
   public patientUuid!: string;
   public idHistoryGeneral!: number;
   public patientMedicalRecord!: number;
@@ -44,6 +46,8 @@ export class TreatmentsComponent implements OnInit {
   public isLoading = false;
   public treatmentsData!: Treatments[];
   public treatmentsPatient!: PaginatedData<TreatmentDetailResponse> | null;
+  public viewTreatment: boolean = false;
+  public tabMedicalRecord!: string;
 
   public patientConfigHistories: ClinicalHistory[] = [];
 
@@ -132,7 +136,7 @@ export class TreatmentsComponent implements OnInit {
       }
     });
   }
-  
+
   public fetchTreatmentData() {
     this.apiService.getService({
       headers: new HttpHeaders({
@@ -152,21 +156,18 @@ export class TreatmentsComponent implements OnInit {
   }
 
   openTreatment(treatment: TreatmentDetailResponse): void {
-    console.log('Tratamiento seleccionado:', treatment);
-    const data = {
-      patientUuid: this.patientUuid,
-      medicalRecordId: treatment.treatment.clinicalHistoryCatalogId,
-    }
-    console.log('Data:', data);
+    this.viewTreatment = true;
+    this.medicalRecordId = treatment.treatment.clinicalHistoryCatalogId;
+    this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
   }
 
   formatArrayDate(dateArray: number[]): string {
     if (!dateArray || dateArray.length < 3) return 'Fecha inválida';
-    
+
     const year = dateArray[0];
     const month = dateArray[1].toString().padStart(2, '0');
     const day = dateArray[2].toString().padStart(2, '0');
-    
+
     return `${day}/${month}/${year}`;
   }
 }

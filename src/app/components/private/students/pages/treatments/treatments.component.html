@@ -52,4 +52,14 @@
         }
       </mat-list>
   </mat-tab>
+
+  @if (viewTreatment) {
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="fas fa-file"></i>
+        <span class="ml-2">{{tabMedicalRecord}}</span>
+      </ng-template>
+      <app-preventive-dentistry-public-health [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" ></app-preventive-dentistry-public-health>
+    </mat-tab>
+  }
 </mat-tab-group>

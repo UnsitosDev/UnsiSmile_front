@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
@@ -44,6 +44,8 @@ import { HeaderHistoryClinicComponent } from "../../../components/header-history
   styleUrl: './preventive-dentistry-public-health.component.scss'
 })
 export class PreventiveDentistryPublicHealthComponent {
+  @Input() public patientUuid!: string;
+  @Input() public medicalRecord!: number;
   private router = inject(ActivatedRoute);
   private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
@@ -84,9 +86,15 @@ export class PreventiveDentistryPublicHealthComponent {
     this.getRole();
 
     this.router.params.subscribe((params) => {
-      this.id = params['id']; // Id Historia Clinica
-      this.idpatient = params['patient']; // Id Paciente
-      this.idPatientClinicalHistory = params['patientID']; // idPatientClinicalHistory
+      
+      if (this.role == ROLES.STUDENT) {
+        this.id = this.medicalRecord;
+        this.idpatient = this.patientUuid;
+      } else {
+        this.id = params['id']; // Id Historia Clinica
+        this.idpatient = params['patient']; // Id Paciente
+        this.idPatientClinicalHistory = params['patientID']; // idPatientClinicalHistory
+      }
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = this.processMappedData(mappedData, this.role);
@@ -98,6 +106,7 @@ export class PreventiveDentistryPublicHealthComponent {
           const processedData = this.getTabsforReview(this.mappedHistoryData);
           if (processedData) {
             this.mappedHistoryData = processedData;
+            console.log('hc:', this.mappedHistoryData);
           } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
             return;
           }
