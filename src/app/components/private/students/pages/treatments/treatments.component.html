@@ -35,5 +35,14 @@
           <button mat-button class="button-custom !text-white" (click)="openDialogNewTreatment()">Crear Tratamiento</button>
         </div>
       </div>
+      <mat-list>
+        @for (item of treatmentsPatient?.content; track item.idTreatmentDetail) {
+            <mat-list-item>
+              <span matListItemTitle>Tratamiento: {{item.treatment.name}}</span>
+              Duración: {{ formatArrayDate(item.startDate) }} - {{ formatArrayDate(item.endDate) }}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        }
+      </mat-list>
   </mat-tab>
 </mat-tab-group>

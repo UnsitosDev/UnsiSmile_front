@@ -15,16 +15,18 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 
 import { ClinicalHistory } from 'src/app/models/history-clinic/historyClinic';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
-import { Treatments } from '@mean/models';
+import { TreatmentDetailResponse, Treatments } from '@mean/models';
 import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
 
 import { UriConstants } from '@mean/utils';
 import { DialogNewTreatmentComponent } from '../../components/dialog-new-treatment/dialog-new-treatment.component';
+import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent],
+  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss',
 })
@@ -33,6 +35,7 @@ export class TreatmentsComponent implements OnInit {
   private readonly apiService = inject(ApiService);
   public readonly configMedicalRecord = inject(GeneralHistoryService);
   public readonly dialog = inject(MatDialog);
+
   public medicalRecord!: dataTabs;
   public patientUuid!: string;
   public idHistoryGeneral!: number;
@@ -40,11 +43,13 @@ export class TreatmentsComponent implements OnInit {
   public medicalRecordLoaded = false;
   public isLoading = false;
   public treatmentsData!: Treatments[];
+  public treatmentsPatient!: PaginatedData<TreatmentDetailResponse> | null;
 
   public patientConfigHistories: ClinicalHistory[] = [];
 
   ngOnInit(): void {
     this.routeParams();
+    this.fetchTreatmentData();
   }
 
   public routeParams() {
@@ -126,5 +131,33 @@ export class TreatmentsComponent implements OnInit {
       if (result) {
       }
     });
+  }
+  
+  public fetchTreatmentData() {
+    this.apiService.getService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url: `${UriConstants.GET_TREATMENT_BY_ID}/${this.patientUuid}`,
+      data: {},
+    })
+      .subscribe({
+        next: (response: PaginatedData<TreatmentDetailResponse>) => {
+          this.treatmentsPatient = response;
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+  }
+
+  formatArrayDate(dateArray: number[]): string {
+    if (!dateArray || dateArray.length < 3) return 'Fecha inválida';
+    
+    const year = dateArray[0];
+    const month = dateArray[1].toString().padStart(2, '0');
+    const day = dateArray[2].toString().padStart(2, '0');
+    
+    return `${day}/${month}/${year}`;
   }
 }

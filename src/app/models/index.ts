@@ -8,3 +8,4 @@ export * from './shared/periodontogram.model'
 export * from './shared/formats.model'
 export * from './shared/statusHc'
 export * from './treatments/treatments.model';
+export * from './treatments/patientTreatments.model'
