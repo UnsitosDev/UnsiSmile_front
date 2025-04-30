@@ -29,6 +29,12 @@ export const StudentItems: MenuItem[] = [
     buttonDescription: 'Descargar formatos',
     routerlink: '/students/dowload-formats'
   },
+  {
+    fontAwesomeIcon: faFileClipboard,
+    buttonText: 'Tratamientos',
+    buttonDescription: 'Ver tratamientos',
+    routerlink: '/students/treatments'
+  },
 ];
 
 export const AdminItems: MenuItem[] = [
