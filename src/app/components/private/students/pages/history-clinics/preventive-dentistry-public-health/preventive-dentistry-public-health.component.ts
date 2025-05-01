@@ -20,7 +20,7 @@ import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { Subscription } from 'rxjs';
-import { StudentItems } from '@mean/models';
+import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, PATIENT_UUID_ROUTE, StudentItems } from '@mean/models';
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { HttpHeaders } from '@angular/common/http';
@@ -88,9 +88,9 @@ export class PreventiveDentistryPublicHealthComponent {
         this.idpatient = this.patientUuid;
         this.idPatientClinicalHistory = this.patientMedicalRecord;
       } else {
-        this.id = params['id'];
-        this.idpatient = params['patient'];
-        this.idPatientClinicalHistory = params['patientID'];
+        this.id = params[ID_MEDICAL_RECORD];
+        this.idpatient = params[PATIENT_UUID_ROUTE];
+        this.idPatientClinicalHistory = params[ID_PATIENT_MEDICAL_RECORD];
       }
 
       this.loadClinicalHistory();
