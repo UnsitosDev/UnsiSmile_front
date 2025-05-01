@@ -58,6 +58,7 @@ export class FormPatientPersonalDataComponent {
   disabledPatient: boolean = false;  // Nueva variable para controlar si el paciente es discapacitado
   private studentService = inject(studentService);
   needsGuardian: boolean = false; // Nueva variable para controlar si el paciente discapacitado necesita tutor
+  guardianId: number = 0; // Nueva propiedad para almacenar el ID del tutor
 
   formGroup!: FormGroup;
   personal: FormField[] = [];
@@ -287,6 +288,11 @@ export class FormPatientPersonalDataComponent {
   // Nuevo método para rellenar el formulario con los datos del tutor
   fillFormWithGuardianData(guardian: any): void {
     if (!guardian) return;
+
+    // Guardar el ID del tutor si existe
+    if (guardian.idGuardian) {
+      this.guardianId = guardian.idGuardian;
+    }
 
     // Cargar primero las opciones de género y estado civil parental
     this.patientService.getGender();
@@ -531,7 +537,7 @@ export class FormPatientPersonalDataComponent {
           religion: this.patientService.religionOptions.find(option => option.value === formValues.religion)?.label || ""
         },
         guardian: (this.minorPatient || (this.disabledPatient && this.needsGuardian)) ? {
-          idGuardian: 3,
+          idGuardian: this.guardianId || 0, 
           person: {
             curp: formValues.guardianCurp,
             firstName: formValues.firstGuardianName,
