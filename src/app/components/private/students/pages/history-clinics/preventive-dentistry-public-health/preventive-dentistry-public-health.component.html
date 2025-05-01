@@ -2,8 +2,8 @@
     <mat-card appearance="outlined" class="custom">
         <app-card-patient-data [data]="patientData" [guardianData]="guardianData"></app-card-patient-data>
     </mat-card>
+    <br>
 }
-<br>
 @if (mappedHistoryData) {
     <mat-card-title>
         <app-header-history-clinic 
@@ -21,6 +21,7 @@
                     <mat-tab [label]="tab.title">
                         @if (tab.isAnswered && tab.title !== 'Profilaxis Dental') {
                             <app-tab-form-update
+                            [patientMedicalRecord]="patientMedicalRecord"
                             [fieldsTab]="tab" 
                             (nextMatTab)="onNextTab()"
                             (previousMatTab)="onPreviousTab()"

@@ -4,4 +4,5 @@ export const STATUS = {
     IN_REVIEW: 'IN_REVIEW',
     APPROVED: 'APPROVED',
     REJECTED: 'REJECTED',
+    NOT_REQUIRED: 'NOT_REQUIRED'
 };  

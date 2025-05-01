@@ -133,10 +133,6 @@ export class TreatmentsComponent implements OnInit {
       });
   }
 
-  private(): void {
-    console.log('Creando nueva historia clínica general...');
-  }
-
   openDialogNewTreatment(): void {
 
     const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
@@ -175,7 +171,6 @@ export class TreatmentsComponent implements OnInit {
     this.viewTreatment = true;
     this.medicalRecordId = treatment.treatment.clinicalHistoryCatalogId;
     this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
-    console.log(this.patientMedicalRecord);
   }
 
   formatArrayDate(dateArray: number[]): string {

@@ -10,8 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 // Componentes
 import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
-import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
 
 // Servicios
 import { ApiService, AuthService } from '@mean/services';
@@ -98,10 +96,6 @@ export class  PreventiveDentistryPublicHealthComponent {
         this.idPatientClinicalHistory = params['patientID']; // idPatientClinicalHistory
       }
 
-      console.log('medical record:', this.id);
-      console.log('patientUuid:', this.idpatient);
-      console.log('idPatientClinicalHistory:', this.idPatientClinicalHistory);
-
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = this.processMappedData(mappedData, this.role);
@@ -113,7 +107,6 @@ export class  PreventiveDentistryPublicHealthComponent {
           const processedData = this.getTabsforReview(this.mappedHistoryData);
           if (processedData) {
             this.mappedHistoryData = processedData;
-            console.log('hc:', this.mappedHistoryData);
           } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
             return;
           }
@@ -267,18 +260,15 @@ export class  PreventiveDentistryPublicHealthComponent {
     }
   }
 
-  // Método auxiliar para obtener el nombre completo
   private getFullName(firstName: string, secondName: string, firstLastName: string, secondLastName: string): string {
     return `${firstName} ${secondName} ${firstLastName} ${secondLastName}`.trim();
   }
 
-  // Método auxiliar para formatear la dirección
   private formatAddress(address: any): string {
     const { street } = address;
     return `${street.name} , ${street.neighborhood.name}, ${street.neighborhood.locality.name}, ${street.neighborhood.locality.municipality.name}, ${street.neighborhood.locality.municipality.state.name}`;
   }
 
-  // Método para formatear fecha
   formatDate(dateArray: number[]): string {
     const [year, month, day] = dateArray;
     return `${day}/${month}/${year}`;
@@ -295,8 +285,7 @@ export class  PreventiveDentistryPublicHealthComponent {
   getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
 
-    // Si no se fuerza la solicitud y el tab tiene NO_STATUS o NO_REQUIRED, no hacemos la solicitud
-    if (!forceRequest && (currentTab.status === STATUS.NO_REQUIRED || currentTab.status === STATUS.NO_REQUIRED)) {
+    if (!forceRequest && (currentTab.status === STATUS.NOT_REQUIRED || currentTab.status === STATUS.NO_REQUIRED)) {
       return;
     }
 
@@ -319,16 +308,16 @@ export class  PreventiveDentistryPublicHealthComponent {
   }
 
   onNextTab(): void {
-    this.currentIndex++; // Incrementar el índice del tab activo
+    this.currentIndex++; 
     if (this.currentIndex >= this.mappedHistoryData.tabs.length) {
-      this.currentIndex = this.mappedHistoryData.tabs.length - 1; // Limitar el índice si excede la cantidad de tabs
+      this.currentIndex = this.mappedHistoryData.tabs.length - 1;
     }
   }
 
   onPreviousTab(): void {
-    this.currentIndex--; // Decrementar el índice del tab activo
+    this.currentIndex--; 
     if (this.currentIndex < 0) {
-      this.currentIndex = 0; // Limitar el índice si es menor que cero
+      this.currentIndex = 0; 
     }
   }
 }
