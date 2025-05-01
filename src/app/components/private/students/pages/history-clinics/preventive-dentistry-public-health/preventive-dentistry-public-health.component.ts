@@ -16,17 +16,14 @@ import { ApiService, AuthService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
-import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
-import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { Subscription } from 'rxjs';
-import { StatusClinicalHistoryResponse, StudentItems } from '@mean/models';
+import { StudentItems } from '@mean/models';
 import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { HttpHeaders } from '@angular/common/http';
-import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { MenuAssessMedicalHistoryComponent } from "../../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component";
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
@@ -55,8 +52,6 @@ export class PreventiveDentistryPublicHealthComponent {
 
   public id!: number;
   public idpatient!: string;
-  public patientData!: cardPatient;
-  public guardianData: cardGuardian | null = null;
   public currentIndex: number = 0;
   public mappedHistoryData!: dataTabs;
   public role!: string;
@@ -72,11 +67,21 @@ export class PreventiveDentistryPublicHealthComponent {
 
   ROL = ROLES;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
-    this.getRole();
+    this.initializeUserRole();
+    this.initializeRouteParams();
+    this.setupNavigationInterceptor();
+  }
 
+  private initializeUserRole(): void {
+    this.token = this.userService.getToken() ?? '';
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+  }
+
+  private initializeRouteParams(): void {
     this.router.params.subscribe((params) => {
       if (this.role === ROLES.STUDENT) {
         this.id = this.medicalRecord;
@@ -87,24 +92,31 @@ export class PreventiveDentistryPublicHealthComponent {
         this.idpatient = params['patient'];
         this.idPatientClinicalHistory = params['patientID'];
       }
-      
-      this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
-        next: (mappedData: dataTabs) => {
-          this.mappedHistoryData = this.processMappedData(mappedData, this.role);
-          this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
-          this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
-          this.getFirstTab();
-          this.getStatusHc();
-          const processedData = this.getTabsforReview(this.mappedHistoryData);
-          if (processedData) {
-            this.mappedHistoryData = processedData;
-          } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
-            return;
-          }
-        }
-      });
-    });
 
+      this.loadClinicalHistory();
+    });
+  }
+
+  private loadClinicalHistory(): void {
+    this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
+      next: (mappedData: dataTabs) => {
+        this.mappedHistoryData = this.processMappedData(mappedData, this.role);
+        this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+        this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
+        this.getFirstTab();
+        this.getStatusHc();
+
+        const processedData = this.getTabsforReview(this.mappedHistoryData);
+        if (processedData) {
+          this.mappedHistoryData = processedData;
+        } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
+          return;
+        }
+      }
+    });
+  }
+
+  private setupNavigationInterceptor(): void {
     const allRoutes = [
       ...StudentItems.map(item => item.routerlink),
       ...['/students/user']
