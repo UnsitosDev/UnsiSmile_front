@@ -1,193 +1,225 @@
 @if (renderOdontogram) {
-  <div>
-    <div class="root custom-text">
-      <mat-tab-group
-        [(selectedIndex)]="value"
-        (selectedIndexChange)="handleChange($event, value)"
-      >
-        <mat-tab label="Adulto">
-          <div class="odontogram-container">
-            @if (data.adultArcade.teeth) {
-            <div class="quadrants">
-              <!-- Superior Row -->
-              <div class="upper-row">
-                <!-- Cuadrante 1 (Superior Derecho) -->
-                <div class="quadrant right-quadrant">
-                  @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 1);
-                  track tooth.idTooth) {
-                  <app-students-tooth
-                    (deleteConditions)="openDeleteConditionsDialog($event)"
-                    [state]="state"
-                    [data]="tooth"
-                    [index]="$index"
-                    [marked]="data.marked"
-                    (toggleTooth)="toggleTooth($event)"
-                    (setFace)="setFace($event)"
-                  />
-                  }
-                </div>
-                <!-- Cuadrante 2 (Superior Izquierdo) -->
-                <div class="quadrant left-quadrant">
-                  @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 2);
-                  track tooth.idTooth) {
-                  <app-students-tooth
-                    (deleteConditions)="openDeleteConditionsDialog($event)"
-                    [state]="state"
-                    [data]="tooth"
-                    [index]="$index"
-                    [marked]="data.marked"
-                    (toggleTooth)="toggleTooth($event)"
-                    (setFace)="setFace($event)"
-                  />
-                  }
-                </div>
+<div>
+  <div class="root custom-text">
+    <mat-tab-group
+      [(selectedIndex)]="value"
+      (selectedIndexChange)="handleChange($event, value)"
+    >
+      <mat-tab label="Adulto">
+        <div class="odontogram-container">
+          @if (data.adultArcade.teeth) {
+          <div class="quadrants">
+            <!-- Superior Row -->
+            <div class="upper-row">
+              <!-- Cuadrante 1 (Superior Derecho) -->
+              <div class="quadrant right-quadrant">
+                @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 1);
+                track tooth.idTooth) {
+                <app-students-tooth
+                  (deleteConditions)="openDeleteConditionsDialog($event)"
+                  [state]="state"
+                  [data]="tooth"
+                  [index]="$index"
+                  [marked]="data.marked"
+                  (toggleTooth)="toggleTooth($event)"
+                  (setFace)="setFace($event)"
+                />
+                }
               </div>
-              <!-- Lower Row -->
-              <div class="lower-row">
-                <!-- Cuadrante 4 (Inferior Derecho) -->
-                <div class="quadrant right-quadrant">
-                  @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 4);
-                  track tooth.idTooth) {
-                  <app-students-tooth
-                    (deleteConditions)="openDeleteConditionsDialog($event)"
-                    [state]="state"
-                    [data]="tooth"
-                    [index]="$index"
-                    [marked]="data.marked"
-                    (toggleTooth)="toggleTooth($event)"
-                    (setFace)="setFace($event)"
-                  />
-                  }
-                </div>
-                <!-- Cuadrante 3 (Inferior Izquierdo) -->
-                <div class="quadrant left-quadrant">
-                  @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 3);
-                  track tooth.idTooth) {
-                  <app-students-tooth
-                    (deleteConditions)="openDeleteConditionsDialog($event)"
-                    [state]="state"
-                    [data]="tooth"
-                    [index]="$index"
-                    [marked]="data.marked"
-                    (toggleTooth)="toggleTooth($event)"
-                    (setFace)="setFace($event)"
-                  />
-                  }
-                </div>
+              <!-- Cuadrante 2 (Superior Izquierdo) -->
+              <div class="quadrant left-quadrant">
+                @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 2);
+                track tooth.idTooth) {
+                <app-students-tooth
+                  (deleteConditions)="openDeleteConditionsDialog($event)"
+                  [state]="state"
+                  [data]="tooth"
+                  [index]="$index"
+                  [marked]="data.marked"
+                  (toggleTooth)="toggleTooth($event)"
+                  (setFace)="setFace($event)"
+                />
+                }
               </div>
             </div>
-            }
-          </div>
-        </mat-tab>
-        <mat-tab label="Infantil">
-          <div class="odontogram-container">
-            @if (data.childrenArcade.teeth) {
-            <div class="quadrants">
-              <!-- Superior Row -->
-              <div class="upper-row">
-                <!-- Cuadrante 1 (Superior Derecho) -->
-                <div class="quadrant right-quadrant">
-                  @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 5);
-                  track tooth.idTooth) {
-                  <app-students-tooth
-                    (deleteConditions)="openDeleteConditionsDialog($event)"
-                    [state]="state"
-                    [data]="tooth"
-                    [index]="$index"
-                    [marked]="data.marked"
-                    (toggleTooth)="toggleTooth($event)"
-                    (setFace)="setFace($event)"
-                  />
-                  }
-                </div>
-                <!-- Cuadrante 2 (Superior Izquierdo) -->
-                <div class="quadrant left-quadrant">
-                  @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 6);
-                  track tooth.idTooth) {
-                  <app-students-tooth
-                    (deleteConditions)="openDeleteConditionsDialog($event)"
-                    [state]="state"
-                    [data]="tooth"
-                    [index]="$index"
-                    [marked]="data.marked"
-                    (toggleTooth)="toggleTooth($event)"
-                    (setFace)="setFace($event)"
-                  />
-                  }
-                </div>
+            <!-- Lower Row -->
+            <div class="lower-row">
+              <!-- Cuadrante 4 (Inferior Derecho) -->
+              <div class="quadrant right-quadrant">
+                @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 4);
+                track tooth.idTooth) {
+                <app-students-tooth
+                  (deleteConditions)="openDeleteConditionsDialog($event)"
+                  [state]="state"
+                  [data]="tooth"
+                  [index]="$index"
+                  [marked]="data.marked"
+                  (toggleTooth)="toggleTooth($event)"
+                  (setFace)="setFace($event)"
+                />
+                }
               </div>
-              <!-- Lower Row -->
-              <div class="lower-row">
-                <!-- Cuadrante 4 (Inferior Derecho) -->
-                <div class="quadrant right-quadrant">
-                  @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 8);
-                  track tooth.idTooth) {
-                  <app-students-tooth
-                    (deleteConditions)="openDeleteConditionsDialog($event)"
-                    [state]="state"
-                    [data]="tooth"
-                    [index]="$index"
-                    [marked]="data.marked"
-                    (toggleTooth)="toggleTooth($event)"
-                    (setFace)="setFace($event)"
-                  />
-                  }
-                </div>
-                <!-- Cuadrante 3 (Inferior Izquierdo) -->
-                <div class="quadrant left-quadrant">
-                  @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 7);
-                  track tooth.idTooth) {
-                  <app-students-tooth
-                    (deleteConditions)="openDeleteConditionsDialog($event)"
-                    [state]="state"
-                    [data]="tooth"
-                    [index]="$index"
-                    [marked]="data.marked"
-                    (toggleTooth)="toggleTooth($event)"
-                    (setFace)="setFace($event)"
-                  />
-                  }
-                </div>
+              <!-- Cuadrante 3 (Inferior Izquierdo) -->
+              <div class="quadrant left-quadrant">
+                @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 3);
+                track tooth.idTooth) {
+                <app-students-tooth
+                  (deleteConditions)="openDeleteConditionsDialog($event)"
+                  [state]="state"
+                  [data]="tooth"
+                  [index]="$index"
+                  [marked]="data.marked"
+                  (toggleTooth)="toggleTooth($event)"
+                  (setFace)="setFace($event)"
+                />
+                }
               </div>
             </div>
-            }
           </div>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-  
-    @if (toolbar.options) {
-    <app-students-toolbar
-      [toolbar]="toolbar"
-      (handleAction)="handleAction($event)"
-      [state]="state"
-      [marked]="this.marked"
-    />
-    }
-  
-    <div class="button-container">
-      <button (click)="previousTab()" type="button" mat-button matStepperNext>
-        <i class="fas fa-long-arrow-alt-left"></i> 
-        <span class="hidden sm:inline"> ANTERIOR</span>
+          }
+        </div>
+      </mat-tab>
+      <mat-tab label="Infantil">
+        <div class="odontogram-container">
+          @if (data.childrenArcade.teeth) {
+          <div class="quadrants">
+            <!-- Superior Row -->
+            <div class="upper-row">
+              <!-- Cuadrante 1 (Superior Derecho) -->
+              <div class="quadrant right-quadrant">
+                @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 5);
+                track tooth.idTooth) {
+                <app-students-tooth
+                  (deleteConditions)="openDeleteConditionsDialog($event)"
+                  [state]="state"
+                  [data]="tooth"
+                  [index]="$index"
+                  [marked]="data.marked"
+                  (toggleTooth)="toggleTooth($event)"
+                  (setFace)="setFace($event)"
+                />
+                }
+              </div>
+              <!-- Cuadrante 2 (Superior Izquierdo) -->
+              <div class="quadrant left-quadrant">
+                @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 6);
+                track tooth.idTooth) {
+                <app-students-tooth
+                  (deleteConditions)="openDeleteConditionsDialog($event)"
+                  [state]="state"
+                  [data]="tooth"
+                  [index]="$index"
+                  [marked]="data.marked"
+                  (toggleTooth)="toggleTooth($event)"
+                  (setFace)="setFace($event)"
+                />
+                }
+              </div>
+            </div>
+            <!-- Lower Row -->
+            <div class="lower-row">
+              <!-- Cuadrante 4 (Inferior Derecho) -->
+              <div class="quadrant right-quadrant">
+                @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 8);
+                track tooth.idTooth) {
+                <app-students-tooth
+                  (deleteConditions)="openDeleteConditionsDialog($event)"
+                  [state]="state"
+                  [data]="tooth"
+                  [index]="$index"
+                  [marked]="data.marked"
+                  (toggleTooth)="toggleTooth($event)"
+                  (setFace)="setFace($event)"
+                />
+                }
+              </div>
+              <!-- Cuadrante 3 (Inferior Izquierdo) -->
+              <div class="quadrant left-quadrant">
+                @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 7);
+                track tooth.idTooth) {
+                <app-students-tooth
+                  (deleteConditions)="openDeleteConditionsDialog($event)"
+                  [state]="state"
+                  [data]="tooth"
+                  [index]="$index"
+                  [marked]="data.marked"
+                  (toggleTooth)="toggleTooth($event)"
+                  (setFace)="setFace($event)"
+                />
+                }
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  @if (toolbar.options) {
+  <app-students-toolbar
+    [toolbar]="toolbar"
+    (handleAction)="handleAction($event)"
+    [state]="state"
+    [marked]="this.marked"
+  />
+  } @if (state === 'read') {
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Observaciones</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="odontogram.observations"
+      name="observations"
+      rows="5"
+      maxlength="500"
+      placeholder="Ingrese las observaciones"
+      [readonly]="true"
+    >
+    </textarea>
+  </mat-form-field>
+  }@else {
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Observaciones</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="odontogram.observations"
+      name="observations"
+      rows="5"
+      maxlength="500"
+      placeholder="Ingrese las observaciones"
+    >
+    </textarea>
+  </mat-form-field>
+  }
+
+  <div class="button-container">
+    <button (click)="previousTab()" type="button" mat-button matStepperNext>
+      <i class="fas fa-long-arrow-alt-left"></i>
+      <span class="hidden sm:inline"> ANTERIOR</span>
+    </button>
+    <div>
+      @if (role == 'ROLE_STUDENT' && state != 'read') {
+      <button type="button" mat-button (click)="store()">
+        GUARDAR <i class="fas fa-save"></i>
       </button>
-      <div>
-        @if (role == 'ROLE_STUDENT') {
-          <button type="button" mat-button (click)="store()"> GUARDAR <i class="fas fa-save"></i></button>
-        }
-        <button type="button" (click)="nextTab()" mat-button> 
-          <span class="hidden sm:inline">AVANZAR </span>
-          <i class="fas fa-long-arrow-alt-right"></i></button>
-      </div>
+      }
+      <button type="button" (click)="nextTab()" mat-button>
+        <span class="hidden sm:inline">AVANZAR </span>
+        <i class="fas fa-long-arrow-alt-right"></i>
+      </button>
     </div>
   </div>
-  
+</div>
+
 }@else {
-  <mat-card class="no-odontogram">
-    <div class="no-odontogram-content">
-      <mat-icon class="empty-icon" color="primary"><i class="fas fa-error"></i></mat-icon>
-      <p><strong>No se han encontrado un odontograma.</strong></p>
-      <p>Rellene el inical para poder acceder a este.</p>
-      <p>Si tienes alguna duda, por favor contacta a tu administrador.</p>
-    </div>
-  </mat-card>
+<mat-card class="no-odontogram">
+  <div class="no-odontogram-content">
+    <mat-icon class="empty-icon" color="primary"
+      ><i class="fas fa-error"></i
+    ></mat-icon>
+    <p><strong>No se han encontrado un odontograma.</strong></p>
+    <p>Rellene el inical para poder acceder a este.</p>
+    <p>Si tienes alguna duda, por favor contacta a tu administrador.</p>
+  </div>
+</mat-card>
 }
