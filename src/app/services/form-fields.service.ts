@@ -19,6 +19,21 @@ export class FormFieldsService {
 
     private personalDataFields: FormField[] = [
         {
+            type: 'inputEvent',
+            label: 'CURP',
+            name: 'curp',
+            placeholder: 'Ej: GALJ901231HDFNNS09',
+            validators: [Validators.required, curpValidator()],
+            errorMessages: {
+                required: 'El campo CURP es requerido.',
+                lastError: 'Introduzca una CURP válida'
+            },
+            onInputChange: {
+                changeFunction: this.handleCurpChange.bind(this),
+                length: 18
+            }
+        },
+        {
             type: 'input',
             label: 'Primer Nombre',
             name: 'firstName',
@@ -58,21 +73,6 @@ export class FormFieldsService {
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Apellido Materno es requerido.',
-            }
-        },
-        {
-            type: 'inputEvent',
-            label: 'CURP',
-            name: 'curp',
-            placeholder: 'Ej: GALJ901231HDFNNS09',
-            validators: [Validators.required, curpValidator()],
-            errorMessages: {
-                required: 'El campo CURP es requerido.',
-                lastError: 'Introduzca una CURP válida'
-            },
-            onInputChange: {
-                changeFunction: this.handleCurpChange.bind(this),
-                length: 18
             }
         },
         {
@@ -352,6 +352,21 @@ export class FormFieldsService {
 
     private guardianFields: FormField[] = [
         {
+            type: 'inputEvent',
+            label: 'CURP',
+            name: 'guardianCurp',
+            placeholder: 'Ej: GALJ901231HDFNNS09',
+            validators: [Validators.required, curpValidator()],
+            errorMessages: {
+                required: 'El campo CURP es requerido.',
+                lastError: 'Introduzca una CURP válida'
+            },
+            onInputChange: {
+                changeFunction: this.handleGuardianCurpChange.bind(this),
+                length: 18
+            }
+        },
+        {
             type: 'input',
             label: 'Nombre',
             name: 'firstGuardianName',
@@ -391,21 +406,6 @@ export class FormFieldsService {
             required: true,
             errorMessages: {
                 required: 'El campo Apellido Materno es requerido.'
-            }
-        },
-        {
-            type: 'inputEvent',
-            label: 'CURP',
-            name: 'guardianCurp',
-            placeholder: 'Ej: GALJ901231HDFNNS09',
-            validators: [Validators.required, curpValidator()],
-            errorMessages: {
-                required: 'El campo CURP es requerido.',
-                lastError: 'Introduzca una CURP válida'
-            },
-            onInputChange: {
-                changeFunction: this.handleGuardianCurpChange.bind(this),
-                length: 18
             }
         },
         {

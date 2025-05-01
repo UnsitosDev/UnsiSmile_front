@@ -80,7 +80,6 @@ export class PatientService {
                     })) || [];
                 },
                 error: (error) => {
-                    console.error('Error al obtener tipos de vivienda:', error);
                     this.housingOptions = []; // Asegurar que siempre haya un array aunque sea vacío
                 },
             });
@@ -112,13 +111,7 @@ export class PatientService {
 
     getStreetDataPaginated(searchTerm: string, page: number, size: number, neighborhoodId?: string): Observable<FormFieldOption[]> {
 
-        if (!neighborhoodId) {
-            console.log('No neighborhoodId provided to getStreetDataPaginated');
-            return of([]);
-        }
-
         const url = `${UriConstants.GET_STREETS_NEIGHBORHOOD}${neighborhoodId}?page=0&size=1000`;
-        console.log('URL para buscar calles:', url);
 
         return this.apiService.getService({
             headers: new HttpHeaders({
@@ -128,8 +121,6 @@ export class PatientService {
             data: {},
         }).pipe(
             map((response) => {
-                console.log('Respuesta completa del servidor (calles):', response);
-                console.log('Contenido de calles:', response.content);
                 
                 let filteredContent = response.content;
                 
@@ -146,11 +137,9 @@ export class PatientService {
                     label: item.name
                 }));
                 
-                console.log('Opciones de calles procesadas:', this.streetsOptions);
                 return this.streetsOptions;
             }),
             catchError(error => {
-                console.error('Error in getStreetDataPaginated:', error);
                 return of([]);
             })
         );
@@ -184,10 +173,6 @@ getNeighborhoodData(searchTerm: string) {
 }
 
 getNeighborhoodDataPaginated(searchTerm: string, page: number, size: number, localityId?: string): Observable<neighborhoodOptions[]> {
-    if (!localityId) {
-        console.log('Se requiere ID de localidad para buscar colonias');
-        return of([]);
-    }
 
     const url = `${UriConstants.GET_NEIGHBORHOODS_LOCALITY}${localityId}?page=0&size=1000`;
     
@@ -215,7 +200,6 @@ getNeighborhoodDataPaginated(searchTerm: string, page: number, size: number, loc
             return this.neighborhoodOptions;
         }),
         catchError(error => {
-            console.error('Error en la petición de colonias:', error);
             return of([]);
         })
     );
@@ -251,11 +235,6 @@ getLocalityData(searchTerm: string) {
 
 getLocalityDataPaginated(searchTerm: string, page: number, size: number, municipalityId?: string): Observable<localityOptions[]> {
 
-    if (!municipalityId) {
-        console.log('No municipalityId provided to getLocalityDataPaginated');
-        return of([]);
-    }
-
     const url = `${UriConstants.GET_LOCALITIES_MUNICIPALITY}${municipalityId}?page=0&size=1000`;
     
     return this.apiService.getService({
@@ -282,7 +261,6 @@ getLocalityDataPaginated(searchTerm: string, page: number, size: number, municip
             return this.localityOptions;
         }),
         catchError(error => {
-            console.error('Error in getLocalityDataPaginated:', error);
             return of([]);
         })
     );
@@ -346,7 +324,6 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             return this.municipalityOptions;
         }),
         catchError(error => {
-            console.error('Error in getMunicipalityDataPaginated:', error);
             return of([]);
         })
     );
@@ -400,7 +377,6 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
                     }));
                 },
                 error: (error) => {
-                    console.error('Error al obtener estados:', error);
                 },
             });
     }
@@ -421,7 +397,6 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
                 return this.stateOptions;
             }),
             catchError((error) => {
-                console.error('Error al obtener estados:', error);
                 return of([]);
             })
         );
@@ -497,7 +472,6 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
                 return this.occupationOptions;
             }),
             catchError((error) => {
-                console.error('Error al obtener ocupaciones:', error);
                 return of([]);
             })
         );
@@ -571,7 +545,6 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
                 return response;
             }),
             catchError(error => {
-                console.error('Error al obtener el grupo étnico por ID:', error);
                 return of(null);
             })
         );
@@ -642,7 +615,6 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
                 return response;
             }),
             catchError(error => {
-                console.error('Error al obtener la religión por ID:', error);
                 return of(null);
             })
         );
@@ -695,7 +667,6 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             }),
         }).pipe(
             catchError(error => {
-                console.error('Error al buscar persona por CURP:', error);
                 return of(null);
             })
         );
@@ -709,7 +680,6 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             }),
         }).pipe(
             catchError(error => {
-                console.error('Error al buscar tutor por CURP:', error);
                 return of(null);
             })
         );
