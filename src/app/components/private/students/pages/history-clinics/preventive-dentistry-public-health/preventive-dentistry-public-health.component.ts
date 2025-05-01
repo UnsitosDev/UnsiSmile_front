@@ -43,8 +43,9 @@ import { HeaderHistoryClinicComponent } from "../../../components/header-history
   templateUrl: './preventive-dentistry-public-health.component.html',
   styleUrl: './preventive-dentistry-public-health.component.scss'
 })
-export class PreventiveDentistryPublicHealthComponent {
+export class  PreventiveDentistryPublicHealthComponent {
   @Input() public patientUuid!: string;
+  @Input() public patientMedicalRecord!: number;
   @Input() public medicalRecord!: number;
   private router = inject(ActivatedRoute);
   private route = inject(Router);
@@ -52,7 +53,7 @@ export class PreventiveDentistryPublicHealthComponent {
   private patientService = inject(ApiService<Patient, {}>);
   private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
-  private id!: number;
+  public id!: number;
   public idpatient!: string;
   private userService = inject(AuthService);
   private token!: string;
@@ -87,14 +88,20 @@ export class PreventiveDentistryPublicHealthComponent {
 
     this.router.params.subscribe((params) => {
       
-      if (this.role == ROLES.STUDENT) {
+      if (this.role === ROLES.STUDENT) {
         this.id = this.medicalRecord;
+        this.idPatientClinicalHistory = this.patientMedicalRecord;
         this.idpatient = this.patientUuid;
       } else {
         this.id = params['id']; // Id Historia Clinica
         this.idpatient = params['patient']; // Id Paciente
         this.idPatientClinicalHistory = params['patientID']; // idPatientClinicalHistory
       }
+
+      console.log('medical record:', this.id);
+      console.log('patientUuid:', this.idpatient);
+      console.log('idPatientClinicalHistory:', this.idPatientClinicalHistory);
+
       this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = this.processMappedData(mappedData, this.role);

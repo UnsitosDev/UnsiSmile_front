@@ -275,7 +275,10 @@ export class TabFormComponent implements TabsHandler {
           sendData.push(hcData);
         }
 
+        console.log(hcData);
+
       });
+
 
       if (sendData.length > 0) {
         this.apiService

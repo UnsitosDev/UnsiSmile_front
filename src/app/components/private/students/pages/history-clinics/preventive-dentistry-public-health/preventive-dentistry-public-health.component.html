@@ -28,6 +28,7 @@
                         }
                         @if (!tab.isAnswered && tab.title !== 'Profilaxis Dental') {
                             <app-tab-form 
+                            [patientMedicalRecord]="patientMedicalRecord"
                             [fieldsTab]="tab" 
                             (nextMatTab)="onNextTab()"
                             (previousMatTab)="onPreviousTab()"

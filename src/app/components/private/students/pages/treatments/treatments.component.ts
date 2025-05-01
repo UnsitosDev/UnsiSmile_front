@@ -53,6 +53,7 @@ export class TreatmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.routeParams();
+    this.getMedicalRecordGeneral();
     this.fetchTreatmentData();
   }
 
@@ -60,14 +61,6 @@ export class TreatmentsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.patientUuid = params[PATIENT_UUID];
     });
-  }
-
-  public onTabChanged(event: any) {
-    if (event.index === 1) {
-      if (!this.medicalRecordLoaded) {
-        this.getMedicalRecordGeneral();
-      }
-    }
   }
 
   public getMedicalRecordGeneral() {
@@ -155,6 +148,7 @@ export class TreatmentsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.fetchTreatmentData();
       }
     });
   }
@@ -181,6 +175,7 @@ export class TreatmentsComponent implements OnInit {
     this.viewTreatment = true;
     this.medicalRecordId = treatment.treatment.clinicalHistoryCatalogId;
     this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
+    console.log(this.patientMedicalRecord);
   }
 
   formatArrayDate(dateArray: number[]): string {
