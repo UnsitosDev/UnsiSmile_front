@@ -13,10 +13,19 @@
 .mat-mdc-card {
   background-color: var(--on-primary);
   overflow: hidden;
+  position: static;
+}
+
+button {
+  background-color: var(--secondary);
 }
 
 .dialog-content {
-  padding: 1.5rem;
+  background-color: var(--on-primary);
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+  padding: 1rem;
 }
 
 .message-container {
@@ -24,7 +33,7 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 1rem;
   background: var(--input-color);
   border-radius: 8px;
@@ -80,6 +89,16 @@ p {
     outline: none !important;
     box-shadow: none !important;
   }
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-white);
+}
+
+.buttons {
+  background-color: var(--on-primary);
 }
 
 ::ng-deep .custom-dialog-container .mat-mdc-dialog-surface {

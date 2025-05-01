@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, ChangeDetectorRef } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +14,8 @@ import { FieldComponentComponent } from 'src/app/shared/components/field-compone
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { PatientService } from 'src/app/services/patient/patient.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmGuardianComponent } from '../dialog-confirm-guardian/dialog-confirm-guardian.component';
 
 @Component({
   selector: 'app-form-update-patient',
@@ -33,6 +35,7 @@ export class FormUpdatePatientComponent implements OnInit {
   private toastr = inject(ToastrService);
   private apiService = inject(ApiService<any>);
   private patientService = inject(PatientService);
+  readonly dialog = inject(MatDialog);
   
   patientId: string = '';
   formGroup!: FormGroup;
@@ -41,6 +44,8 @@ export class FormUpdatePatientComponent implements OnInit {
   other: any[] = [];
   guardian: any[] = [];
   minorPatient: boolean = false;
+  disabledPatient: boolean = false;  // Nueva variable para controlar si el paciente es discapacitado
+  needsGuardian: boolean = false;    // Nueva variable para controlar si el paciente discapacitado necesita tutor
   private currentPage: number = 0;
 
   localityId: string = '';
@@ -54,7 +59,8 @@ export class FormUpdatePatientComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private personalDataFields: FormFieldsService
+    private personalDataFields: FormFieldsService,
+    private cdr: ChangeDetectorRef // Agregar ChangeDetectorRef para forzar la actualización de la vista
   ) {}
 
   async ngOnInit() {
@@ -184,6 +190,22 @@ export class FormUpdatePatientComponent implements OnInit {
         }, field.validators || [])
       );
     });
+
+    // Agregamos observador para cambios en hasDisability
+    this.formGroup.get('hasDisability')?.valueChanges.subscribe(value => {
+      const newValue = value === 'true';
+      
+      if (newValue && !this.disabledPatient && !this.minorPatient) {
+        this.showGuardianConfirmDialog();
+      } else if (this.minorPatient) {
+        this.needsGuardian = true;
+      }
+      
+      this.disabledPatient = newValue;
+      
+      // Actualizar validaciones después de cambio de estado
+      this.updateGuardianValidations();
+    });
   }
 
   private loadPatientData() {
@@ -196,6 +218,13 @@ export class FormUpdatePatientComponent implements OnInit {
     }).subscribe({
       next: async (response) => {
         this.minorPatient = response.isMinor;
+        this.disabledPatient = response.hasDisability;
+        
+        // Si es discapacitado y tiene tutor, establecer needsGuardian en true
+        if (response.hasDisability && response.guardian) {
+          this.needsGuardian = true;
+        }
+        
         await this.loadAddressData(response.address);
         this.setFormValues(response);
       },
@@ -240,7 +269,6 @@ export class FormUpdatePatientComponent implements OnInit {
         await this.loadStreetData(street.name);
       }
     } catch (error) {
-      console.error('Error loading address data:', error);
       this.toastr.error('Error al cargar los datos de dirección');
     }
   }
@@ -400,7 +428,8 @@ export class FormUpdatePatientComponent implements OnInit {
       ethnicGroup: patient.ethnicGroup?.idEthnicGroup?.toString(),
       religion: patient.religion?.idReligion?.toString(),
       lastConsultation: admissionDate,
-      consultationReason: patient.consultationReason || ''
+      consultationReason: patient.consultationReason || '',
+      hasDisability: patient.hasDisability ? 'true' : 'false',
     };
 
     Object.assign(formData, {
@@ -413,12 +442,17 @@ export class FormUpdatePatientComponent implements OnInit {
 
     if (patient.guardian) {
       Object.assign(formData, {
-        firstGuardianName: patient.guardian.firstName,
-        lastGuardianName: patient.guardian.lastName,
-        phoneGuardian: patient.guardian.phone,
-        emailGuardian: patient.guardian.email,
-        parentsMaritalStatus: patient.guardian.parentalStatus.idCatalogOption,
-        doctorName: patient.guardian.doctorName
+        guardianCurp: patient.guardian.person?.curp || '',
+        firstGuardianName: patient.guardian.person?.firstName || '',
+        secondGuardianName: patient.guardian.person?.secondName || '',
+        lastGuardianName: patient.guardian.person?.firstLastName || '',
+        secondLastGuardianName: patient.guardian.person?.secondLastName || '',
+        phoneGuardian: patient.guardian.person?.phone || '',
+        emailGuardian: patient.guardian.person?.email || '',
+        guardianBirthDate: patient.guardian.person?.birthDate ? new Date(patient.guardian.person.birthDate).toISOString().split('T')[0] : '',
+        guardianGender: patient.guardian.person?.gender?.idGender?.toString() || '',
+        parentsMaritalStatus: patient.guardian.parentalStatus?.idCatalogOption?.toString() || '',
+        doctorName: patient.guardian.doctorName || ''
       });
     }
 
@@ -487,6 +521,54 @@ export class FormUpdatePatientComponent implements OnInit {
 
   onAgeStatusChange(isMinor: boolean) {
     this.minorPatient = isMinor;
+    
+    // Si es menor de edad, automáticamente necesita tutor sin importar la discapacidad
+    if (isMinor) {
+      this.needsGuardian = true;
+    } else {
+      // Si no es menor de edad, la necesidad de tutor depende de la discapacidad
+      this.needsGuardian = this.disabledPatient && this.needsGuardian;
+    }
+    
+    // Actualizar validaciones después de cambio de estado
+    this.updateGuardianValidations();
+  }
+
+  // Nuevo método para mostrar el diálogo de confirmación de tutor
+  showGuardianConfirmDialog(): void {
+    const dialogRef = this.dialog.open(DialogConfirmGuardianComponent, {
+      width: '500px',
+      panelClass: 'custom-dialog-container',
+      disableClose: true,
+      data: { message: '¿Desea ingresar datos de un tutor para este paciente con discapacidad?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.needsGuardian = !!result;
+      // Forzamos la detección de cambios para actualizar la vista inmediatamente
+      this.cdr.detectChanges();
+    });
+  }
+
+  // Nuevo método para actualizar las validaciones del tutor según se necesite o no
+  updateGuardianValidations() {
+    const shouldRequireGuardian = this.minorPatient || (this.disabledPatient && this.needsGuardian);
+    
+    this.guardian.forEach(field => {
+      const control = this.formGroup.get(field.name);
+      if (control) {
+        if (shouldRequireGuardian) {
+          // Si se requiere tutor, aplicar las validaciones originales
+          if (field.required) {
+            control.setValidators(field.validators || []);
+          }
+        } else {
+          // Si no se requiere tutor, quitar todas las validaciones
+          control.clearValidators();
+        }
+        control.updateValueAndValidity();
+      }
+    });
   }
 
   onFieldValueChange(event: any) {
@@ -495,6 +577,9 @@ export class FormUpdatePatientComponent implements OnInit {
   }
 
   onSubmit() {
+    // Actualizar validaciones antes de validar el formulario
+    this.updateGuardianValidations();
+    
     if (this.formGroup.valid) {
       // Obtener todos los valores, incluyendo los campos deshabilitados
       const formValues = {
@@ -519,12 +604,12 @@ export class FormUpdatePatientComponent implements OnInit {
           }
         },
         address: {
-          idAddress: 0,
+          idAddress: this.addressId,
           streetNumber: formValues.exteriorNumber,
           interiorNumber: formValues.interiorNumber,
           housing: {
             idHousing: +formValues.housingCategory,
-            category: ""
+            category: this.patientService.housingOptions.find(option => option.value === formValues.housingCategory)?.label || ""
           },
           street: {
             idStreet: +formValues.streetName > 0 ? +formValues.streetName : 
@@ -559,7 +644,7 @@ export class FormUpdatePatientComponent implements OnInit {
           }
         },
         isMinor: this.minorPatient,
-        hasDisability: true,
+        hasDisability: this.disabledPatient,
         nationalityId: +formValues.nationality,
         maritalStatus: {
           idMaritalStatus: +formValues.maritalStatus,
@@ -577,22 +662,30 @@ export class FormUpdatePatientComponent implements OnInit {
           idReligion: +formValues.religion,
           religion: this.patientService.religionOptions.find(option => option.value === formValues.religion)?.label || ""
         },
-        guardian: this.minorPatient ? {
-          idGuardian: 0,
-          firstName: formValues.firstGuardianName,
-          lastName: formValues.lastGuardianName,
-          phone: formValues.phoneGuardian,
-          email: formValues.emailGuardian,
+        guardian: (this.minorPatient || (this.disabledPatient && this.needsGuardian)) ? {
+          idGuardian: 0, // O el ID del guardián si existe
           parentalStatus: {
             idCatalogOption: +formValues.parentsMaritalStatus,
             optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "",
             idCatalog: 12
           },
-          doctorName: formValues.doctorName
+          doctorName: formValues.doctorName,
+          person: {
+            curp: formValues.guardianCurp || "",
+            firstName: formValues.firstGuardianName,
+            secondName: formValues.secondGuardianName || "",
+            firstLastName: formValues.lastGuardianName,
+            secondLastName: formValues.secondLastGuardianName || "",
+            phone: formValues.phoneGuardian,
+            birthDate: formValues.guardianBirthDate || null,
+            email: formValues.emailGuardian || "",
+            gender: {
+              idGender: +formValues.guardianGender || 0,
+              gender: this.patientService.genderOptions.find(option => option.value === formValues.guardianGender)?.label || ""
+            }
+          }
         } : null
-      };
-
-      console.log('JSON completo a enviar:', JSON.stringify(patientData, null, 2));
+      }; 
 
       this.apiService.patchService({
         headers: new HttpHeaders({
