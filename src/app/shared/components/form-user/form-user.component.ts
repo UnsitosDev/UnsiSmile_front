@@ -129,7 +129,7 @@ export class FormUserComponent implements OnInit {
           this.nuevaContrasena.set('');
           this.confirmarContrasena.set('');
           this.toastr.success('Contraseña actualizada exitosamente');
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/']);
         },
         error: (error) => {
           this.toastr.error(error);
