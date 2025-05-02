@@ -3,7 +3,7 @@
   <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
 </mat-card>
 
-<mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start">
+<mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="onTabSelected($event)">
   <!-- Tab 1: Datos personales -->
   <mat-tab>
     <ng-template mat-tab-label>
@@ -25,33 +25,36 @@
   </mat-tab>
 
   <!-- Tab 3: Tratamientos -->
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <i class="fas fa-file"></i>
-      <span class="ml-2">Tratamientos</span>
-    </ng-template>
-      <div class="p-4">
-        <div class="flex justify-end">
-          <button mat-button class="button-custom !text-white" (click)="openDialogNewTreatment()">Crear Tratamiento</button>
-        </div>
-      </div>
-      <mat-list>
-        @for (item of treatmentsPatient?.content; track item.idTreatmentDetail) {
-        <section class="item-container">
-          <div class="content-wrapper">
-            <mat-list-item class="list-content">
-              <span matListItemTitle><strong>Tratamiento:</strong> {{item.treatment.name}}</span>
-              <span matListItemLine><strong>Duración:</strong> {{ formatArrayDate(item.startDate) }} - {{ formatArrayDate(item.endDate) }}</span>
-            </mat-list-item>
-            <span class="view-badge" (click)="openTreatment(item)">
-              Ver Tratamiento
-            </span>
+   @if (patientMedicalRecord) {
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="fas fa-file"></i>
+        <span class="ml-2">Tratamientos</span>
+      </ng-template>
+        <div class="p-4">
+          <div class="flex justify-end">
+            <button mat-button class="button-custom !text-white" (click)="openDialogNewTreatment()">Crear Tratamiento</button>
           </div>
-          <mat-divider></mat-divider>
-        </section>
-        }
-      </mat-list>
-  </mat-tab>
+        </div>
+        <mat-list>
+          @for (item of treatmentsPatient?.content; track item.idTreatmentDetail) {
+          <section class="item-container">
+            <div class="content-wrapper">
+              <mat-list-item class="list-content">
+                <span matListItemTitle><strong>Tratamiento:</strong> {{item.treatment.name}}</span>
+                {{item.treatment.clinicalHistoryCatalogName}}
+                <span matListItemLine><strong>Duración:</strong> {{ formatArrayDate(item.startDate) }} - {{ formatArrayDate(item.endDate) }}</span>
+              </mat-list-item>
+              <span class="view-badge" (click)="openTreatment(item)">
+                Ver Tratamiento
+              </span>
+            </div>
+            <mat-divider></mat-divider>
+          </section>
+          }
+        </mat-list>
+    </mat-tab>
+   }
 
   @if (viewTreatment) {
     <mat-tab>
@@ -59,7 +62,25 @@
         <i class="fas fa-file"></i>
         <span class="ml-2">{{tabMedicalRecord}}</span>
       </ng-template>
-      <app-preventive-dentistry-public-health [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-preventive-dentistry-public-health>
+      @switch (medicalRecordId) {
+        @case (2) {
+          <!--Protesis bucal-->
+        }
+        @case (3) {
+          <!-- Periodoncia -->
+        }
+        @case (4) {
+          <!-- Operatioria dental -->
+        }
+        @case (5) {
+          <app-students-oral-surgery-history [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-students-oral-surgery-history>
+        }
+        @case (6) {
+          <app-preventive-dentistry-public-health [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-preventive-dentistry-public-health>        }
+        @default {
+          <p>No existe esta historia clinica.</p>
+        }
+      }
     </mat-tab>
   }
 </mat-tab-group>

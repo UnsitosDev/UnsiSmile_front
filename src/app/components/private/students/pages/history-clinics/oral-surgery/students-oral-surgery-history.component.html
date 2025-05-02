@@ -1,7 +1,9 @@
-<mat-card appearance="outlined" class="custom">
-    <app-card-patient-data [data]="patientData" [guardianData]="guardianData"></app-card-patient-data>
-</mat-card>
-<br>
+@if (role !== ROL.STUDENT) {
+    <mat-card appearance="outlined" class="custom">
+        <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
+    </mat-card>
+    <br>
+}
 @if (mappedHistoryData) {
     <mat-card-title>
         <app-header-history-clinic 

@@ -23,11 +23,12 @@ import { DialogNewTreatmentComponent } from '../../components/dialog-new-treatme
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { MatListModule } from '@angular/material/list';
 import { PreventiveDentistryPublicHealthComponent } from "../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component";
+import { StudentsOralSurgeryHistoryComponent } from "../history-clinics/oral-surgery/students-oral-surgery-history.component";
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent],
+  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss',
 })
@@ -53,10 +54,24 @@ export class TreatmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.routeParams();
-    this.getMedicalRecordGeneral();
     this.fetchTreatmentData();
   }
 
+  public onTabSelected(event: any): void {
+    const tabIndex = event.index;
+    switch (tabIndex) {
+      case 0:
+        break;
+      case 1:
+        this.getMedicalRecordGeneral();
+        break;
+      case 2:
+        this.fetchTreatmentData();
+        break;
+      default:
+        console.warn('Tab index not handled:', tabIndex);
+    }
+  }
   public routeParams() {
     this.route.params.subscribe((params) => {
       this.patientUuid = params[PATIENT_UUID];
