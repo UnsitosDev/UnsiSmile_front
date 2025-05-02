@@ -117,7 +117,7 @@ export class SideNavComponent implements OnInit {
       this.userLink = '/professor/user';
     } else if (this.rol = this.ROL.CLINICAL_AREA_SUPERVISOR) {
       this.menuItems = ProfessorClinicalAlreaItems;
-      this.userLink = '/professor/user';
+      this.userLink = '/clinical-area-supervisor/user';
     }
   }
 
