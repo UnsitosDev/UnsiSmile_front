@@ -17,7 +17,7 @@ import { DashboardStudentStatsComponentComponent } from "../../../students/compo
 @Component({
   selector: 'app-dashboard-professor-clinical',
   standalone: true,
-  imports: [FontAwesomeModule, DashboardStudentStatsComponentComponent],
+  imports: [FontAwesomeModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })  
