@@ -65,6 +65,7 @@
       @switch (medicalRecordId) {
         @case (2) {
           <!--Protesis bucal-->
+          <app-oral-prosthesis [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-oral-prosthesis>
         }
         @case (3) {
           <!-- Periodoncia -->
@@ -72,6 +73,7 @@
         }
         @case (4) {
           <!-- Operatioria dental -->
+          <app-students-dental-operation [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-students-dental-operation>
         }
         @case (5) {
           <app-students-oral-surgery-history [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-students-oral-surgery-history>

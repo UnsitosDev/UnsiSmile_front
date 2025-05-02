@@ -1,16 +1,18 @@
-<mat-card appearance="outlined" class="custom">
-    <app-card-patient-data [data]="patientData" [guardianData]="guardianData"></app-card-patient-data>
-</mat-card>
-<br>
+@if (role !== ROL.STUDENT) {
+    <mat-card appearance="outlined" class="custom">
+        <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
+    </mat-card>
+    <br>
+}
 @if (mappedHistoryData) {
     <mat-card-title>
         <app-header-history-clinic 
-          [mappedHistoryData]="mappedHistoryData"
-          [idPatientClinicalHistory]="idPatientClinicalHistory"
-          [currentSectionId]="currentSectionId"
-          [currentStatus]="currentStatus"
-          [currentIndex]="currentIndex"
-          [role]="role">
+            [mappedHistoryData]="mappedHistoryData"
+            [idPatientClinicalHistory]="idPatientClinicalHistory"
+            [currentSectionId]="currentSectionId"
+            [currentStatus]="currentStatus"
+            [currentIndex]="currentIndex"
+            [role]="role">
         </app-header-history-clinic>
     </mat-card-title>
     <mat-card class="custom">
@@ -19,6 +21,7 @@
                     <mat-tab [label]="tab.title">
                         @if (tab.isAnswered) {
                             <app-tab-form-update
+                            [patientMedicalRecord]="patientMedicalRecord"
                             [fieldsTab]="tab" 
                             (nextMatTab)="onNextTab()"
                             (previousMatTab)="onPreviousTab()"
@@ -26,6 +29,7 @@
                         }
                         @if (!tab.isAnswered) {
                             <app-tab-form 
+                            [patientMedicalRecord]="patientMedicalRecord"
                             [fieldsTab]="tab" 
                             (nextMatTab)="onNextTab()"
                             (previousMatTab)="onPreviousTab()"
