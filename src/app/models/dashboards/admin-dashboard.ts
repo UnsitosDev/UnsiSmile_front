@@ -1,11 +1,11 @@
 export interface AdminDashboard {
-    totalPatients:               number;
-    patientsWithDisability:      number;
+    totalPatients: number;
+    patientsWithDisability: number;
     patientsRegisteredLastMonth: number;
-    patientsByNationality:       PatientsByNationality;
-    totalStudents:               number;
+    patientsByNationality: PatientsByNationality;
+    totalStudents: number;
     studentsRegisteredLastMonth: number;
-    totalProfessors:             number;
+    totalProfessors: number;
 }
 
 export interface PatientsByNationality {
@@ -14,3 +14,11 @@ export interface PatientsByNationality {
     additionalProp3: number;
 }
 
+export interface SupervisorDashboard {
+    totalPatients: number;
+    totalStudents: number;
+    clinicalHistoriesInReview: number;
+    clinicalHistoriesRejected: number;
+    clinicalHistoriesAccepted: number;
+    treatmentsCompleted: number;
+}
