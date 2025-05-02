@@ -22,3 +22,8 @@ export interface SupervisorDashboard {
     clinicalHistoriesAccepted: number;
     treatmentsCompleted: number;
 }
+
+export interface ProfessorDashboard {
+    totalGroups: number;
+    totalStudents: number;
+}
