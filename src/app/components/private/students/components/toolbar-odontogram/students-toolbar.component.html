@@ -253,43 +253,33 @@
             @if (symbol.condition ===
             ToothConditionsConstants.DIENTE_CON_FLUOROSIS) {
             <span>
-              <svg width="29" height="24">
-                <text
-                  x="10"
-                  y="8"
-                  fill="var(--on-secondary)"
-                  font-size="10px"
-                  font-family="sans-serif"
-                >
-                  F
-                </text>
-              </svg>
+              <img
+                src="../../../../../../assets/svg/fluorosis.svg"
+              />
             </span>
             }
+            @if (symbol.condition ===
+            ToothConditionsConstants.RESTO_RADICULAR) {
+            <span>
+              <img
+                src="../../../../../../assets/svg/resto_radicular.svg"
+              />
+            </span>
+          }
             <!-- Fístula -->
             @if(symbol.condition === ToothConditionsConstants.FISTULA) {
             <span>
-              <svg width="29" height="10">
-                <g>
-                  <circle cx="15" cy="6" r="4" fill="red" />
-                </g>
-              </svg>
+              <img
+                src="../../../../../../assets/svg/fistula.svg"
+              />
             </span>
             }
             <!-- Diente con fluorosis -->
             @if (symbol.condition === ToothConditionsConstants.DIENTE_CON_HIPOPLASIA) {
             <span>
-              <svg width="29" height="10">
-                <text
-                  x="10"
-                  y="8"
-                  fill="var(--on-secondary)"
-                  font-size="10px"
-                  font-family="sans-serif"
-                >
-                  H
-                </text>
-              </svg>
+                <img
+                  src="../../../../../../assets/svg/hipoplasia.svg"
+                />
             </span>
             }
             <!-- Diente en mal posición -->

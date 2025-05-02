@@ -20,4 +20,7 @@ export class ToothConditionsConstants {
   public static readonly DIENTE_CON_HIPOPLASIA = 'Diente con hipoplasia';
   public static readonly DIENTE_OBTURADO_CON_CARIES =
     'Diente obturado con caries';
+  public static readonly RESTO_RADICULAR = 'Resto radicular';
+  public static readonly DIENTE_NO_PRESENTE = 'Diente no presente';
+  public static readonly DIENTE_EXTRAIDO = 'Diente extraido';
 }

@@ -58,6 +58,7 @@ export class FormPatientPersonalDataComponent {
    disabledPatient: boolean = false;  // Nueva variable para controlar si el paciente es discapacitado
    private studentService = inject(studentService);
    needsGuardian: boolean = false; // Nueva variable para controlar si el paciente discapacitado necesita tutor
+   guardianId: number = 0; // Nueva propiedad para almacenar el ID del tutor
  
    formGroup!: FormGroup;
    personal: FormField[] = [];
@@ -96,7 +97,11 @@ export class FormPatientPersonalDataComponent {
      this.other = this.otherDataFields.getOtherDataFields();
      this.guardian = this.guardianField.getGuardianDataFields();
      this.studentFields = this.studentService.studentFields;
- 
+
+     // Cargar opciones de género y estado civil parental al inicio
+     this.patientService.getGender();
+     this.patientService.getParentsMaritalStatusData();
+
      // Construcción del formulario
      this.formGroup = this.fb.group({}); // Inicializar el FormGroup
      [...this.personal, ...this.address, ...this.other, ...this.guardian].forEach(field => {
@@ -105,46 +110,57 @@ export class FormPatientPersonalDataComponent {
          this.fb.control(field.value || '', field.validators || [])
        );
      });
- 
+
      this.studentFields.forEach(field => {
        this.formGroup.addControl(
          field.name,
          this.fb.control(field.value || '', field.validators || [])
        );
      });
- 
-     // Agregamos un observador para el campo de discapacidad
+
+     // Agregamos observador para cambios en hasDisability
      this.formGroup.get('hasDisability')?.valueChanges.subscribe(value => {
        const newValue = value === 'true';
        
-       // Solo mostrar el diálogo si NO es menor de edad y tiene discapacidad
        if (newValue && !this.disabledPatient && !this.minorPatient) {
          this.showGuardianConfirmDialog();
        } else if (this.minorPatient) {
-         // Si es menor de edad, automáticamente necesita tutor sin preguntar
          this.needsGuardian = true;
        }
        
        this.disabledPatient = newValue;
+       
+       // Actualizar validaciones después de cambio de estado
+       this.updateGuardianValidations();
      });
- 
+
      // Combina las rutas de StudentItems y las adicionales
      const allRoutes = [
        ...StudentItems.map(item => item.routerlink),
        ...this.additionalRoutes
      ];
- 
+
      // Interceptamos la navegación antes de que se realice
      this.navigationSubscription = this.route.events.subscribe((event) => {
        if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
          const targetUrl = event.url;
- 
+
          // Verifica si la ruta es una de las que queremos prevenir
          if (allRoutes.includes(targetUrl)) {
            this.navigationTarget = targetUrl;
          }
        }
      });
+
+     // Añadir listener para cuando se encuentra una persona por CURP
+     document.addEventListener('personFound', ((event: CustomEvent) => {
+       this.fillFormWithPersonData(event.detail);
+     }) as EventListener);
+
+     // Añadir listener para cuando se encuentra un tutor por CURP
+     document.addEventListener('guardianFound', ((event: CustomEvent) => {
+       this.fillFormWithGuardianData(event.detail);
+     }) as EventListener);
    }
  
    // Modificamos el método del diálogo para forzar la detección de cambios
@@ -162,7 +178,114 @@ export class FormPatientPersonalDataComponent {
        this.cdr.detectChanges();
      });
    }
- 
+
+   // Nuevo método para rellenar el formulario con los datos de la persona
+   fillFormWithPersonData(person: any): void {
+     if (!person) return;
+     
+     // Primero cargamos las opciones de género
+     this.patientService.getGender();
+     
+     setTimeout(() => {
+       // Actualizar los campos del formulario con los datos de la persona
+       this.formGroup.patchValue({
+         firstName: person.firstName || '',
+         secondName: person.secondName || '',
+         firstLastName: person.firstLastName || '',
+         secondLastName: person.secondLastName || '',
+         phone: person.phone || '',
+         email: person.email || '',
+         birthDate: person.birthDate ? new Date(person.birthDate) : null,
+       });
+       
+       // Si la persona tiene género, asegurarse que el campo tenga las opciones primero
+       if (person.gender?.idGender) {
+         // Buscar el campo de género para actualizar sus opciones
+         const genderField = this.personal.find(field => field.name === 'gender');
+         if (genderField) {
+           genderField.options = this.patientService.genderOptions;
+         }
+         
+         // Luego establecer el valor
+         this.formGroup.patchValue({
+           gender: person.gender.idGender.toString()
+         });
+       }
+
+       // Calcular si es menor de edad
+       if (person.birthDate) {
+         const birthDate = new Date(person.birthDate);
+         const today = new Date();
+         const age = today.getFullYear() - birthDate.getFullYear();
+         const isMinor = age < 18;
+         
+         // Actualizar el estado del componente para mostrar la pestaña de tutor si es menor
+         this.onAgeStatusChange(isMinor);
+       }
+
+       // Forzar actualización de la vista para reflejar los cambios
+       this.cdr.detectChanges();
+       
+     }, 300); // Un pequeño retraso para asegurar que los datos se hayan cargado
+   }
+
+   // Nuevo método para rellenar el formulario con los datos del tutor
+   fillFormWithGuardianData(guardian: any): void {
+     if (!guardian) return;
+
+     // Guardar el ID del tutor si existe
+     if (guardian.idGuardian) {
+       this.guardianId = guardian.idGuardian;
+     }
+
+     // Cargar primero las opciones de género y estado civil parental
+     this.patientService.getGender();
+     this.patientService.getParentsMaritalStatusData();
+     
+     // Esperar brevemente para que se carguen todas las opciones
+     setTimeout(() => {
+       // Actualizar los campos del formulario con los datos del tutor
+       this.formGroup.patchValue({
+         firstGuardianName: guardian.person?.firstName || '',
+         secondGuardianName: guardian.person?.secondName || '',
+         lastGuardianName: guardian.person?.firstLastName || '',
+         secondLastGuardianName: guardian.person?.secondLastName || '',
+         phoneGuardian: guardian.person?.phone || '',
+         emailGuardian: guardian.person?.email || '',
+         guardianBirthDate: guardian.person?.birthDate ? new Date(guardian.person.birthDate) : null,
+         doctorName: guardian.doctorName || ''
+       });
+       
+       // Para el género del tutor
+       const guardianGenderField = this.guardian.find(field => field.name === 'guardianGender');
+       if (guardianGenderField) {
+         guardianGenderField.options = this.patientService.genderOptions;
+       }
+       
+       if (guardian.person?.gender?.idGender) {
+         this.formGroup.patchValue({
+           guardianGender: guardian.person.gender.idGender.toString()
+         });
+       }
+       
+       // Para el estado civil parental
+       const maritalStatusField = this.guardian.find(field => field.name === 'parentsMaritalStatus');
+       if (maritalStatusField) {
+         maritalStatusField.options = this.patientService.parentsMaritalStatusOptions;
+       }
+       
+       if (guardian.parentalStatus?.idCatalogOption) {
+         this.formGroup.patchValue({
+           parentsMaritalStatus: guardian.parentalStatus.idCatalogOption.toString()
+         });
+       }
+
+       // Forzar actualización de la vista para reflejar los cambios
+       this.cdr.detectChanges();
+       
+     }, 300); // Un pequeño retraso para asegurar que los datos se hayan cargado
+   }
+
    ngAfterViewInit() {
      this.stepper.selectionChange.subscribe((e: any) => {
        // Si está intentando ir a la última pestaña (alumno) y no está habilitada
@@ -209,6 +332,15 @@ export class FormPatientPersonalDataComponent {
      if (this.navigationSubscription) {
        this.navigationSubscription.unsubscribe();
      }
+
+     // Eliminar los listeners cuando se destruye el componente
+     document.removeEventListener('personFound', ((event: CustomEvent) => {
+       this.fillFormWithPersonData(event.detail);
+     }) as EventListener);
+
+     document.removeEventListener('guardianFound', ((event: CustomEvent) => {
+       this.fillFormWithGuardianData(event.detail);
+     }) as EventListener);
    }
  
    onFieldValueChange(event: any) {
@@ -247,10 +379,9 @@ export class FormPatientPersonalDataComponent {
    alertSeverity: string = AlertModel.AlertSeverity.ERROR;
    showAlert: boolean = false;
  
- 
    onAgeStatusChange(isMinor: boolean) {
      this.minorPatient = isMinor;
-
+     
      // Si es menor de edad, automáticamente necesita tutor sin importar la discapacidad
      if (isMinor) {
        this.needsGuardian = true;
@@ -258,8 +389,12 @@ export class FormPatientPersonalDataComponent {
        // Si no es menor de edad, la necesidad de tutor depende de la discapacidad
        this.needsGuardian = this.disabledPatient && this.needsGuardian;
      }
+     
+     // Actualizar validaciones después de cambio de estado
+     this.updateGuardianValidations();
    }
  
+   // Agregar métodos de validación que faltan
    private validateEthnicGroup(value: string): boolean {
      return this.patientService.ethnicGroupOptions.some(option => 
        option.value === value || option.label.toLowerCase() === value.toLowerCase()
@@ -272,10 +407,31 @@ export class FormPatientPersonalDataComponent {
      );
    }
  
+   // Método para actualizar las validaciones del tutor según se necesite o no
+   updateGuardianValidations() {
+     const shouldRequireGuardian = this.minorPatient || (this.disabledPatient && this.needsGuardian);
+     const guardianFields = ['firstGuardianName', 'secondGuardianName', 'lastGuardianName', 'secondLastGuardianName', 'phoneGuardian', 'emailGuardian', 'guardianBirthDate', 'guardianGender', 'parentsMaritalStatus', 'doctorName'];
+ 
+     guardianFields.forEach(field => {
+       const control = this.formGroup.get(field);
+       if (control) {
+         if (shouldRequireGuardian) {
+           control.setValidators([Validators.required]);
+         } else {
+           control.clearValidators();
+         }
+         control.updateValueAndValidity();
+       }
+     });
+   }
+ 
    onSubmit() {
+     // Actualizar validaciones antes de validar el formulario
+     this.updateGuardianValidations();
+     
      this.markFormGroupTouched(this.formGroup);
      const formValues = this.formGroup.value;
- 
+
      // Validar grupo étnico
      if (!this.validateEthnicGroup(formValues.ethnicGroup)) {
        this.toastr.error('Debe seleccionar un grupo étnico válido de la lista', 'Error de validación');
@@ -288,7 +444,20 @@ export class FormPatientPersonalDataComponent {
        return;
      }
  
-     if (this.formGroup.valid) {
+     // Verificar si hay errores en el formulario, filtrando los campos del tutor cuando no se necesitan
+     let hasErrors = false;
+     const shouldRequireGuardian = this.minorPatient || (this.disabledPatient && this.needsGuardian);
+     
+     Object.keys(this.formGroup.controls).forEach(key => {
+       const control = this.formGroup.get(key);
+       const isGuardianField = this.guardian.some(field => field.name === key);
+       
+       if (control?.errors && (!isGuardianField || shouldRequireGuardian)) {
+         hasErrors = true;
+       }
+     });
+     
+     if (!hasErrors) {
        const patientData = {
          isMinor: this.minorPatient,
          hasDisability: formValues.hasDisability === 'true',
@@ -364,11 +533,21 @@ export class FormPatientPersonalDataComponent {
            religion: this.patientService.religionOptions.find(option => option.value === formValues.religion)?.label || ""
          },
          guardian: (this.minorPatient || (this.disabledPatient && this.needsGuardian)) ? {
-           idGuardian: 0,
-           firstName: formValues.firstGuardianName,
-           lastName: formValues.lastGuardianName,
-           phone: formValues.phoneGuardian,
-           email: formValues.emailGuardian,
+           idGuardian: this.guardianId || 0, 
+           person: {
+             curp: formValues.guardianCurp,
+             firstName: formValues.firstGuardianName,
+             secondName: formValues.secondGuardianName,
+             firstLastName: formValues.lastGuardianName,
+             secondLastName: formValues.secondLastGuardianName,
+             phone: formValues.phoneGuardian,
+             birthDate: formValues.guardianBirthDate,
+             email: formValues.emailGuardian,
+             gender: {
+               idGender: +formValues.guardianGender,
+               gender: this.patientService.genderOptions.find(option => option.value === formValues.guardianGender)?.label || ""
+             }
+           },
            parentalStatus: {
              idCatalogOption: +formValues.parentsMaritalStatus,
              optionName: this.patientService.parentsMaritalStatusOptions.find(option => option.value === formValues.parentsMaritalStatus)?.label || "",
@@ -398,16 +577,21 @@ export class FormPatientPersonalDataComponent {
            },
          });
      } else {
+       
        this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
      }
    }
    
-   // Método auxiliar para obtener todos los errores de validación
    getFormValidationErrors() {
      const result: any[] = [];
+     const shouldRequireGuardian = this.minorPatient || (this.disabledPatient && this.needsGuardian);
+     
      Object.keys(this.formGroup.controls).forEach(key => {
        const controlErrors = this.formGroup.get(key)?.errors;
-       if (controlErrors) {
+       const isGuardianField = this.guardian.some(field => field.name === key);
+       
+       // Solo incluir errores de campos del tutor si se requiere tutor
+       if (controlErrors && (!isGuardianField || shouldRequireGuardian)) {
          Object.keys(controlErrors).forEach(keyError => {
            result.push({
              control: key,
@@ -449,4 +633,3 @@ export class FormPatientPersonalDataComponent {
    }
  
  }
- 

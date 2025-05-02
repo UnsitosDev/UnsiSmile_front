@@ -9,6 +9,7 @@ export function createOdontogramHandler(): IOdontogramHandler {
       selected: false,
     },
     childrenArcade: {
+      observations: '',
       teeth: [
         {
           idTooth: 55,
@@ -558,6 +559,7 @@ export function createOdontogramHandler(): IOdontogramHandler {
       ],
     },
     adultArcade: {
+      observations: '',
       teeth: [
         {
           idTooth: 18,
@@ -1430,5 +1432,6 @@ export function createOdontogramHandler(): IOdontogramHandler {
         },
       ],
     },
+    observations: '',
   };
 }

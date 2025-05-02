@@ -1,20 +1,21 @@
-<mat-card class="p-4">
-  <div class="card-header">
-    <mat-card-title><strong>Paciente con discapacidad</strong></mat-card-title>
-    <button class="close-button" (click)="onNoClick()">×</button>
-  </div>
-  <mat-card-content class="dialog-content">
-    <div class="message-container">
-      <i class="fas fa-question-circle question-icon"></i>
-      <p>{{ data.message }}</p>
+<mat-card>
+  <mat-card-title>
+    <div class="title-container">
+      <span><strong>Paciente con discapacidad</strong></span>
     </div>
-    <div class="action-buttons">
-      <button mat-flat-button (click)="onNoClick()" class="cancel-button">
-        <i class="fas fa-times"></i> No
-      </button>
-      <button mat-flat-button color="primary" (click)="onYesClick()" cdkFocusInitial>
-        <i class="fas fa-check"></i> Sí
-      </button>
-    </div>
-  </mat-card-content>
+  </mat-card-title>
 </mat-card>
+
+<div class="dialog-content box-border">
+  <div class="message-container">
+    <i class="fas fa-question-circle question-icon"></i>
+    <p>{{ data.message }}</p>
+  </div>
+</div>
+
+<mat-dialog-actions align="center" class="buttons">
+  <div>
+    <button mat-button (click)="onNoClick()" color="warn">No</button>
+    <button mat-button color="primary" (click)="onYesClick()" cdkFocusInitial>Sí</button>
+  </div>
+</mat-dialog-actions>

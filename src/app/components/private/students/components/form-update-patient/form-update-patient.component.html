@@ -1,38 +1,94 @@
 <mat-card class="full-width-card">
-    <mat-card-title><strong>Actualizar Paciente</strong></mat-card-title>
-  </mat-card>
-  
-  <mat-stepper class="fondo" linear #stepper>
-    <mat-step>
-      <form [formGroup]="formGroup">
-        <ng-template matStepLabel>DATOS PERSONALES</ng-template>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          @for (field of personal; track $index) {
-            @if (shouldShowField(field)) {
-              <app-field-component 
-                [field]="field" 
-                [formGroup]="formGroup" 
-                [errors]="field.errorMessages"
-                (setFieldValue)="onFieldValueChange($event)"
-                (ageStatusChange)="onAgeStatusChange($event)">
-              </app-field-component>
-            }
-          }      
-        </div>
-        <div class="button-container">
-          <button mat-flat-button color="warn" (click)="onBack()" class="mr-2">
-            <i class="fas fa-arrow-left"></i> CANCELAR
+  <mat-card-title><strong>Actualizar paciente</strong></mat-card-title>
+</mat-card>
+
+<mat-stepper class="fondo" linear #stepper>
+  <mat-step>
+    <form [formGroup]="formGroup">
+      <ng-template matStepLabel>DATOS PERSONALES</ng-template>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        @for (field of personal; track $index) {
+          @if (shouldShowField(field)) {
+            <app-field-component 
+              [field]="field" 
+              [formGroup]="formGroup" 
+              [errors]="field.errorMessages"
+              (setFieldValue)="onFieldValueChange($event)"
+              (ageStatusChange)="onAgeStatusChange($event)">
+            </app-field-component>
+          }
+        }      
+      </div>
+      <div class="button-container">
+        <button mat-flat-button color="warn" (click)="onBack()" class="mr-2">
+          <i class="fas fa-arrow-left"></i> CANCELAR
+        </button>
+        <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <form [formGroup]="formGroup">
+      <ng-template matStepLabel>DOMICILIO</ng-template>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6" (scroll)="onScroll($event)">
+        @for (field of address; track $index) {
+          @if (shouldShowField(field)) {
+            <app-field-component 
+            [field]="field" 
+            [formGroup]="formGroup" 
+            [errors]="field.errorMessages"
+            (setFieldValue)="onFieldValueChange($event)">
+            </app-field-component>
+          }
+        }
+      </div>
+      <div class="button-container">
+        <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
+        <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <form [formGroup]="formGroup">
+      <ng-template matStepLabel>OTROS DATOS</ng-template>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        @for (field of other; track $index) {
+          @if (shouldShowField(field)) {
+            <app-field-component 
+            [field]="field" 
+            [formGroup]="formGroup" 
+            [errors]="field.errorMessages"
+            (setFieldValue)="onFieldValueChange($event)">
+            </app-field-component>
+          }
+        }
+      </div>
+      <div class="button-container">
+        <button mat-flat-button color="primary" matStepperPrevious>
+          <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR
+        </button>
+        @if (minorPatient || (disabledPatient && needsGuardian)) {
+          <button mat-flat-button color="primary" matStepperNext>
+            SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
           </button>
-          <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
-        </div>
-      </form>
-    </mat-step>
-  
-    <mat-step>
+        }
+        @if (!minorPatient && !(disabledPatient && needsGuardian)) {
+          <button mat-flat-button color="primary" (click)="onSubmit()">
+            GUARDAR <i class="fas fa-save"></i>
+          </button>
+        }
+      </div>
+    </form>
+  </mat-step>
+
+  @if (minorPatient || (disabledPatient && needsGuardian)) {
+    <mat-step >
       <form [formGroup]="formGroup">
-        <ng-template matStepLabel>DOMICILIO</ng-template>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6" (scroll)="onScroll($event)">
-          @for (field of address; track $index) {
+        <ng-template matStepLabel>DATOS DEL TUTOR</ng-template>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+          @for (field of guardian; track $index) {
             @if (shouldShowField(field)) {
               <app-field-component 
               [field]="field" 
@@ -45,68 +101,11 @@
         </div>
         <div class="button-container">
           <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
-          <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+          <button mat-flat-button color="primary" (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
         </div>
       </form>
     </mat-step>
-  
-    <mat-step>
-      <form [formGroup]="formGroup">
-        <ng-template matStepLabel>OTROS DATOS</ng-template>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          @for (field of other; track $index) {
-            @if (shouldShowField(field)) {
-              <app-field-component 
-              [field]="field" 
-              [formGroup]="formGroup" 
-              [errors]="field.errorMessages"
-              (setFieldValue)="onFieldValueChange($event)">
-              </app-field-component>
-            }
-          }
-        </div>
-        <div class="button-container">
-          <button mat-flat-button color="primary" matStepperPrevious>
-            <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR
-          </button>
-          @if (minorPatient) {
-            <button mat-flat-button color="primary" matStepperNext>
-              SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
-            </button>
-          }
-          @if (!minorPatient) {
-            <button mat-flat-button color="primary" (click)="onSubmit()">
-              GUARDAR <i class="fas fa-save"></i>
-            </button>
-          }
-        </div>
-      </form>
-    </mat-step>
-  
-    @if (minorPatient) {
-      <mat-step >
-        <form [formGroup]="formGroup">
-          <ng-template matStepLabel>DATOS DEL TUTOR</ng-template>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-            @for (field of guardian; track $index) {
-              @if (shouldShowField(field)) {
-                <app-field-component 
-                [field]="field" 
-                [formGroup]="formGroup" 
-                [errors]="field.errorMessages"
-                (setFieldValue)="onFieldValueChange($event)">
-                </app-field-component>
-              }
-            }
-          </div>
-          <div class="button-container">
-            <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
-            <button mat-flat-button color="primary" (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
-          </div>
-        </form>
-      </mat-step>
-    }
-  </mat-stepper>
-  
-  <app-alert></app-alert>
-  
+  }
+</mat-stepper>
+
+<app-alert></app-alert>
