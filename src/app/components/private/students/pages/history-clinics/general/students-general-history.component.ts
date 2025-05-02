@@ -43,198 +43,212 @@ import { ToastrService } from 'ngx-toastr';
 })
 
 export class StudentsGeneralHistoryComponent implements OnInit {
-  @Input() idPatient: number = 0;
-    @Input() patientUuid: string = '';
-    @Input() idHistoryGeneral: number = 0;
-    @Input() patientMedicalRecord: number = 0;
-    @Output() tabChange = new EventEmitter<{ firstLabel: string; previousLabel: string }>();
-  
-    private readonly route = inject(Router);
-    private readonly historyData = inject(GeneralHistoryService);
-    private readonly apiService = inject(ApiService);
-    private readonly userService = inject(AuthService);
-    private readonly cdr = inject(ChangeDetectorRef);
-    public readonly toastr = inject(ToastrService);
-    readonly dialog = inject(MatDialog);
-  
-    private token: string = '';
-    private tokenData!: TokenData;
-    private navigationSubscription!: Subscription;
-    private navigationTarget: string = '';
-    private navigationInProgress: boolean = false;
-    private isNavigationPrevented: boolean = true;
-    private navigationComplete: boolean = false;
-    private readonly additionalRoutes = ['/students/user'];
-  
-    public medicalRecordNumber!: number;
-    public mappedHistoryData!: dataTabs;
-    public role: string = '';
-    public currentSectionId: number | null = null;
-    public currentStatus: string | null = null;
-    public currentIndex: number = 0;
-    public patientData!: cardPatient;
-  
-    ngOnInit(): void {
-      this.loadInitialData();
-      this.setupNavigationGuard();
-    }
-  
-    private loadInitialData(): void {
-      this.getRole();
-  
-      this.historyData.getHistoryClinics(this.patientUuid, this.idHistoryGeneral)
-        .subscribe({
-          next: (mappedData: dataTabs) => this.processHistoryResponse(mappedData)
-        });
-    }
-  
-    private processHistoryResponse(mappedData: dataTabs): void {
-      this.mappedHistoryData = this.processMappedData(mappedData, this.role);
-      this.medicalRecordNumber = this.mappedHistoryData.medicalRecordNumber;
-  
-      this.getFirstTab();
-      this.getStatusHc();
-  
-      const processedData = this.getTabsforReview(this.mappedHistoryData);
-      if (processedData) {
-        this.mappedHistoryData = processedData;
-      } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
-        return;
+  @Input() public patientUuid!: string;
+  @Input() public patientMedicalRecord!: number;
+  @Input() public medicalRecord!: number;
+
+  private router = inject(ActivatedRoute);
+  private route = inject(Router);
+  private historyData = inject(GeneralHistoryService);
+  private apiService = inject(ApiService);
+  readonly dialog = inject(MatDialog);
+  private userService = inject(AuthService);
+  public patientData!: cardPatient;
+  public patientUuidParam!: string;
+
+  public id!: number;
+  public idpatient!: string;
+  public currentIndex: number = 0;
+  public mappedHistoryData!: dataTabs;
+  public role!: string;
+  public currentSectionId: number | null = null;
+  public currentStatus: string | null = null;
+  public idPatientClinicalHistory!: number;
+
+  private token!: string;
+  private tokenData!: TokenData;
+
+  private navigationSubscription!: Subscription;
+  private isNavigationPrevented: boolean = true;
+
+  ROL = ROLES;
+
+  constructor() { }
+
+  ngOnInit(): void {
+    this.initializeUserRole();
+    this.initializeRouteParams();
+    this.setupNavigationInterceptor();
+  }
+
+  private initializeUserRole(): void {
+    this.token = this.userService.getToken() ?? '';
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+  }
+
+  private initializeRouteParams(): void {
+    this.router.params.subscribe((params) => {
+      if (this.role === ROLES.STUDENT) {
+        this.id = this.medicalRecord;
+        this.idpatient = this.patientUuid;
+        this.idPatientClinicalHistory = this.patientMedicalRecord;
+      } else {
+        this.id = params[ID_MEDICAL_RECORD];
+        this.idpatient = params[PATIENT_UUID_ROUTE];
+        this.idPatientClinicalHistory = params[ID_PATIENT_MEDICAL_RECORD];
       }
-    }
-  
-    private setupNavigationGuard(): void {
-      const allRoutes = [
-        ...StudentItems.map(item => item.routerlink),
-        ...this.additionalRoutes
-      ];
-  
-      this.navigationSubscription = this.route.events.subscribe((event) => {
-        if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
-          this.handleProtectedNavigation(event, allRoutes);
-        }
-      });
-    }
-  
-    private handleProtectedNavigation(event: NavigationStart, protectedRoutes: string[]): void {
-      if (protectedRoutes.includes(event.url)) {
-        this.navigationTarget = event.url;
-        this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_GENERAL);
-      }
-    }
-  
-    private getTabsforReview(historyData: dataTabs): dataTabs | null {
-      if (this.role !== ROLES.CLINICAL_AREA_SUPERVISOR) {
-        return historyData;
-      }
-  
-      const filteredData = {
-        ...historyData,
-        tabs: historyData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW)
-      };
-  
-      if (filteredData.tabs.length === 0) {
-        this.route.navigate(['/clinical-area-supervisor/history-clinics']);
-        return null;
-      }
-  
-      return filteredData;
-    }
-  
-    public getFirstTab() {
-      if (this.mappedHistoryData.tabs.length > 0) {
+
+      this.patientUuidParam = this.idpatient;
+      this.loadClinicalHistory();
+    });
+  }
+
+  private loadClinicalHistory(): void {
+    this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
+      next: (mappedData: dataTabs) => {
+        this.mappedHistoryData = this.processMappedData(mappedData, this.role);
         this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
         this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
-      }
-    }
-  
-    public getRole() {
-      this.token = this.userService.getToken() ?? "";
-      this.tokenData = this.userService.getTokenDataUser(this.token);
-      this.role = this.tokenData.role[0].authority;
-    }
-  
-    private processMappedData(mappedData: dataTabs, role: string): dataTabs {
-      let processedData = { ...mappedData };
-      if (role === ROLES.PROFESSOR) {
-        processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
-      }
-      return processedData;
-    }
-  
-    public openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
-      if (this.isNavigationPrevented) {
-        this.route.navigateByUrl(this.route.url);
-      }
-  
-      const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
-        width: '400px',
-        enterAnimationDuration,
-        exitAnimationDuration,
-        data: { message }
-      });
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        this.navigationInProgress = false;
-        if (result) {
-          this.isNavigationPrevented = false;
-          this.navigationComplete = true;
-          setTimeout(() => {
-            this.route.navigateByUrl(this.navigationTarget);
-          }, 0);
+        this.getFirstTab();
+        this.getStatusHc();
+
+        const processedData = this.getTabsforReview(this.mappedHistoryData);
+        if (processedData) {
+          this.mappedHistoryData = processedData;
+        } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
+          return;
         }
+      }
+    });
+  }
+
+  private setupNavigationInterceptor(): void {
+    const allRoutes = [
+      ...StudentItems.map(item => item.routerlink),
+      ...['/students/user']
+    ];
+
+    this.navigationSubscription = this.route.events.subscribe((event) => {
+      if (event instanceof NavigationStart && this.isNavigationPrevented) {
+        if (allRoutes.includes(event.url)) {
+          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_PREVENTIVE);
+        }
+      }
+    });
+  }
+
+  private getTabsforReview(historyData: dataTabs): dataTabs | null {
+    if (this.role !== ROLES.CLINICAL_AREA_SUPERVISOR) {
+      return historyData;
+    }
+
+    const filteredData = {
+      ...historyData,
+      tabs: historyData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW)
+    };
+
+    if (filteredData.tabs.length === 0) {
+      this.route.navigate(['/clinical-area-supervisor/history-clinics']);
+      return null;
+    }
+
+    return filteredData;
+  }
+
+  getFirstTab() {
+    if (this.mappedHistoryData.tabs.length > 0) {
+      this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+      this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
+    }
+  }
+
+  getRole() {
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+  }
+
+  private processMappedData(mappedData: dataTabs, role: string): dataTabs {
+    let processedData = { ...mappedData };
+    if (role === ROLES.PROFESSOR) {
+      processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
+    }
+    return processedData;
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
+    if (this.isNavigationPrevented) {
+      this.route.navigateByUrl(this.route.url);
+    }
+
+    const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
+      width: '400px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { message }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isNavigationPrevented = false;
+        setTimeout(() => {
+          this.route.navigateByUrl(this.route.url);
+        }, 0);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
+  }
+
+  onTabChange(index: number) {
+    this.currentIndex = index;
+    this.getStatusHc();
+  }
+
+  getStatusHc(forceRequest: boolean = false) {
+    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
+
+    if (!forceRequest && (currentTab.status === STATUS.NOT_REQUIRED || currentTab.status === STATUS.NO_REQUIRED || currentTab.status === STATUS.NO_STATUS)) {
+      return;
+    }
+
+
+
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}/${currentTab.idFormSection}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          currentTab.status = response.status;
+        },
+        error: (error) => {
+          console.error(error);
+        },
       });
+  }
+
+  onNextTab(): void {
+    this.currentIndex++;
+    if (this.currentIndex >= this.mappedHistoryData.tabs.length) {
+      this.currentIndex = this.mappedHistoryData.tabs.length - 1;
     }
-  
-    public ngOnDestroy(): void {
-      if (this.navigationSubscription) {
-        this.navigationSubscription.unsubscribe();
-      }
+  }
+
+  onPreviousTab(): void {
+    this.currentIndex--;
+    if (this.currentIndex < 0) {
+      this.currentIndex = 0;
     }
-  
-    public onTabChange(index: number): void {
-      this.currentIndex = index;
-      this.currentSectionId = this.mappedHistoryData.tabs[index].idFormSection;
-    }
-  
-    public getStatusHc(forceRequest: boolean = false) {
-      const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
-  
-      if (!forceRequest && (currentTab.status === STATUS.NO_STATUS || currentTab.status === STATUS.NO_REQUIRED)) {
-        return;
-      }
-  
-      this.apiService
-        .getService({
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-          }),
-          url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.patientMedicalRecord}/${currentTab.idFormSection}`,
-          data: {},
-        })
-        .subscribe({
-          next: (response) => {
-            currentTab.status = response.status;
-            this.cdr.detectChanges();
-          },
-          error: (error) => {
-            console.error(error);
-          },
-        });
-    }
-  
-    public onNextTab(): void {
-      this.currentIndex++;
-      if (this.currentIndex >= this.mappedHistoryData.tabs.length) {
-        this.currentIndex = this.mappedHistoryData.tabs.length - 1;
-      }
-    }
-  
-    public onPreviousTab(): void {
-      this.currentIndex--;
-      if (this.currentIndex < 0) {
-        this.currentIndex = 0;
-      }
-    }
+  }
 }
 

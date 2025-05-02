@@ -62,6 +62,7 @@ export class StudentsDentalOperationComponent {
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
   public idPatientClinicalHistory!: number;
+  public patientUuidParam!: string;
 
   private token!: string;
   private tokenData!: TokenData;
@@ -95,8 +96,8 @@ export class StudentsDentalOperationComponent {
         this.id = params[ID_MEDICAL_RECORD];
         this.idpatient = params[PATIENT_UUID_ROUTE];
         this.idPatientClinicalHistory = params[ID_PATIENT_MEDICAL_RECORD];
-      }
-
+      }   
+      this.patientUuidParam = this.idpatient;
       this.loadClinicalHistory();
     });
   }

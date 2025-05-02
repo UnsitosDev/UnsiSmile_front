@@ -33,6 +33,7 @@ export class CardPatientDataComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInfoPatient();
+    console.log('guardianData', this.patientUuid);
   }
 
   getInfoPatient() {
