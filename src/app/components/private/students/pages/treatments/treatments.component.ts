@@ -72,6 +72,7 @@ export class TreatmentsComponent implements OnInit {
         break;
       case 2:
         this.fetchTreatmentData();
+        this.fetchIdMedicalRecordConfig();
         break;
       default:
         console.warn('Tab index not handled:', tabIndex);
@@ -103,7 +104,7 @@ export class TreatmentsComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}`,
+        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.patientUuid}`,
         data: {},
       })
       .subscribe({
@@ -114,6 +115,28 @@ export class TreatmentsComponent implements OnInit {
           this.idHistoryGeneral = this.patientConfigHistories[0].patientClinicalHistoryId;
           this.patientMedicalRecord = this.patientConfigHistories[0].patientClinicalHistoryId;
           this.checkMedicalRecordExistence();
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+  }
+
+  public fetchIdMedicalRecordConfig() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.patientUuid}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response: ClinicalHistory[]) => {
+          this.patientConfigHistories = response.filter(
+            (history) => history.clinicalHistoryName == "General"
+          );
+          this.patientMedicalRecord = this.patientConfigHistories[0].patientClinicalHistoryId;
         },
         error: (error) => {
           console.error(error);
