@@ -3,6 +3,9 @@
   <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
 </mat-card>
 
+@if (viewTreatment) {
+  <button mat-button class="button-custom-back !text-white mb-4" (click)="backToTreatments()"><i class="fas fa-arrow-left mr-2"></i>Regresar</button>
+}
 <mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="onTabSelected($event)">
   <!-- Tab 1: Datos personales -->
   <mat-tab>
@@ -14,18 +17,20 @@
   </mat-tab>
 
   <!-- Tab 2: Historia clínica general -->
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <i class="fas fa-folder"></i>
-      <span class="ml-2">Historia clínica general</span>
-    </ng-template>
-    @if (medicalRecordLoaded) {
-      <app-medical-record-general-treatments [patientUuid]="patientUuid" [idHistoryGeneral]="idHistoryGeneral" [patientMedicalRecord]="patientMedicalRecord" ></app-medical-record-general-treatments>
-    }
-  </mat-tab>
+  @if (!viewTreatment) {
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="fas fa-folder"></i>
+        <span class="ml-2">Historia clínica general</span>
+      </ng-template>
+      @if (medicalRecordLoaded) {
+        <app-medical-record-general-treatments [patientUuid]="patientUuid" [idHistoryGeneral]="idHistoryGeneral" [patientMedicalRecord]="patientMedicalRecord" ></app-medical-record-general-treatments>
+      }
+    </mat-tab>
+  }
 
   <!-- Tab 3: Tratamientos -->
-   @if (patientMedicalRecord) {
+   @if (!viewTreatment ) {
     <mat-tab>
       <ng-template mat-tab-label>
         <i class="fas fa-file"></i>

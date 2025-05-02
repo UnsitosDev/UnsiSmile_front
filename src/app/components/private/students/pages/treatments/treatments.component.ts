@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 
 import { MatCardModule } from '@angular/material/card';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 
@@ -36,6 +36,8 @@ import { StudentsDentalOperationComponent } from "../history-clinics/dental-oper
   styleUrl: './treatments.component.scss',
 })
 export class TreatmentsComponent implements OnInit {
+  @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
+
   private readonly route = inject(ActivatedRoute);
   private readonly apiService = inject(ApiService);
   public readonly configMedicalRecord = inject(GeneralHistoryService);
@@ -101,7 +103,7 @@ export class TreatmentsComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.patientUuid}`,
+        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}`,
         data: {},
       })
       .subscribe({
@@ -200,4 +202,11 @@ export class TreatmentsComponent implements OnInit {
 
     return `${day}/${month}/${year}`;
   }
+
+  backToTreatments(): void {
+    this.viewTreatment = false;
+    setTimeout(() => {
+        this.tabGroup.selectedIndex = 2;
+    });
+}
 }

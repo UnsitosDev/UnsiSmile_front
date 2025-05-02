@@ -354,5 +354,6 @@ export class UriConstants {
   public static readonly POST_TREATMENTS = basePath + '/treatment-details'; 
   public static readonly GET_TREATMENT_BY_ID = basePath + '/treatment-details/patient';
   public static readonly GET_MEDICAL_RECORD_GENERAL = basePath + '/clinical-histories/general';
+  public static readonly GET_MEDICAL_RECORDS = basePath + '/clinical-histories';
 }
 
