@@ -123,6 +123,7 @@ export interface CardPatientView {
     email: string;
     admissionDate: any;
     curp: string;
+    medicalRecord: number
 }
 
 export interface CardGuardianView {

@@ -5,7 +5,6 @@ export function mapToCardPatientView(data: PatientResponse): CardPatientView {
     const fullName = `${data.person.firstName} ${data.person.secondName} ${data.person.firstLastName} ${data.person.secondLastName}`;
     const birthDate = new Date(data.person.birthDate[0], data.person.birthDate[1] - 1, data.person.birthDate[2]);
     const admissionDate = new Date(data.admissionDate[0], data.admissionDate[1] - 1, data.admissionDate[2]);
-
     const address = `${data.address.street.name} #${data.address.streetNumber} Int. ${data.address.interiorNumber}, Col. ${data.address.street.neighborhood.name}, ${data.address.street.neighborhood.locality.name}, ${data.address.street.neighborhood.locality.municipality.state.name}`;
 
     return {
@@ -16,7 +15,8 @@ export function mapToCardPatientView(data: PatientResponse): CardPatientView {
         address,
         email: data.person.email,
         admissionDate: formatDateDMY(admissionDate),
-        curp: data.person.curp
+        curp: data.person.curp,
+        medicalRecord: data.medicalRecordNumber
     };
 }
 

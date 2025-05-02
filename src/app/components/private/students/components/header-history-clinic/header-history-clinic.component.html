@@ -2,7 +2,6 @@
     <div class="title-container">
         <span><strong>Historia clínica {{mappedHistoryData.title}}</strong></span>
         <span>
-          <strong>Número de expediente: {{mappedHistoryData.medicalRecordNumber}}</strong> &nbsp; 
           @if (mappedHistoryData.tabs[currentIndex].requiresReview && 
               mappedHistoryData.tabs[currentIndex].status === STATUS.NO_STATUS && 
               role !== ROL.ADMIN) {

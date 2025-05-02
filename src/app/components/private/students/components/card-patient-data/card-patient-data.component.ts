@@ -14,7 +14,8 @@ export interface PatientSummary {
   address: string;
   email: string;
   admissionDate: string;
-  curp: string
+  curp: string;
+  medicalRecord: number;
 }
 
 @Component({
