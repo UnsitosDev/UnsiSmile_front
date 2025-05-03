@@ -27,9 +27,7 @@ import { StudentsOralSurgeryHistoryComponent } from "../history-clinics/oral-sur
 import { StudentsPeriodonticsHistoryComponent } from "../history-clinics/periodontics/students-periodontics-history.component";
 import { OralProsthesisComponent } from "../history-clinics/oral-prosthesis/oral-prosthesis.component";
 import { StudentsDentalOperationComponent } from "../history-clinics/dental-operation/students-dental-operation.component";
-import { Subscription } from 'rxjs';
-import { Messages } from 'src/app/utils/messageConfirmLeave';
-import { DialogConfirmLeaveComponent } from '../../components/dialog-confirm-leave/dialog-confirm-leave.component';
+import { NavigationGuardService } from 'src/app/services/navigation.guard.service';
 
 @Component({
   selector: 'app-treatments',
@@ -46,6 +44,7 @@ export class TreatmentsComponent implements OnInit {
   private readonly apiService = inject(ApiService);
   public readonly configMedicalRecord = inject(GeneralHistoryService);
   public readonly dialog = inject(MatDialog);
+  private navigationGuard = inject(NavigationGuardService);
 
   public medicalRecord!: dataTabs;
   public medicalRecordId!: number;
@@ -59,65 +58,13 @@ export class TreatmentsComponent implements OnInit {
   public viewTreatment: boolean = false;
   public tabMedicalRecord!: string;
   public patientClinicalHistoryId!: number;
-  private readonly additionalRoutes = ['/students/user'];
-  private navigationSubscription!: Subscription;
-  private navigationInProgress: boolean = false;
-  private navigationComplete: boolean = false;
-  private navigationTarget: string = '';
-  private isNavigationPrevented: boolean = true;
-
 
   public patientConfigHistories: ClinicalHistory[] = [];
 
   ngOnInit(): void {
     this.routeParams();
     this.fetchTreatmentData();
-    this.setupNavigationGuard();
-  }
-
-
-  private setupNavigationGuard(): void {
-    const allRoutes = [
-      ...StudentItems.map(item => item.routerlink),
-      ...this.additionalRoutes
-    ];
-
-    this.navigationSubscription = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
-        this.handleProtectedNavigation(event, allRoutes);
-      }
-    });
-  }
-
-  private handleProtectedNavigation(event: NavigationStart, protectedRoutes: string[]): void {
-    if (protectedRoutes.includes(event.url)) {
-      this.navigationTarget = event.url;
-      this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_TREATMENTS);
-    }
-  }
-
-  public openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
-    if (this.isNavigationPrevented) {
-      this.router.navigateByUrl(this.router.url);
-    }
-
-    const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
-      width: '400px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: { message }
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.navigationInProgress = false;
-      if (result) {
-        this.isNavigationPrevented = false;
-        this.navigationComplete = true;
-        setTimeout(() => {
-          this.router.navigateByUrl(this.navigationTarget);
-        }, 0);
-      }
-    });
+    this.navigationGuard.initialize(StudentItems.map(item => item.routerlink));
   }
 
   public onTabSelected(event: any): void {
