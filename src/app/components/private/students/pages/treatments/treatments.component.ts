@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 
 import { MatCardModule } from '@angular/material/card';
@@ -15,7 +15,7 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 
 import { ClinicalHistory } from 'src/app/models/history-clinic/historyClinic';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
-import { TreatmentDetailResponse, Treatments } from '@mean/models';
+import { StudentItems, TreatmentDetailResponse, Treatments } from '@mean/models';
 import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
 
 import { UriConstants } from '@mean/utils';
@@ -27,6 +27,9 @@ import { StudentsOralSurgeryHistoryComponent } from "../history-clinics/oral-sur
 import { StudentsPeriodonticsHistoryComponent } from "../history-clinics/periodontics/students-periodontics-history.component";
 import { OralProsthesisComponent } from "../history-clinics/oral-prosthesis/oral-prosthesis.component";
 import { StudentsDentalOperationComponent } from "../history-clinics/dental-operation/students-dental-operation.component";
+import { Subscription } from 'rxjs';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { DialogConfirmLeaveComponent } from '../../components/dialog-confirm-leave/dialog-confirm-leave.component';
 
 @Component({
   selector: 'app-treatments',
@@ -39,6 +42,7 @@ export class TreatmentsComponent implements OnInit {
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
 
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly apiService = inject(ApiService);
   public readonly configMedicalRecord = inject(GeneralHistoryService);
   public readonly dialog = inject(MatDialog);
@@ -54,12 +58,66 @@ export class TreatmentsComponent implements OnInit {
   public treatmentsPatient!: PaginatedData<TreatmentDetailResponse> | null;
   public viewTreatment: boolean = false;
   public tabMedicalRecord!: string;
+  public patientClinicalHistoryId!: number;
+  private readonly additionalRoutes = ['/students/user'];
+  private navigationSubscription!: Subscription;
+  private navigationInProgress: boolean = false;
+  private navigationComplete: boolean = false;
+  private navigationTarget: string = '';
+  private isNavigationPrevented: boolean = true;
+
 
   public patientConfigHistories: ClinicalHistory[] = [];
 
   ngOnInit(): void {
     this.routeParams();
     this.fetchTreatmentData();
+    this.setupNavigationGuard();
+  }
+
+
+  private setupNavigationGuard(): void {
+    const allRoutes = [
+      ...StudentItems.map(item => item.routerlink),
+      ...this.additionalRoutes
+    ];
+
+    this.navigationSubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
+        this.handleProtectedNavigation(event, allRoutes);
+      }
+    });
+  }
+
+  private handleProtectedNavigation(event: NavigationStart, protectedRoutes: string[]): void {
+    if (protectedRoutes.includes(event.url)) {
+      this.navigationTarget = event.url;
+      this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_TREATMENTS);
+    }
+  }
+
+  public openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
+    if (this.isNavigationPrevented) {
+      this.router.navigateByUrl(this.router.url);
+    }
+
+    const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
+      width: '400px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { message }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.navigationInProgress = false;
+      if (result) {
+        this.isNavigationPrevented = false;
+        this.navigationComplete = true;
+        setTimeout(() => {
+          this.router.navigateByUrl(this.navigationTarget);
+        }, 0);
+      }
+    });
   }
 
   public onTabSelected(event: any): void {
@@ -72,7 +130,7 @@ export class TreatmentsComponent implements OnInit {
         break;
       case 2:
         this.fetchTreatmentData();
-        this.fetchIdMedicalRecordConfig();
+        //this.fetchIdMedicalRecordConfig();
         break;
       default:
         console.warn('Tab index not handled:', tabIndex);
@@ -104,7 +162,7 @@ export class TreatmentsComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.patientUuid}`,
+        url: `${UriConstants.GET_GENERAL_MEDICAL_RECORD}?idPatient=${this.patientUuid}`,
         data: {},
       })
       .subscribe({
@@ -114,10 +172,15 @@ export class TreatmentsComponent implements OnInit {
           );
           this.idHistoryGeneral = this.patientConfigHistories[0].patientClinicalHistoryId;
           this.patientMedicalRecord = this.patientConfigHistories[0].patientClinicalHistoryId;
-          this.checkMedicalRecordExistence();
+
         },
         error: (error) => {
-          console.error(error);
+          if (error.status === 404) {
+            this.createMedicalRecord();
+          } else {
+            this.createMedicalRecord();
+            console.error(error);
+          }
         },
       });
   }
@@ -144,26 +207,13 @@ export class TreatmentsComponent implements OnInit {
       });
   }
 
-  private checkMedicalRecordExistence(): void {
-    const generalHistory = this.patientConfigHistories.find(
-      history => history.id === this.idHistoryGeneral && history.patientId == this.patientUuid
-    );
-
-    if (!generalHistory) {
-      const fetchMedicalRecordGeneral = this.patientConfigHistories.find(
-      history => history.clinicalHistoryName == "General");
-      const medicalRecordGeneraId = fetchMedicalRecordGeneral?.id;
-      this.createMedicalRecord(medicalRecordGeneraId);
-    }
-  }
-
-  createMedicalRecord(idClinicalHistoryCatalog: number | undefined): void {
+  createMedicalRecord(): void {
     this.apiService
       .postService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.POST_CLINICAL_HISTORY}?idPatient=${this.patientUuid}&idClinicalHistory=${idClinicalHistoryCatalog}`,
+        url: `${UriConstants.POST_GENERAL_MEDICAL_RECORD}?idPatient=${this.patientUuid}`,
         data: {},
       })
       .subscribe({
@@ -203,6 +253,8 @@ export class TreatmentsComponent implements OnInit {
       .subscribe({
         next: (response: PaginatedData<TreatmentDetailResponse>) => {
           this.treatmentsPatient = response;
+          this.patientClinicalHistoryId = this.treatmentsPatient.content[0].patientClinicalHistoryId;
+          console.log(this.patientClinicalHistoryId);
         },
         error: (error) => {
           console.error(error);
@@ -229,7 +281,7 @@ export class TreatmentsComponent implements OnInit {
   backToTreatments(): void {
     this.viewTreatment = false;
     setTimeout(() => {
-        this.tabGroup.selectedIndex = 2;
+      this.tabGroup.selectedIndex = 2;
     });
-}
+  }
 }

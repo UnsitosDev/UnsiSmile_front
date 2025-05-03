@@ -84,7 +84,7 @@ export class MedicalRecordGeneralTreatmentsComponent {
   private loadInitialData(): void {
     this.getRole();
 
-    this.historyData.getHistoryClinics(this.patientUuid, this.idHistoryGeneral)
+    this.historyData.getGeneralMedicalRecord(this.patientUuid)
       .subscribe({
         next: (mappedData: dataTabs) => this.processHistoryResponse(mappedData)
       });

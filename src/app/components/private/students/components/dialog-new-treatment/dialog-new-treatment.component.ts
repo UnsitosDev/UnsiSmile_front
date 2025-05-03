@@ -76,6 +76,7 @@ export class DialogNewTreatmentComponent {
       })
       .subscribe({
         next: (response: Treatments[]) => {
+          console.log(response);
           this.treatmentData = response;
         },
         error: (error) => {

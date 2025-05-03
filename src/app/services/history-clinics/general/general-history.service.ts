@@ -33,6 +33,22 @@ export class GeneralHistoryService {
   }
 
 
+  getGeneralMedicalRecord(idPatient: string): Observable<dataTabs> {
+    return this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_GENERAL_MEDICAL_RECORD}?idPatient=${idPatient}`,
+        data: {},
+      })
+      .pipe(
+        map((response: ClinicalHistoryCatalog) => {
+          return mapClinicalHistoryToDataTabs(response);
+        })
+      );
+  }
+
 
 }
 

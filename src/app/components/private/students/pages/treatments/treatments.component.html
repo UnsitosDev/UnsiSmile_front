@@ -78,7 +78,7 @@
         }
         @case (4) {
           <!-- Operatioria dental -->
-          <app-students-dental-operation [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-students-dental-operation>
+          <app-students-dental-operation [medicalRecord]="patientClinicalHistoryId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-students-dental-operation>
         }
         @case (5) {
           <app-students-oral-surgery-history [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-students-oral-surgery-history>

@@ -7,6 +7,7 @@ export class Messages {
     public static readonly CONFIRM_LEAVE_HC_DENTAL_OPERATION = '¿Salir de Historia Clínica Operatoria dental?';
     public static readonly CONFIRM_LEAVE_HC_ORAL_SURGERY = '¿Salir de Historia Clínica Cirugía bucal?';
     public static readonly CONFIRM_LEAVE_HC_PREVENTIVE = '¿Salir de Historia Clínica Historia clinica Odontología preventiva y salud pública?';
+    public static readonly CONFIRM_LEAVE_TREATMENTS = '¿Salir de tratamientos?';
     // Mensajes para insertar secciones de historia clinica
     public static readonly WARNING_FORM = 'Por favor, completa todos los campos requeridos';
     public static readonly SUCCES_INSERT_HC = 'Sección guardada correctamente';
