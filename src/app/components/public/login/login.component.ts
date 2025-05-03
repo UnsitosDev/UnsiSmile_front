@@ -9,10 +9,9 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService, AuthService } from '@mean/services';
 import { BaseComponent } from '@mean/shared';
-import { UriConstants } from '@mean/utils';
+import { Messages, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from 'src/app/models/shared/loading/loading.component';
-import { Messages } from 'src/app/utils/MessagesConstant';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
 import { TokenData } from './model/tokenData';

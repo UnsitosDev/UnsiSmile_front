@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Messages } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, throwError } from 'rxjs';
-import { Messages } from 'src/app/utils/MessagesConstant';
 
 export const globalHttpInterceptor: HttpInterceptorFn = (req, next) => {
   const notif = inject(ToastrService);
