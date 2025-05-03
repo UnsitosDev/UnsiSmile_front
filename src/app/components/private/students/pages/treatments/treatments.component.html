@@ -24,7 +24,7 @@
         <span class="ml-2">Historia clínica general</span>
       </ng-template>
       @if (medicalRecordLoaded) {
-        <app-medical-record-general-treatments [patientUuid]="patientUuid" [idHistoryGeneral]="idHistoryGeneral" [patientMedicalRecord]="patientMedicalRecord" ></app-medical-record-general-treatments>
+        <app-medical-record-general-treatments [patientUuid]="patientUuid" [idHistoryGeneral]="idHistoryGeneral" [patientMedicalRecord]="patientClinicalHistoryId" ></app-medical-record-general-treatments>
       }
     </mat-tab>
   }
@@ -70,21 +70,21 @@
       @switch (medicalRecordId) {
         @case (2) {
           <!--Protesis bucal-->
-          <app-oral-prosthesis [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-oral-prosthesis>
+          <app-oral-prosthesis [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientClinicalHistoryId"></app-oral-prosthesis>
         }
         @case (3) {
           <!-- Periodoncia -->
-          <app-students-periodontics-history [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-students-periodontics-history>
+          <app-students-periodontics-history [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientClinicalHistoryId"></app-students-periodontics-history>
         }
         @case (4) {
           <!-- Operatioria dental -->
-          <app-students-dental-operation [medicalRecord]="patientClinicalHistoryId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-students-dental-operation>
+          <app-students-dental-operation [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientClinicalHistoryId"></app-students-dental-operation>
         }
         @case (5) {
-          <app-students-oral-surgery-history [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-students-oral-surgery-history>
+          <app-students-oral-surgery-history [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientClinicalHistoryId"></app-students-oral-surgery-history>
         }
         @case (6) {
-          <app-preventive-dentistry-public-health [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientMedicalRecord"></app-preventive-dentistry-public-health>        }
+          <app-preventive-dentistry-public-health [medicalRecord]="medicalRecordId" [patientUuid]="patientUuid" [patientMedicalRecord]="patientClinicalHistoryId"></app-preventive-dentistry-public-health>        }
         @default {
           <p>No existe esta historia clinica.</p>
         }

@@ -145,7 +145,7 @@ export class MedicalRecordGeneralTreatmentsComponent {
   public getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
 
-    if (!forceRequest && (currentTab.status === STATUS.NO_STATUS || currentTab.status === STATUS.NO_REQUIRED)) {
+    if (!forceRequest && (currentTab.status === STATUS.NOT_REQUIRED || currentTab.status === STATUS.NO_REQUIRED || currentTab.status === STATUS.NO_STATUS)) {
       return;
     }
 

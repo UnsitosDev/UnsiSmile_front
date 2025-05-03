@@ -90,14 +90,14 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         this.idpatient = params[PATIENT_UUID_ROUTE];
         this.idPatientClinicalHistory = params[ID_PATIENT_MEDICAL_RECORD];
       }
-
+      
       this.patientUuidParam = this.idpatient;
       this.loadClinicalHistory();
     });
   }
 
   private loadClinicalHistory(): void {
-    this.historyData.getHistoryClinics(this.idpatient, this.id).subscribe({
+    this.historyData.getHistoryClinics(this.idPatientClinicalHistory, this.idpatient).subscribe({
       next: (mappedData: dataTabs) => {
         this.mappedHistoryData = this.processMappedData(mappedData, this.role);
         this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
@@ -165,8 +165,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     if (!forceRequest && (currentTab.status === STATUS.NOT_REQUIRED || currentTab.status === STATUS.NO_REQUIRED || currentTab.status === STATUS.NO_STATUS)) {
       return;
     }
-
-
 
     this.apiService
       .getService({

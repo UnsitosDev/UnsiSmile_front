@@ -28,6 +28,7 @@ import { StudentsPeriodonticsHistoryComponent } from "../history-clinics/periodo
 import { OralProsthesisComponent } from "../history-clinics/oral-prosthesis/oral-prosthesis.component";
 import { StudentsDentalOperationComponent } from "../history-clinics/dental-operation/students-dental-operation.component";
 import { NavigationGuardService } from 'src/app/services/navigation.guard.service';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-treatments',
@@ -77,7 +78,6 @@ export class TreatmentsComponent implements OnInit {
         break;
       case 2:
         this.fetchTreatmentData();
-        //this.fetchIdMedicalRecordConfig();
         break;
       default:
         console.warn('Tab index not handled:', tabIndex);
@@ -201,7 +201,6 @@ export class TreatmentsComponent implements OnInit {
         next: (response: PaginatedData<TreatmentDetailResponse>) => {
           this.treatmentsPatient = response;
           this.patientClinicalHistoryId = this.treatmentsPatient.content[0].patientClinicalHistoryId;
-          console.log(this.patientClinicalHistoryId);
         },
         error: (error) => {
           console.error(error);
