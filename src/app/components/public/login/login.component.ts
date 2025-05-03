@@ -12,6 +12,7 @@ import { BaseComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from 'src/app/models/shared/loading/loading.component';
+import { Messages } from 'src/app/utils/MessagesConstant';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
 import { TokenData } from './model/tokenData';
@@ -23,20 +24,23 @@ import { TokenData } from './model/tokenData';
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, LoadingComponent],
 })
-export class LoginComponent extends BaseComponent<Get, PostLogin> implements OnInit{
+export class LoginComponent
+  extends BaseComponent<Get, PostLogin>
+  implements OnInit
+{
   private userService = inject(AuthService);
   showPassword: boolean = false;
   returnUrl: string = '/';
 
   @Output() onSubmitLoginEvent = new EventEmitter();
-  private toastr=inject (ToastrService);
+  private toastr = inject(ToastrService);
 
   constructor(
     private readonly api: ApiService<Get, PostLogin>,
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly authServise: AuthService,
+    private readonly authServise: AuthService
   ) {
     super(api);
     this.formGroup = this.fb.group({
@@ -53,7 +57,7 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> implements OnI
   handleLogin() {
     if (this.isFormValid()) {
       const { user, password } = this.formGroup.value;
-  
+
       this.createService({
         url: `${UriConstants.USER_LOGIN}`,
         data: {
@@ -73,19 +77,22 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> implements OnI
             SessionStorageConstants.USER_REFRESH_TOKEN,
             refreshToken
           );
-  
+
           const tokenData: TokenData = this.userService.getTokenDataUser(token);
           if (tokenData.firstLogin) {
             this.router.navigate(['/new-password']);
           } else {
-            this.userService.redirectByRole(tokenData.role[0].authority, this.returnUrl);
+            this.userService.redirectByRole(
+              tokenData.role[0].authority,
+              this.returnUrl
+            );
           }
         },
         error: (error) => {
-          if (error.status != 0) {
-          this.toastr.error(error,'Error');
+          if (error != Messages.ERROR) {
+            this.toastr.error(error, 'Error');
           }
-  
+
           this.loading = false;
         },
       });
@@ -95,6 +102,4 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> implements OnI
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
-
-  
 }
