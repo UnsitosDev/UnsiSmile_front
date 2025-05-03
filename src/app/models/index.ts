@@ -7,3 +7,5 @@ export * from './shared/odontogram/odontogram';
 export * from './shared/periodontogram.model'
 export * from './shared/formats.model'
 export * from './shared/statusHc'
+export * from './core/TokenResponse'
+export * from './core/auth.model'

@@ -8,8 +8,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app/app.component';
 import routes from './app/app.routing.routes';
 import { AuthInterceptor } from './app/core';
-import { LoadingInterceptor } from './app/services/loadingInterceptor.service';
-import { RefreshTokenInterceptor } from './app/core/refresh-token-interceptor.interceptor';
+import { LoadingInterceptor } from './app/core/interceptors/loading.interceptor';
+import { RefreshTokenInterceptor } from './app/core/interceptors/refresh-token.interceptor';
 
 bootstrapApplication(
   AppComponent,
