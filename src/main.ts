@@ -8,8 +8,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app/app.component';
 import routes from './app/app.routing.routes';
 import { AuthInterceptor } from './app/core';
-import { LoadingInterceptor } from './app/services/loadingInterceptor.service';
-import { RefreshTokenInterceptor } from './app/core/refresh-token-interceptor.interceptor';
+import { LoadingInterceptor } from './app/core/interceptors/loading.interceptor';
+import { RefreshTokenInterceptor } from './app/core/interceptors/refresh-token.interceptor';
+import { globalHttpInterceptor } from './app/core/interceptors/global-http.interceptor';
 
 bootstrapApplication(
   AppComponent,
@@ -30,7 +31,7 @@ bootstrapApplication(
       easeTime: 300 // tiempo de animación
     })),  
     provideAnimations(),
-    provideHttpClient(withInterceptorsFromDi(), withInterceptors([AuthInterceptor, LoadingInterceptor, RefreshTokenInterceptor])),
+    provideHttpClient(withInterceptorsFromDi(), withInterceptors([AuthInterceptor, LoadingInterceptor, RefreshTokenInterceptor, globalHttpInterceptor])),
     provideRouter(routes), provideAnimationsAsync(), provideAnimationsAsync('noop'),
   ]},
 )
