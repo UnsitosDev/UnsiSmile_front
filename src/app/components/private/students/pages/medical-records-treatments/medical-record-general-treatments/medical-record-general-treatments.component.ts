@@ -61,12 +61,6 @@ export class MedicalRecordGeneralTreatmentsComponent {
 
   private token: string = '';
   private tokenData!: TokenData;
-  private navigationSubscription!: Subscription;
-  private navigationTarget: string = '';
-  private navigationInProgress: boolean = false;
-  private isNavigationPrevented: boolean = true;
-  private navigationComplete: boolean = false;
-  private readonly additionalRoutes = ['/students/user'];
 
   public medicalRecordNumber!: number;
   public mappedHistoryData!: dataTabs;
@@ -78,7 +72,6 @@ export class MedicalRecordGeneralTreatmentsComponent {
 
   ngOnInit(): void {
     this.loadInitialData();
-    this.setupNavigationGuard();
   }
 
   private loadInitialData(): void {
@@ -102,26 +95,6 @@ export class MedicalRecordGeneralTreatmentsComponent {
       this.mappedHistoryData = processedData;
     } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
       return;
-    }
-  }
-
-  private setupNavigationGuard(): void {
-    const allRoutes = [
-      ...StudentItems.map(item => item.routerlink),
-      ...this.additionalRoutes
-    ];
-
-    this.navigationSubscription = this.route.events.subscribe((event) => {
-      if (event instanceof NavigationStart && !this.navigationInProgress && !this.navigationComplete) {
-        this.handleProtectedNavigation(event, allRoutes);
-      }
-    });
-  }
-
-  private handleProtectedNavigation(event: NavigationStart, protectedRoutes: string[]): void {
-    if (protectedRoutes.includes(event.url)) {
-      this.navigationTarget = event.url;
-      this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_GENERAL);
     }
   }
 
@@ -162,36 +135,6 @@ export class MedicalRecordGeneralTreatmentsComponent {
       processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
     }
     return processedData;
-  }
-
-  public openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
-    if (this.isNavigationPrevented) {
-      this.route.navigateByUrl(this.route.url);
-    }
-
-    const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
-      width: '400px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: { message }
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.navigationInProgress = false;
-      if (result) {
-        this.isNavigationPrevented = false;
-        this.navigationComplete = true;
-        setTimeout(() => {
-          this.route.navigateByUrl(this.navigationTarget);
-        }, 0);
-      }
-    });
-  }
-
-  public ngOnDestroy(): void {
-    if (this.navigationSubscription) {
-      this.navigationSubscription.unsubscribe();
-    }
   }
 
   public onTabChange(index: number): void {
