@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -18,13 +18,10 @@ import { ApiService, AuthService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
-import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, PATIENT_UUID_ROUTE, StatusClinicalHistoryResponse, StudentItems } from '@mean/models';
+import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, PATIENT_UUID_ROUTE } from '@mean/models';
 import { UriConstants } from '@mean/utils';
-import { Subscription } from 'rxjs';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
-import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
-import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { HttpHeaders } from '@angular/common/http';
@@ -32,7 +29,6 @@ import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
 import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-students-general-history',

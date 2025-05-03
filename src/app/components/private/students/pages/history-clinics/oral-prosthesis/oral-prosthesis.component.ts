@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,17 +17,11 @@ import { ApiService, AuthService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
-import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
-import { cardGuardian, cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
-import { Subscription } from 'rxjs';
-import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, PATIENT_UUID_ROUTE, StatusClinicalHistoryResponse, StudentItems } from '@mean/models';
-import { DialogConfirmLeaveComponent } from '../../../components/dialog-confirm-leave/dialog-confirm-leave.component';
-import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, PATIENT_UUID_ROUTE } from '@mean/models';
 import { HttpHeaders } from '@angular/common/http';
-import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { MenuAssessMedicalHistoryComponent } from "../../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component";
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
@@ -66,9 +60,6 @@ export class OralProsthesisComponent {
   private token!: string;
   private tokenData!: TokenData;
 
-  private navigationSubscription!: Subscription;
-  private isNavigationPrevented: boolean = true;
-
   ROL = ROLES;
 
   constructor() { }
@@ -76,7 +67,6 @@ export class OralProsthesisComponent {
   ngOnInit(): void {
     this.initializeUserRole();
     this.initializeRouteParams();
-    this.setupNavigationInterceptor();
   }
 
   private initializeUserRole(): void {
@@ -115,21 +105,6 @@ export class OralProsthesisComponent {
           this.mappedHistoryData = processedData;
         } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
           return;
-        }
-      }
-    });
-  }
-
-  private setupNavigationInterceptor(): void {
-    const allRoutes = [
-      ...StudentItems.map(item => item.routerlink),
-      ...['/students/user']
-    ];
-
-    this.navigationSubscription = this.route.events.subscribe((event) => {
-      if (event instanceof NavigationStart && this.isNavigationPrevented) {
-        if (allRoutes.includes(event.url)) {
-          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_PREVENTIVE);
         }
       }
     });
@@ -174,34 +149,6 @@ export class OralProsthesisComponent {
     return processedData;
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
-    if (this.isNavigationPrevented) {
-      this.route.navigateByUrl(this.route.url);
-    }
-
-    const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
-      width: '400px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: { message }
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.isNavigationPrevented = false;
-        setTimeout(() => {
-          this.route.navigateByUrl(this.route.url);
-        }, 0);
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.navigationSubscription) {
-      this.navigationSubscription.unsubscribe();
-    }
-  }
-
   onTabChange(index: number) {
     this.currentIndex = index;
     this.getStatusHc();
@@ -213,8 +160,6 @@ export class OralProsthesisComponent {
     if (!forceRequest && (currentTab.status === STATUS.NOT_REQUIRED || currentTab.status === STATUS.NO_REQUIRED || currentTab.status === STATUS.NO_STATUS)) {
       return;
     }
-
-
 
     this.apiService
       .getService({
