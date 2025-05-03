@@ -10,12 +10,14 @@ import {
 } from 'src/app/shared/interfaces/student/student';
 import { DashboardAdminStatsComponent } from '../../../admins/components/dashboard-admin-stats-component/dashboard-admin-stats-component.component';
 import { ProfessorResponse } from 'src/app/models/shared/professor/professor.model';
+import { DashboardProfessorClinicalComponent } from "../../../clinical-area-supervisor/components/dashboard/dashboard.component";
+import { DashboardProfessorStatsComponent } from "../dashboard-professor-stats/dashboard-professor-stats.component";
 //import { DashboardAdminStatsComponent } from '../dashboard-admin-stats-component/dashboard-admin-stats-component.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FontAwesomeModule, DashboardAdminStatsComponent],
+  imports: [FontAwesomeModule, DashboardProfessorStatsComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })  
