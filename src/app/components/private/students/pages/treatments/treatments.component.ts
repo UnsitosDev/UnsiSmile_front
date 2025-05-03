@@ -113,13 +113,8 @@ export class TreatmentsComponent implements OnInit {
         data: {},
       })
       .subscribe({
-        next: (response: ClinicalHistory[]) => {
-          this.patientConfigHistories = response.filter(
-            (history) => history.clinicalHistoryName == "General"
-          );
-          this.idHistoryGeneral = this.patientConfigHistories[0].patientClinicalHistoryId;
-          this.patientMedicalRecord = this.patientConfigHistories[0].patientClinicalHistoryId;
-
+        next: (response) => {
+          
         },
         error: (error) => {
           if (error.status === 404) {
