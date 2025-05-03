@@ -82,7 +82,9 @@ export class LoginComponent extends BaseComponent<Get, PostLogin> implements OnI
           }
         },
         error: (error) => {
+          if (error.status != 0) {
           this.toastr.error(error,'Error');
+          }
   
           this.loading = false;
         },
