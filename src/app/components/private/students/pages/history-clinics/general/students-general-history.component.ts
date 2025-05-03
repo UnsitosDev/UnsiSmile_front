@@ -68,9 +68,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private token!: string;
   private tokenData!: TokenData;
 
-  private navigationSubscription!: Subscription;
-  private isNavigationPrevented: boolean = true;
-
   ROL = ROLES;
 
   constructor() { }
@@ -78,7 +75,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.initializeUserRole();
     this.initializeRouteParams();
-    this.setupNavigationInterceptor();
   }
 
   private initializeUserRole(): void {
@@ -123,21 +119,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     });
   }
 
-  private setupNavigationInterceptor(): void {
-    const allRoutes = [
-      ...StudentItems.map(item => item.routerlink),
-      ...['/students/user']
-    ];
-
-    this.navigationSubscription = this.route.events.subscribe((event) => {
-      if (event instanceof NavigationStart && this.isNavigationPrevented) {
-        if (allRoutes.includes(event.url)) {
-          this.openDialog('300ms', '200ms', Messages.CONFIRM_LEAVE_HC_PREVENTIVE);
-        }
-      }
-    });
-  }
-
   private getTabsforReview(historyData: dataTabs): dataTabs | null {
     if (this.role !== ROLES.CLINICAL_AREA_SUPERVISOR) {
       return historyData;
@@ -175,34 +156,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
     }
     return processedData;
-  }
-
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, message: string): void {
-    if (this.isNavigationPrevented) {
-      this.route.navigateByUrl(this.route.url);
-    }
-
-    const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
-      width: '400px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: { message }
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.isNavigationPrevented = false;
-        setTimeout(() => {
-          this.route.navigateByUrl(this.route.url);
-        }, 0);
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.navigationSubscription) {
-      this.navigationSubscription.unsubscribe();
-    }
   }
 
   onTabChange(index: number) {
