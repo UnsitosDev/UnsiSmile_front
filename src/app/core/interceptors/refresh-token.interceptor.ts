@@ -2,9 +2,9 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '@mean/services';
 import { throwError } from 'rxjs';
-import { catchError, concatMap, switchMap } from 'rxjs/operators';
-import { SessionStorageConstants } from './../utils/session.storage';
-import { TokenResponse } from '../models/core/TokenResponse';
+import { catchError, switchMap } from 'rxjs/operators';
+import { SessionStorageConstants } from '@mean/utils';
+import { TokenResponse } from '@mean/models';
 
 export const RefreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);

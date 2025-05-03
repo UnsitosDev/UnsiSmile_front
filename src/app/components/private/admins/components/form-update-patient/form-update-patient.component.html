@@ -69,12 +69,12 @@
         <button mat-flat-button color="primary" matStepperPrevious>
           <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR
         </button>
-        @if (minorPatient) {
+        @if (minorPatient || (disabledPatient && needsGuardian)) {
           <button mat-flat-button color="primary" matStepperNext>
             SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i>
           </button>
         }
-        @if (!minorPatient) {
+        @if (!minorPatient && !(disabledPatient && needsGuardian)) {
           <button mat-flat-button color="primary" (click)="onSubmit()">
             GUARDAR <i class="fas fa-save"></i>
           </button>
@@ -83,7 +83,7 @@
     </form>
   </mat-step>
 
-  @if (minorPatient) {
+  @if (minorPatient || (disabledPatient && needsGuardian)) {
     <mat-step >
       <form [formGroup]="formGroup">
         <ng-template matStepLabel>DATOS DEL TUTOR</ng-template>

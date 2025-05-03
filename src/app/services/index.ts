@@ -4,3 +4,4 @@ export * from './odontogram.service';
 export * from './side-bar.service';
 export * from './form-fields.service';
 export * from './odontogram-data.service';
+export * from './loading.service';

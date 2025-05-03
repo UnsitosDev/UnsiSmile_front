@@ -1,84 +1,88 @@
 <div class="tooth-container">
   <div class="boxTooth">
-
     @if (hasConditions() && state !== 'read') {
-    <button 
-      class="delete-conditions-btn" 
+    <button
+      class="delete-conditions-btn"
       (click)="deleteConditions.emit(data)"
-      matTooltip="Eliminar condiciones">
+      matTooltip="Eliminar condiciones"
+    >
       <i title="Eliminar condiciones" class="fas fa-trash"></i>
-      
     </button>
-  }
+    } @if(state != 'read'){ @if (data.status) {
+    <button
+      title="Diente no presente"
+      class="removeButton"
+      (click)="toggleTooth.emit(data)"
+    >
+      -
+    </button>
+    } @else {
+    <button
+      title="Diente presente"
+      class="addButton"
+      (click)="toggleTooth.emit(data)"
+    >
+      +
+    </button>
+    } }
 
-    @if(state != 'read'){
-      @if (data.status) {
-        <button title="Diente no presente" class="removeButton" (click)="toggleTooth.emit(data)">-</button>
-        } @else {
-        <button title="Diente presente" class="addButton" (click)="toggleTooth.emit(data)">+</button>
-        }
-    }
-
-    <small class="idTooth">{{
-      data.idTooth
-    }}</small>
+    <small class="idTooth">{{ data.idTooth }}</small>
 
     <svg
       width="29"
       height="34"
       [attr.id]="data.idTooth"
       [ngClass]="data.status ? 'tooth' : 'tooth disabled'"
-    > 
-    
+    >
       <!-- Face 1 (Top) -->
       <polygon
-      stroke="black"
-      points="1,1 7,9 21,9 28,1"
-      [attr.id]="data.faces[0].idFace"
-      fill="#EAEDEA"
-      (click)="clicked(data, 0, data.faces[0].idFace, data.idTooth)"
-      class="face"
-    />
+        stroke="black"
+        points="1,1 7,9 21,9 28,1"
+        [attr.id]="data.faces[0].idFace"
+        fill="#EAEDEA"
+        (click)="clicked(data, 0, data.faces[0].idFace, data.idTooth)"
+        class="face"
+      />
 
-    <!-- Face 2 (Right) -->
-    <polygon
-      stroke="black"
-      points="21,9 21,25 28,33 28,1"
-      [attr.id]="data.faces[1].idFace"
-      fill="#EAEDEA"
-      (click)="clicked(data, 1, data.faces[1].idFace, data.idTooth)"
-      class="face"
-    />
+      <!-- Face 2 (Right) -->
+      <polygon
+        stroke="black"
+        points="21,9 21,25 28,33 28,1"
+        [attr.id]="data.faces[1].idFace"
+        fill="#EAEDEA"
+        (click)="clicked(data, 1, data.faces[1].idFace, data.idTooth)"
+        class="face"
+      />
 
-    <!-- Face 3 (Bottom) -->
-    <polygon
-      stroke="black"
-      points="21,25 28,33 1,33 7,25"
-      [attr.id]="data.faces[2].idFace"
-      fill="#EAEDEA"
-      (click)="clicked(data, 2, data.faces[2].idFace, data.idTooth)"
-      class="face"
-    />
+      <!-- Face 3 (Bottom) -->
+      <polygon
+        stroke="black"
+        points="21,25 28,33 1,33 7,25"
+        [attr.id]="data.faces[2].idFace"
+        fill="#EAEDEA"
+        (click)="clicked(data, 2, data.faces[2].idFace, data.idTooth)"
+        class="face"
+      />
 
-    <!-- Face 4 (Left) -->
-    <polygon
-      stroke="black"
-      points="1,1 1,33 7,25 7,9"
-      [attr.id]="data.faces[3].idFace"
-      fill="#EAEDEA"
-      (click)="clicked(data, 3, data.faces[3].idFace, data.idTooth)"
-      class="face"
-    />
+      <!-- Face 4 (Left) -->
+      <polygon
+        stroke="black"
+        points="1,1 1,33 7,25 7,9"
+        [attr.id]="data.faces[3].idFace"
+        fill="#EAEDEA"
+        (click)="clicked(data, 3, data.faces[3].idFace, data.idTooth)"
+        class="face"
+      />
 
-    <!-- Face 5 (Center) -->
-    <polygon
-      stroke="black"
-      points="7,9 21,9 21,25 7,25"
-      [attr.id]="data.faces[4].idFace"
-      fill="#EAEDEA"
-      (click)="clicked(data, 4, data.faces[4].idFace, data.idTooth)"
-      class="face"
-    />
+      <!-- Face 5 (Center) -->
+      <polygon
+        stroke="black"
+        points="7,9 21,9 21,25 7,25"
+        [attr.id]="data.faces[4].idFace"
+        fill="#EAEDEA"
+        (click)="clicked(data, 4, data.faces[4].idFace, data.idTooth)"
+        class="face"
+      />
 
       <!-- Simbologías -->
       @for (face of data.faces; track face; let idx = $index) {
@@ -226,43 +230,25 @@
       <!-- Fístula -->
       @if (condition.condition === ToothConditionsConstant.FISTULA) {
       <ng-container>
-        <svg width="29" height="34">
-          <g>
-            <circle cx="14" cy="8" r="4" fill="red" />
-          </g>
-        </svg>
+        <img src="../../../../../../assets/svg/fistula.svg" />
       </ng-container>
       }
 
       <!-- Diente con fluorosis -->
       @if (condition.condition === ToothConditionsConstant.DIENTE_CON_FLUOROSIS)
       {
-      <svg width="29" height="10">
-        <text
-          x="10"
-          y="8"
-          fill="var(--on-secondary)"
-          font-size="10px"
-          font-family="sans-serif"
-        >
-          F
-        </text>
-      </svg>
+      <img src="../../../../../../assets/svg/fluorosis.svg" />
       }
       <!-- Diente con hipoplasia -->
       @if (condition.condition ===
       ToothConditionsConstant.DIENTE_CON_HIPOPLASIA) {
-      <svg width="29" height="10">
-        <text
-          x="10"
-          y="8"
-          fill="var(--on-secondary)"
-          font-size="10px"
-          font-family="sans-serif"
-        >
-          H
-        </text>
-      </svg>
+      <img src="../../../../../../assets/svg/hipoplasia.svg" />
+      }
+      <!-- Diente con resto radicular-->
+       <!-- Diente con hipoplasia -->
+      @if (condition.condition ===
+      ToothConditionsConstant.RESTO_RADICULAR) {
+      <img src="../../../../../../assets/svg/resto_radicular.svg" />
       }
       <!-- Diente en mal posición derecha -->
       @if (condition.condition ===
@@ -273,10 +259,10 @@
       @if (condition.condition ===
       ToothConditionsConstant.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
       <img src="../../../../../../assets/svg/flecha izquierda.svg" />
+      } @if (condition.condition ===
+      ToothConditionsConstant.DIENTE_PARCIALMENTE_ERUPCIONADO) {
+      <img src="../../../../../../assets/svg/erupcion.svg" />
       }
-      @if (condition.condition === ToothConditionsConstant.DIENTE_PARCIALMENTE_ERUPCIONADO) {
-        <img src="../../../../../../assets/svg/erupcion.svg" />
-        }
       <!-- Prótesis removible -->
       @if (condition.condition === ToothConditionsConstant.PROTESIS_REMOVIBLE) {
       <img src="../../../../../../assets/svg/protesis_removible.svg" />

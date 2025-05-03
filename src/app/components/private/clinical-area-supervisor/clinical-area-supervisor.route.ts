@@ -9,18 +9,6 @@ export default [
             ),
         children: [
             {
-                path: 'clinical-area-supervisor',
-                children: [
-                    {
-                        path: '',
-                        loadComponent: () =>
-                            import('../proffessor/components/table-students/table-students.component').then(
-                                (m) => m.TableStudentsComponent
-                            ),
-                    },
-                ],
-            },
-            {
                 path: 'dashboard',
                 loadComponent: () =>
                     import('./components/dashboard/dashboard.component').then(
@@ -74,6 +62,13 @@ export default [
                 loadComponent: () =>
                     import('../students/pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
                         (m) => m.PreventiveDentistryPublicHealthComponent
+                    ),
+            },
+            {
+                path: 'user',
+                loadComponent: () =>
+                    import('../../../shared/components/form-user/form-user.component').then(
+                        (m) => m.FormUserComponent
                     ),
             },
             {

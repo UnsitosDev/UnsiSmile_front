@@ -22,9 +22,14 @@ import {
 import { Constants, ToothConditionsConstants } from '@mean/utils';
 
 import { HttpHeaders } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
+import {
+  MatFormFieldModule
+} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import {
   ICondition,
@@ -58,6 +63,10 @@ interface ToothEvent {
     MatCardModule,
     MatListModule,
     MatIconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './students-odontogram.component.html',
   styleUrl: './students-odontogram.component.scss',
@@ -98,7 +107,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   renderOdontogram = false;
 
   data: IOdontogramHandler = createOdontogramHandler(); //odontograma que se renderiza
-  odontogram: IOdontogram = { teeth: [] }; //odontograma que se insertará
+  odontogram: IOdontogram = { teeth: [], observations: '' }; //odontograma que se insertará
   options: ICondition[] = [];
   faces: IFace[] = [];
   toolbar: { options: ICondition[] } = { options: [] };
@@ -147,7 +156,6 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         },
         error: (error) => {
           this.renderOdontogram = false;
-          this.toastr.error('Error al cargar el odontograma', 'Error');
         },
       });
   }
@@ -489,6 +497,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
 
   private mapOdontogramToPost(): OdontogramPost {
     return {
+      observations: this.odontogram.observations,
       idQuestion: this.idQuestion,
       idPatient: this.patientId,
       idPatientClinicalHistory: this.idClinicalHistoryPatient,
@@ -607,6 +616,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
 
     // Map response to odontogram for POST operations
     this.odontogram = {
+      observations: response.observations,
       teeth: [
         ...response.adultArcade.map((tooth) => ({
           idTooth: Number(tooth.idTooth),

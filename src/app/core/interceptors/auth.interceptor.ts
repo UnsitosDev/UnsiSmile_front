@@ -1,7 +1,7 @@
 import {
   HttpInterceptorFn
 } from '@angular/common/http';
-import { SessionStorageConstants } from '../utils/session.storage';
+import { SessionStorageConstants } from '@mean/utils';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   let token = sessionStorage.getItem(SessionStorageConstants.USER_TOKEN);

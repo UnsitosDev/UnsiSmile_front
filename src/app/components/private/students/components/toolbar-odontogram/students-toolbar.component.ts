@@ -1,8 +1,7 @@
-import { toothConditionRequest } from '../../../../../models/models-students/toothCondition/toothCondition';
-import { ToothConditionsConstants } from './../../../../../utils/ToothConditions.constant';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICondition } from 'src/app/models/shared/odontogram/odontogram';
 import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
+import { ToothConditionsConstants } from './../../../../../utils/ToothConditions.constant';
 
 @Component({
   selector: 'app-students-toolbar',
@@ -14,10 +13,14 @@ import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
 export class StudentsToolbarComponent {
   @Input() toolbar!: Toolbar;
   @Output() handleAction = new EventEmitter<ICondition>();
-  @Input({ required: true }) state!: "create" | "update" | "read" | "read-latest";
+  @Input({ required: true }) state!:
+    | 'create'
+    | 'update'
+    | 'read'
+    | 'read-latest';
   @Input() marked!: ICondition;
 
-  ToothConditionsConstants = ToothConditionsConstants 
+  ToothConditionsConstants = ToothConditionsConstants;
 
   isSymbolSelected(symbol: ICondition): boolean {
     return this.marked?.condition === symbol.condition;
@@ -32,7 +35,7 @@ export class StudentsToolbarComponent {
       description: symbol.description,
       condition: symbol.condition,
       idCondition: symbol.idCondition,
-      selected: false
+      selected: false,
     });
   }
 
@@ -44,7 +47,9 @@ export class StudentsToolbarComponent {
       ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA,
       ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA,
       ToothConditionsConstants.PROTESIS_REMOVIBLE,
-      ToothConditionsConstants.PUENTE
+      ToothConditionsConstants.PUENTE,
+      ToothConditionsConstants.DIENTE_NO_PRESENTE,
+      ToothConditionsConstants.DIENTE_EXTRAIDO,
     ];
     return normalConditions.includes(condition);
   }
@@ -58,7 +63,8 @@ export class StudentsToolbarComponent {
       ToothConditionsConstants.FISTULA,
       ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
       ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
-      ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES
+      ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES,
+      ToothConditionsConstants.RESTO_RADICULAR,
     ];
     return abnormalConditions.includes(condition);
   }
