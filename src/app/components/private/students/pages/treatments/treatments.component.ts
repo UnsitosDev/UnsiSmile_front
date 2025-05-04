@@ -28,7 +28,7 @@ import { StudentsPeriodonticsHistoryComponent } from "../history-clinics/periodo
 import { OralProsthesisComponent } from "../history-clinics/oral-prosthesis/oral-prosthesis.component";
 import { StudentsDentalOperationComponent } from "../history-clinics/dental-operation/students-dental-operation.component";
 import { NavigationGuardService } from 'src/app/services/navigation.guard.service';
-import { faL } from '@fortawesome/free-solid-svg-icons';
+import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
 
 @Component({
   selector: 'app-treatments',
@@ -61,11 +61,11 @@ export class TreatmentsComponent implements OnInit {
   public patientClinicalHistoryId!: number;
 
   public patientConfigHistories: ClinicalHistory[] = [];
-
+  STATUS = STATUS_TREATMENTS;
   ngOnInit(): void {
     this.routeParams();
     this.fetchTreatmentData();
-    this.navigationGuard.initialize(StudentItems.map(item => item.routerlink));
+    //this.navigationGuard.initialize(StudentItems.map(item => item.routerlink));
   }
 
   public onTabSelected(event: any): void {

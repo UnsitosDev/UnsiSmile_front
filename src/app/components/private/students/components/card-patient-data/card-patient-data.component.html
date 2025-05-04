@@ -43,6 +43,13 @@
                     <div>
                         <i class="fas fa-notes-medical"></i>&nbsp; Numero de expediente: <strong>{{data.medicalRecord}}</strong>
                     </div>
+                    @if (data.hasTreatmentInProgress) {
+                        <div class="mt-2 mb-2 ml-3">
+                            <span class="view-badge">
+                                En tratamiento
+                            </span>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

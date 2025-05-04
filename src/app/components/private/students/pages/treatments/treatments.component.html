@@ -50,6 +50,11 @@
                 {{item.treatment.clinicalHistoryCatalogName}}
                 <span matListItemLine><strong>Duración:</strong> {{ formatArrayDate(item.startDate) }} - {{ formatArrayDate(item.endDate) }}</span>
               </mat-list-item>
+                @if (item.status === STATUS.IN_PROGRESS) {
+                  <span class="in-progress">En progreso</span>
+                }@else {
+                  <span class="finished">Finalizado</span>
+                }
               <span class="view-badge" (click)="openTreatment(item)">
                 Ver Tratamiento
               </span>

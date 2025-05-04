@@ -6,3 +6,7 @@ export const STATUS = {
     REJECTED: 'REJECTED',
     NOT_REQUIRED: 'NOT_REQUIRED'
 };  
+
+export const STATUS_TREATMENTS = {
+    IN_PROGRESS: 'IN_PROGRESS'
+};

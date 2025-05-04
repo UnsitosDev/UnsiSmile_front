@@ -155,7 +155,7 @@ export class DialogNewTreatmentComponent {
           this.dialogRef.close(true);
         },
         error: (error) => {
-          console.error(error);
+          this.toast.error(error);
         },
       });
   }

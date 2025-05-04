@@ -16,7 +16,8 @@ export function mapToCardPatientView(data: PatientResponse): CardPatientView {
         email: data.person.email,
         admissionDate: formatDateDMY(admissionDate),
         curp: data.person.curp,
-        medicalRecord: data.medicalRecordNumber
+        medicalRecord: data.medicalRecordNumber,
+        hasTreatmentInProgress: data.hasTreatmentInProgress,
     };
 }
 

@@ -16,6 +16,7 @@ export interface PatientSummary {
   admissionDate: string;
   curp: string;
   medicalRecord: number;
+  hasTreatmentInProgress: boolean;
 }
 
 @Component({

@@ -110,6 +110,7 @@ export interface PatientResponse {
     religion: Religion;
     guardian: CardGuardian | null;
     student: any;
+    hasTreatmentInProgress: boolean;
 }
 
 // map
@@ -124,6 +125,7 @@ export interface CardPatientView {
     admissionDate: any;
     curp: string;
     medicalRecord: number
+    hasTreatmentInProgress: boolean;
 }
 
 export interface CardGuardianView {
