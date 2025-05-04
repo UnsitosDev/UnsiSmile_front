@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TabViewModule } from 'primeng/tabview';
 
 // Componentes
@@ -18,17 +18,17 @@ import { ApiService, AuthService } from '@mean/services';
 import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
+import { HttpHeaders } from '@angular/common/http';
 import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, PATIENT_UUID_ROUTE } from '@mean/models';
 import { UriConstants } from '@mean/utils';
-import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
-import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
-import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
-import { HttpHeaders } from '@angular/common/http';
-import { STATUS } from 'src/app/utils/statusToReview';
-import { ROLES } from 'src/app/utils/roles';
-import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
+import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { ROLES } from 'src/app/utils/roles';
+import { STATUS } from 'src/app/utils/statusToReview';
+import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
+import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
+import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
 
 @Component({
   selector: 'app-students-general-history',

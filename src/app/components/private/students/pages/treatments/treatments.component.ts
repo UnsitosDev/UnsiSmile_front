@@ -26,11 +26,12 @@ import { OralProsthesisComponent } from "../history-clinics/oral-prosthesis/oral
 import { StudentsOralSurgeryHistoryComponent } from "../history-clinics/oral-surgery/students-oral-surgery-history.component";
 import { StudentsPeriodonticsHistoryComponent } from "../history-clinics/periodontics/students-periodontics-history.component";
 import { PreventiveDentistryPublicHealthComponent } from "../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component";
+import { StudentsGeneralHistoryComponent } from "../history-clinics/general/students-general-history.component";
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent, OralProsthesisComponent, StudentsDentalOperationComponent, LoadingComponent],
+  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent, OralProsthesisComponent, StudentsDentalOperationComponent, LoadingComponent, StudentsGeneralHistoryComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss',
 })
@@ -47,6 +48,7 @@ export class TreatmentsComponent implements OnInit {
   public viewTreatment = false;
   public tabMedicalRecord!: string;
   public patientClinicalHistoryId!: number;
+  public idMedicalRecordGeneral!: number;
   public medicalRecordId!: number;
   public medicalRecordLoaded = false;
   private suppressTabChangeLogic = false;
@@ -102,6 +104,7 @@ export class TreatmentsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.medicalRecordLoaded = true;
+          this.idMedicalRecordGeneral = response.medicalRecordNumber;
         },
         error: (error) => {
           if (error.status === 404) {

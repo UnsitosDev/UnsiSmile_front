@@ -24,7 +24,7 @@
         <span class="ml-2">Historia clínica general</span>
       </ng-template>
       @if (medicalRecordLoaded) {
-        <app-medical-record-general-treatments [patientUuid]="patientUuid" [patientMedicalRecord]="patientClinicalHistoryId" ></app-medical-record-general-treatments>
+        <app-medical-record-general-treatments [patientUuid]="patientUuid" [patientMedicalRecord]="idMedicalRecordGeneral" ></app-medical-record-general-treatments>
       }
     </mat-tab>
   }
