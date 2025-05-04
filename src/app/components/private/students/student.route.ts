@@ -35,6 +35,13 @@ export default [
                 ]
             },
             {
+                path: 'treatments',
+                loadComponent: () => 
+                    import('./components/patient-treatment/patient-treatment.component').then(
+                    (m) => m.PatientTreatmentComponent
+                ),
+            },
+            {
                 path: 'odontogram',
                 loadComponent: () =>
                     import('@mean/students').then(
@@ -109,6 +116,13 @@ export default [
                 loadComponent: () => 
                     import('./components/formats/formats.component').then(
                     (m) => m.FormatsComponent
+                ),
+            },
+            {
+                path: 'treatments/patient/:patientID',
+                loadComponent: () => 
+                    import('./pages/treatments/treatments.component').then(
+                    (m) => m.TreatmentsComponent
                 ),
             },
             {

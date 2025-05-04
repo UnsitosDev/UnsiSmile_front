@@ -1,0 +1,142 @@
+
+
+@if (mappedHistoryData) {
+    <mat-card-title>
+      <app-header-history-clinic 
+      [mappedHistoryData]="mappedHistoryData"
+      [idPatientClinicalHistory]="patientMedicalRecord"
+      [currentSectionId]="currentSectionId"
+      [currentStatus]="currentStatus"
+      [currentIndex]="currentIndex"
+      [role]="role">
+      </app-header-history-clinic>
+    </mat-card-title>
+    <mat-card class="custom">
+          <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
+              @for (tab of mappedHistoryData.tabs; track tab) {
+                  <mat-tab [label]="tab.title">
+                      @if (tab.title === 'Nota de evolución' && !tab.isAnswered) {
+                        <app-progress-notes
+                        [patientId]="patientUuid"
+                        [data]="patientData"
+                        [medicalRecordNumber]="medicalRecordNumber"
+                        ></app-progress-notes>
+                      } 
+                      @if (tab.title === 'Odontograma inicial' && !tab.isAnswered && role == 'ROLE_STUDENT') {
+                          <app-students-odontogram
+                          [state]="'create'" 
+                          [patientId]="patientUuid" 
+                          [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                          [idClinicalHistoryPatient]=medicalRecordNumber
+                          [idFormSection]=6
+                          [idClinicalHistoryPatient]=medicalRecordNumber
+                          (nextMatTab)="onNextTab()"
+                          (previousMatTab)="onPreviousTab()"
+                          >
+                          </app-students-odontogram>
+                      }
+                      @if (tab.title === 'Odontograma inicial' && !tab.isAnswered && role == 'ROLE_ADMIN') {
+                        <app-students-odontogram
+                          [state]="'read'" 
+                          [patientId]="patientUuid" 
+                          [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                          [idClinicalHistoryPatient]=medicalRecordNumber
+                          [idFormSection]=6
+                          [idClinicalHistoryPatient]=medicalRecordNumber
+                          (nextMatTab)="onNextTab()"
+                          (previousMatTab)="onPreviousTab()"
+                          >
+                          </app-students-odontogram>
+                      }
+                      @if (tab.title === 'Odontograma final' && !tab.isAnswered && role == 'ROLE_ADMIN') {
+                          <app-students-odontogram
+                          [state]="'read'" 
+                          [patientId]="patientUuid"
+                          [idClinicalHistoryPatient]=medicalRecordNumber
+                          [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                          [idFormSection]=7
+                          (nextMatTab)="onNextTab()"
+                          (previousMatTab)="onPreviousTab()"
+                          >
+                          </app-students-odontogram>
+                      }
+                      @if (tab.title === 'Odontograma final' && !tab.isAnswered && role == 'ROLE_STUDENT') {
+                          <app-students-odontogram
+                          [state]="'read-latest'" 
+                          [patientId]="patientUuid"
+                          [idClinicalHistoryPatient]=medicalRecordNumber
+                          [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                          [idFormSection]=7
+                          (nextMatTab)="onNextTab()"
+                          (previousMatTab)="onPreviousTab()"
+                          >
+                          </app-students-odontogram>
+                      }
+                      @if (tab.title === 'Odontograma final' && tab.isAnswered) {
+                        <app-students-odontogram
+                        [state]="'read'" 
+                        [patientId]="patientUuid"
+                        [idClinicalHistoryPatient]=medicalRecordNumber
+                        [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                        [idFormSection]=7
+                        (nextMatTab)="onNextTab()"
+                        (previousMatTab)="onPreviousTab()"
+                        >
+                        </app-students-odontogram>
+                    }
+                      @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
+                          <app-history-initial-bag
+                          [idClinicalHistoryPatient]=medicalRecordNumber
+                          [state]="'create'"
+                          [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                          [patientId]="patientUuid"
+                          (nextMatTab)="onNextTab()"
+                          (previousMatTab)="onPreviousTab()"
+                          ></app-history-initial-bag>
+                      }
+                      @if (tab.title === 'Medición de bolsas inicial' && tab.isAnswered) {
+                        <app-history-initial-bag
+                        [idClinicalHistoryPatient]=medicalRecordNumber
+                          [state]="'read'"
+                          [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                          [patientId]="patientUuid"
+                          (nextMatTab)="onNextTab()"
+                          (previousMatTab)="onPreviousTab()"
+                          ></app-history-initial-bag>
+                      }
+                      @if (tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial' && tab.title !== 'Nota de evolución') {
+                          <app-tab-form-update
+                          [patientMedicalRecord]="patientMedicalRecord"
+                          [fieldsTab]="tab" 
+                          (nextMatTab)="onNextTab()"
+                          (previousMatTab)="onPreviousTab()"
+                          ></app-tab-form-update>
+                      }
+                      @if (!tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial' && tab.title !== 'Nota de evolución') {
+                          <app-tab-form 
+                          [patientMedicalRecord]="patientMedicalRecord"
+                          [fieldsTab]="tab" 
+                          (nextMatTab)="onNextTab()"
+                          (previousMatTab)="onPreviousTab()"                      
+                      ></app-tab-form>
+                      }
+
+                      <!-- components to render if the question is anwered -->
+                      @if (tab.title === 'Odontograma inicial' && tab.isAnswered) {
+                        <app-students-odontogram
+                          [state]="'read'" 
+                          [patientId]="patientUuid" 
+                          [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+                          [idClinicalHistoryPatient]=medicalRecordNumber
+                          [idFormSection]=6
+                          [idClinicalHistoryPatient]=medicalRecordNumber
+                          (nextMatTab)="onNextTab()"
+                          (previousMatTab)="onPreviousTab()"
+                          >
+                          </app-students-odontogram>
+                    }
+                  </mat-tab>
+              }
+          </mat-tab-group>
+      </mat-card>
+  }

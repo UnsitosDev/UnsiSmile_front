@@ -28,7 +28,7 @@ export const StudentItems: MenuItem[] = [
     buttonText: 'Formatos',
     buttonDescription: 'Descargar formatos',
     routerlink: '/students/dowload-formats'
-  },
+  }
 ];
 
 export const AdminItems: MenuItem[] = [
