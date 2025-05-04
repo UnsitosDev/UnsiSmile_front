@@ -5,7 +5,7 @@ export interface ClinicalHistory {
     id: number;                         
     clinicalHistoryName: string;       
     patientClinicalHistoryId: number;  
-    patientId: number;                 
+    patientId: string;                 
 }
 
 export interface ClinicalHistoryCatalog {

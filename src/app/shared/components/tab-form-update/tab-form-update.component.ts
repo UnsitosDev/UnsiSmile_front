@@ -54,6 +54,7 @@ interface updateFormData {
 export class TabFormUpdateComponent {
   @Input() fieldsTab!: formSectionFields;
   @Input() fieldsSubTab!: subSeccion;
+  @Input() patientMedicalRecord!: number; 
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
   fb = inject(FormBuilder);
@@ -245,7 +246,7 @@ export class TabFormUpdateComponent {
       const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
   
       const update: updateFormData = {
-        idPatientClinicalHistory: this.patientID,
+        idPatientClinicalHistory: this.patientMedicalRecord,
         idQuestion: questionID,
         answerBoolean: this.checkboxValues[fieldName] || typeof fieldValue === 'boolean' ? fieldValue : null,
         answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,

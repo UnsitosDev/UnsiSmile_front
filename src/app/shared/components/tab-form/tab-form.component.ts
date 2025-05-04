@@ -65,6 +65,7 @@ interface FormData {
 export class TabFormComponent implements TabsHandler {
   @Input() fieldsTab!: formSectionFields;
   @Input() fieldsSubTab!: subSeccion;
+  @Input() patientMedicalRecord!: number; 
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
   route = inject(ActivatedRoute);
@@ -262,7 +263,7 @@ export class TabFormComponent implements TabsHandler {
         const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
 
         const hcData: FormData = {
-          idPatientClinicalHistory: this.patientID,
+          idPatientClinicalHistory: this.patientMedicalRecord,
           idQuestion: questionID,
           answerBoolean: this.checkboxValues[fieldName] || typeof fieldValue === 'boolean' ? fieldValue : null,
           answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,
@@ -274,7 +275,10 @@ export class TabFormComponent implements TabsHandler {
           sendData.push(hcData);
         }
 
+        console.log(hcData);
+
       });
+
 
       if (sendData.length > 0) {
         this.apiService
