@@ -49,30 +49,35 @@ export class TreatmentsComponent implements OnInit {
   public patientClinicalHistoryId!: number;
   public medicalRecordId!: number;
   public medicalRecordLoaded = false;
+  private isManualTabChange = false;
+
 
   STATUS = STATUS_TREATMENTS;
-  
+
   ngOnInit(): void {
     this.routeParams();
     this.fetchMedicalRecordConfig();
   }
 
   public onTabSelected(event: any): void {
-    const tabIndex = event.index;
-    switch (tabIndex) {
-      case 0:
-        break;
-      case 1:
-        this.getMedicalRecordGeneral();
-        break;
-      case 2:
-        this.fetchTreatmentData();
-        break;
-      default:
-        console.warn('Tab index not handled:', tabIndex);
+    if (!this.isManualTabChange) {
+      const tabIndex = event.index;
+      switch (tabIndex) {
+        case 0:
+          break;
+        case 1:
+          this.getMedicalRecordGeneral();
+          break;
+        case 2:
+          this.fetchTreatmentData();
+          break;
+        default:
+          console.warn('Tab index not handled:', tabIndex);
+      }
     }
+    this.isManualTabChange = false;
   }
-  
+
   public routeParams() {
     this.route.params.subscribe((params) => {
       this.patientUuid = params[PATIENT_UUID];
@@ -178,6 +183,7 @@ export class TreatmentsComponent implements OnInit {
 
   backToTreatments(): void {
     this.viewTreatment = false;
+    this.isManualTabChange = true;
     setTimeout(() => {
       this.tabGroup.selectedIndex = 2;
     });

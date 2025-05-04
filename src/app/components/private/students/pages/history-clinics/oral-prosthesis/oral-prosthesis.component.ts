@@ -92,7 +92,7 @@ export class OralProsthesisComponent {
   }
 
   private loadClinicalHistory(): void {
-    this.historyData.getHistoryClinics(this.idPatientClinicalHistory, this.idpatient).subscribe({
+    this.historyData.getHistoryClinics(this.idPatientClinicalHistory, this.idpatient ).subscribe({
       next: (mappedData: dataTabs) => {
         this.mappedHistoryData = this.processMappedData(mappedData, this.role);
         this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;

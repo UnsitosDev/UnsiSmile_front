@@ -23,7 +23,7 @@ button {
     color: white;
 }
 
-::ng-deep .mat-step-header .mat-step-label {
+.mat-step-header .mat-step-label {
     color: var(--on-primary); 
 }
 
