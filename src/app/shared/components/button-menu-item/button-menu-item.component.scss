@@ -73,5 +73,40 @@ i{
 
 .submenu {
   overflow: hidden;
-  // Puedes agregar animación si lo deseas
+  transition: 
+    background-color 0.5s ease,
+    box-shadow 0.5s ease;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  margin: 2px 0 4px 0;
+  
+  // Animación para los elementos hijos
+  app-button-menu-item {
+    display: block;
+    animation: fadeIn 0.5s ease forwards;
+    
+    @for $i from 1 through 5 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.05}s;
+      }
+    }
+  }
+}
+
+// Animación para ícono de flecha
+.expand-icon {
+  transition: transform 0.5s;
+  transform-origin: center;
+}
+
+// Keyframes para la animación de entrada
+@keyframes fadeIn {
+  from {
+    opacity: 1;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

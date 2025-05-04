@@ -13,10 +13,11 @@
     <div class="spacer"></div>
     <fa-icon *ngIf="item.children"
              [icon]="item['expanded'] ? faChevronDown : faChevronRight"
-             class="expand-icon">
+             class="expand-icon"
+             [@rotateIcon]="item['expanded'] ? 'expanded' : 'collapsed'">
     </fa-icon>
   </a>
-  <div class="submenu" *ngIf="item.children && item['expanded']">
+  <div class="submenu" *ngIf="item.children && item['expanded']" [@submenuAnimation]>
     <app-button-menu-item
       *ngFor="let child of item.children"
       [item]="child"

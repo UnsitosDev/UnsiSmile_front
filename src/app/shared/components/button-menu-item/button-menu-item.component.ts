@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { MenuItem } from '@mean/models';
+import { submenuAnimation, rotateIcon } from '../../animations/menu-animations';
 
 @Component({
   selector: 'app-button-menu-item',
@@ -15,7 +16,8 @@ import { MenuItem } from '@mean/models';
     CommonModule
   ],
   templateUrl: './button-menu-item.component.html',
-  styleUrl: './button-menu-item.component.scss'
+  styleUrl: './button-menu-item.component.scss',
+  animations: [submenuAnimation, rotateIcon]
 })
 export class ButtonMenuItemComponent {
   @Input() item!: MenuItem;
