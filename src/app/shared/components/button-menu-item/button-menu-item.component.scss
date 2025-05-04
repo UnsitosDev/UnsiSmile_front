@@ -20,6 +20,9 @@ i{
   border-radius: 10px;
 }
 
+.menu-item-container {
+  width: 100%;
+}
 
 .menu-item {
   display: flex;
@@ -59,4 +62,16 @@ i{
       color: var(--side-text-light);
     }
   }
+
+  .spacer {
+    flex: 1;
+  }
+  .expand-icon {
+    margin-left: 0.5rem;
+  }
+}
+
+.submenu {
+  overflow: hidden;
+  // Puedes agregar animación si lo deseas
 }

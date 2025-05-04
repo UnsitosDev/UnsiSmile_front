@@ -1,11 +1,27 @@
-<a [routerLink]="link" 
-   routerLinkActive="active" 
-   [routerLinkActiveOptions]="{exact: false}"
-   [class.active]="isLinkActive(link)"
-   class="menu-item">
-  <fa-icon [icon]="fontAwesomeIcon"></fa-icon>
-  <div class="menu-text">
-    <span>{{ buttonText }}</span>
-    <small>{{ description }}</small>
+<div class="menu-item-container" [style.paddingLeft.px]="level * 16">
+  <a [routerLink]="item.routerlink !== '#' ? item.routerlink : null"
+     routerLinkActive="active"
+     [routerLinkActiveOptions]="{exact: false}"
+     [class.active]="isLinkActive(item.routerlink)"
+     class="menu-item"
+     (click)="item.children ? toggleExpand(item, $event) : onMenuItemClick()">
+    <fa-icon [icon]="item.fontAwesomeIcon"></fa-icon>
+    <div class="menu-text">
+      <span>{{ item.buttonText }}</span>
+      <small>{{ item.buttonDescription }}</small>
+    </div>
+    <div class="spacer"></div>
+    <fa-icon *ngIf="item.children"
+             [icon]="item['expanded'] ? faChevronDown : faChevronRight"
+             class="expand-icon">
+    </fa-icon>
+  </a>
+  <div class="submenu" *ngIf="item.children && item['expanded']">
+    <app-button-menu-item
+      *ngFor="let child of item.children"
+      [item]="child"
+      [level]="level + 1"
+      (menuSelect)="menuSelect.emit()">
+    </app-button-menu-item>
   </div>
-</a>
+</div>

@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { MenuItem } from '@mean/models';
 
 @Component({
@@ -10,20 +11,32 @@ import { MenuItem } from '@mean/models';
   imports: [
     FontAwesomeModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    CommonModule
   ],
   templateUrl: './button-menu-item.component.html',
   styleUrl: './button-menu-item.component.scss'
 })
 export class ButtonMenuItemComponent {
-  @Input() buttonText: string = '';
-  @Input() description: string = '';
-  @Input() fontAwesomeIcon: any = faUser;
-  @Input() link: string = '/students/dashboard';
+  @Input() item!: MenuItem;
+  @Input() level: number = 0;
+  @Output() menuSelect = new EventEmitter<void>();
 
+  faChevronDown = faChevronDown;
+  faChevronRight = faChevronRight;
 
   isLinkActive(link: string): boolean {
     return window.location.pathname.startsWith(link);
   }
 
+  toggleExpand(item: MenuItem, event: Event) {
+    event.preventDefault();
+    item['expanded'] = !item['expanded'];
+  }
+
+  onMenuItemClick() {
+    if (!this.item.children || (this.item.children && this.item.routerlink !== '#')) {
+      this.menuSelect.emit();
+    }
+  }
 }
