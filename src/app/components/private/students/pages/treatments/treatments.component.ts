@@ -29,11 +29,12 @@ import { OralProsthesisComponent } from "../history-clinics/oral-prosthesis/oral
 import { StudentsDentalOperationComponent } from "../history-clinics/dental-operation/students-dental-operation.component";
 import { NavigationGuardService } from 'src/app/services/navigation.guard.service';
 import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
+import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent, OralProsthesisComponent, StudentsDentalOperationComponent],
+  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent, OralProsthesisComponent, StudentsDentalOperationComponent, LoadingComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss',
 })
