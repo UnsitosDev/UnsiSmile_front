@@ -133,8 +133,6 @@ export class DialogNewTreatmentComponent {
       treatmentId: this.treatmentControl.value!.idTreatment,
       startDate: this.startDateControl.value!.toISOString(),
       endDate: this.endDateControl.value?.toISOString() || '',
-      professorId: '1696',
-      status: STATUS.IN_REVIEW,
       treatmentDetailToothRequest: {
         idTreatmentDetail: 0,
         idTeeth: selectedTeeth,

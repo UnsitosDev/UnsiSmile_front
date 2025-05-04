@@ -5,8 +5,6 @@ export interface RequestTreatment {
     treatmentId: number;
     startDate: string;  
     endDate: string;    
-    professorId: string;
-    status: string;
     treatmentDetailToothRequest: {
       idTreatmentDetail: number;
       idTeeth: string[];  
