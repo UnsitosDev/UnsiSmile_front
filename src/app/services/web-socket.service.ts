@@ -1,18 +1,26 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { UriConstants } from '@mean/utils';
-import { Client, Message, StompSubscription } from '@stomp/stompjs';
+import { Client, StompSubscription } from '@stomp/stompjs';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import * as SockJS from 'sockjs-client';
 import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class WebSocketService {
+export class WebSocketService implements OnDestroy {
   private stompClient!: Client;
   private isConnected = false;
   private connectionPromise!: Promise<void>;
   private token: string;
+
+  // Mapa para almacenar los Subjects por tópico
+  private topicSubjects = new Map<string, Subject<any>>();
+  // Contador de referencias por tópico
+  private topicRefCount = new Map<string, number>();
+  // Mapa para almacenar las suscripciones STOMP por tópico
+  private stompSubscriptions = new Map<string, StompSubscription>();
 
   // URL base y endpoint para SockJS
   private readonly url = `${UriConstants.HOST}/notifications`;
@@ -22,13 +30,16 @@ export class WebSocketService {
 
   constructor(private authService: AuthService) {
     this.token = this.authService.getToken() ?? '';
-    this.initializeConnection();
   }
 
   /**
-   * Inicializa STOMP sobre SockJS.
+   * Inicializa la conexión si aún no se ha establecido
    */
   private initializeConnection(): void {
+    if (this.stompClient && this.stompClient.connected) {
+      return;
+    }
+
     this.connectionPromise = new Promise((resolve, reject) => {
       console.debug('[WebSocketService] Conectando a', this.url);
       this.stompClient = new Client({
@@ -62,51 +73,58 @@ export class WebSocketService {
   }
 
   /**
-   * Suscribe al canal de feedback privado del usuario.
-   * @returns Promise que resuelve en un Observable de mensajes parseados.
+   * Registra un componente (o cliente) para un tópico específico.
+   * Incrementa el contador de referencias y si es la primera vez, suscribe el cliente STOMP.
+   * Devuelve un Observable compartido para ese tópico.
    */
-  public subscribeToFeedback<T = any>(): Promise<Observable<T>> {
-    return this.connectionPromise.then(() => {
-      const subject = new Subject<T>();
-      console.debug(
-        '[WebSocketService] Suscribiendo a /user/queue/review-feedback'
-      );
-      this.stompClient.subscribe(
-        '/user/queue/review-feedback',
-        (msg: Message) => {
-          try {
-            subject.next(JSON.parse(msg.body) as T);
-          } catch (err) {
-            console.error('[WebSocketService] Error parseando feedback:', err);
-          }
-        }
-      );
-      return subject.asObservable();
-    });
-  }
+  public register<T = any>(topic: string): Observable<T> {
+    // Se inicializa la conexión bajo demanda
+    if (!this.stompClient || !this.stompClient.connected) {
+      this.initializeConnection();
+    }
 
-  /**
-   * Suscribe a un tópico público bajo /topic.
-   * @param topic Ruta (sin el prefijo /topic)
-   */
-  public subscribe<T = any>(topic: string): Promise<Observable<T>> {
-    return this.connectionPromise.then(() => {
-      const subject = new Subject<T>();
-      const dest = `/topic${topic}`;
-      console.debug(`[WebSocketService] Suscribiendo a ${dest}`);
-      const subscription: StompSubscription = this.stompClient.subscribe(
-        dest,
-        (msg: Message) => {
+    // Si no existe un Subject para el tópico, se crea y se suscribe al STOMP una vez conectado.
+    if (!this.topicSubjects.has(topic)) {
+      this.topicSubjects.set(topic, new Subject<T>());
+      this.topicRefCount.set(topic, 0);
+
+      this.connectionPromise.then(() => {
+        const subscription = this.stompClient.subscribe(topic, (message) => {
           try {
-            subject.next(JSON.parse(msg.body) as T);
-          } catch (err) {
-            console.error('[WebSocketService] Error parseando mensaje:', err);
+            const parsedMessage = JSON.parse(message.body);
+            this.topicSubjects.get(topic)!.next(parsedMessage);
+          } catch (error) {
+            this.topicSubjects.get(topic)!.error(error);
           }
+        });
+        this.stompSubscriptions.set(topic, subscription);
+      });
+    }
+
+    // Incrementa el contador del tópico
+    const count = this.topicRefCount.get(topic) || 0;
+    this.topicRefCount.set(topic, count + 1);
+
+    // Devuelve el Observable y, al finalizar la suscripción, se reduce el contador; 
+    // si no quedan suscriptores, se limpia la suscripción STOMP y el Subject.
+    return this.topicSubjects.get(topic)!.asObservable().pipe(
+      finalize(() => {
+        let currentCount = this.topicRefCount.get(topic) || 0;
+        currentCount--;
+        if (currentCount <= 0) {
+          // Cancelar la suscripción STOMP y limpiar el Subject
+          if (this.stompSubscriptions.has(topic)) {
+            this.stompSubscriptions.get(topic)!.unsubscribe();
+            this.stompSubscriptions.delete(topic);
+          }
+          this.topicRefCount.delete(topic);
+          this.topicSubjects.get(topic)!.complete();
+          this.topicSubjects.delete(topic);
+        } else {
+          this.topicRefCount.set(topic, currentCount);
         }
-      );
-      subject.subscribe({ complete: () => subscription.unsubscribe() });
-      return subject.asObservable();
-    });
+      })
+    );
   }
 
   /**
@@ -127,13 +145,12 @@ export class WebSocketService {
   }
 
   /**
-   * Cierra la conexión WebSocket.
+   * Desconecta el cliente STOMP y actualiza el estado.
    */
   public disconnect(): void {
-    if (this.isConnected) {
+    if (this.stompClient && this.stompClient.connected) {
       console.info('[WebSocketService] Desconectando');
       this.stompClient.deactivate();
-      this.isConnected = false;
       this.notificationsStatus.next(false);
     }
   }
@@ -152,5 +169,17 @@ export class WebSocketService {
    */
   public getConnectionStatus(): Observable<boolean> {
     return this.notificationsStatus.asObservable();
+  }
+
+  ngOnDestroy(): void {
+    // Limpieza de todos los Subjects y suscripciones STOMP
+    this.topicSubjects.forEach((subject) => subject.complete());
+    this.topicSubjects.clear();
+    this.topicRefCount.clear();
+    this.stompSubscriptions.forEach((sub) => sub.unsubscribe());
+    this.stompSubscriptions.clear();
+
+    // Desconecta el cliente STOMP
+    this.disconnect();
   }
 }
