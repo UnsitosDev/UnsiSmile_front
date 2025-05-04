@@ -49,7 +49,7 @@ export class TreatmentsComponent implements OnInit {
   public patientClinicalHistoryId!: number;
   public medicalRecordId!: number;
   public medicalRecordLoaded = false;
-  private isManualTabChange = false;
+  private suppressTabChangeLogic = false;
 
 
   STATUS = STATUS_TREATMENTS;
@@ -60,22 +60,24 @@ export class TreatmentsComponent implements OnInit {
   }
 
   public onTabSelected(event: any): void {
-    if (!this.isManualTabChange) {
-      const tabIndex = event.index;
-      switch (tabIndex) {
-        case 0:
-          break;
-        case 1:
-          this.getMedicalRecordGeneral();
-          break;
-        case 2:
-          this.fetchTreatmentData();
-          break;
-        default:
-          console.warn('Tab index not handled:', tabIndex);
-      }
+    if (this.suppressTabChangeLogic) {
+      this.suppressTabChangeLogic = false;
+      return;
     }
-    this.isManualTabChange = false;
+
+    const tabIndex = event.index;
+    switch (tabIndex) {
+      case 0:
+        break;
+      case 1:
+        this.getMedicalRecordGeneral();
+        break;
+      case 2:
+        this.fetchTreatmentData();
+        break;
+      default:
+        console.warn('Tab index not handled:', tabIndex);
+    }
   }
 
   public routeParams() {
@@ -183,9 +185,10 @@ export class TreatmentsComponent implements OnInit {
 
   backToTreatments(): void {
     this.viewTreatment = false;
-    this.isManualTabChange = true;
+    this.suppressTabChangeLogic = true;
     setTimeout(() => {
       this.tabGroup.selectedIndex = 2;
+      setTimeout(() => this.suppressTabChangeLogic = false, 100);
     });
   }
 }
