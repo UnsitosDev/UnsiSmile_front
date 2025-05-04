@@ -1,0 +1,73 @@
+@if (loading) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for (_ of [1,2,3,4,5]; track $index) {
+      <div class="animate-pulse bg-gray-200 rounded-lg h-32"></div>
+    }
+  </div>
+} @else {
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Total Students -->
+    <app-dashboard-card
+      class="transform transition-all duration-300 hover:scale-105"
+      title="Total de estudiantes"
+      [value]="stats.totalStudents || 0"
+      icon="fas fa-user-graduate"
+      cardType="numeric"
+      valueClass="text-blue-600 text-2xl font-bold"
+    >
+    </app-dashboard-card>
+
+    <!-- Total Patients -->
+    <app-dashboard-card
+      class="transform transition-all duration-300 hover:scale-105"
+      title="Total de pacientes"
+      [value]="stats.totalPatients || 0"
+      icon="fas fa-user-injured"
+      cardType="numeric"
+      valueClass="text-blue-600 text-2xl font-bold"
+    >
+    </app-dashboard-card>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
+    <!-- Clinical Histories in Review -->
+    <app-dashboard-card
+      class="transform transition-all duration-300 hover:scale-105"
+      title="Historias clínicas en revisión"
+      icon="fas fa-clipboard-list"
+      cardType="numeric"
+      [value]="stats.clinicalHistoriesInReview || 0"
+      [colorBar]="'bg-blue-500'"
+    ></app-dashboard-card>
+
+    <!-- Clinical Histories Rejected -->
+    <app-dashboard-card
+      class="transform transition-all duration-300 hover:scale-105"
+      title="Historias clínicas rechazadas"
+      icon="fas fa-times-circle"
+      cardType="numeric"
+      [value]="stats.clinicalHistoriesRejected || 0"
+      [colorBar]="'bg-green-500'"
+    ></app-dashboard-card>
+
+    <!-- Clinical Histories Accepted -->
+    <app-dashboard-card
+      class="transform transition-all duration-300 hover:scale-105"
+      title="Historias clínicas aceptadas"
+      icon="fas fa-check-circle"
+      cardType="numeric"
+      [value]="stats.clinicalHistoriesAccepted || 0"
+      [colorBar]="'bg-purple-500'"
+    ></app-dashboard-card>
+
+    <!-- Treatments Completed -->
+    <app-dashboard-card
+      class="transform transition-all duration-300 hover:scale-105"
+      title="Tratamientos completados"
+      icon="fas fa-notes-medical"
+      cardType="numeric"
+      [value]="stats.treatmentsCompleted || 0"
+      [colorBar]="'bg-purple-500'"
+    ></app-dashboard-card>
+  </div>
+}

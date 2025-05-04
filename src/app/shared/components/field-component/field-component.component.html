@@ -115,7 +115,6 @@
                  [matDatepicker]="datepicker"
                  [formControlName]="field.name" 
                  [max]="maxDate"
-                 [disabled]="field.disabled ?? false"
                  [placeholder]="field.placeholder || 'DD/MM/AAAA'"
                  (dateChange)="onValueChangeDate($event)"
                  (dateInput)="onValueChangeDate($event)"> 

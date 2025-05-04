@@ -6,6 +6,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiModel } from '@mean/models';
+import { Messages } from '../utils/MessagesConstant';
 
 @Injectable({
   providedIn: 'root',
@@ -64,7 +65,7 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
   }
 
   handleError(error: HttpErrorResponse) {
-    return throwError(() => error.error.message || 'Ocurrió un error');
+    return throwError(() => error.error.message || Messages.ERROR);
   }
   
   /** Para realizar las peticiones PATCH */

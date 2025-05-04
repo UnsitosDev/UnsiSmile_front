@@ -105,8 +105,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
 
     const existingHistory = this.patientConfigHistories.find(h =>
       h.clinicalHistoryName === history.clinicalHistoryName &&
-      h.patientClinicalHistoryId !== 0 &&
-      h.patientId !== 0
+      h.patientClinicalHistoryId !== 0
     );
 
     if (existingHistory) {
@@ -132,8 +131,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
     this.getConfigHistories();
     const existingHistory = this.patientConfigHistories.find(h =>
       h.clinicalHistoryName === history.clinicalHistoryName &&
-      h.patientClinicalHistoryId !== 0 &&
-      h.patientId !== 0
+      h.patientClinicalHistoryId !== 0 
     );
 
     if (existingHistory) {
@@ -152,8 +150,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
     this.getConfigHistoriesToReview();
     const existingHistory = this.patientConfigHistories.find(h =>
       h.clinicalHistoryName === history.clinicalHistoryName &&
-      h.patientClinicalHistoryId !== 0 &&
-      h.patientId !== 0
+      h.patientClinicalHistoryId !== 0 
     );
 
     if (existingHistory) {
@@ -172,8 +169,7 @@ export class DialogHistoryClinicsComponent implements OnInit {
     this.getConfigHistoriesToReview();
     const existingHistory = this.patientConfigHistories.find(h =>
       h.clinicalHistoryName === history.clinicalHistoryName &&
-      h.patientClinicalHistoryId !== 0 &&
-      h.patientId !== 0
+      h.patientClinicalHistoryId !== 0
     );
 
     if (existingHistory) {

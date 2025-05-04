@@ -1,28 +1,42 @@
 ::ng-deep .mat-mdc-card-title {
-    background-color: var(--tertiary); /* Cambia este color al que desees */
-    padding: 8px; /* Agrega un poco de padding si lo deseas */
-    border-radius: 2px; /* Opcional: agrega bordes redondeados */
-    color: var(--side-text);
-  }
-  
-  ::ng-deep .mat-step-header .mat-step-label {
-    color: var(--on-primary); // Usa la variable de color del tema para el texto
-  }
-  
-  .fondo{
-      background: var(--secondary);
-  }
-  i{
-    color: #07437a;
-  }
-  .custom-color{
-    color: rgb(104, 104, 104);
-  }
-  p {
-    display: flex; /* Activar flexbox */
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    background-color: #939393;
-    color: var(--on-primary); 
-    height: 30px;
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: var(--side-text);
+}
+
+::ng-deep .mat-step-header .mat-step-label {
+  color: var(--on-primary);
+}
+
+.fondo {
+  background: var(--secondary);
+}
+
+i {
+  color: #07437a;
+}
+
+.custom-color {
+  color: rgb(104, 104, 104);
+}
+
+p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #939393;
+  color: var(--on-primary);
+  height: 30px;
+}
+
+.view-badge {
+  background: var(--on-primary);
+  color: var(--status);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-left: 8px;
+  flex-shrink: 0;
 }

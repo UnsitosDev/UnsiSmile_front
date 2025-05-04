@@ -1,6 +1,6 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { AuthService } from '@mean/services';  // Asegúrate de que la ruta del servicio sea correcta
+import { AuthService } from '@mean/services'; // Asegúrate de que la ruta del servicio sea correcta
 
 export const loginGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
@@ -12,17 +12,27 @@ export const loginGuard: CanActivateFn = (route, state) => {
   if (token) {
     // Decodificar el token para obtener los datos del usuario, incluyendo el rol
     const tokenData = authService.getTokenDataUser(token);
-    const userRole = tokenData.role;  // Asumiendo que esto es un array de objetos [{ authority: 'ROLE_STUDENT' }]
-    
+    const userRole = tokenData.role; // Asumiendo que esto es un array de objetos [{ authority: 'ROLE_STUDENT' }]
+
     // Obtener el primer rol
-    const role = userRole[0]?.authority;    
+    const role = userRole[0]?.authority;
     // Redirigir según el rol del usuario
-    if (role === 'ROLE_ADMIN') {
-      router.navigate(['/admin']);
-    } else if (role === 'ROLE_STUDENT') {
-      router.navigate(['/students']);
-    } else {
-      router.navigate(['/']); // Ruta por defecto si el rol no es reconocido
+    switch (role) {
+      case 'ROLE_ADMIN':
+        router.navigate(['/admin']);
+        break;
+      case 'ROLE_STUDENT':
+        router.navigate(['/students']);
+        break;
+      case 'ROLE_PROFESSOR':
+        router.navigate(['/professor']);
+        break;
+      case 'ROLE_CLINICAL_AREA_SUPERVISOR':
+        router.navigate(['/clinical-area-supervisor']);
+        break;
+      default:
+        router.navigate(['/']); // Ruta por defecto si el rol no es reconocido
+        break;
     }
 
     return false; // No permitir acceso a la página de login si ya está autenticado

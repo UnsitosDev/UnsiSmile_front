@@ -170,7 +170,7 @@ export default [
                     {
                         path: '',
                         loadComponent: () =>
-                            import('./components/table-professor-admin/table-professor-admin.component').then(
+                        import('./components/table-professor-admin/table-professor-admin.component').then(
                                 (m) => m.TableProfessorAdminComponent
                             ),
                     },

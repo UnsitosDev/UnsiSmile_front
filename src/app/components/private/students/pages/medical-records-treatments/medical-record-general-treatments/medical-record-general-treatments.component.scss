@@ -1,0 +1,47 @@
+button {
+    background-color: var(--tertiary);
+    color: white;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button-container button {
+    max-width: 400px;
+    flex: 0 0 auto;
+    margin: 0 5px;
+}
+
+
+.mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: white;
+}
+
+.mat-step-header .mat-step-label {
+    color: var(--on-primary);
+}
+
+.custom {
+    color: var(--on-secondary);
+    background-color: var(--secondary);
+    border: 1px var(--on-secondary);
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-custom {
+    background-color: var(--on-primary);
+    color: var(--on-secondary);
+    border-radius: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

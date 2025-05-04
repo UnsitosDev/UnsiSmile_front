@@ -20,6 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrat
 import { MatCardModule } from '@angular/material/card';
 import { DetailsPatientsComponent } from '../details-patients/details-patients.component';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { TreatmentsComponent } from '../../pages/treatments/treatments.component';
+import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
 
 
 @Component({
@@ -98,11 +100,8 @@ export class StudentsPatientsComponent implements OnInit {
     this.router.navigate(['/students/patients/updatePatient', objeto.patientID]);
   }
 
-  editar(objeto: any) {
-    this.dialog.open(DialogHistoryClinicsComponent, {
-      width: '650px',
-      data: { objeto, role: this.role },
-    });
+  editar(objeto: PatientInfo) {
+    this.router.navigate(['/students/treatments/patient/' + objeto.patientID]);
   }
 
   eliminar(nombre: string) {

@@ -1,6 +1,5 @@
 // loading.service.ts
 import { Injectable, signal } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',  // Esto lo hace disponible globalmente en la aplicación

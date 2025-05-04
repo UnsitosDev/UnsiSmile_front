@@ -16,13 +16,13 @@ export class GeneralHistoryService {
 
   historyData: ClinicalHistoryCatalog[] = [];
   mappedHistoryData!: dataTabs;
- getHistoryClinics(idPatient: string, idClinicalHistory: number): Observable<dataTabs> {
+ getHistoryClinics(idPatientClinicalHistory: number, idPatientUuid: string): Observable<dataTabs> {
     return this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_HISTORY_CONFIG}/${idClinicalHistory}/patients/${idPatient}`,
+        url: `${UriConstants.GET_HISTORY_CONFIG}/${idPatientClinicalHistory}/patients/${idPatientUuid}`,
         data: {},
       })
       .pipe(
@@ -33,6 +33,37 @@ export class GeneralHistoryService {
   }
 
 
+  getGeneralMedicalRecord(idPatient: string): Observable<dataTabs> {
+    return this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_GENERAL_MEDICAL_RECORD}?idPatient=${idPatient}`,
+        data: {},
+      })
+      .pipe(
+        map((response: ClinicalHistoryCatalog) => {
+          return mapClinicalHistoryToDataTabs(response);
+        })
+      );
+  }
+
+  getHistoryClinicsStudent(idPatient: string, idClinicalHistory: number): Observable<dataTabs> {
+    return this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_HISTORY_CONFIG}/${idPatient}/patients/${idClinicalHistory}`,
+        data: {},
+      })
+      .pipe(
+        map((response: ClinicalHistoryCatalog) => {
+          return mapClinicalHistoryToDataTabs(response);
+        })
+      );
+  }
 
 }
 

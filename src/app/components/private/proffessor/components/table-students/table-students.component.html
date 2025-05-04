@@ -2,14 +2,7 @@
   <mat-card-title><strong>Estudiantes - Consulta y Administración</strong></mat-card-title>
 </mat-card>
 
-<br>
-<div class="flex justify-end">
-    <button class="mr-10" mat-flat-button color="primary" routerLink="/admin/students/addStudent">
-        <i class="fas fa-user-plus"></i>  
-        Nuevo Estudiante
-    </button>
-</div>
-<br>
+
 <app-tabla-data
   [titulo]="title"
   [columns]="columns"
@@ -17,7 +10,7 @@
   [totalItems]="totalElements"
   [sortableColumns]="sortableColumns"
   [showSearchIcon]="true"
-  [showEditIcon]="true"
+  [showEditIcon]="false"
   [showFolderIcon]="false"
   (pageChange)="onPageChange($event)"
   (pageSizeChange)="onPageSizeChange($event)"
