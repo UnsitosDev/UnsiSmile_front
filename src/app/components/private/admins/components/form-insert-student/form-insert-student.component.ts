@@ -20,6 +20,7 @@ import { religionRequest } from 'src/app/models/shared/patients/Religion/religio
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { MatCardModule } from '@angular/material/card';
+import { LoadingComponent } from '@mean/shared';
 
 
 
@@ -35,7 +36,7 @@ import { MatCardModule } from '@angular/material/card';
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FieldComponentComponent,MatStep,MatStepperModule,AlertComponent,MatCardModule],
+    FieldComponentComponent,MatStep,MatStepperModule,AlertComponent,MatCardModule,LoadingComponent],
   templateUrl: './form-insert-student.component.html',
   styleUrl: './form-insert-student.component.scss'
 })

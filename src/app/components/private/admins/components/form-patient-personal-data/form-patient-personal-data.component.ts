@@ -34,12 +34,12 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { MatCardModule } from '@angular/material/card';
 import { studentService } from 'src/app/services/student.service';
 import { DialogConfirmGuardianComponent } from '../dialog-confirm-guardian/dialog-confirm-guardian.component';
-
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-form-patient-personal-data',
   standalone: true,
-  imports: [MatButtonModule,
+  imports: [MatButtonModule, LoadingComponent,
     MatStepperModule, FormsModule, ReactiveFormsModule,MatCardModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule, MatGridListModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatSelectModule, AlertComponent, FieldComponentComponent],
   templateUrl: './form-patient-personal-data.component.html',
   styleUrl: './form-patient-personal-data.component.scss',

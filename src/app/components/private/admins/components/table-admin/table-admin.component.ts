@@ -18,6 +18,7 @@ import { DetailsAdminComponent } from '../details-admin/details-admin.component'
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 import { ToastrService } from 'ngx-toastr';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-table-admin',
@@ -30,7 +31,8 @@ import { ToastrService } from 'ngx-toastr';
     TablaDataComponent,
     MatButtonModule,
     RouterLink,
-    MatCardModule
+    MatCardModule,
+    LoadingComponent
   ],
   templateUrl: './table-admin.component.html',
   styleUrls: ['./table-admin.component.scss']

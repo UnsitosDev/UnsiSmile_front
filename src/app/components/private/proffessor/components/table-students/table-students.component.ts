@@ -21,11 +21,12 @@ import { MatCardModule } from '@angular/material/card';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { DetailsStudentComponent } from '../../../admins/components/details-student/details-student.component';
 import { ConfirmationAlertComponent } from '../../../admins/components/confirmation-alert/confirmation-alert.component';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-table-students',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
+  imports: [FormsModule, ReactiveFormsModule, LoadingComponent, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, MatCardModule],
   templateUrl: './table-students.component.html',
   styleUrls: ['./table-students.component.scss']
 })

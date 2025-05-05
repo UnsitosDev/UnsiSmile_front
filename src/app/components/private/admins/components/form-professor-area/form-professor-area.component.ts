@@ -10,6 +10,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-form-professor-area',
@@ -19,7 +20,8 @@ import { ToastrService } from 'ngx-toastr';
     MatFormFieldModule,
     MatSelectModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    LoadingComponent
 ],
   templateUrl: './form-professor-area.component.html',
   styleUrl: './form-professor-area.component.scss'

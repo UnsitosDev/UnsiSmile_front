@@ -22,11 +22,13 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { DetailsStudentComponent } from '../details-student/details-student.component';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 import { ToastrService } from 'ngx-toastr';
+import { LoadingComponent } from "@mean/shared";
+
 
 @Component({
   selector: 'app-table-students',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
+  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule, LoadingComponent],
   templateUrl: './table-students.component.html',
   styleUrls: ['./table-students.component.scss']
 })

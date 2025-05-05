@@ -14,6 +14,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatList } from '@angular/material/list';
 import {MatListItem} from '@angular/material/list';
+import { LoadingComponent } from '@mean/shared';
 
 interface Professor {
   employeeNumber: string;
@@ -35,7 +36,8 @@ interface Professor {
     MatCardModule,
     MatButtonModule,
     MatPaginatorModule,
-    MatInputModule
+    MatInputModule,
+    LoadingComponent
 ],
   templateUrl: './form-clinical-area.component.html',
   styleUrl: './form-clinical-area.component.scss'

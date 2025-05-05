@@ -18,6 +18,7 @@ import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 import { DetailsAdminComponent } from '../details-admin/details-admin.component';
 import { ToastrService } from 'ngx-toastr';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-table-professor-admin',
@@ -30,7 +31,8 @@ import { ToastrService } from 'ngx-toastr';
     TablaDataComponent,
     MatButtonModule,
     RouterLink,
-    MatCardModule
+    MatCardModule,
+    LoadingComponent
   ],
   templateUrl: './table-professor-admin.component.html',
   styleUrls: ['./table-professor-admin.component.scss']

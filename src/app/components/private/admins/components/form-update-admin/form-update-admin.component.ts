@@ -18,6 +18,7 @@ import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { AlertModel } from '@mean/models';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { ToastrService } from 'ngx-toastr';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-form-update-admin',
@@ -31,7 +32,8 @@ import { ToastrService } from 'ngx-toastr';
     MatStepperModule,
     FieldComponentComponent,
     AlertComponent,
-    MatCardModule
+    MatCardModule,
+    LoadingComponent
 ],
   templateUrl: './form-update-admin.component.html',
   styleUrl: './form-update-admin.component.scss'

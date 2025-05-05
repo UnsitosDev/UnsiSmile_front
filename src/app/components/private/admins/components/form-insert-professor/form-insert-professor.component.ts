@@ -15,6 +15,7 @@ import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { ProfesorService } from 'src/app/services/profesor.service';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
     selector: 'app-form-insert-professor',
@@ -29,7 +30,7 @@ import { AlertComponent } from 'src/app/shared/components/alert/alert.component'
         MatStepperModule,
         MatCardModule,
         FieldComponentComponent,
-        
+        LoadingComponent
     ],
     templateUrl: './form-insert-professor.component.html',
     styleUrls: ['./form-insert-professor.component.scss']
