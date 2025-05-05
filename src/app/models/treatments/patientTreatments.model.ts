@@ -30,3 +30,41 @@ export interface TreatmentDetailResponse {
     professorName: string;
     status: string; 
 }
+
+// Todos los tratamientos
+export interface TreatmentScope {
+    idScopeTreatment: number;
+    name: string;
+}
+
+export interface Treatment {
+    idTreatment: number;
+    name: string;
+    treatmentScope: TreatmentScope;
+    cost: number | null;
+    clinicalHistoryCatalogId: number;
+    clinicalHistoryCatalogName: string;
+}
+
+export interface ToothDetail {
+    idDetailTooth: number;
+    idTooth: string;
+}
+
+export type DateArray = [number, number, number, number, number];
+
+export type TreatmentStatus = "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "PENDING";
+
+export interface AllTreatmentDetailResponse {
+    idTreatmentDetail: number;
+    patientClinicalHistoryId: number;
+    patientName: string;
+    treatment: Treatment;
+    teeth: ToothDetail[];
+    startDate: DateArray;
+    endDate: DateArray;
+    studentGroupId: number;
+    professorId: number | null;
+    professorName: string | null;
+    status: TreatmentStatus;
+}

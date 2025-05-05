@@ -28,6 +28,12 @@ export const StudentItems: MenuItem[] = [
     buttonText: 'Formatos',
     buttonDescription: 'Descargar formatos',
     routerlink: '/students/dowload-formats'
+  },
+  {
+    fontAwesomeIcon: faFileClipboard,
+    buttonText: 'Tratamientos',
+    buttonDescription: 'Ver tratamientos',
+    routerlink: '/students/all-treatments'
   }
 ];
 
