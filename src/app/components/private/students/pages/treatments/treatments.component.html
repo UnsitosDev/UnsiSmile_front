@@ -63,6 +63,18 @@
           </section>
           }
         </mat-list>
+        @if (!isPatientLastPage && treatmentsPatient?.content?.length) {
+          <div class="text-center mt-3">
+            <button 
+              class="btn btn-primary"
+              (click)="loadMorePatientTreatments()"
+              [disabled]="isPatientLoading">
+              @if (!isPatientLoading) {
+                <span>Cargar más tratamientos</span>
+              }
+            </button>
+          </div>
+        }
     </mat-tab>
    }
 

@@ -54,6 +54,10 @@ export class TreatmentsComponent implements OnInit {
   private suppressTabChangeLogic = false;
 
 
+  public isPatientLoading = false;
+  public isPatientLastPage = false;
+  public currentPatientPage = 0;
+
   STATUS = STATUS_TREATMENTS;
 
   ngOnInit(): void {
@@ -151,23 +155,54 @@ export class TreatmentsComponent implements OnInit {
     });
   }
 
-  public fetchTreatmentData() {
+  public fetchTreatmentData(page: number = 0, resetPagination: boolean = false): void {
+    if (resetPagination) {
+      this.currentPatientPage = 0;
+      this.treatmentsPatient = null;
+    }
+
+    this.isPatientLoading = true;
+
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.GET_TREATMENT_BY_ID}/${this.patientUuid}`,
+      url: `${UriConstants.GET_TREATMENT_BY_ID}/${this.patientUuid}?page=${page}&size=10`,
       data: {},
-    })
-      .subscribe({
-        next: (response: PaginatedData<TreatmentDetailResponse>) => {
-          this.treatmentsPatient = response;
-          this.patientClinicalHistoryId = this.treatmentsPatient.content[0].patientClinicalHistoryId;
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+    }).subscribe({
+      next: (response: PaginatedData<TreatmentDetailResponse>) => {
+        this.handlePatientResponse(response, page);
+        if (response.content.length > 0) {
+          this.patientClinicalHistoryId = response.content[0].patientClinicalHistoryId;
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching patient treatments:', error);
+        this.isPatientLoading = false;
+      }
+    });
+  }
+
+
+  private handlePatientResponse(response: PaginatedData<TreatmentDetailResponse>, page: number): void {
+    if (!this.treatmentsPatient || page === 0) {
+      this.treatmentsPatient = response;
+    } else {
+      this.treatmentsPatient.content = [...this.treatmentsPatient.content, ...response.content];
+      this.treatmentsPatient.pageable = response.pageable;
+      this.treatmentsPatient.last = response.last;
+      this.treatmentsPatient.totalPages = response.totalPages;
+    }
+
+    this.isPatientLastPage = response.last;
+    this.currentPatientPage = page;
+    this.isPatientLoading = false;
+  }
+
+  public loadMorePatientTreatments(): void {
+    if (!this.isPatientLoading && !this.isPatientLastPage) {
+      this.fetchTreatmentData(this.currentPatientPage + 1);
+    }
   }
 
   openTreatment(treatment: TreatmentDetailResponse): void {
