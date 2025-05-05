@@ -25,11 +25,10 @@ export class PatientsTreatmentsComponent {
   private idStudent!: string;
   private token!: string;
   private tokenData!: TokenData;
-
+  private patientUuid!: string;
   public isLoading = false;
   public isLastPage = false;
   public currentPage = 0;
-  public patientUuid = '670ef320-ec8d-4eca-85e3-950661005d41';
   public treatments: PaginatedData<AllTreatmentDetailResponse> | null = null;
   STATUS = STATUS_TREATMENTS;
 
@@ -91,6 +90,7 @@ export class PatientsTreatmentsComponent {
   }
 
   openTreatment(treatment: AllTreatmentDetailResponse): void {
+    this.patientUuid = treatment.patientId;
     const route = '/students/treatments/patient/' + this.patientUuid;
     this.router.navigate([route]);
   }

@@ -67,4 +67,5 @@ export interface AllTreatmentDetailResponse {
     professorId: number | null;
     professorName: string | null;
     status: TreatmentStatus;
+    patientId: string;
 }
