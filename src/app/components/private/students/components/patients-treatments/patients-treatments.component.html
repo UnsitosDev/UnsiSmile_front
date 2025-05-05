@@ -25,3 +25,19 @@
         }
     </mat-list>
 </div>
+
+@if (!isLastPage) {
+    <div class="text-center mt-3">
+        <button 
+          class="btn btn-primary"
+          (click)="loadMoreTreatments()"
+          [disabled]="isLoading">
+          @if (!isLoading) {
+            <span>Cargar más tratamientos</span>
+
+          }
+        </button>
+    </div>
+}
+
+<app-loading/>

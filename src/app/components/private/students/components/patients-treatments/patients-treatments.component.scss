@@ -44,3 +44,11 @@
     margin-left: 8px;
     flex-shrink: 0;
 }
+
+button {
+    background-color: var(--tertiary);
+    color: var(--side-text) !important;
+    border-radius: 2px;
+    padding: 8px 16px;
+
+}
