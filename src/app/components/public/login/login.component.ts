@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation, inject } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -20,6 +20,7 @@ import { TokenData } from './model/tokenData';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, LoadingComponent],
 })

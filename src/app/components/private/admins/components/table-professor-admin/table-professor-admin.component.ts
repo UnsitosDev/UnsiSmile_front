@@ -134,7 +134,7 @@ export class TableProfessorAdminComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error al obtener profesores:', error);
+        this.toastr.error('Error al cargar la lista de profesores', 'Error');
         this.professorsList = [];
         this.totalElements = 0;
       },

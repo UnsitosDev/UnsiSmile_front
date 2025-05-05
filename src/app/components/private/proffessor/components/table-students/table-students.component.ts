@@ -22,6 +22,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { DetailsStudentComponent } from '../../../admins/components/details-student/details-student.component';
 import { ConfirmationAlertComponent } from '../../../admins/components/confirmation-alert/confirmation-alert.component';
 import { LoadingComponent } from '@mean/shared';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-table-students',
@@ -37,6 +38,8 @@ export class TableStudentsComponent implements OnInit {
   private apiService = inject(ApiService<studentRequest[]>);
   private searchSubject = new Subject<string>();
   private dataSharingService = inject(DataSharingService);
+    private toastr = inject(ToastrService);
+  
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -98,7 +101,6 @@ export class TableStudentsComponent implements OnInit {
   }
 
   delete(nombre: string) {
-    console.log('eliminar', nombre);
   }
 
   showAlert() {
@@ -147,13 +149,12 @@ export class TableStudentsComponent implements OnInit {
             fechaNacimiento: student.person?.birthDate || 'N/A'
           }));
         } else {
-          console.warn('Respuesta inesperada del servidor:', response);
           this.studentsList = [];
           this.totalElements = 0;
         }
       },
       error: (error) => {
-        console.error('Error al obtener estudiantes:', error);
+        this.toastr.error('Error al cargar la lista de estudiantes', 'Error');
         this.studentsList = [];
         this.totalElements = 0;
       },
@@ -208,7 +209,7 @@ export class TableStudentsComponent implements OnInit {
             event.row.estatus = event.newStatus;
           },
           error: (error) => {
-            console.error('Error al cambiar el estado del estudiante:', error);
+            this.toastr.error('Error al cambiar el estado del estudiante', 'Error');            
           }
         });
       }

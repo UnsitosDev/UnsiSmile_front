@@ -521,14 +521,6 @@ export class FormFieldsService {
     public handleNeighborhoodClick(searchTerm: string, page: number = 0, size: number = 3, localityId?: string): void {
         const neighborhoodField = this.addressFields.find(field => field.name === FieldNames.NEIGHBORHOOD_NAME);
     
-        console.log('handleNeighborhoodClick - Inicio:', {
-            searchTerm,
-            localityId,
-            selectedLocalitId: this.selectedLocalitId,
-            currentSelectedId: this.selectedNeighborhoodId,
-            currentValue: neighborhoodField?.value
-        });
-    
         // Usar el ID de localidad proporcionado o el almacenado
         const effectiveLocalityId = localityId || this.selectedLocalitId;
         
@@ -538,7 +530,6 @@ export class FormFieldsService {
         }
     
         if (!effectiveLocalityId) {
-            console.log('No hay ID de localidad disponible');
             this.clearNeighborhoodOptions();
             this.clearStreetOptions();
             return;
@@ -546,9 +537,7 @@ export class FormFieldsService {
     
         this.patientService.getNeighborhoodDataPaginated(searchTerm, page, size, effectiveLocalityId).subscribe({
             next: (response) => {
-                if (neighborhoodField) {
-                    console.log('Respuesta de colonias:', response);
-                    // Mostrar las opciones sin filtrar inicialmente
+                if (neighborhoodField) {                    // Mostrar las opciones sin filtrar inicialmente
                     neighborhoodField.options = response;
     
                     if (searchTerm && searchTerm.trim() !== '') {
@@ -558,18 +547,11 @@ export class FormFieldsService {
                         );
     
                         if (match) {
-                            console.log('Colonia encontrada:', {
-                                label: match.label,
-                                value: match.value
-                            });
-                            
-
                             this.selectedNeighborhoodId = match.value;
                             neighborhoodField.value = match.label;
     
                             // Cargar las calles solo cuando se selecciona una colonia
                             if (this.selectedNeighborhoodId) {
-                                console.log('Cargando calles para colonia:', this.selectedNeighborhoodId);
                                 this.handleStreetClick('', 0, 1000, this.selectedNeighborhoodId);
                             }
                         }
@@ -801,19 +783,10 @@ export class FormFieldsService {
 
     public handleStreetClick(searchTerm: string, page: number = 0, size: number = 3, neighborhoodId?: string): void {
         const streetField = this.addressFields.find(field => field.name === FieldNames.STREET_NAME);
-        
-        console.log('handleStreetClick - Estado actual:', {
-            searchTerm,
-            neighborhoodId,
-            selectedNeighborhoodId: this.selectedNeighborhoodId,
-            currentValue: streetField?.value,
-            neighborhoodValue: this.addressFields.find(f => f.name === FieldNames.NEIGHBORHOOD_NAME)?.value
-        });
     
         const effectiveNeighborhoodId = neighborhoodId || this.selectedNeighborhoodId;
         
         if (!effectiveNeighborhoodId) {
-            console.log('No hay ID de colonia disponible');
             this.clearStreetOptions();
             return;
         }
@@ -826,12 +799,10 @@ export class FormFieldsService {
             .subscribe({
                 next: (response) => {
                     if (streetField) {
-                        console.log('Calles encontradas para colonia', effectiveNeighborhoodId, ':', response);
                         streetField.options = response;
                     }
                 },
                 error: (error) => {
-                    console.error('Error al obtener calles:', error);
                     this.clearStreetOptions();
                 }
             });

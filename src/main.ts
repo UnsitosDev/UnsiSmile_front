@@ -11,6 +11,7 @@ import { AuthInterceptor } from './app/core';
 import { LoadingInterceptor } from './app/core/interceptors/loading.interceptor';
 import { RefreshTokenInterceptor } from './app/core/interceptors/refresh-token.interceptor';
 import { globalHttpInterceptor } from './app/core/interceptors/global-http.interceptor';
+import { enableProdMode } from '@angular/core';
 
 bootstrapApplication(
   AppComponent,
@@ -36,3 +37,4 @@ bootstrapApplication(
   ]},
 )
 .catch(err => console.error(err));
+enableProdMode();

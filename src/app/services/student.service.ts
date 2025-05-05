@@ -299,7 +299,6 @@ export class studentService {
                 }
             },
             error: (error) => {
-                console.error('Error al obtener grupos del servidor:', error);
                 this.groupOptions = [];
                 const groupField = this.personalDataFields.find(field => field.name === 'group');
                 if (groupField) {

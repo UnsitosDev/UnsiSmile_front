@@ -111,7 +111,6 @@ export class FormInsertAdminComponent {
             this.router.navigate(['/admin/admins']);
           },
           error: (error) => {
-            console.error('Error al guardar:', error);
             this.toastr.error(error.error?.message || 'Error al guardar el administrador', 'Error');
           },
         });

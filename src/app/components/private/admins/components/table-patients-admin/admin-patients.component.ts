@@ -143,13 +143,11 @@ export class AdminPatientsComponent implements OnInit {
             };
           });
         } else {
-          console.error('La respuesta no contiene un array en content.');
           this.patientsList = [];
           this.totalElements = 0;
         }
       },
       error: (error) => {
-        console.error('Error en la autenticación:', error);
         this.patientsList = [];
         this.totalElements = 0;
       },

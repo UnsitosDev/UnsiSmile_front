@@ -133,7 +133,6 @@ export class TableStudentsComponent implements OnInit {
   }
 
   delete(nombre: string) {
-    console.log('eliminar', nombre);
   }
 
   showAlert() {
@@ -182,13 +181,12 @@ export class TableStudentsComponent implements OnInit {
             fechaNacimiento: student.person?.birthDate || 'N/A'
           }));
         } else {
-          console.warn('Respuesta inesperada del servidor:', response);
           this.studentsList = [];
           this.totalElements = 0;
         }
       },
       error: (error) => {
-        console.error('Error al obtener estudiantes:', error);
+        this.toastr.error('Error al cargar la lista de estudiantes', 'Error');
         this.studentsList = [];
         this.totalElements = 0;
       },
@@ -243,7 +241,7 @@ export class TableStudentsComponent implements OnInit {
             event.row.estatus = event.newStatus;
           },
           error: (error) => {
-            console.error('Error al cambiar el estado del estudiante:', error);
+            this.toastr.error('Error al cambiar el estado del estudiante', 'Error');
           }
         });
       }

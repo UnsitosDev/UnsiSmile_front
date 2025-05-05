@@ -88,7 +88,6 @@ export class FormClinicalAreaComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error al cargar profesores:', error);
         this.toastr.error('Error al cargar la lista de profesores', 'Error');
       }
     });
@@ -147,7 +146,6 @@ export class FormClinicalAreaComponent implements OnInit {
           this.router.navigate(['/admin/areas']);
         })
         .catch(error => {
-          console.error('Error al asignar profesores:', error);
           this.toastr.error('Error al asignar los profesores al área clínica', 'Error');
         });
     }

@@ -89,7 +89,6 @@ export class FormProfessorAreaComponent implements OnInit {
           this.router.navigate(['/admin/professors']);
         },
         error: (error) => {
-          console.error('Error al asignar área:', error);
           this.toastr.error(
             error.error?.message || 'Error al asignar el área clínica',
             'Error'
