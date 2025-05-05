@@ -1,0 +1,46 @@
+.mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: var(--white-color);  
+}
+
+.in-progress {
+    background: var(--on-primary);
+    color: var(--status);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.finished {
+    background: var(--on-primary);
+    color: var(--status-red);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.content-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.view-badge {
+    background: var(--on-primary);
+    color: var(--subtext);
+    padding: 4px 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 8px;
+    flex-shrink: 0;
+}

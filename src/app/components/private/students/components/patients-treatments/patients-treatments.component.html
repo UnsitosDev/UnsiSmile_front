@@ -1,1 +1,27 @@
-<p>patients-treatments works!</p>
+<mat-card class="full-width-card">
+    <mat-card-title><strong>Tratamientos - Consulta y Administración</strong></mat-card-title>
+</mat-card>
+
+<div class="p-4">
+    <mat-list>
+        @for (item of treatments?.content; track $index) {
+            <section class="item-container">
+                <div class="content-wrapper">
+                  <mat-list-item class="list-content">
+                    <span matListItemTitle>{{item.patientName}}</span>
+                    {{item.treatment.name}}
+                  </mat-list-item>
+                    @if (item.status === STATUS.IN_PROGRESS) {
+                      <span class="in-progress">En progreso</span>
+                    }@else {
+                      <span class="finished">Finalizado</span>
+                    }
+                  <span class="view-badge">
+                    Ver Tratamiento
+                  </span>
+                </div>
+                <mat-divider></mat-divider>
+              </section>
+        }
+    </mat-list>
+</div>

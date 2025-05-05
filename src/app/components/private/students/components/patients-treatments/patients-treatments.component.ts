@@ -1,15 +1,17 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 import { AllTreatmentDetailResponse } from '@mean/models';
 import { ApiService, AuthService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
+import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 
 @Component({
   selector: 'app-patients-treatments',
   standalone: true,
-  imports: [],
+  imports: [MatCardModule, MatListModule],
   templateUrl: './patients-treatments.component.html',
   styleUrl: './patients-treatments.component.scss'
 })
@@ -21,7 +23,8 @@ export class PatientsTreatmentsComponent {
   private token!: string;
   private tokenData!: TokenData;
 
-  public treatments!: PaginatedData<AllTreatmentDetailResponse>;
+  public treatments: PaginatedData<AllTreatmentDetailResponse> | null = null;
+  STATUS = STATUS_TREATMENTS;
 
   ngOnInit(): void {
     this.getRole();
@@ -46,6 +49,7 @@ export class PatientsTreatmentsComponent {
       .subscribe({
         next: (response: PaginatedData<AllTreatmentDetailResponse>) => {
           this.treatments = response;
+          console.log('Tratamientos:', this.treatments);
         },
         error: (error) => {
           console.error(error);
