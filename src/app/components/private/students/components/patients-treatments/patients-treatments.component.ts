@@ -2,6 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { Router } from '@angular/router';
 import { AllTreatmentDetailResponse } from '@mean/models';
 import { ApiService, AuthService } from '@mean/services';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
@@ -18,11 +19,15 @@ import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 export class PatientsTreatmentsComponent {
   private apiService = inject(ApiService);
   private userService = inject(AuthService);
+  public router = inject(Router);
 
   private idStudent!: string;
   private token!: string;
   private tokenData!: TokenData;
+  
+  private medicalRecordId!: number;
 
+  public patientUuid = '670ef320-ec8d-4eca-85e3-950661005d41';
   public treatments: PaginatedData<AllTreatmentDetailResponse> | null = null;
   STATUS = STATUS_TREATMENTS;
 
@@ -49,11 +54,16 @@ export class PatientsTreatmentsComponent {
       .subscribe({
         next: (response: PaginatedData<AllTreatmentDetailResponse>) => {
           this.treatments = response;
-          console.log('Tratamientos:', this.treatments);
+          console.log('Tratamientos:', response);
         },
         error: (error) => {
           console.error(error);
         },
       });
+  }
+
+  openTreatment(treatment: AllTreatmentDetailResponse): void {
+    const route = '/students/treatments/patient/' + this.patientUuid;
+    this.router.navigate([route]);
   }
 }
