@@ -77,7 +77,6 @@ export class FormCreateAreaComponent {
           this.router.navigate(['/admin/areas']); // Asegúrate de que esta ruta existe
         },
         error: (error) => {
-          console.error('Error detallado:', error);
           this.toastr.error(
             error.error?.message || 'Error al crear el área clínica', 
             'Error'

@@ -18,12 +18,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar estos módulos
 import { MatCardModule } from '@angular/material/card';
+import { LoadingComponent } from '@mean/shared';
 
 
 @Component({
   selector: 'app-students-patients',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule ,MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
+  imports: [FormsModule, LoadingComponent, ReactiveFormsModule, MatCheckboxModule ,MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
   templateUrl: './admin-patients.component.html',
   styleUrl: './admin-patients.component.scss',
 })
@@ -142,13 +143,11 @@ export class AdminPatientsComponent implements OnInit {
             };
           });
         } else {
-          console.error('La respuesta no contiene un array en content.');
           this.patientsList = [];
           this.totalElements = 0;
         }
       },
       error: (error) => {
-        console.error('Error en la autenticación:', error);
         this.patientsList = [];
         this.totalElements = 0;
       },

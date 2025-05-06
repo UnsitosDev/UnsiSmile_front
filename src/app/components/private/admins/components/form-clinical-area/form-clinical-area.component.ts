@@ -14,6 +14,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatList } from '@angular/material/list';
 import {MatListItem} from '@angular/material/list';
+import { LoadingComponent } from '@mean/shared';
 
 interface Professor {
   employeeNumber: string;
@@ -35,7 +36,8 @@ interface Professor {
     MatCardModule,
     MatButtonModule,
     MatPaginatorModule,
-    MatInputModule
+    MatInputModule,
+    LoadingComponent
 ],
   templateUrl: './form-clinical-area.component.html',
   styleUrl: './form-clinical-area.component.scss'
@@ -86,7 +88,6 @@ export class FormClinicalAreaComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error al cargar profesores:', error);
         this.toastr.error('Error al cargar la lista de profesores', 'Error');
       }
     });
@@ -145,7 +146,6 @@ export class FormClinicalAreaComponent implements OnInit {
           this.router.navigate(['/admin/areas']);
         })
         .catch(error => {
-          console.error('Error al asignar profesores:', error);
           this.toastr.error('Error al asignar los profesores al área clínica', 'Error');
         });
     }

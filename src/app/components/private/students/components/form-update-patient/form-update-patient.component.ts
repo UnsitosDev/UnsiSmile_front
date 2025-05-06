@@ -16,6 +16,7 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { PatientService } from 'src/app/services/patient/patient.service';
 import { DialogConfirmGuardianComponent } from '../../../admins/components/dialog-confirm-guardian/dialog-confirm-guardian.component';
 import { MatDialog } from '@angular/material/dialog';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-form-update-patient',
@@ -26,7 +27,8 @@ import { MatDialog } from '@angular/material/dialog';
     MatStepperModule,
     MatButtonModule,
     FieldComponentComponent,
-    AlertComponent
+    AlertComponent, 
+    LoadingComponent
 ],
   templateUrl: './form-update-patient.component.html',
   styleUrl: './form-update-patient.component.scss'

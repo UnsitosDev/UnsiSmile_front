@@ -18,6 +18,7 @@ import { DetailsAdminComponent } from '../details-admin/details-admin.component'
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 import { ToastrService } from 'ngx-toastr';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-table-admin',
@@ -30,7 +31,8 @@ import { ToastrService } from 'ngx-toastr';
     TablaDataComponent,
     MatButtonModule,
     RouterLink,
-    MatCardModule
+    MatCardModule,
+    LoadingComponent
   ],
   templateUrl: './table-admin.component.html',
   styleUrls: ['./table-admin.component.scss']
@@ -123,12 +125,10 @@ export class TableAdminComponent implements OnInit {
   }
 
   edit(objeto: any) {
-    console.log('Navegando a editar con número de empleado:', objeto['numero empleado']);
     this.router.navigate(['/admin/admins/updateAdmin', objeto['numero empleado']]);
   }
 
   delete(nombre: string) {
-    console.log('eliminar admin', nombre);
   }
 
   onPageSizeChange(newSize: number) {
@@ -145,9 +145,7 @@ export class TableAdminComponent implements OnInit {
   getAdmins(page: number = 0, size: number = 10, keyword: string = '') {
     const encodedKeyword = encodeURIComponent(keyword);
     const url = `${UriConstants.GET_ADMIN}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
-    
-    console.log('URL de la petición:', url);
-    
+        
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -176,7 +174,7 @@ export class TableAdminComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error al obtener administradores:', error);
+        this.toastr.error('Error al cargar la lista de administradores', 'Error');
         this.adminList = [];
         this.totalElements = 0;
       },
@@ -211,7 +209,7 @@ export class TableAdminComponent implements OnInit {
             event.row.estatus = event.newStatus;
           },
           error: (error) => {
-            console.error('Error al cambiar el estado del administrador:', error);
+            this.toastr.error('Error al cambiar el estado del administrador: ' + error.message, 'Error');
           }
         });
       }
