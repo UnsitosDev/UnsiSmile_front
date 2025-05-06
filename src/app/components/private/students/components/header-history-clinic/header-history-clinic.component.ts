@@ -25,7 +25,6 @@ export class HeaderHistoryClinicComponent {
   public dialog = inject(MatDialog);
   public STATUS = STATUS;
   public ROL = ROLES;
-
   statusMap: { [key: string]: string } = {
     IN_REVIEW: 'EN REVISIÓN <i class="fas fa-spinner"></i>',
     APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
@@ -34,13 +33,8 @@ export class HeaderHistoryClinicComponent {
   };
 
   openConfirmDialog() {
-    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
-    const data = {
-      idPatientClinicalHistory: +this.idPatientClinicalHistory,
-      idFormSection: currentTab.idFormSection
-    }
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: currentTab.idFormSection },
+      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: this.currentSectionId },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

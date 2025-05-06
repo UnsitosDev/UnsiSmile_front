@@ -62,7 +62,6 @@ export class TreatmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.routeParams();
-    this.fetchMedicalRecordConfig();
   }
 
   public onTabSelected(event: any): void {
@@ -108,7 +107,7 @@ export class TreatmentsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.medicalRecordLoaded = true;
-          this.idMedicalRecordGeneral = response.medicalRecordNumber;
+          this.idMedicalRecordGeneral = response.idPatientMedicalRecord;
         },
         error: (error) => {
           if (error.status === 404) {
