@@ -2,6 +2,7 @@ import { CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from '@mean/services';
 import { Router } from '@angular/router';
+import { ROLES } from 'src/app/utils/roles';
 
 export const studentGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
@@ -23,8 +24,8 @@ export const studentGuard: CanActivateFn = (route, state) => {
   // Obtener el primer rol
   const role = userRole?.[0]?.authority;  // Uso de optional chaining para evitar errores
 
-  // Verificar si el rol es de administrador
-  if (role === 'ROLE_STUDENT') {
+  // Verificar si el rol es de estudiante
+  if (role === ROLES.STUDENT) {
     return true;
   }
 
