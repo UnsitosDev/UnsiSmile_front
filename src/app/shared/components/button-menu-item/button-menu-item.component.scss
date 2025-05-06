@@ -83,11 +83,11 @@ i{
   // Animación para los elementos hijos
   app-button-menu-item {
     display: block;
-    animation: fadeIn 0.5s ease forwards;
+    animation: fadeIn 1s ease forwards;
     
     @for $i from 1 through 5 {
       &:nth-child(#{$i}) {
-        animation-delay: #{$i * 0.05}s;
+        animation-delay: #{$i * 0.01}s;
       }
     }
   }
