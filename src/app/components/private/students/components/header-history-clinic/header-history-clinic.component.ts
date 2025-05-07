@@ -6,6 +6,8 @@ import { ROLES } from 'src/app/utils/roles';
 import { DialogConfirmSendToReviewComponent } from '../dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MenuAssessMedicalHistoryComponent } from '../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
+import { AuthService } from '@mean/services';
 
 @Component({
   selector: 'app-header-history-clinic',
@@ -21,6 +23,18 @@ export class HeaderHistoryClinicComponent {
   @Input({ required: true }) currentStatus!: string | null;
   @Input({ required: true }) currentIndex!: number;
   @Input({ required: true }) role!: string;
+
+  private userService = inject(AuthService);
+  private token!: string;
+  private tokenData!: TokenData;
+  public userRole!: string;
+
+  ngOnInit(): void {}
+  private getRole() {
+    this.token = this.userService.getToken() ?? "";
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.userRole = this.tokenData.role[0].authority;
+  }
 
   public dialog = inject(MatDialog);
   public STATUS = STATUS;
