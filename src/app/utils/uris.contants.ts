@@ -360,6 +360,7 @@ export class UriConstants {
   public static readonly GET_GENERAL_MEDICAL_RECORD = basePath + '/clinical-histories/general';
   public static readonly POST_GENERAL_MEDICAL_RECORD = basePath + '/clinical-histories/general';
   public static readonly GET_ALL_TREATMENTS = basePath + '/treatment-details/students';
+  public static readonly POST_TREATMENT_REVIEW = basePath + '/treatment-details'
   // Endpoints para guardianes/tutores
   public static readonly GET_GUARDIAN_BY_CURP = basePath + '/guardians/CURP/';
 }

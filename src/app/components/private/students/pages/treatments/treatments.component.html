@@ -4,8 +4,17 @@
 </mat-card>
 
 @if (viewTreatment) {
-  <button mat-button class="button-custom-back !text-white mb-4" (click)="backToTreatments()"><i class="fas fa-arrow-left mr-2"></i>Regresar</button>
+  <div class="flex justify-between w-full mb-4">
+    <button mat-button class="button-custom-back !text-white" (click)="backToTreatments()">
+      <i class="fas fa-arrow-left mr-2"></i>Regresar
+    </button>
+    
+    <button mat-button class="button-custom-back !text-white" (click)="openDialogSendToReview()">
+      Enviar tratamiento a revisión<i class="fas fa-file-upload ml-2"></i>
+    </button>
+  </div>
 }
+
 <mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="onTabSelected($event)">
   <!-- Tab 1: Datos personales -->
   <mat-tab>

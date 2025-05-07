@@ -27,6 +27,7 @@ import { StudentsOralSurgeryHistoryComponent } from "../history-clinics/oral-sur
 import { StudentsPeriodonticsHistoryComponent } from "../history-clinics/periodontics/students-periodontics-history.component";
 import { PreventiveDentistryPublicHealthComponent } from "../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component";
 import { StudentsGeneralHistoryComponent } from "../history-clinics/general/students-general-history.component";
+import { DialogConfirmSendToReviewComponent } from '../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 
 @Component({
   selector: 'app-treatments',
@@ -52,6 +53,7 @@ export class TreatmentsComponent implements OnInit {
   public medicalRecordId!: number;
   public medicalRecordLoaded = false;
   private suppressTabChangeLogic = false;
+  private idTreatmentDetail!: number;
 
 
   public isPatientLoading = false;
@@ -172,6 +174,7 @@ export class TreatmentsComponent implements OnInit {
         this.handlePatientResponse(response, page);
         if (response.content.length > 0) {
           this.patientClinicalHistoryId = response.content[0].patientClinicalHistoryId;
+          this.idTreatmentDetail = response.content[0].idTreatmentDetail;
         }
       },
       error: (error) => {
@@ -225,6 +228,23 @@ export class TreatmentsComponent implements OnInit {
     setTimeout(() => {
       this.tabGroup.selectedIndex = 2;
       setTimeout(() => this.suppressTabChangeLogic = false, 100);
+    });
+  }
+
+  openDialogSendToReview(): void {
+    const sendTreatment = true;
+    const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
+      width: '800px',
+      data: {
+        treatmentId: this.idTreatmentDetail,
+        send: sendTreatment,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchTreatmentData();
+      }
     });
   }
 }
