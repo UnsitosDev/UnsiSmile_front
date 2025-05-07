@@ -54,6 +54,7 @@ export class TreatmentsComponent implements OnInit {
   public medicalRecordLoaded = false;
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
+  public selectedTreatment!: TreatmentDetailResponse;
 
 
   public isPatientLoading = false;
@@ -207,7 +208,10 @@ export class TreatmentsComponent implements OnInit {
   }
 
   openTreatment(treatment: TreatmentDetailResponse): void {
-    this.viewTreatment = true;
+     this.viewTreatment = true;
+    // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
+    this.selectedTreatment = treatment;
+    this.idTreatmentDetail = treatment.treatment.idTreatment;
     this.medicalRecordId = treatment.treatment.clinicalHistoryCatalogId;
     this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
   }

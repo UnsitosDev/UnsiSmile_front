@@ -71,17 +71,6 @@ mat-list-item span {
     flex-shrink: 0;
 }
 
-.in-progress {
-    background: var(--on-primary);
-    color: var(--status);
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    white-space: nowrap;
-    margin-left: 8px;
-    flex-shrink: 0;
-}
-
 .status-badge {
     background: var(--on-primary);
     padding: 4px 8px;
@@ -92,27 +81,71 @@ mat-list-item span {
     flex-shrink: 0;
 }
 
+.badge-base-treatment-status {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 8px;
+    padding: 0 8px;
+    line-height: 1.2;
+    height: 24px;
+    box-sizing: border-box;
+    font-weight: 500;
+}
 .in-review {
     @extend .status-badge;
-    color: var(--status-yellow);
+    color: var(--status-in-review);
+}
+
+.in-review-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-in-review);
 }
 
 .approved {
     @extend .status-badge;
-    color: var(--status-green);
+    color: var(--status-approved);
+}
+
+.approved-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-approved);
+
 }
 
 .rejected {
     @extend .status-badge;
-    color: var(--status-red);
+    color: var(--status-rejected);
+}
+
+.rejected-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-rejected);
 }
 
 .in-progress {
     @extend .status-badge;
-    color: var(--status);
+    color: var(--status-in-progress);
+}
+
+.in-progress-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-in-progress);
 }
 
 .finished {
     @extend .status-badge;
-    color: var(--status-red);
+    color: var(--status-finished);
+}
+
+.finished-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-finished);
 }

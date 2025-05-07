@@ -9,9 +9,27 @@
       <i class="fas fa-arrow-left mr-2"></i>Regresar
     </button>
     
-    <button mat-button class="button-custom-back !text-white" (click)="openDialogSendToReview()">
-      Enviar tratamiento a revisión<i class="fas fa-file-upload ml-2"></i>
-    </button>
+    @if (selectedTreatment.status === STATUS.IN_PROGRESS) {
+      <button mat-button class="button-custom-back !text-white" (click)="openDialogSendToReview()">
+        Enviar tratamiento a revisión<i class="fas fa-file-upload ml-2"></i>
+      </button>
+    }
+    @else {
+      <span class="treatment-status-badge"
+        [class.in-review-treatment]="selectedTreatment.status === STATUS.IN_REVIEW"
+        [class.approved-treatment]="selectedTreatment.status === STATUS.APPROVED"
+        [class.rejected-treatment]="selectedTreatment.status === STATUS.REJECTED"
+        [class.in-progress-treatment]="selectedTreatment.status === STATUS.IN_PROGRESS"
+        [class.finished-treatment]="selectedTreatment.status === STATUS.FINISHED">
+        @switch (selectedTreatment.status) {
+          @case (STATUS.IN_REVIEW) { Tratamiento en revisión }
+          @case (STATUS.APPROVED) { Aprobado }
+          @case (STATUS.REJECTED) { Rechazado }
+          @case (STATUS.IN_PROGRESS) { En progreso }
+          @case (STATUS.FINISHED) { Finalizado }
+        }
+      </span>
+    }
   </div>
 }
 
