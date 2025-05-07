@@ -1,33 +1,34 @@
 <div class="sidebar" [class.closed]="!isSidebarOpen">
   <div class="menu-container min-h-screen z-10 text-slate-300 w-64 left-0 h-screen overflow-y-hidden">
     <!-- Logo section -->
-    <div id="logo" class="px-4"> <!-- Ajustado -->
-      <h1 class="text-xl md:text-2xl font-bold text-white"> <!-- Ajustado tamaño -->
+    <div id="logo" class="my-4 px-6">
+      <h1 class="text-lg md:text-2xl font-bold text-white">
         Unsi<span class="text-blue-500">Smile</span>
       </h1>
-      <p class="text-slate-500 text-xs">Clínica de Odontología</p> <!-- Ajustado tamaño -->
+      <p class="text-slate-500 text-sm">Clínica de Odontología</p>
     </div>
     
     <div class="nav-content">
       <!-- Profile section -->
-      <div id="profile" class="px-4 py-3 text-center"> <!-- Ajustado -->
-        <p class="text-slate-500 welcome-message text-sm">{{ welcomeMessage }}</p> <!-- Ajustado tamaño -->
-        <a [routerLink]="userLink" class="profile-link">
-          <div class="profile-image-container">
+      <div id="profile" class="px-6 py-4">
+        <p class="text-slate-500">{{ welcomeMessage }}</p>
+        <br>
+        <a [routerLink]="userLink" class="inline-flex space-x-2 items-center">
+          <span>
             <img
-              class="profile-image"
+              class="rounded-full w-8 h-8"
               [src]="profilePicture() || '../../assets/images/default-profile-pic.png'"
               alt="Foto de perfil"
             />
-          </div>
+          </span>
           @if (user) {
-            <span class="profile-name text-sm"> {{ user.person.firstName + " " + user.person.firstLastName }} </span>
+            <span class="text-sm md:text-base font-bold"> {{ user.person.firstName + " " + user.person.firstLastName }} </span>
           }
         </a>
       </div>
       
-      <!-- Scrollable navigation items - ahora con más espacio -->
-      <div id="nav" class="w-full px-4">
+      <!-- Scrollable navigation items -->
+      <div id="nav" class="w-full px-6">
         @for(item of menuItems; track $index){
           <app-button-menu-item
             [item]="item"
@@ -38,7 +39,7 @@
       
       <!-- Logout section -->
       <div class="logout-section">
-        <button (click)="logout()" class="logout-button text-sm"> <!-- Ajustado tamaño -->
+        <button (click)="logout()" class="logout-button">
           <i class="fas fa-sign-out-alt"></i>
           <span>Cerrar sesión</span>
         </button>
