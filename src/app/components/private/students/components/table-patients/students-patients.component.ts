@@ -22,12 +22,13 @@ import { DetailsPatientsComponent } from '../details-patients/details-patients.c
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TreatmentsComponent } from '../../pages/treatments/treatments.component';
 import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
+import { LoadingComponent } from '@mean/shared';
 
 
 @Component({
   selector: 'app-students-patients',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule ,MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
+  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule, LoadingComponent],
   templateUrl: './students-patients.component.html',
   styleUrl: './students-patients.component.scss',
 })

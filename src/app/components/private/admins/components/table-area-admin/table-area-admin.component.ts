@@ -12,11 +12,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-table-area-admin',
   standalone: true,
-  imports: [TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
+  imports: [TablaDataComponent, MatButtonModule, RouterLink, MatCardModule,LoadingComponent],
   templateUrl: './table-area-admin.component.html',
   styleUrl: './table-area-admin.component.scss'
 })

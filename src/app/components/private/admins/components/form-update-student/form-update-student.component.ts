@@ -13,6 +13,7 @@ import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-form-update-student',
@@ -24,7 +25,8 @@ import { FieldComponentComponent } from 'src/app/shared/components/field-compone
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    FieldComponentComponent
+    FieldComponentComponent,
+    LoadingComponent
 ],
   templateUrl: './form-update-student.component.html',
   styleUrls: ['./form-update-student.component.scss']

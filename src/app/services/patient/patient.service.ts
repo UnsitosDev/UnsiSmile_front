@@ -129,7 +129,6 @@ export class PatientService {
                     filteredContent = response.content.filter((item: streetRequest) => 
                         item.name.toLowerCase().includes(searchTermLower)
                     );
-                    console.log('Calles filtradas por término de búsqueda:', filteredContent);
                 }
                 
                 this.streetsOptions = filteredContent.map((item: streetRequest) => ({

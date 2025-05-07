@@ -9,11 +9,12 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-table-professor-clinical',
   standalone: true,
-  imports: [TablaDataComponent, MatCardModule],
+  imports: [TablaDataComponent, MatCardModule, LoadingComponent],
   templateUrl: './table-professor-clinical.component.html',
   styleUrl: './table-professor-clinical.component.scss'
 })
