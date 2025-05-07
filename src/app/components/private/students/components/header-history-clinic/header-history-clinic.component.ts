@@ -1,13 +1,13 @@
 import { Component, inject, Input } from '@angular/core';
-import { MatCard, MatCardModule } from '@angular/material/card';
-import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
-import { STATUS } from 'src/app/utils/statusToReview';
-import { ROLES } from 'src/app/utils/roles';
-import { DialogConfirmSendToReviewComponent } from '../dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
+import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
-import { MenuAssessMedicalHistoryComponent } from '../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component';
-import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { AuthService } from '@mean/services';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
+import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
+import { ROLES } from 'src/app/utils/roles';
+import { STATUS } from 'src/app/utils/statusToReview';
+import { MenuAssessMedicalHistoryComponent } from '../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component';
+import { DialogConfirmSendToReviewComponent } from '../dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 
 @Component({
   selector: 'app-header-history-clinic',
