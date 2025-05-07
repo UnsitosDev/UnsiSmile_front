@@ -2,7 +2,8 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { TreatmentDetailResponse, TreatmentResponse } from '@mean/models';
+import { Router } from '@angular/router';
+import { TreatmentDetailResponse } from '@mean/models';
 import { ApiService, AuthService } from '@mean/services';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
@@ -17,6 +18,7 @@ import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 })
 export class ReviewTreatmentComponent {
   private readonly apiService = inject(ApiService);
+  private readonly router = inject(Router);
   private token!: string;
   private tokenData!: TokenData;
   private userService = inject(AuthService);
@@ -63,5 +65,13 @@ export class ReviewTreatmentComponent {
     this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
     this.patientUuid = treatment.patientId ?? "";
     this.clinicalHistoryCatalogId = treatment.treatment.clinicalHistoryCatalogId;
+     switch (this.clinicalHistoryCatalogId) {
+      case 6: // odontologia preventiva
+        const route = `/clinical-area-supervisor/preventive-dentistry-public-health/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}`;
+        this.router.navigate([route]);
+        break;
+      default:
+        break;
+    }
   }
 }
