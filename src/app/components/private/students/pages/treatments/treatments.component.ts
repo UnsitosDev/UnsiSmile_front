@@ -109,12 +109,11 @@ export class TreatmentsComponent implements OnInit {
           this.medicalRecordLoaded = true;
           this.idMedicalRecordGeneral = response.idPatientMedicalRecord;
         },
-        error: (error) => {
-          if (error.status === 404) {
+        error: (enhancedError) => {
+          if (enhancedError.status === 404) {
             this.createMedicalRecord();
           } else {
-            this.createMedicalRecord();
-            console.error(error);
+            console.error(enhancedError.message);
           }
         },
       });

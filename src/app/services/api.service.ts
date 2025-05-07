@@ -65,7 +65,13 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
   }
 
   handleError(error: HttpErrorResponse) {
-    return throwError(() => error.error.message || Messages.ERROR);
+    const enhancedError = {
+      message: error.error?.message || Messages.ERROR,
+      status: error.status,
+      originalError: error
+    };
+
+    return throwError(() => enhancedError);
   }
   
   /** Para realizar las peticiones PATCH */
