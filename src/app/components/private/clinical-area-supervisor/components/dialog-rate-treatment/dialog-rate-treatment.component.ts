@@ -29,7 +29,6 @@ export class DialogRateTreatmentComponent {
   
 
   ngOnInit() {
-    console.log('data', this.data);
     this.idTreatmentDetail = this.data.idTreatmentDetail;
   }
 
