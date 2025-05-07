@@ -67,7 +67,7 @@ export class ReviewTreatmentComponent {
     this.clinicalHistoryCatalogId = treatment.treatment.clinicalHistoryCatalogId;
      switch (this.clinicalHistoryCatalogId) {
       case 6: // odontologia preventiva
-        const route = `/clinical-area-supervisor/preventive-dentistry-public-health/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}`;
+      const route = `/clinical-area-supervisor/preventive-dentistry-public-health/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
         this.router.navigate([route]);
         break;
       default:
