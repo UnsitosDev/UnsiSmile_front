@@ -31,12 +31,18 @@ export class ButtonMenuItemComponent {
     return window.location.pathname.startsWith(link);
   }
 
-  toggleExpand(item: MenuItem, event: Event) {
+  // Método exclusivo para expandir/colapsar al hacer clic en la flecha
+  toggleExpandOnly(event: Event) {
     event.preventDefault();
-    item['expanded'] = !item['expanded'];
+    event.stopPropagation(); // Detiene la propagación al elemento padre
+    if (this.item.children) {
+      this.item['expanded'] = !this.item['expanded'];
+    }
   }
 
+  // Este método ahora solo maneja la navegación
   onMenuItemClick() {
+    // Solo emite el evento si no es un ítem con submenú o si tiene una ruta válida
     if (!this.item.children || (this.item.children && this.item.routerlink !== '#')) {
       this.menuSelect.emit();
     }
