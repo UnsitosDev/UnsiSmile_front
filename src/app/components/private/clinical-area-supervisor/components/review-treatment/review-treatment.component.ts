@@ -24,6 +24,12 @@ export class ReviewTreatmentComponent {
   public STATUS = STATUS_TREATMENTS;
   public treatments: PaginatedData<TreatmentDetailResponse> | null = null;
   public treatmentData!: TreatmentDetailResponse;
+
+  private idTreatmentDetail!: number;
+  private patientClinicalHistoryId!: number;
+  private patientUuid!: string;
+  private clinicalHistoryCatalogId!: number;
+
   ngOnInit() {
     this.getRole();
     this.fetchTreatments();
@@ -53,6 +59,9 @@ export class ReviewTreatmentComponent {
   }
 
   rateTreatment(treatment: TreatmentDetailResponse): void {
-    console.log('Rating treatment:', treatment);
+    this.idTreatmentDetail = treatment.idTreatmentDetail;
+    this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
+    this.patientUuid = treatment.patientId ?? "";
+    this.clinicalHistoryCatalogId = treatment.treatment.clinicalHistoryCatalogId;
   }
 }

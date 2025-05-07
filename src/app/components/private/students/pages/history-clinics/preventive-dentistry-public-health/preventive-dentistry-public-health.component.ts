@@ -40,6 +40,11 @@ export class PreventiveDentistryPublicHealthComponent {
   @Input() public patientMedicalRecord!: number;
   @Input() public medicalRecord!: number;
 
+  // Se recibe desde el componente donde se calificaran tratamientos
+  @Input() public idTreatmentDetail!: string;
+  @Input() public patientClinicalHistoryId!: number;
+  @Input() public patientUuidTreatment!: string;
+
   private router = inject(ActivatedRoute);
   private route = inject(Router);
   private historyData = inject(GeneralHistoryService);
