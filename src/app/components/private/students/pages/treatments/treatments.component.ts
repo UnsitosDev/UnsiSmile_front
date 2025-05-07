@@ -208,12 +208,14 @@ export class TreatmentsComponent implements OnInit {
   }
 
   openTreatment(treatment: TreatmentDetailResponse): void {
-     this.viewTreatment = true;
+    this.viewTreatment = true;
     // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
     this.selectedTreatment = treatment;
+    this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
     this.idTreatmentDetail = treatment.idTreatmentDetail;
     this.medicalRecordId = treatment.treatment.clinicalHistoryCatalogId;
     this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
+    console.log('Tratamiento:', treatment);
   }
 
   formatArrayDate(dateArray: number[]): string {
