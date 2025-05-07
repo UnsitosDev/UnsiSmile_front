@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { TreatmentDetailResponse } from '@mean/models';
 import { ApiService, AuthService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
+import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 
@@ -21,7 +21,7 @@ export class ReviewTreatmentComponent {
   private tokenData!: TokenData;
   private userService = inject(AuthService);
   private professorId!: string;
-
+  public STATUS = STATUS_TREATMENTS;
   public treatments: PaginatedData<TreatmentDetailResponse> | null = null;
 
   ngOnInit() {

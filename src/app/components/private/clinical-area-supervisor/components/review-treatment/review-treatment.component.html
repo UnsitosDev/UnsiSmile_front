@@ -1,1 +1,31 @@
-<p>review-treatment works!</p>
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Revisión de tratamientos</strong></mat-card-title>
+</mat-card>
+
+<div class="p-4">
+  <mat-list>
+    @for (item of treatments?.content; track $index) {
+    <section class="item-container">
+      <div class="content-wrapper">
+        <mat-list-item class="list-content">
+          <span matListItemTitle>{{ item.patientName }}</span>
+          {{ item.treatment.name }}
+        </mat-list-item>
+        @switch (item.status) { @case (STATUS.IN_REVIEW) {
+        <span class="in-review">En revisión</span>
+        } @case (STATUS.APPROVED) {
+        <span class="approved">Aprobado</span>
+        } @case (STATUS.REJECTED) {
+        <span class="rejected">Rechazado</span>
+        } @case (STATUS.IN_PROGRESS) {
+        <span class="in-progress">En progreso</span>
+        } @case (STATUS.FINISHED) {
+        <span class="finished">Finalizado</span>
+        } }
+        <span class="view-badge"> Calificar tratamiento </span>
+      </div>
+      <mat-divider></mat-divider>
+    </section>
+    }
+  </mat-list>
+</div>
