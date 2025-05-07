@@ -115,6 +115,12 @@ export const ProfessorClinicalAlreaItems: MenuItem[] = [
     buttonText: 'Historias Clinicas',
     buttonDescription: 'Revisar Historias Clinicas',
     routerlink: '/clinical-area-supervisor/history-clinics'
+  },
+  {
+    fontAwesomeIcon: faFileClipboard,
+    buttonText: 'Tratamientos',
+    buttonDescription: 'Revisar Tratamientos',
+    routerlink: ''
   }
 ];
 
