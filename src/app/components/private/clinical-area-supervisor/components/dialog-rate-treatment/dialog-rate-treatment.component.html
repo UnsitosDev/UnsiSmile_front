@@ -1,1 +1,7 @@
-<p>dialog-rate-treatment works!</p>
+<mat-radio-group 
+  aria-label="Select an option"
+  (change)="onStatusChange($event)">
+    <mat-radio-button [value]="STATUS.REJECTED">Rechazar</mat-radio-button>
+    <mat-radio-button [value]="STATUS.FINISHED">Aprobar</mat-radio-button>
+</mat-radio-group>
+<button mat-button (click)="rateTreatment()">Calificar</button>
