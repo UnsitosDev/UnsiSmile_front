@@ -29,13 +29,10 @@
       
       <!-- Scrollable navigation items -->
       <div id="nav" class="w-full px-6">
-        @for(items of menuItems; track $index){
+        @for(item of menuItems; track $index){
           <app-button-menu-item
-            (click)="onMenuItemSelect()"
-            link="{{ items.routerlink }}"
-            buttonText="{{ items.buttonText }}"
-            description="{{ items.buttonDescription }}"
-            [fontAwesomeIcon]="items.fontAwesomeIcon"
+            [item]="item"
+            (menuSelect)="onMenuItemSelect()"
           ></app-button-menu-item>
         }
       </div>
