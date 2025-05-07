@@ -4,6 +4,14 @@
     </mat-card>
     <br>
 }
+@if (isSupervisorWithTreatment) {
+    <div class="rate-treatment flex justify-end mb-4">
+        <button mat-button>
+            Calificar Tratamiento
+        </button>
+    </div>
+}
+
 @if (mappedHistoryData) {
     <mat-card-title>
         <app-header-history-clinic 

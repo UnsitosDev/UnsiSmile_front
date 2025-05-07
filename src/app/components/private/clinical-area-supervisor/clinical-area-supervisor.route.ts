@@ -63,15 +63,13 @@ export default [
                     import('../students/pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
                         (m) => m.PreventiveDentistryPublicHealthComponent
                     ),
-                children: [
-                    {
-                        path: 'treatment-detail/:idTreatmentDetail', 
-                        loadComponent: () =>
-                            import('../students/pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
-                                (m) => m.PreventiveDentistryPublicHealthComponent
-                            ),
-                    }
-                ]
+            },
+            {
+                path: 'preventive-dentistry-public-health/:id/patient/:patient/medical-record-id/:patientID/treatment-detail/:idTreatmentDetail',
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
+                        (m) => m.PreventiveDentistryPublicHealthComponent
+                    )
             },
             {
                 path: 'user',

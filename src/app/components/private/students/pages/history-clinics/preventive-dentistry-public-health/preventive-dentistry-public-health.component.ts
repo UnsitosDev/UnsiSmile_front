@@ -17,7 +17,7 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 
 // Modelos
 import { HttpHeaders } from '@angular/common/http';
-import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, PATIENT_UUID_ROUTE } from '@mean/models';
+import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
 import { UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
@@ -41,7 +41,6 @@ export class PreventiveDentistryPublicHealthComponent {
   @Input() public medicalRecord!: number;
 
   // Se recibe desde el componente donde se calificaran tratamientos
-  @Input() public idTreatmentDetail!: string;
   @Input() public patientClinicalHistoryId!: number;
   @Input() public patientUuidTreatment!: string;
 
@@ -51,6 +50,7 @@ export class PreventiveDentistryPublicHealthComponent {
   private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   private userService = inject(AuthService);
+  public isSupervisorWithTreatment: boolean = false;
 
   public id!: number;
   public idpatient!: string;
@@ -60,6 +60,7 @@ export class PreventiveDentistryPublicHealthComponent {
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
   public idPatientClinicalHistory!: number;
+  private idTreatmentDetail!: any;
 
   private token!: string;
   private tokenData!: TokenData;
@@ -81,19 +82,28 @@ export class PreventiveDentistryPublicHealthComponent {
 
   private initializeRouteParams(): void {
     this.router.params.subscribe((params) => {
-      if (this.role === ROLES.STUDENT) {
+      // Asignación común para todos los casos excepto STUDENT
+      if (this.role !== ROLES.STUDENT) {
+        this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
+        this.idpatient = params[PATIENT_UUID_ROUTE] || '';
+        this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
+
+        // Solo para CLINICAL_AREA_SUPERVISOR con tratamiento
+        if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
+          this.idTreatmentDetail = params[ID_TREATMENT_DETAIL] || '';
+        }
+      }
+      // Caso específico para STUDENT
+      else {
         this.id = this.medicalRecord;
         this.idpatient = this.patientUuid;
         this.idPatientClinicalHistory = this.patientMedicalRecord;
-      } else {
-        this.id = params[ID_MEDICAL_RECORD];
-        this.idpatient = params[PATIENT_UUID_ROUTE];
-        this.idPatientClinicalHistory = params[ID_PATIENT_MEDICAL_RECORD];
       }
 
       this.loadClinicalHistory();
     });
   }
+
 
   private loadClinicalHistory(): void {
     this.historyData.getHistoryClinics(this.idPatientClinicalHistory, this.idpatient).subscribe({
@@ -103,12 +113,14 @@ export class PreventiveDentistryPublicHealthComponent {
         this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
         this.getFirstTab();
         this.getStatusHc();
-
-        const processedData = this.getTabsforReview(this.mappedHistoryData);
-        if (processedData) {
-          this.mappedHistoryData = processedData;
-        } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
-          return;
+        this.isSupervisorWithTreatment = true;
+        // Solo procesar tabs si no es supervisor con tratamiento
+        if (!(this.role === ROLES.CLINICAL_AREA_SUPERVISOR && this.idTreatmentDetail)) {
+          const processedData = this.getTabsforReview(this.mappedHistoryData);
+          this.isSupervisorWithTreatment = false;
+          if (processedData) {
+            this.mappedHistoryData = processedData;
+          } 
         }
       }
     });
