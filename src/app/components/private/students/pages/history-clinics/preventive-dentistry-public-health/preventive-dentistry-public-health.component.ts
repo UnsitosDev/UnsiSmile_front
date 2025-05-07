@@ -175,7 +175,8 @@ export class PreventiveDentistryPublicHealthComponent {
     const dialogRef = this.dialog.open(DialogRateTreatmentComponent, {
       data: {
         idTreatmentDetail: this.idTreatmentDetail,
-      }
+      },
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

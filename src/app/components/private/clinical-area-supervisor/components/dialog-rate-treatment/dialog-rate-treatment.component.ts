@@ -1,5 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { Router } from '@angular/router';
@@ -10,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-dialog-rate-treatment',
   standalone: true,
-  imports: [MatRadioModule],
+  imports: [MatRadioModule, MatCardModule, MatButtonModule],
   templateUrl: './dialog-rate-treatment.component.html',
   styleUrl: './dialog-rate-treatment.component.scss'
 })
@@ -29,6 +31,10 @@ export class DialogRateTreatmentComponent {
   ngOnInit() {
     console.log('data', this.data);
     this.idTreatmentDetail = this.data.idTreatmentDetail;
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
   onStatusChange(event: MatRadioChange) {
