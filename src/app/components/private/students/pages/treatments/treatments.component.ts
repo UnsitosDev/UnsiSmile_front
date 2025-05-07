@@ -211,7 +211,7 @@ export class TreatmentsComponent implements OnInit {
      this.viewTreatment = true;
     // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
     this.selectedTreatment = treatment;
-    this.idTreatmentDetail = treatment.treatment.idTreatment;
+    this.idTreatmentDetail = treatment.idTreatmentDetail;
     this.medicalRecordId = treatment.treatment.clinicalHistoryCatalogId;
     this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
   }
