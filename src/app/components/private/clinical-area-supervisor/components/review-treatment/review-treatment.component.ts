@@ -2,7 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { TreatmentDetailResponse } from '@mean/models';
+import { TreatmentDetailResponse, TreatmentResponse } from '@mean/models';
 import { ApiService, AuthService } from '@mean/services';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
@@ -23,7 +23,7 @@ export class ReviewTreatmentComponent {
   private professorId!: string;
   public STATUS = STATUS_TREATMENTS;
   public treatments: PaginatedData<TreatmentDetailResponse> | null = null;
-
+  public treatmentData!: TreatmentDetailResponse;
   ngOnInit() {
     this.getRole();
     this.fetchTreatments();
@@ -52,4 +52,7 @@ export class ReviewTreatmentComponent {
     });
   }
 
+  rateTreatment(treatment: TreatmentDetailResponse): void {
+    console.log('Rating treatment:', treatment);
+  }
 }

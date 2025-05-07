@@ -9,6 +9,7 @@
       <div class="content-wrapper">
         <mat-list-item class="list-content">
           <span matListItemTitle>{{ item.patientName }}</span>
+          <!-- <span matListItemSubtitle>{{item.treatment.}}</span> -->
           {{ item.treatment.name }}
         </mat-list-item>
         @switch (item.status) { @case (STATUS.IN_REVIEW) {
@@ -22,7 +23,7 @@
         } @case (STATUS.FINISHED) {
         <span class="finished">Finalizado</span>
         } }
-        <span class="view-badge"> Calificar tratamiento </span>
+        <span class="view-badge cursor-pointer" (click)="rateTreatment(item)"> Calificar tratamiento </span>
       </div>
       <mat-divider></mat-divider>
     </section>
