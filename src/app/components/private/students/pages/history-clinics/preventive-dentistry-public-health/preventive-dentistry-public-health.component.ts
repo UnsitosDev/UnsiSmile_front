@@ -27,6 +27,7 @@ import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-
 import { MenuAssessMedicalHistoryComponent } from "../../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component";
 import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
 import { ProfilaxisComponent } from "../../../components/profilaxis/profilaxis.component";
+import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
 
 @Component({
   selector: 'app-preventive-dentistry-public-health',
@@ -60,7 +61,7 @@ export class PreventiveDentistryPublicHealthComponent {
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
   public idPatientClinicalHistory!: number;
-  private idTreatmentDetail!: any;
+  private idTreatmentDetail!: number;
 
   private token!: string;
   private tokenData!: TokenData;
@@ -120,7 +121,7 @@ export class PreventiveDentistryPublicHealthComponent {
           this.isSupervisorWithTreatment = false;
           if (processedData) {
             this.mappedHistoryData = processedData;
-          } 
+          }
         }
       }
     });
@@ -170,6 +171,17 @@ export class PreventiveDentistryPublicHealthComponent {
     this.getStatusHc();
   }
 
+  opedDialogRateTreatment() {
+    const dialogRef = this.dialog.open(DialogRateTreatmentComponent, {
+      data: {
+        idTreatmentDetail: this.idTreatmentDetail,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
+  }
   getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
 
