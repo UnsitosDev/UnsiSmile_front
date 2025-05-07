@@ -59,10 +59,22 @@
                 {{item.treatment.clinicalHistoryCatalogName}}
                 <span matListItemLine><strong>Duración:</strong> {{ formatArrayDate(item.startDate) }} - {{ formatArrayDate(item.endDate) }}</span>
               </mat-list-item>
-                @if (item.status === STATUS.IN_PROGRESS) {
+                @switch (item.status) {
+                  @case (STATUS.IN_REVIEW) {
+                  <span class="in-review">En revisión</span>
+                  }
+                  @case (STATUS.APPROVED) {
+                  <span class="approved">Aprobado</span>
+                  }
+                  @case (STATUS.REJECTED) {
+                  <span class="rejected">Rechazado</span>
+                  }
+                  @case (STATUS.IN_PROGRESS) {
                   <span class="in-progress">En progreso</span>
-                }@else {
+                  }
+                  @case (STATUS.FINISHED) {
                   <span class="finished">Finalizado</span>
+                  }
                 }
               <span class="view-badge" (click)="openTreatment(item)">
                 Ver Tratamiento

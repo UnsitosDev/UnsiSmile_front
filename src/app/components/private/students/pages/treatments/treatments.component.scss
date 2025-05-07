@@ -82,13 +82,37 @@ mat-list-item span {
     flex-shrink: 0;
 }
 
-.finished {
+.status-badge {
     background: var(--on-primary);
-    color: var(--status-red);
     padding: 4px 8px;
     border-radius: 12px;
     font-size: 12px;
     white-space: nowrap;
     margin-left: 8px;
     flex-shrink: 0;
+}
+
+.in-review {
+    @extend .status-badge;
+    color: var(--status-yellow);
+}
+
+.approved {
+    @extend .status-badge;
+    color: var(--status-green);
+}
+
+.rejected {
+    @extend .status-badge;
+    color: var(--status-red);
+}
+
+.in-progress {
+    @extend .status-badge;
+    color: var(--status);
+}
+
+.finished {
+    @extend .status-badge;
+    color: var(--status-red);
 }
