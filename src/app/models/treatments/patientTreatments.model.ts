@@ -22,13 +22,14 @@ export interface TreatmentDetailResponse {
     patientClinicalHistoryId: number;
     patientName: string;
     treatment: TreatmentResponse;
-    teeth: TreatmentToothResponse[];
+    teeth: TreatmentToothResponse[] | null;
     startDate: number[];
     endDate: number[];
     studentGroupId: number;
     professorId: string;
     professorName: string;
     status: string; 
+    patientId?: string;
 }
 
 // Todos los tratamientos
