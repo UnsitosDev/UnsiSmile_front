@@ -215,7 +215,6 @@ export class TreatmentsComponent implements OnInit {
     this.idTreatmentDetail = treatment.idTreatmentDetail;
     this.medicalRecordId = treatment.treatment.clinicalHistoryCatalogId;
     this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
-    console.log('Tratamiento:', treatment);
   }
 
   formatArrayDate(dateArray: number[]): string {
