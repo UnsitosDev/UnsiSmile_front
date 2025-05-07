@@ -120,7 +120,7 @@ export const ProfessorClinicalAlreaItems: MenuItem[] = [
     fontAwesomeIcon: faFileClipboard,
     buttonText: 'Tratamientos',
     buttonDescription: 'Revisar Tratamientos',
-    routerlink: ''
+    routerlink: '/clinical-area-supervisor/review-treatment'
   }
 ];
 

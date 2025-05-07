@@ -72,6 +72,13 @@ export default [
                     ),
             },
             {
+                path: 'review-treatment',
+                loadComponent: () =>
+                    import('../clinical-area-supervisor/components/review-treatment/review-treatment.component').then(
+                        (m) => m.ReviewTreatmentComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
