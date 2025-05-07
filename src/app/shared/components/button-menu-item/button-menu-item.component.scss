@@ -27,11 +27,11 @@ i{
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.75rem; // Reducido para ahorrar espacio vertical
   color: var(--sidebar-text);
   text-decoration: none;
   transition: background-color 0.3s ease;
-  border-radius: 10px;
+  border-radius: 8px; // Ligeramente más pequeño
   cursor: pointer;
 
   &:hover {
@@ -56,10 +56,11 @@ i{
 
     span {
       font-weight: bold;
+      font-size: 0.9rem; // Ajustado tamaño
     }
 
     small {
-      font-size: 0.75rem;
+      font-size: 0.7rem; // Ajustado tamaño
       color: var(--side-text-light);
     }
   }
@@ -78,8 +79,8 @@ i{
     background-color 0.5s ease,
     box-shadow 0.5s ease;
   background-color: rgba(0, 0, 0, 0.04);
-  border-radius: 8px;
-  margin: 2px 0 4px 0;
+  border-radius: 6px; // Más pequeño
+  margin: 2px 0 3px 0; // Reducido margen inferior
   
   // Animación para los elementos hijos
   app-button-menu-item {
