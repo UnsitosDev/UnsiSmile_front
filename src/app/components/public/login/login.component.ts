@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation, inject } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -15,11 +15,13 @@ import { LoadingComponent } from 'src/app/models/shared/loading/loading.componen
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
 import { TokenData } from './model/tokenData';
+import { ROLES } from 'src/app/utils/roles';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, LoadingComponent],
 })

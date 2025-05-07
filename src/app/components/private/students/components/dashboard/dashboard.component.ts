@@ -5,11 +5,12 @@ import { DashboardStudentStatsComponentComponent } from '../dashboard-student-st
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { WelcomeMessageService } from 'src/app/services/welcome-message.service';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FontAwesomeModule, DashboardStudentStatsComponentComponent],
+  imports: [FontAwesomeModule, DashboardStudentStatsComponentComponent, LoadingComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })

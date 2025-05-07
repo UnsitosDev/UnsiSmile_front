@@ -1,6 +1,7 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from '@mean/services'; // Asegúrate de que la ruta del servicio sea correcta
+import { ROLES } from 'src/app/utils/roles';
 
 export const loginGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
@@ -18,16 +19,16 @@ export const loginGuard: CanActivateFn = (route, state) => {
     const role = userRole[0]?.authority;
     // Redirigir según el rol del usuario
     switch (role) {
-      case 'ROLE_ADMIN':
+      case ROLES.ADMIN:
         router.navigate(['/admin']);
         break;
-      case 'ROLE_STUDENT':
+      case ROLES.STUDENT:
         router.navigate(['/students']);
         break;
-      case 'ROLE_PROFESSOR':
+      case ROLES.PROFESSOR:
         router.navigate(['/professor']);
         break;
-      case 'ROLE_CLINICAL_AREA_SUPERVISOR':
+      case ROLES.CLINICAL_AREA_SUPERVISOR:
         router.navigate(['/clinical-area-supervisor']);
         break;
       default:

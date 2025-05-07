@@ -22,11 +22,13 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { DetailsStudentComponent } from '../details-student/details-student.component';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 import { ToastrService } from 'ngx-toastr';
+import { LoadingComponent } from "@mean/shared";
+
 
 @Component({
   selector: 'app-table-students',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
+  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule, LoadingComponent],
   templateUrl: './table-students.component.html',
   styleUrls: ['./table-students.component.scss']
 })
@@ -131,7 +133,6 @@ export class TableStudentsComponent implements OnInit {
   }
 
   delete(nombre: string) {
-    console.log('eliminar', nombre);
   }
 
   showAlert() {
@@ -180,13 +181,12 @@ export class TableStudentsComponent implements OnInit {
             fechaNacimiento: student.person?.birthDate || 'N/A'
           }));
         } else {
-          console.warn('Respuesta inesperada del servidor:', response);
           this.studentsList = [];
           this.totalElements = 0;
         }
       },
       error: (error) => {
-        console.error('Error al obtener estudiantes:', error);
+        this.toastr.error('Error al cargar la lista de estudiantes', 'Error');
         this.studentsList = [];
         this.totalElements = 0;
       },
@@ -241,7 +241,7 @@ export class TableStudentsComponent implements OnInit {
             event.row.estatus = event.newStatus;
           },
           error: (error) => {
-            console.error('Error al cambiar el estado del estudiante:', error);
+            this.toastr.error('Error al cambiar el estado del estudiante', 'Error');
           }
         });
       }

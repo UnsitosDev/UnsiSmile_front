@@ -13,10 +13,12 @@ import {
 } from 'src/app/shared/interfaces/student/student';
 import { WelcomeMessageService } from 'src/app/services/welcome-message.service';
 import { DashboardSupervisorStatsComponent } from '../dashboard-supervisor-stats/dashboard-supervisor-stats.component';
+import { LoadingComponent } from '@mean/shared';
+
 @Component({
   selector: 'app-dashboard-professor-clinical',
   standalone: true,
-  imports: [FontAwesomeModule,DashboardSupervisorStatsComponent ],
+  imports: [FontAwesomeModule,DashboardSupervisorStatsComponent,LoadingComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })  

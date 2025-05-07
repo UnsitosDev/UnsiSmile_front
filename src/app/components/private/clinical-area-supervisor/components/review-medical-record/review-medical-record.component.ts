@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { STATUS } from 'src/app/utils/statusToReview';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-review-history-clinics',
@@ -25,7 +26,7 @@ import { STATUS } from 'src/app/utils/statusToReview';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule],
+    MatInputModule, LoadingComponent],
   templateUrl: './review-medical-record.component.html',
   styleUrl: './review-medical-record.component.scss',
 })

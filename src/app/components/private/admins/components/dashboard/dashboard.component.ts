@@ -13,11 +13,12 @@ import {
 } from 'src/app/shared/interfaces/student/student';
 import { DashboardAdminStatsComponent } from '../dashboard-admin-stats-component/dashboard-admin-stats-component.component';
 import { WelcomeMessageService } from 'src/app/services/welcome-message.service';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FontAwesomeModule, DashboardAdminStatsComponent],
+  imports: [FontAwesomeModule, DashboardAdminStatsComponent, LoadingComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })  

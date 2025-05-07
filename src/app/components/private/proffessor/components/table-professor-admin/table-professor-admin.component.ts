@@ -13,6 +13,7 @@ import { Accion, getEntityPropiedades } from 'src/app/models/tabla/tabla-columna
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-table-professor-admin',
@@ -25,7 +26,8 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
     TablaDataComponent,
     MatButtonModule,
     RouterLink,
-    MatCardModule
+    MatCardModule,
+    LoadingComponent
   ],
   templateUrl: './table-professor-admin.component.html',
   styleUrls: ['./table-professor-admin.component.scss']
