@@ -104,8 +104,7 @@ export class PreventiveDentistryPublicHealthComponent {
       this.loadClinicalHistory();
     });
   }
-
-
+  
   private loadClinicalHistory(): void {
     this.historyData.getHistoryClinics(this.idPatientClinicalHistory, this.idpatient).subscribe({
       next: (mappedData: dataTabs) => {
@@ -183,6 +182,7 @@ export class PreventiveDentistryPublicHealthComponent {
       
     });
   }
+  
   getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
 
