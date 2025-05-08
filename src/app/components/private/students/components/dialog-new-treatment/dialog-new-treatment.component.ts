@@ -14,6 +14,7 @@ import { Treatments } from '@mean/models';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
+import { concat } from 'rxjs';
 import { ThoothProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.model';
 import { RequestTreatment } from 'src/app/models/treatments/payloadtreatments.model';
 import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
@@ -258,6 +259,8 @@ export class DialogNewTreatmentComponent {
   }
 
   private sendTreatmentRequest(payload: RequestTreatment): void {
+    console.log(payload);
+
     this.apiService
       .postService({
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -270,12 +273,14 @@ export class DialogNewTreatmentComponent {
           this.dialogRef.close(true);
         },
         error: (error) => {
-          this.toast.error(error);
+          this.toast.error(error.message);
         },
       });
   }
 
   private updateTreatment(payload: RequestTreatment): void {
+    console.log(payload);
+
     this.apiService
     .putService({
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
