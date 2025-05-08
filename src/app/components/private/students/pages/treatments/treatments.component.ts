@@ -254,7 +254,6 @@ export class TreatmentsComponent implements OnInit {
   }
 
   openUpdateTreatmentDialog(treatment: TreatmentDetailResponse): void {
-    console.log('treatment', treatment);
     const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
       width: '800px',
       data: {

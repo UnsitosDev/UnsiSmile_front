@@ -122,6 +122,11 @@ export class DialogNewTreatmentComponent {
   public loadExistingTreatmentData() {
     const treatment = this.data.treatment;
 
+    if (this.isEditMode) {
+      this.treatmentControl.disable();
+      this.startDateControl.disable();
+    }
+
     // Configuración del tratamiento
     this.treatmentDetailId = treatment.idTreatmentDetail;
     this.nameTreatment = treatment.treatment.name;
@@ -259,8 +264,6 @@ export class DialogNewTreatmentComponent {
   }
 
   private sendTreatmentRequest(payload: RequestTreatment): void {
-    console.log(payload);
-
     this.apiService
       .postService({
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -279,23 +282,21 @@ export class DialogNewTreatmentComponent {
   }
 
   private updateTreatment(payload: RequestTreatment): void {
-    console.log(payload);
-
     this.apiService
-    .putService({
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      url: `${UriConstants.PUT_TREATMENT}/${this.treatmentDetailId}`,
-      data: payload,
-    })
-    .subscribe({
-      next: () => {
-        this.toast.success('Tratamiento actualizado');
-        this.dialogRef.close(true);
-      },
-      error: (error) => {
-        this.toast.error(error);
-      },
-    });
+      .putService({
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        url: `${UriConstants.PUT_TREATMENT}/${this.treatmentDetailId}`,
+        data: payload,
+      })
+      .subscribe({
+        next: () => {
+          this.toast.success('Tratamiento actualizado');
+          this.dialogRef.close(true);
+        },
+        error: (error) => {
+          this.toast.error(error);
+        },
+      });
   }
 
   closeDialog() {
