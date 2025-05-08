@@ -50,7 +50,7 @@ export class DialogRateTreatmentComponent {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.POST_RATE_TREATMENT}/${this.idTreatmentDetail}/finalization?status=${this.selectedStatus}`,
+      url: `${UriConstants.POST_RATE_TREATMENT}/${this.idTreatmentDetail}/status?status=${this.selectedStatus}`,
       data: {},
     }).subscribe({
       next: (response) => {
