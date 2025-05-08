@@ -88,7 +88,7 @@
                   <span class="rejected">Rechazado</span>
                   }
                   @case (STATUS.IN_PROGRESS) {
-                  <span class="update-treatment">Actualizar Duración</span>
+                  <span class="update-treatment cursor-pointer" (click)="openUpdateTreatmentDialog(item)">Actualizar Duración</span>
                   <span class="in-progress">En progreso</span>
                   }
                   @case (STATUS.FINISHED) {

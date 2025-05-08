@@ -252,4 +252,20 @@ export class TreatmentsComponent implements OnInit {
       }
     });
   }
+
+  openUpdateTreatmentDialog(treatment: TreatmentDetailResponse): void {
+    console.log('treatment', treatment);
+    const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
+      width: '800px',
+      data: {
+        treatment: treatment,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchTreatmentData();
+      }
+    });
+  }
 }

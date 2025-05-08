@@ -17,7 +17,7 @@ import { UriConstants } from '@mean/utils';
 import { SpanishDateAdapter } from 'src/app/shared/adapters/spanish-date.adapter';
 import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
 import { RequestTreatment } from 'src/app/models/treatments/payloadtreatments.model';
-import { STATUS } from 'src/app/utils/statusToReview';
+import { STATUS, STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
 
 @Component({
   selector: 'app-dialog-new-treatment',
@@ -60,9 +60,75 @@ export class DialogNewTreatmentComponent {
   public treatmentData: Treatments[] = [];
   public selectedTreatmentsName: string = '';
   public teeth = storeProphylaxis.theetProphylaxis;
+  public nameTreatment: string = '';
+  
+  // Identificar modo edición
+  public isEditMode: boolean = false;
+  public treatmentDetailId: number = 0;
+
 
   ngOnInit(): void {
     this.fetchTreatmentData();
+    
+    // Comprobar si estamos en modo edición
+    if (this.data.treatment) {
+      this.isEditMode = true;
+      this.loadExistingTreatmentData();
+    }
+  }
+
+  loadExistingTreatmentData() {
+    const treatment = this.data.treatment;
+    
+    // Guardar el ID del tratamiento para la actualización
+    this.treatmentDetailId = treatment.idTreatmentDetail;
+    
+    // Establecer nombre del tratamiento
+    this.nameTreatment = treatment.treatment.name;
+    
+    // Establecer el scope del tratamiento (Diente o General)
+    this.selectedTreatmentsName = treatment.treatment.treatmentScope.name;
+    
+    // Convertir los arrays de fecha a objetos Date
+    if (treatment.startDate && Array.isArray(treatment.startDate)) {
+      const [year, month, day, hour, minute] = treatment.startDate;
+      const startDate = new Date(year, month - 1, day, hour, minute);
+      this.startDateControl.setValue(startDate);
+    }
+    
+    if (treatment.endDate && Array.isArray(treatment.endDate)) {
+      const [year, month, day, hour, minute] = treatment.endDate;
+      const endDate = new Date(year, month - 1, day, hour, minute);
+      this.endDateControl.setValue(endDate);
+    }
+    
+    // Una vez cargados los tratamientos, seleccionamos el que coincide
+    if (this.treatmentData.length > 0) {
+      this.selectTreatmentById(treatment.treatment.idTreatment);
+    } else {
+      // Si aún no se han cargado los tratamientos, creamos un objeto temporal para el formulario
+      const tempTreatment = {
+        idTreatment: treatment.treatment.idTreatment,
+        name: treatment.treatment.name,
+        treatmentScope: treatment.treatment.treatmentScope
+      };
+      this.treatmentControl.setValue(tempTreatment as Treatments);
+    }
+    
+    // Si hay dientes seleccionados
+    if (treatment.teeth && Array.isArray(treatment.teeth)) {
+      this.itemTeeth.setValue(treatment.teeth);
+    }
+  }
+
+  selectTreatmentById(idTreatment: number) {
+    const foundTreatment = this.treatmentData.find(t => t.idTreatment === idTreatment);
+    if (foundTreatment) {
+      this.treatmentControl.setValue(foundTreatment);
+      if (foundTreatment.treatmentScope) {
+        this.selectedTreatmentsName = foundTreatment.treatmentScope.name;
+      }
+    }
   }
 
   fetchTreatmentData() {
@@ -76,8 +142,12 @@ export class DialogNewTreatmentComponent {
       })
       .subscribe({
         next: (response: Treatments[]) => {
-          console.log(response);
           this.treatmentData = response;
+          
+          // Si estamos en modo edición, seleccionamos el tratamiento después de cargar los datos
+          if (this.isEditMode && this.data.treatment) {
+            this.selectTreatmentById(this.data.treatment.treatment.idTreatment);
+          }
         },
         error: (error) => {
           console.error(error);
@@ -98,7 +168,12 @@ export class DialogNewTreatmentComponent {
     }
 
     const payload = this.buildTreatmentPayload();
-    this.sendTreatmentRequest(payload);
+    
+    if (this.isEditMode) {
+      this.updateTreatment(payload);
+    } else {
+      this.sendTreatmentRequest(payload);
+    }
   }
 
   private validateAndMarkControls(): boolean {
@@ -127,14 +202,20 @@ export class DialogNewTreatmentComponent {
     const selectedTeeth =
       this.itemTeeth.value?.map((tooth) => tooth.idTooth.toString()) || [];
 
+    // Asegurarnos que los objetos Date son convertidos a strings ISO
+    const startDateISO = this.startDateControl.value ? this.startDateControl.value.toISOString() : '';
+    const endDateISO = this.endDateControl.value ? this.endDateControl.value.toISOString() : '';
+
     return {
-      idTreatmentDetail: 0,
-      patientId: this.data.patientUuid,
-      treatmentId: this.treatmentControl.value!.idTreatment,
-      startDate: this.startDateControl.value!.toISOString(),
-      endDate: this.endDateControl.value?.toISOString() || '',
+      idTreatmentDetail: this.isEditMode ? this.treatmentDetailId : 0,
+      patientId: this.isEditMode ? this.data.treatment.patientId : this.data.patientUuid,
+      treatmentId: this.isEditMode 
+        ? this.data.treatment.treatment.idTreatment 
+        : this.treatmentControl.value!.idTreatment,
+      startDate: startDateISO,
+      endDate: endDateISO,
       treatmentDetailToothRequest: {
-        idTreatmentDetail: 0,
+        idTreatmentDetail: this.isEditMode ? this.treatmentDetailId : 0,
         idTeeth: selectedTeeth,
       },
     };
@@ -156,6 +237,12 @@ export class DialogNewTreatmentComponent {
           this.toast.error(error);
         },
       });
+  }
+  
+  private updateTreatment(payload: RequestTreatment): void {
+    // Log del payload para depuración
+    console.log('Payload de actualización:', payload);
+    
   }
 
   closeDialog() {
