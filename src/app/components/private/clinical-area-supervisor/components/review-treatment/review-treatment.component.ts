@@ -67,9 +67,24 @@ export class ReviewTreatmentComponent {
     this.clinicalHistoryCatalogId = treatment.treatment.clinicalHistoryCatalogId;
     switch (this.clinicalHistoryCatalogId) {
       case 6: // odontologia preventiva
-        const route = `/clinical-area-supervisor/preventive-dentistry-public-health/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
-        this.router.navigate([route]);
-        
+        const routePreventive = `/clinical-area-supervisor/preventive-dentistry-public-health/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
+        this.router.navigate([routePreventive]);
+        break;
+      case 2: // protesis bucal
+        const routeOralProthesis = `/clinical-area-supervisor/preventive-dentistry-public-health/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
+        this.router.navigate([routeOralProthesis]);
+        break;
+      case 3: // periodoncia
+        const routePeriodontics = `/clinical-area-supervisor/preventive-dentistry-public-health/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
+        this.router.navigate([routePeriodontics]);
+        break;
+      case 4: // operatoria dental
+        const routeDentalOperation = `/clinical-area-supervisor/preventive-dentistry-public-health/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
+        this.router.navigate([routeDentalOperation]);
+        break;
+      case 5: // cirujia bucal
+        const routeOralSurgery = `/clinical-area-supervisor/preventive-dentistry-public-health/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
+        this.router.navigate([routeOralSurgery]);
         break;
       default:
         break;
