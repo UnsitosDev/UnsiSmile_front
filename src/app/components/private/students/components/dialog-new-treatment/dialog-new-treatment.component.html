@@ -53,8 +53,14 @@
     <mat-form-field class="p-2 w-full" [class.mat-form-field-invalid]="itemTeeth.invalid && itemTeeth.touched">
       <mat-label>Órganos dentarios</mat-label>
       <mat-select [formControl]="itemTeeth" multiple class="teeth-multiselect">
-        @for (item of teeth; track item.idTooth) {
-        <mat-option [value]="item">{{item.idTooth}}</mat-option>
+        <!-- Mostrar primero los dientes seleccionados -->
+        @for (item of selectedTeeth; track item.idTooth) {
+          <mat-option [value]="toothToOption(item)">{{item.idTooth}}</mat-option>
+        }
+        
+        <!-- Mostrar los dientes disponibles que no están seleccionados -->
+        @for (item of availableTeeth; track item.idTooth) {
+          <mat-option [value]="toothToOption(item)">{{item.idTooth}}</mat-option>
         }
       </mat-select>
       @if (itemTeeth.invalid && itemTeeth.touched) {

@@ -61,7 +61,7 @@ export class DialogNewTreatmentComponent {
   public selectedTreatmentsName: string = '';
   public teeth = storeProphylaxis.theetProphylaxis;
   public nameTreatment: string = '';
-  
+
   // Identificar modo edición
   public isEditMode: boolean = false;
   public treatmentDetailId: number = 0;
@@ -69,7 +69,7 @@ export class DialogNewTreatmentComponent {
 
   ngOnInit(): void {
     this.fetchTreatmentData();
-    
+
     // Comprobar si estamos en modo edición
     if (this.data.treatment) {
       this.isEditMode = true;
@@ -77,36 +77,57 @@ export class DialogNewTreatmentComponent {
     }
   }
 
-  loadExistingTreatmentData() {
+
+  get selectedTeeth() {
+    return this.itemTeeth.value || [];
+  }
+
+  get availableTeeth() {
+    const selectedIds = this.selectedTeeth.map(item => item.idTooth.toString());
+
+    return this.teeth.filter(tooth =>
+      !selectedIds.includes(tooth.idTooth.toString())
+    );
+  }
+
+  toothToOption(tooth: any): any {
+    if ('idDetailTooth' in tooth) {
+      return tooth;
+    }
+    return {
+      idDetailTooth: 0, 
+      idTooth: tooth.idTooth.toString()
+    };
+  }
+
+  public loadExistingTreatmentData() {
     const treatment = this.data.treatment;
-    
+
     // Guardar el ID del tratamiento para la actualización
     this.treatmentDetailId = treatment.idTreatmentDetail;
-    
+
     // Establecer nombre del tratamiento
     this.nameTreatment = treatment.treatment.name;
-    
+
     // Establecer el scope del tratamiento (Diente o General)
     this.selectedTreatmentsName = treatment.treatment.treatmentScope.name;
-    
+
     // Convertir los arrays de fecha a objetos Date
     if (treatment.startDate && Array.isArray(treatment.startDate)) {
       const [year, month, day, hour, minute] = treatment.startDate;
       const startDate = new Date(year, month - 1, day, hour, minute);
       this.startDateControl.setValue(startDate);
     }
-    
+
     if (treatment.endDate && Array.isArray(treatment.endDate)) {
       const [year, month, day, hour, minute] = treatment.endDate;
       const endDate = new Date(year, month - 1, day, hour, minute);
       this.endDateControl.setValue(endDate);
     }
-    
-    // Una vez cargados los tratamientos, seleccionamos el que coincide
+
     if (this.treatmentData.length > 0) {
       this.selectTreatmentById(treatment.treatment.idTreatment);
     } else {
-      // Si aún no se han cargado los tratamientos, creamos un objeto temporal para el formulario
       const tempTreatment = {
         idTreatment: treatment.treatment.idTreatment,
         name: treatment.treatment.name,
@@ -114,14 +135,13 @@ export class DialogNewTreatmentComponent {
       };
       this.treatmentControl.setValue(tempTreatment as Treatments);
     }
-    
-    // Si hay dientes seleccionados
+
     if (treatment.teeth && Array.isArray(treatment.teeth)) {
       this.itemTeeth.setValue(treatment.teeth);
     }
   }
 
-  selectTreatmentById(idTreatment: number) {
+  public selectTreatmentById(idTreatment: number) {
     const foundTreatment = this.treatmentData.find(t => t.idTreatment === idTreatment);
     if (foundTreatment) {
       this.treatmentControl.setValue(foundTreatment);
@@ -131,7 +151,7 @@ export class DialogNewTreatmentComponent {
     }
   }
 
-  fetchTreatmentData() {
+  public fetchTreatmentData() {
     this.apiService
       .getService({
         headers: new HttpHeaders({
@@ -143,7 +163,7 @@ export class DialogNewTreatmentComponent {
       .subscribe({
         next: (response: Treatments[]) => {
           this.treatmentData = response;
-          
+
           // Si estamos en modo edición, seleccionamos el tratamiento después de cargar los datos
           if (this.isEditMode && this.data.treatment) {
             this.selectTreatmentById(this.data.treatment.treatment.idTreatment);
@@ -168,7 +188,7 @@ export class DialogNewTreatmentComponent {
     }
 
     const payload = this.buildTreatmentPayload();
-    
+
     if (this.isEditMode) {
       this.updateTreatment(payload);
     } else {
@@ -209,8 +229,8 @@ export class DialogNewTreatmentComponent {
     return {
       idTreatmentDetail: this.isEditMode ? this.treatmentDetailId : 0,
       patientId: this.isEditMode ? this.data.treatment.patientId : this.data.patientUuid,
-      treatmentId: this.isEditMode 
-        ? this.data.treatment.treatment.idTreatment 
+      treatmentId: this.isEditMode
+        ? this.data.treatment.treatment.idTreatment
         : this.treatmentControl.value!.idTreatment,
       startDate: startDateISO,
       endDate: endDateISO,
@@ -238,11 +258,11 @@ export class DialogNewTreatmentComponent {
         },
       });
   }
-  
+
   private updateTreatment(payload: RequestTreatment): void {
     // Log del payload para depuración
     console.log('Payload de actualización:', payload);
-    
+
   }
 
   closeDialog() {
