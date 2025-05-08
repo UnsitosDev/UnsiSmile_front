@@ -14,7 +14,6 @@ import { Treatments } from '@mean/models';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
-import { concat } from 'rxjs';
 import { ThoothProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.model';
 import { RequestTreatment } from 'src/app/models/treatments/payloadtreatments.model';
 import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
@@ -187,7 +186,6 @@ export class DialogNewTreatmentComponent {
         next: (response: Treatments[]) => {
           this.treatmentData = response;
 
-          // Si estamos en modo edición, seleccionamos el tratamiento después de cargar los datos
           if (this.isEditMode && this.data.treatment) {
             this.selectTreatmentById(this.data.treatment.treatment.idTreatment);
           }
@@ -283,7 +281,7 @@ export class DialogNewTreatmentComponent {
 
   private updateTreatment(payload: RequestTreatment): void {
     this.apiService
-      .putService({
+      .patchService({
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
         url: `${UriConstants.PUT_TREATMENT}/${this.treatmentDetailId}`,
         data: payload,
