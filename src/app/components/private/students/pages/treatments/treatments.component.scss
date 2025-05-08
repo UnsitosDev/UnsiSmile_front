@@ -149,3 +149,8 @@ mat-list-item span {
     background: var(--secondary);
     color: var(--status-finished);
 }
+
+.update-treatment {
+    @extend .status-badge;
+    color: var(--status);
+}
