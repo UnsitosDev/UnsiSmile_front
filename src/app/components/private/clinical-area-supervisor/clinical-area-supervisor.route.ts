@@ -37,7 +37,21 @@ export default [
                     ),
             },
             {
+                path: 'periodontics/:id/patient/:patient/medical-record-id/:patientID/treatment-detail/:idTreatmentDetail', // Ruta para tratamiento historia clínica periodoncia
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/periodontics/students-periodontics-history.component').then(
+                        (m) => m.StudentsPeriodonticsHistoryComponent
+                    ),
+            },
+            {
                 path: 'oral-surgery/:id/patient/:patient/medical-record-id/:patientID', // Ruta para la historia clínica cirugía bucal
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/oral-surgery/students-oral-surgery-history.component').then(
+                        (m) => m.StudentsOralSurgeryHistoryComponent
+                    ),
+            },
+            {
+                path: 'oral-surgery/:id/patient/:patient/medical-record-id/:patientID/treatment-detail/:idTreatmentDetail', // Ruta para tratamiento historia clínica cirugía bucal
                 loadComponent: () =>
                     import('../students/pages/history-clinics/oral-surgery/students-oral-surgery-history.component').then(
                         (m) => m.StudentsOralSurgeryHistoryComponent
@@ -51,7 +65,21 @@ export default [
                     ),
             },
             {
+                path: 'dental-operation/:id/patient/:patient/medical-record-id/:patientID/treatment-detail/:idTreatmentDetail', // Ruta para tratamiento operatoria dental
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/dental-operation/students-dental-operation.component').then(
+                        (m) => m.StudentsDentalOperationComponent
+                    ),
+            },
+            {
                 path: 'oral-prosthesis/:id/patient/:patient/medical-record-id/:patientID', // Ruta para prótesis oral
+                loadComponent: () =>
+                    import('../students/pages/history-clinics/oral-prosthesis/oral-prosthesis.component').then(
+                        (m) => m.OralProsthesisComponent
+                    ),
+            },
+            {
+                path: 'oral-prosthesis/:id/patient/:patient/medical-record-id/:patientID/treatment-detail/:idTreatmentDetail', // Ruta para tratamientp prótesis oral
                 loadComponent: () =>
                     import('../students/pages/history-clinics/oral-prosthesis/oral-prosthesis.component').then(
                         (m) => m.OralProsthesisComponent
@@ -65,7 +93,7 @@ export default [
                     ),
             },
             {
-                path: 'preventive-dentistry-public-health/:id/patient/:patient/medical-record-id/:patientID/treatment-detail/:idTreatmentDetail',
+                path: 'preventive-dentistry-public-health/:id/patient/:patient/medical-record-id/:patientID/treatment-detail/:idTreatmentDetail', // Ruta para revision de tratamiento hc preventiva
                 loadComponent: () =>
                     import('../students/pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
                         (m) => m.PreventiveDentistryPublicHealthComponent
