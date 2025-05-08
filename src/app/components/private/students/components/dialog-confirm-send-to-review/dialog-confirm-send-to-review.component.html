@@ -13,7 +13,7 @@
       @for (item of professorAreasData.content; track $index) {
         <mat-list-item 
           (click)="selectProfessor(item.idProfessorClinicalArea)"
-          [class.selected]="selectedProfessorId === item.idProfessorClinicalArea"
+          [class.selected]="professorClinicalAreaId === item.idProfessorClinicalArea"
           class="custom-list-item">
           
           <div class="item-content flex flex-col sm:flex-row sm:justify-between sm:items-center">
@@ -37,8 +37,8 @@
     <button 
       mat-button 
       color="primary" 
-      (click)="sendToReview()"
-      [disabled]="!selectedProfessorId">
+      (click)="checkSendToReview()"
+      [disabled]="!professorClinicalAreaId">
       Enviar
     </button>
   </div>

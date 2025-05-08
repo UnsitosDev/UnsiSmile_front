@@ -65,9 +65,16 @@ export class ApiService<GET = {}, POST = {}, PUT = {}, PATCH = {}, DELETE = {}> 
   }
 
   handleError(error: HttpErrorResponse) {
-    return throwError(() => error.error.message || Messages.ERROR);
-  }
+    const errorMessage = error.error?.message || Messages.ERROR;
+    
+    const errorObj = {
+      toString: () => errorMessage, 
+      message: errorMessage,       
+      status: error.status         
+    };
   
+    return throwError(() => errorObj);
+  }
   /** Para realizar las peticiones PATCH */
   patchService(reqParams: ApiModel.ReqParams): Observable<PATCH> {
     const options = {

@@ -126,6 +126,13 @@ export default [
                 ),
             },
             {
+                path: 'all-treatments',
+                loadComponent: () => 
+                    import('./components/patients-treatments/patients-treatments.component').then(
+                    (m) => m.PatientsTreatmentsComponent
+                ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

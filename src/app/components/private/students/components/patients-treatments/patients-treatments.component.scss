@@ -1,0 +1,77 @@
+.mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: var(--white-color);  
+}
+
+.content-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+button {
+    background-color: var(--tertiary);
+    color: var(--side-text) !important;
+    border-radius: 2px;
+    padding: 8px 16px;
+
+}
+
+.view-badge {
+    background: var(--on-primary);
+    color: var(--subtext);
+    padding: 4px 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.badge-base-treatment-status {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 8px;
+    padding: 0 8px;
+    line-height: 1.2;
+    height: 24px;
+    box-sizing: border-box;
+    font-weight: 500;
+}
+
+.in-review-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-in-review);
+}
+
+.approved-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-approved);
+
+}
+
+.rejected-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-rejected);
+}
+
+.in-progress-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-in-progress);
+}
+
+.finished-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-finished);
+}

@@ -1,6 +1,13 @@
 button {
     background-color: var(--tertiary);
-    color: white;
+    color: var(--white-color);
+}
+
+.rate-treatment {
+
+    button{
+        color: var(--white-color);
+    }
 }
 
 .button-container {
@@ -23,7 +30,7 @@ button {
     color: white;
 }
 
-::ng-deep .mat-step-header .mat-step-label {
+.mat-step-header .mat-step-label {
     color: var(--on-primary); 
 }
 

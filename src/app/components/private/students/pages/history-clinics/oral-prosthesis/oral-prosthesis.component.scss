@@ -1,17 +1,17 @@
-::ng-deep .mat-mdc-card-title {
-    background-color: #07437a; /* Cambia este color al que desees */
-    padding: 8px; /* Agrega un poco de padding si lo deseas */
-    border-radius: 2px; /* Opcional: agrega bordes redondeados */
+.mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
     color: white;
 }
   
-::ng-deep .mat-step-header .mat-step-label {
-    color: var(--on-primary); // Usa la variable de color del tema para el texto
+.mat-step-header .mat-step-label {
+    color: var(--on-primary);
 }
   
 .custom {
     color: var(--on-secondary);
-    background-color: var(--secondary); // Color de fondo}
+    background-color: var(--secondary);
     border: 1px var(--on-secondary);  
 }
 

@@ -4,8 +4,35 @@
 </mat-card>
 
 @if (viewTreatment) {
-  <button mat-button class="button-custom-back !text-white mb-4" (click)="backToTreatments()"><i class="fas fa-arrow-left mr-2"></i>Regresar</button>
+  <div class="flex justify-between w-full mb-4">
+    <button mat-button class="button-custom-back !text-white" (click)="backToTreatments()">
+      <i class="fas fa-arrow-left mr-2"></i>Regresar
+    </button>
+    
+    @if (selectedTreatment.status === STATUS.IN_PROGRESS) {
+      <button mat-button class="button-custom-back !text-white" (click)="openDialogSendToReview()">
+        Enviar tratamiento a revisión<i class="fas fa-file-upload ml-2"></i>
+      </button>
+    }
+    @else {
+      <span class="treatment-status-badge"
+        [class.in-review-treatment]="selectedTreatment.status === STATUS.IN_REVIEW"
+        [class.approved-treatment]="selectedTreatment.status === STATUS.APPROVED"
+        [class.rejected-treatment]="selectedTreatment.status === STATUS.REJECTED"
+        [class.in-progress-treatment]="selectedTreatment.status === STATUS.IN_PROGRESS"
+        [class.finished-treatment]="selectedTreatment.status === STATUS.FINISHED">
+        @switch (selectedTreatment.status) {
+          @case (STATUS.IN_REVIEW) { Tratamiento en revisión }
+          @case (STATUS.APPROVED) { Aprobado }
+          @case (STATUS.REJECTED) { Rechazado }
+          @case (STATUS.IN_PROGRESS) { En progreso }
+          @case (STATUS.FINISHED) { Finalizado }
+        }
+      </span>
+    }
+  </div>
 }
+
 <mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="onTabSelected($event)">
   <!-- Tab 1: Datos personales -->
   <mat-tab>
@@ -24,7 +51,7 @@
         <span class="ml-2">Historia clínica general</span>
       </ng-template>
       @if (medicalRecordLoaded) {
-        <app-medical-record-general-treatments [patientUuid]="patientUuid" [idHistoryGeneral]="idHistoryGeneral" [patientMedicalRecord]="patientClinicalHistoryId" ></app-medical-record-general-treatments>
+        <app-medical-record-general-treatments [patientUuid]="patientUuid" [patientMedicalRecord]="idMedicalRecordGeneral"></app-medical-record-general-treatments>
       }
     </mat-tab>
   }
@@ -50,10 +77,23 @@
                 {{item.treatment.clinicalHistoryCatalogName}}
                 <span matListItemLine><strong>Duración:</strong> {{ formatArrayDate(item.startDate) }} - {{ formatArrayDate(item.endDate) }}</span>
               </mat-list-item>
-                @if (item.status === STATUS.IN_PROGRESS) {
+                @switch (item.status) {
+                  @case (STATUS.IN_REVIEW) {
+                  <span class="in-review">En revisión</span>
+                  }
+                  @case (STATUS.APPROVED) {
+                  <span class="approved">Aprobado</span>
+                  }
+                  @case (STATUS.REJECTED) {
+                  <span class="rejected">Rechazado</span>
+                  }
+                  @case (STATUS.IN_PROGRESS) {
+                  <span class="update-treatment cursor-pointer" (click)="openUpdateTreatmentDialog(item)">Actualizar</span>
                   <span class="in-progress">En progreso</span>
-                }@else {
+                  }
+                  @case (STATUS.FINISHED) {
                   <span class="finished">Finalizado</span>
+                  }
                 }
               <span class="view-badge" (click)="openTreatment(item)">
                 Ver Tratamiento
@@ -63,6 +103,18 @@
           </section>
           }
         </mat-list>
+        @if (!isPatientLastPage && treatmentsPatient?.content?.length) {
+          <div class="text-center mt-3">
+            <button 
+              class="btn btn-primary"
+              (click)="loadMorePatientTreatments()"
+              [disabled]="isPatientLoading">
+              @if (!isPatientLoading) {
+                <span>Cargar más tratamientos</span>
+              }
+            </button>
+          </div>
+        }
     </mat-tab>
    }
 

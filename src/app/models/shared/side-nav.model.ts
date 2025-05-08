@@ -37,6 +37,12 @@ export const StudentItems: MenuItem[] = [
     buttonText: 'Archivos',
     buttonDescription: 'Descargar formatos',
     routerlink: '/students/dowload-formats'
+  },
+  {
+    fontAwesomeIcon: faFileClipboard,
+    buttonText: 'Tratamientos',
+    buttonDescription: 'Ver tratamientos',
+    routerlink: '/students/all-treatments'
   }
 ];
 
@@ -154,6 +160,12 @@ export const ProfessorClinicalAlreaItems: MenuItem[] = [
     buttonText: 'Historias Clinicas',
     buttonDescription: 'Revisar Historias Clinicas',
     routerlink: '/clinical-area-supervisor/history-clinics'
+  },
+  {
+    fontAwesomeIcon: faFileClipboard,
+    buttonText: 'Tratamientos',
+    buttonDescription: 'Revisar Tratamientos',
+    routerlink: '/clinical-area-supervisor/review-treatment'
   }
 ];
 

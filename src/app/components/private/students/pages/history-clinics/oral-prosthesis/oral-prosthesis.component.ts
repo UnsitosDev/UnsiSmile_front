@@ -20,13 +20,14 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { UriConstants } from '@mean/utils';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
-import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, PATIENT_UUID_ROUTE } from '@mean/models';
+import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
 import { HttpHeaders } from '@angular/common/http';
 import { MenuAssessMedicalHistoryComponent } from "../../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component";
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
+import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
 
 
 @Component({
@@ -57,6 +58,9 @@ export class OralProsthesisComponent {
   public currentStatus: string | null = null;
   public idPatientClinicalHistory!: number;
 
+  public isSupervisorWithTreatment: boolean = false;
+  private idTreatmentDetail!: number;
+
   private token!: string;
   private tokenData!: TokenData;
 
@@ -77,14 +81,22 @@ export class OralProsthesisComponent {
 
   private initializeRouteParams(): void {
     this.router.params.subscribe((params) => {
-      if (this.role === ROLES.STUDENT) {
+      // Asignación común para todos los casos excepto STUDENT
+      if (this.role !== ROLES.STUDENT) {
+        this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
+        this.idpatient = params[PATIENT_UUID_ROUTE] || '';
+        this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
+
+        // Solo para CLINICAL_AREA_SUPERVISOR con tratamiento
+        if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
+          this.idTreatmentDetail = params[ID_TREATMENT_DETAIL] || '';
+        }
+      }
+      // Caso específico para STUDENT
+      else {
         this.id = this.medicalRecord;
         this.idpatient = this.patientUuid;
         this.idPatientClinicalHistory = this.patientMedicalRecord;
-      } else {
-        this.id = params[ID_MEDICAL_RECORD];
-        this.idpatient = params[PATIENT_UUID_ROUTE];
-        this.idPatientClinicalHistory = params[ID_PATIENT_MEDICAL_RECORD];
       }
 
       this.loadClinicalHistory();
@@ -99,12 +111,14 @@ export class OralProsthesisComponent {
         this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
         this.getFirstTab();
         this.getStatusHc();
-
-        const processedData = this.getTabsforReview(this.mappedHistoryData);
-        if (processedData) {
-          this.mappedHistoryData = processedData;
-        } else if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
-          return;
+        this.isSupervisorWithTreatment = true;
+        // Solo procesar tabs si no es supervisor con tratamiento
+        if (!(this.role === ROLES.CLINICAL_AREA_SUPERVISOR && this.idTreatmentDetail)) {
+          const processedData = this.getTabsforReview(this.mappedHistoryData);
+          this.isSupervisorWithTreatment = false;
+          if (processedData) {
+            this.mappedHistoryData = processedData;
+          }
         }
       }
     });
@@ -152,6 +166,19 @@ export class OralProsthesisComponent {
   onTabChange(index: number) {
     this.currentIndex = index;
     this.getStatusHc();
+  }
+
+  opedDialogRateTreatment() {
+    const dialogRef = this.dialog.open(DialogRateTreatmentComponent, {
+      data: {
+        idTreatmentDetail: this.idTreatmentDetail,
+      },
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
   getStatusHc(forceRequest: boolean = false) {

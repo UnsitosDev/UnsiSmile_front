@@ -8,5 +8,9 @@ export const STATUS = {
 };  
 
 export const STATUS_TREATMENTS = {
-    IN_PROGRESS: 'IN_PROGRESS'
+    IN_REVIEW: 'IN_REVIEW',
+    APPROVED: 'APPROVED',
+    REJECTED: 'REJECTED',
+    IN_PROGRESS: 'IN_PROGRESS',
+    FINISHED: 'FINISHED'
 };
