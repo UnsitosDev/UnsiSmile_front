@@ -75,7 +75,6 @@ export class DialogNewTreatmentComponent {
     }
   }
 
-
   /**
  * Obtiene los dientes actualmente seleccionados en el formulario.
  * @returns {Array} Retorna un array de dientes seleccionados o un array vacío si no hay ninguno.
@@ -110,7 +109,7 @@ export class DialogNewTreatmentComponent {
     }
 
     return {
-      idDetailTooth: 0, 
+      idDetailTooth: 0,
       idTooth: tooth.idTooth.toString()
     };
   }
