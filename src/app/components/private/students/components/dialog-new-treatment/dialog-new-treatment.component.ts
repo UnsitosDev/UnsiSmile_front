@@ -273,7 +273,7 @@ export class DialogNewTreatmentComponent {
           this.dialogRef.close(true);
         },
         error: (error) => {
-          this.toast.error(error.message);
+          this.toast.error(error);
         },
       });
   }
