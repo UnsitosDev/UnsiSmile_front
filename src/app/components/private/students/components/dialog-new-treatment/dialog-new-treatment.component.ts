@@ -276,9 +276,21 @@ export class DialogNewTreatmentComponent {
   }
 
   private updateTreatment(payload: RequestTreatment): void {
-    // Log del payload para depuración
-    console.log('Payload de actualización:', payload);
-
+    this.apiService
+    .putService({
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      url: `${UriConstants.PUT_TREATMENT}/${this.treatmentDetailId}`,
+      data: payload,
+    })
+    .subscribe({
+      next: () => {
+        this.toast.success('Tratamiento actualizado');
+        this.dialogRef.close(true);
+      },
+      error: (error) => {
+        this.toast.error(error);
+      },
+    });
   }
 
   closeDialog() {
