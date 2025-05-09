@@ -36,6 +36,8 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { STATUS } from 'src/app/utils/statusToReview';
 import { ROLES } from 'src/app/utils/roles';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
+import { mapClinicalHistoryToDataTabs } from '../../../adapters/clinical-history.adapters';
 
 @Component({
   selector: 'app-medical-record-general-treatments',
@@ -49,7 +51,7 @@ export class MedicalRecordGeneralTreatmentsComponent {
   @Input() patientUuid: string = '';
   @Input() idHistoryGeneral: number = 0;
   @Input() patientMedicalRecord: number = 0;
-  @Input() medicalRecordData: dataTabs | null = null;
+  @Input() medicalRecordConfig: ClinicalHistoryCatalog | null = null;
   @Output() tabChange = new EventEmitter<{ firstLabel: string; previousLabel: string }>();
 
   private readonly route = inject(Router);
@@ -72,17 +74,21 @@ export class MedicalRecordGeneralTreatmentsComponent {
   public patientData!: cardPatient;
 
   ngOnInit(): void {
-    console.log('medical record data:', this.medicalRecordData);
+    console.log('medical record data:', this.medicalRecordConfig);
     this.loadInitialData();
   }
 
   private loadInitialData(): void {
     this.getRole();
 
-    this.historyData.getGeneralMedicalRecord(this.patientUuid)
-      .subscribe({
-        next: (mappedData: dataTabs) => this.processHistoryResponse(mappedData)
-      });
+    if (this.medicalRecordConfig) {
+      this.processHistoryResponse(mapClinicalHistoryToDataTabs(this.medicalRecordConfig));
+    } else {
+      this.historyData.getGeneralMedicalRecord(this.patientUuid)
+        .subscribe({
+          next: (mappedData: dataTabs) => this.processHistoryResponse(mappedData)
+        });
+    }
   }
 
   private processHistoryResponse(mappedData: dataTabs): void {
