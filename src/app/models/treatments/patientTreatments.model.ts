@@ -30,6 +30,7 @@ export interface TreatmentDetailResponse {
     professorName: string;
     status: string; 
     patientId?: string;
+    studentName?: string;
 }
 
 // Todos los tratamientos

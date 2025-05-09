@@ -9,7 +9,7 @@
       <div class="content-wrapper">
         <mat-list-item class="list-content">
           <span matListItemTitle>{{ item.patientName }}</span>
-          <!-- <span matListItemSubtitle>{{item.treatment.}}</span> -->
+          <span matListItemTitle>{{ item.studentName }}</span>
           {{ item.treatment.name }}
         </mat-list-item>
         @switch (item.status) { @case (STATUS.IN_REVIEW) {
