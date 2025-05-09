@@ -74,7 +74,6 @@ export class MedicalRecordGeneralTreatmentsComponent {
   public patientData!: cardPatient;
 
   ngOnInit(): void {
-    console.log('medical record data:', this.medicalRecordConfig);
     this.loadInitialData();
   }
 
