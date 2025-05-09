@@ -28,11 +28,19 @@ import { StudentsPeriodonticsHistoryComponent } from "../history-clinics/periodo
 import { PreventiveDentistryPublicHealthComponent } from "../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component";
 import { StudentsGeneralHistoryComponent } from "../history-clinics/general/students-general-history.component";
 import { DialogConfirmSendToReviewComponent } from '../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
+<<<<<<< HEAD
+=======
+import { FormUpdatePatientComponent } from "../../components/form-update-patient/form-update-patient.component";
+>>>>>>> fix/tratamientos
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
+<<<<<<< HEAD
   imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent, OralProsthesisComponent, StudentsDentalOperationComponent, LoadingComponent, StudentsGeneralHistoryComponent],
+=======
+  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent, OralProsthesisComponent, StudentsDentalOperationComponent, LoadingComponent, StudentsGeneralHistoryComponent, FormUpdatePatientComponent],
+>>>>>>> fix/tratamientos
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss',
 })
@@ -55,7 +63,10 @@ export class TreatmentsComponent implements OnInit {
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
   public selectedTreatment!: TreatmentDetailResponse;
+<<<<<<< HEAD
   public mappedHistoryData!: dataTabs;
+=======
+>>>>>>> fix/tratamientos
 
 
   public isPatientLoading = false;
@@ -110,7 +121,6 @@ export class TreatmentsComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          
           this.medicalRecordLoaded = true;
           this.idMedicalRecordGeneral = response.idPatientMedicalRecord;
         },

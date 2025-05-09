@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -34,6 +34,7 @@ import { LoadingComponent } from '@mean/shared';
   styleUrl: './form-update-patient.component.scss'
 })
 export class FormUpdatePatientComponent {
+  @Input() patientUuid!: string;
    private toastr = inject(ToastrService);
     private apiService = inject(ApiService<any>);
     private patientService = inject(PatientService);
@@ -68,7 +69,8 @@ export class FormUpdatePatientComponent {
     async ngOnInit() {
       await this.loadRequiredData();
       this.route.params.subscribe(params => {
-        this.patientId = params['idPatient'];
+        this.patientId = params['idPatient'] || this.patientUuid;
+        console.log('ID del paciente:', this.patientId);
         if (this.patientId) {
           this.initializeForm();
           this.loadPatientData();
