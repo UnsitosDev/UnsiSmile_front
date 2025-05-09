@@ -12,7 +12,7 @@ import { MedicalRecordGeneralTreatmentsComponent } from "../medical-records-trea
 
 import { ApiService } from '@mean/services';
 
-import { TreatmentDetailResponse } from '@mean/models';
+import { dataTabs, TreatmentDetailResponse } from '@mean/models';
 import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
 
 import { MatListModule } from '@angular/material/list';
@@ -55,6 +55,7 @@ export class TreatmentsComponent implements OnInit {
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
   public selectedTreatment!: TreatmentDetailResponse;
+  public mappedHistoryData!: dataTabs;
 
 
   public isPatientLoading = false;
@@ -109,6 +110,7 @@ export class TreatmentsComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          
           this.medicalRecordLoaded = true;
           this.idMedicalRecordGeneral = response.idPatientMedicalRecord;
         },

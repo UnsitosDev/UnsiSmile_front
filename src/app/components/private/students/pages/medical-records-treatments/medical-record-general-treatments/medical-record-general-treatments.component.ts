@@ -49,6 +49,7 @@ export class MedicalRecordGeneralTreatmentsComponent {
   @Input() patientUuid: string = '';
   @Input() idHistoryGeneral: number = 0;
   @Input() patientMedicalRecord: number = 0;
+  @Input() medicalRecordData: dataTabs | null = null;
   @Output() tabChange = new EventEmitter<{ firstLabel: string; previousLabel: string }>();
 
   private readonly route = inject(Router);
@@ -71,6 +72,7 @@ export class MedicalRecordGeneralTreatmentsComponent {
   public patientData!: cardPatient;
 
   ngOnInit(): void {
+    console.log('medical record data:', this.medicalRecordData);
     this.loadInitialData();
   }
 
