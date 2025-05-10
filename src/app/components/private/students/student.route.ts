@@ -105,6 +105,13 @@ export default [
                     ),
             },
             {
+                path: 'oral-prosthesis/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para operatoria dental
+                loadComponent: () =>
+                    import('./pages/history-clinics/oral-prosthesis/oral-prosthesis.component').then(
+                        (m) => m.OralProsthesisComponent
+                    ),
+            },
+            {
                 path: 'preventive-dentistry-public-health/:id/patient/:patient/medical-record-id/:patient', // Ruta para HISTORIA CLÍNICA CLÍNICA DE ODONTOLOGÍA PREVENTIVA Y SALUD PÚBLICA
                 loadComponent: () =>
                     import('./pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
