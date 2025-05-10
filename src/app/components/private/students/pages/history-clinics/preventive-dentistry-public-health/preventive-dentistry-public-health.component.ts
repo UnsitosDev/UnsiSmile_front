@@ -109,6 +109,7 @@ export class PreventiveDentistryPublicHealthComponent {
           this.idPatientClinicalHistory = this.patientMedicalRecord;
         }
       }
+      console.log('ID:', this.idPatientClinicalHistory);
       this.loadClinicalHistory();
     });
   }
