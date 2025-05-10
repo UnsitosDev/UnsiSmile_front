@@ -63,7 +63,7 @@ export default [
                     ),
             },
             {
-                path: 'periodontics/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para historia clinica periodoncia
+                path: 'periodontics/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para historia clinica periodoncia
                 loadComponent: () =>
                     import('./pages/history-clinics/periodontics/students-periodontics-history.component').then(
                         (m) => m.StudentsPeriodonticsHistoryComponent

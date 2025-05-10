@@ -90,16 +90,21 @@ export class PatientsTreatmentsComponent {
   }
 
   openTreatment(treatment: AllTreatmentDetailResponse): void {
+    console.log('historia clinica =>', treatment.treatment.clinicalHistoryCatalogName, 'id =>', treatment.treatment.clinicalHistoryCatalogId)
     switch (treatment.treatment.clinicalHistoryCatalogId) {
-      case 6:
-        const routePreventiveMedicalRecord = 
+      case 6: // Historia Clinica Preventiva
+        const routePreventive =
           `/students/preventive-dentistry-public-health/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`;
-        this.router.navigate([routePreventiveMedicalRecord]);
+        this.router.navigate([routePreventive]);
         break;
-      case 4:
+      case 4: // Historia Clinica Operatoria Dental
         const routeDentalOperation = `/students/dental-operation/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
         this.router.navigate([routeDentalOperation]);
         break
+      case 3:
+        const routePeriodontics = `/students/periodontics/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
+        this.router.navigate([routePeriodontics]);
+        break;
       default:
         break;
     }
