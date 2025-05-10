@@ -99,7 +99,8 @@ export class PreventiveDentistryPublicHealthComponent {
 
         // Si hay un idTreatment en params, lo usamos (sobrescribe el @Input si existe)
         if (params[ID_TREATMENT_DETAIL]) {
-          this.idTreatmentDetail = params[ID_TREATMENT_DETAIL]; this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
+          this.idTreatmentDetail = params[ID_TREATMENT_DETAIL]; 
+          this.id = params[ID_MEDICAL_RECORD];
           this.idpatient = params[PATIENT_UUID_ROUTE] || '';
           this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
           this.viewCardTreatments = true;
@@ -109,7 +110,6 @@ export class PreventiveDentistryPublicHealthComponent {
           this.idPatientClinicalHistory = this.patientMedicalRecord;
         }
       }
-      console.log('ID:', this.idPatientClinicalHistory);
       this.loadClinicalHistory();
     });
   }

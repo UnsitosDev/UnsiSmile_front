@@ -98,7 +98,7 @@ export default [
                     ),
             },
             {
-                path: 'preventive-dentistry-public-health/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail',
+                path: 'preventive-dentistry-public-health/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail',
                                 loadComponent: () => import('./pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(m => m.PreventiveDentistryPublicHealthComponent),
             },
             {

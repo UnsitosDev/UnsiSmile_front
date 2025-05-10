@@ -93,7 +93,7 @@ export class PatientsTreatmentsComponent {
     switch (treatment.treatment.clinicalHistoryCatalogId) {
       case 6:
         const routePreventiveMedicalRecord = 
-          `/students/preventive-dentistry-public-health/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`;
+          `/students/preventive-dentistry-public-health/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`;
         this.router.navigate([routePreventiveMedicalRecord]);
         break;
       default:
