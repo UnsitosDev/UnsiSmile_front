@@ -77,6 +77,13 @@ export default [
                     ),
             },
             {
+                path: 'oral-surgery/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para tratamiento historia clinica cirujia bucal
+                loadComponent: () =>
+                    import('./pages/history-clinics/oral-surgery/students-oral-surgery-history.component').then(
+                        (m) => m.StudentsOralSurgeryHistoryComponent
+                    ),
+            },
+            {
                 path: 'dental-operation/:id/patient/:patient/medical-record-id/:patientID', // Ruta para operatoria dental
                 loadComponent: () =>
                     import('./pages/history-clinics/dental-operation/students-dental-operation.component').then(

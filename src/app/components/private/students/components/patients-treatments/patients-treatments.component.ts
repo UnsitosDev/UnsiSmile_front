@@ -105,7 +105,9 @@ export class PatientsTreatmentsComponent {
         const routePeriodontics = `/students/periodontics/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
         this.router.navigate([routePeriodontics]);
         break;
-      default:
+      case 5:
+        const routeOralSurgery = `/students/oral-surgery/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
+        this.router.navigate([routeOralSurgery]);
         break;
     }
   }
