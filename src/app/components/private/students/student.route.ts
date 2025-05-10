@@ -56,24 +56,10 @@ export default [
                     ),
             },
             {
-                path: 'periodontics/:id/patient/:patient/medical-record-id/:patientID', // Ruta para historia clinica periodoncia
-                loadComponent: () =>
-                    import('./pages/history-clinics/periodontics/students-periodontics-history.component').then(
-                        (m) => m.StudentsPeriodonticsHistoryComponent
-                    ),
-            },
-            {
                 path: 'periodontics/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para historia clinica periodoncia
                 loadComponent: () =>
                     import('./pages/history-clinics/periodontics/students-periodontics-history.component').then(
                         (m) => m.StudentsPeriodonticsHistoryComponent
-                    ),
-            },
-            {
-                path: 'oral-surgery/:id/patient/:patient/medical-record-id/:patientID', // Ruta para la historia clinica cirujia bucal
-                loadComponent: () =>
-                    import('./pages/history-clinics/oral-surgery/students-oral-surgery-history.component').then(
-                        (m) => m.StudentsOralSurgeryHistoryComponent
                     ),
             },
             {
@@ -84,13 +70,6 @@ export default [
                     ),
             },
             {
-                path: 'dental-operation/:id/patient/:patient/medical-record-id/:patientID', // Ruta para operatoria dental
-                loadComponent: () =>
-                    import('./pages/history-clinics/dental-operation/students-dental-operation.component').then(
-                        (m) => m.StudentsDentalOperationComponent
-                    ),
-            },
-            {
                 path: 'dental-operation/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para operatoria dental
                 loadComponent: () =>
                     import('./pages/history-clinics/dental-operation/students-dental-operation.component').then(
@@ -98,24 +77,10 @@ export default [
                     ),
             },
             {
-                path: 'oral-prosthesis/:id/patient/:patient/medical-record-id/:patientID', // Ruta para operatoria dental
-                loadComponent: () =>
-                    import('./pages/history-clinics/oral-prosthesis/oral-prosthesis.component').then(
-                        (m) => m.OralProsthesisComponent
-                    ),
-            },
-            {
                 path: 'oral-prosthesis/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para operatoria dental
                 loadComponent: () =>
                     import('./pages/history-clinics/oral-prosthesis/oral-prosthesis.component').then(
                         (m) => m.OralProsthesisComponent
-                    ),
-            },
-            {
-                path: 'preventive-dentistry-public-health/:id/patient/:patient/medical-record-id/:patient', // Ruta para HISTORIA CLÍNICA CLÍNICA DE ODONTOLOGÍA PREVENTIVA Y SALUD PÚBLICA
-                loadComponent: () =>
-                    import('./pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
-                        (m) => m.PreventiveDentistryPublicHealthComponent
                     ),
             },
             {
