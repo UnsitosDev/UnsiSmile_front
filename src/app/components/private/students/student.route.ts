@@ -63,6 +63,13 @@ export default [
                     ),
             },
             {
+                path: 'periodontics/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para historia clinica periodoncia
+                loadComponent: () =>
+                    import('./pages/history-clinics/periodontics/students-periodontics-history.component').then(
+                        (m) => m.StudentsPeriodonticsHistoryComponent
+                    ),
+            },
+            {
                 path: 'oral-surgery/:id/patient/:patient/medical-record-id/:patientID', // Ruta para la historia clinica cirujia bucal
                 loadComponent: () =>
                     import('./pages/history-clinics/oral-surgery/students-oral-surgery-history.component').then(
@@ -84,11 +91,15 @@ export default [
                     ),
             },
             {
-                path: 'preventive-dentistry-public-health/:id/patient/:patient/medical-record-id/:patientID', // Ruta para HISTORIA CLÍNICA CLÍNICA DE ODONTOLOGÍA PREVENTIVA Y SALUD PÚBLICA
+                path: 'preventive-dentistry-public-health/:id/patient/:patient/medical-record-id/:patient', // Ruta para HISTORIA CLÍNICA CLÍNICA DE ODONTOLOGÍA PREVENTIVA Y SALUD PÚBLICA
                 loadComponent: () =>
                     import('./pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(
                         (m) => m.PreventiveDentistryPublicHealthComponent
                     ),
+            },
+            {
+                path: 'preventive-dentistry-public-health/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail',
+                                loadComponent: () => import('./pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(m => m.PreventiveDentistryPublicHealthComponent),
             },
             {
                 path: 'dashboard',

@@ -90,8 +90,14 @@ export class PatientsTreatmentsComponent {
   }
 
   openTreatment(treatment: AllTreatmentDetailResponse): void {
-    this.patientUuid = treatment.patientId;
-    const route = '/students/treatments/patient/' + this.patientUuid;
-    this.router.navigate([route]);
+    switch (treatment.treatment.clinicalHistoryCatalogId) {
+      case 6:
+        const routePreventiveMedicalRecord = 
+          `/students/preventive-dentistry-public-health/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`;
+        this.router.navigate([routePreventiveMedicalRecord]);
+        break;
+      default:
+        break;
+    }
   }
 }

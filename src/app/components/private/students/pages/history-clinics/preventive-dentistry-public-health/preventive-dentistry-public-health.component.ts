@@ -62,7 +62,7 @@ export class PreventiveDentistryPublicHealthComponent {
   public currentStatus: string | null = null;
   public idPatientClinicalHistory!: number;
   private idTreatmentDetail!: number;
-
+  public viewCardTreatments: boolean = false;
   private token!: string;
   private tokenData!: TokenData;
 
@@ -96,15 +96,23 @@ export class PreventiveDentistryPublicHealthComponent {
       }
       // Caso específico para STUDENT
       else {
-        this.id = this.medicalRecord;
-        this.idpatient = this.patientUuid;
-        this.idPatientClinicalHistory = this.patientMedicalRecord;
-      }
 
+        // Si hay un idTreatment en params, lo usamos (sobrescribe el @Input si existe)
+        if (params[ID_TREATMENT_DETAIL]) {
+          this.idTreatmentDetail = params[ID_TREATMENT_DETAIL]; this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
+          this.idpatient = params[PATIENT_UUID_ROUTE] || '';
+          this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
+          this.viewCardTreatments = true;
+        } else {
+          this.id = this.medicalRecord;
+          this.idpatient = this.patientUuid;
+          this.idPatientClinicalHistory = this.patientMedicalRecord;
+        }
+      }
       this.loadClinicalHistory();
     });
   }
-  
+
   private loadClinicalHistory(): void {
     this.historyData.getHistoryClinics(this.idPatientClinicalHistory, this.idpatient).subscribe({
       next: (mappedData: dataTabs) => {
@@ -179,10 +187,10 @@ export class PreventiveDentistryPublicHealthComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      
+
     });
   }
-  
+
   getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
 
