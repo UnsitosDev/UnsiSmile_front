@@ -96,6 +96,10 @@ export class PatientsTreatmentsComponent {
           `/students/preventive-dentistry-public-health/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`;
         this.router.navigate([routePreventiveMedicalRecord]);
         break;
+      case 4:
+        const routeDentalOperation = `/students/dental-operation/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
+        this.router.navigate([routeDentalOperation]);
+        break
       default:
         break;
     }

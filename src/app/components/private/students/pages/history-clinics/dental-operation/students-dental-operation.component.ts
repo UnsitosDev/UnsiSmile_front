@@ -60,6 +60,7 @@ export class StudentsDentalOperationComponent {
   public patientUuidParam!: string;
   public isSupervisorWithTreatment: boolean = false;
   private idTreatmentDetail!: number;
+  public viewCardTreatments: boolean = false;
 
   private token!: string;
   private tokenData!: TokenData;
@@ -94,11 +95,20 @@ export class StudentsDentalOperationComponent {
       }
       // Caso específico para STUDENT
       else {
-        this.id = this.medicalRecord;
-        this.idpatient = this.patientUuid;
-        this.idPatientClinicalHistory = this.patientMedicalRecord;
-      }
 
+        // Si hay un idTreatment en params, lo usamos (sobrescribe el @Input si existe)
+        if (params[ID_TREATMENT_DETAIL]) {
+          this.idTreatmentDetail = params[ID_TREATMENT_DETAIL]; 
+          this.id = params[ID_MEDICAL_RECORD];
+          this.idpatient = params[PATIENT_UUID_ROUTE] || '';
+          this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
+          this.viewCardTreatments = true;
+        } else {
+          this.id = this.medicalRecord;
+          this.idpatient = this.patientUuid;
+          this.idPatientClinicalHistory = this.patientMedicalRecord;
+        }
+      }
       this.loadClinicalHistory();
     });
   }

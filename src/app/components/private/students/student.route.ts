@@ -84,6 +84,13 @@ export default [
                     ),
             },
             {
+                path: 'dental-operation/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para operatoria dental
+                loadComponent: () =>
+                    import('./pages/history-clinics/dental-operation/students-dental-operation.component').then(
+                        (m) => m.StudentsDentalOperationComponent
+                    ),
+            },
+            {
                 path: 'oral-prosthesis/:id/patient/:patient/medical-record-id/:patientID', // Ruta para operatoria dental
                 loadComponent: () =>
                     import('./pages/history-clinics/oral-prosthesis/oral-prosthesis.component').then(
