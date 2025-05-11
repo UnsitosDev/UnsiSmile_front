@@ -1,11 +1,9 @@
 import { ITooth } from './odontogram';
 
 export interface OdontogramPost {
-  idPatient: string;
   teeth: Tooth[];
-  idQuestion: number;
-  idPatientClinicalHistory: number;
-  idFormSection: number;
+  idPatient: string;
+  idTreatment: number;
   observations: string;
 }
 
