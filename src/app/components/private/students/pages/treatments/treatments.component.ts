@@ -243,7 +243,6 @@ export class TreatmentsComponent implements OnInit {
   openDialogSendToReview(): void {
     const sendTreatment = true;
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      width: '800px',
       data: {
         treatmentId: this.idTreatmentDetail,
         send: sendTreatment,

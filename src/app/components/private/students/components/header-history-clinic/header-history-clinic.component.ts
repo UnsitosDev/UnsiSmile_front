@@ -29,7 +29,10 @@ export class HeaderHistoryClinicComponent {
   private tokenData!: TokenData;
   public userRole!: string;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.currentIndex);
+  }
+  
   private getRole() {
     this.token = this.userService.getToken() ?? "";
     this.tokenData = this.userService.getTokenDataUser(this.token);

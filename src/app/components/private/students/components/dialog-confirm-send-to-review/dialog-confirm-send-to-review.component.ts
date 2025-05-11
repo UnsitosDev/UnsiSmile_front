@@ -123,6 +123,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
         }),
         url: `${UriConstants.POST_CLINICAL_HISTORY_REVIEW}/${+this.data.idPatientClinicalHistory}/sections/${+this.data.idFormSection}/review/${+this.professorClinicalAreaId}`,
         data: {},
+        
       })
       .subscribe({
         next: (response) => {

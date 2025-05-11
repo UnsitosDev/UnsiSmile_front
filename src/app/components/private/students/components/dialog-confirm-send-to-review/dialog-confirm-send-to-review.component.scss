@@ -1,70 +1,87 @@
-button {
-    background-color: var(--secondary);
-}
-
-
-.dialog-content {
-    background-color: var(--on-primary);
-    display: flex;
-    flex-direction: column;
-    max-height: 70vh;
-    width: 600px;
-
-    h2 {
+.assign-review-dialog {
+    // Estilos para el mat-card
+    &__title-container {
+      display: flex;
+      justify-content: space-between;
+      color: var(--color-white);
+      width: 100%;
+    }
+  
+    &__content {
+      background-color: var(--on-primary);
+      display: flex;
+      flex-direction: column;
+      max-height: 70vh;
+      width: 600px;
+  
+      h2 {
         margin-bottom: 16px;
+      }
     }
-
-    .professor-list {
-        overflow-y: auto;
-        max-height: 50vh;
-        border-radius: 4px;
-        padding: 8px;
-        
-        @media (max-width: 639px) {
-            padding: 0; 
+  
+    &__professor-list {
+      overflow-y: auto;
+      max-height: 50vh;
+      border-radius: 4px;
+      padding: 8px;
+      
+      @media (max-width: 639px) {
+        padding: 0; 
+      } 
+    }
+  
+    &__list-item {
+      cursor: pointer;
+  
+      &:hover {
+        background-color: var(--on-hover);
+  
+        .assign-review-dialog__item-content,
+        .assign-review-dialog__item-text {
+          color: white !important;
         }
-
-        .custom-list-item {
-            cursor: pointer;
-
-            // Resetear estilos de Material
-            .mdc-list-item__primary-text {
-                color: inherit;
-            }
-
-            &:hover {
-                background-color: var(--on-hover);
-
-                .item-content,
-                .item-text {
-                    color: white !important;
-                }
-            }
-
-            &.selected {
-                background-color: var(--on-hover);
-                font-weight: 500;
-
-                .item-content,
-                .item-text {
-                    color: white !important;
-                }
-            }
+      }
+  
+      &.selected {
+        background-color: var(--on-hover);
+        font-weight: 500;
+  
+        .assign-review-dialog__item-content,
+        .assign-review-dialog__item-text {
+          color: white !important;
         }
+      }
     }
-
-    mat-dialog-actions {
-        margin-top: 16px;
-        padding: 16px 0 0;
+  
+    &__item-content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+  
+      @media (min-width: 640px) {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
     }
-}
-
-.title-container {
-    display: flex;
-    justify-content: space-between;
-    color: var(--color-white);
-}
-
-.buttons{
-    background-color: var(--on-primary);
-}
+  
+    &__item-text {
+      text-align: left;
+      margin-top: 0.25rem;
+  
+      @media (min-width: 640px) {
+        &--right {
+          text-align: right;
+          margin-top: 0;
+        }
+      }
+    }
+  
+    &__actions {
+      background-color: var(--on-primary);
+  
+      button {
+        background-color: var(--secondary);
+      }
+    }
+  }
