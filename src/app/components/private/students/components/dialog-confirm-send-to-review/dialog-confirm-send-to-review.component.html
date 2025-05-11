@@ -1,24 +1,24 @@
-<mat-card>
+<mat-card class="assign-review-dialog">
   <mat-card-title>
-    <div class="title-container">
+    <div class="assign-review-dialog__title-container">
       <span><strong>Asignar Revisión de Historia Clínica</strong></span>
       <mat-icon (click)="closeDialog()">close</mat-icon>
     </div>
   </mat-card-title>
 </mat-card>
 
-<div class="dialog-content box-border">
+<div class="assign-review-dialog__content">
   @if (professorAreasData) {
-    <div class="professor-list" (scroll)="onScroll()">
+    <div class="assign-review-dialog__professor-list" (scroll)="onScroll()">
       @for (item of professorAreasData.content; track $index) {
         <mat-list-item 
           (click)="selectProfessor(item.idProfessorClinicalArea)"
           [class.selected]="professorClinicalAreaId === item.idProfessorClinicalArea"
-          class="custom-list-item">
+          class="assign-review-dialog__list-item">
           
-          <div class="item-content flex flex-col sm:flex-row sm:justify-between sm:items-center">
-            <p class="item-text text-left">{{ item.professorName }}</p>
-            <p class="item-text text-left sm:text-right mt-1 sm:mt-0">
+          <div class="assign-review-dialog__item-content">
+            <p class="assign-review-dialog__item-text">{{ item.professorName }}</p>
+            <p class="assign-review-dialog__item-text assign-review-dialog__item-text--right">
               ({{ item.clinicalArea.clinicalArea }})
             </p>
           </div>
@@ -31,7 +31,7 @@
   }
 </div>
 
-<mat-dialog-actions align="center" class="buttons">
+<mat-dialog-actions align="center" class="assign-review-dialog__actions">
   <div>
     <button mat-button mat-dialog-close color="warn">Cancelar</button>
     <button 

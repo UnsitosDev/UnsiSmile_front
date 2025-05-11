@@ -327,7 +327,7 @@ export class UriConstants {
   public static readonly GET_PROFESSORS_DASHBOARD = basePath + '/dashboards/professors';
   public static readonly GET_SUPERVISOR_DASHBOARD = basePath + '/dashboards/clinical-supervisors';
   
-  public static readonly POST_CLINICAL_HISTORY_REVIEW = basePath + '/medical-records/status/send-to-review/patient-medical-records'
+  public static readonly POST_CLINICAL_HISTORY_REVIEW = basePath + '/medical-records/status'
   // Obtener el estado de la historia clinica
   public static readonly GET_CLINICAL_HISTORY_STATUS = basePath + '/medical-records/status';
   public static readonly GET_HC_TO_REVIEW = basePath +'/medical-records/status/list'

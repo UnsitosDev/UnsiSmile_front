@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -60,6 +60,7 @@ export class StudentsDentalOperationComponent {
   public patientUuidParam!: string;
   public isSupervisorWithTreatment: boolean = false;
   private idTreatmentDetail!: number;
+  public viewCardTreatments: boolean = false;
 
   private token!: string;
   private tokenData!: TokenData;
@@ -80,27 +81,53 @@ export class StudentsDentalOperationComponent {
   }
 
   private initializeRouteParams(): void {
-    this.router.params.subscribe((params) => {
-      // Asignación común para todos los casos excepto STUDENT
-      if (this.role !== ROLES.STUDENT) {
-        this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
-        this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-        this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
-
-        // Solo para CLINICAL_AREA_SUPERVISOR con tratamiento
-        if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
-          this.idTreatmentDetail = params[ID_TREATMENT_DETAIL] || '';
-        }
-      }
-      // Caso específico para STUDENT
-      else {
-        this.id = this.medicalRecord;
-        this.idpatient = this.patientUuid;
-        this.idPatientClinicalHistory = this.patientMedicalRecord;
-      }
-
+    this.router.params.subscribe(params => {
+      this.processRoleBasedParams(params);
       this.loadClinicalHistory();
     });
+  }
+
+  private processRoleBasedParams(params: Params): void {
+    if (this.role !== ROLES.STUDENT) {
+      this.handleNonStudentParams(params);
+    } else {
+      this.handleStudentParams(params);
+    }
+  }
+
+  private handleNonStudentParams(params: Params): void {
+    // Asignación común para todos los roles excepto STUDENT
+    this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
+    this.idpatient = params[PATIENT_UUID_ROUTE] || '';
+    this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
+
+    // Manejo específico para CLINICAL_AREA_SUPERVISOR
+    if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
+      this.idTreatmentDetail = params[ID_TREATMENT_DETAIL] || '';
+    }
+  }
+
+  private handleStudentParams(params: Params): void {
+    // Caso específico para STUDENT con tratamiento en params
+    if (params[ID_TREATMENT_DETAIL]) {
+      this.handleStudentWithTreatmentParams(params);
+    } else {
+      this.handleStudentWithoutTreatmentParams();
+    }
+  }
+
+  private handleStudentWithTreatmentParams(params: Params): void {
+    this.idTreatmentDetail = params[ID_TREATMENT_DETAIL];
+    this.id = params[ID_MEDICAL_RECORD];
+    this.idpatient = params[PATIENT_UUID_ROUTE] || '';
+    this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
+    this.viewCardTreatments = true;
+  }
+
+  private handleStudentWithoutTreatmentParams(): void {
+    this.id = this.medicalRecord;
+    this.idpatient = this.patientUuid;
+    this.idPatientClinicalHistory = this.patientMedicalRecord;
   }
 
   private loadClinicalHistory(): void {
@@ -164,7 +191,7 @@ export class StudentsDentalOperationComponent {
   }
 
   onTabChange(index: number) {
-    this.currentIndex = index;
+    this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
     this.getStatusHc();
   }
 

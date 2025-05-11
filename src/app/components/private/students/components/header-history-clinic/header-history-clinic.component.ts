@@ -29,7 +29,10 @@ export class HeaderHistoryClinicComponent {
   private tokenData!: TokenData;
   public userRole!: string;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getRole();
+  }
+  
   private getRole() {
     this.token = this.userService.getToken() ?? "";
     this.tokenData = this.userService.getTokenDataUser(this.token);
@@ -48,7 +51,7 @@ export class HeaderHistoryClinicComponent {
 
   openConfirmDialog() {
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: this.currentSectionId },
+      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: this.currentSectionId },      
     });
 
     dialogRef.afterClosed().subscribe((result) => {

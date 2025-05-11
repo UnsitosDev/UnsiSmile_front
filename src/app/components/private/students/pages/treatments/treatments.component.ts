@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
 import { CardPatientDataComponent } from "../../components/card-patient-data/card-patient-data.component";
-import { MedicalRecordGeneralTreatmentsComponent } from "../medical-records-treatments/medical-record-general-treatments/medical-record-general-treatments.component";
 
 import { ApiService } from '@mean/services';
 
@@ -17,22 +16,24 @@ import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
 
 import { MatListModule } from '@angular/material/list';
 import { UriConstants } from '@mean/utils';
+import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
 import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
+import { DialogConfirmSendToReviewComponent } from '../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { DialogNewTreatmentComponent } from '../../components/dialog-new-treatment/dialog-new-treatment.component';
+import { FormUpdatePatientComponent } from "../../components/form-update-patient/form-update-patient.component";
 import { StudentsDentalOperationComponent } from "../history-clinics/dental-operation/students-dental-operation.component";
+import { StudentsGeneralHistoryComponent } from "../history-clinics/general/students-general-history.component";
 import { OralProsthesisComponent } from "../history-clinics/oral-prosthesis/oral-prosthesis.component";
 import { StudentsOralSurgeryHistoryComponent } from "../history-clinics/oral-surgery/students-oral-surgery-history.component";
 import { StudentsPeriodonticsHistoryComponent } from "../history-clinics/periodontics/students-periodontics-history.component";
 import { PreventiveDentistryPublicHealthComponent } from "../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component";
-import { StudentsGeneralHistoryComponent } from "../history-clinics/general/students-general-history.component";
-import { DialogConfirmSendToReviewComponent } from '../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent, OralProsthesisComponent, StudentsDentalOperationComponent, LoadingComponent, StudentsGeneralHistoryComponent],
+  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent, OralProsthesisComponent, StudentsDentalOperationComponent, LoadingComponent, StudentsGeneralHistoryComponent, FormUpdatePatientComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss',
 })
@@ -55,6 +56,7 @@ export class TreatmentsComponent implements OnInit {
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
   public selectedTreatment!: TreatmentDetailResponse;
+  public medicalRecordConfig!: ClinicalHistoryCatalog;
 
 
   public isPatientLoading = false;
@@ -109,6 +111,7 @@ export class TreatmentsComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          this.medicalRecordConfig = response;
           this.medicalRecordLoaded = true;
           this.idMedicalRecordGeneral = response.idPatientMedicalRecord;
         },
@@ -239,7 +242,6 @@ export class TreatmentsComponent implements OnInit {
   openDialogSendToReview(): void {
     const sendTreatment = true;
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      width: '800px',
       data: {
         treatmentId: this.idTreatmentDetail,
         send: sendTreatment,

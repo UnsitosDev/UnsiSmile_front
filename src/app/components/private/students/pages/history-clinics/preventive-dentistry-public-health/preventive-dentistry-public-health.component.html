@@ -1,9 +1,10 @@
-@if (role !== ROL.STUDENT) {
+@if (role !== ROL.STUDENT || viewCardTreatments) {
     <mat-card appearance="outlined" class="custom">
         <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
     </mat-card>
     <br>
 }
+
 @if (isSupervisorWithTreatment) {
     <div class="rate-treatment flex justify-end mb-4">
         <button mat-button (click)="opedDialogRateTreatment()">
@@ -29,7 +30,7 @@
                     <mat-tab [label]="tab.title">
                         @if (tab.isAnswered && tab.title !== 'Profilaxis Dental') {
                             <app-tab-form-update
-                            [patientMedicalRecord]="patientMedicalRecord"
+                            [patientMedicalRecord]="idPatientClinicalHistory"
                             [fieldsTab]="tab" 
                             (nextMatTab)="onNextTab()"
                             (previousMatTab)="onPreviousTab()"
@@ -37,7 +38,7 @@
                         }
                         @if (!tab.isAnswered && tab.title !== 'Profilaxis Dental') {
                             <app-tab-form 
-                            [patientMedicalRecord]="patientMedicalRecord"
+                            [patientMedicalRecord]="idPatientClinicalHistory"
                             [fieldsTab]="tab" 
                             (nextMatTab)="onNextTab()"
                             (previousMatTab)="onPreviousTab()"

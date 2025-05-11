@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { TreatmentDetailResponse } from '@mean/models';
 import { ApiService, AuthService } from '@mean/services';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 
@@ -19,6 +20,7 @@ import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 export class ReviewTreatmentComponent {
   private readonly apiService = inject(ApiService);
   private readonly router = inject(Router);
+  private readonly toastr = inject(ToastrService);
   private token!: string;
   private tokenData!: TokenData;
   private userService = inject(AuthService);
@@ -56,6 +58,7 @@ export class ReviewTreatmentComponent {
       },
       error: (error) => {
         console.error(error);
+        this.toastr.error(error.message);
       }
     });
   }

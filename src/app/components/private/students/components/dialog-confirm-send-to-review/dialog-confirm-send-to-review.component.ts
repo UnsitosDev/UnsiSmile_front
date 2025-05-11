@@ -109,6 +109,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
         }
         , error: (error) => {
           this.dialogRef.close(false);
+          this.toastr.error(error);
         }
       });
   }
@@ -123,6 +124,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
         }),
         url: `${UriConstants.POST_CLINICAL_HISTORY_REVIEW}/${+this.data.idPatientClinicalHistory}/sections/${+this.data.idFormSection}/review/${+this.professorClinicalAreaId}`,
         data: {},
+        
       })
       .subscribe({
         next: (response) => {
@@ -131,6 +133,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
         },
         error: (error) => {
           this.dialogRef.close(false);
+          this.toastr.error(error);
         },
       });
   }

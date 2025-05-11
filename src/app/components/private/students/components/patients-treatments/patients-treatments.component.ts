@@ -90,8 +90,29 @@ export class PatientsTreatmentsComponent {
   }
 
   openTreatment(treatment: AllTreatmentDetailResponse): void {
-    this.patientUuid = treatment.patientId;
-    const route = '/students/treatments/patient/' + this.patientUuid;
-    this.router.navigate([route]);
+    console.log('historia clinica =>', treatment.treatment.clinicalHistoryCatalogName, 'id =>', treatment.treatment.clinicalHistoryCatalogId)
+    switch (treatment.treatment.clinicalHistoryCatalogId) {
+      case 2: // Tratamiento Protesis Bucal
+        const routeOralProthesis = `/students/preventive-dentistry-public-health/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`;
+        this.router.navigate([routeOralProthesis]);
+        break;
+      case 6: // Tratamiento Clinica Preventiva
+        const routePreventive =
+          `/students/preventive-dentistry-public-health/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`;
+        this.router.navigate([routePreventive]);
+        break;
+      case 4: // Tratamiento Clinica Operatoria Dental
+        const routeDentalOperation = `/students/dental-operation/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
+        this.router.navigate([routeDentalOperation]);
+        break
+      case 3: // Tratamiento Clinica Periodoncia
+        const routePeriodontics = `/students/periodontics/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
+        this.router.navigate([routePeriodontics]);
+        break;
+      case 5: // Tratamiento Clinica Cirujia Bucal
+        const routeOralSurgery = `/students/oral-surgery/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
+        this.router.navigate([routeOralSurgery]);
+        break;
+    }
   }
 }

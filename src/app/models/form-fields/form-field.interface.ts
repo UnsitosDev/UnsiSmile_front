@@ -1,5 +1,4 @@
-import { FormGroup, ValidatorFn } from '@angular/forms';
-import { Answer } from '../history-clinic/historyClinic';
+import { ValidatorFn } from '@angular/forms';
 
 
 // Interfaz para la configuración de onInputChange
