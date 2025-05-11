@@ -173,7 +173,7 @@ export class StudentsPeriodonticsHistoryComponent {
   }
 
   onTabChange(index: number) {
-    this.currentIndex = index;
+    this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
     this.getStatusHc();
   }
 
