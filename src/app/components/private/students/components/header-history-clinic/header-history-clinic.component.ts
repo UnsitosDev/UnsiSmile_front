@@ -30,6 +30,7 @@ export class HeaderHistoryClinicComponent {
   public userRole!: string;
 
   ngOnInit(): void {
+    this.getRole();
   }
   
   private getRole() {
@@ -50,7 +51,7 @@ export class HeaderHistoryClinicComponent {
 
   openConfirmDialog() {
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: this.currentSectionId },
+      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: this.currentSectionId },      
     });
 
     dialogRef.afterClosed().subscribe((result) => {
