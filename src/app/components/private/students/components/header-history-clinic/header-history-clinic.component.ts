@@ -30,7 +30,6 @@ export class HeaderHistoryClinicComponent {
   public userRole!: string;
 
   ngOnInit(): void {
-    console.log(this.currentIndex);
   }
   
   private getRole() {

@@ -106,7 +106,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         this.idpatient = this.patientUuid;
         this.idPatientClinicalHistory = this.patientMedicalRecord;
       }
-
       this.loadClinicalHistory();
     });
   }
