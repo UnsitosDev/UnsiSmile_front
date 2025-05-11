@@ -4,7 +4,7 @@
         <span>
           @if (mappedHistoryData.tabs[currentIndex].requiresReview && mappedHistoryData.tabs[currentIndex].status !== STATUS.IN_REVIEW) {
               <button class="button-custom" (click)="openConfirmDialog()">
-                  Enviar a revisión <i class="fas fa-file-upload"></i>
+                  Enviar a revisión <i class="fas fa-file-upload">&nbsp;</i>
               </button>
           }
   
@@ -20,7 +20,7 @@
           
           @if (mappedHistoryData.tabs[currentIndex].status == STATUS.REJECTED && userRole === ROL.STUDENT) {
               <button class="button-custom" (click)="openConfirmDialog()">
-                  <i class="fas fa-file-upload"></i>
+                  <i class="fas fa-file-upload">&nbsp;</i>
               </button>
           }
   

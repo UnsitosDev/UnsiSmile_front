@@ -109,6 +109,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
         }
         , error: (error) => {
           this.dialogRef.close(false);
+          this.toastr.error(error);
         }
       });
   }
@@ -132,6 +133,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
         },
         error: (error) => {
           this.dialogRef.close(false);
+          this.toastr.error(error);
         },
       });
   }
