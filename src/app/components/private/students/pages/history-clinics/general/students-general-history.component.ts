@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -21,15 +21,16 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 import { HttpHeaders } from '@angular/common/http';
 import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
 import { UriConstants } from '@mean/utils';
+import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
+import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { ROLES } from 'src/app/utils/roles';
 import { STATUS } from 'src/app/utils/statusToReview';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
 import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
-import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
 
 @Component({
   selector: 'app-students-general-history',
@@ -43,6 +44,9 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   @Input() public patientUuid!: string;
   @Input() public patientMedicalRecord!: number;
   @Input() public medicalRecord!: number;
+  @Input() idPatient: number = 0;
+  @Input() idHistoryGeneral: number = 0;
+  @Input() medicalRecordConfig: ClinicalHistoryCatalog | null = null;
 
   private router = inject(ActivatedRoute);
   private route = inject(Router);
