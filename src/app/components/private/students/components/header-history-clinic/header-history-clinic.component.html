@@ -2,7 +2,7 @@
     <div class="title-container">
         <span><strong>Historia clínica {{mappedHistoryData.title}}</strong></span>
         <span>
-          @if (mappedHistoryData.tabs[currentIndex].requiresReview && mappedHistoryData.tabs[currentIndex].status !== STATUS.IN_REVIEW && mappedHistoryData.tabs[currentIndex].status !== STATUS.REJECTED) {
+          @if (mappedHistoryData.tabs[currentIndex].requiresReview && mappedHistoryData.tabs[currentIndex].status !== STATUS.IN_REVIEW && mappedHistoryData.tabs[currentIndex].status !== STATUS.REJECTED && mappedHistoryData.tabs[currentIndex].status !== STATUS.APPROVED) {
               <button class="button-custom" (click)="openConfirmDialog()">
                   Enviar a revisión <i class="fas fa-file-upload">&nbsp;</i>
               </button>
