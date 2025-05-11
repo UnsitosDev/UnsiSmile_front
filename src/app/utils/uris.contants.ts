@@ -327,7 +327,7 @@ export class UriConstants {
   public static readonly GET_PROFESSORS_DASHBOARD = basePath + '/dashboards/professors';
   public static readonly GET_SUPERVISOR_DASHBOARD = basePath + '/dashboards/clinical-supervisors';
   
-  public static readonly POST_CLINICAL_HISTORY_REVIEW = basePath + '/medical-records/status/send-to-review/patient-medical-records'
+  public static readonly POST_CLINICAL_HISTORY_REVIEW = basePath + '/medical-records/status'
   // Obtener el estado de la historia clinica
   public static readonly GET_CLINICAL_HISTORY_STATUS = basePath + '/medical-records/status';
   public static readonly GET_HC_TO_REVIEW = basePath +'/medical-records/status/list'
@@ -354,11 +354,16 @@ export class UriConstants {
 
   public static readonly GET_TREATMENTS = basePath + '/treatments';
   public static readonly POST_TREATMENTS = basePath + '/treatment-details'; 
-  public static readonly GET_TREATMENT_BY_ID = basePath + '/treatment-details/patient';
+  public static readonly GET_TREATMENT_BY_ID = basePath + '/treatment-details/patients';
   public static readonly GET_MEDICAL_RECORD_GENERAL = basePath + '/clinical-histories/general';
   public static readonly GET_MEDICAL_RECORDS = basePath + '/clinical-histories';
   public static readonly GET_GENERAL_MEDICAL_RECORD = basePath + '/clinical-histories/general';
   public static readonly POST_GENERAL_MEDICAL_RECORD = basePath + '/clinical-histories/general';
+  public static readonly GET_ALL_TREATMENTS = basePath + '/treatment-details/students';
+  public static readonly POST_TREATMENT_REVIEW = basePath + '/treatment-details'
+  public static readonly GET_TREATMENT_REVIEW = basePath + '/treatment-details/professors';
+  public static readonly POST_RATE_TREATMENT = basePath + '/treatment-details'
+  public static readonly PUT_TREATMENT = basePath + '/treatment-details'; 
   // Endpoints para guardianes/tutores
   public static readonly GET_GUARDIAN_BY_CURP = basePath + '/guardians/CURP/';
 }

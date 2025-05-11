@@ -14,7 +14,9 @@ import { ToastrService } from 'ngx-toastr';
 
 interface sendToReview {
   idPatientClinicalHistory: number;
-  idFormSection: number
+  idFormSection: number,
+  send?: boolean;
+  treatmentId?: number;
 }
 @Component({
   selector: 'app-dialog-confirm-send-to-review',
@@ -29,13 +31,17 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
   public data = inject(MAT_DIALOG_DATA) as sendToReview;
   public toastr = inject(ToastrService);
   public professorAreasData!: PaginatedData<ProfessorClinicalAreaResponse>;
-  public selectedProfessorId: number | null = null;
+  public professorClinicalAreaId: number | null = null; 
   private currentPage = 0;
   private readonly pageSize = 10;
   public isLoading = false;
 
   ngOnInit(): void {
     this.professorAreas();
+  }
+
+  checkSendToReview() {
+    this.data.send ? this.sendToReviewTreatment() : this.sendToReview();
   }
 
   professorAreas(loadMore: boolean = false) {
@@ -83,19 +89,42 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
   }
 
   selectProfessor(id: number) {
-    this.selectedProfessorId = id;
+    this.professorClinicalAreaId = id;
+  }
+
+  sendToReviewTreatment(){
+    if (!this.professorClinicalAreaId) return;
+    this.apiService
+      .patchService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_TREATMENT_REVIEW}/${this.data.treatmentId}/revision?professorClinicalAreaId=${this.professorClinicalAreaId}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Tratamiento enviado a revisión');
+          this.dialogRef.close(true);
+        }
+        , error: (error) => {
+          this.dialogRef.close(false);
+          this.toastr.error(error);
+        }
+      });
   }
 
   sendToReview() {
-    if (!this.selectedProfessorId) return;
+    if (!this.professorClinicalAreaId) return;
 
     this.apiService
       .postService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.POST_CLINICAL_HISTORY_REVIEW}/${+this.data.idPatientClinicalHistory}/sections/${+this.data.idFormSection}/professor-clinical-areas/${+this.selectedProfessorId}`,
+        url: `${UriConstants.POST_CLINICAL_HISTORY_REVIEW}/${+this.data.idPatientClinicalHistory}/sections/${+this.data.idFormSection}/review/${+this.professorClinicalAreaId}`,
         data: {},
+        
       })
       .subscribe({
         next: (response) => {
@@ -104,6 +133,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
         },
         error: (error) => {
           this.dialogRef.close(false);
+          this.toastr.error(error);
         },
       });
   }

@@ -137,6 +137,13 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --red-color: #dc2626;   
   --white-color: #ffffff;
 
+  // Colores para estados de tratamientos
+  --status-in-review: #f59e0b; 
+  --status-approved: #10b981;
+  --status-rejected: #ef4444; 
+  --status-in-progress: #3b82f6; 
+  --status-finished: #6b7280; 
+
   @include light-theme;
   --primary-rgb: 59, 130, 246; // Color primario en RGB para transparencias
 }

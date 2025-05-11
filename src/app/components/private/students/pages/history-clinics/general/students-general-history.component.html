@@ -1,8 +1,16 @@
 @if (role !== ROL.STUDENT) {
   <mat-card appearance="outlined" class="custom">
-      <app-card-patient-data [patientUuid]="patientUuidParam"></app-card-patient-data>
+      <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
   </mat-card>
   <br>
+}
+
+@if (isSupervisorWithTreatment) {
+  <div class="rate-treatment flex justify-end mb-4">
+      <button mat-button (click)="opedDialogRateTreatment()">
+          Calificar Tratamiento
+      </button>
+  </div>
 }
 @if (mappedHistoryData) {
   <mat-card-title>
@@ -25,69 +33,7 @@
                       [data]="patientData"
                       [medicalRecordNumber]="medicalRecord"
                       ></app-progress-notes>
-                    } 
-                    @if (tab.title === 'Odontograma inicial' && !tab.isAnswered && role == 'ROLE_STUDENT') {
-                        <app-students-odontogram
-                        [state]="'create'" 
-                        [patientId]="patientUuid" 
-                        [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                        [idClinicalHistoryPatient]=medicalRecord
-                        [idFormSection]=6
-                        [idClinicalHistoryPatient]=medicalRecord
-                        (nextMatTab)="onNextTab()"
-                        (previousMatTab)="onPreviousTab()"
-                        >
-                        </app-students-odontogram>
                     }
-                    @if (tab.title === 'Odontograma inicial' && !tab.isAnswered && role == 'ROLE_ADMIN') {
-                      <app-students-odontogram
-                        [state]="'read'" 
-                        [patientId]="patientUuid" 
-                        [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                        [idClinicalHistoryPatient]=medicalRecord
-                        [idFormSection]=6
-                        [idClinicalHistoryPatient]=medicalRecord
-                        (nextMatTab)="onNextTab()"
-                        (previousMatTab)="onPreviousTab()"
-                        >
-                        </app-students-odontogram>
-                    }
-                    @if (tab.title === 'Odontograma final' && !tab.isAnswered && role == 'ROLE_ADMIN') {
-                        <app-students-odontogram
-                        [state]="'read'" 
-                        [patientId]="patientUuid"
-                        [idClinicalHistoryPatient]=medicalRecord
-                        [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                        [idFormSection]=7
-                        (nextMatTab)="onNextTab()"
-                        (previousMatTab)="onPreviousTab()"
-                        >
-                        </app-students-odontogram>
-                    }
-                    @if (tab.title === 'Odontograma final' && !tab.isAnswered && role == 'ROLE_STUDENT') {
-                        <app-students-odontogram
-                        [state]="'read-latest'" 
-                        [patientId]="patientUuid"
-                        [idClinicalHistoryPatient]=medicalRecord
-                        [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                        [idFormSection]=7
-                        (nextMatTab)="onNextTab()"
-                        (previousMatTab)="onPreviousTab()"
-                        >
-                        </app-students-odontogram>
-                    }
-                    @if (tab.title === 'Odontograma final' && tab.isAnswered) {
-                      <app-students-odontogram
-                      [state]="'read'" 
-                      [patientId]="patientUuid"
-                      [idClinicalHistoryPatient]=medicalRecord
-                      [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                      [idFormSection]=7
-                      (nextMatTab)="onNextTab()"
-                      (previousMatTab)="onPreviousTab()"
-                      >
-                      </app-students-odontogram>
-                  }
                     @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
                         <app-history-initial-bag
                         [idClinicalHistoryPatient]=medicalRecord
@@ -124,21 +70,6 @@
                         (previousMatTab)="onPreviousTab()"                      
                     ></app-tab-form>
                     }
-
-                    <!-- components to render if the question is anwered -->
-                    @if (tab.title === 'Odontograma inicial' && tab.isAnswered) {
-                      <app-students-odontogram
-                        [state]="'read'" 
-                        [patientId]="patientUuid" 
-                        [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                        [idClinicalHistoryPatient]=medicalRecord
-                        [idFormSection]=6
-                        [idClinicalHistoryPatient]=medicalRecord
-                        (nextMatTab)="onNextTab()"
-                        (previousMatTab)="onPreviousTab()"
-                        >
-                        </app-students-odontogram>
-                  }
                 </mat-tab>
             }
         </mat-tab-group>

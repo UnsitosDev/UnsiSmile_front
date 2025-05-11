@@ -2,6 +2,10 @@
     background-color: var(--secondary);
 }
 
+.send-to-review {
+    background: var(--tertiary);
+}
+
 .custom {
     color: var(--on-secondary);
     background-color: var(--secondary);
@@ -67,9 +71,8 @@ mat-list-item span {
     flex-shrink: 0;
 }
 
-.in-progress {
+.status-badge {
     background: var(--on-primary);
-    color: var(--status);
     padding: 4px 8px;
     border-radius: 12px;
     font-size: 12px;
@@ -78,13 +81,76 @@ mat-list-item span {
     flex-shrink: 0;
 }
 
-.finished {
-    background: var(--on-primary);
-    color: var(--status-red);
-    padding: 4px 8px;
+.badge-base-treatment-status {
+    display: inline-flex;
+    align-items: center;
     border-radius: 12px;
     font-size: 12px;
     white-space: nowrap;
     margin-left: 8px;
-    flex-shrink: 0;
+    padding: 0 8px;
+    line-height: 1.2;
+    height: 24px;
+    box-sizing: border-box;
+    font-weight: 500;
+}
+.in-review {
+    @extend .status-badge;
+    color: var(--status-in-review);
+}
+
+.in-review-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-in-review);
+}
+
+.approved {
+    @extend .status-badge;
+    color: var(--status-approved);
+}
+
+.approved-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-approved);
+
+}
+
+.rejected {
+    @extend .status-badge;
+    color: var(--status-rejected);
+}
+
+.rejected-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-rejected);
+}
+
+.in-progress {
+    @extend .status-badge;
+    color: var(--status-in-progress);
+}
+
+.in-progress-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-in-progress);
+}
+
+.finished {
+    @extend .status-badge;
+    color: var(--status-finished);
+}
+
+.finished-treatment {
+    @extend .badge-base-treatment-status;
+    background: var(--secondary);
+    color: var(--status-finished);
+}
+
+.update-treatment {
+    @extend .status-badge;
+    color: var(--status);
 }

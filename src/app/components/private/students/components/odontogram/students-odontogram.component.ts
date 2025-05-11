@@ -45,6 +45,7 @@ import { mapOdontogramResponseToOdontogramData } from '@mean/students';
 import { UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { DeleteConditionsDialogComponent } from '../delete-conditions-dialog/delete-conditions-dialog.component';
+import { OdontogramMapper } from './odontogramMapper';
 
 interface ToothEvent {
   faceId: string;
@@ -76,9 +77,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
 
   private odontogramService = inject(ApiService<{}, OdontogramPost>);
   @Input({ required: true }) patientId!: string;
-  @Input({ required: true }) idQuestion!: number;
-  @Input({ required: true }) idClinicalHistoryPatient!: number;
-  @Input({ required: true }) idFormSection!: number;
+  @Input({ required: true }) idTreatment!: number;
   @Input({ required: true }) state!:
     | 'create'
     | 'update'
@@ -132,10 +131,10 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         this.initializeNewOdontogram();
         break;
       case 'update':
-        this.loadExistingOdontogramByIdForm();
+        //this.loadExistingOdontogramByIdForm();
         break;
       case 'read':
-        this.loadExistingOdontogramByIdForm();
+        //this.loadExistingOdontogramByIdForm();
         break;
       case 'read-latest':
         this.loadLatestExistingOdontogram();
@@ -150,31 +149,11 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       .subscribe({
         next: (response: OdontogramResponse) => {
           // Update data for rendering
-          this.mapOdontogramResponseToData(response);
-
+          OdontogramMapper.mapOdontogramResponseToData(response);
           this.renderOdontogram = true;
         },
         error: (error) => {
           this.renderOdontogram = false;
-        },
-      });
-  }
-
-  loadExistingOdontogramByIdForm() {
-    this.odontogramService
-      .getService({
-        url: `${UriConstants.GET_ODONTOGRAM_BY_FORM_ID}/form-section/${this.idFormSection}/patient/${this.patientId}`,
-      })
-      .subscribe({
-        next: (response: OdontogramResponse) => {
-          // Update data for rendering
-          this.mapOdontogramResponseToData(response);
-
-          this.renderOdontogram = true;
-        },
-        error: (error) => {
-          this.renderOdontogram = false;
-          this.toastr.error('Error al cargar el odontograma', 'Error');
         },
       });
   }
@@ -203,7 +182,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       })
       .subscribe({
         next: (response) => {
-          this.mapOdontogramResponseToData(response);
+          OdontogramMapper.mapOdontogramResponseToData(response);
           this.renderOdontogram = true;
         },
         error: (error) => {},
@@ -449,8 +428,6 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   store(): void {
     switch (this.state) {
       case 'create':
-        this.storeOdontogram();
-        break;
       case 'update':
       case 'read-latest':
         this.storeOdontogram();
@@ -466,7 +443,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   }
 
   storeOdontogram(): void {
-    const odontogramStore: OdontogramPost = this.mapOdontogramToPost();
+    const odontogramStore: OdontogramPost = OdontogramMapper.mapOdontogramToPost(this.patientId, this.odontogram, this.idTreatment);
 
     this.odontogramService
       .postService({
@@ -493,28 +470,6 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
 
   nextTab() {
     this.nextMatTab.emit();
-  }
-
-  private mapOdontogramToPost(): OdontogramPost {
-    return {
-      observations: this.odontogram.observations,
-      idQuestion: this.idQuestion,
-      idPatient: this.patientId,
-      idPatientClinicalHistory: this.idClinicalHistoryPatient,
-      idFormSection: this.idFormSection,
-      teeth: this.odontogram.teeth.map((tooth: ITooth) => ({
-        ...tooth,
-        faces: tooth.faces.map((face: IFace) => ({
-          ...face,
-          idFace: Number(face.idFace),
-          conditions: (face.conditions || []).map((condition: ICondition) => ({
-            idToothFaceCondition: condition.idCondition,
-            condition: condition.condition,
-            description: condition.description,
-          })),
-        })),
-      })),
-    };
   }
 
   openDeleteConditionsDialog(tooth: ITooth): void {
@@ -608,57 +563,5 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       timeOut: 2000,
       positionClass: 'toast-bottom-right',
     });
-  }
-
-  private mapOdontogramResponseToData(response: OdontogramResponse): void {
-    // Update data for rendering
-    this.data = this.mapResponseToOdontogram(response);
-
-    // Map response to odontogram for POST operations
-    this.odontogram = {
-      observations: response.observations,
-      teeth: [
-        ...response.adultArcade.map((tooth) => ({
-          idTooth: Number(tooth.idTooth),
-          status: true,
-          conditions: tooth.conditions.map((condition) => ({
-            idCondition: condition.idCondition,
-            condition: condition.condition,
-            description: condition.description,
-            selected: false,
-          })),
-          faces: tooth.faces.map((face) => ({
-            idFace: String(face.idFace),
-            conditions: face.conditions.map((condition) => ({
-              idCondition: condition.idToothFaceCondition,
-              condition: condition.condition,
-              description: condition.description,
-              selected: false,
-            })),
-          })),
-        })),
-        ...response.childArcade.map((tooth) => ({
-          idTooth: Number(tooth.idTooth),
-          status: true,
-          conditions: tooth.conditions.map((condition) => ({
-            idCondition: condition.idCondition,
-            condition: condition.condition,
-            description: condition.description,
-            selected: false,
-          })),
-          faces: tooth.faces.map((face) => ({
-            idFace: String(face.idFace),
-            conditions: face.conditions.map((condition) => ({
-              idCondition: condition.idToothFaceCondition,
-              condition: condition.condition,
-              description: condition.description,
-              selected: false,
-            })),
-          })),
-        })),
-      ],
-    };
-
-    this.renderOdontogram = true;
   }
 }

@@ -1,8 +1,16 @@
-@if (role !== ROL.STUDENT) {
+@if (role !== ROL.STUDENT || viewCardTreatments) {
     <mat-card appearance="outlined" class="custom">
-        <app-card-patient-data [patientUuid]="patientUuidParam"></app-card-patient-data>
+        <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
     </mat-card>
     <br>
+}
+
+@if (isSupervisorWithTreatment) {
+    <div class="rate-treatment flex justify-end mb-4">
+        <button mat-button (click)="opedDialogRateTreatment()">
+            Calificar Tratamiento
+        </button>
+    </div>
 }
 @if (mappedHistoryData) {
     <mat-card-title>
