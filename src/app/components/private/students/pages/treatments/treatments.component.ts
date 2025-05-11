@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
 import { CardPatientDataComponent } from "../../components/card-patient-data/card-patient-data.component";
-import { MedicalRecordGeneralTreatmentsComponent } from "../medical-records-treatments/medical-record-general-treatments/medical-record-general-treatments.component";
 
 import { ApiService } from '@mean/services';
 
@@ -34,7 +33,7 @@ import { PreventiveDentistryPublicHealthComponent } from "../history-clinics/pre
 @Component({
   selector: 'app-treatments',
   standalone: true,
-  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, MedicalRecordGeneralTreatmentsComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent, OralProsthesisComponent, StudentsDentalOperationComponent, LoadingComponent, StudentsGeneralHistoryComponent, FormUpdatePatientComponent],
+  imports: [MatListModule, MatButton, MatTabsModule, MatCardModule, CardPatientDataComponent, PreventiveDentistryPublicHealthComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent, OralProsthesisComponent, StudentsDentalOperationComponent, LoadingComponent, StudentsGeneralHistoryComponent, FormUpdatePatientComponent],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss',
 })
