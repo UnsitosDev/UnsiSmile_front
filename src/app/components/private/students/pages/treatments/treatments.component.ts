@@ -96,6 +96,11 @@ export class TreatmentsComponent implements OnInit {
 
         if (treatmentParams.idTreatmentDetail || treatmentParams.selectedTreatment) {
           this.openTreatmentParams(treatmentParams);
+
+          setTimeout(() => {
+            this.suppressTabChangeLogic = true;
+            this.tabGroup.selectedIndex = 1;
+          }, 0);
         }
       });
     }
@@ -178,7 +183,6 @@ export class TreatmentsComponent implements OnInit {
 
   openDialogNewTreatment(): void {
     const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
-      width: '800px',
       data: {
         patientUuid: this.patientUuid
       }
