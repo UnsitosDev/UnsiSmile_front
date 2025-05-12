@@ -62,7 +62,6 @@ export class PatientsTreatmentsComponent {
       next: (response: PaginatedData<TreatmentDetailResponse>) => {
         this.handleResponse(response, page);
         this.treatments = response
-        console.log(response);
       },
       error: (error) => {
         console.error('Error fetching treatments:', error);
