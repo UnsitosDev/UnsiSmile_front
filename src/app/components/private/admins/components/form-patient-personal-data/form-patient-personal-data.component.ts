@@ -39,7 +39,7 @@ import { LoadingComponent } from '@mean/shared';
 @Component({
   selector: 'app-form-patient-personal-data',
   standalone: true,
-  imports: [MatButtonModule, LoadingComponent,
+  imports: [MatButtonModule,
     MatStepperModule, FormsModule, ReactiveFormsModule,MatCardModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule, MatGridListModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatSelectModule, AlertComponent, FieldComponentComponent],
   templateUrl: './form-patient-personal-data.component.html',
   styleUrl: './form-patient-personal-data.component.scss',

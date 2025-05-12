@@ -27,8 +27,7 @@ import { LoadingComponent } from '@mean/shared';
     MatStepperModule,
     MatButtonModule,
     FieldComponentComponent,
-    AlertComponent, 
-    LoadingComponent
+    AlertComponent
 ],
   templateUrl: './form-update-patient.component.html',
   styleUrl: './form-update-patient.component.scss'

@@ -41,7 +41,7 @@ import { LoadingComponent } from '@mean/shared';
   selector: 'app-form-patient-personal-data',
   standalone: true,
   imports: [MatButtonModule,
-    MatStepperModule, FormsModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule, MatGridListModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatSelectModule, AlertComponent, FieldComponentComponent, LoadingComponent],
+    MatStepperModule, FormsModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule, MatGridListModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatSelectModule, AlertComponent, FieldComponentComponent],
   templateUrl: './form-patient-personal-data.component.html',
   styleUrl: './form-patient-personal-data.component.scss',
   providers: [provideNativeDateAdapter()],
