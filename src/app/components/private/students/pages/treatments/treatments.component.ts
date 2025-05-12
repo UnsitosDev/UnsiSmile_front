@@ -67,33 +67,38 @@ export class TreatmentsComponent implements OnInit {
   public selectedTreatment!: TreatmentDetailResponse;
   public medicalRecordConfig!: ClinicalHistoryCatalog;
   public statusParam!: string;
-  private loadTreatmentsWhitParams: boolean = false; 
+  private loadTreatmentsWhitParams: boolean = false;
 
   public isPatientLoading = false;
   public isPatientLastPage = false;
   public currentPatientPage = 0;
-
   STATUS = STATUS_TREATMENTS;
 
   ngOnInit(): void {
     this.routeParams();
-    // this.checkForPreselectedTreatment();
+    this.checkForPreselectedTreatment();
   }
 
   private checkForPreselectedTreatment(): void {
-    this.route.queryParams.subscribe(params => {
-      const treatmentParams: TreatmentParams = {
-        idTreatmentDetail: params['idTreatmentDetail'],
-        patientClinicalHistoryId: params['patientClinicalHistoryId'],
-        medicalRecordId: params['medicalRecordId'],
-        patientUuid: params['patientUuid'],
-        tabMedicalRecord: params['tabMedicalRecord'],
-        selectedTreatment: history.state.treatment,
-        status: params['status']
-        // statusParam: history.state
-      };
-      this.openTreatmentParams(treatmentParams);
-    });
+    const hasQueryParams = Object.keys(this.route.snapshot.queryParams).length > 0;
+
+    if (hasQueryParams || history.state?.treatment) {
+      this.route.queryParams.subscribe(params => {
+        const treatmentParams: TreatmentParams = {
+          idTreatmentDetail: params['idTreatmentDetail'],
+          patientClinicalHistoryId: params['patientClinicalHistoryId'],
+          medicalRecordId: params['medicalRecordId'],
+          patientUuid: params['patientUuid'],
+          tabMedicalRecord: params['tabMedicalRecord'],
+          selectedTreatment: history.state.treatment,
+          status: params['status']
+        };
+
+        if (treatmentParams.idTreatmentDetail || treatmentParams.selectedTreatment) {
+          this.openTreatmentParams(treatmentParams);
+        }
+      });
+    }
   }
 
   public onTabSelected(event: any): void {
@@ -271,7 +276,7 @@ export class TreatmentsComponent implements OnInit {
   backToTreatments(): void {
     this.viewTreatment = false;
     this.suppressTabChangeLogic = true;
-    if(this.loadTreatmentsWhitParams){
+    if (this.loadTreatmentsWhitParams) {
       this.fetchTreatmentData();
     }
     setTimeout(() => {
