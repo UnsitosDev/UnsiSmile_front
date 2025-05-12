@@ -88,14 +88,14 @@
                   <span class="rejected">Rechazado</span>
                   }
                   @case (STATUS.IN_PROGRESS) {
-                  <span class="update-treatment cursor-pointer" (click)="openUpdateTreatmentDialog(item)">Actualizar</span>
+                  <span (click)="openUpdateTreatmentDialog(item)"><i class="fas fa-edit cursor-pointer update-treatment"></i></span>
                   <span class="in-progress">En progreso</span>
                   }
                   @case (STATUS.FINISHED) {
                   <span class="finished">Finalizado</span>
                   }
                 }
-              <span class="view-badge" (click)="openTreatment(item)">
+              <span class="view-treatment cursor-pointer" (click)="openTreatment(item)">
                 Ver Tratamiento
               </span>
             </div>

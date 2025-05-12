@@ -110,6 +110,12 @@ mat-list-item span {
     color: var(--status-approved);
 }
 
+.view-treatment {
+    @extend .status-badge;
+    background-color: var(--view-treatment);
+    color: var(--tertiary);
+}
+
 .approved-treatment {
     @extend .badge-base-treatment-status;
     background: var(--secondary);
@@ -151,6 +157,5 @@ mat-list-item span {
 }
 
 .update-treatment {
-    @extend .status-badge;
-    color: var(--status);
+    color: var(--tertiary);
 }

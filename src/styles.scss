@@ -140,8 +140,10 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   // Colores para estados de tratamientos
   --status-in-review: #f59e0b; 
   --status-approved: #10b981;
+  --status-approved-backgroud: #1bf3ab;
   --status-rejected: #ef4444; 
-  --status-in-progress: #3b82f6; 
+  --status-in-progress: #3b82f6;
+  --view-treatment: #ddeaff; 
   --status-finished: #6b7280; 
 
   @include light-theme;
