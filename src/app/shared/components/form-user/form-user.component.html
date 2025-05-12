@@ -24,15 +24,25 @@
   
     <!-- Contenido principal -->
     <div class="profile-main">
-      <ul class="tab-list">
-        @for (tab of tabs; track tab; let i = $index) {
-          <li>
-            <a class="tab-link" [class.active]="i === activeTab()" (click)="setActiveTab(i)">
-              {{ tab }}
-            </a>
-          </li>
-        }
-      </ul>
+      <div class="tabs-scroll-container">
+        <button class="tab-arrow left" (click)="scrollTabs('left')" [disabled]="isScrollLeftEnd">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="tabs-wrapper" #tabsWrapper>
+          <ul class="tab-list" #tabList>
+            @for (tab of tabs; track tab; let i = $index) {
+              <li>
+                <a class="tab-link" [class.active]="i === activeTab()" (click)="setActiveTab(i)">
+                  {{ tab }}
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
+        <button class="tab-arrow right" (click)="scrollTabs('right')" [disabled]="isScrollRightEnd">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
   
       <div class="tab-content">
         @switch (activeTab()) {
