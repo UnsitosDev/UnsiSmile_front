@@ -64,7 +64,7 @@ export class FormProfessorAreaComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error al cargar áreas:', error);
+        this.toastr.error('Error al cargar áreas clínicas', 'Error');
       }
     });
   }

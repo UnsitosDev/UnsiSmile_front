@@ -70,7 +70,6 @@ export class FormUpdatePatientComponent {
       await this.loadRequiredData();
       this.route.params.subscribe(params => {
         this.patientId = params['idPatient'] || this.patientUuid;
-        console.log('ID del paciente:', this.patientId);
         if (this.patientId) {
           this.initializeForm();
           this.loadPatientData();
@@ -338,60 +337,7 @@ export class FormUpdatePatientComponent {
     }
   
     private setFormValues(patient: any) {
-      console.log('Datos recibidos del backend:', JSON.stringify({
-        paciente: {
-          id: patient.idPatient,
-          esMenor: patient.isMinor,
-          tieneDiscapacidad: patient.hasDisability,
-          datosPersonales: {
-            curp: patient.person.curp,
-            nombre: patient.person.firstName,
-            segundoNombre: patient.person.secondName,
-            apellidoPaterno: patient.person.firstLastName,
-            apellidoMaterno: patient.person.secondLastName,
-            telefono: patient.person.phone,
-            fechaNacimiento: patient.person.birthDate,
-            email: patient.person.email,
-            genero: patient.person.gender
-          },
-          direccion: {
-            idDireccion: patient.address.idAddress,
-            numeroExterior: patient.address.streetNumber,
-            numeroInterior: patient.address.interiorNumber,
-            tipoVivienda: patient.address.housing,
-            calle: {
-              id: patient.address.street.idStreet,
-              nombre: patient.address.street.name,
-              colonia: {
-                id: patient.address.street.neighborhood.idNeighborhood,
-                nombre: patient.address.street.neighborhood.name,
-                localidad: {
-                  id: patient.address.street.neighborhood.locality.idLocality,
-                  nombre: patient.address.street.neighborhood.locality.name,
-                  codigoPostal: patient.address.street.neighborhood.locality.postalCode,
-                  municipio: {
-                    id: patient.address.street.neighborhood.locality.municipality.idMunicipality,
-                    nombre: patient.address.street.neighborhood.locality.municipality.name,
-                    estado: {
-                      id: patient.address.street.neighborhood.locality.municipality.state.idState,
-                      nombre: patient.address.street.neighborhood.locality.municipality.state.name
-                    }
-                  }
-                }
-              }
-            }
-          },
-          otrosDatos: {
-            nacionalidad: patient.nationality,
-            estadoCivil: patient.maritalStatus,
-            ocupacion: patient.occupation,
-            grupoEtnico: patient.ethnicGroup,
-            religion: patient.religion
-          },
-          tutor: patient.guardian
-        }
-      }, null, 2));
-  
+    
       const birthDate = patient.person.birthDate ? new Date(patient.person.birthDate).toISOString().split('T')[0] : '';
       const admissionDate = patient.admissionDate ? new Date(patient.admissionDate).toISOString().split('T')[0] : '';
       
