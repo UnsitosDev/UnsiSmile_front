@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
-import { AllTreatmentDetailResponse } from '@mean/models';
+import { TreatmentDetailResponse } from '@mean/models';
 import { ApiService, AuthService } from '@mean/services';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
@@ -29,7 +29,8 @@ export class PatientsTreatmentsComponent {
   public isLoading = false;
   public isLastPage = false;
   public currentPage = 0;
-  public treatments: PaginatedData<AllTreatmentDetailResponse> | null = null;
+  public treatments: PaginatedData<TreatmentDetailResponse> | null = null;
+  public ptreatments: TreatmentDetailResponse[] = [];
   STATUS = STATUS_TREATMENTS;
 
   ngOnInit(): void {
@@ -58,8 +59,10 @@ export class PatientsTreatmentsComponent {
       url: `${UriConstants.GET_ALL_TREATMENTS}/${this.idStudent}?page=${page}&size=10`,
       data: {},
     }).subscribe({
-      next: (response: PaginatedData<AllTreatmentDetailResponse>) => {
+      next: (response: PaginatedData<TreatmentDetailResponse>) => {
         this.handleResponse(response, page);
+        this.treatments = response
+        console.log(response);
       },
       error: (error) => {
         console.error('Error fetching treatments:', error);
@@ -68,7 +71,7 @@ export class PatientsTreatmentsComponent {
     });
   }
 
-  private handleResponse(response: PaginatedData<AllTreatmentDetailResponse>, page: number): void {
+  private handleResponse(response: PaginatedData<TreatmentDetailResponse>, page: number): void {
     if (!this.treatments || page === 0) {
       this.treatments = response;
     } else {
@@ -89,30 +92,22 @@ export class PatientsTreatmentsComponent {
     }
   }
 
-  openTreatment(treatment: AllTreatmentDetailResponse): void {
-    console.log('historia clinica =>', treatment.treatment.clinicalHistoryCatalogName, 'id =>', treatment.treatment.clinicalHistoryCatalogId)
-    switch (treatment.treatment.clinicalHistoryCatalogId) {
-      case 2: // Tratamiento Protesis Bucal
-        const routeOralProthesis = `/students/preventive-dentistry-public-health/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`;
-        this.router.navigate([routeOralProthesis]);
-        break;
-      case 6: // Tratamiento Clinica Preventiva
-        const routePreventive =
-          `/students/preventive-dentistry-public-health/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`;
-        this.router.navigate([routePreventive]);
-        break;
-      case 4: // Tratamiento Clinica Operatoria Dental
-        const routeDentalOperation = `/students/dental-operation/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
-        this.router.navigate([routeDentalOperation]);
-        break
-      case 3: // Tratamiento Clinica Periodoncia
-        const routePeriodontics = `/students/periodontics/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
-        this.router.navigate([routePeriodontics]);
-        break;
-      case 5: // Tratamiento Clinica Cirujia Bucal
-        const routeOralSurgery = `/students/oral-surgery/${treatment.treatment.clinicalHistoryCatalogId}/patient/${treatment.patientId}/medical-record-id/${treatment.patientClinicalHistoryId}/treatment/${treatment.treatment.idTreatment}`
-        this.router.navigate([routeOralSurgery]);
-        break;
-    }
+  openTreatment(treatment: TreatmentDetailResponse): void {
+    this.router.navigate(
+      ['/students/treatments/patient', treatment.patientId],
+      {
+        queryParams: {
+          treatment: treatment,
+          idTreatmentDetail: treatment.idTreatmentDetail,
+          patientClinicalHistoryId: treatment.patientClinicalHistoryId,
+          medicalRecordId: treatment.treatment.clinicalHistoryCatalogId,
+          patientUuid: treatment.patientId,
+          tabMedicalRecord: treatment.treatment.clinicalHistoryCatalogName
+        },
+        state:{
+          treatment
+        }
+      }
+    );
   }
 }

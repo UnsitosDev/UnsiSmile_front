@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -29,7 +29,14 @@ import { OralProsthesisComponent } from "../history-clinics/oral-prosthesis/oral
 import { StudentsOralSurgeryHistoryComponent } from "../history-clinics/oral-surgery/students-oral-surgery-history.component";
 import { StudentsPeriodonticsHistoryComponent } from "../history-clinics/periodontics/students-periodontics-history.component";
 import { PreventiveDentistryPublicHealthComponent } from "../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component";
-
+export interface TreatmentParams {
+  idTreatmentDetail: number,
+  patientClinicalHistoryId: number,
+  medicalRecordId: number,
+  patientUuid: string,
+  tabMedicalRecord: string,
+  selectedTreatment: TreatmentDetailResponse,
+}
 @Component({
   selector: 'app-treatments',
   standalone: true,
@@ -41,6 +48,7 @@ export class TreatmentsComponent implements OnInit {
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
 
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly apiService = inject(ApiService);
   public readonly dialog = inject(MatDialog);
 
@@ -57,7 +65,7 @@ export class TreatmentsComponent implements OnInit {
   private idTreatmentDetail!: number;
   public selectedTreatment!: TreatmentDetailResponse;
   public medicalRecordConfig!: ClinicalHistoryCatalog;
-
+  public statusParam!: string;
 
   public isPatientLoading = false;
   public isPatientLastPage = false;
@@ -67,6 +75,22 @@ export class TreatmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.routeParams();
+    //this.checkForPreselectedTreatment();
+  }
+
+  private checkForPreselectedTreatment(): void {
+    this.route.queryParams.subscribe(params => {
+      const treatmentParams: TreatmentParams = {
+        idTreatmentDetail: params['idTreatmentDetail'],
+        patientClinicalHistoryId: params['patientClinicalHistoryId'],
+        medicalRecordId: params['medicalRecordId'],
+        patientUuid: params['patientUuid'],
+        tabMedicalRecord: params['tabMedicalRecord'],
+        selectedTreatment: history.state
+        // statusParam: history.state
+      };
+      this.openTreatmentParams(treatmentParams);
+    });
   }
 
   public onTabSelected(event: any): void {
@@ -218,6 +242,16 @@ export class TreatmentsComponent implements OnInit {
     this.idTreatmentDetail = treatment.idTreatmentDetail;
     this.medicalRecordId = treatment.treatment.clinicalHistoryCatalogId;
     this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
+  }
+
+  openTreatmentParams(treatment: TreatmentParams): void {
+    this.viewTreatment = true;
+    // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
+    this.selectedTreatment = treatment.selectedTreatment;
+    this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
+    this.idTreatmentDetail = treatment.idTreatmentDetail;
+    this.medicalRecordId = Number(treatment.medicalRecordId);
+    this.tabMedicalRecord = treatment.tabMedicalRecord;
   }
 
   formatArrayDate(dateArray: number[]): string {
