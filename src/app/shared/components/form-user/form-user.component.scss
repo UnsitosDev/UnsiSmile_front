@@ -37,10 +37,10 @@
   display: grid;
   grid-template-columns: 250px 1fr; // Reducido de 300px a 250px
   gap: 1.5rem; // Reducido de 2rem a 1.5rem
-  padding: 1.5rem; // Reducido de 2rem a 1.5rem
+  padding: 0rem; // Reducido de 2rem a 1.5rem
   background-color: var(--on-primary);
   border-radius: 0.75rem; // Reducido de 1rem a 0.75rem
-  margin: 1rem auto; // Reducido de 2rem a 1rem
+  margin: 3rem auto; // Reducido de 2rem a 1rem
   width: calc(100% - 2rem); // Ajuste para márgenes laterales
   max-width: 1000px; // Reducido de 1200px a 1000px
 
