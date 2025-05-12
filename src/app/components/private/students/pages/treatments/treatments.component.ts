@@ -12,7 +12,7 @@ import { CardPatientDataComponent } from "../../components/card-patient-data/car
 import { ApiService } from '@mean/services';
 
 import { TreatmentDetailResponse } from '@mean/models';
-import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
+import { ID_PATIENT_CLINICAL_HISTORY, ID_TREATMENT_DETAIL, MEDICAL_RECORD_ID, PATIENT_UUID, PATIENT_UUID_TREATMENT, STATUS_TREATMENT, TAB_MEDICAL_RECORD } from 'src/app/models/shared/route.params.model';
 
 import { MatListModule } from '@angular/material/list';
 import { UriConstants } from '@mean/utils';
@@ -85,13 +85,13 @@ export class TreatmentsComponent implements OnInit {
     if (hasQueryParams || history.state?.treatment) {
       this.route.queryParams.subscribe(params => {
         const treatmentParams: TreatmentParams = {
-          idTreatmentDetail: params['idTreatmentDetail'],
-          patientClinicalHistoryId: params['patientClinicalHistoryId'],
-          medicalRecordId: params['medicalRecordId'],
-          patientUuid: params['patientUuid'],
-          tabMedicalRecord: params['tabMedicalRecord'],
+          idTreatmentDetail: params[ID_TREATMENT_DETAIL],
+          patientClinicalHistoryId: params[ID_PATIENT_CLINICAL_HISTORY],
+          medicalRecordId: params[MEDICAL_RECORD_ID],
+          patientUuid: params[PATIENT_UUID_TREATMENT],
+          tabMedicalRecord: params[TAB_MEDICAL_RECORD],
           selectedTreatment: history.state.treatment,
-          status: params['status']
+          status: params[STATUS_TREATMENT]
         };
 
         if (treatmentParams.idTreatmentDetail || treatmentParams.selectedTreatment) {
