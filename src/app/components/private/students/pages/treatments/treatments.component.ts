@@ -36,6 +36,7 @@ export interface TreatmentParams {
   patientUuid: string,
   tabMedicalRecord: string,
   selectedTreatment: TreatmentDetailResponse,
+  status: string;
 }
 @Component({
   selector: 'app-treatments',
@@ -66,6 +67,7 @@ export class TreatmentsComponent implements OnInit {
   public selectedTreatment!: TreatmentDetailResponse;
   public medicalRecordConfig!: ClinicalHistoryCatalog;
   public statusParam!: string;
+  private loadTreatmentsWhitParams: boolean = false; 
 
   public isPatientLoading = false;
   public isPatientLastPage = false;
@@ -75,7 +77,7 @@ export class TreatmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.routeParams();
-    //this.checkForPreselectedTreatment();
+    // this.checkForPreselectedTreatment();
   }
 
   private checkForPreselectedTreatment(): void {
@@ -86,7 +88,8 @@ export class TreatmentsComponent implements OnInit {
         medicalRecordId: params['medicalRecordId'],
         patientUuid: params['patientUuid'],
         tabMedicalRecord: params['tabMedicalRecord'],
-        selectedTreatment: history.state
+        selectedTreatment: history.state.treatment,
+        status: params['status']
         // statusParam: history.state
       };
       this.openTreatmentParams(treatmentParams);
@@ -246,6 +249,7 @@ export class TreatmentsComponent implements OnInit {
 
   openTreatmentParams(treatment: TreatmentParams): void {
     this.viewTreatment = true;
+    this.loadTreatmentsWhitParams = true;
     // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
     this.selectedTreatment = treatment.selectedTreatment;
     this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
@@ -267,6 +271,9 @@ export class TreatmentsComponent implements OnInit {
   backToTreatments(): void {
     this.viewTreatment = false;
     this.suppressTabChangeLogic = true;
+    if(this.loadTreatmentsWhitParams){
+      this.fetchTreatmentData();
+    }
     setTimeout(() => {
       this.tabGroup.selectedIndex = 2;
       setTimeout(() => this.suppressTabChangeLogic = false, 100);

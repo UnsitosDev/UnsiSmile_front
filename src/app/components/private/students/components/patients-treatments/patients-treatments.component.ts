@@ -102,7 +102,7 @@ export class PatientsTreatmentsComponent {
           patientClinicalHistoryId: treatment.patientClinicalHistoryId,
           medicalRecordId: treatment.treatment.clinicalHistoryCatalogId,
           patientUuid: treatment.patientId,
-          tabMedicalRecord: treatment.treatment.clinicalHistoryCatalogName
+          tabMedicalRecord: treatment.treatment.clinicalHistoryCatalogName,
         },
         state:{
           treatment
