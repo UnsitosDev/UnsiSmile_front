@@ -37,10 +37,10 @@
   display: grid;
   grid-template-columns: 250px 1fr; // Reducido de 300px a 250px
   gap: 1.5rem; // Reducido de 2rem a 1.5rem
-  padding: 1.5rem; // Reducido de 2rem a 1.5rem
+  padding: 0rem; // Reducido de 2rem a 1.5rem
   background-color: var(--on-primary);
   border-radius: 0.75rem; // Reducido de 1rem a 0.75rem
-  margin: 1rem auto; // Reducido de 2rem a 1rem
+  margin: 3rem auto; // Reducido de 2rem a 1rem
   width: calc(100% - 2rem); // Ajuste para márgenes laterales
   max-width: 1000px; // Reducido de 1200px a 1000px
 
@@ -804,3 +804,116 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
+
+// ...existing code...
+
+.tabs-scroll-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.tabs-wrapper {
+  overflow-x: auto; // Cambiado de hidden a auto para permitir scroll
+  flex: 1 1 0%;
+  min-width: 0; // Permite que el contenedor se reduzca correctamente
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE/Edge
+}
+.tabs-wrapper::-webkit-scrollbar {
+  display: none; // Oculta la barra de scroll en Chrome/Safari
+}
+
+.tab-list {
+  display: flex;
+  flex-wrap: nowrap !important;
+  gap: 1rem;
+  border-bottom: 2px solid var(--outline);
+  margin-bottom: 2;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  width: max-content;
+  min-width: 100%; // Asegura que al menos ocupe todo el ancho disponible
+  transition: transform 0.3s;
+}
+
+.tab-arrow {
+  background: var(--secondary);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  cursor: pointer;
+  margin: 0 4px;
+  transition: background 0.2s, color 0.2s;
+  z-index: 2;
+
+  &:hover:enabled {
+    background: var(--tertiary);
+    color: var(--border);
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.tab-arrow.left {
+  margin-right: 8px;
+}
+.tab-arrow.right {
+  margin-left: 8px;
+}
+
+// ...mantén los estilos existentes para .tab-link y otros...
+
+// Elimina el wrap en media queries para tab-list
+@media (max-width: 992px) {
+  .profile-container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    margin: 1rem;
+    gap: 1rem;
+  }
+  .profile-main {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .tab-list {
+    gap: 0.5rem;
+    justify-content: flex-start;
+    flex-wrap: nowrap !important;
+    min-width: 100%;
+  }
+  .tabs-wrapper {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .tab-list {
+    gap: 0.25rem;
+    flex-wrap: nowrap !important;
+    margin-bottom: 1rem;
+    min-width: 100%;
+    li {
+      width: auto;
+      text-align: center;
+    }
+  }
+  .tabs-wrapper {
+    min-width: 0;
+  }
+}
+
+// ...existing code...
