@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,7 +12,7 @@ import { CardPatientDataComponent } from "../../components/card-patient-data/car
 import { ApiService } from '@mean/services';
 
 import { TreatmentDetailResponse } from '@mean/models';
-import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
+import { ID_PATIENT_CLINICAL_HISTORY, ID_TREATMENT_DETAIL, MEDICAL_RECORD_ID, PATIENT_UUID, PATIENT_UUID_TREATMENT, STATUS_TREATMENT, TAB_MEDICAL_RECORD } from 'src/app/models/shared/route.params.model';
 
 import { MatListModule } from '@angular/material/list';
 import { UriConstants } from '@mean/utils';
@@ -29,7 +29,15 @@ import { OralProsthesisComponent } from "../history-clinics/oral-prosthesis/oral
 import { StudentsOralSurgeryHistoryComponent } from "../history-clinics/oral-surgery/students-oral-surgery-history.component";
 import { StudentsPeriodonticsHistoryComponent } from "../history-clinics/periodontics/students-periodontics-history.component";
 import { PreventiveDentistryPublicHealthComponent } from "../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component";
-
+export interface TreatmentParams {
+  idTreatmentDetail: number,
+  patientClinicalHistoryId: number,
+  medicalRecordId: number,
+  patientUuid: string,
+  tabMedicalRecord: string,
+  selectedTreatment: TreatmentDetailResponse,
+  status: string;
+}
 @Component({
   selector: 'app-treatments',
   standalone: true,
@@ -41,6 +49,7 @@ export class TreatmentsComponent implements OnInit {
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
 
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly apiService = inject(ApiService);
   public readonly dialog = inject(MatDialog);
 
@@ -57,16 +66,44 @@ export class TreatmentsComponent implements OnInit {
   private idTreatmentDetail!: number;
   public selectedTreatment!: TreatmentDetailResponse;
   public medicalRecordConfig!: ClinicalHistoryCatalog;
-
+  public statusParam!: string;
+  private loadTreatmentsWhitParams: boolean = false;
 
   public isPatientLoading = false;
   public isPatientLastPage = false;
   public currentPatientPage = 0;
-
   STATUS = STATUS_TREATMENTS;
 
   ngOnInit(): void {
     this.routeParams();
+    this.checkForPreselectedTreatment();
+  }
+
+  private checkForPreselectedTreatment(): void {
+    const hasQueryParams = Object.keys(this.route.snapshot.queryParams).length > 0;
+
+    if (hasQueryParams || history.state?.treatment) {
+      this.route.queryParams.subscribe(params => {
+        const treatmentParams: TreatmentParams = {
+          idTreatmentDetail: params[ID_TREATMENT_DETAIL],
+          patientClinicalHistoryId: params[ID_PATIENT_CLINICAL_HISTORY],
+          medicalRecordId: params[MEDICAL_RECORD_ID],
+          patientUuid: params[PATIENT_UUID_TREATMENT],
+          tabMedicalRecord: params[TAB_MEDICAL_RECORD],
+          selectedTreatment: history.state.treatment,
+          status: params[STATUS_TREATMENT]
+        };
+
+        if (treatmentParams.idTreatmentDetail || treatmentParams.selectedTreatment) {
+          this.openTreatmentParams(treatmentParams);
+
+          setTimeout(() => {
+            this.suppressTabChangeLogic = true;
+            this.tabGroup.selectedIndex = 1;
+          }, 0);
+        }
+      });
+    }
   }
 
   public onTabSelected(event: any): void {
@@ -146,7 +183,6 @@ export class TreatmentsComponent implements OnInit {
 
   openDialogNewTreatment(): void {
     const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
-      width: '800px',
       data: {
         patientUuid: this.patientUuid
       }
@@ -220,6 +256,17 @@ export class TreatmentsComponent implements OnInit {
     this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
   }
 
+  openTreatmentParams(treatment: TreatmentParams): void {
+    this.viewTreatment = true;
+    this.loadTreatmentsWhitParams = true;
+    // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
+    this.selectedTreatment = treatment.selectedTreatment;
+    this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
+    this.idTreatmentDetail = treatment.idTreatmentDetail;
+    this.medicalRecordId = Number(treatment.medicalRecordId);
+    this.tabMedicalRecord = treatment.tabMedicalRecord;
+  }
+
   formatArrayDate(dateArray: number[]): string {
     if (!dateArray || dateArray.length < 3) return 'Fecha inválida';
 
@@ -233,6 +280,9 @@ export class TreatmentsComponent implements OnInit {
   backToTreatments(): void {
     this.viewTreatment = false;
     this.suppressTabChangeLogic = true;
+    if (this.loadTreatmentsWhitParams) {
+      this.fetchTreatmentData();
+    }
     setTimeout(() => {
       this.tabGroup.selectedIndex = 2;
       setTimeout(() => this.suppressTabChangeLogic = false, 100);

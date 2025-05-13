@@ -29,7 +29,7 @@ export interface TreatmentDetailResponse {
     professorId: string;
     professorName: string;
     status: string; 
-    patientId?: string;
+    patientId: string;
     studentName?: string;
 }
 
