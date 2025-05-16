@@ -154,7 +154,7 @@ export class ProgressNotesService {
             errorMessages: {
                 required: 'El campo Profesor es requerido.',
             },
-            options: []
+            options: [],
         }
     ];
 
@@ -166,15 +166,17 @@ export class ProgressNotesService {
     private getProfesorOptions(): void {
         this.profesorService.getProfesorArea().subscribe({
             next: (response) => {
-                const profesorField = this.formProgressNotes.find(
-                    (field) => field.name === 'professorClinicalAreaId'
+              const listProfessors = this.formProgressNotes.find(
+                  (field) => field.name === 'professorClinicalAreaId'
                 );
-                if (profesorField) {
-                    profesorField.options = response.map((profesor: any) => ({
-                        value: profesor.idCatalogOption,
-                        label: profesor.optionName,
-                    }));
+
+                if (listProfessors){
+                  listProfessors.options = response.content.map((professor: any) => ({
+                    value: professor.idProfessorClinicalArea,
+                    label: professor.professorName,
+                  }))
                 }
+
             },
             error: (error) => {
                 console.error(error);
