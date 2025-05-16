@@ -31,6 +31,7 @@ export class HistoryInitialBagComponent implements OnInit {
   private token!: string;
   private tokenData!: TokenData;
   role!: string;
+  public enabledButton: boolean = true;
   periodontogram!: PatientEvaluation;
   @Input({ required: true }) patientId!: string;
   @Input({ required: true }) idQuestion!: number;
@@ -88,7 +89,7 @@ export class HistoryInitialBagComponent implements OnInit {
     this.tokenData = this.userService.getTokenDataUser(this.token);
     this.role = this.tokenData.role[0].authority;
   }
-  
+
   store(): void {
     switch (this.state) {
       case 'create':
@@ -120,6 +121,7 @@ export class HistoryInitialBagComponent implements OnInit {
           this.id = this.periodontogram.id || 0;
           this.notes = this.periodontogram.notes;
           this.loadPeriodontogramData(this.periodontogram);
+          this.enabledButton = true;
         },
         error: (error) => {
           return;
@@ -427,16 +429,17 @@ export class HistoryInitialBagComponent implements OnInit {
       idPatientClinicalHistory: this.idClinicalHistoryPatient
     };
 
+    console.log(data);
     return data;
   }
 
   isPeriodontogramEmpty(): boolean {
     for (const tableKey of this.getTableKeys()) {
       const table = this.tab[tableKey];
-  
+
       for (const row of table.rows) {
         if (row.values.some((value: number | boolean | null) => value !== null && value !== false)) {
-          return false; 
+          return false;
         }
       }
     }
