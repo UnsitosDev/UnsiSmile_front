@@ -53,7 +53,7 @@
         <mat-label>{{ field.label }}</mat-label>
         <input matInput [placeholder]="field.placeholder" [formControlName]="field.name" (input)="onValueChange($event)" [disabled]="field.disabled ?? false"/>
         @if (formGroup.get(field.name)?.hasError('lastError') && formGroup.get(field.name)?.touched && !formGroup.get(field.name)?.hasError('required')) {
-          <mat-error>{{ errors?.lastError }}</mat-error>
+          <mat-error class="error-message">{{ errors?.lastError }}</mat-error>
         }
         @if (formGroup.get(field.name)?.hasError('required')) {
           <mat-error class="error-message">{{ errors?.required }}</mat-error>
