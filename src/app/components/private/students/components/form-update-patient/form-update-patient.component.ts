@@ -17,6 +17,7 @@ import { PatientService } from 'src/app/services/patient/patient.service';
 import { DialogConfirmGuardianComponent } from '../../../admins/components/dialog-confirm-guardian/dialog-confirm-guardian.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoadingComponent } from '@mean/shared';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-form-update-patient',
@@ -27,7 +28,8 @@ import { LoadingComponent } from '@mean/shared';
     MatStepperModule,
     MatButtonModule,
     FieldComponentComponent,
-    AlertComponent
+    AlertComponent,
+    LoadingComponent
 ],
   templateUrl: './form-update-patient.component.html',
   styleUrl: './form-update-patient.component.scss'
@@ -57,6 +59,8 @@ export class FormUpdatePatientComponent {
     streetId: string = '';
     private addressId: number = 0;
   
+    public isLoading: boolean = true;
+
     constructor(
       private route: ActivatedRoute,
       private router: Router,
@@ -66,14 +70,47 @@ export class FormUpdatePatientComponent {
     ) {}
   
     async ngOnInit() {
-      await this.loadRequiredData();
-      this.route.params.subscribe(params => {
-        this.patientId = params['idPatient'] || this.patientUuid;
-        if (this.patientId) {
-          this.initializeForm();
-          this.loadPatientData();
+      try {
+        await this.loadRequiredData();
+        this.route.params.subscribe(async params => {
+          this.patientId = params['idPatient'] || this.patientUuid;
+          if (this.patientId) {
+            this.initializeForm();
+            await this.loadAllPatientData();
+          }
+        });
+      } catch (error) {
+        this.toastr.error('Error al cargar los datos iniciales');
+      } finally {
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    }
+  
+    private async loadAllPatientData(): Promise<void> {
+      try {
+        const response = await firstValueFrom(this.apiService.getService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url: `${UriConstants.GET_PATIENT_BY_ID}${this.patientId}`,
+          data: {},
+        }));
+
+        this.minorPatient = response.isMinor;
+        this.disabledPatient = response.hasDisability;
+        
+        if (response.hasDisability && response.guardian) {
+          this.needsGuardian = true;
         }
-      });
+
+        await this.loadAddressData(response.address);
+        this.setFormValues(response);
+
+      } catch (error) {
+        this.toastr.error('Error al cargar los datos del paciente');
+        throw error;
+      }
     }
   
     private async loadRequiredData(): Promise<void> {
@@ -210,32 +247,6 @@ export class FormUpdatePatientComponent {
       });
     }
   
-    private loadPatientData() {
-      this.apiService.getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_PATIENT_BY_ID}${this.patientId}`,
-        data: {},
-      }).subscribe({
-        next: async (response) => {
-          this.minorPatient = response.isMinor;
-          this.disabledPatient = response.hasDisability;
-          
-          // Si es discapacitado y tiene tutor, establecer needsGuardian en true
-          if (response.hasDisability && response.guardian) {
-            this.needsGuardian = true;
-          }
-          
-          await this.loadAddressData(response.address);
-          this.setFormValues(response);
-        },
-        error: (error) => {
-          this.toastr.error('Error al cargar los datos del paciente');
-        }
-      });
-    }
-  
     private async loadAddressData(address: any): Promise<void> {
       if (!address) return;
   
@@ -246,32 +257,25 @@ export class FormUpdatePatientComponent {
         const municipality = locality?.municipality;
         const state = municipality?.state;
   
+        // Cargar todos los datos de dirección en paralelo
         if (state?.idState) {
           this.stateNameId = state.idState.toString();
-          await this.loadStateData(state.name);
-        }
-  
-        if (municipality?.idMunicipality) {
-          this.municipalityNameId = municipality.idMunicipality.toString();
-          await this.loadMunicipalityData(municipality.name);
-        }
-  
-        if (locality?.idLocality) {
-          this.localityId = locality.idLocality.toString();
-          await this.loadLocalityData(locality.name);
-        }
-  
-        if (neighborhood?.idNeighborhood) {
-          this.neighborhoodId = neighborhood.idNeighborhood.toString();
-          await this.loadNeighborhoodData(neighborhood.name);
-        }
-  
-        if (street?.idStreet) {
-          this.streetId = street.idStreet.toString();
-          await this.loadStreetData(street.name);
+          this.municipalityNameId = municipality?.idMunicipality?.toString() || '';
+          this.localityId = locality?.idLocality?.toString() || '';
+          this.neighborhoodId = neighborhood?.idNeighborhood?.toString() || '';
+          this.streetId = street?.idStreet?.toString() || '';
+
+          await Promise.all([
+            this.loadStateData(state.name),
+            municipality && this.loadMunicipalityData(municipality.name),
+            locality && this.loadLocalityData(locality.name),
+            neighborhood && this.loadNeighborhoodData(neighborhood.name),
+            street && this.loadStreetData(street.name)
+          ].filter(Boolean));
         }
       } catch (error) {
         this.toastr.error('Error al cargar los datos de dirección');
+        throw error;
       }
     }
   
@@ -663,4 +667,4 @@ export class FormUpdatePatientComponent {
     }
   
   }
-  
+

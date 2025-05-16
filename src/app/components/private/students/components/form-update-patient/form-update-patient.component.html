@@ -2,6 +2,13 @@
   <mat-card-title><strong>Actualizar paciente</strong></mat-card-title>
 </mat-card>
 
+@if (isLoading) {
+  <div class="loading-overlay">
+    <app-loading></app-loading>
+  </div>
+}
+
+@if (!isLoading) {
 <mat-stepper class="fondo" linear #stepper>
   <mat-step>
     <form [formGroup]="formGroup">
@@ -107,5 +114,5 @@
     </mat-step>
   }
 </mat-stepper>
-
+}
 <app-alert></app-alert>
