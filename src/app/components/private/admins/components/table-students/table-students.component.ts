@@ -214,9 +214,6 @@ export class TableStudentsComponent implements OnInit {
       panelClass: 'custom-dialog-container'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
 
   onStatusChange(event: { row: any, newStatus: string }) {

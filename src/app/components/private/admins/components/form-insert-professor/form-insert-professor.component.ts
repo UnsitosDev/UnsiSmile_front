@@ -29,8 +29,7 @@ import { LoadingComponent } from '@mean/shared';
         MatButtonModule,
         MatStepperModule,
         MatCardModule,
-        FieldComponentComponent,
-        LoadingComponent
+        FieldComponentComponent
     ],
     templateUrl: './form-insert-professor.component.html',
     styleUrls: ['./form-insert-professor.component.scss']

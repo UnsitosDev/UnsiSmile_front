@@ -94,7 +94,7 @@ export class StudentsPatientsComponent implements OnInit {
   }
   
   delete(nombre: string) {
-    console.log('eliminar', nombre);
+    
   }
 
   edit(objeto: any) {
@@ -106,7 +106,7 @@ export class StudentsPatientsComponent implements OnInit {
   }
 
   eliminar(nombre: string) {
-    console.log('eliminar', nombre);
+    
   }
 
   mostrarAlerta() {
@@ -124,9 +124,6 @@ export class StudentsPatientsComponent implements OnInit {
       panelClass: 'custom-dialog-container'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
 
   idPatientx: number = 0;

@@ -19,7 +19,7 @@ import { STATUS } from 'src/app/utils/statusToReview';
 @Component({
   selector: 'app-dialog-history-clinics',
   standalone: true,
-  imports: [MatGridListModule, MatIconModule, MatDividerModule, DatePipe, MatListModule],
+  imports: [MatGridListModule, MatIconModule, MatDividerModule, MatListModule],
   templateUrl: './dialog-history-clinics.component.html',
   styleUrl: './dialog-history-clinics.component.scss'
 })
