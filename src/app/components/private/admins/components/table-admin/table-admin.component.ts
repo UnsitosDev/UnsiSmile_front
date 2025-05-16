@@ -234,8 +234,5 @@ export class TableAdminComponent implements OnInit {
       panelClass: 'custom-dialog-container'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
 }

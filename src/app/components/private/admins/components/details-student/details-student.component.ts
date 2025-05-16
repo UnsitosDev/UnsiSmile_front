@@ -26,7 +26,6 @@ export class DetailsStudentComponent implements OnInit {
   ngOnInit(): void {
     this.dataSharingService.adminData$.subscribe(studentData => {
       this.data = studentData;
-      console.log('studentData', studentData);
     });
   }
 

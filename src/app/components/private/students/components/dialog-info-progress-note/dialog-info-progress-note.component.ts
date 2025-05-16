@@ -44,7 +44,7 @@ interface ProgressNote {
 @Component({
   selector: 'app-dialog-info-progress-note',
   standalone: true,
-  imports: [MatCardModule, MatIconButton, MatListModule, MatIconModule, MatDialogModule, MatDialogModule],
+  imports: [MatCardModule, MatListModule, MatIconModule, MatDialogModule, MatDialogModule],
   templateUrl: './dialog-info-progress-note.component.html',
   styleUrl: './dialog-info-progress-note.component.scss'
 })

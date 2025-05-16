@@ -77,7 +77,6 @@ export class AdminTablePatientsComponent {
   }
 
   eliminar(nombre: string) {
-    console.log('eliminar', nombre);
   }
 
   mostrarAlerta() {
@@ -88,7 +87,6 @@ export class AdminTablePatientsComponent {
   patients!: Patient[];
   getPacientes(page: number, size: number, keyword: string = '') {
     const url = `${UriConstants.GET_PATIENTS}?keyword=${keyword}`;
-    console.log('URL de la solicitud:', url); // Debug
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -97,7 +95,6 @@ export class AdminTablePatientsComponent {
       data: {},
     }).subscribe({
       next: (response) => {
-        console.log('Respuesta del backend:', response); // Debug
         if (Array.isArray(response.content)) {
           this.patientsList = response.content.map((patient: Patient) => {
             const person = patient.person;
@@ -112,19 +109,16 @@ export class AdminTablePatientsComponent {
             };
           });
         } else {
-          console.error('La respuesta no contiene un array en content.');
           this.patientsList = []; // Limpia la tabla si no hay resultados
         }
       },
       error: (error) => {
-        console.error('Error en la autenticación o en la solicitud:', error);
-      },
+        console.error('Error al obtener los pacientes:', error);},
     });
   }
   
 
   onSearch(keyword: string) {
-    console.log('Búsqueda recibida:', keyword); // Debug
     if (keyword.length >= 2 || keyword.length === 0) {
       this.currentPage = 0; // Reinicia la página a la primera
       this.getPacientes(this.currentPage, this.itemsPerPage, keyword);

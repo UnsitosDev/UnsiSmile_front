@@ -18,7 +18,7 @@ import { LoadingComponent } from '@mean/shared';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FontAwesomeModule, DashboardAdminStatsComponent, LoadingComponent],
+  imports: [FontAwesomeModule, DashboardAdminStatsComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })  
