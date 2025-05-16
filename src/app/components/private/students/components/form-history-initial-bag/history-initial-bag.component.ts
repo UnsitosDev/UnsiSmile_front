@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PatientEvaluation, Row, SurfaceEvaluation, SurfaceMeasurement, TabStructure, ToothEvaluation } from '@mean/models';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
+import { ROLES } from "../../../../../utils/roles";
 @Component({
   selector: 'app-history-initial-bag',
   standalone: true,
@@ -20,36 +21,46 @@ import { TokenData } from 'src/app/components/public/login/model/tokenData';
   styleUrl: './history-initial-bag.component.scss',
 })
 export class HistoryInitialBagComponent implements OnInit {
-  notes: string = '';
-  id: number = 0; // Id Periodontograma
+  @Input() patientId!: string;                                   // ID del paciente
+  @Input() idQuestion!: number;                                  // ID de la pregunta asociada
+  @Input() state!: 'create' | 'update' | 'read' | 'read-latest'; // Estado del formulario
+  @Input() idClinicalHistoryPatient!: number;                    // ID de la historia clínica
+
+  @Output() nextTabEventEmitted = new EventEmitter<boolean>();     // Evento para cambiar pestaña
+  @Output() nextMatTab = new EventEmitter<void>();                 // Evento siguiente pestaña (Material)
+  @Output() previousMatTab = new EventEmitter<void>();             // Evento pestaña anterior (Material)
+
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
-  private formSectionId = 8;
-  private plaqueIndex = 0;
-  private bleedingIndex = 0;
   private userService = inject(AuthService);
-  private token!: string;
-  private tokenData!: TokenData;
-  role!: string;
-  public enabledButton: boolean = true;
-  periodontogram!: PatientEvaluation;
-  @Input({ required: true }) patientId!: string;
-  @Input({ required: true }) idQuestion!: number;
-  @Input({ required: true }) state!: 'create' | 'update' | 'read' | 'read-latest';
-  @Input({ required: true }) idClinicalHistoryPatient!: number;
-  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
-  @Output() nextMatTab = new EventEmitter<void>();
-  @Output() previousMatTab = new EventEmitter<void>();
-  // Símbolos para la columna SIGNO
+
+  public notes: string = '';                  // Notas del periodontograma
+  public id: number = 0;                      // ID del Periodontograma
+  public role!: string;                       // Rol del usuario
+  public token!: string;                      // Token de autenticación
+  public tokenData!: TokenData;               // Datos decodificados del token
+  public periodontogram!: PatientEvaluation;  // Datos del periodontograma del paciente
+
+  private formSectionId = 8;                        // ID de la sección
+  private plaqueIndex = 0;                          // Índice de placa bacteriana
+  private bleedingIndex = 0;                        // Índice de sangrado
+  public enabledButton: boolean = true;                     // Control de habilitación de botones
+
+  ROL = ROLES;
+  // Símbolos para la columna "SIGNO"
   signSymbols = ['P. B.', 'N. I.', 'M. D.', 'SANGRA', 'PLACA', 'CALCULO'];
+
+  // Posiciones dentales
   positions = ['MESIAL', 'CENTRAL', 'DISTAL'];
-  // Mapeo de nombres de superficies
+
+  // Mapeo de nombres de superficies dentales
   surfaceNameMapping: { [key: string]: string } = {
     'VESTIBULARES SUPERIORES': 'VESTIBULAR',
     'PALATINOS INFERIORES': 'PALATINO',
     'LINGUALES SUPERIORES': 'LINGUAL',
-    'VESTIBULARES INFERIORES': 'VESTIBULAR_INFERIOR',
+    'VESTIBULARES INFERIORES': 'VESTIBULAR_INFERIOR'
   };
+
   // Estructura de las tablas
   tab: TabStructure = {
     upperVestibular: {
