@@ -160,13 +160,15 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
       this.getProgressNotes(0, true);
     });
   }
+
   downloadFile(idProgressNoteFile: string) {
+    console.log(idProgressNoteFile);
     this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.DOWNLOAD_EVOLUTION_NOTE}/${idProgressNoteFile}`,
+        url: `${UriConstants.DOWLOAD_SIGNED_NOTES}/${idProgressNoteFile}/download`,
         data: {},
         responseType: 'blob',
       })
@@ -198,7 +200,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.DOWNLOAD_EVOLUTION_NOTE}/${idProgressNote}`,
+        url: `${UriConstants.DOWLOAD_FORMAT_PROGRESS_NOTES}/${idProgressNote}/generate-pdf`,
         data: {},
         responseType: 'blob',
       })

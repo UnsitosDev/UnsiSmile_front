@@ -79,7 +79,7 @@ export class DialogInfoProgressNoteComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.DOWNLOAD_EVOLUTION_NOTE}/${this.idProgressNote}`,
+        url: `${UriConstants.DOWLOAD_FORMAT_PROGRESS_NOTES}/${this.idProgressNote}/generate-pdf`,
         data: {},
         responseType: 'blob',
       })
