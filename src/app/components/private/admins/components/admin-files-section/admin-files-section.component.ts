@@ -61,7 +61,7 @@ export class AdminFilesSectionComponent implements OnInit {
 
   sendFiles() {
     if (this.files.length === 0) {
-      this.toastr.warning(Messages.WARNING_NO_FILE_SELECTED_FORMATS);
+      this.toastr.warning(Messages.WARNING_NO_FILE_SELECTED_FILES);
       return;
     }
 
@@ -82,7 +82,7 @@ export class AdminFilesSectionComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.getAllFormats();
-          this.toastr.success(Messages.SUCCESS_FORMATS);
+          this.toastr.success(Messages.SUCCESS_FILE);
         },
         error: (error) => {
           this.toastr.error(error);
