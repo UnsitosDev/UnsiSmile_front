@@ -63,6 +63,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   private userService = inject(AuthService);
   private token!: string;
   private tokenData!: TokenData;
+  private idFileFormat!: string;
   role!: string;
   currentPage: number = 0;
   isLastPage: boolean = false;
@@ -103,6 +104,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
         next: (response) => {
           if (!this.progressNotesData) {
             this.progressNotesData = response;
+            this.idFileFormat = this.progressNotesData?.content?.[0]?.files?.[0]?.idProgressNoteFile ?? '';
           } else {
             // Concatena los nuevos resultados con los existentes
             this.progressNotesData.content = [...this.progressNotesData.content, ...response.content];
@@ -143,6 +145,7 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
       data: { note, patientId: this.patientId, patientData: this.data, medicalRecordNumber: this.medicalRecordNumber, progressNoteData: this.progressNotesData },
     });
 
+    console.log(note);
     dialogRef.afterClosed().subscribe((result) => {
     });
   }
@@ -188,6 +191,39 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
         },
       });
   }
+
+  dowloadFormat(idProgressNote: string   ): void {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.DOWNLOAD_EVOLUTION_NOTE}/${idProgressNote}`,
+        data: {},
+        responseType: 'blob',
+      })
+      .subscribe({
+        next: (response: Blob) => {
+          const blob = new Blob([response], { type: response.type || 'application/octet-stream' });
+
+          const link = document.createElement('a');
+          const url = window.URL.createObjectURL(blob);
+          link.href = url;
+
+          link.download = 'Nota_de_evolución';
+
+          document.body.appendChild(link);
+          link.click();
+
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
+  }
+
 
   previousTab() {
     this.previousMatTab.emit();

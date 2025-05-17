@@ -83,3 +83,19 @@ hr{
   .load{
     text-align: center;
   }
+
+.dowload-badge {
+  background-color: var(--view-treatment);
+  color: var(--tertiary);
+  display: inline-flex;
+  align-items: center;
+  border-radius: 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-left: 8px;
+  padding: 0 8px;
+  line-height: 1.2;
+  height: 24px;
+  box-sizing: border-box;
+  font-weight: 500;
+}

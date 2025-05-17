@@ -52,11 +52,11 @@ export class DialogInfoProgressNoteComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<DialogInfoProgressNoteComponent>);
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
-  private idFile!: string;
+  private idProgressNote!: string;
   constructor(@Inject(MAT_DIALOG_DATA) public data: { note: ProgressNote, patientId: string, patientData: cardPatient, medicalRecordNumber: number, progressNoteData: any }) { }
 
   ngOnInit(): void {
-    this.idFile = this.data.note.idProgressNote;
+    this.idProgressNote = this.data.note.idProgressNote;
   }
 
   closeDialog(): void {
@@ -79,7 +79,7 @@ export class DialogInfoProgressNoteComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.DOWNLOAD_EVOLUTION_NOTE}/${this.idFile}`,
+        url: `${UriConstants.DOWNLOAD_EVOLUTION_NOTE}/${this.idProgressNote}`,
         data: {},
         responseType: 'blob',
       })

@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<mat-list class="list-custom" style="height: 200px; overflow-y: auto;">
+<mat-list class="list-custom p-4" style="height: 200px; overflow-y: auto;">
 
   @if (isLoading && currentPage === 0) {
     <app-loading/>
@@ -25,13 +25,14 @@
               {{ note.creationDate | date : "dd/MM/yyyy HH:mm" }}
             </div>
           </div>
-          <div class="icon-container">
-            <i class="fas fa-eye" (click)="viewNote(note)" aria-label="View Note"></i>
+          <div class="icon-container flex items-center justify-center gap-4">
+            <span class="dowload-badge cursor-pointer" (click)="dowloadFormat(note.idProgressNote)">Descargar formato</span>
+            <i class="fas fa-eye cursor-pointer" (click)="viewNote(note)" aria-label="View Note"></i>
             @if (note.files && note.files.length > 0) {
-              <i class="fas fa-download" (click)="downloadFile(note.files[0].idProgressNoteFile)" aria-label="Download File"></i>
+              <i class="fas fa-download cursor-pointer" (click)="downloadFile(note.files[0].idProgressNoteFile)" aria-label="Download File"></i>
             } @else {
               @if (role == 'ROLE_STUDENT') {
-                <i class="fas fa-paperclip" (click)="attachDocument(note)" aria-label="Attach Document"></i>
+                <i class="fas fa-paperclip cursor-pointer" (click)="attachDocument(note)" aria-label="Attach Document"></i>
               }
             }
           </div>
@@ -52,7 +53,7 @@
         </button>
       }
     </div>
-    
+
   } @else {
     <div>No hay notas disponibles.</div>
   }
