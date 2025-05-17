@@ -63,7 +63,6 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   private userService = inject(AuthService);
   private token!: string;
   private tokenData!: TokenData;
-  private idFileFormat!: string;
   role!: string;
   currentPage: number = 0;
   isLastPage: boolean = false;
@@ -104,7 +103,6 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
         next: (response) => {
           if (!this.progressNotesData) {
             this.progressNotesData = response;
-            this.idFileFormat = this.progressNotesData?.content?.[0]?.files?.[0]?.idProgressNoteFile ?? '';
           } else {
             // Concatena los nuevos resultados con los existentes
             this.progressNotesData.content = [...this.progressNotesData.content, ...response.content];
