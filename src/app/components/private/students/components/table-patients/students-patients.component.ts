@@ -20,7 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrat
 import { MatCardModule } from '@angular/material/card';
 import { DetailsPatientsComponent } from '../details-patients/details-patients.component';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
-import { TreatmentsComponent } from '../../pages/treatments/treatments.component';
+import { TreatmentsComponent } from '../../pages/treatments/presentation/treatment/treatment.component';
 import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
 import { LoadingComponent } from '@mean/shared';
 

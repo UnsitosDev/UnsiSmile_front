@@ -5,10 +5,11 @@ import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { TreatmentDetailResponse } from '@mean/models';
 import { ApiService, AuthService } from '@mean/services';
+import { LoadingComponent } from '@mean/shared';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
-import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
+
 
 @Component({
   selector: 'app-patients-treatments',
@@ -93,11 +94,10 @@ export class PatientsTreatmentsComponent {
 
   openTreatment(treatment: TreatmentDetailResponse): void {
     this.router.navigate(
-      ['/students/treatments/patient', treatment.patientId],
+      ['/students/treatment-detail/',treatment.idTreatmentDetail,'/patient', treatment.patientId],
       {
         queryParams: {
           treatment: treatment,
-          idTreatmentDetail: treatment.idTreatmentDetail,
           patientClinicalHistoryId: treatment.patientClinicalHistoryId,
           medicalRecordId: treatment.treatment.clinicalHistoryCatalogId,
           patientUuid: treatment.patientId,

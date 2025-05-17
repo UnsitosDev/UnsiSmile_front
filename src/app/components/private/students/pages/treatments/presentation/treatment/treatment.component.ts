@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatButton } from '@angular/material/button';
@@ -7,7 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
-import { CardPatientDataComponent } from '../../components/card-patient-data/card-patient-data.component';
+import { CardPatientDataComponent } from '../../../../components/card-patient-data/card-patient-data.component';
 
 import { ApiService } from '@mean/services';
 
@@ -27,15 +27,15 @@ import { UriConstants } from '@mean/utils';
 import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
-import { LoadingComponent } from '../../../../../models/shared/loading/loading.component';
-import { DialogConfirmSendToReviewComponent } from '../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
-import { DialogNewTreatmentComponent } from '../../components/dialog-new-treatment/dialog-new-treatment.component';
-import { StudentsDentalOperationComponent } from '../history-clinics/dental-operation/students-dental-operation.component';
-import { StudentsGeneralHistoryComponent } from '../history-clinics/general/students-general-history.component';
-import { OralProsthesisComponent } from '../history-clinics/oral-prosthesis/oral-prosthesis.component';
-import { StudentsOralSurgeryHistoryComponent } from '../history-clinics/oral-surgery/students-oral-surgery-history.component';
-import { StudentsPeriodonticsHistoryComponent } from '../history-clinics/periodontics/students-periodontics-history.component';
-import { PreventiveDentistryPublicHealthComponent } from '../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
+import { DialogConfirmSendToReviewComponent } from '../../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
+import { DialogNewTreatmentComponent } from '../../../../components/dialog-new-treatment/dialog-new-treatment.component';
+import { FormUpdatePatientComponent } from '../../../../components/form-update-patient/form-update-patient.component';
+import { StudentsDentalOperationComponent } from '../../../history-clinics/dental-operation/students-dental-operation.component';
+import { StudentsGeneralHistoryComponent } from '../../../history-clinics/general/students-general-history.component';
+import { OralProsthesisComponent } from '../../../history-clinics/oral-prosthesis/oral-prosthesis.component';
+import { StudentsOralSurgeryHistoryComponent } from '../../../history-clinics/oral-surgery/students-oral-surgery-history.component';
+import { StudentsPeriodonticsHistoryComponent } from '../../../history-clinics/periodontics/students-periodontics-history.component';
+import { PreventiveDentistryPublicHealthComponent } from '../../../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -59,27 +59,28 @@ export interface TreatmentParams {
     StudentsPeriodonticsHistoryComponent,
     OralProsthesisComponent,
     StudentsDentalOperationComponent,
-    LoadingComponent,
     StudentsGeneralHistoryComponent,
+    FormUpdatePatientComponent,
   ],
-  templateUrl: './treatment-details.component.html',
-  styleUrl: './treatment-details.component.scss',
+  templateUrl: './treatment.component.html',
+  styleUrl: './treatment.component.scss',
 })
-export class TreatmentDetailsComponent implements OnInit {
+export class TreatmentComponent implements OnInit {
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
 
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly apiService = inject(ApiService);
   public readonly dialog = inject(MatDialog);
-  @Input() patientUuid!: string;
+
+  public patientUuid!: string;
   public isLoading = false;
   public treatmentsPatient!: PaginatedData<TreatmentDetailResponse> | null;
   public viewTreatment = false;
   public tabMedicalRecord!: string;
-  @Input() patientClinicalHistoryId!: number;
+  public patientClinicalHistoryId!: number;
   public idMedicalRecordGeneral!: number;
-  @Input() medicalRecordId!: number;
+  public medicalRecordId!: number;
   public medicalRecordLoaded = false;
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
@@ -281,13 +282,22 @@ export class TreatmentDetailsComponent implements OnInit {
   }
 
   openTreatment(treatment: TreatmentDetailResponse): void {
-    this.viewTreatment = true;
-    // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
-    this.selectedTreatment = treatment;
-    this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
-    this.idTreatmentDetail = treatment.idTreatmentDetail;
-    this.medicalRecordId = treatment.treatment.clinicalHistoryCatalogId;
-    this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
+    this.router.navigate(
+      ['/students/treatments/patient', treatment.patientId],
+      {
+        queryParams: {
+          treatment: treatment,
+          idTreatmentDetail: treatment.idTreatmentDetail,
+          patientClinicalHistoryId: treatment.patientClinicalHistoryId,
+          medicalRecordId: treatment.treatment.clinicalHistoryCatalogId,
+          patientUuid: treatment.patientId,
+          tabMedicalRecord: treatment.treatment.clinicalHistoryCatalogName,
+        },
+        state:{
+          treatment
+        }
+      }
+    );
   }
 
   openTreatmentParams(treatment: TreatmentParams): void {

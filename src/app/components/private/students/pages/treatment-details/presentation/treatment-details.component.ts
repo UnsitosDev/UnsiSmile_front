@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatButton } from '@angular/material/button';
@@ -7,7 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
-import { CardPatientDataComponent } from '../../components/card-patient-data/card-patient-data.component';
+import { CardPatientDataComponent } from '../../../components/card-patient-data/card-patient-data.component';
 
 import { ApiService } from '@mean/services';
 
@@ -27,15 +27,15 @@ import { UriConstants } from '@mean/utils';
 import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
-import { DialogConfirmSendToReviewComponent } from '../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
-import { DialogNewTreatmentComponent } from '../../components/dialog-new-treatment/dialog-new-treatment.component';
-import { FormUpdatePatientComponent } from '../../components/form-update-patient/form-update-patient.component';
-import { StudentsDentalOperationComponent } from '../history-clinics/dental-operation/students-dental-operation.component';
-import { StudentsGeneralHistoryComponent } from '../history-clinics/general/students-general-history.component';
-import { OralProsthesisComponent } from '../history-clinics/oral-prosthesis/oral-prosthesis.component';
-import { StudentsOralSurgeryHistoryComponent } from '../history-clinics/oral-surgery/students-oral-surgery-history.component';
-import { StudentsPeriodonticsHistoryComponent } from '../history-clinics/periodontics/students-periodontics-history.component';
-import { PreventiveDentistryPublicHealthComponent } from '../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
+import { LoadingComponent } from '../../../../../../models/shared/loading/loading.component';
+import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
+import { DialogNewTreatmentComponent } from '../../../components/dialog-new-treatment/dialog-new-treatment.component';
+import { StudentsDentalOperationComponent } from '../../history-clinics/dental-operation/students-dental-operation.component';
+import { StudentsGeneralHistoryComponent } from '../../history-clinics/general/students-general-history.component';
+import { OralProsthesisComponent } from '../../history-clinics/oral-prosthesis/oral-prosthesis.component';
+import { StudentsOralSurgeryHistoryComponent } from '../../history-clinics/oral-surgery/students-oral-surgery-history.component';
+import { StudentsPeriodonticsHistoryComponent } from '../../history-clinics/periodontics/students-periodontics-history.component';
+import { PreventiveDentistryPublicHealthComponent } from '../../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -59,28 +59,28 @@ export interface TreatmentParams {
     StudentsPeriodonticsHistoryComponent,
     OralProsthesisComponent,
     StudentsDentalOperationComponent,
+    LoadingComponent,
     StudentsGeneralHistoryComponent,
-    FormUpdatePatientComponent,
   ],
-  templateUrl: './treatments.component.html',
-  styleUrl: './treatments.component.scss',
+  templateUrl: './treatment-details.component.html',
+  styleUrl: './treatment-details.component.scss',
 })
-export class TreatmentsComponent implements OnInit {
+export class TreatmentDetailsComponent implements OnInit {
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
 
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   private readonly apiService = inject(ApiService);
   public readonly dialog = inject(MatDialog);
 
-  public patientUuid!: string;
+  @Input() patientClinicalHistoryId!: number;
+  @Input() patientUuid!: string;
+  @Input() medicalRecordId!: number;
+  
   public isLoading = false;
   public treatmentsPatient!: PaginatedData<TreatmentDetailResponse> | null;
   public viewTreatment = false;
   public tabMedicalRecord!: string;
-  public patientClinicalHistoryId!: number;
   public idMedicalRecordGeneral!: number;
-  public medicalRecordId!: number;
   public medicalRecordLoaded = false;
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
@@ -88,10 +88,10 @@ export class TreatmentsComponent implements OnInit {
   public medicalRecordConfig!: ClinicalHistoryCatalog;
   public statusParam!: string;
   private loadTreatmentsWhitParams: boolean = false;
-
   public isPatientLoading = false;
   public isPatientLastPage = false;
   public currentPatientPage = 0;
+  
   STATUS = STATUS_TREATMENTS;
 
   ngOnInit(): void {

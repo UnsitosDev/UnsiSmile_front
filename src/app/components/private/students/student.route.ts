@@ -100,14 +100,21 @@ export default [
             {
                 path: 'treatments/patient/:patientID',
                 loadComponent: () => 
-                    import('./pages/treatments/treatments.component').then(
-                    (m) => m.TreatmentsComponent
+                    import('./pages/treatment-details/presentation/treatment-details.component').then(
+                    (m) => m.TreatmentDetailsComponent
+                ),
+            },
+            {
+                path: 'treatment-detail/:idTreatmet/patient/:patientID',
+                loadComponent: () => 
+                    import('./pages/treatment-details/presentation/treatment-details.component').then(
+                    (m) => m.TreatmentDetailsComponent
                 ),
             },
             {
                 path: 'all-treatments',
                 loadComponent: () => 
-                    import('./components/patients-treatments/patients-treatments.component').then(
+                    import('./pages/patients-treatments/presentation/patients-treatments.component').then(
                     (m) => m.PatientsTreatmentsComponent
                 ),
             },
