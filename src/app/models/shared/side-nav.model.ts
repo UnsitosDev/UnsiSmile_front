@@ -127,7 +127,7 @@ export const AdminItems: MenuItem[] = [
   {
     fontAwesomeIcon: faFileUpload,
     buttonText: 'Carga de archivos',
-    buttonDescription: 'Subir formatos',
+    buttonDescription: 'Subir Archivos',
     routerlink: '/admin/upload-files'
   }
 ];

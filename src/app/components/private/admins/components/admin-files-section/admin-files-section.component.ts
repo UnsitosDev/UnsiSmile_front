@@ -10,6 +10,7 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { FileData } from '@mean/models';
+
 @Component({
   selector: 'app-admin-files-section',
   standalone: true,
@@ -17,11 +18,12 @@ import { FileData } from '@mean/models';
   templateUrl: './admin-files-section.component.html',
   styleUrl: './admin-files-section.component.scss'
 })
+
 export class AdminFilesSectionComponent implements OnInit {
   private toastr = inject(ToastrService);
   private apiService = inject(ApiService);
   private router = inject(Router);
-  private formSection = 55;
+  private formSection = 53; // Seccion formatos legales y consentimientos
   public filesData: FileData[] = [];
 
   files: File[] = [];
@@ -35,19 +37,17 @@ export class AdminFilesSectionComponent implements OnInit {
     this.apiService
       .getService({
         headers: new HttpHeaders({}),
-        url: `${UriConstants.GET_FORMATS}/${this.formSection}`,
+        url: `${UriConstants.GET_FORMATS}`,
         data: {},
       })
       .subscribe({
-        next: (response) => {
-          if (response.questions && response.questions.length > 0 && response.questions[0].answer) {
-            this.filesData = response.questions[0].answer.files || []; 
-          } else {
-            this.filesData = []; 
-          }
+        next: (response: FileData[]) => {
+          this.filesData = response;
         },
         error: (error) => {
-          this.toastr.warning(Messages.NO_FILES_YET);
+          error.status === 404
+            ? this.toastr.warning(Messages.NO_FILES_YET)
+            : this.toastr.error();
         },
       });
   }
@@ -81,7 +81,7 @@ export class AdminFilesSectionComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.getAllFormats(); 
+          this.getAllFormats();
           this.toastr.success(Messages.SUCCESS_FORMATS);
         },
         error: (error) => {
