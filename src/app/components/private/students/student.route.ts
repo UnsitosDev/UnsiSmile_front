@@ -70,24 +70,6 @@ export default [
                     ),
             },
             {
-                path: 'dental-operation/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para operatoria dental
-                loadComponent: () =>
-                    import('./pages/history-clinics/dental-operation/students-dental-operation.component').then(
-                        (m) => m.StudentsDentalOperationComponent
-                    ),
-            },
-            {
-                path: 'oral-prosthesis/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para operatoria dental
-                loadComponent: () =>
-                    import('./pages/history-clinics/oral-prosthesis/oral-prosthesis.component').then(
-                        (m) => m.OralProsthesisComponent
-                    ),
-            },
-            {
-                path: 'preventive-dentistry-public-health/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail',
-                                loadComponent: () => import('./pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(m => m.PreventiveDentistryPublicHealthComponent),
-            },
-            {
                 path: 'dashboard',
                 loadComponent: () =>
                     import('./components/dashboard/dashboard.component').then(
