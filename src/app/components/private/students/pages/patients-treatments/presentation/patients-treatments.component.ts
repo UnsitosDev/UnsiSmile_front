@@ -25,7 +25,6 @@ export class PatientsTreatmentsComponent {
   private idStudent!: string;
   private token!: string;
   private tokenData!: TokenData;
-  private patientUuid!: string;
   public isLoading = false;
   public isLastPage = false;
   public currentPage = 0;
@@ -103,8 +102,12 @@ export class PatientsTreatmentsComponent {
   }
 
   navigateToTreatmentDetails(treatment: TreatmentDetailResponse): void {
-    this.router.navigate(
-      ['students/treatment-details', treatment.idTreatmentDetail, 'patient', treatment.patientId]
-    );
+    console.log('Navigating to treatment details:', treatment);
+    this.router.navigate([
+      'students/treatment-details',
+      treatment.idTreatmentDetail,
+      'patient',
+      treatment.patientId,
+    ]);
   }
 }

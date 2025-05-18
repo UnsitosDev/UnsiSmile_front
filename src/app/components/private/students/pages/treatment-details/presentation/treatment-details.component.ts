@@ -1,5 +1,4 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatButton } from '@angular/material/button';
@@ -9,14 +8,12 @@ import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
 import { CardPatientDataComponent } from '../../../components/card-patient-data/card-patient-data.component';
 
-import { ApiService } from '@mean/services';
 
 import { TreatmentDetailResponse } from '@mean/models';
 
 import { MatListModule } from '@angular/material/list';
-import { UriConstants } from '@mean/utils';
+import { LoadingComponent } from '@mean/shared';
 import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
 import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { DialogNewTreatmentComponent } from '../../../components/dialog-new-treatment/dialog-new-treatment.component';
@@ -26,9 +23,8 @@ import { OralProsthesisComponent } from '../../history-clinics/oral-prosthesis/o
 import { StudentsOralSurgeryHistoryComponent } from '../../history-clinics/oral-surgery/students-oral-surgery-history.component';
 import { StudentsPeriodonticsHistoryComponent } from '../../history-clinics/periodontics/students-periodontics-history.component';
 import { PreventiveDentistryPublicHealthComponent } from '../../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
-import { TreatmentRepositoryService } from '../repository/treatment-repository.service';
-import { LoadingComponent } from '@mean/shared';
 import { MedicalRecordRepositoryService } from '../repository/medical-record-repository.service';
+import { TreatmentRepositoryService } from '../repository/treatment-repository.service';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -70,9 +66,10 @@ export class TreatmentDetailsComponent implements OnInit {
   public patientClinicalHistoryId!: number;
   public patientUuid!: string;
   public medicalRecordId!: number;
-  public isLoading = true;
-  public idMedicalRecordGeneral!: number;
+  public idMedicalRecordGeneral: number = 1;
   public medicalRecordConfig!: ClinicalHistoryCatalog;
+  public isLoading = true;
+  public isLoadingGeneralMedicalRecord = true;
 
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
@@ -85,9 +82,10 @@ export class TreatmentDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadTreatmentDetails(this.route.snapshot.params['idTreatmet']);
-    this.patientUuid = this.route.snapshot.params['patientID'];
-    this.getMedicalRecordGeneral();
+    this.patientUuid = this.route.snapshot.params['idPatient'];
+    this.idTreatmentDetail = this.route.snapshot.params['idTreatmentDetail'];
+    this.loadTreatmentDetails(String(this.idTreatmentDetail));
+    this.getMedicalRecordGeneral(this.patientUuid);
   }
 
   private loadTreatmentDetails(idTreatment: string): void {
@@ -117,7 +115,7 @@ export class TreatmentDetailsComponent implements OnInit {
       case 0:
         break;
       case 1:
-        this.getMedicalRecordGeneral();
+        this.getMedicalRecordGeneral(this.patientUuid);
         break;
       case 2:
         break;
@@ -126,13 +124,15 @@ export class TreatmentDetailsComponent implements OnInit {
     }
   }
 
-  public getMedicalRecordGeneral() {
+  public getMedicalRecordGeneral(idPatient: string): void {
     this.medicalRecordRepositoryService
-      .getMedicalRecordByPatientId(this.patientUuid)
+      .getMedicalRecordByPatientId(idPatient)
       .subscribe({
         next: (response) => {
+          console.log('Medical Record:', response);
           this.medicalRecordConfig = response;
           this.idMedicalRecordGeneral = response.idPatientMedicalRecord;
+          this.isLoadingGeneralMedicalRecord = false;
         },
         error: (errorResponse) => {
           if (errorResponse.status === 404) {
@@ -149,7 +149,7 @@ export class TreatmentDetailsComponent implements OnInit {
       .createMedicalRecord(this.patientUuid)
       .subscribe({
         next: (response) => {
-          this.getMedicalRecordGeneral();
+          this.getMedicalRecordGeneral(this.patientUuid);
         },
         error: (error) => {
           console.error(error);

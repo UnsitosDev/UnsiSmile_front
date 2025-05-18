@@ -1,4 +1,4 @@
-@if (isLoading) {} @if(!isLoading) {
+@if(!isLoading && !isLoadingGeneralMedicalRecord) {
 <!-- card patient -->
 <mat-card appearance="outlined" class="custom mb-4">
   <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
