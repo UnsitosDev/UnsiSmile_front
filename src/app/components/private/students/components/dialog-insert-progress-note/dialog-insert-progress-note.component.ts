@@ -14,12 +14,13 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
+import {LoadingComponent} from "@mean/shared";
 
 
 @Component({
   selector: 'app-dialog-insert-progress-note',
   standalone: true,
-  imports: [MatDialogModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, FieldComponentComponent, MatDividerModule, MatButtonModule, MatIconModule, MatCardModule],
+  imports: [MatDialogModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, FieldComponentComponent, MatDividerModule, MatButtonModule, MatIconModule, MatCardModule, LoadingComponent],
   templateUrl: './dialog-insert-progress-note.component.html',
   styleUrl: './dialog-insert-progress-note.component.scss'
 })

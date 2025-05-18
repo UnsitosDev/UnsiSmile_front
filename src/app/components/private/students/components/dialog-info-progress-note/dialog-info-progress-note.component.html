@@ -1,12 +1,12 @@
     <mat-card>
       <mat-card-title>
         <div class="title-container">
-          <span><strong><i class="fas fa-notes-medical"></i> Nueva nota de evolución</strong></span>
+          <span><strong><i class="fas fa-notes-medical"></i> Detalles nota de evolución</strong></span>
           <mat-icon (click)="closeDialog()">close</mat-icon>
         </div>
       </mat-card-title>
     </mat-card>
-    
+
     <mat-dialog-content class="content">
       <div class="download">
         <button (click)="generatePdf()">
@@ -39,4 +39,4 @@
       <p><b>Profesor responsable:</b> {{data.note.professor}}</p>
     </mat-dialog-content>
 
-      
+

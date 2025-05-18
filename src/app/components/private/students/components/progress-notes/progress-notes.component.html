@@ -2,14 +2,14 @@
   <div></div>
   <div>
     @if (role == 'ROLE_STUDENT') {
-      <button type="button" mat-button (click)="openDialog()">
-        Nueva nota <i class="fas fa-plus"></i>
+      <button type="button" mat-button class="button-note" (click)="openDialog()">
+        <i class="fas fa-plus mr-1"></i> Nueva nota
       </button>
     }
   </div>
 </div>
 
-<mat-list class="list-custom" style="height: 200px; overflow-y: auto;">
+<mat-list class="p-4">
 
   @if (isLoading && currentPage === 0) {
     <app-loading/>
@@ -17,27 +17,30 @@
 
   @if (progressNotesData && progressNotesData.content.length > 0) {
     @for (note of progressNotesData.content; track note.idProgressNote) {
-      <mat-list-item>
-        <div class="note-content">
-          <div class="note-info">
-            <div matListItemTitle>Nota de evolución</div>
-            <div matListItemLine>
-              {{ note.creationDate | date : "dd/MM/yyyy HH:mm" }}
+      <ul class="p-4">
+        <li>
+          <div class="note-content">
+            <div class="note-info">
+              <div class="list-item-title">Nota de evolución</div>
+              <div class="list-item-line">
+                {{ note.creationDate | date : "dd/MM/yyyy HH:mm" }}
+              </div>
+            </div>
+            <div class="icon-container flex items-center justify-center gap-4">
+              <button mat-stroked-button matTooltip="Descargar plantilla nota de evolución" (click)="dowloadFormat(note.idProgressNote)"><i class="fas fa-download cursor-pointer mr-1"></i> Descargar plantilla</button>
+              <button mat-stroked-button matTooltip="Ver nota de evolución" (click)="viewNote(note)"><i class="fas fa-eye cursor-pointer mr-1" aria-label="View Note"></i> Ver nota</button>
+              @if (note.files && note.files.length > 0) {
+                <button mat-stroked-button matTooltip="Descargar nota de evolución firmada" (click)="downloadFile(note.files[0].idProgressNoteFile)"><i class="fas fa-download cursor-pointer mr-1" aria-label="Download File "></i>Nota firmada</button>
+              } @else {
+                @if (role == 'ROLE_STUDENT') {
+                  <button mat-stroked-button matTooltip="Adjuntar nota de evolución firmada" (click)="attachDocument(note)"><i class="fas fa-paperclip cursor-pointer mr-1" aria-label="Attach Document"></i>Subir firma</button>
+                }
+              }
             </div>
           </div>
-          <div class="icon-container">
-            <i class="fas fa-eye" (click)="viewNote(note)" aria-label="View Note"></i>
-            @if (note.files && note.files.length > 0) {
-              <i class="fas fa-download" (click)="downloadFile(note.files[0].idProgressNoteFile)" aria-label="Download File"></i>
-            } @else {
-              @if (role == 'ROLE_STUDENT') {
-                <i class="fas fa-paperclip" (click)="attachDocument(note)" aria-label="Attach Document"></i>
-              }
-            }
-          </div>
-        </div>
-      </mat-list-item>
-      <hr>
+          <mat-divider></mat-divider>
+        </li>
+      </ul>
     }
 
     @if (isLoading && currentPage > 0) {
@@ -48,19 +51,19 @@
     <div class="load">
       @if (!isLastPage) {
         <button type="button" mat-button (click)="loadMore()" [disabled]="isLoading">
-          Notas anteriores <i class="fas fa-chevron-down"></i>
+          <i class="fas fa-chevron-down mr-1"></i> Notas anteriores
         </button>
       }
     </div>
-    
+
   } @else {
-    <div>No hay notas disponibles.</div>
+    <div class="p-4">No hay notas disponibles.</div>
   }
 </mat-list>
 
 <div class="button-container">
-  <button type="button" mat-button (click)="previousTab()">
-    <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR
+  <button class="button-note" type="button" mat-button (click)="previousTab()">
+    <i class="fas fa-long-arrow-alt-left"></i> Anterior
   </button>
   <div></div>
 </div>

@@ -8,17 +8,19 @@
 </mat-card>
 
 <mat-dialog-content class="content">
-  <form [formGroup]="formGroup">  
+  <form [formGroup]="formGroup">
     @for (field of progressNotesForm; track $index) {
-      <app-field-component 
-        [field]="field" 
+      <app-field-component
+        [field]="field"
         [errors]="field.errorMessages"
         [formGroup]="formGroup">
       </app-field-component>
-    }      
+    }
   </form>
   <mat-dialog-actions align="end">
     <button mat-button (click)="onInsert()">Guardar Nota <i class="fas fa-save"></i></button>
   </mat-dialog-actions>
 </mat-dialog-content>
 
+
+<app-loading></app-loading>
