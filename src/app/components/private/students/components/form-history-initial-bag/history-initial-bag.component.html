@@ -93,7 +93,7 @@
   <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> <span class="hidden sm:inline"> Anterior</span> </button>
   <div>
     @if (role == 'ROLE_STUDENT') {
-      <button type="button" mat-button [hidden]="enabledButton" (click)="store()"> GUARDAR <i class="fas fa-save"></i></button>
+      <button type="button" mat-button [hidden]="enabledButton" (click)="store()"> Guardar <i class="fas fa-save"></i></button>
     }
     <button type="button" (click)="nextTab()" mat-button >
       <span class="hidden sm:inline">AVANZAR </span>
