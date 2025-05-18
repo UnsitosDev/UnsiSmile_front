@@ -68,6 +68,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private token!: string;
   private tokenData!: TokenData;
 
+  patientMedicalRecord: any;
+  medicalRecord: any;
   ROL = ROLES;
 
   constructor() { }
