@@ -130,7 +130,6 @@ export class TreatmentComponent implements OnInit {
       case 0:
         break;
       case 1:
-        this.getMedicalRecordGeneral();
         break;
       case 2:
         this.fetchTreatmentData();
@@ -145,54 +144,7 @@ export class TreatmentComponent implements OnInit {
       this.patientUuid = params[PATIENT_UUID];
     });
   }
-
-  public getMedicalRecordGeneral() {
-    this.fetchMedicalRecordConfig();
-  }
-
-  public fetchMedicalRecordConfig() {
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_GENERAL_MEDICAL_RECORD}?idPatient=${this.patientUuid}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.medicalRecordLoaded = true;
-          this.medicalRecordConfig = mapClinicalHistoryToDataTabs(response);
-        },
-        error: (errorResponse) => {
-          if (errorResponse.status === 404) {
-            this.createMedicalRecord();
-          } else {
-            console.error('Error:', errorResponse);
-          }
-        },
-      });
-  }
-
-  createMedicalRecord(): void {
-    this.apiService
-      .postService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_GENERAL_MEDICAL_RECORD}?idPatient=${this.patientUuid}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          this.fetchMedicalRecordConfig();
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
-  }
-
+ 
   openDialogNewTreatment(): void {
     const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
       data: {

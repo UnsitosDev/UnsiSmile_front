@@ -22,6 +22,7 @@ import { HeaderHistoryClinicComponent } from "../../../components/header-history
 import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
 import { TokenData } from '@mean/public';
 import { dataTabs } from '@mean/models';
+import { mapClinicalHistoryToDataTabs } from '../../../adapters/clinical-history.adapters';
 
 @Component({
   selector: 'app-students-general-history',
@@ -33,7 +34,7 @@ import { dataTabs } from '@mean/models';
 
 export class StudentsGeneralHistoryComponent implements OnInit {
   @Input() public patientUuid!: string;               // PatientUuid
-  @Input() public medicalRecordData!: dataTabs;       // Configuracion de la historia clinica
+  public medicalRecordData!: dataTabs;                // Configuracion de la historia clinica
 
   private readonly route = inject(Router);            // Servicio de routing de Angular
   private readonly apiService = inject(ApiService);   // Servicio para estado de historias clínica
@@ -48,7 +49,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public currentStatus: string | null = null;
 
   public role!: string;                               // Auth
-  private token!: string;                             
+  private token!: string;
   private tokenData!: TokenData;
 
   ROL = ROLES;                                         // Roles de usuario disponibles
@@ -57,8 +58,54 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUserRole();
-    this.patientMedicalRecord = this.medicalRecordData.idPatientMedicalRecord;
-    this.medicalRecordId = this.medicalRecordData.idClinicalHistoryCatalog;
+    this.fetchMedicalRecordConfig();
+  }
+
+  // Obtiene configuración de HC General usando patientUuid
+  public fetchMedicalRecordConfig() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_GENERAL_MEDICAL_RECORD}?idPatient=${this.patientUuid}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.medicalRecordData = mapClinicalHistoryToDataTabs(response);
+          this.patientMedicalRecord = this.medicalRecordData.idPatientMedicalRecord;
+          this.medicalRecordId = this.medicalRecordData.idClinicalHistoryCatalog;
+          console.log(this.medicalRecordData);
+        },
+        error: (errorResponse) => {
+          if (errorResponse.status === 404) {
+            this.createMedicalRecord();
+          } else {
+            console.error('Error:', errorResponse);
+          }
+        },
+      });
+  }
+
+  // Crea HC General de un paciente
+  createMedicalRecord(): void {
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_GENERAL_MEDICAL_RECORD}?idPatient=${this.patientUuid}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.fetchMedicalRecordConfig();
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
 
   private initializeUserRole(): void {

@@ -20,9 +20,7 @@
         <i class="fas fa-folder"></i>
         <span class="ml-2">Historia clínica general</span>
       </ng-template>
-      @if (medicalRecordLoaded) {
-        <app-students-general-history [patientUuid]="patientUuid" [medicalRecordData]="medicalRecordConfig"></app-students-general-history>
-      }
+        <app-students-general-history [patientUuid]="patientUuid"></app-students-general-history>
     </mat-tab>
   }
 
