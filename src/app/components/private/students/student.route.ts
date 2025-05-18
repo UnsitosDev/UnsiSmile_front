@@ -84,7 +84,7 @@ export default [
                 ),
             },
             {
-                path: 'treatment-detail/:idTreatmet/patient/:patientID',
+                path: 'treatment-details/:idTreatmet/patient/:patientID',
                 loadComponent: () => 
                     import('./pages/treatment-details/presentation/treatment-details.component').then(
                     (m) => m.TreatmentDetailsComponent

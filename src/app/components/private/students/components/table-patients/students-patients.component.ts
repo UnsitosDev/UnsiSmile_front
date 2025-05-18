@@ -1,28 +1,26 @@
-import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient/patient';
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Asegúrate de importar estos módulos
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '@mean/services';
+import { LoadingComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
+import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
 import { patientsTableData } from 'src/app/models/shared/patients';
+import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient/patient';
 import {
   Accion,
   getEntityPropiedades,
 } from 'src/app/models/tabla/tabla-columna';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { StudentsGeneralHistoryComponent } from '../../pages/history-clinics/general/students-general-history.component';
-import { DialogHistoryClinicsComponent } from '../dialog-history-clinics/dialog-history-clinics.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar estos módulos
-import { MatCardModule } from '@angular/material/card';
 import { DetailsPatientsComponent } from '../details-patients/details-patients.component';
-import { DataSharingService } from 'src/app/services/data-sharing.service';
-import { TreatmentsComponent } from '../../pages/treatments/presentation/treatment/treatment.component';
-import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
-import { LoadingComponent } from '@mean/shared';
 
 
 @Component({

@@ -12,22 +12,12 @@ import { CardPatientDataComponent } from '../../../components/card-patient-data/
 import { ApiService } from '@mean/services';
 
 import { TreatmentDetailResponse } from '@mean/models';
-import {
-  ID_PATIENT_CLINICAL_HISTORY,
-  ID_TREATMENT_DETAIL,
-  MEDICAL_RECORD_ID,
-  PATIENT_UUID,
-  PATIENT_UUID_TREATMENT,
-  STATUS_TREATMENT,
-  TAB_MEDICAL_RECORD,
-} from 'src/app/models/shared/route.params.model';
 
 import { MatListModule } from '@angular/material/list';
 import { UriConstants } from '@mean/utils';
 import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
-import { LoadingComponent } from '../../../../../../models/shared/loading/loading.component';
 import { DialogConfirmSendToReviewComponent } from '../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { DialogNewTreatmentComponent } from '../../../components/dialog-new-treatment/dialog-new-treatment.component';
 import { StudentsDentalOperationComponent } from '../../history-clinics/dental-operation/students-dental-operation.component';
@@ -36,6 +26,9 @@ import { OralProsthesisComponent } from '../../history-clinics/oral-prosthesis/o
 import { StudentsOralSurgeryHistoryComponent } from '../../history-clinics/oral-surgery/students-oral-surgery-history.component';
 import { StudentsPeriodonticsHistoryComponent } from '../../history-clinics/periodontics/students-periodontics-history.component';
 import { PreventiveDentistryPublicHealthComponent } from '../../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
+import { TreatmentRepositoryService } from '../repository/treatment-repository.service';
+import { LoadingComponent } from '@mean/shared';
+import { MedicalRecordRepositoryService } from '../repository/medical-record-repository.service';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -68,66 +61,49 @@ export interface TreatmentParams {
 export class TreatmentDetailsComponent implements OnInit {
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
 
-  private readonly route = inject(ActivatedRoute);
-  private readonly apiService = inject(ApiService);
+  private readonly medicalRecordRepositoryService = inject(
+    MedicalRecordRepositoryService
+  );
   public readonly dialog = inject(MatDialog);
+  private readonly treatmentService = inject(TreatmentRepositoryService);
 
-  @Input() patientClinicalHistoryId!: number;
-  @Input() patientUuid!: string;
-  @Input() medicalRecordId!: number;
-  
-  public isLoading = false;
-  public treatmentsPatient!: PaginatedData<TreatmentDetailResponse> | null;
-  public viewTreatment = false;
-  public tabMedicalRecord!: string;
+  public patientClinicalHistoryId!: number;
+  public patientUuid!: string;
+  public medicalRecordId!: number;
+  public isLoading = true;
   public idMedicalRecordGeneral!: number;
-  public medicalRecordLoaded = false;
+  public medicalRecordConfig!: ClinicalHistoryCatalog;
+
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
-  public selectedTreatment!: TreatmentDetailResponse;
-  public medicalRecordConfig!: ClinicalHistoryCatalog;
-  public statusParam!: string;
-  private loadTreatmentsWhitParams: boolean = false;
-  public isPatientLoading = false;
-  public isPatientLastPage = false;
-  public currentPatientPage = 0;
-  
+
   STATUS = STATUS_TREATMENTS;
 
+  treatmentDetails!: TreatmentDetailResponse;
+  selectedIndex = 0;
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
   ngOnInit(): void {
-    this.routeParams();
-    this.checkForPreselectedTreatment();
+    this.loadTreatmentDetails(this.route.snapshot.params['idTreatmet']);
+    this.patientUuid = this.route.snapshot.params['patientID'];
+    this.getMedicalRecordGeneral();
   }
 
-  private checkForPreselectedTreatment(): void {
-    const hasQueryParams =
-      Object.keys(this.route.snapshot.queryParams).length > 0;
-
-    if (hasQueryParams || history.state?.treatment) {
-      this.route.queryParams.subscribe((params) => {
-        const treatmentParams: TreatmentParams = {
-          idTreatmentDetail: params[ID_TREATMENT_DETAIL],
-          patientClinicalHistoryId: params[ID_PATIENT_CLINICAL_HISTORY],
-          medicalRecordId: params[MEDICAL_RECORD_ID],
-          patientUuid: params[PATIENT_UUID_TREATMENT],
-          tabMedicalRecord: params[TAB_MEDICAL_RECORD],
-          selectedTreatment: history.state.treatment,
-          status: params[STATUS_TREATMENT],
-        };
-
-        if (
-          treatmentParams.idTreatmentDetail ||
-          treatmentParams.selectedTreatment
-        ) {
-          this.openTreatmentParams(treatmentParams);
-
-          setTimeout(() => {
-            this.suppressTabChangeLogic = true;
-            this.tabGroup.selectedIndex = 1;
-          }, 0);
-        }
-      });
-    }
+  private loadTreatmentDetails(idTreatment: string): void {
+    this.treatmentService.getTreatmentDetails(idTreatment).subscribe({
+      next: (response) => {
+        this.treatmentDetails = response;
+        this.idTreatmentDetail = response.idTreatmentDetail;
+        this.patientClinicalHistoryId = response.patientClinicalHistoryId;
+        this.medicalRecordId = response.treatment.clinicalHistoryCatalogId;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading treatment details:', error);
+        this.router.navigate(['/students/all-treatments']);
+      },
+    });
   }
 
   public onTabSelected(event: any): void {
@@ -144,36 +120,18 @@ export class TreatmentDetailsComponent implements OnInit {
         this.getMedicalRecordGeneral();
         break;
       case 2:
-        this.fetchTreatmentData();
         break;
       default:
         console.warn('Tab index not handled:', tabIndex);
     }
   }
 
-  public routeParams() {
-    this.route.params.subscribe((params) => {
-      this.patientUuid = params[PATIENT_UUID];
-    });
-  }
-
   public getMedicalRecordGeneral() {
-    this.fetchMedicalRecordConfig();
-  }
-
-  public fetchMedicalRecordConfig() {
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_GENERAL_MEDICAL_RECORD}?idPatient=${this.patientUuid}`,
-        data: {},
-      })
+    this.medicalRecordRepositoryService
+      .getMedicalRecordByPatientId(this.patientUuid)
       .subscribe({
         next: (response) => {
           this.medicalRecordConfig = response;
-          this.medicalRecordLoaded = true;
           this.idMedicalRecordGeneral = response.idPatientMedicalRecord;
         },
         error: (errorResponse) => {
@@ -187,17 +145,11 @@ export class TreatmentDetailsComponent implements OnInit {
   }
 
   createMedicalRecord(): void {
-    this.apiService
-      .postService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.POST_GENERAL_MEDICAL_RECORD}?idPatient=${this.patientUuid}`,
-        data: {},
-      })
+    this.medicalRecordRepositoryService
+      .createMedicalRecord(this.patientUuid)
       .subscribe({
         next: (response) => {
-          this.fetchMedicalRecordConfig();
+          this.getMedicalRecordGeneral();
         },
         error: (error) => {
           console.error(error);
@@ -205,153 +157,24 @@ export class TreatmentDetailsComponent implements OnInit {
       });
   }
 
-  openDialogNewTreatment(): void {
-    const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
-      data: {
-        patientUuid: this.patientUuid,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.fetchTreatmentData();
-      }
-    });
-  }
-
-  public fetchTreatmentData(
-    page: number = 0,
-    resetPagination: boolean = false
-  ): void {
-    if (resetPagination) {
-      this.currentPatientPage = 0;
-      this.treatmentsPatient = null;
-    }
-
-    this.isPatientLoading = true;
-
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_TREATMENT_BY_ID}/${this.patientUuid}?page=${page}&size=10`,
-        data: {},
-      })
-      .subscribe({
-        next: (response: PaginatedData<TreatmentDetailResponse>) => {
-          this.handlePatientResponse(response, page);
-          if (response.content.length > 0) {
-            this.patientClinicalHistoryId =
-              response.content[0].patientClinicalHistoryId;
-            this.idTreatmentDetail = response.content[0].idTreatmentDetail;
-          }
-        },
-        error: (error) => {
-          console.error('Error fetching patient treatments:', error);
-          this.isPatientLoading = false;
-        },
-      });
-  }
-
-  private handlePatientResponse(
-    response: PaginatedData<TreatmentDetailResponse>,
-    page: number
-  ): void {
-    if (!this.treatmentsPatient || page === 0) {
-      this.treatmentsPatient = response;
-    } else {
-      this.treatmentsPatient.content = [
-        ...this.treatmentsPatient.content,
-        ...response.content,
-      ];
-      this.treatmentsPatient.pageable = response.pageable;
-      this.treatmentsPatient.last = response.last;
-      this.treatmentsPatient.totalPages = response.totalPages;
-    }
-
-    this.isPatientLastPage = response.last;
-    this.currentPatientPage = page;
-    this.isPatientLoading = false;
-  }
-
-  public loadMorePatientTreatments(): void {
-    if (!this.isPatientLoading && !this.isPatientLastPage) {
-      this.fetchTreatmentData(this.currentPatientPage + 1);
-    }
-  }
-
-  openTreatment(treatment: TreatmentDetailResponse): void {
-    this.viewTreatment = true;
-    // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
-    this.selectedTreatment = treatment;
-    this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
-    this.idTreatmentDetail = treatment.idTreatmentDetail;
-    this.medicalRecordId = treatment.treatment.clinicalHistoryCatalogId;
-    this.tabMedicalRecord = treatment.treatment.clinicalHistoryCatalogName;
-  }
-
-  openTreatmentParams(treatment: TreatmentParams): void {
-    this.viewTreatment = true;
-    this.loadTreatmentsWhitParams = true;
-    // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
-    this.selectedTreatment = treatment.selectedTreatment;
-    this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
-    this.idTreatmentDetail = treatment.idTreatmentDetail;
-    this.medicalRecordId = Number(treatment.medicalRecordId);
-    this.tabMedicalRecord = treatment.tabMedicalRecord;
-  }
-
-  formatArrayDate(dateArray: number[]): string {
-    if (!dateArray || dateArray.length < 3) return 'Fecha inválida';
-
-    const year = dateArray[0];
-    const month = dateArray[1].toString().padStart(2, '0');
-    const day = dateArray[2].toString().padStart(2, '0');
-
-    return `${day}/${month}/${year}`;
-  }
-
-  backToTreatments(): void {
-    this.viewTreatment = false;
-    this.suppressTabChangeLogic = true;
-    if (this.loadTreatmentsWhitParams) {
-      this.fetchTreatmentData();
-    }
-    setTimeout(() => {
-      this.tabGroup.selectedIndex = 2;
-      setTimeout(() => (this.suppressTabChangeLogic = false), 100);
-    });
-  }
+  backToTreatments(): void {}
 
   openDialogSendToReview(): void {
     const sendTreatment = true;
-    const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
+    this.dialog.open(DialogConfirmSendToReviewComponent, {
       data: {
         treatmentId: this.idTreatmentDetail,
         send: sendTreatment,
       },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.fetchTreatmentData();
-      }
-    });
   }
 
   openUpdateTreatmentDialog(treatment: TreatmentDetailResponse): void {
-    const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
+    this.dialog.open(DialogNewTreatmentComponent, {
       width: '800px',
       data: {
         treatment: treatment,
       },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.fetchTreatmentData();
-      }
     });
   }
 }

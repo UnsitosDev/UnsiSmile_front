@@ -9,10 +9,12 @@ export interface ClinicalHistory {
 }
 
 export interface ClinicalHistoryCatalog {
+    idPatientMedicalRecord:   number;
     idClinicalHistoryCatalog: number;
-    clinicalHistoryName: string;
-    formSections: FormSection[];
-    medicalRecordNumber: number;
+    clinicalHistoryName:      string;
+    medicalRecordNumber:      number;
+    appointmentDate:          Date;
+    formSections:             FormSection[];
 }
 
 export interface FormSection {

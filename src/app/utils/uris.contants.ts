@@ -364,6 +364,8 @@ export class UriConstants {
   public static readonly GET_TREATMENT_REVIEW = basePath + '/treatment-details/professors';
   public static readonly POST_RATE_TREATMENT = basePath + '/treatment-details'
   public static readonly PUT_TREATMENT = basePath + '/treatment-details'; 
+  public static readonly GET_TREATMENTS_DETAILS = basePath + '/treatment-details/:idTreatmentDetail'; 
+
   // Endpoints para guardianes/tutores
   public static readonly GET_GUARDIAN_BY_CURP = basePath + '/guardians/CURP/';
 }

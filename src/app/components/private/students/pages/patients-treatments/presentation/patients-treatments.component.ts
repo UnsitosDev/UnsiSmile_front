@@ -10,13 +10,12 @@ import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 
-
 @Component({
   selector: 'app-patients-treatments',
   standalone: true,
   imports: [MatCardModule, MatListModule, LoadingComponent],
   templateUrl: './patients-treatments.component.html',
-  styleUrl: './patients-treatments.component.scss'
+  styleUrl: './patients-treatments.component.scss',
 })
 export class PatientsTreatmentsComponent {
   private apiService = inject(ApiService);
@@ -40,12 +39,15 @@ export class PatientsTreatmentsComponent {
   }
 
   private getRole() {
-    this.token = this.userService.getToken() ?? "";
+    this.token = this.userService.getToken() ?? '';
     this.tokenData = this.userService.getTokenDataUser(this.token);
     this.idStudent = this.tokenData.uuid;
   }
 
-  public fetchTreatments(page: number = 0, resetPagination: boolean = false): void {
+  public fetchTreatments(
+    page: number = 0,
+    resetPagination: boolean = false
+  ): void {
     if (resetPagination) {
       this.currentPage = 0;
       this.treatments = null;
@@ -53,29 +55,37 @@ export class PatientsTreatmentsComponent {
 
     this.isLoading = true;
 
-    this.apiService.getService({
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      url: `${UriConstants.GET_ALL_TREATMENTS}/${this.idStudent}?page=${page}&size=10`,
-      data: {},
-    }).subscribe({
-      next: (response: PaginatedData<TreatmentDetailResponse>) => {
-        this.handleResponse(response, page);
-        this.treatments = response
-      },
-      error: (error) => {
-        console.error('Error fetching treatments:', error);
-        this.isLoading = false;
-      }
-    });
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_ALL_TREATMENTS}/${this.idStudent}?page=${page}&size=10`,
+        data: {},
+      })
+      .subscribe({
+        next: (response: PaginatedData<TreatmentDetailResponse>) => {
+          this.handleResponse(response, page);
+          this.treatments = response;
+        },
+        error: (error) => {
+          console.error('Error fetching treatments:', error);
+          this.isLoading = false;
+        },
+      });
   }
 
-  private handleResponse(response: PaginatedData<TreatmentDetailResponse>, page: number): void {
+  private handleResponse(
+    response: PaginatedData<TreatmentDetailResponse>,
+    page: number
+  ): void {
     if (!this.treatments || page === 0) {
       this.treatments = response;
     } else {
-      this.treatments.content = [...this.treatments.content, ...response.content];
+      this.treatments.content = [
+        ...this.treatments.content,
+        ...response.content,
+      ];
       this.treatments.pageable = response.pageable;
       this.treatments.last = response.last;
       this.treatments.totalPages = response.totalPages;
@@ -92,21 +102,9 @@ export class PatientsTreatmentsComponent {
     }
   }
 
-  openTreatment(treatment: TreatmentDetailResponse): void {
+  navigateToTreatmentDetails(treatment: TreatmentDetailResponse): void {
     this.router.navigate(
-      ['/students/treatment-detail/',treatment.idTreatmentDetail,'/patient', treatment.patientId],
-      {
-        queryParams: {
-          treatment: treatment,
-          patientClinicalHistoryId: treatment.patientClinicalHistoryId,
-          medicalRecordId: treatment.treatment.clinicalHistoryCatalogId,
-          patientUuid: treatment.patientId,
-          tabMedicalRecord: treatment.treatment.clinicalHistoryCatalogName,
-        },
-        state:{
-          treatment
-        }
-      }
+      ['students/treatment-details', treatment.idTreatmentDetail, 'patient', treatment.patientId]
     );
   }
 }
