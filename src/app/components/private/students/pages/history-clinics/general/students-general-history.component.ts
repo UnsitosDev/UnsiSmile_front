@@ -1,159 +1,70 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TabViewModule } from 'primeng/tabview';
 
-// Componentes
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
 import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
-import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
 
-// Servicios
 import { ApiService, AuthService } from '@mean/services';
-import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
 
 // Modelos
 import { HttpHeaders } from '@angular/common/http';
-import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
-import { UriConstants } from '@mean/utils';
-import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
-import { TokenData } from 'src/app/components/public/login/model/tokenData';
-import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
-import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
+import { ROLES, STATUS, UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
-import { ROLES } from 'src/app/utils/roles';
-import { STATUS } from 'src/app/utils/statusToReview';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
 import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
+import { TokenData } from '@mean/public';
+import { dataTabs } from '@mean/models';
 
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
-  imports: [StudentsOdontogramComponent, MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, ProgressNotesComponent, HeaderHistoryClinicComponent],
+  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, ProgressNotesComponent, HeaderHistoryClinicComponent],
 })
 
 export class StudentsGeneralHistoryComponent implements OnInit {
-  @Input() public patientUuid!: string;
+  @Input() public patientUuid!: string;               // PatientUuid
+  @Input() public medicalRecordData!: dataTabs;       // Configuracion de la historia clinica
 
-  private router = inject(ActivatedRoute);
-  private route = inject(Router);
-  private historyData = inject(GeneralHistoryService);
-  private apiService = inject(ApiService);
-  readonly dialog = inject(MatDialog);
-  private userService = inject(AuthService);
-  public patientData!: cardPatient;
-  public patientUuidParam!: string;
+  private readonly route = inject(Router);            // Servicio de routing de Angular
+  private readonly apiService = inject(ApiService);   // Servicio para estado de historias clínica
+  private readonly userService = inject(AuthService); // Servicio de autenticación y roles
 
-  public id!: number;
-  public idpatient!: string;
-  public currentIndex: number = 0;
-  public mappedHistoryData!: dataTabs;
-  public role!: string;
+  public patientData!: cardPatient;                   // Información completa del paciente
+  public patientMedicalRecord!: number;               // patientMedicalRecord para enviar a componente tabform
+  public medicalRecordId!: number                     // medicalRecordId para enviar a notas de evolución
+
+  public currentIndex: number = 0;                    // State tabs
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-  public idPatientClinicalHistory!: number;
-  public viewCardTreatments: boolean = false;
 
-  public isSupervisorWithTreatment: boolean = false;
-  private idTreatmentDetail!: number
-
-  private token!: string;
+  public role!: string;                               // Auth
+  private token!: string;                             
   private tokenData!: TokenData;
 
-  patientMedicalRecord: any;
-  medicalRecord: any;
-  ROL = ROLES;
+  ROL = ROLES;                                         // Roles de usuario disponibles
 
   constructor() { }
 
   ngOnInit(): void {
     this.initializeUserRole();
-    this.initializeRouteParams();
+    this.patientMedicalRecord = this.medicalRecordData.idPatientMedicalRecord;
+    this.medicalRecordId = this.medicalRecordData.idClinicalHistoryCatalog;
   }
 
   private initializeUserRole(): void {
     this.token = this.userService.getToken() ?? '';
     this.tokenData = this.userService.getTokenDataUser(this.token);
     this.role = this.tokenData.role[0].authority;
-  }
-
-  private initializeRouteParams(): void {
-    this.router.params.subscribe(params => {
-      this.processRoleBasedParams(params);
-      this.loadClinicalHistory();
-    });
-  }
-
-  private processRoleBasedParams(params: Params): void {
-    if (this.role !== ROLES.STUDENT) {
-      this.handleNonStudentParams(params);
-    } else {
-      this.handleStudentParams(params);
-    }
-  }
-
-  private handleNonStudentParams(params: Params): void {
-    // Asignación común para todos los roles excepto STUDENT
-    this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
-    this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-    this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
-
-    // Manejo específico para CLINICAL_AREA_SUPERVISOR
-    if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
-      this.idTreatmentDetail = params[ID_TREATMENT_DETAIL] || '';
-    }
-  }
-
-  private handleStudentParams(params: Params): void {
-    // Caso específico para STUDENT con tratamiento en params
-    if (params[ID_TREATMENT_DETAIL]) {
-      this.handleStudentWithTreatmentParams(params);
-    } else {
-      this.handleStudentWithoutTreatmentParams();
-    }
-  }
-
-  private handleStudentWithTreatmentParams(params: Params): void {
-    this.idTreatmentDetail = params[ID_TREATMENT_DETAIL];
-    this.id = params[ID_MEDICAL_RECORD];
-    this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-    this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
-    this.viewCardTreatments = true;
-  }
-
-  private handleStudentWithoutTreatmentParams(): void {
-    this.id = this.medicalRecord;
-    this.idpatient = this.patientUuid;
-    this.idPatientClinicalHistory = this.patientMedicalRecord;
-  }
-
-  private loadClinicalHistory(): void {
-    this.historyData.getHistoryClinics(this.idPatientClinicalHistory, this.idpatient).subscribe({
-      next: (mappedData: dataTabs) => {
-        this.mappedHistoryData = this.processMappedData(mappedData, this.role);
-        this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
-        this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
-        this.getFirstTab();
-        this.getStatusHc();
-        this.isSupervisorWithTreatment = true;
-        // Solo procesar tabs si no es supervisor con tratamiento
-        if (!(this.role === ROLES.CLINICAL_AREA_SUPERVISOR && this.idTreatmentDetail)) {
-          const processedData = this.getTabsforReview(this.mappedHistoryData);
-          this.isSupervisorWithTreatment = false;
-          if (processedData) {
-            this.mappedHistoryData = processedData;
-          }
-        }
-      }
-    });
   }
 
   private getTabsforReview(historyData: dataTabs): dataTabs | null {
@@ -175,9 +86,9 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   }
 
   getFirstTab() {
-    if (this.mappedHistoryData.tabs.length > 0) {
-      this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
-      this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
+    if (this.medicalRecordData.tabs.length > 0) {
+      this.currentSectionId = this.medicalRecordData.tabs[this.currentIndex].idFormSection;
+      this.currentStatus = this.medicalRecordData.tabs[this.currentIndex].status;
     }
   }
 
@@ -196,25 +107,12 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   }
 
   onTabChange(index: number) {
-    this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+    this.currentSectionId = this.medicalRecordData.tabs[this.currentIndex].idFormSection;
     this.getStatusHc();
   }
 
-  opedDialogRateTreatment() {
-    const dialogRef = this.dialog.open(DialogRateTreatmentComponent, {
-      data: {
-        idTreatmentDetail: this.idTreatmentDetail,
-      },
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
-  }
-
   getStatusHc(forceRequest: boolean = false) {
-    const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
+    const currentTab = this.medicalRecordData.tabs[this.currentIndex];
 
     if (!forceRequest && (currentTab.status === STATUS.NOT_REQUIRED || currentTab.status === STATUS.NO_REQUIRED || currentTab.status === STATUS.NO_STATUS)) {
       return;
@@ -225,7 +123,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}/${currentTab.idFormSection}`,
+        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.patientMedicalRecord}/${currentTab.idFormSection}`,
         data: {},
       })
       .subscribe({
@@ -240,8 +138,8 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
   onNextTab(): void {
     this.currentIndex++;
-    if (this.currentIndex >= this.mappedHistoryData.tabs.length) {
-      this.currentIndex = this.mappedHistoryData.tabs.length - 1;
+    if (this.currentIndex >= this.medicalRecordData.tabs.length) {
+      this.currentIndex = this.medicalRecordData.tabs.length - 1;
     }
   }
 

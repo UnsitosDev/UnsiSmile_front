@@ -11,7 +11,7 @@ import { CardPatientDataComponent } from '../../../../components/card-patient-da
 
 import { ApiService } from '@mean/services';
 
-import { TreatmentDetailResponse } from '@mean/models';
+import { dataTabs, TreatmentDetailResponse } from '@mean/models';
 import {
   ID_PATIENT_CLINICAL_HISTORY,
   ID_TREATMENT_DETAIL,
@@ -30,6 +30,7 @@ import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
 import { DialogNewTreatmentComponent } from '../../../../components/dialog-new-treatment/dialog-new-treatment.component';
 import { FormUpdatePatientComponent } from '../../../../components/form-update-patient/form-update-patient.component';
 import { StudentsGeneralHistoryComponent } from '../../../history-clinics/general/students-general-history.component';
+import { mapClinicalHistoryToDataTabs } from '../../../../adapters/clinical-history.adapters';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -68,13 +69,12 @@ export class TreatmentComponent implements OnInit {
   public viewTreatment = false;
   public tabMedicalRecord!: string;
   public patientClinicalHistoryId!: number;
-  public idMedicalRecordGeneral!: number;
   public medicalRecordId!: number;
   public medicalRecordLoaded = false;
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
   public selectedTreatment!: TreatmentDetailResponse;
-  public medicalRecordConfig!: ClinicalHistoryCatalog;
+  public medicalRecordConfig!: dataTabs;
   public statusParam!: string;
   private loadTreatmentsWhitParams: boolean = false;
 
@@ -161,9 +161,8 @@ export class TreatmentComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.medicalRecordConfig = response;
           this.medicalRecordLoaded = true;
-          this.idMedicalRecordGeneral = response.idPatientMedicalRecord;
+          this.medicalRecordConfig = mapClinicalHistoryToDataTabs(response);
         },
         error: (errorResponse) => {
           if (errorResponse.status === 404) {
