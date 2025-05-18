@@ -42,11 +42,6 @@ import { ProgressNotesComponent } from "../../../components/progress-notes/progr
 
 export class StudentsGeneralHistoryComponent implements OnInit {
   @Input() public patientUuid!: string;
-  @Input() public patientMedicalRecord!: number;
-  @Input() public medicalRecord!: number;
-  @Input() idPatient: number = 0;
-  @Input() idHistoryGeneral: number = 0;
-  @Input() medicalRecordConfig: ClinicalHistoryCatalog | null = null;
 
   private router = inject(ActivatedRoute);
   private route = inject(Router);
