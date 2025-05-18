@@ -282,7 +282,7 @@ export class UriConstants {
   // Enviar archivos
   public static readonly POST_FILES = basePath + '/files';
   // Descargar archivo
-  public static readonly DOWLOAD_FILES = basePath + '/files/file/';
+  public static readonly DOWLOAD_FILES = basePath + '/files/general-files/';
   // obtener el odontograma mas reciente
   public static readonly GET_LAST_ODONTOGRAM_BY_PATIENT = basePath + '/medical-histories/odontograms/latest'
   // Crear semestre
@@ -306,9 +306,9 @@ export class UriConstants {
   // Actualizar periodontograma
   public static readonly PUT_PERIODONTOGRAM = basePath + '/medical-records/periodontograms'
   // Carga archivos generales
-  public static readonly POST_GENERAL_FILES = basePath + '/files/general'
+  public static readonly POST_GENERAL_FILES = basePath + '/files/general-files'
   // Obtener formatos generales
-  public static readonly GET_FORMATS = basePath + '/form-sections'
+  public static readonly GET_FORMATS = basePath + '/files/general-files'
   // Obtener estado civil de los padres
   public static readonly GET_PARENTS_MARITAL_STATUS = basePath + '/catalog-options/catalog'
   // Obtener profesores encargados de area
@@ -321,12 +321,10 @@ export class UriConstants {
   public static readonly POST_EVOLUTION_NOTE = basePath + '/progress-notes';
   // Subir nota de evoluvion
   public static readonly POST_EVOLUTION_NOTE_FILE = basePath + '/progress-notes/files';
-
   public static readonly GET_ADMIN_DASHBOARD = basePath + '/dashboards/admins';
   public static readonly GET_STUDENT_DASHBOARD = basePath + '/dashboards/students';
   public static readonly GET_PROFESSORS_DASHBOARD = basePath + '/dashboards/professors';
   public static readonly GET_SUPERVISOR_DASHBOARD = basePath + '/dashboards/clinical-supervisors';
-
   public static readonly POST_CLINICAL_HISTORY_REVIEW = basePath + '/medical-records/status'
   // Obtener el estado de la historia clinica
   public static readonly GET_CLINICAL_HISTORY_STATUS = basePath + '/medical-records/status';

@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-card-title><strong>Subir Documentos: Consentimientos Informados y Notas de Evolución</strong></mat-card-title>
+  <mat-card-title><strong>Subir Archivos</strong></mat-card-title>
 
 </mat-card>
 <mat-card class="full-width-card custom">
@@ -23,7 +23,7 @@
 @if (filesData && filesData.length > 0) {
   <mat-card class="all-files">
     <div class="all-files">
-      <mat-card-title><strong>Archivos Subidos</strong></mat-card-title>
+      <mat-card-title><strong>Archivos</strong></mat-card-title>
       <mat-list>
         @for (item of filesData; track $index) {
           <mat-list-item class="file-item">
@@ -34,17 +34,17 @@
       </mat-list>
     </div>
   </mat-card>
-} @else { 
+} @else {
   <mat-card class="no-files">
     <div class="no-files-content">
       <mat-icon class="empty-icon" color="primary"><i class="fas fa-folder"></i></mat-icon>
       <p><strong>No se han encontrado formatos en esta sección.</strong></p>
       <p>
-        Para asegurar que los alumnos puedan acceder a los formatos necesarios, 
+        Para asegurar que los alumnos puedan acceder a los formatos necesarios,
         es importante subir los documentos correspondientes a esta sección.
       </p>
     </div>
   </mat-card>
-  
 
-} 
+
+}
