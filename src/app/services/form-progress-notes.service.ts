@@ -55,18 +55,18 @@ export class ProgressNotesService {
             type: 'input',
             label: 'Presión arterial',
             name: 'bloodPressure',
-            placeholder: 'Ej. 120/80', 
+            placeholder: 'Ej. 120/80',
             validators: [Validators.required, bloodPressureValidator()],
             errorMessages: {
                 required: 'El campo Presión arterial es requerido.',
-                lastError: 'El formato de la presión arterial es inválido (ej. 120/80).',
+                lastError: 'Formato inválido (ej. 120/80).',
             },
         },
         {
             type: 'inputNumber',
             label: 'Temperatura',
             name: 'temperature',
-            placeholder: 'Ej. 36.5', 
+            placeholder: 'Ej. 36.5',
             validators: [Validators.required, temperatureValidator()],
             errorMessages: {
                 required: 'El campo Temperatura es requerido.',
@@ -77,7 +77,7 @@ export class ProgressNotesService {
             type: 'inputNumber',
             label: 'Frecuencia cardíaca',
             name: 'heartRate',
-            placeholder: 'Ej. 80', 
+            placeholder: 'Ej. 80',
             validators: [Validators.required, heartRateValidator()],
             errorMessages: {
                 required: 'El campo Frecuencia cardíaca es requerido.',
@@ -88,7 +88,7 @@ export class ProgressNotesService {
             type: 'inputNumber',
             label: 'Frecuencia respiratoria',
             name: 'respiratoryRate',
-            placeholder: 'Ej. 20', 
+            placeholder: 'Ej. 20',
             validators: [Validators.required, respiratoryRateValidator()],
             errorMessages: {
                 required: 'El campo Frecuencia respiratoria es requerido.',
@@ -99,7 +99,7 @@ export class ProgressNotesService {
             type: 'inputNumber',
             label: 'Saturación de oxígeno',
             name: 'oxygenSaturation',
-            placeholder: 'Ej. 95', 
+            placeholder: 'Ej. 95',
             validators: [Validators.required, oxygenSaturationValidator()],
             errorMessages: {
                 required: 'El campo Saturación de oxígeno es requerido.',
@@ -110,7 +110,7 @@ export class ProgressNotesService {
             type: 'textArea',
             label: 'Diagnóstico',
             name: 'diagnosis',
-            placeholder: 'Ingrese el diagnóstico del paciente', 
+            placeholder: 'Ingrese el diagnóstico del paciente',
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Diagnóstico es requerido.',
@@ -140,7 +140,7 @@ export class ProgressNotesService {
             type: 'textArea',
             label: 'Indicaciones',
             name: 'indications',
-            placeholder: 'Ingrese las indicaciones para el paciente', 
+            placeholder: 'Ingrese las indicaciones para el paciente',
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Indicaciones es requerido.',
@@ -154,7 +154,7 @@ export class ProgressNotesService {
             errorMessages: {
                 required: 'El campo Profesor es requerido.',
             },
-            options: []
+            options: [],
         }
     ];
 
@@ -166,15 +166,17 @@ export class ProgressNotesService {
     private getProfesorOptions(): void {
         this.profesorService.getProfesorArea().subscribe({
             next: (response) => {
-                const profesorField = this.formProgressNotes.find(
-                    (field) => field.name === 'professorClinicalAreaId'
+              const listProfessors = this.formProgressNotes.find(
+                  (field) => field.name === 'professorClinicalAreaId'
                 );
-                if (profesorField) {
-                    profesorField.options = response.map((profesor: any) => ({
-                        value: profesor.idCatalogOption,
-                        label: profesor.optionName,
-                    }));
+
+                if (listProfessors){
+                  listProfessors.options = response.content.map((professor: any) => ({
+                    value: professor.idProfessorClinicalArea,
+                    label: professor.professorName,
+                  }))
                 }
+
             },
             error: (error) => {
                 console.error(error);

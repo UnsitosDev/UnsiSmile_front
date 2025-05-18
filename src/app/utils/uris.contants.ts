@@ -147,7 +147,7 @@ export class UriConstants {
   public static readonly GET_PERSON = basePath + '/persons';
   public static readonly POST_PERSON = basePath + '/persons';
   public static readonly PATCH_PERSON_BY_CURP = basePath + '/people/';
-  public static readonly GET_PERSON_BY_CURP = basePath + '/people/'; 
+  public static readonly GET_PERSON_BY_CURP = basePath + '/people/';
 
   // grupos
   public static readonly GETID_GROUPS = basePath + '/groups/';
@@ -310,7 +310,7 @@ export class UriConstants {
   // Obtener formatos generales
   public static readonly GET_FORMATS = basePath + '/files/general-files'
   // Obtener estado civil de los padres
-  public static readonly GET_PARENTS_MARITAL_STATUS = basePath + '/catalog-options/catalog' 
+  public static readonly GET_PARENTS_MARITAL_STATUS = basePath + '/catalog-options/catalog'
   // Obtener profesores encargados de area
   public static readonly GET_PROFESOR_AREA = basePath + '/catalog-options/catalog'
   // Obtener una lista paginada de notas de evolución de un paciente
@@ -337,7 +337,7 @@ export class UriConstants {
 
   public static readonly POST_CLINICAL_AREA = basePath + '/clinical-areas';
   public static readonly GET_CLINICAL_AREAS = basePath + '/clinical-areas';
-  public static readonly DELETE_CLINICAL_AREA = basePath + '/clinical-areas'; 
+  public static readonly DELETE_CLINICAL_AREA = basePath + '/clinical-areas';
 
   public static POST_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas';
   public static GET_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas';
@@ -346,12 +346,12 @@ export class UriConstants {
 
   public static readonly GET_CONDITION_PROFILAXIS_FACE = basePath + '/medical-histories/tooth-face-conditions/prophylaxis';
   public static readonly GET_CONDITION_PROFILAXIS_TOOTH = basePath + '/medical-histories/tooth-conditions/prophylaxis';
-  public static readonly POS_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis'; 
+  public static readonly POS_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis';
   public static readonly GET_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis';
   public static readonly GET_PROFESSORS_AREAS = basePath + '/professor-clinical-areas'
 
   public static readonly GET_TREATMENTS = basePath + '/treatments';
-  public static readonly POST_TREATMENTS = basePath + '/treatment-details'; 
+  public static readonly POST_TREATMENTS = basePath + '/treatment-details';
   public static readonly GET_TREATMENT_BY_ID = basePath + '/treatment-details/patients';
   public static readonly GET_MEDICAL_RECORD_GENERAL = basePath + '/clinical-histories/general';
   public static readonly GET_MEDICAL_RECORDS = basePath + '/clinical-histories';
@@ -361,7 +361,11 @@ export class UriConstants {
   public static readonly POST_TREATMENT_REVIEW = basePath + '/treatment-details'
   public static readonly GET_TREATMENT_REVIEW = basePath + '/treatment-details/professors';
   public static readonly POST_RATE_TREATMENT = basePath + '/treatment-details'
-  public static readonly PUT_TREATMENT = basePath + '/treatment-details'; 
+  public static readonly PUT_TREATMENT = basePath + '/treatment-details';
+
+  public static readonly DOWLOAD_FORMAT_PROGRESS_NOTES = basePath + '/progress-notes/files';
+  public static readonly DOWLOAD_SIGNED_NOTES = basePath + '/progress-notes/files';
+
   // Endpoints para guardianes/tutores
   public static readonly GET_GUARDIAN_BY_CURP = basePath + '/guardians/CURP/';
 }

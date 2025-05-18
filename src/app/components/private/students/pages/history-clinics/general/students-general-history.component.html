@@ -32,6 +32,7 @@
                       [patientId]="patientUuid"
                       [data]="patientData"
                       [medicalRecordNumber]="medicalRecord"
+                      (previousMatTab)="onPreviousTab()"
                       ></app-progress-notes>
                     }
                     @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
