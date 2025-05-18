@@ -2,8 +2,8 @@
   <div></div>
   <div>
     @if (role == 'ROLE_STUDENT') {
-      <button type="button" mat-button (click)="openDialog()">
-        Nueva nota <i class="fas fa-plus"></i>
+      <button type="button" mat-button class="button-note" (click)="openDialog()">
+        <i class="fas fa-plus mr-1"></i> Nueva nota
       </button>
     }
   </div>
@@ -26,13 +26,13 @@
             </div>
           </div>
           <div class="icon-container flex items-center justify-center gap-4">
-            <span class="dowload-badge cursor-pointer" (click)="dowloadFormat(note.idProgressNote)">Descargar formato</span>
-            <i class="fas fa-eye cursor-pointer" (click)="viewNote(note)" aria-label="View Note"></i>
+            <button mat-stroked-button matTooltip="Descargar formato nota de evolución" (click)="dowloadFormat(note.idProgressNote)"><i class="fas fa-download cursor-pointer mr-1"></i> Descargar formato</button>
+            <button mat-stroked-button matTooltip="Ver nota de evolución" (click)="viewNote(note)"><i class="fas fa-eye cursor-pointer mr-1" aria-label="View Note"></i> Ver nota</button>
             @if (note.files && note.files.length > 0) {
-              <i class="fas fa-download cursor-pointer" (click)="downloadFile(note.files[0].idProgressNoteFile)" aria-label="Download File"></i>
+              <button mat-stroked-button matTooltip="Descargar nota de evolución firmada" (click)="downloadFile(note.files[0].idProgressNoteFile)"><i class="fas fa-download cursor-pointer mr-1" aria-label="Download File "></i>Nota firmada</button>
             } @else {
               @if (role == 'ROLE_STUDENT') {
-                <i class="fas fa-paperclip cursor-pointer" (click)="attachDocument(note)" aria-label="Attach Document"></i>
+                <button mat-stroked-button matTooltip="Adjuntar nota de evolución firmada" (click)="attachDocument(note)"><i class="fas fa-paperclip cursor-pointer mr-1" aria-label="Attach Document"></i>Subir firma</button>
               }
             }
           </div>
