@@ -76,7 +76,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
           this.medicalRecordData = mapClinicalHistoryToDataTabs(response);
           this.patientMedicalRecord = this.medicalRecordData.idPatientMedicalRecord;
           this.medicalRecordId = this.medicalRecordData.idClinicalHistoryCatalog;
-          console.log(this.medicalRecordData);
         },
         error: (errorResponse) => {
           if (errorResponse.status === 404) {
