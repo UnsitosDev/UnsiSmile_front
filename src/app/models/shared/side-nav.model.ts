@@ -35,7 +35,7 @@ export const StudentItems: MenuItem[] = [
   {
     fontAwesomeIcon: faFileArchive,
     buttonText: 'Archivos',
-    buttonDescription: 'Descargar formatos',
+    buttonDescription: 'Descargar archivos',
     routerlink: '/students/dowload-formats'
   },
   {
@@ -121,13 +121,13 @@ export const AdminItems: MenuItem[] = [
   {
     fontAwesomeIcon: faFileUpload,
     buttonText: 'Carga de alumnos',
-    buttonDescription: 'Subir Excel de alumnos',
+    buttonDescription: 'Subir excel de alumnos',
     routerlink: '/admin/upload-students'
   },
   {
     fontAwesomeIcon: faFileUpload,
     buttonText: 'Carga de archivos',
-    buttonDescription: 'Subir Archivos',
+    buttonDescription: 'Subir archivos',
     routerlink: '/admin/upload-files'
   }
 ];
