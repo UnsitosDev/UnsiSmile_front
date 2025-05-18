@@ -49,27 +49,6 @@ export default [
                     ),
             },
             {
-                path: 'general/:id/patient/:patient/medical-record-id/:patientID', // Ruta para historia clinica general
-                loadComponent: () =>
-                    import('./pages/history-clinics/general/students-general-history.component').then(
-                        (m) => m.StudentsGeneralHistoryComponent
-                    ),
-            },
-            {
-                path: 'periodontics/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para historia clinica periodoncia
-                loadComponent: () =>
-                    import('./pages/history-clinics/periodontics/students-periodontics-history.component').then(
-                        (m) => m.StudentsPeriodonticsHistoryComponent
-                    ),
-            },
-            {
-                path: 'oral-surgery/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para tratamiento historia clinica cirujia bucal
-                loadComponent: () =>
-                    import('./pages/history-clinics/oral-surgery/students-oral-surgery-history.component').then(
-                        (m) => m.StudentsOralSurgeryHistoryComponent
-                    ),
-            },
-            {
                 path: 'dashboard',
                 loadComponent: () =>
                     import('./components/dashboard/dashboard.component').then(
@@ -100,8 +79,8 @@ export default [
             {
                 path: 'treatments/patient/:patientID',
                 loadComponent: () => 
-                    import('./pages/treatment-details/presentation/treatment-details.component').then(
-                    (m) => m.TreatmentDetailsComponent
+                    import('./pages/treatments/presentation/treatment/treatment.component').then(
+                    (m) => m.TreatmentComponent
                 ),
             },
             {

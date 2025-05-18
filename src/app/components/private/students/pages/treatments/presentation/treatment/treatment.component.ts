@@ -27,15 +27,9 @@ import { UriConstants } from '@mean/utils';
 import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
-import { DialogConfirmSendToReviewComponent } from '../../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { DialogNewTreatmentComponent } from '../../../../components/dialog-new-treatment/dialog-new-treatment.component';
 import { FormUpdatePatientComponent } from '../../../../components/form-update-patient/form-update-patient.component';
-import { StudentsDentalOperationComponent } from '../../../history-clinics/dental-operation/students-dental-operation.component';
 import { StudentsGeneralHistoryComponent } from '../../../history-clinics/general/students-general-history.component';
-import { OralProsthesisComponent } from '../../../history-clinics/oral-prosthesis/oral-prosthesis.component';
-import { StudentsOralSurgeryHistoryComponent } from '../../../history-clinics/oral-surgery/students-oral-surgery-history.component';
-import { StudentsPeriodonticsHistoryComponent } from '../../../history-clinics/periodontics/students-periodontics-history.component';
-import { PreventiveDentistryPublicHealthComponent } from '../../../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -54,11 +48,6 @@ export interface TreatmentParams {
     MatTabsModule,
     MatCardModule,
     CardPatientDataComponent,
-    PreventiveDentistryPublicHealthComponent,
-    StudentsOralSurgeryHistoryComponent,
-    StudentsPeriodonticsHistoryComponent,
-    OralProsthesisComponent,
-    StudentsDentalOperationComponent,
     StudentsGeneralHistoryComponent,
     FormUpdatePatientComponent,
   ],
@@ -281,7 +270,7 @@ export class TreatmentComponent implements OnInit {
     }
   }
 
-  openTreatment(treatment: TreatmentDetailResponse): void {
+  navigateToTreatmentDetails(treatment: TreatmentDetailResponse): void {
     this.router.navigate(
       ['/students/treatments/patient', treatment.patientId],
       {
@@ -293,9 +282,9 @@ export class TreatmentComponent implements OnInit {
           patientUuid: treatment.patientId,
           tabMedicalRecord: treatment.treatment.clinicalHistoryCatalogName,
         },
-        state:{
-          treatment
-        }
+        state: {
+          treatment,
+        },
       }
     );
   }
@@ -319,34 +308,6 @@ export class TreatmentComponent implements OnInit {
     const day = dateArray[2].toString().padStart(2, '0');
 
     return `${day}/${month}/${year}`;
-  }
-
-  backToTreatments(): void {
-    this.viewTreatment = false;
-    this.suppressTabChangeLogic = true;
-    if (this.loadTreatmentsWhitParams) {
-      this.fetchTreatmentData();
-    }
-    setTimeout(() => {
-      this.tabGroup.selectedIndex = 2;
-      setTimeout(() => (this.suppressTabChangeLogic = false), 100);
-    });
-  }
-
-  openDialogSendToReview(): void {
-    const sendTreatment = true;
-    const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      data: {
-        treatmentId: this.idTreatmentDetail,
-        send: sendTreatment,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.fetchTreatmentData();
-      }
-    });
   }
 
   openUpdateTreatmentDialog(treatment: TreatmentDetailResponse): void {
