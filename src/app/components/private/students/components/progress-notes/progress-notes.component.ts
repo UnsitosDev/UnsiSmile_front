@@ -143,7 +143,6 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
       data: { note, patientId: this.patientId, patientData: this.data, medicalRecordNumber: this.medicalRecordNumber, progressNoteData: this.progressNotesData },
     });
 
-    console.log(note);
     dialogRef.afterClosed().subscribe((result) => {
     });
   }
