@@ -1,31 +1,36 @@
 <div class="menu-item-container" [style.paddingLeft.px]="level * 16">
   <a [routerLink]="item.routerlink !== '#' ? item.routerlink : null"
-     routerLinkActive="active"
-     [routerLinkActiveOptions]="{exact: false}"
-     [class.active]="isLinkActive(item.routerlink)"
-     class="menu-item"
-     (click)="onMenuItemClick()">
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{exact: false}"
+    [class.active]="isLinkActive(item.routerlink)"
+    class="menu-item"
+    (click)="onMenuItemClick()">
     <fa-icon [icon]="item.fontAwesomeIcon"></fa-icon>
     <div class="menu-text">
       <span>{{ item.buttonText }}</span>
       <small>{{ item.buttonDescription }}</small>
     </div>
     <div class="spacer"></div>
-    <div *ngIf="item.children"
-         class="expand-icon-container"
-         (click)="toggleExpandOnly($event)">
-      <fa-icon [icon]="item['expanded'] ? faChevronDown : faChevronRight"
-               class="expand-icon"
-               [@rotateIcon]="item['expanded'] ? 'expanded' : 'collapsed'">
-      </fa-icon>
-    </div>
+    @if (item.children) {
+      <div
+        class="expand-icon-container"
+        (click)="toggleExpandOnly($event)">
+        <fa-icon [icon]="item['expanded'] ? faChevronDown : faChevronRight"
+          class="expand-icon"
+          [@rotateIcon]="item['expanded'] ? 'expanded' : 'collapsed'">
+        </fa-icon>
+      </div>
+    }
   </a>
-  <div class="submenu" *ngIf="item.children && item['expanded']" [@submenuAnimation]>
-    <app-button-menu-item
-      *ngFor="let child of item.children"
-      [item]="child"
-      [level]="level + 1"
-      (menuSelect)="menuSelect.emit()">
-    </app-button-menu-item>
-  </div>
+  @if (item.children && item['expanded']) {
+    <div class="submenu" [@submenuAnimation]>
+      @for (child of item.children; track child) {
+        <app-button-menu-item
+          [item]="child"
+          [level]="level + 1"
+          (menuSelect)="menuSelect.emit()">
+        </app-button-menu-item>
+      }
+    </div>
+  }
 </div>
