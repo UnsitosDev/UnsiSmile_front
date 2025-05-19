@@ -72,7 +72,7 @@ interface ToothEvent {
   templateUrl: './students-odontogram.component.html',
   styleUrl: './students-odontogram.component.scss',
 })
-export class StudentsOdontogramComponent implements OnInit, TabsHandler {
+export class StudentsOdontogramComponent implements OnInit {
   constructor(private dialog: MatDialog) {}
 
   private odontogramService = inject(ApiService<{}, OdontogramPost>);
@@ -89,9 +89,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   private tokenData!: TokenData;
   role!: string;
 
-  @Output() nextTabEventEmitted = new EventEmitter<boolean>();
-  @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
-  @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
+  @Output() transactionCarriedOut = new EventEmitter<boolean>();
 
   private readonly odontogramData = inject(OdontogramData);
   private readonly toothFaceConditions = new Set([
@@ -433,13 +431,11 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
         this.storeOdontogram();
         break;
       case 'read':
-        this.nextMatTab.emit();
         break;
     }
   }
 
   updateOdontogram() {
-    this.nextMatTab.emit();
   }
 
   storeOdontogram(): void {
@@ -455,8 +451,7 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
       })
       .subscribe({
         next: (response) => {
-          this.nextMatTab.emit();
-          this.nextTabEventEmitted.emit(false);
+          this.transactionCarriedOut.emit(true);
         },
         error: (error) => {
           console.error('Error storing odontogram:', error);
@@ -465,11 +460,11 @@ export class StudentsOdontogramComponent implements OnInit, TabsHandler {
   }
 
   previousTab() {
-    this.previousMatTab.emit();
+    
   }
 
   nextTab() {
-    this.nextMatTab.emit();
+    
   }
 
   openDeleteConditionsDialog(tooth: ITooth): void {
