@@ -86,14 +86,14 @@ export default [
             {
                 path: 'treatment-details/:idTreatmentDetail/patient/:idPatient',
                 loadComponent: () => 
-                    import('./pages/treatment-details/presentation/treatment-details.component').then(
+                    import('./pages/treatment-details/presentation/treatment-detail/treatment-details.component').then(
                     (m) => m.TreatmentDetailsComponent
                 ),
             },
             {
                 path: 'all-treatments',
                 loadComponent: () => 
-                    import('./pages/patients-treatments/presentation/patients-treatments.component').then(
+                    import('./pages/patients-treatments/presentation/patients-treatment/patients-treatments.component').then(
                     (m) => m.PatientsTreatmentsComponent
                 ),
             },
