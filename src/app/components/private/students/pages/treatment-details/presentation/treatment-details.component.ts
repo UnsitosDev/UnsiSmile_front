@@ -73,7 +73,6 @@ export class TreatmentDetailsComponent implements OnInit {
 
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
-
   STATUS = STATUS_TREATMENTS;
 
   treatmentDetails!: TreatmentDetailResponse;
@@ -129,7 +128,6 @@ export class TreatmentDetailsComponent implements OnInit {
       .getMedicalRecordByPatientId(idPatient)
       .subscribe({
         next: (response) => {
-          console.log('Medical Record:', response);
           this.medicalRecordConfig = response;
           this.idMedicalRecordGeneral = response.idPatientMedicalRecord;
           this.isLoadingGeneralMedicalRecord = false;
@@ -148,7 +146,7 @@ export class TreatmentDetailsComponent implements OnInit {
     this.medicalRecordRepositoryService
       .createMedicalRecord(this.patientUuid)
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.getMedicalRecordGeneral(this.patientUuid);
         },
         error: (error) => {
@@ -157,7 +155,9 @@ export class TreatmentDetailsComponent implements OnInit {
       });
   }
 
-  backToTreatments(): void {}
+  backToTreatments(): void {
+    this.router.navigate(['/students/all-treatments']);
+  }
 
   openDialogSendToReview(): void {
     const sendTreatment = true;

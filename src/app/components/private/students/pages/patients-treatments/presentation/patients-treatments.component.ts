@@ -102,7 +102,6 @@ export class PatientsTreatmentsComponent {
   }
 
   navigateToTreatmentDetails(treatment: TreatmentDetailResponse): void {
-    console.log('Navigating to treatment details:', treatment);
     this.router.navigate([
       'students/treatment-details',
       treatment.idTreatmentDetail,

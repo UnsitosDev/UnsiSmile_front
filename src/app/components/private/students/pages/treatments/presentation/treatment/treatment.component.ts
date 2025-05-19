@@ -222,22 +222,12 @@ export class TreatmentComponent implements OnInit {
   }
 
   navigateToTreatmentDetails(treatment: TreatmentDetailResponse): void {
-    this.router.navigate(
-      ['/students/treatments/patient', treatment.patientId],
-      {
-        queryParams: {
-          treatment: treatment,
-          idTreatmentDetail: treatment.idTreatmentDetail,
-          patientClinicalHistoryId: treatment.patientClinicalHistoryId,
-          medicalRecordId: treatment.treatment.clinicalHistoryCatalogId,
-          patientUuid: treatment.patientId,
-          tabMedicalRecord: treatment.treatment.clinicalHistoryCatalogName,
-        },
-        state: {
-          treatment,
-        },
-      }
-    );
+    this.router.navigate([
+      'students/treatment-details',
+      treatment.idTreatmentDetail,
+      'patient',
+      treatment.patientId,
+    ]);
   }
 
   openTreatmentParams(treatment: TreatmentParams): void {
