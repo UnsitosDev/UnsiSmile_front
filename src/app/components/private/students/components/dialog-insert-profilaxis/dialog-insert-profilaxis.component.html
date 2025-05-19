@@ -8,7 +8,7 @@
           </div>
         </mat-card-title>
       </mat-card>
-      
+
       <div class="quadrant-container p-4 overflow-x-auto md:overflow-x-visible">
           <!-- Contenedor interno con ancho mínimo para forzar el scroll -->
           <div class="min-w-[700px] md:min-w-full">
@@ -39,7 +39,7 @@
                       </button>
                       }
                     </div>
-              
+
                     @if (toothDisabled[tooth.idTooth]) {
                     <svg
                       width="35"
@@ -55,11 +55,11 @@
                         stroke="var(--text)"
                         stroke-width="2"
                       />
-              
+
                       <!-- Cara 1 -->
                       <polygon
                         points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -67,11 +67,11 @@
                             changeColor(tooth.idTooth + '-1')
                         "
                       />
-              
+
                       <!-- Cara 2 -->
                       <polygon
                         points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -79,11 +79,11 @@
                             changeColor(tooth.idTooth + '-2')
                         "
                       />
-              
+
                       <!-- Cara 3 -->
                       <polygon
                         points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -91,11 +91,11 @@
                             changeColor(tooth.idTooth + '-3')
                         "
                       />
-              
+
                       <!-- Cara 4 -->
                       <polygon
                         points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -103,7 +103,7 @@
                             changeColor(tooth.idTooth + '-4')
                         "
                       />
-              
+
                       @if (showTriangle[tooth.idTooth]) {
                       <polygon
                         points="17.5,5 35,25 0,25"
@@ -114,9 +114,9 @@
                       }
                     </svg>
                     }
-              
+
                     <p>{{ tooth.idTooth }}</p>
-              
+
                     @if (toothDisabled[tooth.idTooth]) {
                     <button
                       class="icon-button"
@@ -136,7 +136,7 @@
                 </div>
                 }
               </div>
-              
+
               <!-- Cuadrante 2 -->
               <div class="quadrant flex flex-row flex-wrap gap-2 justify-center">
                 @for (tooth of getQuadrant(teeth, 2); track tooth.idTooth) {
@@ -162,7 +162,7 @@
                       </button>
                       }
                     </div>
-              
+
                     @if (toothDisabled[tooth.idTooth]) {
                     <svg
                       width="35"
@@ -178,11 +178,11 @@
                         stroke="var(--text)"
                         stroke-width="2"
                       />
-              
+
                       <!-- Cara 1 -->
                       <polygon
                         points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -190,11 +190,11 @@
                             changeColor(tooth.idTooth + '-1')
                         "
                       />
-              
+
                       <!-- Cara 2 -->
                       <polygon
                         points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -202,11 +202,11 @@
                             changeColor(tooth.idTooth + '-2')
                         "
                       />
-              
+
                       <!-- Cara 3 -->
                       <polygon
                         points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -214,11 +214,11 @@
                             changeColor(tooth.idTooth + '-3')
                         "
                       />
-              
+
                       <!-- Cara 4 -->
                       <polygon
                         points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -226,7 +226,7 @@
                             changeColor(tooth.idTooth + '-4')
                         "
                       />
-              
+
                       @if (showTriangle[tooth.idTooth]) {
                       <polygon
                         points="17.5,5 35,25 0,25"
@@ -237,9 +237,9 @@
                       }
                     </svg>
                     }
-              
+
                     <p>{{ tooth.idTooth }}</p>
-              
+
                     @if (toothDisabled[tooth.idTooth]) {
                     <button
                       class="icon-button"
@@ -260,7 +260,7 @@
                 }
               </div>
             </div>
-            
+
             <!-- Segunda fila (cuadrantes 4 y 3) -->
             <div class="grid grid-cols-2 gap-4 mt-4">
               <!-- Cuadrante 4 -->
@@ -288,7 +288,7 @@
                       </button>
                       }
                     </div>
-              
+
                     @if (toothDisabled[tooth.idTooth]) {
                     <svg
                       width="35"
@@ -304,11 +304,11 @@
                         stroke="var(--text)"
                         stroke-width="2"
                       />
-              
+
                       <!-- Cara 1 -->
                       <polygon
                         points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -316,11 +316,11 @@
                             changeColor(tooth.idTooth + '-1')
                         "
                       />
-              
+
                       <!-- Cara 2 -->
                       <polygon
                         points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -328,11 +328,11 @@
                             changeColor(tooth.idTooth + '-2')
                         "
                       />
-              
+
                       <!-- Cara 3 -->
                       <polygon
                         points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -340,11 +340,11 @@
                             changeColor(tooth.idTooth + '-3')
                         "
                       />
-              
+
                       <!-- Cara 4 -->
                       <polygon
                         points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -352,7 +352,7 @@
                             changeColor(tooth.idTooth + '-4')
                         "
                       />
-              
+
                       @if (showTriangle[tooth.idTooth]) {
                       <polygon
                         points="17.5,5 35,25 0,25"
@@ -363,9 +363,9 @@
                       }
                     </svg>
                     }
-              
+
                     <p>{{ tooth.idTooth }}</p>
-              
+
                     @if (toothDisabled[tooth.idTooth]) {
                     <button
                       class="icon-button"
@@ -385,7 +385,7 @@
                 </div>
                 }
               </div>
-              
+
               <!-- Cuadrante 3 -->
               <div class="quadrant flex flex-row flex-wrap gap-2 justify-center">
                 @for (tooth of getQuadrant(teeth, 3); track tooth.idTooth) {
@@ -411,7 +411,7 @@
                       </button>
                       }
                     </div>
-              
+
                     @if (toothDisabled[tooth.idTooth]) {
                     <svg
                       width="35"
@@ -427,11 +427,11 @@
                         stroke="var(--text)"
                         stroke-width="2"
                       />
-              
+
                       <!-- Cara 1 -->
                       <polygon
                         points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -439,11 +439,11 @@
                             changeColor(tooth.idTooth + '-1')
                         "
                       />
-              
+
                       <!-- Cara 2 -->
                       <polygon
                         points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -451,11 +451,11 @@
                             changeColor(tooth.idTooth + '-2')
                         "
                       />
-              
+
                       <!-- Cara 3 -->
                       <polygon
                         points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -463,11 +463,11 @@
                             changeColor(tooth.idTooth + '-3')
                         "
                       />
-              
+
                       <!-- Cara 4 -->
                       <polygon
                         points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'red' : 'transparent'"
+                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'transparent'"
                         stroke="var(--text)"
                         stroke-width="2"
                         (click)="
@@ -475,7 +475,7 @@
                             changeColor(tooth.idTooth + '-4')
                         "
                       />
-              
+
                       @if (showTriangle[tooth.idTooth]) {
                       <polygon
                         points="17.5,5 35,25 0,25"
@@ -486,9 +486,9 @@
                       }
                     </svg>
                     }
-              
+
                     <p>{{ tooth.idTooth }}</p>
-              
+
                     @if (toothDisabled[tooth.idTooth]) {
                     <button
                       class="icon-button"
@@ -511,7 +511,7 @@
             </div>
           </div>
         </div>
-      
+
       <div class="p-4 flex flex-col">
           <p class="mb-3 font-bold text-gray-700">Simbología</p>
           <div class="flex items-center gap-3 mb-4">
@@ -528,5 +528,5 @@
           <div class="flex justify-end">
             <button mat-raised-button color="primary" class="button-custom" (click)="store()">Guardar</button>
           </div>
-        </div>  
+        </div>
 </div>

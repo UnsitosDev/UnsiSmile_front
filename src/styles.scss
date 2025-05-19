@@ -148,6 +148,7 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
 
   // color fluorosis
   --fluorosis: #3b82f6;
+  --prophylaxis: rgb(179, 79, 182);
 
   @include light-theme;
   --primary-rgb: 59, 130, 246; // Color primario en RGB para transparencias
