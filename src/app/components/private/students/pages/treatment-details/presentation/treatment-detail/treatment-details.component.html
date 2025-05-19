@@ -107,13 +107,11 @@
     @if(creatingOdontogram){
       <app-students-odontogram
       [patientId]="patientUuid"
-      [idTreatment]="treatmentDetails.idTreatmentDetail"
+      [idTreatmentDetails]="treatmentDetails.idTreatmentDetail"
       [state]="'create'"
       (transactionCarriedOut)="transactionCarriedOut()"
       ></app-students-odontogram>
-    }
-
-    @else {
+    }@else {
       <div class="odontogram-tab-content">
         <div class="action-container">
           <button mat-raised-button color="primary" (click)="changeOdontogramViewStatus()">

@@ -4,11 +4,13 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { OdontogramTreatment } from './models/odontogram-list.model';
 import { OdontogramListService } from './repository/odontogram-list.service';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { StudentsOdontogramComponent } from '../odontogram/students-odontogram.component';
 
 @Component({
   selector: 'app-odontogram-list',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIcon, ],
+  imports: [CommonModule, MatTableModule, MatIcon, MatExpansionModule, StudentsOdontogramComponent],
   templateUrl: './odontogram-list.component.html',
   styleUrl: './odontogram-list.component.scss'
 })
