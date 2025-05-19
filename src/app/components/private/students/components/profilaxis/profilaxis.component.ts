@@ -1,15 +1,14 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
-import { ThoothProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.model';
-import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DentalProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.response.model';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
 
 @Component({
   selector: 'app-profilaxis',
@@ -119,12 +118,12 @@ export class ProfilaxisComponent implements OnInit {
     return teeth.find(t => parseInt(t.idTooth) === toothNumber) || null;
   }
 
-  formatDate(date: string | Date): string {
+  formatDate(date: string ): string {
     const fecha = new Date(date);
     const dia = fecha.getDate().toString().padStart(2, '0');
     const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
     const año = fecha.getFullYear();
-  
+
     return `${dia}/${mes}/${año}`;
   }
 }

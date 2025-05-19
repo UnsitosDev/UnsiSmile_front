@@ -21,7 +21,6 @@ export class FluorosisComponent {
   public toothDeactivated: { [key: number]: boolean } = {};           // Faces desactivadas
 
   ngOnInit() {
-    console.log(this.fluorosis);
   }
 
   // Selecciona un diente

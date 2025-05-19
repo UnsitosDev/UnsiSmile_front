@@ -140,7 +140,6 @@ export class PreventiveDentistryPublicHealthComponent {
         this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
         this.getFirstTab();
         this.getStatusHc();
-        console.log(this.mappedHistoryData);
         this.isSupervisorWithTreatment = true;
         // Solo procesar tabs si no es supervisor con tratamiento
         if (!(this.role === ROLES.CLINICAL_AREA_SUPERVISOR && this.idTreatmentDetail)) {
