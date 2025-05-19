@@ -2,7 +2,6 @@ import {Component, Input} from '@angular/core';
 import {createOdontogramHandler} from "@mean/services";
 import {IOdontogramHandler, ITooth} from "@mean/models";
 import {MatTabsModule} from "@angular/material/tabs";
-import {ThoothProphylaxis} from "../../../../../models/shared/prophylaxis/prophylaxis.model";
 
 @Component({
   selector: 'app-fluorosis',

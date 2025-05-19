@@ -1,51 +1,58 @@
 @if (fluorosis) {
   <mat-tab-group>
     <mat-tab label="Adulto">
-      @for (teeth of getQuadrant(fluorosis.adultArcade.teeth, 1); track teeth) {
-        <svg
-          width="29"
-          height="34"
-        >
-          <!-- Face 1 (Top) -->
-          <polygon
-            stroke="black"
-            points="1,1 7,9 21,9 28,1"
-            fill="#EAEDEA"
-            class="face"
-          />
+      @for (quadrant of [1, 2, 3, 4]; track $index) {
+        <div class="flex">
+          @for (teeth of getQuadrant(fluorosis.adultArcade.teeth, quadrant); track teeth) {
+            <div class="flex flex-col items-center">
+              <svg
+                width="29"
+                height="34"
+              >
+                <!-- Face 1 (Top) -->
+                <polygon
+                  stroke="black"
+                  points="1,1 7,9 21,9 28,1"
+                  fill="#EAEDEA"
+                  class="face"
+                />
 
-          <!-- Face 2 (Right) -->
-          <polygon
-            stroke="black"
-            points="21,9 21,25 28,33 28,1"
-            fill="#EAEDEA"
-            class="face"
-          />
+                <!-- Face 2 (Right) -->
+                <polygon
+                  stroke="black"
+                  points="21,9 21,25 28,33 28,1"
+                  fill="#EAEDEA"
+                  class="face"
+                />
 
-          <!-- Face 3 (Bottom) -->
-          <polygon
-            stroke="black"
-            points="21,25 28,33 1,33 7,25"
-            fill="#EAEDEA"
-            class="face"
-          />
+                <!-- Face 3 (Bottom) -->
+                <polygon
+                  stroke="black"
+                  points="21,25 28,33 1,33 7,25"
+                  fill="#EAEDEA"
+                  class="face"
+                />
 
-          <!-- Face 4 (Left) -->
-          <polygon
-            stroke="black"
-            points="1,1 1,33 7,25 7,9"
-            fill="#EAEDEA"
-            class="face"
-          />
+                <!-- Face 4 (Left) -->
+                <polygon
+                  stroke="black"
+                  points="1,1 1,33 7,25 7,9"
+                  fill="#EAEDEA"
+                  class="face"
+                />
 
-          <!-- Face 5 (Center) -->
-          <polygon
-            stroke="black"
-            points="7,9 21,9 21,25 7,25"
-            fill="#EAEDEA"
-            class="face"
-          />
-        </svg>
+                <!-- Face 5 (Center) -->
+                <polygon
+                  stroke="black"
+                  points="7,9 21,9 21,25 7,25"
+                  fill="#EAEDEA"
+                  class="face"
+                />
+              </svg>
+              {{ teeth.idTooth }}
+            </div>
+          }
+        </div>
       }
     </mat-tab>
     <mat-tab label="Infantil"> Content 2</mat-tab>
