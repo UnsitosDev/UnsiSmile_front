@@ -55,6 +55,8 @@
             <app-fluorosis
             [idFormSection]="currentSectionId"
             [idPatientClinicalHistory]="patientMedicalRecord"
+            (nextMatTab)="onNextTab()"
+            (previousMatTab)="onPreviousTab()"
             [patientUuid]="patientUuid"
             ></app-fluorosis>
           }
