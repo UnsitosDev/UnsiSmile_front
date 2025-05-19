@@ -52,7 +52,11 @@
             ></app-profilaxis>
           }
           @if (tab.title === "Fluorosis" && !tab.isAnswered) {
-            <app-fluorosis></app-fluorosis>
+            <app-fluorosis
+            [idFormSection]="currentSectionId"
+            [idPatientClinicalHistory]="patientMedicalRecord"
+            [patientUuid]="patientUuid"
+            ></app-fluorosis>
           }
         </mat-tab>
       }

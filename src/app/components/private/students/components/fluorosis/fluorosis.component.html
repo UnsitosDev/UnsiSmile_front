@@ -1,1 +1,54 @@
-<p>fluorosis works!</p>
+@if (fluorosis) {
+  <mat-tab-group>
+    <mat-tab label="Adulto">
+      @for (teeth of getQuadrant(fluorosis.adultArcade.teeth, 1); track teeth) {
+        <svg
+          width="29"
+          height="34"
+        >
+          <!-- Face 1 (Top) -->
+          <polygon
+            stroke="black"
+            points="1,1 7,9 21,9 28,1"
+            fill="#EAEDEA"
+            class="face"
+          />
+
+          <!-- Face 2 (Right) -->
+          <polygon
+            stroke="black"
+            points="21,9 21,25 28,33 28,1"
+            fill="#EAEDEA"
+            class="face"
+          />
+
+          <!-- Face 3 (Bottom) -->
+          <polygon
+            stroke="black"
+            points="21,25 28,33 1,33 7,25"
+            fill="#EAEDEA"
+            class="face"
+          />
+
+          <!-- Face 4 (Left) -->
+          <polygon
+            stroke="black"
+            points="1,1 1,33 7,25 7,9"
+            fill="#EAEDEA"
+            class="face"
+          />
+
+          <!-- Face 5 (Center) -->
+          <polygon
+            stroke="black"
+            points="7,9 21,9 21,25 7,25"
+            fill="#EAEDEA"
+            class="face"
+          />
+        </svg>
+      }
+    </mat-tab>
+    <mat-tab label="Infantil"> Content 2</mat-tab>
+  </mat-tab-group>
+}
+
