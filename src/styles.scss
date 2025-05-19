@@ -146,6 +146,9 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --view-treatment: #ddeaff; 
   --status-finished: #6b7280; 
 
+  // color fluorosis
+  --fluorosis: #3b82f6;
+
   @include light-theme;
   --primary-rgb: 59, 130, 246; // Color primario en RGB para transparencias
 }

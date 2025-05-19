@@ -14,11 +14,27 @@ export class FluorosisComponent {
   @Input({ required: true }) patientUuid!: string;
   @Input({ required: true }) idPatientClinicalHistory!: number;
   @Input({ required: true }) idFormSection!: number | null;
-  public fluorosis: IOdontogramHandler = createOdontogramHandler();
+
+  public fluorosis: IOdontogramHandler = createOdontogramHandler();   // Obtener los dientes
+
+  public selectedFaces: { [key: string]: boolean } = {};              // Faces seleccionados
+  public toothDeactivated: { [key: number]: boolean } = {};           // Faces desactivadas
+
   ngOnInit() {
     console.log(this.fluorosis);
   }
 
+  // Selecciona un diente
+  public isSelected(faceId: string): boolean {
+    return this.selectedFaces[faceId];
+  }
+
+  // Maneja cambio de color
+  changeColor(faceId: string): void {
+    this.selectedFaces[faceId] = !this.selectedFaces[faceId];
+  }
+
+  // Cuadrantes para adulto
   public getQuadrant(teeth: ITooth[], quadrant: number): ITooth[] {
     if (quadrant >= 1 && quadrant <= 4) {
       return teeth
@@ -42,6 +58,7 @@ export class FluorosisComponent {
     }
   }
 
+  // Cuadrantes para niño
   public getQuadrantForChildren(teeth: ITooth[], quadrant: number): ITooth[] {
     if (quadrant >= 5 && quadrant <= 8) {
       return teeth
