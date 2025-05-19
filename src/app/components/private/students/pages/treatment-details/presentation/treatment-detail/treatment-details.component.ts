@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Event } from '@angular/router';
 
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -25,6 +25,8 @@ import { StudentsPeriodonticsHistoryComponent } from '../../../history-clinics/p
 import { PreventiveDentistryPublicHealthComponent } from '../../../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
 import { MedicalRecordRepositoryService } from '../../repository/medical-record-repository.service';
 import { TreatmentRepositoryService } from '../../repository/treatment-repository.service';
+import { StudentsOdontogramComponent } from '../../../../components/odontogram/students-odontogram.component';
+import { OdontogramListComponent } from '../../../../components/odontogram-list/odontogram-list.component';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -50,6 +52,8 @@ export interface TreatmentParams {
     StudentsDentalOperationComponent,
     LoadingComponent,
     StudentsGeneralHistoryComponent,
+    StudentsOdontogramComponent,
+    OdontogramListComponent
   ],
   templateUrl: './treatment-details.component.html',
   styleUrl: './treatment-details.component.scss',
@@ -70,6 +74,7 @@ export class TreatmentDetailsComponent implements OnInit {
   public medicalRecordConfig!: ClinicalHistoryCatalog;
   public isLoading = true;
   public isLoadingGeneralMedicalRecord = true;
+  public creatingOdontogram = false;
 
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
@@ -176,5 +181,13 @@ export class TreatmentDetailsComponent implements OnInit {
         treatment: treatment,
       },
     });
+  }
+
+  changeOdontogramViewStatus(){
+    this.creatingOdontogram = !this.creatingOdontogram;
+  }
+
+  transactionCarriedOut(): void {
+    this.changeOdontogramViewStatus();
   }
 }
