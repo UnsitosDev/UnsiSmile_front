@@ -67,31 +67,21 @@
     </ng-template>
     @switch (medicalRecordId) { @case (2) {
     <!--Protesis bucal-->
-    <app-oral-prosthesis
-      [medicalRecord]="medicalRecordId"
-      [patientUuid]="patientUuid"
-      [patientMedicalRecord]="patientClinicalHistoryId"
-    ></app-oral-prosthesis>
+    <app-oral-prosthesis [patientUuid]="patientUuid"></app-oral-prosthesis>
     } @case (3) {
     <!-- Periodoncia -->
     <app-students-periodontics-history
-      [medicalRecord]="medicalRecordId"
       [patientUuid]="patientUuid"
-      [patientMedicalRecord]="patientClinicalHistoryId"
     ></app-students-periodontics-history>
     } @case (4) {
     <!-- Operatioria dental -->
     <app-students-dental-operation
-      [medicalRecord]="medicalRecordId"
       [patientUuid]="patientUuid"
-      [patientMedicalRecord]="patientClinicalHistoryId"
     ></app-students-dental-operation>
     } @case (5) {
     <!-- Cirujia bucal -->
     <app-students-oral-surgery-history
-      [medicalRecord]="medicalRecordId"
       [patientUuid]="patientUuid"
-      [patientMedicalRecord]="patientClinicalHistoryId"
     ></app-students-oral-surgery-history>
     } @case (6) {
     <app-preventive-dentistry-public-health

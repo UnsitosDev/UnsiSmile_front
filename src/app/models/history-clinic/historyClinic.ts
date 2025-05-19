@@ -124,3 +124,27 @@ export interface RelationHistoryPatient {
     patient: Patient;
     date: [number, number, number, number, number, number, number]; // Array de números
 }
+
+export enum EMedicalRecords {
+  GENERAL = "GENERAL",
+  PROTESIS_BUCAL = "PROTESIS_BUCAL",
+  PERIODONCIA = "PERIODONCIA",
+  OPERATORIA_DENTAL = "OPERATORIA_DENTAL",
+  CIRUGIA_BUCAL = "CIRUGIA_BUCAL",
+  ODONTOLOGIA_PREVENTIVA = "ODONTOLOGIA_PREVENTIVA",
+  ENDODONCIA = "ENDODONCIA",
+  PULPOTOMIA = "PULPOTOMIA",
+  PULPECTOMIA = "PULPECTOMIA"
+}
+
+export const MedicalRecordsDescription = new Map<EMedicalRecords, string>([
+  [EMedicalRecords.GENERAL, "General"],
+  [EMedicalRecords.PROTESIS_BUCAL, "Prótesis bucal"],
+  [EMedicalRecords.PERIODONCIA, "Periodoncia"],
+  [EMedicalRecords.OPERATORIA_DENTAL, "Operatoria dental"],
+  [EMedicalRecords.CIRUGIA_BUCAL, "Cirugía bucal"],
+  [EMedicalRecords.ODONTOLOGIA_PREVENTIVA, "Odontología preventiva y salud pública"],
+  [EMedicalRecords.ENDODONCIA, "Endodoncia"],
+  [EMedicalRecords.PULPOTOMIA, "Pulpotomía"],
+  [EMedicalRecords.PULPECTOMIA, "Pulpectomía"]
+]);
