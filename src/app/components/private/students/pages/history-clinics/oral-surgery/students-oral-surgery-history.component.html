@@ -1,4 +1,4 @@
-@if (role !== ROL.STUDENT || viewCardTreatments) {
+@if (role !== ROL.STUDENT) {
     <mat-card appearance="outlined" class="custom">
         <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
     </mat-card>
