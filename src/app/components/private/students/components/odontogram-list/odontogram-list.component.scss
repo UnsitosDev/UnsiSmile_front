@@ -1,0 +1,48 @@
+.odontogram-list-container {
+  padding: 20px;
+  border-radius: 8px;
+  background: white;
+  margin: 16px;
+
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+
+    .empty-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      color: #999;
+    }
+  }
+
+  table {
+    width: 100%;
+
+    th {
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    td {
+      color: rgba(0, 0, 0, 0.67);
+    }
+
+    tr.mat-row:hover {
+      background: rgba(0, 0, 0, 0.04);
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+}

@@ -54,6 +54,7 @@ export class UriConstants {
     basePath + '/medical-histories/odontograms';
   public static readonly POST_ODONTOGRAM =
     basePath + '/medical-histories/odontograms';
+  public static GET_ODONTOGRAMS_BY_TREATMENT_ID = basePath + '/medical-histories/odontograms/treatment/:idTreatment';
   // non-pathological-personal-antecedents-controller
   public static readonly GETID_PERSONAL_ANTECEDENTS_PATHOLOGICAL =
     basePath + '/medical-histories/non-pathological-personal-antecedents/';
