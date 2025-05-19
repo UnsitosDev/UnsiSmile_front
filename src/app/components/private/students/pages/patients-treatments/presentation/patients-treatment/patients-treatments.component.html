@@ -1,19 +1,19 @@
 <mat-card class="full-width-card">
-    <mat-card-title><strong>Tratamientos - Consulta y Administración</strong></mat-card-title>
+    <mat-card-title><strong>Tratamientos - Consulta y administración</strong></mat-card-title>
 </mat-card>
 
 <div class="p-4">
   <mat-list>
-      @for (item of treatments?.content; track $index) {
+      @for (treatment of treatments?.content; track $index) {
           <section class="item-container">
               <div class="content-wrapper">
                 <mat-list-item class="list-content">
-                  <span matListItemTitle>{{item.patientName}}</span>
-                  {{item.treatment.name}}
+                  <span matListItemTitle>{{treatment.patientName}}</span>
+                  {{treatment.treatment.name}}
                 </mat-list-item>
                 
                 <!-- Estados del tratamiento -->
-                @switch (item.status) {
+                @switch (treatment.status) {
                   @case (STATUS.IN_REVIEW) {
                     <span class="in-review-treatment">En revisión</span>
                   }
@@ -31,8 +31,8 @@
                   }
                 }
 
-                <span class="view-badge" (click)="openTreatment(item)">
-                  Ver Tratamiento
+                <span class="view-badge" (click)="navigateToTreatmentDetails(treatment)">
+                  Ver tratamiento
                 </span>
               </div>
               <mat-divider></mat-divider>

@@ -1,52 +1,53 @@
-@if (role !== ROL.STUDENT || viewCardTreatments) {
-    <mat-card appearance="outlined" class="custom">
-        <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
-    </mat-card>
-    <br>
+@if(!isLoading){
+    @if (role !== ROL.STUDENT || viewCardTreatments) {
+        <mat-card appearance="outlined" class="custom">
+            <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
+        </mat-card>
+        <br>
+    }
+    
+    @if (isSupervisorWithTreatment) {
+        <div class="rate-treatment flex justify-end mb-4">
+            <button mat-button (click)="opedDialogRateTreatment()">
+                Calificar Tratamiento
+            </button>
+        </div>
+    }
+    
+    @if (mappedHistoryData) {
+        <mat-card-title>
+            <app-header-history-clinic 
+                [mappedHistoryData]="mappedHistoryData"
+                [idPatientClinicalHistory]="idPatientClinicalHistory"
+                [currentSectionId]="currentSectionId"
+                [currentStatus]="currentStatus"
+                [currentIndex]="currentIndex"
+                [role]="role">
+            </app-header-history-clinic>
+        </mat-card-title>
+        <mat-card class="custom">
+                <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
+                    @for (tab of mappedHistoryData.tabs; track tab) {
+                        <mat-tab [label]="tab.title">
+                            @if (tab.isAnswered) {
+                                <app-tab-form-update
+                                [patientMedicalRecord]="patientMedicalRecord"
+                                [fieldsTab]="tab" 
+                                (nextMatTab)="onNextTab()"
+                                (previousMatTab)="onPreviousTab()"
+                                ></app-tab-form-update>
+                            }
+                            @if (!tab.isAnswered) {
+                                <app-tab-form 
+                                [patientMedicalRecord]="patientMedicalRecord"
+                                [fieldsTab]="tab" 
+                                (nextMatTab)="onNextTab()"
+                                (previousMatTab)="onPreviousTab()"
+                            ></app-tab-form>
+                            }
+                        </mat-tab>
+                  }
+            </mat-tab-group>
+        </mat-card>
+    }    
 }
-
-@if (isSupervisorWithTreatment) {
-    <div class="rate-treatment flex justify-end mb-4">
-        <button mat-button (click)="opedDialogRateTreatment()">
-            Calificar Tratamiento
-        </button>
-    </div>
-}
-
-@if (mappedHistoryData) {
-    <mat-card-title>
-        <app-header-history-clinic 
-            [mappedHistoryData]="mappedHistoryData"
-            [idPatientClinicalHistory]="idPatientClinicalHistory"
-            [currentSectionId]="currentSectionId"
-            [currentStatus]="currentStatus"
-            [currentIndex]="currentIndex"
-            [role]="role">
-        </app-header-history-clinic>
-    </mat-card-title>
-    <mat-card class="custom">
-            <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
-                @for (tab of mappedHistoryData.tabs; track tab) {
-                    <mat-tab [label]="tab.title">
-                        @if (tab.isAnswered) {
-                            <app-tab-form-update
-                            [patientMedicalRecord]="patientMedicalRecord"
-                            [fieldsTab]="tab" 
-                            (nextMatTab)="onNextTab()"
-                            (previousMatTab)="onPreviousTab()"
-                            ></app-tab-form-update>
-                        }
-                        @if (!tab.isAnswered) {
-                            <app-tab-form 
-                            [patientMedicalRecord]="patientMedicalRecord"
-                            [fieldsTab]="tab" 
-                            (nextMatTab)="onNextTab()"
-                            (previousMatTab)="onPreviousTab()"
-                        ></app-tab-form>
-                        }
-                    </mat-tab>
-              }
-        </mat-tab-group>
-    </mat-card>
-}
-  

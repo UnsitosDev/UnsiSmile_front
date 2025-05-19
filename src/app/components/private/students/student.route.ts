@@ -49,45 +49,6 @@ export default [
                     ),
             },
             {
-                path: 'general/:id/patient/:patient/medical-record-id/:patientID', // Ruta para historia clinica general
-                loadComponent: () =>
-                    import('./pages/history-clinics/general/students-general-history.component').then(
-                        (m) => m.StudentsGeneralHistoryComponent
-                    ),
-            },
-            {
-                path: 'periodontics/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para historia clinica periodoncia
-                loadComponent: () =>
-                    import('./pages/history-clinics/periodontics/students-periodontics-history.component').then(
-                        (m) => m.StudentsPeriodonticsHistoryComponent
-                    ),
-            },
-            {
-                path: 'oral-surgery/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para tratamiento historia clinica cirujia bucal
-                loadComponent: () =>
-                    import('./pages/history-clinics/oral-surgery/students-oral-surgery-history.component').then(
-                        (m) => m.StudentsOralSurgeryHistoryComponent
-                    ),
-            },
-            {
-                path: 'dental-operation/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para operatoria dental
-                loadComponent: () =>
-                    import('./pages/history-clinics/dental-operation/students-dental-operation.component').then(
-                        (m) => m.StudentsDentalOperationComponent
-                    ),
-            },
-            {
-                path: 'oral-prosthesis/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail', // Ruta para operatoria dental
-                loadComponent: () =>
-                    import('./pages/history-clinics/oral-prosthesis/oral-prosthesis.component').then(
-                        (m) => m.OralProsthesisComponent
-                    ),
-            },
-            {
-                path: 'preventive-dentistry-public-health/:id/patient/:patient/medical-record-id/:patientID/treatment/:idTreatmentDetail',
-                                loadComponent: () => import('./pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component').then(m => m.PreventiveDentistryPublicHealthComponent),
-            },
-            {
                 path: 'dashboard',
                 loadComponent: () =>
                     import('./components/dashboard/dashboard.component').then(
@@ -118,14 +79,21 @@ export default [
             {
                 path: 'treatments/patient/:patientID',
                 loadComponent: () => 
-                    import('./pages/treatments/treatments.component').then(
-                    (m) => m.TreatmentsComponent
+                    import('./pages/treatments/presentation/treatment/treatment.component').then(
+                    (m) => m.TreatmentComponent
+                ),
+            },
+            {
+                path: 'treatment-details/:idTreatmentDetail/patient/:idPatient',
+                loadComponent: () => 
+                    import('./pages/treatment-details/presentation/treatment-detail/treatment-details.component').then(
+                    (m) => m.TreatmentDetailsComponent
                 ),
             },
             {
                 path: 'all-treatments',
                 loadComponent: () => 
-                    import('./components/patients-treatments/patients-treatments.component').then(
+                    import('./pages/patients-treatments/presentation/patients-treatment/patients-treatments.component').then(
                     (m) => m.PatientsTreatmentsComponent
                 ),
             },

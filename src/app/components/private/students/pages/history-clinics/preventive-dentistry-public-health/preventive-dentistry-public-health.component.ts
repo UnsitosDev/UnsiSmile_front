@@ -13,7 +13,7 @@ import { CardPatientDataComponent } from "../../../components/card-patient-data/
 
 // Servicios
 import { ApiService, AuthService } from '@mean/services';
-import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
+import { GeneralHistoryService } from 'src/app/services/history-clinics/general/medical-records.service';
 
 // Modelos
 import { HttpHeaders } from '@angular/common/http';
