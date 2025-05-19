@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
+import { ClinicalHistoryCatalog, EMedicalRecords } from 'src/app/models/history-clinic/historyClinic';
 import { ApiService } from '../../api.service';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
@@ -56,6 +56,27 @@ export class GeneralHistoryService {
           'Content-Type': 'application/json',
         }),
         url: `${UriConstants.GET_HISTORY_CONFIG}/${idPatient}/patients/${idClinicalHistory}`,
+        data: {},
+      })
+      .pipe(
+        map((response: ClinicalHistoryCatalog) => {
+          return mapClinicalHistoryToDataTabs(response);
+        })
+      );
+  }
+
+  getMedicalRecord(type: EMedicalRecords, idPatient: string): Observable<dataTabs> {
+    
+    const url = UriConstants.GET_HISTORY_CONFIG_BY_PATIENT
+    .replace(':medicalRecordType', type.toString())
+    .replace(':idPatient', idPatient);
+    
+    return this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: url,
         data: {},
       })
       .pipe(

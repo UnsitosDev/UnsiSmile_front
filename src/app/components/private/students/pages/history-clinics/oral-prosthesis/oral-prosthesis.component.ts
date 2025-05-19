@@ -1,46 +1,43 @@
 import { Component, inject, Input } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTabsModule } from '@angular/material/tabs';
-import { TabViewModule } from 'primeng/tabview';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TabViewModule } from 'primeng/tabview';
 
 // Componentes
-import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
+import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 
 // Servicios
 import { ApiService, AuthService } from '@mean/services';
-import { GeneralHistoryService } from 'src/app/services/history-clinics/general/general-history.service';
+import { GeneralHistoryService } from 'src/app/services/history-clinics/general/medical-records.service';
 
 // Modelos
-import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
-import { UriConstants } from '@mean/utils';
-import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
-import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
 import { HttpHeaders } from '@angular/common/http';
-import { MenuAssessMedicalHistoryComponent } from "../../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component";
-import { STATUS } from 'src/app/utils/statusToReview';
-import { ROLES } from 'src/app/utils/roles';
-import { TokenData } from 'src/app/components/public/login/model/tokenData';
-import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
+import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
+import { UriConstants } from '@mean/utils';
 import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
+import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
+import { EMedicalRecords } from 'src/app/models/history-clinic/historyClinic';
+import { ROLES } from 'src/app/utils/roles';
+import { STATUS } from 'src/app/utils/statusToReview';
+import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
+import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
 
 
 @Component({
   selector: 'app-oral-prosthesis',
   standalone: true,
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent, HeaderHistoryClinicComponent],
+  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent, HeaderHistoryClinicComponent],
   templateUrl: './oral-prosthesis.component.html',
   styleUrl: './oral-prosthesis.component.scss'
 })
 export class OralProsthesisComponent {
   @Input() public patientUuid!: string;
-  @Input() public patientMedicalRecord!: number;
-  @Input() public medicalRecord!: number;
 
   private router = inject(ActivatedRoute);
   private route = inject(Router);
@@ -51,6 +48,7 @@ export class OralProsthesisComponent {
 
   public id!: number;
   public idpatient!: string;
+  public patientMedicalRecord!: number;
   public currentIndex: number = 0;
   public mappedHistoryData!: dataTabs;
   public role!: string;
@@ -58,6 +56,7 @@ export class OralProsthesisComponent {
   public currentStatus: string | null = null;
   public idPatientClinicalHistory!: number;
   public viewCardTreatments: boolean = false;
+  public isLoading: boolean = true;
 
   public isSupervisorWithTreatment: boolean = false;
   private idTreatmentDetail!: number;
@@ -83,55 +82,32 @@ export class OralProsthesisComponent {
   private initializeRouteParams(): void {
     this.router.params.subscribe(params => {
       this.processRoleBasedParams(params);
-      this.loadClinicalHistory();
+      this.medicalRecordConfig();
     });
   }
 
   private processRoleBasedParams(params: Params): void {
     if (this.role !== ROLES.STUDENT) {
       this.handleNonStudentParams(params);
-    } else {
-      this.handleStudentParams(params);
     }
   }
 
-  private handleNonStudentParams(params: Params): void {
-    // Asignación común para todos los roles excepto STUDENT
-    this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
-    this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-    this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
+    private handleNonStudentParams(params: Params): void {
+      // Asignación común para todos los roles excepto STUDENT
+      this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
+      this.idpatient = params[PATIENT_UUID_ROUTE] || '';
+      this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
 
-    // Manejo específico para CLINICAL_AREA_SUPERVISOR
-    if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
-      this.idTreatmentDetail = params[ID_TREATMENT_DETAIL] || '';
+      // Manejo específico para CLINICAL_AREA_SUPERVISOR
+      if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
+        this.idTreatmentDetail = params[ID_TREATMENT_DETAIL] || '';
+      }
     }
-  }
 
-  private handleStudentParams(params: Params): void {
-    // Caso específico para STUDENT con tratamiento en params
-    if (params[ID_TREATMENT_DETAIL]) {
-      this.handleStudentWithTreatmentParams(params);
-    } else {
-      this.handleStudentWithoutTreatmentParams();
-    }
-  }
-
-  private handleStudentWithTreatmentParams(params: Params): void {
-    this.idTreatmentDetail = params[ID_TREATMENT_DETAIL];
-    this.id = params[ID_MEDICAL_RECORD];
-    this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-    this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
-    this.viewCardTreatments = true;
-  }
-
-  private handleStudentWithoutTreatmentParams(): void {
-    this.id = this.medicalRecord;
-    this.idpatient = this.patientUuid;
-    this.idPatientClinicalHistory = this.patientMedicalRecord;
-  }
-
-  private loadClinicalHistory(): void {
-    this.historyData.getHistoryClinics(this.idPatientClinicalHistory, this.idpatient).subscribe({
+  private medicalRecordConfig(): void {
+    this.historyData.
+    getMedicalRecord(EMedicalRecords.PROTESIS_BUCAL, this.patientUuid).
+    subscribe({ 
       next: (mappedData: dataTabs) => {
         this.mappedHistoryData = this.processMappedData(mappedData, this.role);
         this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
@@ -139,6 +115,8 @@ export class OralProsthesisComponent {
         this.getFirstTab();
         this.getStatusHc();
         this.isSupervisorWithTreatment = true;
+        this.patientMedicalRecord = mappedData.idPatientMedicalRecord;
+        this.isLoading = false;
         // Solo procesar tabs si no es supervisor con tratamiento
         if (!(this.role === ROLES.CLINICAL_AREA_SUPERVISOR && this.idTreatmentDetail)) {
           const processedData = this.getTabsforReview(this.mappedHistoryData);

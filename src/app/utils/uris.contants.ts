@@ -274,6 +274,11 @@ export class UriConstants {
     basePath + '/clinical-histories/patient-clinical-history';
   // Obtener la configuracion de la historia clinica:
   public static readonly GET_HISTORY_CONFIG = basePath + '/clinical-histories';
+
+  // Obtener la configuracion de la historia clinica por paciente
+  public static readonly GET_HISTORY_CONFIG_BY_PATIENT =
+    basePath + '/clinical-histories/catalog/:medicalRecordType/patients/:idPatient';
+
   // Obtiene una lista de historías clínicas y su relación con el paciente.
   public static readonly GET_PATIENT_HISTORIES =
     basePath + '/clinical-histories';
@@ -361,7 +366,8 @@ export class UriConstants {
   public static readonly POST_TREATMENT_REVIEW = basePath + '/treatment-details'
   public static readonly GET_TREATMENT_REVIEW = basePath + '/treatment-details/professors';
   public static readonly POST_RATE_TREATMENT = basePath + '/treatment-details'
-  public static readonly PUT_TREATMENT = basePath + '/treatment-details';
+  public static readonly PUT_TREATMENT = basePath + '/treatment-details'; 
+  public static readonly GET_TREATMENTS_DETAILS = basePath + '/treatment-details/:idTreatmentDetail'; 
 
   public static readonly DOWLOAD_FORMAT_PROGRESS_NOTES = basePath + '/progress-notes/files';
   public static readonly DOWLOAD_SIGNED_NOTES = basePath + '/progress-notes/files';

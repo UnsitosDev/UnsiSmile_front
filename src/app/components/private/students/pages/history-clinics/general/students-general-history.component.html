@@ -1,21 +1,14 @@
 @if (role !== ROL.STUDENT) {
   <mat-card appearance="outlined" class="custom">
-      <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
+      <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
   </mat-card>
   <br>
 }
 
-@if (isSupervisorWithTreatment) {
-  <div class="rate-treatment flex justify-end mb-4">
-      <button mat-button (click)="opedDialogRateTreatment()">
-          Calificar Tratamiento
-      </button>
-  </div>
-}
-@if (mappedHistoryData) {
+@if (medicalRecordData) {
   <mat-card-title>
     <app-header-history-clinic
-    [mappedHistoryData]="mappedHistoryData"
+    [mappedHistoryData]="medicalRecordData"
     [idPatientClinicalHistory]="patientMedicalRecord"
     [currentSectionId]="currentSectionId"
     [currentStatus]="currentStatus"
@@ -25,13 +18,13 @@
   </mat-card-title>
   <mat-card class="custom">
         <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
-            @for (tab of mappedHistoryData.tabs; track tab) {
+            @for (tab of medicalRecordData.tabs; track tab) {
                 <mat-tab [label]="tab.title">
                     @if (tab.title === 'Nota de evolución' && !tab.isAnswered) {
                       <app-progress-notes
                       [patientId]="patientUuid"
                       [data]="patientData"
-                      [medicalRecordNumber]="medicalRecord"
+                      [medicalRecordNumber]="medicalRecordId"
                       (previousMatTab)="onPreviousTab()"
                       ></app-progress-notes>
                     }
