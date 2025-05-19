@@ -120,11 +120,10 @@
             Crear Nuevo Odontograma
           </button>
         </div>
-
+        <mat-card-header>
+          <mat-card-title>Historial de Odontogramas</mat-card-title>
+        </mat-card-header>
         <mat-card appearance="outlined" class="custom mb-4">
-          <mat-card-header class="w-full">
-            <mat-card-title>Historial de Odontogramas</mat-card-title>
-          </mat-card-header>
           <mat-card-content>
             <app-odontogram-list 
             [treatmentId]="treatmentDetails.idTreatmentDetail"

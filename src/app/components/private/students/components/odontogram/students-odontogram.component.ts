@@ -75,6 +75,7 @@ export class StudentsOdontogramComponent implements OnInit {
   private odontogramService = inject(ApiService<{}, OdontogramPost>);
   @Input({ required: true }) patientId!: string;
   @Input({ required: true }) idTreatmentDetails!: number;
+  @Input() idOdontogram: number = 0;
   @Input({ required: true }) state!:
     | 'create'
     | 'update'
@@ -127,10 +128,10 @@ export class StudentsOdontogramComponent implements OnInit {
         this.initializeNewOdontogram();
         break;
       case 'update':
-        this.loadExistingOdontogramById();
+        this.loadExistingOdontogramById(String(this.idOdontogram));
         break;
       case 'read':
-        //this.loadExistingOdontogramByIdForm();
+        this.loadExistingOdontogramById(String(this.idOdontogram));
         break;
       case 'read-latest':
         this.loadLatestExistingOdontogram();
@@ -172,15 +173,17 @@ export class StudentsOdontogramComponent implements OnInit {
     });
   }
 
-  private loadExistingOdontogramById(): void {
+  private loadExistingOdontogramById(idOdontogram: string): void {
     this.odontogramService
       .getService({
-        url: `${UriConstants.GET_LAST_ODONTOGRAM_BY_PATIENT}/${this.patientId}`,
+        url: UriConstants.GET_ODONTOGRAM_BY_ID.replace(":idOdontogram", idOdontogram),
       })
       .subscribe({
         next: (response) => {
-          OdontogramMapper.mapOdontogramResponseToData(response);
+          this.mapResponseToOdontogram(response);
+          this.odontogram.observations = this.data.observations;
           this.renderOdontogram = true;
+          console.log(response)
         },
         error: (error) => {},
       });

@@ -183,4 +183,11 @@ mat-list-item span {
         padding: 0;
       }
     }
+
+    .mat-mdc-card-title {
+        background-color: var(--tertiary);
+        padding: 8px;
+        border-radius: 2px;
+        color: white;
+    }
   }
