@@ -107,13 +107,12 @@
     @if(creatingOdontogram){
       <app-students-odontogram
       [patientId]="patientUuid"
-      [idTreatment]="treatmentDetails.idTreatmentDetail"
+      [idTreatmentDetails]="treatmentDetails.idTreatmentDetail"
       [state]="'create'"
       (transactionCarriedOut)="transactionCarriedOut()"
+      (cancel)="cancelOdontogramCreation()"
       ></app-students-odontogram>
-    }
-
-    @else {
+    }@else {
       <div class="odontogram-tab-content">
         <div class="action-container">
           <button mat-raised-button color="primary" (click)="changeOdontogramViewStatus()">
@@ -121,11 +120,8 @@
             Crear Nuevo Odontograma
           </button>
         </div>
-
-        <mat-card appearance="outlined" class="custom mb-4">
-          <mat-card-header>
-            <mat-card-title>Historial de Odontogramas</mat-card-title>
-          </mat-card-header>
+        <mat-card-title><strong>Historial de Odontogramas</strong></mat-card-title>
+        <mat-card appearance="outlined" class="custom">
           <mat-card-content>
             <app-odontogram-list 
             [treatmentId]="treatmentDetails.idTreatmentDetail"
