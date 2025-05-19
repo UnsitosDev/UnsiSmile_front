@@ -46,8 +46,8 @@
           }
           @if (tab.title == "Profilaxis Dental" && !tab.isAnswered) {
             <app-profilaxis
-              [idPatient]="idpatient"
-              [idPatientClinicalHistory]="idPatientClinicalHistory"
+              [idPatient]="patientUuid"
+              [idPatientClinicalHistory]="patientMedicalRecord"
               [idFormSection]="tab.idFormSection"
             ></app-profilaxis>
           }
