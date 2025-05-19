@@ -42,4 +42,27 @@ export class FluorosisComponent {
     }
   }
 
+  public getQuadrantForChildren(teeth: ITooth[], quadrant: number): ITooth[] {
+    if (quadrant >= 5 && quadrant <= 8) {
+      return teeth
+        .filter((tooth) => {
+          const id = tooth.idTooth;
+          switch (quadrant) {
+            case 5:
+              return id >= 51 && id <= 55;
+            case 6:
+              return id >= 61 && id <= 65;
+            case 7:
+              return id >= 71 && id <= 75;
+            case 8:
+              return id >= 81 && id <= 85;
+            default:
+              return false;
+          }
+        })
+    } else {
+      return [];
+    }
+  }
+
 }
