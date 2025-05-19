@@ -1,9 +1,9 @@
-import { DialogRef } from '@angular/cdk/dialog';
 import { HttpHeaders } from '@angular/common/http';
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
@@ -24,7 +24,7 @@ interface ConditionTooth {
 @Component({
   selector: 'app-dialog-insert-profilaxis',
   standalone: true,
-  imports: [MatCardModule, MatIconModule],
+  imports: [MatCardModule, MatIconModule, MatTooltipModule],
   templateUrl: './dialog-insert-profilaxis.component.html',
   styleUrl: './dialog-insert-profilaxis.component.scss'
 })
@@ -267,7 +267,6 @@ export class DialogInsertProfilaxisComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.toothConditions = response;
-          console.log('toothConditions', this.toothConditions);
         },
         error: (error) => {
           this.toastr.error(error);
