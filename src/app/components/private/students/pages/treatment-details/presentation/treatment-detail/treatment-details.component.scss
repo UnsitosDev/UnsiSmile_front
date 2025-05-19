@@ -1,193 +1,160 @@
 .custom-background {
-    background-color: var(--secondary);
+  background-color: var(--secondary);
 }
 
 .send-to-review {
-    background: var(--tertiary);
+  background: var(--tertiary);
 }
 
 .custom {
-    color: var(--on-secondary);
-    background-color: var(--secondary);
-    border: 1px var(--on-secondary);
+  color: var(--on-secondary);
+  background-color: var(--secondary);
+  border: 1px var(--on-secondary);
 }
 
 .button-custom {
-    background-color: var(--tertiary);
-    border-radius: 2px;
-    padding: 8px 16px;
+  background-color: var(--tertiary);
+  border-radius: 2px;
+  padding: 8px 16px;
 }
 
 .button-custom-back {
-    background-color: var(--tertiary);
-    border-radius: 2px;
-    padding: 8px 16px;
-}
-
-.item-container {
-    width: 100%;
+  background-color: var(--tertiary);
+  border-radius: 2px;
+  padding: 8px 16px;
 }
 
 .content-wrapper {
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-}
-
-.list-content {
-    flex: 1;
-    min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
 }
 
 .view-badge {
-    background: var(--on-primary);
-    color: var(--subtext);
-    padding: 4px 8px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 12px;
-    white-space: nowrap;
-    margin-left: 8px;
-    flex-shrink: 0;
-}
-
-mat-list-item {
-    overflow: hidden;
-}
-
-mat-list-item span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.treatment {
-    background: #c4c4c4;
-    color: var(--text);
-    border-radius: 6px;
-    cursor: pointer;
-    white-space: nowrap;
-    margin-left: 8px;
-    flex-shrink: 0;
+  background: var(--on-primary);
+  color: var(--subtext);
+  padding: 4px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-left: 8px;
+  flex-shrink: 0;
 }
 
 .status-badge {
-    background: var(--on-primary);
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    white-space: nowrap;
-    margin-left: 8px;
-    flex-shrink: 0;
+  background: var(--on-primary);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-left: 8px;
+  flex-shrink: 0;
 }
 
 .badge-base-treatment-status {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 12px;
-    font-size: 12px;
-    white-space: nowrap;
-    margin-left: 8px;
-    padding: 0 8px;
-    line-height: 1.2;
-    height: 24px;
-    box-sizing: border-box;
-    font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-left: 8px;
+  padding: 0 8px;
+  line-height: 1.2;
+  height: 24px;
+  box-sizing: border-box;
+  font-weight: 500;
 }
+
 .in-review {
-    @extend .status-badge;
-    color: var(--status-in-review);
+  @extend .status-badge;
+  color: var(--status-in-review);
 }
 
 .in-review-treatment {
-    @extend .badge-base-treatment-status;
-    background: var(--secondary);
-    color: var(--status-in-review);
+  @extend .badge-base-treatment-status;
+  background: var(--secondary);
+  color: var(--status-in-review);
 }
 
 .approved {
-    @extend .status-badge;
-    color: var(--status-approved);
+  @extend .status-badge;
+  color: var(--status-approved);
 }
 
 .view-treatment {
-    @extend .status-badge;
-    background-color: var(--view-treatment);
-    color: var(--tertiary);
+  @extend .status-badge;
+  background-color: var(--view-treatment);
+  color: var(--tertiary);
 }
 
 .approved-treatment {
-    @extend .badge-base-treatment-status;
-    background: var(--secondary);
-    color: var(--status-approved);
-
+  @extend .badge-base-treatment-status;
+  background: var(--secondary);
+  color: var(--status-approved);
 }
 
 .rejected {
-    @extend .status-badge;
-    color: var(--status-rejected);
+  @extend .status-badge;
+  color: var(--status-rejected);
 }
 
 .rejected-treatment {
-    @extend .badge-base-treatment-status;
-    background: var(--secondary);
-    color: var(--status-rejected);
+  @extend .badge-base-treatment-status;
+  background: var(--secondary);
+  color: var(--status-rejected);
 }
 
 .in-progress {
-    @extend .status-badge;
-    color: var(--status-in-progress);
+  @extend .status-badge;
+  color: var(--status-in-progress);
 }
 
 .in-progress-treatment {
-    @extend .badge-base-treatment-status;
-    background: var(--secondary);
-    color: var(--status-in-progress);
+  @extend .badge-base-treatment-status;
+  background: var(--secondary);
+  color: var(--status-in-progress);
 }
 
 .finished {
-    @extend .status-badge;
-    color: var(--status-finished);
+  @extend .status-badge;
+  color: var(--status-finished);
 }
 
 .finished-treatment {
-    @extend .badge-base-treatment-status;
-    background: var(--secondary);
-    color: var(--status-finished);
-}
-
-.update-treatment {
-    color: var(--tertiary);
+  @extend .badge-base-treatment-status;
+  background: var(--secondary);
+  color: var(--status-finished);
 }
 
 .odontogram-tab-content {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  
-    .action-container {
-      display: flex;
-      justify-content: flex-end;
-      
-      button {
-        padding: 8px 24px;
-        font-size: 16px;
-      }
-    }
-  
-    .list-container {
-      border-radius: 8px;
-  
-      mat-card-content {
-        padding: 0;
-      }
-    }
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 
-    .mat-mdc-card-title {
-        background-color: var(--tertiary);
-        padding: 8px;
-        border-radius: 2px;
-        color: white;
+  .action-container {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      padding: 8px 24px;
+      font-size: 16px;
     }
   }
+
+  .list-container {
+    border-radius: 8px;
+
+    mat-card-content {
+      padding: 0;
+    }
+  }
+
+  .mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: white;
+  }
+}
