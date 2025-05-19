@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,11 +9,12 @@ import { ToastrService } from 'ngx-toastr';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { DentalProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.response.model';
 import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-profilaxis',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, MatExpansionModule],
+  imports: [MatIconModule, MatDialogModule, MatExpansionModule, MatButtonModule],
   templateUrl: './profilaxis.component.html',
   styleUrl: './profilaxis.component.scss',
 })
@@ -26,6 +27,7 @@ export class ProfilaxisComponent implements OnInit {
   @Input({ required: true }) idPatient!: string;
   @Input({ required: true }) idPatientClinicalHistory!: number;
   @Input({ required: true }) idFormSection!: number;
+  @Output() nextMatTab = new EventEmitter<void>();                  
   idQuestion: number = 244;
 
   ngOnInit(): void {
@@ -112,6 +114,9 @@ export class ProfilaxisComponent implements OnInit {
       });
   }
 
+  nextTab() {
+    this.nextMatTab.emit();
+  }
 
   // Función para encontrar un diente específico en los datos
   findTooth(teeth: any[], toothNumber: number): any | null {

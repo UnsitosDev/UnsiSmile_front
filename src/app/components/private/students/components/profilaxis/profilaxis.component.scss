@@ -46,3 +46,15 @@ mat-expansion-panel {
   border-radius: 4px;
   background-color: var(--on-primary);
 }
+
+.grid-button {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: var(--tertiary);
+  color: var(--side-text) !important;
+}
+

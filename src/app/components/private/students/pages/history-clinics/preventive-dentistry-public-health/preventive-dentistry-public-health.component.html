@@ -49,6 +49,7 @@
               [idPatient]="patientUuid"
               [idPatientClinicalHistory]="patientMedicalRecord"
               [idFormSection]="tab.idFormSection"
+              (nextMatTab)="onNextTab()"
             ></app-profilaxis>
           }
           @if (tab.title === "Fluorosis" && !tab.isAnswered) {
