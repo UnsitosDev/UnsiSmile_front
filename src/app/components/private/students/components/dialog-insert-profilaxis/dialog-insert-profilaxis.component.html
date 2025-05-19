@@ -9,6 +9,11 @@
         </mat-card-title>
       </mat-card>
 
+      <div class="flex justify-end">
+        <span class="p-4 cursor-pointer" matTooltipPosition="left" matTooltip="Click en la cara para pintar, triángulo para extraer, botón rojo para ausente">
+          <i class="far fa-question-circle mr-1 mt-4"></i>Ayuda
+        </span>
+      </div>
       <div class="quadrant-container p-4 overflow-x-auto md:overflow-x-visible">
           <!-- Contenedor interno con ancho mínimo para forzar el scroll -->
           <div class="min-w-[700px] md:min-w-full">
@@ -52,15 +57,15 @@
                         width="35"
                         height="35"
                         fill="none"
-                        stroke="var(--text)"
+                        stroke="black"
                         stroke-width="2"
                       />
 
                       <!-- Cara 1 -->
                       <polygon
                         points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -71,8 +76,8 @@
                       <!-- Cara 2 -->
                       <polygon
                         points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -83,8 +88,8 @@
                       <!-- Cara 3 -->
                       <polygon
                         points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -95,8 +100,8 @@
                       <!-- Cara 4 -->
                       <polygon
                         points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -108,7 +113,7 @@
                       <polygon
                         points="17.5,5 35,25 0,25"
                         stroke="red"
-                        fill="transparent"
+                        fill="var( --white-color)"
                         stroke-width="2"
                       />
                       }
@@ -175,15 +180,15 @@
                         width="35"
                         height="35"
                         fill="none"
-                        stroke="var(--text)"
+                        stroke="black"
                         stroke-width="2"
                       />
 
                       <!-- Cara 1 -->
                       <polygon
                         points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -194,8 +199,8 @@
                       <!-- Cara 2 -->
                       <polygon
                         points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -206,8 +211,8 @@
                       <!-- Cara 3 -->
                       <polygon
                         points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -218,8 +223,8 @@
                       <!-- Cara 4 -->
                       <polygon
                         points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -231,7 +236,7 @@
                       <polygon
                         points="17.5,5 35,25 0,25"
                         stroke="red"
-                        fill="transparent"
+                        fill="var( --white-color)"
                         stroke-width="2"
                       />
                       }
@@ -301,15 +306,15 @@
                         width="35"
                         height="35"
                         fill="none"
-                        stroke="var(--text)"
+                        stroke="black"
                         stroke-width="2"
                       />
 
                       <!-- Cara 1 -->
                       <polygon
                         points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -320,8 +325,8 @@
                       <!-- Cara 2 -->
                       <polygon
                         points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -332,8 +337,8 @@
                       <!-- Cara 3 -->
                       <polygon
                         points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -344,8 +349,8 @@
                       <!-- Cara 4 -->
                       <polygon
                         points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -357,7 +362,7 @@
                       <polygon
                         points="17.5,5 35,25 0,25"
                         stroke="red"
-                        fill="transparent"
+                        fill="var( --white-color)"
                         stroke-width="2"
                       />
                       }
@@ -424,15 +429,15 @@
                         width="35"
                         height="35"
                         fill="none"
-                        stroke="var(--text)"
+                        stroke="black"
                         stroke-width="2"
                       />
 
                       <!-- Cara 1 -->
                       <polygon
                         points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -443,8 +448,8 @@
                       <!-- Cara 2 -->
                       <polygon
                         points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -455,8 +460,8 @@
                       <!-- Cara 3 -->
                       <polygon
                         points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -467,8 +472,8 @@
                       <!-- Cara 4 -->
                       <polygon
                         points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'transparent'"
-                        stroke="var(--text)"
+                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                        stroke="black"
                         stroke-width="2"
                         (click)="
                           !toothDeactivated[tooth.idTooth] &&
@@ -480,7 +485,7 @@
                       <polygon
                         points="17.5,5 35,25 0,25"
                         stroke="red"
-                        fill="transparent"
+                        fill="var( --white-color)"
                         stroke-width="2"
                       />
                       }
@@ -515,14 +520,7 @@
       <div class="p-4 flex flex-col">
           <p class="mb-3 font-bold text-gray-700">Simbología</p>
           <div class="flex items-center gap-3 mb-4">
-            <svg width="40" height="24" class="flex-shrink-0">
-              <polygon
-                points="20,6 38,18 2,18"
-                stroke="var(--text)"
-                fill="none"
-                stroke-width="2"
-              />
-            </svg>
+              <img src="../../../../../../assets/svg/diente_extraido.svg" />
             <span>Diente extraído</span>
           </div>
           <div class="flex justify-end">
