@@ -99,9 +99,9 @@ export class PreventiveDentistryPublicHealthComponent {
 
   private handleNonStudentParams(params: Params): void {
     // Asignación común para todos los roles excepto STUDENT
-    this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
+    this.id = params[ID_MEDICAL_RECORD];
     this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-    this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
+    this.idPatientClinicalHistory = params[ID_PATIENT_MEDICAL_RECORD];
 
     // Manejo específico para CLINICAL_AREA_SUPERVISOR
     if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
@@ -133,13 +133,14 @@ export class PreventiveDentistryPublicHealthComponent {
   }
 
   private loadClinicalHistory(): void {
-    this.historyData.getHistoryClinics(this.idPatientClinicalHistory, this.idpatient).subscribe({
+    this.historyData.getHistoryClinics(this.patientMedicalRecord, this.patientUuid).subscribe({
       next: (mappedData: dataTabs) => {
         this.mappedHistoryData = this.processMappedData(mappedData, this.role);
         this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
         this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
         this.getFirstTab();
         this.getStatusHc();
+        console.log(this.mappedHistoryData);
         this.isSupervisorWithTreatment = true;
         // Solo procesar tabs si no es supervisor con tratamiento
         if (!(this.role === ROLES.CLINICAL_AREA_SUPERVISOR && this.idTreatmentDetail)) {
