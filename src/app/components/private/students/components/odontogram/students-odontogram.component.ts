@@ -25,9 +25,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  MatFormFieldModule
-} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -40,7 +38,6 @@ import {
   OdontogramPost,
   OdontogramResponse,
 } from '@mean/models';
-import { TabsHandler } from '@mean/shared';
 import { mapOdontogramResponseToOdontogramData } from '@mean/students';
 import { UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
@@ -90,6 +87,7 @@ export class StudentsOdontogramComponent implements OnInit {
   role!: string;
 
   @Output() transactionCarriedOut = new EventEmitter<boolean>();
+  @Output() cancel = new EventEmitter<boolean>();
 
   private readonly odontogramData = inject(OdontogramData);
   private readonly toothFaceConditions = new Set([
@@ -129,7 +127,7 @@ export class StudentsOdontogramComponent implements OnInit {
         this.initializeNewOdontogram();
         break;
       case 'update':
-        //this.loadExistingOdontogramByIdForm();
+        this.loadExistingOdontogramById();
         break;
       case 'read':
         //this.loadExistingOdontogramByIdForm();
@@ -139,7 +137,7 @@ export class StudentsOdontogramComponent implements OnInit {
         break;
     }
   }
-  
+
   loadLatestExistingOdontogram() {
     this.odontogramService
       .getService({
@@ -174,7 +172,7 @@ export class StudentsOdontogramComponent implements OnInit {
     });
   }
 
-  private loadExistingOdontogram(): void {
+  private loadExistingOdontogramById(): void {
     this.odontogramService
       .getService({
         url: `${UriConstants.GET_LAST_ODONTOGRAM_BY_PATIENT}/${this.patientId}`,
@@ -436,11 +434,15 @@ export class StudentsOdontogramComponent implements OnInit {
     }
   }
 
-  updateOdontogram() {
-  }
+  updateOdontogram() {}
 
   storeOdontogram(): void {
-    const odontogramStore: OdontogramPost = OdontogramMapper.mapOdontogramToPost(this.patientId, this.odontogram, this.idTreatmentDetails);
+    const odontogramStore: OdontogramPost =
+      OdontogramMapper.mapOdontogramToPost(
+        this.patientId,
+        this.odontogram,
+        this.idTreatmentDetails
+      );
 
     this.odontogramService
       .postService({
@@ -460,13 +462,9 @@ export class StudentsOdontogramComponent implements OnInit {
       });
   }
 
-  previousTab() {
-    
-  }
+  previousTab() {}
 
-  nextTab() {
-    
-  }
+  nextTab() {}
 
   openDeleteConditionsDialog(tooth: ITooth): void {
     const dialogRef = this.dialog.open(DeleteConditionsDialogComponent, {
@@ -559,5 +557,9 @@ export class StudentsOdontogramComponent implements OnInit {
       timeOut: 2000,
       positionClass: 'toast-bottom-right',
     });
+  }
+
+  cancelOdontogram(): void {
+    this.cancel.emit(true);
   }
 }
