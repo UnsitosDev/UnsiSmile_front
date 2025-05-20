@@ -29,6 +29,7 @@
 
   <div class="p-4 mr-4 flex justify-end">
     <mat-form-field>
+      <mat-label>Porcentaje</mat-label>
       <input matInput appearance="fill" class="w-full" placeholder="Porcentaje" type="number" required
              [(ngModel)]="percentage" name="percentage" min="0" max="100"/>
       @if (percentage !== null && (percentage < 0 || percentage > 100)) {
