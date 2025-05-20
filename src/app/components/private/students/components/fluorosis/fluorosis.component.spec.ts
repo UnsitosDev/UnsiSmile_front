@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReviewTreatmentComponent } from './review-treatment.component';
+import { FluorosisComponent } from './fluorosis.component';
 
-describe('ReviewTreatmentComponent', () => {
-  let component: ReviewTreatmentComponent;
-  let fixture: ComponentFixture<ReviewTreatmentComponent>;
+describe('FluorosisComponent', () => {
+  let component: FluorosisComponent;
+  let fixture: ComponentFixture<FluorosisComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReviewTreatmentComponent]
+      imports: [FluorosisComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ReviewTreatmentComponent);
+    fixture = TestBed.createComponent(FluorosisComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -106,7 +106,6 @@ export class AdminPatientsComponent implements OnInit {
       };
 
     delete(nombre: string) {
-    console.log('eliminar', nombre);
   }
 
   mostrarAlerta() {

@@ -1,5 +1,5 @@
 @for (tableKey of getTableKeys(); track tableKey) {
-  <mat-card-title><strong>{{ tab[tableKey].title }}</strong></mat-card-title>             
+  <mat-card-title><strong>{{ tab[tableKey].title }}</strong></mat-card-title>
   <mat-card class="table-card">
     <mat-card-content>
       <div class="table-container">
@@ -90,13 +90,13 @@
 </div>
 
 <div class="button-container">
-  <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> <span class="hidden sm:inline"> ANTERIOR</span> </button>
+  <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> <span class="hidden sm:inline"> Anterior</span> </button>
   <div>
     @if (role == 'ROLE_STUDENT') {
-      <button type="button" mat-button (click)="store()"> GUARDAR <i class="fas fa-save"></i></button>
+      <button type="button" mat-button [hidden]="enabledButton" (click)="store()"> Guardar <i class="fas fa-save"></i></button>
     }
-    <button type="button" (click)="nextTab()" mat-button > 
-      <span class="hidden sm:inline">AVANZAR </span>
+    <button type="button" (click)="nextTab()" mat-button >
+      <span class="hidden sm:inline">Avanzar </span>
       <i class="fas fa-long-arrow-alt-right"></i></button>
   </div>
 </div>

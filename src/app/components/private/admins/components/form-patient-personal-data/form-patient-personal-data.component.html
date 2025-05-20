@@ -20,7 +20,7 @@
       </div>
       <div class="button-container">
         <div></div>
-        <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+        <button mat-flat-button color="primary" matStepperNext>Siguiente <i class="fas fa-long-arrow-alt-right"></i></button>
       </div>
     </form>
   </mat-step>
@@ -39,8 +39,8 @@
         }
       </div>
       <div class="button-container">
-        <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
-        <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+        <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> Anterior</button>
+        <button mat-flat-button color="primary" matStepperNext>Siguiente <i class="fas fa-long-arrow-alt-right"></i></button>
       </div>
     </form>
   </mat-step>
@@ -59,12 +59,12 @@
         }
       </div>
       <div class="button-container">
-        <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
+        <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> Anterior</button>
         @if (minorPatient || (disabledPatient && needsGuardian)) {
-          <button mat-flat-button color="primary" matStepperNext>SIGUIENTE <i class="fas fa-long-arrow-alt-right"></i></button>
+          <button mat-flat-button color="primary" matStepperNext>Siguiente <i class="fas fa-long-arrow-alt-right"></i></button>
         }
         @if (!minorPatient && !(disabledPatient && needsGuardian)) {
-          <button mat-flat-button color="primary" (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
+          <button mat-flat-button color="primary" (click)="onSubmit()">Guardar <i class="fas fa-save"></i></button>
         }
       </div>
     </form>
@@ -85,8 +85,8 @@
           }
         </div>
         <div class="button-container">
-          <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> ANTERIOR</button>
-          <button mat-flat-button color="primary" (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
+          <button mat-flat-button color="primary" matStepperPrevious><i class="fas fa-long-arrow-alt-left"></i> Anterior</button>
+          <button mat-flat-button color="primary" (click)="onSubmit()">Guardar <i class="fas fa-save"></i></button>
         </div>
       </form>
     </mat-step>
@@ -110,11 +110,11 @@
       }
       <div class="button-container">
         <button mat-flat-button color="primary" matStepperPrevious>
-          <i class="fas fa-long-arrow-alt-left"></i> ANTERIOR
+          <i class="fas fa-long-arrow-alt-left"></i> Anterior
         </button>
         @if (canAccessStudentTab) {
           <button mat-flat-button color="primary" (click)="assignStudentToPatient()">
-            FINALIZAR <i class="fas fa-check"></i>
+            Finalizar <i class="fas fa-check"></i>
           </button>
         }
       </div>
@@ -123,4 +123,3 @@
 </mat-stepper>
 
 <app-alert [singleMessage]="alertMessage" [severity]="alertSeverity" [open]="showAlert" (eventCloseToast)="showAlert = false"></app-alert>
-<app-loading/>

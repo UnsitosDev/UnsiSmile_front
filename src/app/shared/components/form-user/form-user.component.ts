@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router'; // Agregar esta importación
@@ -20,7 +20,7 @@ import { ProfilePictureService } from 'src/app/services/profile-picture.service'
   templateUrl: './form-user.component.html',
   styleUrl: './form-user.component.scss',
 })
-export class FormUserComponent implements OnInit {
+export class FormUserComponent implements OnInit, AfterViewInit {
   private userService = inject(ApiService<any, {}>);
   private profileService = inject(ApiService<ProfileResponse, {}>);
   private route = inject(Router);
@@ -52,6 +52,12 @@ export class FormUserComponent implements OnInit {
     { idGender: 99, gender: 'No binario' }
   ];
 
+  @ViewChild('tabList') tabList!: ElementRef;
+  @ViewChild('tabsWrapper') tabsWrapper!: ElementRef;
+
+  isScrollLeftEnd = true;
+  isScrollRightEnd = false;
+
   constructor(
     private router: Router,
     private profilePictureService: ProfilePictureService
@@ -67,8 +73,56 @@ export class FormUserComponent implements OnInit {
     this.fetchUserData();
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => this.checkScrollableNavigation(), 300);
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.checkScrollableNavigation();
+  }
+
+  scrollTabs(direction: 'left' | 'right') {
+    if (!this.tabsWrapper || !this.tabList) return;
+    const container = this.tabsWrapper.nativeElement as HTMLElement;
+    const scrollAmount = container.offsetWidth * 0.7;
+    if (direction === 'left') {
+      container.scrollLeft -= scrollAmount;
+    } else {
+      container.scrollLeft += scrollAmount;
+    }
+    setTimeout(() => this.checkScrollableNavigation(), 200);
+  }
+
+  checkScrollableNavigation() {
+    if (!this.tabsWrapper || !this.tabList) return;
+    const container = this.tabsWrapper.nativeElement as HTMLElement;
+    const content = this.tabList.nativeElement as HTMLElement;
+    const hasScroll = content.scrollWidth > container.offsetWidth;
+    this.isScrollLeftEnd = container.scrollLeft <= 0 || !hasScroll;
+    this.isScrollRightEnd = container.scrollLeft + container.offsetWidth >= content.scrollWidth || !hasScroll;
+  }
+
   setActiveTab(index: number) {
     this.activeTab.set(index);
+    setTimeout(() => {
+      if (!this.tabsWrapper || !this.tabList) return;
+      const container = this.tabsWrapper.nativeElement as HTMLElement;
+      const tabs = this.tabList.nativeElement.querySelectorAll('li');
+      if (tabs && tabs[index]) {
+        const tab = tabs[index] as HTMLElement;
+        const tabPosition = tab.offsetLeft;
+        const tabWidth = tab.offsetWidth;
+        const scrollLeft = container.scrollLeft;
+        const containerWidth = container.offsetWidth;
+        if (tabPosition < scrollLeft) {
+          container.scrollLeft = tabPosition;
+        } else if (tabPosition + tabWidth > scrollLeft + containerWidth) {
+          container.scrollLeft = tabPosition + tabWidth - containerWidth;
+        }
+        this.checkScrollableNavigation();
+      }
+    }, 100);
   }
 
   actualizarDatosUsuario() {

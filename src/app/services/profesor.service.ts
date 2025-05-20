@@ -147,7 +147,7 @@ export class ProfesorService {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            url: `${UriConstants.GET_PROFESOR_AREA}/${this.responsibleProfessor}`,
+            url: `${UriConstants.GET_PROFESSOR_CLINICAL_AREAS}`,
             data: {},
         });
     }
@@ -171,7 +171,7 @@ export class ProfesorService {
             next: (response: Array<{ idCareer: string, career: string }>) => {
                 this.careerOptions = response.map(item => ({
                     value: item.idCareer,
-                    label: 'Odontología' 
+                    label: 'Odontología'
                 }));
                 const careerField = this.personalDataFields.find(field => field.name === 'career');
                 if (careerField) {

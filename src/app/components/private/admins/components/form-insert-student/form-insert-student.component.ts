@@ -36,7 +36,7 @@ import { LoadingComponent } from '@mean/shared';
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FieldComponentComponent,MatStep,MatStepperModule,AlertComponent,MatCardModule,LoadingComponent],
+    FieldComponentComponent,MatStep,MatStepperModule,AlertComponent,MatCardModule],
   templateUrl: './form-insert-student.component.html',
   styleUrl: './form-insert-student.component.scss'
 })

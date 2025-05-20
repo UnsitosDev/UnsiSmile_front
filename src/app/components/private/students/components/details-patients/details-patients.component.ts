@@ -26,7 +26,6 @@ export class DetailsPatientsComponent implements OnInit {
   ngOnInit(): void {
     this.dataSharingService.patientData$.subscribe(patientData => {
       this.data = patientData;
-      console.log('patientData', patientData);
     });
   }
 

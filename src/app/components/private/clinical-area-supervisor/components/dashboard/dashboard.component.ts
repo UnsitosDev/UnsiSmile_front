@@ -18,7 +18,7 @@ import { LoadingComponent } from '@mean/shared';
 @Component({
   selector: 'app-dashboard-professor-clinical',
   standalone: true,
-  imports: [FontAwesomeModule,DashboardSupervisorStatsComponent,LoadingComponent],
+  imports: [FontAwesomeModule,DashboardSupervisorStatsComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })  

@@ -10,7 +10,7 @@ import { LoadingComponent } from '@mean/shared';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FontAwesomeModule, DashboardStudentStatsComponentComponent, LoadingComponent],
+  imports: [FontAwesomeModule, DashboardStudentStatsComponentComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })

@@ -59,7 +59,6 @@ export class DialogRateTreatmentComponent {
         this.dialogRef.close(true);
       },
       error: (error) => {
-        console.error(error);
         this.toastr.error('Error al calificar el tratamiento');
       }
     });

@@ -1,7 +1,7 @@
 <div class="p-4 flex justify-end">
   <button matbutton color="primary" (click)="openInsertProphylaxis()" class="button-custom">
     Nueva sesión
-  </button>  
+  </button>
 </div>
 <div class="space-y-8">
   @if (registerProfilaxis) {
@@ -11,7 +11,7 @@
           <mat-expansion-panel hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>Sesión {{record.idDentalProphylaxis}}</mat-panel-title>
-              <mat-panel-description>Fecha: {{formatDate(record.date)}}</mat-panel-description>
+              <mat-panel-description>Fecha: {{formatDate(record.creationDate)}}</mat-panel-description>
             </mat-expansion-panel-header>
 
             <!-- Contenedor principal (scroll en móvil, centrado en tablet/PC) -->
@@ -28,51 +28,51 @@
                           <div class="flex flex-col items-center min-w-[40px]">
                             @if (!hasCondition(tooth, 'Diente no presente')) {
                               <svg width="32" height="32" class="mt-1">
-                                <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                                
+                                <rect width="32" height="32" fill="white" stroke="#333" stroke-width="1.5"/>
+
                                 <!-- Cara 1 -->
                                 <polygon
                                   points="0,0 16,16 0,32"
-                                  [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '1') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 2 -->
                                 <polygon
                                   points="32,0 16,16 32,32"
-                                  [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '2') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 3 -->
                                 <polygon
                                   points="0,32 16,16 32,32"
-                                  [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '3') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 4 -->
                                 <polygon
                                   points="0,0 16,16 32,0"
-                                  [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '4') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-      
+
                                 @if (hasCondition(tooth, 'Diente extraido')) {
                                   <polygon
                                     points="16,5 30,25 2,25"
-                                    fill="none"
+                                    fill="white"
                                     stroke="#ef4444"
                                     stroke-width="1.5"
                                   />
                                 }
                               </svg>
-                              
-                          
+
+
                             } @else {
                               <span class="text-[10px] mt-1">Ausente</span>
                             }
@@ -81,8 +81,38 @@
                         } @else {
                           <!-- Diente sin datos (mostrar vacío) -->
                           <div class="flex flex-col items-center min-w-[40px]">
-                            <svg width="32" height="32" class="mt-1 opacity-30">
-                              <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
+                            <svg width="32" height="32" class="mt-1">
+                              <rect width="32" height="32" fill="white" stroke="#333" stroke-width="1.5"/>
+                              <polygon
+                                  points="0,0 16,16 0,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 2 -->
+                                <polygon
+                                  points="32,0 16,16 32,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 3 -->
+                                <polygon
+                                  points="0,32 16,16 32,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 4 -->
+                                <polygon
+                                  points="0,0 16,16 32,0"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
                             </svg>
                             <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
                           </div>
@@ -99,44 +129,44 @@
                           <div class="flex flex-col items-center min-w-[40px]">
                             @if (!hasCondition(tooth, 'Diente no presente')) {
                               <svg width="32" height="32" class="mt-1">
-                                <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                                
+                                <rect width="32" height="32" fill="white" stroke="#333" stroke-width="1.5"/>
+
                                 <!-- Cara 1 -->
                                 <polygon
                                   points="0,0 16,16 0,32"
-                                  [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '1') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 2 -->
                                 <polygon
                                   points="32,0 16,16 32,32"
-                                  [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '2') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 3 -->
                                 <polygon
                                   points="0,32 16,16 32,32"
-                                  [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '3') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 4 -->
                                 <polygon
                                   points="0,0 16,16 32,0"
-                                  [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '4') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-      
+
                                 @if (hasCondition(tooth, 'Diente extraido')) {
                                   <polygon
                                     points="16,5 30,25 2,25"
-                                    fill="none"
+                                    fill="white"
                                     stroke="#ef4444"
                                     stroke-width="1.5"
                                   />
@@ -150,8 +180,38 @@
                           } @else {
                           <!-- Diente sin datos -->
                           <div class="flex flex-col items-center min-w-[40px]">
-                            <svg width="32" height="32" class="mt-1 opacity-30">
-                              <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
+                            <svg width="32" height="32" class="mt-1">
+                              <rect width="32" height="32" fill="white" stroke="#333" stroke-width="1.5"/>
+                              <polygon
+                                  points="0,0 16,16 0,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 2 -->
+                                <polygon
+                                  points="32,0 16,16 32,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 3 -->
+                                <polygon
+                                  points="0,32 16,16 32,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 4 -->
+                                <polygon
+                                  points="0,0 16,16 32,0"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
                             </svg>
                             <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
                           </div>
@@ -171,44 +231,44 @@
                           <div class="flex flex-col items-center min-w-[40px]">
                             @if (!hasCondition(tooth, 'Diente no presente')) {
                               <svg width="32" height="32" class="mt-1">
-                                <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                                
+                                <rect width="32" height="32" fill="white" stroke="#333" stroke-width="1.5"/>
+
                                 <!-- Cara 1 -->
                                 <polygon
                                   points="0,0 16,16 0,32"
-                                  [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '1') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 2 -->
                                 <polygon
                                   points="32,0 16,16 32,32"
-                                  [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '2') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 3 -->
                                 <polygon
                                   points="0,32 16,16 32,32"
-                                  [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '3') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 4 -->
                                 <polygon
                                   points="0,0 16,16 32,0"
-                                  [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '4') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-      
+
                                 @if (hasCondition(tooth, 'Diente extraido')) {
                                   <polygon
                                     points="16,5 30,25 2,25"
-                                    fill="none"
+                                    fill="white"
                                     stroke="#ef4444"
                                     stroke-width="1.5"
                                   />
@@ -222,8 +282,38 @@
                           } @else {
                           <!-- Diente sin datos -->
                           <div class="flex flex-col items-center min-w-[40px]">
-                            <svg width="32" height="32" class="mt-1 opacity-30">
-                              <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
+                            <svg width="32" height="32" class="mt-1">
+                              <rect width="32" height="32" fill="white" stroke="#333" stroke-width="1.5"/>
+                              <polygon
+                                  points="0,0 16,16 0,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 2 -->
+                                <polygon
+                                  points="32,0 16,16 32,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 3 -->
+                                <polygon
+                                  points="0,32 16,16 32,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 4 -->
+                                <polygon
+                                  points="0,0 16,16 32,0"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
                             </svg>
                             <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
                           </div>
@@ -240,44 +330,44 @@
                           <div class="flex flex-col items-center min-w-[40px]">
                             @if (!hasCondition(tooth, 'Diente no presente')) {
                               <svg width="32" height="32" class="mt-1">
-                                <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
-                                
+                                <rect width="32" height="32" fill="white" stroke="#333" stroke-width="1.5"/>
+
                                 <!-- Cara 1 -->
                                 <polygon
                                   points="0,0 16,16 0,32"
-                                  [attr.fill]="isFaceMarked(tooth, '1') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '1') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 2 -->
                                 <polygon
                                   points="32,0 16,16 32,32"
-                                  [attr.fill]="isFaceMarked(tooth, '2') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '2') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 3 -->
                                 <polygon
                                   points="0,32 16,16 32,32"
-                                  [attr.fill]="isFaceMarked(tooth, '3') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '3') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-                                
+
                                 <!-- Cara 4 -->
                                 <polygon
                                   points="0,0 16,16 32,0"
-                                  [attr.fill]="isFaceMarked(tooth, '4') ? '#ef4444' : 'transparent'"
+                                  [attr.fill]="isFaceMarked(tooth, '4') ? 'var(--prophylaxis)' : 'var(--white-color)'"
                                   stroke="#333"
                                   stroke-width="1.5"
                                 />
-      
+
                                 @if (hasCondition(tooth, 'Diente extraido')) {
                                   <polygon
                                     points="16,5 30,25 2,25"
-                                    fill="none"
+                                    fill="white"
                                     stroke="#ef4444"
                                     stroke-width="1.5"
                                   />
@@ -291,8 +381,38 @@
                         } @else {
                           <!-- Diente sin datos -->
                           <div class="flex flex-col items-center min-w-[40px]">
-                            <svg width="32" height="32" class="mt-1 opacity-30">
-                              <rect width="32" height="32" fill="none" stroke="#333" stroke-width="1.5"/>
+                            <svg width="32" height="32" class="mt-1">
+                              <rect width="32" height="32" fill="white" stroke="#333" stroke-width="1.5"/>
+                              <polygon
+                                  points="0,0 16,16 0,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 2 -->
+                                <polygon
+                                  points="32,0 16,16 32,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 3 -->
+                                <polygon
+                                  points="0,32 16,16 32,32"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
+
+                                <!-- Cara 4 -->
+                                <polygon
+                                  points="0,0 16,16 32,0"
+                                  [attr.fill]="'var(--white-color)'"
+                                  stroke="#333"
+                                  stroke-width="1.5"
+                                />
                             </svg>
                             <span class="text-xs font-medium text-gray-400">{{toothNumber}}</span>
                           </div>
@@ -315,5 +435,15 @@
     <button mat-button color="primary" (click)="loadMore()" [disabled]="isLoading" class="button-custom">
       {{ isLoading ? 'Cargando...' : 'Cargar más' }}
     </button>
-  </div> 
+  </div>
 }
+
+<div class="grid-button p-4">
+  <div></div>
+  <div>
+      <button type="button" (click)="nextTab()" mat-button >
+          <span class="hidden sm:inline">Avanzar </span>
+          <i class="fas fa-long-arrow-alt-right"></i>
+      </button>
+  </div>
+</div>

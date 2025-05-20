@@ -21,11 +21,10 @@
       <div class="button-container">
         <div></div>
         <div class="button-container">
-          <button mat-flat-button color="primary" (click)="onSubmit()">GUARDAR <i class="fas fa-save"></i></button>
+          <button mat-flat-button color="primary" (click)="onSubmit()">Guardar <i class="fas fa-save"></i></button>
         </div>
       </div>
     </form>
   </mat-step>
 </mat-stepper>
 <app-alert [singleMessage]="alertMessage" [severity]="alertSeverity" [open]="showAlert" (eventCloseToast)="showAlert = false"></app-alert>
-<app-loading/>

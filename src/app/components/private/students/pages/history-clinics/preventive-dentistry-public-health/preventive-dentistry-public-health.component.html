@@ -1,59 +1,68 @@
-@if (role !== ROL.STUDENT || viewCardTreatments) {
-    <mat-card appearance="outlined" class="custom">
-        <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
-    </mat-card>
-    <br>
+@if (role !== ROL.STUDENT) {
+  <mat-card appearance="outlined" class="custom">
+    <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
+  </mat-card>
+  <br>
 }
 
 @if (isSupervisorWithTreatment) {
-    <div class="rate-treatment flex justify-end mb-4">
-        <button mat-button (click)="opedDialogRateTreatment()">
-            Calificar Tratamiento
-        </button>
-    </div>
+  <div class="rate-treatment flex justify-end mb-4">
+    <button mat-button (click)="opedDialogRateTreatment()">
+      Calificar Tratamiento
+    </button>
+  </div>
 }
 
 @if (mappedHistoryData) {
-    <mat-card-title>
-        <app-header-history-clinic 
-        [mappedHistoryData]="mappedHistoryData"
-        [idPatientClinicalHistory]="idPatientClinicalHistory"
-        [currentSectionId]="currentSectionId"
-        [currentStatus]="currentStatus"
-        [currentIndex]="currentIndex"
-        [role]="role">
-        </app-header-history-clinic>
-    </mat-card-title>
-    <mat-card class="custom">
-            <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
-                @for (tab of mappedHistoryData.tabs; track tab) {
-                    <mat-tab [label]="tab.title">
-                        @if (tab.isAnswered && tab.title !== 'Profilaxis Dental') {
-                            <app-tab-form-update
-                            [patientMedicalRecord]="idPatientClinicalHistory"
-                            [fieldsTab]="tab" 
-                            (nextMatTab)="onNextTab()"
-                            (previousMatTab)="onPreviousTab()"
-                            ></app-tab-form-update>
-                        }
-                        @if (!tab.isAnswered && tab.title !== 'Profilaxis Dental') {
-                            <app-tab-form 
-                            [patientMedicalRecord]="idPatientClinicalHistory"
-                            [fieldsTab]="tab" 
-                            (nextMatTab)="onNextTab()"
-                            (previousMatTab)="onPreviousTab()"
-                        ></app-tab-form>
-                        }
-                        @if (tab.title == "Profilaxis Dental" && !tab.isAnswered) {
-                            <app-profilaxis
-                            [idPatient]="idpatient" 
-                            [idPatientClinicalHistory]="idPatientClinicalHistory"
-                            [idFormSection]="tab.idFormSection"
-                            ></app-profilaxis>
-                        }
-                    </mat-tab>
-              }
-        </mat-tab-group>
-    </mat-card>
+  <mat-card-title>
+    <app-header-history-clinic
+      [mappedHistoryData]="mappedHistoryData"
+      [idPatientClinicalHistory]="idPatientClinicalHistory"
+      [currentSectionId]="currentSectionId"
+      [currentStatus]="currentStatus"
+      [currentIndex]="currentIndex"
+      [role]="role">
+    </app-header-history-clinic>
+  </mat-card-title>
+  <mat-card class="custom">
+    <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
+      @for (tab of mappedHistoryData.tabs; track tab) {
+        <mat-tab [label]="tab.title">
+          @if (tab.isAnswered && tab.title !== 'Profilaxis Dental' && tab.title !== 'Fluorosis') {
+            <app-tab-form-update
+              [patientMedicalRecord]="idPatientClinicalHistory"
+              [fieldsTab]="tab"
+              (nextMatTab)="onNextTab()"
+              (previousMatTab)="onPreviousTab()"
+            ></app-tab-form-update>
+          }
+          @if (!tab.isAnswered && tab.title !== 'Profilaxis Dental' && tab.title !== 'Fluorosis') {
+            <app-tab-form
+              [patientMedicalRecord]="idPatientClinicalHistory"
+              [fieldsTab]="tab"
+              (nextMatTab)="onNextTab()"
+              (previousMatTab)="onPreviousTab()"
+            ></app-tab-form>
+          }
+          @if (tab.title == "Profilaxis Dental" && !tab.isAnswered) {
+            <app-profilaxis
+              [idPatient]="patientUuid"
+              [idPatientClinicalHistory]="patientMedicalRecord"
+              [idFormSection]="tab.idFormSection"
+              (nextMatTab)="onNextTab()"
+            ></app-profilaxis>
+          }
+          @if (tab.title === "Fluorosis" && !tab.isAnswered) {
+            <app-fluorosis
+            [idFormSection]="currentSectionId"
+            [idPatientClinicalHistory]="patientMedicalRecord"
+            (nextMatTab)="onNextTab()"
+            (previousMatTab)="onPreviousTab()"
+            [patientUuid]="patientUuid"
+            ></app-fluorosis>
+          }
+        </mat-tab>
+      }
+    </mat-tab-group>
+  </mat-card>
 }
-  

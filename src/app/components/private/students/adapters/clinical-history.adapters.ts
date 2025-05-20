@@ -9,7 +9,9 @@ export function mapClinicalHistoryToDataTabs(catalog: ClinicalHistoryCatalog): d
     return {
         title: catalog.clinicalHistoryName, // Asigna el nombre de la historia clínica
         tabs: catalog.formSections.map(section => mapFormSectionToFormSectionFields(section)), // Mapea las secciones del formulario
-        medicalRecordNumber: catalog.medicalRecordNumber 
+        medicalRecordNumber: catalog.medicalRecordNumber,
+        idClinicalHistoryCatalog: catalog.idClinicalHistoryCatalog,
+        idPatientMedicalRecord: catalog.idPatientMedicalRecord
     };
 }
 

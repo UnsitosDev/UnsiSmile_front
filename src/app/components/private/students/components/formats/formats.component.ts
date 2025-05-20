@@ -31,19 +31,17 @@ export class FormatsComponent implements OnInit {
     this.apiService
       .getService({
         headers: new HttpHeaders({}),
-        url: `${UriConstants.GET_FORMATS}/${this.formSection}`,
+        url: `${UriConstants.GET_FORMATS}`,
         data: {},
       })
       .subscribe({
-        next: (response) => {
-          if (response.questions && response.questions.length > 0 && response.questions[0].answer) {
-            this.filesData = response.questions[0].answer.files || []; 
-          } else {
-            this.filesData = []; 
-          }
+        next: (response: FileData[]) => {
+          this.filesData = response;
         },
         error: (error) => {
-          this.toastr.warning(Messages.NO_FILES_YET);
+          error.status === 404
+            ? this.toastr.warning(Messages.NO_FILES_YET)
+            : this.toastr.error();
         },
       });
   }
