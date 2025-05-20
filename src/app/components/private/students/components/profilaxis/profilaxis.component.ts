@@ -174,7 +174,7 @@ export class ProfilaxisComponent implements OnInit {
     }
   }
 
-  public store(): DentalTreatmentPayload {
+  public store() {
     const payload: DentalTreatmentPayload = {
       idTreatment: Number(this.idTreatmentDetail),
       teeth: []
@@ -189,9 +189,24 @@ export class ProfilaxisComponent implements OnInit {
       }
     });
 
-    console.log('Payload completo:', payload);
-    return payload;
+    this.api
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_IHOS}`,
+        data: payload,
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('IHOS Guardado');
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
   }
+
 
 }
 
