@@ -8,7 +8,6 @@ export * from './shared/periodontogram.model'
 export * from './shared/formats.model'
 export * from './shared/statusHc'
 export * from './treatments/treatments.model';
-export * from './treatments/patientTreatments.model'
 export * from './shared/route.params.model'
 export * from './core/TokenResponse'
 export * from './core/auth.model'
@@ -16,3 +15,4 @@ export * from '../models/form-fields/form-field.interface'
 export * from './form-fields/form-field.interface';
 export * from './form-fields/form-utils';
 export * from './history-clinic/historyClinic'
+export * from './treatments/patientTreatments.model';

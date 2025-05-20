@@ -88,7 +88,7 @@ export class TreatmentDetailsComponent implements OnInit {
       next: (response) => {
         this.treatmentDetails = response;
         this.idTreatmentDetail = response.idTreatmentDetail;
-        this.patientClinicalHistoryId = response.patientClinicalHistoryId;
+        this.patientClinicalHistoryId = response.patient.idPatientMedicalRecord;
         this.medicalRecordId = response.treatment.clinicalHistoryCatalogId;
         this.isLoading = false;
       },
