@@ -258,11 +258,31 @@ export class StudentsOdontogramComponent implements OnInit {
   setFace(event: ToothEvent): void {
     const { tooth, faceId } = event;
 
+    if(this.marked.condition === ToothConditionsConstants.DIENTE_EXTRAIDO || this.marked.condition === ToothConditionsConstants.DIENTE_NO_PRESENTE){
+      //clear all conditions to thoot
+      this.clearTooth(tooth)
+    }
+
     if (this.isAFaceCondition(this.marked)) {
       this.addConditionToFace(tooth.idTooth, faceId, this.marked.idCondition);
     } else {
       this.addConditionToTooth(tooth.idTooth, this.marked.idCondition);
     }
+  }
+
+  private clearTooth(tooth: ITooth): void {
+    // Limpia condiciones del diente visualizado
+    tooth.conditions = [];
+    tooth.faces.forEach(face => {
+      face.conditions = [];
+    });
+  
+    // También elimina las condiciones del odontograma que se enviará en el POST
+    const toothForPost = this.findOrCreateTooth(tooth.idTooth);
+    toothForPost.conditions = [];
+    toothForPost.faces.forEach(face => {
+      face.conditions = [];
+    });
   }
 
   private isAFaceCondition(condition: ICondition): boolean {

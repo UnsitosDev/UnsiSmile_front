@@ -5,7 +5,11 @@
       <h1 class="custom-text">Código normal</h1>
       @for (symbol of toolbar.options; track $index) { @if
       (isNormalCondition(symbol.condition)) {
-      <div (click)="selectSymbol(symbol)" class="d-inline-block toolbar-item" [class.selected]="isSymbolSelected(symbol)">
+      <div
+        (click)="selectSymbol(symbol)"
+        class="d-inline-block toolbar-item"
+        [class.selected]="isSymbolSelected(symbol)"
+      >
         <div class="symbol-icon">
           <svg width="30" height="35" viewBox="0 0 30 35">
             <!-- Representación del diente con cinco caras -->
@@ -139,26 +143,21 @@
             @if (symbol.condition ===
             ToothConditionsConstants.PROTESIS_REMOVIBLE) {
             <span>
-              <img
-                src="../../../../../../assets/svg/protesis_removible.svg"
-              />
+              <img src="../../../../../../assets/svg/protesis_removible.svg" />
             </span>
             } @if (symbol.condition === ToothConditionsConstants.PUENTE) {
             <span>
-              <img
-                src="../../../../../../assets/svg/puente.svg"
-              />
+              <img src="../../../../../../assets/svg/puente.svg" />
             </span>
             }
             <!-- Simbologías debajo del diente -->
-            @if (symbol.condition === ToothConditionsConstants.DIENTE_PARCIALMENTE_ERUPCIONADO) {
-              <!-- Diente parcialmente erupcionado -->
-              <span>
-                <img
-                  src="../../../../../../assets/svg/erupcion.svg"
-                />
-              </span>
-             }
+            @if (symbol.condition ===
+            ToothConditionsConstants.DIENTE_PARCIALMENTE_ERUPCIONADO) {
+            <!-- Diente parcialmente erupcionado -->
+            <span>
+              <img src="../../../../../../assets/svg/erupcion.svg" />
+            </span>
+            }
           </div>
         </div>
         <div class="symbol-name custom-text">{{ symbol.condition }}</div>
@@ -173,7 +172,11 @@
       <h1 class="custom-text">Código anormal</h1>
       @for (symbol of toolbar.options; track $index) { @if
       (isAbnormalCondition(symbol.condition)) {
-      <div (click)="selectSymbol(symbol)" class="d-inline-block toolbar-item " [class.selected]="isSymbolSelected(symbol)">
+      <div
+        (click)="selectSymbol(symbol)"
+        class="d-inline-block toolbar-item"
+        [class.selected]="isSymbolSelected(symbol)"
+      >
         <div class="symbol-icon abnormal" (click)="selectSymbol(symbol)">
           <svg width="30" height="35" viewBox="0 0 30 35">
             <!-- Representación del diente con cinco caras -->
@@ -208,94 +211,86 @@
               stroke-width="0.5"
             />
             <!-- Simbología basada en symbol.condition -->
+
+            @switch (symbol.condition) {
+            <!-- Diente cariado -->
+            @case (ToothConditionsConstants.DIENTE_CARIADO) {
             <g>
-              @switch (symbol.condition) {
-              <!-- Diente cariado -->
-              @case (ToothConditionsConstants.DIENTE_CARIADO) {
-              <g>
-                <polygon
-                  points="7,9 21,9 21,25 7,25"
-                  fill="red"
-                  opacity="0.6"
-                />
-              </g>
-              }
-              <!-- Diente con fractura -->
-              @case (ToothConditionsConstants.DIENTE_CON_FRACTURA) {
-              <g>
-                <line
-                  x1="21"
-                  y1="9"
-                  x2="28"
-                  y2="33"
-                  stroke="red"
-                  stroke-width="2"
-                  stroke-dasharray="4"
-                />
-              </g>
-              }
-              <!-- Diente obturado con caries -->
-              @case (ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES) {
-              <g>
-                <polygon
-                  points="7,9 21,9 21,25 7,25"
-                  fill="#1919e6"
-                  opacity="0.8"
-                  stroke="red"
-                  stroke-width="2"
-                />
-              </g>
-              } }
+              <polygon points="7,9 21,9 21,25 7,25" fill="red" opacity="0.6" />
             </g>
+            }
+            <!-- Diente extraido -->
+            @case (ToothConditionsConstants.DIENTE_EXTRAIDO) {
+              <g>
+                <polygon
+                  points="15,5 0,30 30,30"
+                  fill="#e74c3c"
+                />
+              </g>
+            }
+            <!-- Diente con fractura -->
+            @case (ToothConditionsConstants.DIENTE_CON_FRACTURA) {
+            <g>
+              <line
+                x1="21"
+                y1="9"
+                x2="28"
+                y2="33"
+                stroke="red"
+                stroke-width="2"
+                stroke-dasharray="4"
+              />
+            </g>
+            }
+            <!-- Diente obturado con caries -->
+            @case (ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES) {
+            <g>
+              <polygon
+                points="7,9 21,9 21,25 7,25"
+                fill="#1919e6"
+                opacity="0.8"
+                stroke="red"
+                stroke-width="2"
+              />
+            </g>
+            } }
           </svg>
           <div class="tooth-symbols-below">
             <!-- Diente con fluorosis -->
             @if (symbol.condition ===
             ToothConditionsConstants.DIENTE_CON_FLUOROSIS) {
             <span>
-              <img
-                src="../../../../../../assets/svg/fluorosis.svg"
-              />
+              <img src="../../../../../../assets/svg/fluorosis.svg" />
             </span>
-            }
-            @if (symbol.condition ===
+            } @if (symbol.condition ===
             ToothConditionsConstants.RESTO_RADICULAR) {
             <span>
-              <img
-                src="../../../../../../assets/svg/resto_radicular.svg"
-              />
+              <img src="../../../../../../assets/svg/resto_radicular.svg" />
             </span>
-          }
+            }
             <!-- Fístula -->
             @if(symbol.condition === ToothConditionsConstants.FISTULA) {
             <span>
-              <img
-                src="../../../../../../assets/svg/fistula.svg"
-              />
+              <img src="../../../../../../assets/svg/fistula.svg" />
             </span>
             }
             <!-- Diente con fluorosis -->
-            @if (symbol.condition === ToothConditionsConstants.DIENTE_CON_HIPOPLASIA) {
+            @if (symbol.condition ===
+            ToothConditionsConstants.DIENTE_CON_HIPOPLASIA) {
             <span>
-                <img
-                  src="../../../../../../assets/svg/hipoplasia.svg"
-                />
+              <img src="../../../../../../assets/svg/hipoplasia.svg" />
             </span>
             }
             <!-- Diente en mal posición -->
             @if (symbol.condition ===
             ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA) {
             <span>
-              <img
-                src="../../../../../../assets/svg/flecha derecha.svg"
-              />
+              <img src="../../../../../../assets/svg/flecha derecha.svg" />
             </span>
             } @if (symbol.condition ===
             ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
             <span>
-              <img
-                src="../../../../../../assets/svg/flecha izquierda.svg"
-              />
+              <img src="../../../../../../assets/svg/flecha izquierda.svg" />
             </span>
             }
           </div>
