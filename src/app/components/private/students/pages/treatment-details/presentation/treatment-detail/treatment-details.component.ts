@@ -1,41 +1,32 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, Event } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
-import { CardPatientDataComponent } from '../../../../components/card-patient-data/card-patient-data.component';
-
-
-import { TreatmentDetailResponse } from '@mean/models';
+import {
+  CardPatientDataComponent,
+  DialogConfirmSendToReviewComponent,
+  DialogNewTreatmentComponent,
+  OdontogramListComponent,
+  OralProsthesisComponent,
+  PreventiveDentistryPublicHealthComponent,
+  StudentsDentalOperationComponent,
+  StudentsGeneralHistoryComponent,
+  StudentsOdontogramComponent,
+  StudentsOralSurgeryHistoryComponent,
+  StudentsPeriodonticsHistoryComponent,
+} from '@mean/students';
 
 import { MatListModule } from '@angular/material/list';
+import { ClinicalHistoryCatalog, TreatmentDetailResponse } from '@mean/models';
 import { LoadingComponent } from '@mean/shared';
-import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
-import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
-import { DialogConfirmSendToReviewComponent } from '../../../../components/dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
-import { DialogNewTreatmentComponent } from '../../../../components/dialog-new-treatment/dialog-new-treatment.component';
-import { StudentsDentalOperationComponent } from '../../../history-clinics/dental-operation/students-dental-operation.component';
-import { StudentsGeneralHistoryComponent } from '../../../history-clinics/general/students-general-history.component';
-import { OralProsthesisComponent } from '../../../history-clinics/oral-prosthesis/oral-prosthesis.component';
-import { StudentsOralSurgeryHistoryComponent } from '../../../history-clinics/oral-surgery/students-oral-surgery-history.component';
-import { StudentsPeriodonticsHistoryComponent } from '../../../history-clinics/periodontics/students-periodontics-history.component';
-import { PreventiveDentistryPublicHealthComponent } from '../../../history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
+import { STATUS_TREATMENTS } from '@mean/utils';
 import { MedicalRecordRepositoryService } from '../../repository/medical-record-repository.service';
 import { TreatmentRepositoryService } from '../../repository/treatment-repository.service';
-import { StudentsOdontogramComponent } from '../../../../components/odontogram/students-odontogram.component';
-import { OdontogramListComponent } from '../../../../components/odontogram-list/odontogram-list.component';
-export interface TreatmentParams {
-  idTreatmentDetail: number;
-  patientClinicalHistoryId: number;
-  medicalRecordId: number;
-  patientUuid: string;
-  tabMedicalRecord: string;
-  selectedTreatment: TreatmentDetailResponse;
-  status: string;
-}
+
 @Component({
   selector: 'app-treatments',
   standalone: true,
@@ -53,7 +44,7 @@ export interface TreatmentParams {
     LoadingComponent,
     StudentsGeneralHistoryComponent,
     StudentsOdontogramComponent,
-    OdontogramListComponent
+    OdontogramListComponent,
   ],
   templateUrl: './treatment-details.component.html',
   styleUrl: './treatment-details.component.scss',
@@ -97,7 +88,7 @@ export class TreatmentDetailsComponent implements OnInit {
       next: (response) => {
         this.treatmentDetails = response;
         this.idTreatmentDetail = response.idTreatmentDetail;
-        this.patientClinicalHistoryId = response.patientClinicalHistoryId;
+        this.patientClinicalHistoryId = response.patient.idPatientMedicalRecord;
         this.medicalRecordId = response.treatment.clinicalHistoryCatalogId;
         this.isLoading = false;
       },
@@ -183,11 +174,15 @@ export class TreatmentDetailsComponent implements OnInit {
     });
   }
 
-  changeOdontogramViewStatus(){
+  changeOdontogramViewStatus() {
     this.creatingOdontogram = !this.creatingOdontogram;
   }
 
   transactionCarriedOut(): void {
+    this.changeOdontogramViewStatus();
+  }
+
+  cancelOdontogramCreation(): void {
     this.changeOdontogramViewStatus();
   }
 }

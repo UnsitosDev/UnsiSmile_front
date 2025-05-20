@@ -13,7 +13,6 @@ export function mapOdontogramResponseToOdontogramData(
     return conditions.map((condition) => ({
       ...condition,
       idCondition: condition.idCondition != null ? Number(condition.idCondition) : null,
-      // asignar otros campos si existen...
     }));
   };
 
@@ -73,6 +72,8 @@ export function mapOdontogramResponseToOdontogramData(
   // Map adult arcade teeth
   const adultArcadeTeeth = mapTeeth(response.adultArcade);
   base_odontogram.adultArcade.teeth = mergeTeeth(base_odontogram.adultArcade.teeth, adultArcadeTeeth);
+
+  base_odontogram.observations = response.observations;
 
   return base_odontogram;
 }

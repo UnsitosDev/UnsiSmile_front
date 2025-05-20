@@ -98,7 +98,7 @@
 
   <mat-tab>
     <ng-template mat-tab-label>
-      <i class="fas fa-file"></i>
+      <i class="fas fa-tooth"></i>
       <span class="ml-2">
         Odontograma
       </span>
@@ -107,25 +107,21 @@
     @if(creatingOdontogram){
       <app-students-odontogram
       [patientId]="patientUuid"
-      [idTreatment]="treatmentDetails.idTreatmentDetail"
+      [idTreatmentDetails]="treatmentDetails.idTreatmentDetail"
       [state]="'create'"
       (transactionCarriedOut)="transactionCarriedOut()"
+      (cancel)="cancelOdontogramCreation()"
       ></app-students-odontogram>
-    }
-
-    @else {
+    }@else {
       <div class="odontogram-tab-content">
         <div class="action-container">
           <button mat-raised-button color="primary" (click)="changeOdontogramViewStatus()">
-            <i class="fas fa-tooth mr-2"></i>
-            Crear Nuevo Odontograma
+            <i class="fas fa-plus mr-2"></i>
+            Nuevo odontograma
           </button>
         </div>
-
-        <mat-card appearance="outlined" class="custom mb-4">
-          <mat-card-header>
-            <mat-card-title>Historial de Odontogramas</mat-card-title>
-          </mat-card-header>
+        <mat-card-title><strong>Historial de odontogramas</strong></mat-card-title>
+        <mat-card appearance="outlined" class="custom">
           <mat-card-content>
             <app-odontogram-list 
             [treatmentId]="treatmentDetails.idTreatmentDetail"
