@@ -15,3 +15,4 @@ export * from './core/auth.model'
 export * from '../models/form-fields/form-field.interface'
 export * from './form-fields/form-field.interface';
 export * from './form-fields/form-utils';
+export * from './history-clinic/historyClinic'
