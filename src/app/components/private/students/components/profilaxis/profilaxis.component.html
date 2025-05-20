@@ -47,8 +47,8 @@
             <mat-expansion-panel-header>
               <mat-panel-title>Sesión {{ registerProfilaxis.content.length - i }}</mat-panel-title>
               <mat-panel-description>Fecha: {{ formatDate(record.creationDate) }}</mat-panel-description>
+              <span>Porcentaje: {{record.percentage}} %</span>
             </mat-expansion-panel-header>
-
             <!-- Contenedor principal (scroll en móvil, centrado en tablet/PC) -->
             <div class="overflow-x-auto md:overflow-x-visible md:flex md:justify-center">
               <!-- Contenedor de cuadrantes -->
