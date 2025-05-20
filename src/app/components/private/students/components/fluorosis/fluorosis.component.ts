@@ -17,11 +17,12 @@ import { TokenData } from "@mean/public";
 import { ApiService, AuthService, createOdontogramHandler } from "@mean/services";
 import { ROLES } from '@mean/utils';
 import { ToastrService } from "ngx-toastr";
+import {MatDivider} from "@angular/material/divider";
 
 @Component({
   selector: 'app-fluorosis',
   standalone: true,
-  imports: [MatTabsModule, MatButtonModule, FormsModule, MatCardTitle, MatOption, MatSelect],
+  imports: [MatTabsModule, MatButtonModule, FormsModule, MatCardTitle, MatOption, MatSelect, MatDivider],
   templateUrl: './fluorosis.component.html',
   styleUrl: './fluorosis.component.scss'
 })
@@ -138,7 +139,7 @@ export class FluorosisComponent {
     }
   }
 
-  validateInput(event: Event, toothNumber: string) {
+  public validateInput(event: Event, toothNumber: string) {
     const input = event.target as HTMLElement;
     const value = parseInt(input.innerText);
 

@@ -14,11 +14,14 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule} from "@angular/forms";
 import {MatCardTitle} from "@angular/material/card";
+import {CodigoTooth, DentalTreatmentPayload, ID_TREATMENT_DETAIL} from "@mean/models";
+import {ActivatedRoute, Params} from "@angular/router";
+import {MatDivider} from "@angular/material/divider";
 
 @Component({
   selector: 'app-profilaxis',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, MatExpansionModule, MatButtonModule, MatMenuModule, MatSelectModule, FormsModule, MatCardTitle],
+  imports: [MatIconModule, MatDialogModule, MatExpansionModule, MatButtonModule, MatMenuModule, MatSelectModule, FormsModule, MatCardTitle, MatDivider],
   templateUrl: './profilaxis.component.html',
   styleUrl: './profilaxis.component.scss',
 })
@@ -30,22 +33,32 @@ export class ProfilaxisComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
   private readonly api = inject(ApiService);
   public toastr = inject(ToastrService);
+  private readonly router = inject(ActivatedRoute);                 // Servicio para obtener de la ruta idTreatmentDetail
+  public idTreatmentDetail!: number;
   public registerProfilaxis!: PaginatedData<DentalProphylaxis>;
   public indexPage: number = 0;
   idQuestion: number = 244;
   toothPairs = [
-    [16, 17],
-    [11, 21],
-    [26, 27],
-    [36, 37],
-    [31, 41],
-    [46, 47]
+    ['D16', 'D17'],
+    ['D11', 'D21'],
+    ['D26', 'D27'],
+    ['D36', 'D37'],
+    ['D31', 'D41'],
+    ['D46', 'D47']
   ];
 
-  selectedValues: number[] = this.toothPairs.map(pair => pair[0]);
+  selectedValues: string[] = this.toothPairs.map(pair => pair[0]);
+  codes: { [key: string]: CodigoTooth } = {};
 
   ngOnInit(): void {
     this.getProphylaxis();
+    this.routeParams();
+  }
+
+  public routeParams(): void {
+    this.router.params.subscribe((params: Params) => {
+      this.idTreatmentDetail = params[ID_TREATMENT_DETAIL]
+    })
   }
 
   openInsertProphylaxis() {
@@ -146,11 +159,39 @@ export class ProfilaxisComponent implements OnInit {
     return `${dia}/${mes}/${año}`;
   }
 
-  validateInput(event: Event): void {
-    const element = event.target as HTMLElement;
-    let value = element.textContent || '';
-    value = value.replace(/[^0-4]/g, '').slice(0, 1);
-    element.textContent = value;
+  public validateInput(event: Event, toothNumber: string) {
+    const input = event.target as HTMLElement;
+    const value = parseInt(input.innerText);
+
+    const validCodes = Object.values(CodigoTooth)                                     // Convertir el enum a array de valores numéricos válidos
+      .filter(v => typeof v === 'number') as number[];
+
+    if (!validCodes.includes(value)) {                                                // Verificar si el valor está en los códigos válidos
+      input.innerText = '';
+      this.toastr.warning('Código inválido. Valores permitidos: 0, 1, 2, 3, 4');
+    } else {
+      this.codes[toothNumber] = value as CodigoTooth;
+    }
   }
+
+  public store(): DentalTreatmentPayload {
+    const payload: DentalTreatmentPayload = {
+      idTreatment: Number(this.idTreatmentDetail),
+      teeth: []
+    };
+
+    this.selectedValues.forEach(idTooth => {
+      if (this.codes[idTooth] !== undefined) {
+        payload.teeth.push({
+          idTooth: idTooth.toString(),
+          code: this.codes[idTooth]
+        });
+      }
+    });
+
+    console.log('Payload completo:', payload);
+    return payload;
+  }
+
 }
 
