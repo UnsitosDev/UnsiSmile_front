@@ -1,4 +1,37 @@
 @if (fluorosis) {
+  <div class="p-4">
+    <mat-card-title><strong>Índice de Dean</strong></mat-card-title>
+    <table class="w-full">
+      <tr>
+        <td>Diente</td>
+        @for (toothPair of toothPairs; track $index) {
+          <td>
+            <mat-select [(ngModel)]="selectedValues[$index]" required class="no-focus-style">
+              <mat-option [value]="toothPair[0]">{{ toothPair[0] }}</mat-option>
+              <mat-option [value]="toothPair[1]">{{ toothPair[1] }}</mat-option>
+            </mat-select>
+          </td>
+        }
+      </tr>
+
+      <tr>
+        <td>Código</td>
+        @for (toothNumber of selectedValues; track $index) {
+          <td contenteditable="true"
+              (input)="validateInput($event, toothNumber)"
+              [textContent]="codes[toothNumber]">
+          </td>
+        }
+      </tr>
+    </table>
+
+    <div class="mt-2 flex justify-end">
+      <button mat-raised-button color="primary" (click)="store()">
+        Guardar índice de Dean
+      </button>
+    </div>
+  </div>
+
   <mat-tab-group>
     <mat-tab label="Adulto">
       <div class="grid grid-cols-2">
@@ -101,7 +134,7 @@
       </div>
     </mat-tab>
   </mat-tab-group>
-  
+
     <div class="button-container p-4">
         <button type="button" mat-button (click)="previousTab()"><i class="fas fa-long-arrow-alt-left"></i> <span class="hidden sm:inline"> Anterior</span> </button>
         <div>
