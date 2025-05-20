@@ -106,7 +106,7 @@ export class PatientsTreatmentsComponent {
       'students/treatment-details',
       treatment.idTreatmentDetail,
       'patient',
-      treatment.patientId,
+      treatment.patient.id,
     ]);
   }
 }

@@ -7,8 +7,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
-import { CardPatientDataComponent } from '../../../../components/card-patient-data/card-patient-data.component';
-
 import { ApiService } from '@mean/services';
 
 import { dataTabs, TreatmentDetailResponse } from '@mean/models';
@@ -23,14 +21,15 @@ import {
 } from 'src/app/models/shared/route.params.model';
 
 import { MatListModule } from '@angular/material/list';
+import {
+  CardPatientDataComponent,
+  DialogNewTreatmentComponent,
+  FormUpdatePatientComponent,
+  StudentsGeneralHistoryComponent,
+} from '@mean/students';
 import { UriConstants } from '@mean/utils';
-import { ClinicalHistoryCatalog } from 'src/app/models/history-clinic/historyClinic';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
-import { DialogNewTreatmentComponent } from '../../../../components/dialog-new-treatment/dialog-new-treatment.component';
-import { FormUpdatePatientComponent } from '../../../../components/form-update-patient/form-update-patient.component';
-import { StudentsGeneralHistoryComponent } from '../../../history-clinics/general/students-general-history.component';
-import { mapClinicalHistoryToDataTabs } from '../../../../adapters/clinical-history.adapters';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -144,7 +143,7 @@ export class TreatmentComponent implements OnInit {
       this.patientUuid = params[PATIENT_UUID];
     });
   }
- 
+
   openDialogNewTreatment(): void {
     const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
       data: {
@@ -183,7 +182,7 @@ export class TreatmentComponent implements OnInit {
           this.handlePatientResponse(response, page);
           if (response.content.length > 0) {
             this.patientClinicalHistoryId =
-              response.content[0].patientClinicalHistoryId;
+              response.content[0].patient.idPatientMedicalRecord;
             this.idTreatmentDetail = response.content[0].idTreatmentDetail;
           }
         },
@@ -226,7 +225,7 @@ export class TreatmentComponent implements OnInit {
       'students/treatment-details',
       treatment.idTreatmentDetail,
       'patient',
-      treatment.patientId,
+      treatment.patient.id,
     ]);
   }
 

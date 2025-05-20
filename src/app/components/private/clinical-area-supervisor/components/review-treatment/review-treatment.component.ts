@@ -65,8 +65,8 @@ export class ReviewTreatmentComponent {
 
   rateTreatment(treatment: TreatmentDetailResponse): void {
     this.idTreatmentDetail = treatment.idTreatmentDetail;
-    this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
-    this.patientUuid = treatment.patientId ?? "";
+    this.patientClinicalHistoryId = treatment.patient.idPatientMedicalRecord;
+    this.patientUuid = treatment.patient.id ?? "";
     this.clinicalHistoryCatalogId = treatment.treatment.clinicalHistoryCatalogId;
     switch (this.clinicalHistoryCatalogId) {
       case 6: // odontologia preventiva
