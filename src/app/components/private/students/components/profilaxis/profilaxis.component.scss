@@ -58,3 +58,26 @@ button {
   color: var(--side-text) !important;
 }
 
+table {
+  border-collapse: collapse;
+}
+td,
+th {
+  border: 1px solid black;
+  padding: 10px 20px;
+}
+
+select{
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+select:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+option{
+  background-color: transparent;
+}

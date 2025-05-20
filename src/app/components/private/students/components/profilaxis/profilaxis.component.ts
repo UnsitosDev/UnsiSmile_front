@@ -1,34 +1,48 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
-import { ApiService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
-import { ToastrService } from 'ngx-toastr';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
-import { DentalProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.response.model';
-import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
-import { MatButtonModule } from '@angular/material/button';
+import {HttpHeaders} from '@angular/common/http';
+import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatIconModule} from '@angular/material/icon';
+import {ApiService} from '@mean/services';
+import {UriConstants} from '@mean/utils';
+import {ToastrService} from 'ngx-toastr';
+import {PaginatedData} from 'src/app/models/shared/pagination/pagination';
+import {DentalProphylaxis} from 'src/app/models/shared/prophylaxis/prophylaxis.response.model';
+import {DialogInsertProfilaxisComponent} from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatSelectModule} from "@angular/material/select";
+import {FormsModule} from "@angular/forms";
+import {MatCardTitle} from "@angular/material/card";
 
 @Component({
   selector: 'app-profilaxis',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, MatExpansionModule, MatButtonModule],
+  imports: [MatIconModule, MatDialogModule, MatExpansionModule, MatButtonModule, MatMenuModule, MatSelectModule, FormsModule, MatCardTitle],
   templateUrl: './profilaxis.component.html',
   styleUrl: './profilaxis.component.scss',
 })
 export class ProfilaxisComponent implements OnInit {
-  private api = inject(ApiService);
+  @Input({required: true}) idPatient!: string;
+  @Input({required: true}) idPatientClinicalHistory!: number;
+  @Input({required: true}) idFormSection!: number;
+  @Output() nextMatTab = new EventEmitter<void>();
+  private readonly dialog = inject(MatDialog);
+  private readonly api = inject(ApiService);
   public toastr = inject(ToastrService);
   public registerProfilaxis!: PaginatedData<DentalProphylaxis>;
   public indexPage: number = 0;
-  readonly dialog = inject(MatDialog);
-  @Input({ required: true }) idPatient!: string;
-  @Input({ required: true }) idPatientClinicalHistory!: number;
-  @Input({ required: true }) idFormSection!: number;
-  @Output() nextMatTab = new EventEmitter<void>();                  
   idQuestion: number = 244;
+  toothPairs = [
+    [16, 17],
+    [11, 21],
+    [26, 27],
+    [36, 37],
+    [31, 41],
+    [46, 47]
+  ];
+
+  selectedValues: number[] = this.toothPairs.map(pair => pair[0]);
 
   ngOnInit(): void {
     this.getProphylaxis();
@@ -123,13 +137,20 @@ export class ProfilaxisComponent implements OnInit {
     return teeth.find(t => parseInt(t.idTooth) === toothNumber) || null;
   }
 
-  formatDate(date: string ): string {
+  formatDate(date: string): string {
     const fecha = new Date(date);
     const dia = fecha.getDate().toString().padStart(2, '0');
     const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
     const año = fecha.getFullYear();
 
     return `${dia}/${mes}/${año}`;
+  }
+
+  validateInput(event: Event): void {
+    const element = event.target as HTMLElement;
+    let value = element.textContent || '';
+    value = value.replace(/[^0-4]/g, '').slice(0, 1);
+    element.textContent = value;
   }
 }
 
