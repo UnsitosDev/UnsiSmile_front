@@ -1,530 +1,548 @@
-
 <div class="dialog-custom">
-    <mat-card>
-        <mat-card-title>
-          <div class="title-container">
-            <span><strong class="text-white">Nueva sesión Profilaxis</strong></span>
-            <mat-icon matListItemIcon (click)="closeDialog()">close</mat-icon>
-          </div>
-        </mat-card-title>
-      </mat-card>
-
-      <div class="flex justify-end">
-        <span class="p-4 cursor-pointer" matTooltipPosition="left" matTooltip="Click en la cara para pintar, triángulo para extraer, botón rojo para ausente">
-          <i class="far fa-question-circle mr-1 mt-4"></i>Ayuda
-        </span>
+  <mat-card>
+    <mat-card-title>
+      <div class="title-container">
+        <span><strong class="text-white">Nueva sesión Profilaxis</strong></span>
+        <mat-icon matListItemIcon (click)="closeDialog()">close</mat-icon>
       </div>
-      <div class="quadrant-container p-4 overflow-x-auto md:overflow-x-visible">
-          <!-- Contenedor interno con ancho mínimo para forzar el scroll -->
-          <div class="min-w-[700px] md:min-w-full">
-            <!-- Primera fila (cuadrantes 1 y 2) -->
-            <div class="grid grid-cols-2 gap-4">
-              <!-- Cuadrante 1 -->
-              <div class="quadrant flex flex-row flex-wrap gap-2 justify-center">
-                @for (tooth of getQuadrant(teeth, 1); track tooth.idTooth) {
-                <div class="figure-wrapper flex flex-col items-center gap-1">
-                  <div class="button-container">
-                      @if (toothDisabled[tooth.idTooth]) {
-                      <button
-                        title="Diente no presente"
-                        class="removeButton"
-                        (click)="deleteTooth(tooth.idTooth)"
-                        [disabled]="toothDeactivated[tooth.idTooth]"
-                      >
-                        -
-                      </button>
-                      } @else {
-                      <button
-                        title="Diente presente"
-                        class="addButton"
-                        (click)="restoreTooth(tooth.idTooth)"
-                        [disabled]="toothDeactivated[tooth.idTooth]"
-                      >
-                        +
-                      </button>
-                      }
-                    </div>
+    </mat-card-title>
+  </mat-card>
 
-                    @if (toothDisabled[tooth.idTooth]) {
-                    <svg
-                      width="35"
-                      height="35"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="svg-figure"
-                      [class.deactivated]="toothDeactivated[tooth.idTooth]"
-                    >
-                      <rect
-                        width="35"
-                        height="35"
-                        fill="none"
-                        stroke="black"
-                        stroke-width="2"
-                      />
+  <div class="p-4 flex flex-col gap-2">
+    <div class="flex justify-between items-center">
+      <p class="font-bold text-gray-700 m-0">Simbología</p>
+      <span
+        class="cursor-pointer flex items-center"
+        matTooltipPosition="left"
+        matTooltip="Click en la cara para pintar, triángulo para extraer, botón rojo para ausente"
+      >
+      <i class="far fa-question-circle mr-2"></i>Ayuda
+    </span>
+    </div>
 
-                      <!-- Cara 1 -->
-                      <polygon
-                        points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-1')
-                        "
-                      />
+    <div class="flex items-center gap-3">
+      <img src="../../../../../../assets/svg/diente_extraido.svg"/>
+      <span>Diente extraído</span>
+    </div>
+  </div>
 
-                      <!-- Cara 2 -->
-                      <polygon
-                        points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-2')
-                        "
-                      />
 
-                      <!-- Cara 3 -->
-                      <polygon
-                        points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-3')
-                        "
-                      />
+  <div class="p-4 mr-4 flex justify-end">
+    <mat-form-field>
+      <input matInput appearance="fill" class="w-full" placeholder="Porcentaje" type="number" required
+             [(ngModel)]="percentage" name="percentage" min="0" max="100"/>
+      @if (percentage !== null && (percentage < 0 || percentage > 100)) {
+        <mat-error>
+          El porcentaje debe estar entre 0 y 100
+        </mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-                      <!-- Cara 4 -->
-                      <polygon
-                        points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-4')
-                        "
-                      />
-
-                      @if (showTriangle[tooth.idTooth]) {
-                      <polygon
-                        points="17.5,5 35,25 0,25"
-                        stroke="red"
-                        fill="var( --white-color)"
-                        stroke-width="2"
-                      />
-                      }
-                    </svg>
-                    }
-
-                    <p>{{ tooth.idTooth }}</p>
-
-                    @if (toothDisabled[tooth.idTooth]) {
-                    <button
-                      class="icon-button"
-                      title="Diente extraido"
-                      (click)="deactivateTooth(tooth.idTooth)"
-                    >
-                      <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
-                        <polygon
-                          points="6,1 11,11 1,11"
-                          fill="none"
-                          stroke="var(--text)"
-                          stroke-width="1"
-                        />
-                      </svg>
-                    </button>
-                    }
-                </div>
+  <div class="quadrant-container p-4 overflow-x-auto md:overflow-x-visible">
+    <!-- Contenedor interno con ancho mínimo para forzar el scroll -->
+    <div class="min-w-[700px] md:min-w-full">
+      <!-- Primera fila (cuadrantes 1 y 2) -->
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Cuadrante 1 -->
+        <div class="quadrant flex flex-row flex-wrap gap-2 justify-center">
+          @for (tooth of getQuadrant(teeth, 1); track tooth.idTooth) {
+            <div class="figure-wrapper flex flex-col items-center gap-1">
+              <div class="button-container">
+                @if (toothDisabled[tooth.idTooth]) {
+                  <button
+                    title="Diente no presente"
+                    class="removeButton"
+                    (click)="deleteTooth(tooth.idTooth)"
+                    [disabled]="toothDeactivated[tooth.idTooth]"
+                  >
+                    -
+                  </button>
+                } @else {
+                  <button
+                    title="Diente presente"
+                    class="addButton"
+                    (click)="restoreTooth(tooth.idTooth)"
+                    [disabled]="toothDeactivated[tooth.idTooth]"
+                  >
+                    +
+                  </button>
                 }
               </div>
 
-              <!-- Cuadrante 2 -->
-              <div class="quadrant flex flex-row flex-wrap gap-2 justify-center">
-                @for (tooth of getQuadrant(teeth, 2); track tooth.idTooth) {
-                <div class="figure-wrapper flex flex-col items-center gap-1">
-                  <div class="button-container">
-                      @if (toothDisabled[tooth.idTooth]) {
-                      <button
-                        title="Diente no presente"
-                        class="removeButton"
-                        (click)="deleteTooth(tooth.idTooth)"
-                        [disabled]="toothDeactivated[tooth.idTooth]"
-                      >
-                        -
-                      </button>
-                      } @else {
-                      <button
-                        title="Diente presente"
-                        class="addButton"
-                        (click)="restoreTooth(tooth.idTooth)"
-                        [disabled]="toothDeactivated[tooth.idTooth]"
-                      >
-                        +
-                      </button>
-                      }
-                    </div>
+              @if (toothDisabled[tooth.idTooth]) {
+                <svg
+                  width="35"
+                  height="35"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="svg-figure"
+                  [class.deactivated]="toothDeactivated[tooth.idTooth]"
+                >
+                  <rect
+                    width="35"
+                    height="35"
+                    fill="none"
+                    stroke="black"
+                    stroke-width="2"
+                  />
 
-                    @if (toothDisabled[tooth.idTooth]) {
-                    <svg
-                      width="35"
-                      height="35"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="svg-figure"
-                      [class.deactivated]="toothDeactivated[tooth.idTooth]"
-                    >
-                      <rect
-                        width="35"
-                        height="35"
-                        fill="none"
-                        stroke="black"
-                        stroke-width="2"
-                      />
-
-                      <!-- Cara 1 -->
-                      <polygon
-                        points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
+                  <!-- Cara 1 -->
+                  <polygon
+                    points="0,0 17.5,17.5 0,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
                           !toothDeactivated[tooth.idTooth] &&
                             changeColor(tooth.idTooth + '-1')
                         "
-                      />
+                  />
 
-                      <!-- Cara 2 -->
-                      <polygon
-                        points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
+                  <!-- Cara 2 -->
+                  <polygon
+                    points="35,0 17.5,17.5 35,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
                           !toothDeactivated[tooth.idTooth] &&
                             changeColor(tooth.idTooth + '-2')
                         "
-                      />
+                  />
 
-                      <!-- Cara 3 -->
-                      <polygon
-                        points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
+                  <!-- Cara 3 -->
+                  <polygon
+                    points="0,35 17.5,17.5 35,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
                           !toothDeactivated[tooth.idTooth] &&
                             changeColor(tooth.idTooth + '-3')
                         "
-                      />
+                  />
 
-                      <!-- Cara 4 -->
-                      <polygon
-                        points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
+                  <!-- Cara 4 -->
+                  <polygon
+                    points="0,0 17.5,17.5 35,0"
+                    [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
                           !toothDeactivated[tooth.idTooth] &&
                             changeColor(tooth.idTooth + '-4')
                         "
-                      />
+                  />
 
-                      @if (showTriangle[tooth.idTooth]) {
-                      <polygon
-                        points="17.5,5 35,25 0,25"
-                        stroke="red"
-                        fill="var( --white-color)"
-                        stroke-width="2"
-                      />
-                      }
-                    </svg>
-                    }
+                  @if (showTriangle[tooth.idTooth]) {
+                    <polygon
+                      points="17.5,5 35,25 0,25"
+                      stroke="red"
+                      fill="var( --white-color)"
+                      stroke-width="2"
+                    />
+                  }
+                </svg>
+              }
 
-                    <p>{{ tooth.idTooth }}</p>
+              <p>{{ tooth.idTooth }}</p>
 
-                    @if (toothDisabled[tooth.idTooth]) {
-                    <button
-                      class="icon-button"
-                      title="Diente extraido"
-                      (click)="deactivateTooth(tooth.idTooth)"
-                    >
-                      <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
-                        <polygon
-                          points="6,1 11,11 1,11"
-                          fill="none"
-                          stroke="var(--text)"
-                          stroke-width="1"
-                        />
-                      </svg>
-                    </button>
-                    }
-              </div>
-                }
-              </div>
+              @if (toothDisabled[tooth.idTooth]) {
+                <button
+                  class="icon-button"
+                  title="Diente extraido"
+                  (click)="deactivateTooth(tooth.idTooth)"
+                >
+                  <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
+                    <polygon
+                      points="6,1 11,11 1,11"
+                      fill="none"
+                      stroke="var(--text)"
+                      stroke-width="1"
+                    />
+                  </svg>
+                </button>
+              }
             </div>
-
-            <!-- Segunda fila (cuadrantes 4 y 3) -->
-            <div class="grid grid-cols-2 gap-4 mt-4">
-              <!-- Cuadrante 4 -->
-              <div class="quadrant flex flex-row flex-wrap gap-2 justify-center">
-                @for (tooth of getQuadrant(teeth, 4); track tooth.idTooth) {
-                <div class="figure-wrapper flex flex-col items-center gap-1">
-                  <div class="button-container">
-                      @if (toothDisabled[tooth.idTooth]) {
-                      <button
-                        title="Diente no presente"
-                        class="removeButton"
-                        (click)="deleteTooth(tooth.idTooth)"
-                        [disabled]="toothDeactivated[tooth.idTooth]"
-                      >
-                        -
-                      </button>
-                      } @else {
-                      <button
-                        title="Diente presente"
-                        class="addButton"
-                        (click)="restoreTooth(tooth.idTooth)"
-                        [disabled]="toothDeactivated[tooth.idTooth]"
-                      >
-                        +
-                      </button>
-                      }
-                    </div>
-
-                    @if (toothDisabled[tooth.idTooth]) {
-                    <svg
-                      width="35"
-                      height="35"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="svg-figure"
-                      [class.deactivated]="toothDeactivated[tooth.idTooth]"
-                    >
-                      <rect
-                        width="35"
-                        height="35"
-                        fill="none"
-                        stroke="black"
-                        stroke-width="2"
-                      />
-
-                      <!-- Cara 1 -->
-                      <polygon
-                        points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-1')
-                        "
-                      />
-
-                      <!-- Cara 2 -->
-                      <polygon
-                        points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-2')
-                        "
-                      />
-
-                      <!-- Cara 3 -->
-                      <polygon
-                        points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-3')
-                        "
-                      />
-
-                      <!-- Cara 4 -->
-                      <polygon
-                        points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-4')
-                        "
-                      />
-
-                      @if (showTriangle[tooth.idTooth]) {
-                      <polygon
-                        points="17.5,5 35,25 0,25"
-                        stroke="red"
-                        fill="var( --white-color)"
-                        stroke-width="2"
-                      />
-                      }
-                    </svg>
-                    }
-
-                    <p>{{ tooth.idTooth }}</p>
-
-                    @if (toothDisabled[tooth.idTooth]) {
-                    <button
-                      class="icon-button"
-                      title="Diente extraido"
-                      (click)="deactivateTooth(tooth.idTooth)"
-                    >
-                      <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
-                        <polygon
-                          points="6,1 11,11 1,11"
-                          fill="none"
-                          stroke="var(--text)"
-                          stroke-width="1"
-                        />
-                      </svg>
-                    </button>
-                    }
-                </div>
-                }
-              </div>
-
-              <!-- Cuadrante 3 -->
-              <div class="quadrant flex flex-row flex-wrap gap-2 justify-center">
-                @for (tooth of getQuadrant(teeth, 3); track tooth.idTooth) {
-                <div class="figure-wrapper flex flex-col items-center gap-1">
-                  <div class="button-container">
-                      @if (toothDisabled[tooth.idTooth]) {
-                      <button
-                        title="Diente no presente"
-                        class="removeButton"
-                        (click)="deleteTooth(tooth.idTooth)"
-                        [disabled]="toothDeactivated[tooth.idTooth]"
-                      >
-                        -
-                      </button>
-                      } @else {
-                      <button
-                        title="Diente presente"
-                        class="addButton"
-                        (click)="restoreTooth(tooth.idTooth)"
-                        [disabled]="toothDeactivated[tooth.idTooth]"
-                      >
-                        +
-                      </button>
-                      }
-                    </div>
-
-                    @if (toothDisabled[tooth.idTooth]) {
-                    <svg
-                      width="35"
-                      height="35"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="svg-figure"
-                      [class.deactivated]="toothDeactivated[tooth.idTooth]"
-                    >
-                      <rect
-                        width="35"
-                        height="35"
-                        fill="none"
-                        stroke="black"
-                        stroke-width="2"
-                      />
-
-                      <!-- Cara 1 -->
-                      <polygon
-                        points="0,0 17.5,17.5 0,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-1')
-                        "
-                      />
-
-                      <!-- Cara 2 -->
-                      <polygon
-                        points="35,0 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-2')
-                        "
-                      />
-
-                      <!-- Cara 3 -->
-                      <polygon
-                        points="0,35 17.5,17.5 35,35"
-                        [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-3')
-                        "
-                      />
-
-                      <!-- Cara 4 -->
-                      <polygon
-                        points="0,0 17.5,17.5 35,0"
-                        [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
-                        stroke="black"
-                        stroke-width="2"
-                        (click)="
-                          !toothDeactivated[tooth.idTooth] &&
-                            changeColor(tooth.idTooth + '-4')
-                        "
-                      />
-
-                      @if (showTriangle[tooth.idTooth]) {
-                      <polygon
-                        points="17.5,5 35,25 0,25"
-                        stroke="red"
-                        fill="var( --white-color)"
-                        stroke-width="2"
-                      />
-                      }
-                    </svg>
-                    }
-
-                    <p>{{ tooth.idTooth }}</p>
-
-                    @if (toothDisabled[tooth.idTooth]) {
-                    <button
-                      class="icon-button"
-                      title="Diente extraido"
-                      (click)="deactivateTooth(tooth.idTooth)"
-                    >
-                      <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
-                        <polygon
-                          points="6,1 11,11 1,11"
-                          fill="none"
-                          stroke="var(--text)"
-                          stroke-width="1"
-                        />
-                      </svg>
-                    </button>
-                    }
-                </div>
-                }
-              </div>
-            </div>
-          </div>
+          }
         </div>
 
-      <div class="p-4 flex flex-col">
-          <p class="mb-3 font-bold text-gray-700">Simbología</p>
-          <div class="flex items-center gap-3 mb-4">
-              <img src="../../../../../../assets/svg/diente_extraido.svg" />
-            <span>Diente extraído</span>
-          </div>
-          <div class="flex justify-end">
-            <button mat-raised-button color="primary" class="button-custom" (click)="store()">Guardar</button>
-          </div>
+        <!-- Cuadrante 2 -->
+        <div class="quadrant flex flex-row flex-wrap gap-2 justify-center">
+          @for (tooth of getQuadrant(teeth, 2); track tooth.idTooth) {
+            <div class="figure-wrapper flex flex-col items-center gap-1">
+              <div class="button-container">
+                @if (toothDisabled[tooth.idTooth]) {
+                  <button
+                    title="Diente no presente"
+                    class="removeButton"
+                    (click)="deleteTooth(tooth.idTooth)"
+                    [disabled]="toothDeactivated[tooth.idTooth]"
+                  >
+                    -
+                  </button>
+                } @else {
+                  <button
+                    title="Diente presente"
+                    class="addButton"
+                    (click)="restoreTooth(tooth.idTooth)"
+                    [disabled]="toothDeactivated[tooth.idTooth]"
+                  >
+                    +
+                  </button>
+                }
+              </div>
+
+              @if (toothDisabled[tooth.idTooth]) {
+                <svg
+                  width="35"
+                  height="35"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="svg-figure"
+                  [class.deactivated]="toothDeactivated[tooth.idTooth]"
+                >
+                  <rect
+                    width="35"
+                    height="35"
+                    fill="none"
+                    stroke="black"
+                    stroke-width="2"
+                  />
+
+                  <!-- Cara 1 -->
+                  <polygon
+                    points="0,0 17.5,17.5 0,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-1')
+                        "
+                  />
+
+                  <!-- Cara 2 -->
+                  <polygon
+                    points="35,0 17.5,17.5 35,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-2')
+                        "
+                  />
+
+                  <!-- Cara 3 -->
+                  <polygon
+                    points="0,35 17.5,17.5 35,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-3')
+                        "
+                  />
+
+                  <!-- Cara 4 -->
+                  <polygon
+                    points="0,0 17.5,17.5 35,0"
+                    [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-4')
+                        "
+                  />
+
+                  @if (showTriangle[tooth.idTooth]) {
+                    <polygon
+                      points="17.5,5 35,25 0,25"
+                      stroke="red"
+                      fill="var( --white-color)"
+                      stroke-width="2"
+                    />
+                  }
+                </svg>
+              }
+
+              <p>{{ tooth.idTooth }}</p>
+
+              @if (toothDisabled[tooth.idTooth]) {
+                <button
+                  class="icon-button"
+                  title="Diente extraido"
+                  (click)="deactivateTooth(tooth.idTooth)"
+                >
+                  <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
+                    <polygon
+                      points="6,1 11,11 1,11"
+                      fill="none"
+                      stroke="var(--text)"
+                      stroke-width="1"
+                    />
+                  </svg>
+                </button>
+              }
+            </div>
+          }
         </div>
+      </div>
+
+      <!-- Segunda fila (cuadrantes 4 y 3) -->
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        <!-- Cuadrante 4 -->
+        <div class="quadrant flex flex-row flex-wrap gap-2 justify-center">
+          @for (tooth of getQuadrant(teeth, 4); track tooth.idTooth) {
+            <div class="figure-wrapper flex flex-col items-center gap-1">
+              <div class="button-container">
+                @if (toothDisabled[tooth.idTooth]) {
+                  <button
+                    title="Diente no presente"
+                    class="removeButton"
+                    (click)="deleteTooth(tooth.idTooth)"
+                    [disabled]="toothDeactivated[tooth.idTooth]"
+                  >
+                    -
+                  </button>
+                } @else {
+                  <button
+                    title="Diente presente"
+                    class="addButton"
+                    (click)="restoreTooth(tooth.idTooth)"
+                    [disabled]="toothDeactivated[tooth.idTooth]"
+                  >
+                    +
+                  </button>
+                }
+              </div>
+
+              @if (toothDisabled[tooth.idTooth]) {
+                <svg
+                  width="35"
+                  height="35"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="svg-figure"
+                  [class.deactivated]="toothDeactivated[tooth.idTooth]"
+                >
+                  <rect
+                    width="35"
+                    height="35"
+                    fill="none"
+                    stroke="black"
+                    stroke-width="2"
+                  />
+
+                  <!-- Cara 1 -->
+                  <polygon
+                    points="0,0 17.5,17.5 0,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-1')
+                        "
+                  />
+
+                  <!-- Cara 2 -->
+                  <polygon
+                    points="35,0 17.5,17.5 35,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-2')
+                        "
+                  />
+
+                  <!-- Cara 3 -->
+                  <polygon
+                    points="0,35 17.5,17.5 35,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-3')
+                        "
+                  />
+
+                  <!-- Cara 4 -->
+                  <polygon
+                    points="0,0 17.5,17.5 35,0"
+                    [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-4')
+                        "
+                  />
+
+                  @if (showTriangle[tooth.idTooth]) {
+                    <polygon
+                      points="17.5,5 35,25 0,25"
+                      stroke="red"
+                      fill="var( --white-color)"
+                      stroke-width="2"
+                    />
+                  }
+                </svg>
+              }
+
+              <p>{{ tooth.idTooth }}</p>
+
+              @if (toothDisabled[tooth.idTooth]) {
+                <button
+                  class="icon-button"
+                  title="Diente extraido"
+                  (click)="deactivateTooth(tooth.idTooth)"
+                >
+                  <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
+                    <polygon
+                      points="6,1 11,11 1,11"
+                      fill="none"
+                      stroke="var(--text)"
+                      stroke-width="1"
+                    />
+                  </svg>
+                </button>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Cuadrante 3 -->
+        <div class="quadrant flex flex-row flex-wrap gap-2 justify-center">
+          @for (tooth of getQuadrant(teeth, 3); track tooth.idTooth) {
+            <div class="figure-wrapper flex flex-col items-center gap-1">
+              <div class="button-container">
+                @if (toothDisabled[tooth.idTooth]) {
+                  <button
+                    title="Diente no presente"
+                    class="removeButton"
+                    (click)="deleteTooth(tooth.idTooth)"
+                    [disabled]="toothDeactivated[tooth.idTooth]"
+                  >
+                    -
+                  </button>
+                } @else {
+                  <button
+                    title="Diente presente"
+                    class="addButton"
+                    (click)="restoreTooth(tooth.idTooth)"
+                    [disabled]="toothDeactivated[tooth.idTooth]"
+                  >
+                    +
+                  </button>
+                }
+              </div>
+
+              @if (toothDisabled[tooth.idTooth]) {
+                <svg
+                  width="35"
+                  height="35"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="svg-figure"
+                  [class.deactivated]="toothDeactivated[tooth.idTooth]"
+                >
+                  <rect
+                    width="35"
+                    height="35"
+                    fill="none"
+                    stroke="black"
+                    stroke-width="2"
+                  />
+
+                  <!-- Cara 1 -->
+                  <polygon
+                    points="0,0 17.5,17.5 0,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-1') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-1')
+                        "
+                  />
+
+                  <!-- Cara 2 -->
+                  <polygon
+                    points="35,0 17.5,17.5 35,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-2') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-2')
+                        "
+                  />
+
+                  <!-- Cara 3 -->
+                  <polygon
+                    points="0,35 17.5,17.5 35,35"
+                    [attr.fill]="isSelected(tooth.idTooth + '-3') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-3')
+                        "
+                  />
+
+                  <!-- Cara 4 -->
+                  <polygon
+                    points="0,0 17.5,17.5 35,0"
+                    [attr.fill]="isSelected(tooth.idTooth + '-4') ? 'var(--prophylaxis)' : 'var( --white-color)'"
+                    stroke="black"
+                    stroke-width="2"
+                    (click)="
+                          !toothDeactivated[tooth.idTooth] &&
+                            changeColor(tooth.idTooth + '-4')
+                        "
+                  />
+
+                  @if (showTriangle[tooth.idTooth]) {
+                    <polygon
+                      points="17.5,5 35,25 0,25"
+                      stroke="red"
+                      fill="var( --white-color)"
+                      stroke-width="2"
+                    />
+                  }
+                </svg>
+              }
+
+              <p>{{ tooth.idTooth }}</p>
+
+              @if (toothDisabled[tooth.idTooth]) {
+                <button
+                  class="icon-button"
+                  title="Diente extraido"
+                  (click)="deactivateTooth(tooth.idTooth)"
+                >
+                  <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
+                    <polygon
+                      points="6,1 11,11 1,11"
+                      fill="none"
+                      stroke="var(--text)"
+                      stroke-width="1"
+                    />
+                  </svg>
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end p-4">
+    <button mat-raised-button color="primary" class="button-custom" (click)="store()">Guardar sesión</button>
+  </div>
 </div>

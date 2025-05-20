@@ -10,6 +10,9 @@ import { ToastrService } from 'ngx-toastr';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { ThoothProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.model';
 import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
+import {MatFormField} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule} from "@angular/forms";
 
 interface ConditionFace {
   idToothFaceCondition: number;
@@ -24,7 +27,7 @@ interface ConditionTooth {
 @Component({
   selector: 'app-dialog-insert-profilaxis',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatTooltipModule],
+  imports: [MatCardModule, MatIconModule, MatTooltipModule, MatFormField, MatInputModule, FormsModule],
   templateUrl: './dialog-insert-profilaxis.component.html',
   styleUrl: './dialog-insert-profilaxis.component.scss'
 })
@@ -40,6 +43,7 @@ export class DialogInsertProfilaxisComponent implements OnInit {
   public faceConditions: ConditionFace[] = [];
   public allprophylaxis!: PaginatedData<ThoothProphylaxis>;
   public registerProfilaxis: any;
+  public percentage!: number;
   idQuestion: number = 244;
   teeth = storeProphylaxis.theetProphylaxis;
   toothDisabled: { [key: number]: boolean } = {};
@@ -302,13 +306,19 @@ export class DialogInsertProfilaxisComponent implements OnInit {
       idPatient: this.idPatient,
       idQuestion: this.idQuestion,
       idPatientClinicalHistory: this.idPatientClinicalHistory,
-      idFormSection: this.idFormSection
+      idFormSection: this.idFormSection,
+      percentage: this.percentage
     };
 
+    console.log(payload);
     return payload;
   }
 
   public store() {
+    if (this.percentage === null || this.percentage === undefined) {
+      this.toastr.warning('El porcentaje es obligatorio');
+      return;
+    }
     if (this.hasAtLeastOneCondition()) {
       this.postProfilaxis();
     } else {
@@ -341,11 +351,11 @@ export class DialogInsertProfilaxisComponent implements OnInit {
   private hasAtLeastOneCondition(): boolean {
     return this.teeth.some(tooth => {
       const hasToothConditions = tooth.conditions.length > 0;
-      
-      const hasFaceConditions = tooth.faces.some(face => 
+
+      const hasFaceConditions = tooth.faces.some(face =>
         face.conditions && face.conditions.length > 0
       );
-      
+
       return hasToothConditions || hasFaceConditions;
     });
   }

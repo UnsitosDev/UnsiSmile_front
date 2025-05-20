@@ -26,9 +26,9 @@ import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dia
   styleUrl: './profilaxis.component.scss',
 })
 export class ProfilaxisComponent implements OnInit {
-  @Input({required: true}) idPatient!: string;                
-  @Input({required: true}) idPatientClinicalHistory!: number;
-  @Input({required: true}) idFormSection!: number;
+  @Input({ required: true }) idPatient!: string;
+  @Input({ required: true }) idPatientClinicalHistory!: number;
+  @Input({ required: true }) idFormSection!: number;
 
   @Output() nextMatTab = new EventEmitter<void>();                // Evento para tab siguiente
 
@@ -231,10 +231,15 @@ export class ProfilaxisComponent implements OnInit {
           this.showButtonIHOS = false;
         },
         error: (error) => {
-          this.toastr.error(error);
+          if (error.status === 404) {
+            return
+          } else {
+            this.toastr.error();
+          }
         },
       });
   }
+
 
   private processServerData(data: DentalTreatmentPayload) {
     this.selectedValues = this.toothPairs.map(pair => pair[0]); // Inicializar selectedValues con los primeros valores de cada par

@@ -68,3 +68,9 @@ mat-icon {
 p {
     color: var(--text);
 }
+
+input:focus{
+  outline: none;
+  box-shadow: none;
+  background-color: transparent;
+}
