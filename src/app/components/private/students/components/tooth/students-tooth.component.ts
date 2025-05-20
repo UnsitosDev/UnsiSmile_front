@@ -100,5 +100,11 @@ export class StudentsToothComponent {
     return this.data.conditions.length > 0 || 
            this.data.faces.some(face => face.conditions && face.conditions.length > 0);
   }
+
+
+  isNotPresent(conditions: ICondition[]): boolean{
+    console.log(conditions);
+    return !conditions.some(condition => condition.condition === ToothConditionsConstants.DIENTE_NO_PRESENTE);
+    }
   
 }
