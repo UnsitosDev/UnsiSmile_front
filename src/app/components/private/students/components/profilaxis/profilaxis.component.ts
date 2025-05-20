@@ -1,22 +1,22 @@
-import {HttpHeaders} from '@angular/common/http';
-import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatIconModule} from '@angular/material/icon';
-import {ApiService} from '@mean/services';
-import {UriConstants} from '@mean/utils';
-import {ToastrService} from 'ngx-toastr';
-import {PaginatedData} from 'src/app/models/shared/pagination/pagination';
-import {DentalProphylaxis} from 'src/app/models/shared/prophylaxis/prophylaxis.response.model';
-import {DialogInsertProfilaxisComponent} from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatMenuModule} from "@angular/material/menu";
-import {MatSelectModule} from "@angular/material/select";
-import {FormsModule} from "@angular/forms";
-import {MatCardTitle} from "@angular/material/card";
-import {CodigoTooth, DentalTreatmentPayload, ID_TREATMENT_DETAIL} from "@mean/models";
-import {ActivatedRoute, Params} from "@angular/router";
-import {MatDivider} from "@angular/material/divider";
+import { HttpHeaders } from '@angular/common/http';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardTitle } from "@angular/material/card";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDivider } from "@angular/material/divider";
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from "@angular/material/menu";
+import { MatSelectModule } from "@angular/material/select";
+import { ActivatedRoute, Params } from "@angular/router";
+import { CodigoTooth, DentalTreatmentPayload, ID_TREATMENT_DETAIL } from "@mean/models";
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
+import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import { DentalProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.response.model';
+import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
 
 @Component({
   selector: 'app-profilaxis',
@@ -26,18 +26,25 @@ import {MatDivider} from "@angular/material/divider";
   styleUrl: './profilaxis.component.scss',
 })
 export class ProfilaxisComponent implements OnInit {
-  @Input({required: true}) idPatient!: string;
+  @Input({required: true}) idPatient!: string;                
   @Input({required: true}) idPatientClinicalHistory!: number;
   @Input({required: true}) idFormSection!: number;
-  @Output() nextMatTab = new EventEmitter<void>();
-  private readonly dialog = inject(MatDialog);
-  private readonly api = inject(ApiService);
-  public toastr = inject(ToastrService);
-  private readonly router = inject(ActivatedRoute);                 // Servicio para obtener de la ruta idTreatmentDetail
-  public idTreatmentDetail!: number;
-  public registerProfilaxis!: PaginatedData<DentalProphylaxis>;
+
+  @Output() nextMatTab = new EventEmitter<void>();                // Evento para tab siguiente
+
+  private readonly dialog = inject(MatDialog);                    // Servicio dialog material
+  private readonly api = inject(ApiService);                      // ApiService
+  public toastr = inject(ToastrService);                          // Servicio para mensajes
+  private readonly router = inject(ActivatedRoute);               // Servicio para obtener de la ruta idTreatmentDetail
+
+  public idTreatmentDetail!: number;                              // Id tratamiento
+  public registerProfilaxis!: PaginatedData<DentalProphylaxis>;   // Sesiones profilaxis
+  public responseIHOS!: DentalTreatmentPayload;                   // Respuesta para indice de higiene oral simplificado
+  public showButtonIHOS: boolean = true;                          // estado para mostrar/ocultar btn guardar IHOS
   public indexPage: number = 0;
+
   idQuestion: number = 244;
+
   toothPairs = [
     ['D16', 'D17'],
     ['D11', 'D21'],
@@ -53,6 +60,7 @@ export class ProfilaxisComponent implements OnInit {
   ngOnInit(): void {
     this.getProphylaxis();
     this.routeParams();
+    this.fetchIHOS();
   }
 
   public routeParams(): void {
@@ -207,6 +215,38 @@ export class ProfilaxisComponent implements OnInit {
       });
   }
 
+  public fetchIHOS() {
+    this.api
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_IHOS}/${this.idTreatmentDetail}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response: DentalTreatmentPayload) => {
+          this.responseIHOS = response;
+          this.processServerData(this.responseIHOS);
+          this.showButtonIHOS = false;
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+      });
+  }
 
+  private processServerData(data: DentalTreatmentPayload) {
+    this.selectedValues = this.toothPairs.map(pair => pair[0]); // Inicializar selectedValues con los primeros valores de cada par
+    this.codes = {};                                            // Limpiar códigos previos
+    data.teeth.forEach(tooth => {                               // Procesar datos del servidor
+      this.codes[tooth.idTooth] = tooth.code;                   // Asignar código
+      this.toothPairs.forEach((pair, index) => {                // Actualizar selección si el diente está en nuestros pares
+        if (pair.includes(tooth.idTooth)) {
+          this.selectedValues[index] = tooth.idTooth;
+        }
+      });
+    });
+  }
 }
 
