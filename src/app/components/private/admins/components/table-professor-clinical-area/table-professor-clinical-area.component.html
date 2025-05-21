@@ -1,0 +1,31 @@
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Profesores por Área Clínica</strong></mat-card-title>
+  
+  <mat-card-content class="filter-container">
+    <mat-form-field appearance="outline" class="area-select">
+      <mat-label>Filtrar por Área Clínica</mat-label>
+      <mat-select [formControl]="selectedAreaControl">
+        <mat-option [value]="null">Todas las áreas</mat-option>
+        <mat-option *ngFor="let area of clinicalAreas" [value]="area.clinicalArea">
+          {{ area.clinicalArea }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <button class="clear-button" (click)="clearFilter()">Limpiar filtro</button>
+  </mat-card-content>
+</mat-card>
+<br>
+
+<app-tabla-data
+  [titulo]="title"
+  [columns]="columns"
+  [data]="professorsList"
+  [totalItems]="totalElements"
+  [showDeleteIcon]="true"
+  (pageChange)="onPageChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (action)="onAction($event)">
+</app-tabla-data>
+
+<app-loading/>
