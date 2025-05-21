@@ -12,10 +12,12 @@ import { LoadingInterceptor } from './app/core/interceptors/loading.interceptor'
 import { RefreshTokenInterceptor } from './app/core/interceptors/refresh-token.interceptor';
 import { globalHttpInterceptor } from './app/core/interceptors/global-http.interceptor';
 import { enableProdMode } from '@angular/core';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 bootstrapApplication(
   AppComponent,
   {providers:[
+    provideCharts(withDefaultRegisterables()),
     importProvidersFrom(BrowserModule, ToastrModule.forRoot({
       timeOut: 3000,
       progressBar: true,
