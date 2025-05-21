@@ -6,7 +6,7 @@
       (click)="deleteConditions.emit(data)"
       matTooltip="Eliminar condiciones"
     >
-      <i title="Eliminar condiciones" class="fas fa-trash"></i>
+      <i title="Eliminar condiciones" class="fas fa-trash trash-button"></i>
     </button>
     } @if(state != 'read'){ @if (data.status) {
     <button
@@ -220,7 +220,15 @@
           opacity="0.6"
         />
       </ng-container>
-      } }
+      }
+      @if (condition.condition ===
+      ToothConditionsConstant.DIENTE_EXTRAIDO) {
+      <ng-container>
+        <path fill="#e74c3c" d="M15 5 0 30h30z"/>
+      </ng-container>
+      }
+   }
+      
     </svg>
 
     <!-- Contenedor de simbologías debajo del diente -->
