@@ -66,16 +66,11 @@ export class FluorosisComponent {
   ROL = ROLES;
 
   // Pares de dientes
-  toothPairs = [
-    ['D16', 'D17'],
-    ['D11', 'D21'],
-    ['D26', 'D27'],
-    ['D36', 'D37'],
-    ['D31', 'D41'],
-    ['D46', 'D47']
+  toothCode = [
+    'D13', 'D12', 'D11', 'D21', 'D22', 'D23'
   ];
 
-  selectedValues: string[] = this.toothPairs.map(pair => pair[0]);    // Diente seleccionado
+  selectedValues: string[] = this.toothCode.map(pair => pair[0]);    // Diente seleccionado
   codes: { [key: string]: CodigoTooth } = {};                         // Codigo de dientes
 
   ngOnInit() {
@@ -290,11 +285,11 @@ export class FluorosisComponent {
       teeth: []
     };
 
-    this.selectedValues.forEach(idTooth => {
-      if (this.codes[idTooth] !== undefined) {
+    this.toothCode.forEach(tooth => {
+      if (this.codes[tooth] !== undefined) {
         payload.teeth.push({
-          idTooth: idTooth.toString(),
-          code: this.codes[idTooth]
+          idTooth: tooth,
+          code: this.codes[tooth]
         });
       }
     });

@@ -4,22 +4,17 @@
     <table class="w-full">
       <tr>
         <td>Diente</td>
-        @for (toothPair of toothPairs; track $index) {
-          <td>
-            <mat-select [(ngModel)]="selectedValues[$index]" required class="no-focus-style">
-              <mat-option [value]="toothPair[0]">{{ toothPair[0] }}</mat-option>
-              <mat-option [value]="toothPair[1]">{{ toothPair[1] }}</mat-option>
-            </mat-select>
-          </td>
+        @for (tooth of toothCode; track $index) {
+          <td>{{tooth}}</td>
         }
       </tr>
 
       <tr>
         <td>Código</td>
-        @for (toothNumber of selectedValues; track $index) {
+        @for (tooth of toothCode; track $index) {
           <td contenteditable="true"
-              (input)="validateInput($event, toothNumber)"
-              [textContent]="codes[toothNumber]">
+              (input)="validateInput($event, tooth)"
+              [textContent]="codes[tooth]">
           </td>
         }
       </tr>
