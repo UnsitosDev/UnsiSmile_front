@@ -61,6 +61,8 @@ export class FluorosisComponent {
 
   public enabledButton: boolean = true;                              // Control de habilitación de botones
   public enableSaveButtonFluorosis: boolean = true;
+  public isReadOnlyMode: boolean = false;
+
   ROL = ROLES;
 
   // Pares de dientes
@@ -279,6 +281,7 @@ export class FluorosisComponent {
         this.selectedFaces[faceId] = true;
       });
     });
+    this.isReadOnlyMode = true;
   }
 
   public store(): DentalTreatmentPayload {
