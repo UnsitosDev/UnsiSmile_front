@@ -58,7 +58,7 @@ export default [
                                 (m) => m.FormUpdatePatientComponent
                             ),
                     }
-                    
+
                 ]
             },
             {
@@ -123,7 +123,7 @@ export default [
                     ),
             },
             {
-            path: 'general/:id/patient/:patient/medical-record-id/:patientID', // Ruta para historia clinica general
+                path: 'general/:id/patient/:patient/medical-record-id/:patientID', // Ruta para historia clinica general
                 loadComponent: () =>
                     import('../students/pages/history-clinics/general/students-general-history.component').then(
                         (m) => m.StudentsGeneralHistoryComponent
@@ -170,7 +170,7 @@ export default [
                     {
                         path: '',
                         loadComponent: () =>
-                        import('./components/table-professor-admin/table-professor-admin.component').then(
+                            import('./components/table-professor-admin/table-professor-admin.component').then(
                                 (m) => m.TableProfessorAdminComponent
                             ),
                     },
@@ -216,6 +216,13 @@ export default [
                 loadComponent: () =>
                     import('./components/table-professor-clinical/table-professor-clinical.component').then(
                         (m) => m.TableProfessorClinicalComponent
+                    ),
+            },
+              {
+                path: 'clinical-area',
+                loadComponent: () =>
+                    import('./components/table-professor-clinical-area/table-professor-clinical-area.component').then(
+                        (m) => m.TableProfessorClinicalAreaComponent
                     ),
             },
             {
