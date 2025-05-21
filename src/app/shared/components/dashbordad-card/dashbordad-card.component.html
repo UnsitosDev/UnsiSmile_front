@@ -1,5 +1,5 @@
 <div class="bg rounded-lg shadow overflow-hidden" [ngClass]="containerClass">
-  <div class="p-6 flex flex-col h-40 min-h-40" [ngClass]="backgroundClass">
+  <div class="p-6 flex flex-col" [ngClass]="backgroundClass">
     <div class="flex justify-between items-start">
       <div class="w-full">
         <h3 class="text-lg tt font-semibold text-gray-700">{{ title }}</h3>
@@ -30,7 +30,7 @@
         }
       </div>
       @if (icon) {
-        <i [ngClass]="icon" class="fa-3x icon ml-2 shrink-0"></i>
+        <i [ngClass]="icon" class="fa-2x icon ml-2 shrink-0"></i>
       }
     </div>
 
