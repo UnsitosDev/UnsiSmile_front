@@ -7,9 +7,30 @@ export enum CodigoTooth {
 }
 
 export interface DentalTreatmentPayload {
-  idTreatment: number;
+  idTreatment:  number;
   teeth: {
-    idTooth: string;
-    code: CodigoTooth;
+    idTooth:    string;
+    code:       CodigoTooth;
   }[];
+}
+
+export interface FluorosisResponse {
+  idFluorosis: number;
+  creationDate: [number, number, number];
+  teethFluorosis: ToothFluorosis[];
+}
+
+export interface ToothFluorosis {
+  idTooth: string;
+  faces: ToothFaceFluorosis[];
+  conditions: never[];
+}
+
+export interface ToothFaceFluorosis {
+  idFace: string;
+  conditions: FaceConditionFluorosis[];
+}
+
+export interface FaceConditionFluorosis {
+  idCondition: number;
 }

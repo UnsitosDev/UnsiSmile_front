@@ -9,6 +9,7 @@ import {FormsModule} from "@angular/forms";
 import {
   CodigoTooth,
   DentalTreatmentPayload,
+  FluorosisResponse,
   ID_TREATMENT_DETAIL,
   IOdontogramHandler,
   ITooth
@@ -48,6 +49,7 @@ export class FluorosisComponent {
   private readonly toastr = inject(ToastrService);                  // Servicio para mostrar mensajes
   public idTreatmentDetail!: number;
   public fluorosis: IOdontogramHandler = createOdontogramHandler(); // Obtener los dientes
+  public fluorosisResponse!: FluorosisResponse;
   teeth = storeProphylaxis.theetProphylaxis;
   faceConditions!: ConditionFace[];
   public selectedFaces: { [key: string]: boolean } = {};            // Faces seleccionados
@@ -76,6 +78,7 @@ export class FluorosisComponent {
   ngOnInit() {
     this.initializeUserRole();
     this.routeParams();
+    this.fetchFluorosis();
   }
 
   // Obtener idTreatmentDetail de la ruta
@@ -245,6 +248,36 @@ export class FluorosisComponent {
       });
   }
 
+  public fetchFluorosis() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_FLUOROSIS_BY_PATIENT}/${this.idTreatmentDetail}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response: FluorosisResponse) => {
+          this.fluorosisResponse = response;
+          this.initializeSelectedData(response);
+        },
+        error: (error) => {
+          console.error(error);
+          this.toastr.error(error);
+        },
+      });
+  }
+
+  private initializeSelectedData(response: FluorosisResponse): void {
+    this.selectedFaces = {};                                              // Limpiar selecciones anteriores
+    response.teethFluorosis.forEach(tooth => {               // Mapear los datos de fluorosis a selectedFaces
+      tooth.faces.forEach(face => {
+        const faceId = `${tooth.idTooth}-${face.idFace}`;
+        this.selectedFaces[faceId] = true;
+      });
+    });
+  }
 
   public store(): DentalTreatmentPayload {
     const payload: DentalTreatmentPayload = {
