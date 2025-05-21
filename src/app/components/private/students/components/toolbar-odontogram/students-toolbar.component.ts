@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ToothConditionsConstants } from '@mean/utils';
 import { ICondition } from 'src/app/models/shared/odontogram/odontogram';
 import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
-import { ToothConditionsConstants } from './../../../../../utils/ToothConditions.constant';
 
 @Component({
   selector: 'app-students-toolbar',
@@ -48,8 +48,7 @@ export class StudentsToolbarComponent {
       ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA,
       ToothConditionsConstants.PROTESIS_REMOVIBLE,
       ToothConditionsConstants.PUENTE,
-      ToothConditionsConstants.DIENTE_NO_PRESENTE,
-      ToothConditionsConstants.DIENTE_EXTRAIDO,
+      ToothConditionsConstants.DIENTE_NO_PRESENTE
     ];
     return normalConditions.includes(condition);
   }
@@ -65,6 +64,7 @@ export class StudentsToolbarComponent {
       ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
       ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES,
       ToothConditionsConstants.RESTO_RADICULAR,
+      ToothConditionsConstants.DIENTE_EXTRAIDO,
     ];
     return abnormalConditions.includes(condition);
   }
