@@ -14,5 +14,6 @@ export * from './core/auth.model'
 export * from '../models/form-fields/form-field.interface'
 export * from './form-fields/form-field.interface';
 export * from './form-fields/form-utils';
+export * from './fluorosis/codigo-tooth.model';
 export * from './history-clinic/historyClinic'
 export * from './treatments/patientTreatments.model';

@@ -19,4 +19,5 @@ export interface DentalProphylaxis {
   idDentalProphylaxis: number;
   creationDate: string;
   teethProphylaxis: ToothProphylaxis[];
+  percentage: number;
 }
