@@ -1,11 +1,11 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { MatButtonModule } from "@angular/material/button";
-import { MatTabsModule } from "@angular/material/tabs";
-import { MatCardTitle } from "@angular/material/card";
-import { MatOption } from "@angular/material/autocomplete";
-import { MatSelect } from "@angular/material/select";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {MatButtonModule} from "@angular/material/button";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatCardTitle} from "@angular/material/card";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 import {
   CodigoTooth,
   DentalTreatmentPayload,
@@ -13,12 +13,13 @@ import {
   IOdontogramHandler,
   ITooth
 } from "@mean/models";
-import { TokenData } from "@mean/public";
-import { ApiService, AuthService, createOdontogramHandler } from "@mean/services";
-import { ROLES } from '@mean/utils';
-import { ToastrService } from "ngx-toastr";
-import { MatDivider } from "@angular/material/divider";
-import { storeProphylaxis } from "../../../../../services/prophylaxis.service";
+import {TokenData} from "@mean/public";
+import {ApiService, AuthService, createOdontogramHandler} from "@mean/services";
+import {ROLES, UriConstants} from '@mean/utils';
+import {ToastrService} from "ngx-toastr";
+import {MatDivider} from "@angular/material/divider";
+import {storeProphylaxis} from "../../../../../services/prophylaxis.service";
+import {HttpHeaders} from "@angular/common/http";
 
 interface ConditionFace {
   idToothFaceCondition: number;
@@ -33,9 +34,9 @@ interface ConditionFace {
   styleUrl: './fluorosis.component.scss'
 })
 export class FluorosisComponent {
-  @Input({ required: true }) patientUuid!: string;
-  @Input({ required: true }) idPatientClinicalHistory!: number;
-  @Input({ required: true }) idFormSection!: number | null;
+  @Input({required: true}) patientUuid!: string;
+  @Input({required: true}) idPatientClinicalHistory!: number;
+  @Input({required: true}) idFormSection!: number | null;
 
   @Output() nextMatTab = new EventEmitter<void>();                  // Evento siguiente pestaña (Material)
   @Output() previousMatTab = new EventEmitter<void>();              // Evento pestaña anterior (Material)
@@ -190,9 +191,9 @@ export class FluorosisComponent {
     Map<number, { idTooth: number, faces: number[] }> {
 
     const teethMap = new Map<number, { idTooth: number, faces: number[] }>();
-    selectedData.forEach(({ toothId, faceNumber }) => {
+    selectedData.forEach(({toothId, faceNumber}) => {
       if (!teethMap.has(toothId)) {
-        teethMap.set(toothId, { idTooth: toothId, faces: [] });
+        teethMap.set(toothId, {idTooth: toothId, faces: []});
       }
       teethMap.get(toothId)!.faces.push(faceNumber);
     });
@@ -221,15 +222,29 @@ export class FluorosisComponent {
     };
   }
 
-  // Función principal que coordina el proceso para construir objeto fluorosis
-  public payload() {
+  public sendFluorosisPayload() {
     const selectedData = this.getSelectedTeethAndFaces();
     const groupedData = this.groupFacesByTooth(selectedData);
     const payload = this.buildFluorosisPayload(groupedData);
-
-    console.log('Fluorosis Payload:', payload);
-    return payload;
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_FLUOROSIS}`,
+        data: payload,
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Fluorosis guardada correctamente');
+        },
+        error: (error) => {
+          console.error(error);
+          this.toastr.error(error);
+        },
+      });
   }
+
 
   public store(): DentalTreatmentPayload {
     const payload: DentalTreatmentPayload = {
