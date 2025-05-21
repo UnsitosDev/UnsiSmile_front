@@ -60,6 +60,7 @@ export class FluorosisComponent {
   private tokenData!: TokenData;
 
   public enabledButton: boolean = true;                              // Control de habilitación de botones
+  public enableSaveButtonFluorosis: boolean = true;
   ROL = ROLES;
 
   // Pares de dientes
@@ -261,6 +262,7 @@ export class FluorosisComponent {
         next: (response: FluorosisResponse) => {
           this.fluorosisResponse = response;
           this.initializeSelectedData(response);
+          this.enableSaveButtonFluorosis = false;
         },
         error: (error) => {
           console.error(error);
