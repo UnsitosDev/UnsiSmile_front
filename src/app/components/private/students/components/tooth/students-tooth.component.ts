@@ -1,4 +1,3 @@
-import { ToothConditionsConstants } from './../../../../../utils/ToothConditions.constant';
 import { NgClass } from '@angular/common';
 import {
   Component,
@@ -6,7 +5,8 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { ICondition, IOdontogram, ITooth } from 'src/app/models/shared/odontogram/odontogram';
+import { ToothConditionsConstants } from '@mean/utils';
+import { ICondition, ITooth } from 'src/app/models/shared/odontogram/odontogram';
 
 @Component({
   selector: 'app-students-tooth',
