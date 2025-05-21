@@ -34,3 +34,15 @@ export interface ToothFaceFluorosis {
 export interface FaceConditionFluorosis {
   idCondition: number;
 }
+
+export interface DeanIndexResponse {
+  id: number;
+  idTreatment: number;
+  teeth: DeanIndexTooth[];
+}
+
+export interface DeanIndexTooth {
+  id: number;
+  idTooth: string;
+  code: CodigoTooth;
+}

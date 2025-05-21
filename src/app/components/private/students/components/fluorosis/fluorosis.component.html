@@ -21,7 +21,7 @@
     </table>
 
     <div class="mt-4 flex justify-start">
-      <button mat-raised-button color="primary" (click)="store()">
+      <button mat-raised-button [hidden]="enableSaveDeanIndex" color="primary" (click)="store()">
         Guardar índice de Dean
       </button>
     </div>

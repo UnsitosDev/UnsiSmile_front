@@ -385,6 +385,8 @@ export class UriConstants {
   public static readonly GET_IHOS = basePath + '/medical-histories/dental-prophylaxis/sohi/treatment';
   public static readonly POST_FLUOROSIS = basePath + '/medical-records/fluorosis';
   public static readonly GET_FLUOROSIS_BY_PATIENT = basePath + '/medical-records/fluorosis/treatments'
+  public static readonly POST_DEAN_INDEX = basePath + '/medical-records/fluorosis/dean-index'
+  public static readonly GET_DEAN_INDEX = basePath + '/medical-records/fluorosis/dean-index/treatment'
 
 }
 
