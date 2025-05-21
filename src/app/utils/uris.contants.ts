@@ -381,8 +381,9 @@ export class UriConstants {
     public static readonly GET_TREATMENT_BY_ID = basePath + '/treatment-details/patients';
     public static readonly GET_TREATMENTS_DETAILS = basePath + '/treatment-details/:idTreatmentDetail'; 
   
-  public static readonly POST_IHOS = basePath + '/medical-histories/dental-prophylaxis/sohi'
-  public static readonly GET_IHOS = basePath + '/medical-histories/dental-prophylaxis/sohi/treatment'
+  public static readonly POST_IHOS = basePath + '/medical-histories/dental-prophylaxis/sohi';
+  public static readonly GET_IHOS = basePath + '/medical-histories/dental-prophylaxis/sohi/treatment';
+  public static readonly POST_FLUOROSIS = basePath + '/medical-records/fluorosis';
 
 
 }
