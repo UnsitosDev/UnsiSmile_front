@@ -1,11 +1,11 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { MatButtonModule } from "@angular/material/button";
-import { MatTabsModule } from "@angular/material/tabs";
-import { MatCardTitle } from "@angular/material/card";
-import { MatOption } from "@angular/material/autocomplete";
-import { MatSelect } from "@angular/material/select";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {MatButtonModule} from "@angular/material/button";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatCardTitle} from "@angular/material/card";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 import {
   CodigoTooth,
   DentalTreatmentPayload,
@@ -13,11 +13,17 @@ import {
   IOdontogramHandler,
   ITooth
 } from "@mean/models";
-import { TokenData } from "@mean/public";
-import { ApiService, AuthService, createOdontogramHandler } from "@mean/services";
-import { ROLES } from '@mean/utils';
-import { ToastrService } from "ngx-toastr";
+import {TokenData} from "@mean/public";
+import {ApiService, AuthService, createOdontogramHandler} from "@mean/services";
+import {ROLES} from '@mean/utils';
+import {ToastrService} from "ngx-toastr";
 import {MatDivider} from "@angular/material/divider";
+import {storeProphylaxis} from "../../../../../services/prophylaxis.service";
+
+interface ConditionFace {
+  idToothFaceCondition: number;
+  description: string;
+}
 
 @Component({
   selector: 'app-fluorosis',
@@ -27,9 +33,9 @@ import {MatDivider} from "@angular/material/divider";
   styleUrl: './fluorosis.component.scss'
 })
 export class FluorosisComponent {
-  @Input({ required: true }) patientUuid!: string;
-  @Input({ required: true }) idPatientClinicalHistory!: number;
-  @Input({ required: true }) idFormSection!: number | null;
+  @Input({required: true}) patientUuid!: string;
+  @Input({required: true}) idPatientClinicalHistory!: number;
+  @Input({required: true}) idFormSection!: number | null;
 
   @Output() nextMatTab = new EventEmitter<void>();                  // Evento siguiente pestaña (Material)
   @Output() previousMatTab = new EventEmitter<void>();              // Evento pestaña anterior (Material)
@@ -41,7 +47,8 @@ export class FluorosisComponent {
   private readonly toastr = inject(ToastrService);                  // Servicio para mostrar mensajes
   public idTreatmentDetail!: number;
   public fluorosis: IOdontogramHandler = createOdontogramHandler(); // Obtener los dientes
-
+  teeth = storeProphylaxis.theetProphylaxis;
+  faceConditions!: ConditionFace[];
   public selectedFaces: { [key: string]: boolean } = {};            // Faces seleccionados
   public toothDeactivated: { [key: number]: boolean } = {};         // Faces desactivadas
 
@@ -52,6 +59,7 @@ export class FluorosisComponent {
   public enabledButton: boolean = true;                              // Control de habilitación de botones
   ROL = ROLES;
 
+  // Pares de dientes
   toothPairs = [
     ['D16', 'D17'],
     ['D11', 'D21'],
@@ -61,20 +69,22 @@ export class FluorosisComponent {
     ['D46', 'D47']
   ];
 
-  selectedValues: string[] = this.toothPairs.map(pair => pair[0]);
-  codes: { [key: string]: CodigoTooth } = {};
+  selectedValues: string[] = this.toothPairs.map(pair => pair[0]);    // Diente seleccionado
+  codes: { [key: string]: CodigoTooth } = {};                                 // Codigo de dientes
 
   ngOnInit() {
     this.initializeUserRole();
     this.routeParams();
   }
 
+  // Obtener idTreatmentDetail de la ruta
   public routeParams(): void {
     this.router.params.subscribe((params: Params) => {
       this.idTreatmentDetail = params[ID_TREATMENT_DETAIL]
     })
   }
 
+  // Inicializar rol de usuario
   private initializeUserRole(): void {
     this.token = this.userService.getToken() ?? '';
     this.tokenData = this.userService.getTokenDataUser(this.token);
@@ -139,6 +149,7 @@ export class FluorosisComponent {
     }
   }
 
+  // Validación para celdas de la tabla
   public validateInput(event: Event, toothNumber: string) {
     const input = event.target as HTMLElement;
     const value = parseInt(input.innerText);
@@ -152,6 +163,72 @@ export class FluorosisComponent {
     } else {
       this.codes[toothNumber] = value as CodigoTooth;
     }
+  }
+
+  /**
+   * Obtiene los dientes y caras seleccionadas con fluorosis
+   * @returns Array de objetos con toothId y faceNumber
+   */
+  private getSelectedTeethAndFaces(): { toothId: number, faceNumber: number }[] {
+    return Object.keys(this.selectedFaces)
+      .filter(faceId => this.selectedFaces[faceId])
+      .map(faceId => {
+        const [toothId, faceNumber] = faceId.split('-');
+        return {
+          toothId: parseInt(toothId),
+          faceNumber: parseInt(faceNumber)
+        };
+      });
+  }
+
+  /**
+   * Agrupa las caras seleccionadas por diente
+   * @param selectedData Array de dientes y caras seleccionadas
+   * @returns Mapa con idTooth y array de faces
+   */
+  private groupFacesByTooth(selectedData: { toothId: number, faceNumber: number }[]):
+    Map<number, { idTooth: number, faces: number[] }> {
+
+    const teethMap = new Map<number, { idTooth: number, faces: number[] }>();
+    selectedData.forEach(({toothId, faceNumber}) => {
+      if (!teethMap.has(toothId)) {
+        teethMap.set(toothId, {idTooth: toothId, faces: []});
+      }
+      teethMap.get(toothId)!.faces.push(faceNumber);
+    });
+    return teethMap;
+  }
+
+  /**
+   * Construye el objeto fluorosis con la estructura requerida
+   * @param teethMap Mapa de dientes y caras agrupadas
+   * @returns Objeto payload completo
+   */
+  private buildFluorosisPayload(teethMap: Map<number, { idTooth: number, faces: number[] }>): any {
+    return {
+      theetFluorosis: Array.from(teethMap.values()).map(toothData => ({
+        idTooth: toothData.idTooth,
+        conditions: [],
+        faces: toothData.faces.map(faceNumber => ({
+          idFace: faceNumber,
+          conditions: [{
+            idToothFaceCondition: 1,
+            description: "Fluorosis dental"
+          }]
+        }))
+      })),
+      idTreatmentDetail: this.idTreatmentDetail
+    };
+  }
+
+  // Función principal que coordina el proceso
+  public payload() {
+    const selectedData = this.getSelectedTeethAndFaces();
+    const groupedData = this.groupFacesByTooth(selectedData);
+    const payload = this.buildFluorosisPayload(groupedData);
+
+    console.log('Fluorosis Payload:', payload);
+    return payload;
   }
 
   public store(): DentalTreatmentPayload {
