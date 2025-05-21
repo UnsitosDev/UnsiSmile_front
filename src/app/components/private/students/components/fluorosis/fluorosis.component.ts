@@ -16,7 +16,7 @@ import {
   ITooth
 } from "@mean/models";
 import { TokenData } from "@mean/public";
-import { ApiService, AuthService, createOdontogramHandler, storeProphylaxis } from "@mean/services";
+import { ApiService, AuthService, createOdontogramHandler } from "@mean/services";
 import { ROLES, UriConstants } from '@mean/utils';
 import { ToastrService } from "ngx-toastr";
 
