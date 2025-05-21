@@ -173,19 +173,6 @@ export class OralProsthesisComponent {
     this.getStatusHc();
   }
 
-  opedDialogRateTreatment() {
-    const dialogRef = this.dialog.open(DialogRateTreatmentComponent, {
-      data: {
-        idTreatmentDetail: this.idTreatmentDetail,
-      },
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
-  }
-
   getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
 

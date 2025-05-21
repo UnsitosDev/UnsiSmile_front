@@ -1,0 +1,39 @@
+@if (!isLoading) {
+    
+    <div class="rate-treatment flex justify-end mb-4">
+        <button mat-button (click)="opedDialogRateTreatment()">
+            Calificar Tratamiento
+        </button>
+    </div>
+    
+    <ng-template mat-tab-label>
+        <i class="fas fa-file"></i>
+        <span class="ml-2"></span>
+      </ng-template>
+      @switch (medicalRecord) { @case (2) {
+      <!--Protesis bucal-->
+      <app-oral-prosthesis [patientUuid]="idPatient"></app-oral-prosthesis>
+      } @case (3) {
+      <!-- Periodoncia -->
+      <app-students-periodontics-history
+        [patientUuid]="idPatient"
+      ></app-students-periodontics-history>
+      } @case (4) {
+      <!-- Operatioria dental -->
+      <app-students-dental-operation
+        [patientUuid]="idPatient"
+      ></app-students-dental-operation>
+      } @case (5) {
+      <!-- Cirujia bucal -->
+      <app-students-oral-surgery-history
+        [patientUuid]="idPatient"
+      ></app-students-oral-surgery-history>
+      } @case (6) {
+      <app-preventive-dentistry-public-health    
+        [patientUuid]="idPatient"
+      ></app-preventive-dentistry-public-health>
+      } @default {
+      <p>No existe esta historia clinica.</p>
+      } }
+
+}
