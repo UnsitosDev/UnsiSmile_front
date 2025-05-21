@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
-import { CommonModule } from '@angular/common';
+
 import { LoadingComponent } from '@mean/shared';
 
 interface ClinicalArea {
@@ -30,15 +30,14 @@ interface ProfessorArea {
   selector: 'app-table-professor-clinical-area',
   standalone: true,
   imports: [
-    CommonModule, 
-    TablaDataComponent, 
-    MatCardModule, 
-    MatFormFieldModule, 
-    MatSelectModule, 
-    FormsModule, 
+    TablaDataComponent,
+    MatCardModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
     ReactiveFormsModule,
     LoadingComponent
-  ],
+],
   templateUrl: './table-professor-clinical-area.component.html',
   styleUrl: './table-professor-clinical-area.component.scss'
 })
