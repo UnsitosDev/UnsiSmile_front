@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { StudentsOdontogramComponent } from '@mean/students';
 import { OdontogramTreatment } from './models/odontogram-list.model';
 import { OdontogramListService } from './repository/odontogram-list.service';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { StudentsOdontogramComponent } from '../odontogram/students-odontogram.component';
 
 @Component({
   selector: 'app-odontogram-list',
@@ -41,10 +41,5 @@ export class OdontogramListComponent implements OnInit {
           this.isLoading = false;
         }
       });
-  }
-
-  viewOdontogram(element: OdontogramTreatment): void {
-    // Implement the logic to view the odontogram details
-    console.log('Viewing odontogram:', element);
   }
 }

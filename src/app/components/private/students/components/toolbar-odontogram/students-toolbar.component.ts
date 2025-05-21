@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ToothConditionsConstants } from '@mean/utils';
 import { ICondition } from 'src/app/models/shared/odontogram/odontogram';
 import { Toolbar } from 'src/app/models/shared/tool-bar-options.model';
-import { ToothConditionsConstants } from './../../../../../utils/ToothConditions.constant';
 
 @Component({
   selector: 'app-students-toolbar',
