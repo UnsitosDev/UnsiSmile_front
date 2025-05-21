@@ -1,7 +1,6 @@
 <mat-card class="full-width-card">
   <mat-card-title><strong>Profesores por Área Clínica</strong></mat-card-title>
-  
-  <mat-card-content class="filter-container">
+  <div class="filter-container">
     <mat-form-field appearance="outline" class="area-select">
       <mat-label>Filtrar por Área Clínica</mat-label>
       <mat-select [formControl]="selectedAreaControl">
@@ -11,9 +10,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    
-    <button class="clear-button" (click)="clearFilter()">Limpiar filtro</button>
-  </mat-card-content>
+  </div>
 </mat-card>
 <br>
 

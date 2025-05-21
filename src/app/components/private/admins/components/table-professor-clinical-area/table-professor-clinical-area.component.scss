@@ -4,3 +4,41 @@
     border-radius: 2px;
     color: var(--side-text);  
 }
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px 0 16px;
+  flex-wrap: wrap;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px 16px 0 16px;
+  background-color: var(--secondary);
+}
+
+.area-select {
+  width: 200px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .header-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .filter-container {
+    justify-content: flex-start;
+    padding: 8px 0 0 0;
+  }
+  .area-select {
+    width: 100%;
+  }
+}
