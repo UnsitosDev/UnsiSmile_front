@@ -40,7 +40,7 @@ export class FluorosisComponent {
   private readonly router = inject(ActivatedRoute);                 // Servicio para obtener parámetros de la ruta
   private readonly toastr = inject(ToastrService);                  // Servicio para mostrar notificaciones
 
-  public idTreatmentDetail!: number;                                // Id detalle tratamiento                          
+  public idTreatmentDetail!: number;                                // Id detalle tratamiento
   public fluorosis: IOdontogramHandler = createOdontogramHandler(); // Manejador para obtener los dientes
   public fluorosisResponse!: FluorosisResponse;                     // Guardar respuesta de Fluorosis
   public deanIndex!: DeanIndexResponse;                             // Guardar respuesta de DeanIndexResponse
@@ -54,7 +54,7 @@ export class FluorosisComponent {
   public enableSaveButtonFluorosis: boolean = true;                 // Controla habilitación del botón para guardar fluorosis
   public enableSaveDeanIndex: boolean = false;                      // Controla habilitación del botón para guardar índice de Dean
   public isReadOnlyMode: boolean = false;                           // Indica si el modo es solo lectura
-
+  public tableEditable: boolean = true;                             // Tabla editable
   ROL = ROLES;
 
   toothCode = ['D13', 'D12', 'D11', 'D21', 'D22', 'D23'];            // Códigos de dientes visibles en la tabla
@@ -255,11 +255,10 @@ export class FluorosisComponent {
         },
         error: (error) => {
           console.error(error);
-          this.toastr.error(error);
         },
       });
   }
-  
+
   // Inicializa datos de fluorosis y activa solo lectura
   private initializeSelectedData(response: FluorosisResponse): void {
     this.selectedFaces = {};                                              // Limpiar selecciones anteriores
@@ -329,7 +328,6 @@ export class FluorosisComponent {
         },
         error: (error) => {
           console.error(error);
-          this.toastr.error(error);
         },
       });
   }
@@ -345,6 +343,7 @@ export class FluorosisComponent {
         }
       });
     });
+    this.tableEditable = false;
   }
 
   previousTab() {

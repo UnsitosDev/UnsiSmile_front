@@ -41,6 +41,8 @@ export class ProfilaxisComponent implements OnInit {
   public registerProfilaxis!: PaginatedData<DentalProphylaxis>;   // Sesiones profilaxis
   public responseIHOS!: DentalTreatmentPayload;                   // Respuesta para indice de higiene oral simplificado
   public showButtonIHOS: boolean = true;                          // estado para mostrar/ocultar btn guardar IHOS
+  public tableEditable: boolean = true;                            // Tabla editable
+
   public indexPage: number = 0;
 
   idQuestion: number = 244;
@@ -232,11 +234,7 @@ export class ProfilaxisComponent implements OnInit {
           this.showButtonIHOS = false;
         },
         error: (error) => {
-          if (error.status === 404) {
-            return
-          } else {
-            this.toastr.error();
-          }
+          console.log(error);
         },
       });
   }
@@ -253,6 +251,7 @@ export class ProfilaxisComponent implements OnInit {
         }
       });
     });
+    this.tableEditable = false;
   }
 }
 

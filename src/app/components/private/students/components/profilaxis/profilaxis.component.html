@@ -16,7 +16,7 @@
     <tr>
       <td>Código</td>
       @for (toothNumber of selectedValues; track $index) {
-        <td contenteditable="true"
+        <td [contentEditable]="tableEditable"
             (input)="validateInput($event, toothNumber)"
             [textContent]="codes[toothNumber]">
         </td>
