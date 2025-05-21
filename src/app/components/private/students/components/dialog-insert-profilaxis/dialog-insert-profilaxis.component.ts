@@ -303,14 +303,10 @@ export class DialogInsertProfilaxisComponent implements OnInit {
 
     const payload = {
       theetProphylaxis,
-      idPatient: this.idPatient,
-      idQuestion: this.idQuestion,
-      idPatientClinicalHistory: this.idPatientClinicalHistory,
-      idFormSection: this.idFormSection,
+      idTreatmentDetail: Number(this.data.idTreatmentDetail),
       percentage: this.percentage
     };
 
-    console.log(payload);
     return payload;
   }
 

@@ -58,8 +58,8 @@ export class ProfilaxisComponent implements OnInit {
   codes: { [key: string]: CodigoTooth } = {};
 
   ngOnInit(): void {
-    this.getProphylaxis();
     this.routeParams();
+    this.getProphylaxis();
     this.fetchIHOS();
   }
 
@@ -74,6 +74,7 @@ export class ProfilaxisComponent implements OnInit {
       disableClose: false,
       width: '1000vh',
       data: {
+        idTreatmentDetail: this.idTreatmentDetail,
         idPatient: this.idPatient,
         idQuestion: this.idQuestion,
         idPatientClinicalHistory: this.idPatientClinicalHistory,
@@ -121,7 +122,7 @@ export class ProfilaxisComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_PROFILAXIS}/patients/${this.idPatient}?page=${page}&size=10`,
+        url: `${UriConstants.GET_PROFILAXIS}/${this.idTreatmentDetail}?page=${page}&size=10`,
         data: {},
       })
       .subscribe({
