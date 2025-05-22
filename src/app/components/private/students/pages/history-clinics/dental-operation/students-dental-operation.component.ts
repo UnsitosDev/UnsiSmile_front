@@ -82,6 +82,7 @@ export class StudentsDentalOperationComponent {
   ngOnInit(): void {
     this.initializeUserRole();
     this.initializeRouteParams();
+    this.loadClinicalHistory();
   }
 
   private initializeUserRole(): void {
@@ -93,7 +94,7 @@ export class StudentsDentalOperationComponent {
   private initializeRouteParams(): void {
     this.router.params.subscribe((params) => {
       this.processRoleBasedParams(params);
-      this.loadClinicalHistory();
+      
     });
   }
 
@@ -141,32 +142,11 @@ export class StudentsDentalOperationComponent {
               this.idTreatmentDetail
             )
           ) {
-            const processedData = this.getTabsforReview(this.mappedHistoryData);
             this.isSupervisorWithTreatment = false;
-            if (processedData) {
-              this.mappedHistoryData = processedData;
-            }
+           
           }
         },
       });
-  }
-
-  private getTabsforReview(historyData: dataTabs): dataTabs | null {
-    if (this.role !== ROLES.CLINICAL_AREA_SUPERVISOR) {
-      return historyData;
-    }
-
-    const filteredData = {
-      ...historyData,
-      tabs: historyData.tabs.filter((tab) => tab.status === STATUS.IN_REVIEW),
-    };
-
-    if (filteredData.tabs.length === 0) {
-      this.route.navigate(['/clinical-area-supervisor/history-clinics']);
-      return null;
-    }
-
-    return filteredData;
   }
 
   getFirstTab() {

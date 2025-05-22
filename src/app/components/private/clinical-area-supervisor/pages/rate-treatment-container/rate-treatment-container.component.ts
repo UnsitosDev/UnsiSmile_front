@@ -40,7 +40,6 @@ export class RateTreatmentContainerComponent implements OnInit{
       this.idTreatmentDetail = params[ID_TREATMENT_DETAIL]
       this.idPatient = params[PATIENT_UUID];
       this.medicalRecord = Number( params[MEDICAL_RECORD_ID]);
-      console.log(this.medicalRecord, this.idPatient)
     });
     this.isLoading = false;
   }

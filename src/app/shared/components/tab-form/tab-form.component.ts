@@ -86,7 +86,6 @@ export class TabFormComponent implements TabsHandler {
   disabledControl = false;
 
   ngOnInit(): void {
-    console.log('fieldsTab', this.fieldsTab);
     this.section();
     this.getRole();
   }
@@ -269,8 +268,6 @@ export class TabFormComponent implements TabsHandler {
         if (hcData.idQuestion) {
           sendData.push(hcData);
         }
-
-        console.log(hcData);
 
       });
 
