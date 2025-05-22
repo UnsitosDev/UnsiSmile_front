@@ -14,3 +14,8 @@ export class studentsTableData {
   estatus = ''  // Agregado status
 }
 
+export class StudentTreatment {
+  nombre = ''
+  apellido = ''
+  matricula = ''
+}
