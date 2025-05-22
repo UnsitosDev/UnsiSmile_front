@@ -9,7 +9,6 @@ import { TabViewModule } from 'primeng/tabview';
 
 // Componentes
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 
 // Servicios
 import { ApiService, AuthService } from '@mean/services';
@@ -17,23 +16,22 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 
 // Modelos
 import { HttpHeaders } from '@angular/common/http';
-import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
+import { EMedicalRecords, ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
 import { UriConstants } from '@mean/utils';
+import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { ROLES } from 'src/app/utils/roles';
 import { STATUS } from 'src/app/utils/statusToReview';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
-import { MenuAssessMedicalHistoryComponent } from "../../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component";
+import { FluorosisComponent } from "../../../components/fluorosis/fluorosis.component";
 import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
 import { ProfilaxisComponent } from "../../../components/profilaxis/profilaxis.component";
-import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
-import {FluorosisComponent} from "../../../components/fluorosis/fluorosis.component";
 
 @Component({
   selector: 'app-preventive-dentistry-public-health',
   standalone: true,
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent, MenuAssessMedicalHistoryComponent, ProfilaxisComponent, HeaderHistoryClinicComponent, FluorosisComponent],
+  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, TabViewModule, TabFormUpdateComponent, ProfilaxisComponent, HeaderHistoryClinicComponent, FluorosisComponent],
   templateUrl: './preventive-dentistry-public-health.component.html',
   styleUrl: './preventive-dentistry-public-health.component.scss'
 })
@@ -93,7 +91,6 @@ export class PreventiveDentistryPublicHealthComponent {
     if (this.role !== ROLES.STUDENT) {
       this.handleNonStudentParams(params);
     } else {
-      this.handleStudentParams(params);
     }
   }
 
@@ -109,23 +106,6 @@ export class PreventiveDentistryPublicHealthComponent {
     }
   }
 
-  private handleStudentParams(params: Params): void {
-    // Caso específico para STUDENT con tratamiento en params
-    if (params[ID_TREATMENT_DETAIL]) {
-      this.handleStudentWithTreatmentParams(params);
-    } else {
-      this.handleStudentWithoutTreatmentParams();
-    }
-  }
-
-  private handleStudentWithTreatmentParams(params: Params): void {
-    this.idTreatmentDetail = params[ID_TREATMENT_DETAIL];
-    this.id = params[ID_MEDICAL_RECORD];
-    this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-    this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
-    this.viewCardTreatments = true;
-  }
-
   private handleStudentWithoutTreatmentParams(): void {
     this.id = this.medicalRecord;
     this.idpatient = this.patientUuid;
@@ -133,7 +113,9 @@ export class PreventiveDentistryPublicHealthComponent {
   }
 
   private loadClinicalHistory(): void {
-    this.historyData.getHistoryClinics(this.patientMedicalRecord, this.patientUuid).subscribe({
+    this.historyData.
+    getMedicalRecord(EMedicalRecords.ODONTOLOGIA_PREVENTIVA, this.patientUuid)
+    .subscribe({
       next: (mappedData: dataTabs) => {
         this.mappedHistoryData = this.processMappedData(mappedData, this.role);
         this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;

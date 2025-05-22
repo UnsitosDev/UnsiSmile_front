@@ -9,7 +9,6 @@ import { TabViewModule } from 'primeng/tabview';
 
 // Componentes
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { CardPatientDataComponent } from '../../../components/card-patient-data/card-patient-data.component';
 
 // Servicios
 import { ApiService, AuthService } from '@mean/services';
@@ -44,7 +43,6 @@ import { HeaderHistoryClinicComponent } from '../../../components/header-history
     MatDialogModule,
     MatCardModule,
     MatButtonModule,
-    CardPatientDataComponent,
     TabViewModule,
     TabFormUpdateComponent,
     HeaderHistoryClinicComponent,

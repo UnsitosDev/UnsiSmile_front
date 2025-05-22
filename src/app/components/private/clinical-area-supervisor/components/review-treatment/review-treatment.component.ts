@@ -68,29 +68,17 @@ export class ReviewTreatmentComponent {
     this.patientClinicalHistoryId = treatment.patient.idPatientMedicalRecord;
     this.patientUuid = treatment.patient.id ?? "";
     this.clinicalHistoryCatalogId = treatment.treatment.clinicalHistoryCatalogId;
-    switch (this.clinicalHistoryCatalogId) {
-      case 6: // odontologia preventiva
-        const routePreventive = `/clinical-area-supervisor/preventive-dentistry-public-health/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
-        this.router.navigate([routePreventive]);
-        break;
-      case 2: // protesis bucal
-        const routeOralProthesis = `/clinical-area-supervisor/oral-prosthesis/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
-        this.router.navigate([routeOralProthesis]);
-        break;
-      case 3: // periodoncia
-        const routePeriodontics = `/clinical-area-supervisor/periodontics/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
-        this.router.navigate([routePeriodontics]);
-        break;
-      case 4: // operatoria dental
-        const routeDentalOperation = `/clinical-area-supervisor/dental-operation/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
-        this.router.navigate([routeDentalOperation]);
-        break;
-      case 5: // cirujia bucal
-        const routeOralSurgery = `/clinical-area-supervisor/oral-surgery/${this.clinicalHistoryCatalogId}/patient/${this.patientUuid}/medical-record-id/${this.patientClinicalHistoryId}/treatment-detail/${this.idTreatmentDetail}`;
-        this.router.navigate([routeOralSurgery]);
-        break;
-      default:
-        break;
-    }
+    this.router.navigate([
+      'clinical-area-supervisor',
+      'rate-treatment',
+      'treatment-detail',
+      this.idTreatmentDetail,
+      'patient',
+      this.patientUuid,
+      'medical-record',
+      this.clinicalHistoryCatalogId
+    ]);
   }
+
+  
 }

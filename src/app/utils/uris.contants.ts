@@ -354,7 +354,7 @@ export class UriConstants {
   public static readonly GET_CONDITION_PROFILAXIS_FACE = basePath + '/medical-histories/tooth-face-conditions/prophylaxis';
   public static readonly GET_CONDITION_PROFILAXIS_TOOTH = basePath + '/medical-histories/tooth-conditions/prophylaxis';
   public static readonly POS_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis';
-  public static readonly GET_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis';
+  public static readonly GET_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis/treatments';
   public static readonly GET_PROFESSORS_AREAS = basePath + '/professor-clinical-areas'
 
   public static readonly GET_TREATMENTS = basePath + '/treatments';
@@ -380,6 +380,13 @@ export class UriConstants {
     public static readonly GET_ALL_TREATMENTS = basePath + '/treatment-details/students';
     public static readonly GET_TREATMENT_BY_ID = basePath + '/treatment-details/patients';
     public static readonly GET_TREATMENTS_DETAILS = basePath + '/treatment-details/:idTreatmentDetail'; 
+  
+  public static readonly POST_IHOS = basePath + '/medical-histories/dental-prophylaxis/sohi';
+  public static readonly GET_IHOS = basePath + '/medical-histories/dental-prophylaxis/sohi/treatment';
+  public static readonly POST_FLUOROSIS = basePath + '/medical-records/fluorosis';
+  public static readonly GET_FLUOROSIS_BY_PATIENT = basePath + '/medical-records/fluorosis/treatments'
+  public static readonly POST_DEAN_INDEX = basePath + '/medical-records/fluorosis/dean-index'
+  public static readonly GET_DEAN_INDEX = basePath + '/medical-records/fluorosis/dean-index/treatment'
 
 }
 
