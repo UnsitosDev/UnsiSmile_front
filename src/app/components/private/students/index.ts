@@ -15,4 +15,5 @@ export * from './pages/history-clinics/oral-surgery/students-oral-surgery-histor
 export * from './pages/history-clinics/periodontics/students-periodontics-history.component';
 export * from './pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
 export * from './components/form-update-patient/form-update-patient.component'
+export * from './service/medical-record-ws.service'
 

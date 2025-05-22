@@ -15,7 +15,6 @@ import { LoadingComponent } from 'src/app/models/shared/loading/loading.componen
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
 import { TokenData } from './model/tokenData';
-import { ROLES } from 'src/app/utils/roles';
 
 @Component({
   selector: 'app-login',

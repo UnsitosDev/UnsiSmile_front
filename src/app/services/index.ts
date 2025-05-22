@@ -5,4 +5,5 @@ export * from './side-bar.service';
 export * from './form-fields.service';
 export * from './odontogram-data.service';
 export * from './loading.service';
+export * from './web-socket.service';
 export * from './prophylaxis.service';
