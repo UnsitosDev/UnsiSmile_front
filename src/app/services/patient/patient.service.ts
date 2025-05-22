@@ -354,6 +354,71 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
                 },
             });
     }
+
+    // Nuevo método para obtener nacionalidad paginada y filtrada
+    getNationalityDataPaginated(searchTerm: string, page: number, size: number): Observable<Array<{ value: string; label: string }>> {
+        // Aumentar el tamaño de la página para mostrar más resultados (similar a religión)
+        const effectiveSize = 1000; // Usar un tamaño grande para obtener más resultados
+
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.GET_NACIONALITY}?keyword=${searchTerm}&page=${page}&size=${effectiveSize}`,
+            data: {},
+        }).pipe(
+            map((response: any) => {
+                let content = response.content || [];
+                
+                // Si hay término de búsqueda, filtrar del lado del cliente
+                if (searchTerm && searchTerm.trim() !== '') {
+                    const searchTermLower = searchTerm.toLowerCase().trim();
+                    content = content.filter((item: any) => 
+                        item.nationality.toLowerCase().includes(searchTermLower)
+                    );
+                }
+                
+                this.nationalityOptions = content.map((item: any) => ({
+                    value: item.idNationality.toString(),
+                    label: item.nationality
+                }));
+                
+                return this.nationalityOptions;
+            }),
+            catchError(error => {
+                console.error('Error al obtener nacionalidades:', error);
+                return of([]);
+            })
+        );
+    }
+
+    // Obtiene una nacionalidad específica por ID
+    getNationalityById(id: number): Observable<any> {
+        const url = `${UriConstants.GET_NACIONALITY}/${id}`;
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: url,
+            data: {},
+        }).pipe(
+            map((response) => {
+                // Asegurarse de que la nacionalidad esté en las opciones
+                const existingOption = this.nationalityOptions.find(option => option.value === id.toString());
+                if (!existingOption && response) {
+                    this.nationalityOptions.push({
+                        value: response.idNationality.toString(),
+                        label: response.nationality
+                    });
+                }
+                return response;
+            }),
+            catchError(error => {
+                return of(null);
+            })
+        );
+    }
+
     // Estados
     stateData: PaginatedData<stateRequest>[] = [];
     stateOptions:  Array<{ value: string; label: string }> = [];
@@ -370,7 +435,7 @@ getMunicipalityDataPaginated(searchTerm: string, page: number, size: number, sta
             .subscribe({
                 next: (response) => {
                     this.stateData = response.content;
-                    this.stateOptions = response.content.map((item: any) => ({
+                    this.stateOptions = this.stateData.map((item: any) => ({
                         value: item.idState.toString(),
                         label: item.name
                     }));

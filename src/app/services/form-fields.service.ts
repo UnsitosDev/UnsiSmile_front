@@ -270,15 +270,19 @@ export class FormFieldsService {
 
     private otherDataFields: FormField[] = [
         {
-            type: 'select',
+            type: 'autocompleteoptions',
             label: 'Nacionalidad',
             name: 'nationality',
+            placeholder: 'Ej: Mexicana',
             required: true,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Nacionalidad es requerido.'
             },
-            onClick: this.handleNacionalityClick.bind(this)
+            onInputChange: {
+                changeFunction: this.handleNationalityClick.bind(this),
+                length: 5
+            }
         },
         {
             type: 'select',
@@ -740,6 +744,23 @@ export class FormFieldsService {
         });
     }
     
+
+    // Modificar el método handleNationalityClick para cargar más opciones
+    private handleNationalityClick(searchTerm: string, page: number = 0, size: number = 1000): void {
+        this.patientService.getNationalityDataPaginated(searchTerm, page, size).subscribe({
+            next: (response) => {
+                const nationalityField = this.otherDataFields.find(field => field.name === FieldNames.NATIONALITY);
+                if (nationalityField) {
+                    // Si hay término de búsqueda, mostrar todas las opciones filtradas
+                    // Si no hay término de búsqueda, mostrar todas las opciones
+                    nationalityField.options = response;
+                }
+            },
+            error: (error) => {
+                console.error('Error al obtener nacionalidades:', error);
+            }
+        });
+    }
 
     private handleNacionalityClick(event: MouseEvent): void {
         this.patientService.getNacionalityData();

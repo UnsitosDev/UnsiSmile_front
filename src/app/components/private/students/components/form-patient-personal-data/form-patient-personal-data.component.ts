@@ -407,7 +407,14 @@ export class FormPatientPersonalDataComponent {
        option.value === value || option.label.toLowerCase() === value.toLowerCase()
      );
    }
- 
+   
+   // Agregar método para validar nacionalidad
+   private validateNationality(value: string): boolean {
+     return this.patientService.nationalityOptions.some(option => 
+       option.value === value || option.label.toLowerCase() === value.toLowerCase()
+     );
+   }
+
    // Método para actualizar las validaciones del tutor según se necesite o no
    updateGuardianValidations() {
      const shouldRequireGuardian = this.minorPatient || (this.disabledPatient && this.needsGuardian);
@@ -444,7 +451,13 @@ export class FormPatientPersonalDataComponent {
        this.toastr.error('Debe seleccionar una religión válida de la lista', 'Error de validación');
        return;
      }
- 
+     
+     // Validar nacionalidad
+     if (!this.validateNationality(formValues.nationality)) {
+       this.toastr.error('Debe seleccionar una nacionalidad válida de la lista', 'Error de validación');
+       return;
+     }
+
      // Verificar si hay errores en el formulario, filtrando los campos del tutor cuando no se necesitan
      let hasErrors = false;
      const shouldRequireGuardian = this.minorPatient || (this.disabledPatient && this.needsGuardian);
@@ -462,7 +475,7 @@ export class FormPatientPersonalDataComponent {
        const patientData = {
          isMinor: this.minorPatient,
          hasDisability: formValues.hasDisability === 'true',
-         nationalityId: +formValues.nationality,
+         nationalityId: isNaN(+formValues.nationality) ? 0 : +formValues.nationality,
          person: {
            curp: formValues.curp,
            firstName: formValues.firstName,
@@ -558,6 +571,16 @@ export class FormPatientPersonalDataComponent {
          } : null
        };      
  
+       
+       // Actualizar la estructura de los datos de nacionalidad en el objeto
+       if (patientData.nationalityId === 0 && formValues.nationality) {
+         const matchingNationality = this.patientService.nationalityOptions.find(
+           option => option.label.toLowerCase() === formValues.nationality.toLowerCase()
+         );
+         if (matchingNationality) {
+           patientData.nationalityId = +matchingNationality.value;
+         }
+       }
        
        this.apiService
          .postService({
