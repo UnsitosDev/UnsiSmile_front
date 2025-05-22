@@ -26,12 +26,17 @@
     "paths": {
       "@mean/interceptor": ["src/app/core/interceptors"],
       "@mean/public": ["src/app/components/public"],
-      "@mean/admin": ["src/app/components/private/admin"],
+      "@mean/admin": ["src/app/components/private/admins"],
       "@mean/students": ["src/app/components/private/students"],
       "@mean/shared": ["src/app/shared"],
       "@mean/utils": ["src/app/utils"],
       "@mean/models": ["src/app/models"],
       "@mean/services": ["src/app/services"],
+      "@mean/guards": ["src/app/core/guards"],
+      "@mean/core": ["src/app/core"],
+      "@mean/assets": ["src/assets"],
+      "@mean/supervisors": ["src/app/components/private/clinical-area-supervisor"],
+      "@mean/professors": ["src/app/components/private/professor"],
     }
   },
   "angularCompilerOptions": {
