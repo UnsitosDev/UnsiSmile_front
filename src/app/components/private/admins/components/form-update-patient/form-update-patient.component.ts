@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, inject, ChangeDetectorRef } from '@angular/core';
 
+
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -49,6 +50,7 @@ export class FormUpdatePatientComponent implements OnInit {
   disabledPatient: boolean = false;  // Nueva variable para controlar si el paciente es discapacitado
   needsGuardian: boolean = false;    // Nueva variable para controlar si el paciente discapacitado necesita tutor
   private currentPage: number = 0;
+  
 
   localityId: string = '';
   municipalityNameId: string = '';
@@ -57,6 +59,8 @@ export class FormUpdatePatientComponent implements OnInit {
   streetId: string = '';
   private addressId: number = 0;
 
+  isEditMode: boolean = false; // Variable para controlar el estado de edición
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -407,6 +411,11 @@ export class FormUpdatePatientComponent implements OnInit {
 
     this.formGroup.patchValue(formData);
 
+    // Deshabilitar todos los campos por defecto
+    Object.keys(this.formGroup.controls).forEach(key => {
+      this.formGroup.get(key)?.disable();
+    });
+
     // Asegurar que los campos CURP y birthDate estén deshabilitados
     if (this.formGroup.get('curp')) {
       this.formGroup.get('curp')?.disable();
@@ -523,6 +532,25 @@ export class FormUpdatePatientComponent implements OnInit {
   onFieldValueChange(event: any) {
     const { name, value } = event;
     this.formGroup.get(name)?.setValue(value);
+  }
+
+  // Método para habilitar la edición
+  toggleEditMode() {
+    this.isEditMode = !this.isEditMode;
+    
+    if (this.isEditMode) {
+      // Habilitar todos los campos excepto CURP y fecha de nacimiento
+      Object.keys(this.formGroup.controls).forEach(key => {
+        if (key !== 'curp' && key !== 'birthDate') {
+          this.formGroup.get(key)?.enable();
+        }
+      });
+    } else {
+      // Deshabilitar todos los campos
+      Object.keys(this.formGroup.controls).forEach(key => {
+        this.formGroup.get(key)?.disable();
+      });
+    }
   }
 
   onSubmit() {
@@ -645,6 +673,12 @@ export class FormUpdatePatientComponent implements OnInit {
       }).subscribe({
         next: (response) => {
           this.toastr.success(Messages.SUCCES_UPDATE_PATIENT, 'Éxito');
+          // Desactivar modo edición tras guardar
+          this.isEditMode = false;
+          // Deshabilitar todos los campos de nuevo
+          Object.keys(this.formGroup.controls).forEach(key => {
+            this.formGroup.get(key)?.disable();
+          });
           setTimeout(() => {
             this.router.navigate(['/admin/patients']);
           }, 1000);

@@ -60,6 +60,7 @@ export class FormUpdatePatientComponent {
     private addressId: number = 0;
   
     public isLoading: boolean = true;
+    isEditMode: boolean = false; // Variable para controlar el estado de edición
 
     constructor(
       private route: ActivatedRoute,
@@ -410,7 +411,12 @@ export class FormUpdatePatientComponent {
       }
   
       this.formGroup.patchValue(formData);
-  
+
+      // Deshabilitar todos los campos por defecto
+      Object.keys(this.formGroup.controls).forEach(key => {
+        this.formGroup.get(key)?.disable();
+      });
+
       // Asegurar que los campos CURP y birthDate estén deshabilitados
       if (this.formGroup.get('curp')) {
         this.formGroup.get('curp')?.disable();
@@ -527,6 +533,25 @@ export class FormUpdatePatientComponent {
     onFieldValueChange(event: any) {
       const { name, value } = event;
       this.formGroup.get(name)?.setValue(value);
+    }
+  
+    // Método para habilitar la edición
+    toggleEditMode() {
+      this.isEditMode = !this.isEditMode;
+      
+      if (this.isEditMode) {
+        // Habilitar todos los campos excepto CURP y fecha de nacimiento
+        Object.keys(this.formGroup.controls).forEach(key => {
+          if (key !== 'curp' && key !== 'birthDate') {
+            this.formGroup.get(key)?.enable();
+          }
+        });
+      } else {
+        // Deshabilitar todos los campos
+        Object.keys(this.formGroup.controls).forEach(key => {
+          this.formGroup.get(key)?.disable();
+        });
+      }
     }
   
     onSubmit() {
@@ -649,6 +674,12 @@ export class FormUpdatePatientComponent {
         }).subscribe({
           next: (response) => {
             this.toastr.success(Messages.SUCCES_UPDATE_PATIENT, 'Éxito');
+            // Desactivar modo edición tras guardar
+            this.isEditMode = false;
+            // Deshabilitar todos los campos de nuevo
+            Object.keys(this.formGroup.controls).forEach(key => {
+              this.formGroup.get(key)?.disable();
+            });
             setTimeout(() => {
               this.router.navigate(['/admin/patients']);
             }, 1000);

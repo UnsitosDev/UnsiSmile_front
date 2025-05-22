@@ -1,5 +1,5 @@
 <mat-card class="full-width-card">
-  <mat-card-title><strong>Actualizar paciente</strong></mat-card-title>
+  <mat-card-title><strong>Información del paciente</strong></mat-card-title>
 </mat-card>
 
 @if (isLoading) {
@@ -13,6 +13,13 @@
   <mat-step>
     <form [formGroup]="formGroup">
       <ng-template matStepLabel>DATOS PERSONALES</ng-template>
+      <div class="edit-button-container">
+        <button type="button" class="btn" [class.btn-primary]="!isEditMode" [class.btn-warning]="isEditMode" (click)="toggleEditMode()">
+          <i class="fas" [class.fa-edit]="!isEditMode" [class.fa-times]="isEditMode"></i>
+          {{ isEditMode ? 'Cancelar edición' : 'Editar información' }}
+        </button>
+      </div>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
         @for (field of personal; track $index) {
           @if (shouldShowField(field)) {

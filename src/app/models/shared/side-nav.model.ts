@@ -103,13 +103,28 @@ export const AdminItems: MenuItem[] = [
         ]
       },
       {
-            fontAwesomeIcon: faUserShield,
-            buttonText: 'Encargados de area clínica ',
-            buttonDescription: 'Ver encargados de area',
-            routerlink: '/admin/clinical-area',
+        fontAwesomeIcon: faUserShield,
+        buttonText: 'Encargados de area clínica ',
+        buttonDescription: 'Ver encargados de area',
+        routerlink: '/admin/clinical-area',
       },
     ]
   },
+  {
+    fontAwesomeIcon: faUserShield,
+    buttonText: 'Pacientes',
+    buttonDescription: 'Gestión de pacientes',
+    routerlink: '/admin/patients',
+    children: [
+      {
+        fontAwesomeIcon: faPlus,
+        buttonText: 'Nuevo paciente',
+        buttonDescription: 'Registrar paciente',
+        routerlink: '/admin/patients/addPatient'
+      }
+    ]
+  },
+
   {
     fontAwesomeIcon: faClinicMedical,
     buttonText: 'Áreas clínicas',
