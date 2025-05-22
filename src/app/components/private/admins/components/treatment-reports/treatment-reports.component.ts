@@ -44,7 +44,7 @@ export class TreatmentReportsComponent {
 
 
   ngOnInit(): void {
-    this.columns = getEntityPropiedades('student-treatment');   // Obtiene las columnas configuradas para la tabla de tratamientos de estudiantes
+    this.columns = ['nombre', 'apellido', 'matricula'];
     this.fetchStudents();
     this.setupSearchSubscription();                             // Configura el observable para búsquedas
   }

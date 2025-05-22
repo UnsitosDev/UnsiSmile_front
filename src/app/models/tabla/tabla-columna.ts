@@ -1,5 +1,5 @@
 import {columnPatientsTableData, patientsTableData, patientsTableDataProfessor} from "../shared/patients";
-import {studentsTableData, StudentTreatment} from "../shared/students";
+import {studentsTableData} from "../shared/students";
 import {AdminTableData} from "../shared/admin/admin";
 
 
@@ -27,9 +27,6 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
       break;
     case 'professor':
       clase = new patientsTableDataProfessor();
-      break;
-    case 'student-treatment':
-      clase = new StudentTreatment();
       break;
   }
 
