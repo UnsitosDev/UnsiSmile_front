@@ -2,18 +2,22 @@ import { Component, inject } from '@angular/core';
 import { ApiService } from "@mean/services";
 import { HttpHeaders } from "@angular/common/http";
 import { UriConstants } from "@mean/utils";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { PaginatedData, TreatmentDetailResponse } from '@mean/models';
+import {MatButtonModule} from "@angular/material/button";
+import {MatCard, MatCardTitle} from "@angular/material/card";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-dialog-reports-treatments',
   standalone: true,
-  imports: [],
+  imports: [MatDialogModule, MatButtonModule, MatCard, MatCardTitle, MatIcon],
   templateUrl: './dialog-reports-treatments.component.html',
   styleUrl: './dialog-reports-treatments.component.scss'
 })
 export class DialogReportsTreatmentsComponent {
+  public dialogRef = inject(MatDialogRef<DialogReportsTreatmentsComponent>);
   private readonly apiService = inject(ApiService);               // Servicio para hacer peticiones a la API
   private readonly data = inject(MAT_DIALOG_DATA);                // Datos inyectados desde el componente padre
   private readonly toastr = inject(ToastrService);                // Servicio para mostrar notificaciones toast
@@ -23,6 +27,10 @@ export class DialogReportsTreatmentsComponent {
   ngOnInit() {
     this.idStudent = this.data.idStudent;                        // Asigna el ID del estudiante desde los datos inyectados
     this.fetchTreatmentStudent();                                // Carga inicial de tratamientos
+  }
+
+  public closeDialog(): void {
+    this.dialogRef.close();
   }
 
   // Obtiene los tratamientos asociados al estudiante desde la API
@@ -51,7 +59,7 @@ export class DialogReportsTreatmentsComponent {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.GET_GENERATE_REPORT_TREATMENT}/${this.idStudent}?idTreatment=${idTreatmentDetail}`,  // URL con parámetros
+      url: `${UriConstants.GET_GENERATE_REPORT_TREATMENT}/${this.idStudent}?idTreatment=${2}`,  // URL con parámetros
       data: {},
       responseType: 'blob'                                      // Espera un blob (archivo binario) como respuesta
     }).subscribe({

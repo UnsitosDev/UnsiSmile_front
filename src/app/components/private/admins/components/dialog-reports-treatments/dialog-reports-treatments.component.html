@@ -1,5 +1,25 @@
-<p>dialog-reports-treatments works!</p>
-@for (treatment of treatments.content; track $index) {
-  <span>{{treatment.treatment.name}}</span>
-  <button (click)="getReportTreatment(treatment)">descargar</button>
-}
+<mat-card>
+  <mat-card-title>
+    <div class="title-container">
+      <span><strong>Tratamientos</strong></span>
+      <mat-icon matListItemIcon (click)="closeDialog()" class="cursor-pointer">close</mat-icon>
+    </div>
+  </mat-card-title>
+</mat-card>
+
+<div class="custom-dialog-container">
+  <mat-dialog-content class="mat-typography">
+    @for (treatment of treatments.content; track $index) {
+      <section (click)="getReportTreatment(treatment)" class="cursor-pointer">
+        <div>
+          <span><i class="fas fa-file-pdf"></i></span>
+          <br>
+          <span>{{ treatment.treatment.name }}</span>
+        </div>
+      </section>
+      <br>
+
+
+    }
+  </mat-dialog-content>
+</div>
