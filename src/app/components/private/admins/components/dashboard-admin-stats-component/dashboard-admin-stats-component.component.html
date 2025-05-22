@@ -1,7 +1,7 @@
 @if (loading) {
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     @for (_ of [1, 2, 3, 4, 5]; track $index) {
-      <div class="animate-pulse bg-gray-200 rounded-lg h-32"></div>
+      <div class="animate-pulse custom-item rounded-lg h-32"></div>
     }
   </div>
 } @else {
@@ -53,14 +53,14 @@
       <div class="p-4 flex-1 overflow-auto">
         <div mat-subheader><p><strong>Usuarios</strong></p></div>
         <mat-list role="list">
-          <mat-list-item role="listitem">Estudiantes: {{ stats.totalStudents }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Estudiantes:</span> {{ stats.totalStudents }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Profesores: {{ stats.totalProfessors }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Profesores:</span> {{ stats.totalProfessors }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Estudiantes registrados el ultimo
-            mes: {{ stats.studentsRegisteredLastMonth }}
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Estudiantes registrados el ultimo mes:</span>
+             {{ stats.studentsRegisteredLastMonth }}
           </mat-list-item>
           <mat-divider></mat-divider>
 
@@ -72,11 +72,11 @@
       <div class="p-4 flex-1 overflow-auto">
         <div mat-subheader><p><strong>Pacientes</strong></p></div>
         <mat-list role="list">
-          <mat-list-item role="listitem">Pacientes: {{ stats.totalPatients }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes:</span> {{ stats.totalPatients }}</mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item role="listitem">Pacientes con discapacidad: {{ stats.patientsWithDisability }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes con discapacidad:</span> {{ stats.patientsWithDisability }}</mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item role="listitem">Pacientes registrados el ultimo mes: {{ stats.patientsRegisteredLastMonth }}
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes registrados el ultimo mes:</span> {{ stats.patientsRegisteredLastMonth }}
           </mat-list-item>
         </mat-list>
       </div>
@@ -86,50 +86,47 @@
       <div class="p-4 flex-1 overflow-auto">
         <div mat-subheader><p><strong>Tratamientos</strong></p></div>
         <mat-list role="list">
-          <mat-list-item role="listitem">Resinas: {{ stats.treatments.resins }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Resinas:</span> {{ stats.treatments.resins }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Profilaxis: {{ stats.treatments.prophylaxis }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Profilaxis:</span> {{ stats.treatments.prophylaxis }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Fluorosis: {{ stats.treatments.fluorosis }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Fluorosis:</span> {{ stats.treatments.fluorosis }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Selladores de fosetas y fisuras: {{ stats.treatments.pitAndFissureSealers }}
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Selladores de fosetas y fisuras:</span>{{ stats.treatments.pitAndFissureSealers }}
           </mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Extracciones: {{ stats.treatments.extractions }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Extracciones:</span> {{ stats.treatments.extractions }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Prótesis removible: {{ stats.treatments.removableProsthesis }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Prótesis removible:</span> {{ stats.treatments.removableProsthesis }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Prótesis removible (alternativo): {{ stats.treatments.prosthesisRemovable }}
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Prótesis removible (alternativo):</span> {{ stats.treatments.prosthesisRemovable }}
           </mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Prostodoncia: {{ stats.treatments.prosthodontics }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Prostodoncia:</span> {{ stats.treatments.prosthodontics }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Endodoncia (conductos radiculares): {{ stats.treatments.rootCanals }}
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Endodoncia (conductos radiculares)</span>: {{ stats.treatments.rootCanals }}
           </mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Raspado y alisado: {{ stats.treatments.scrapedAndSmoothed }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Raspado y alisado:</span> {{ stats.treatments.scrapedAndSmoothed }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Cerrado y abierto: {{ stats.treatments.closedAndOpen }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Cerrado y abierto:</span> {{ stats.treatments.closedAndOpen }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Cuña distal: {{ stats.treatments.distalWedges }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">uña distal:</span>C {{ stats.treatments.distalWedges }}</mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item role="listitem">Pulpotomía y corona: {{ stats.treatments.pulpotomyAndCrowns }}</mat-list-item>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pulpotomía y corona:</span> {{ stats.treatments.pulpotomyAndCrowns }}</mat-list-item>
           <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem">Pulpectomía y corona: {{ stats.treatments.pulpectomyAndCrowns }}
-          </mat-list-item>
           <mat-divider></mat-divider>
         </mat-list>
       </div>
