@@ -75,7 +75,6 @@ export class TreatmentComponent implements OnInit {
   public selectedTreatment!: TreatmentDetailResponse;
   public medicalRecordConfig!: dataTabs;
   public statusParam!: string;
-  private loadTreatmentsWhitParams: boolean = false;
 
   public isPatientLoading = false;
   public isPatientLastPage = false;
@@ -231,7 +230,6 @@ export class TreatmentComponent implements OnInit {
 
   openTreatmentParams(treatment: TreatmentParams): void {
     this.viewTreatment = true;
-    this.loadTreatmentsWhitParams = true;
     // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
     this.selectedTreatment = treatment.selectedTreatment;
     this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;

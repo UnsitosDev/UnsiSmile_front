@@ -19,7 +19,6 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 import { HttpHeaders } from '@angular/common/http';
 import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
 import { UriConstants } from '@mean/utils';
-import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { EMedicalRecords } from 'src/app/models/history-clinic/historyClinic';

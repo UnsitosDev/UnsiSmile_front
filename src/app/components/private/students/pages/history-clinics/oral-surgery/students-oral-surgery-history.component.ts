@@ -9,7 +9,6 @@ import { TabViewModule } from 'primeng/tabview';
 
 // Componentes
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 
 // Servicios
 import { ApiService, AuthService } from '@mean/services';
@@ -17,21 +16,21 @@ import { GeneralHistoryService } from 'src/app/services/history-clinics/general/
 
 // Modelos
 import { HttpHeaders } from '@angular/common/http';
-import { ID_MEDICAL_RECORD, ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
+import { ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
 import { UriConstants } from '@mean/utils';
 import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
+import { EMedicalRecords } from 'src/app/models/history-clinic/historyClinic';
 import { ROLES } from 'src/app/utils/roles';
 import { STATUS } from 'src/app/utils/statusToReview';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
 import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
-import { EMedicalRecords } from 'src/app/models/history-clinic/historyClinic';
 
 @Component({
   selector: 'app-students-oral-surgery-history',
   standalone: true,
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, TabFormUpdateComponent, HeaderHistoryClinicComponent],
+  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, TabViewModule, TabFormUpdateComponent, HeaderHistoryClinicComponent],
   templateUrl: './students-oral-surgery-history.component.html',
   styleUrl: './students-oral-surgery-history.component.scss'
 })

@@ -1,15 +1,10 @@
 @if (!isLoading) {
     
-    <div class="rate-treatment flex justify-end mb-4">
-        <button mat-button (click)="opedDialogRateTreatment()">
+    <div class=" flex justify-end mb-4">
+        <button class="rate-treatment" mat-button (click)="opedDialogRateTreatment()">
             Calificar Tratamiento
         </button>
     </div>
-    
-    <ng-template mat-tab-label>
-        <i class="fas fa-file"></i>
-        <span class="ml-2"></span>
-      </ng-template>
       @switch (medicalRecord) { @case (2) {
       <!--Protesis bucal-->
       <app-oral-prosthesis [patientUuid]="idPatient"></app-oral-prosthesis>
