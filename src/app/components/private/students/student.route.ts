@@ -31,15 +31,22 @@ export default [
                             import('./components/form-update-patient/form-update-patient.component').then(
                                 (m) => m.FormUpdatePatientComponent
                             ),
-                    }
+                    },
+                    {
+                        path: 'treatments/patient/:patientID',
+                        loadComponent: () =>
+                            import('./pages/treatments/presentation/treatment/treatment.component').then(
+                                (m) => m.TreatmentComponent
+                            ),
+                    },
                 ]
             },
             {
                 path: 'treatments',
-                loadComponent: () => 
+                loadComponent: () =>
                     import('./components/patient-treatment/patient-treatment.component').then(
-                    (m) => m.PatientTreatmentComponent
-                ),
+                        (m) => m.PatientTreatmentComponent
+                    ),
             },
             {
                 path: 'odontogram',
@@ -63,39 +70,32 @@ export default [
                     ),
             },
             {
-                path: 'upload-patients', 
-                loadComponent: () => 
+                path: 'upload-patients',
+                loadComponent: () =>
                     import('./components/upload-patients/upload-patients.component').then(
-                    (m) => m.UploadPatientsComponent
-                ),
+                        (m) => m.UploadPatientsComponent
+                    ),
             },
             {
-                path: 'dowload-formats', 
-                loadComponent: () => 
+                path: 'dowload-formats',
+                loadComponent: () =>
                     import('./components/formats/formats.component').then(
-                    (m) => m.FormatsComponent
-                ),
-            },
-            {
-                path: 'treatments/patient/:patientID',
-                loadComponent: () => 
-                    import('./pages/treatments/presentation/treatment/treatment.component').then(
-                    (m) => m.TreatmentComponent
-                ),
+                        (m) => m.FormatsComponent
+                    ),
             },
             {
                 path: 'treatment-details/:idTreatmentDetail/patient/:idPatient',
-                loadComponent: () => 
+                loadComponent: () =>
                     import('./pages/treatment-details/presentation/treatment-detail/treatment-details.component').then(
-                    (m) => m.TreatmentDetailsComponent
-                ),
+                        (m) => m.TreatmentDetailsComponent
+                    ),
             },
             {
                 path: 'all-treatments',
-                loadComponent: () => 
+                loadComponent: () =>
                     import('./pages/patients-treatments/presentation/patients-treatment/patients-treatments.component').then(
-                    (m) => m.PatientsTreatmentsComponent
-                ),
+                        (m) => m.PatientsTreatmentsComponent
+                    ),
             },
             {
                 path: '**',
