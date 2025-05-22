@@ -33,7 +33,7 @@ export interface PatientsByNationality {
   [nationality: string]: number;
 }
 
-export interface Treatments {
+export interface TreatmentsCatalog {
   resins:               number;
   prophylaxis:          number;
   fluorosis:            number;
@@ -58,7 +58,7 @@ export interface StatisticsResponse {
   totalStudents:                number;
   studentsRegisteredLastMonth:  number;
   totalProfessors:              number;
-  treatments:                   Treatments;
+  treatments:                   TreatmentsCatalog;
   rejectedTreatments:           number;
   progressingTreatments:        number;
   inReviewTreatments:           number;

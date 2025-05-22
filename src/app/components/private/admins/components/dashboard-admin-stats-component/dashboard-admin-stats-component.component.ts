@@ -1,21 +1,14 @@
-import {HttpHeaders} from '@angular/common/http';
-import {Component, inject} from '@angular/core';
-import {ApiService} from '@mean/services';
-import {UriConstants} from '@mean/utils';
-import {ToastrService} from 'ngx-toastr';
-import {DashboardCardComponent} from 'src/app/shared/components/dashbordad-card/dashbordad-card.component';
-import {BaseChartDirective} from 'ng2-charts';
-import {ChartData, ChartType} from 'chart.js';
-import {MatListModule} from "@angular/material/list";
-import {StatisticsResponse} from "../../../../../models/dashboards/admin-dashboard";
-
+import { HttpHeaders } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
+import { DashboardCardComponent } from 'src/app/shared/components/dashbordad-card/dashbordad-card.component';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartData, ChartType } from 'chart.js';
+import { MatListModule } from "@angular/material/list";
+import { StatisticsResponse } from '@mean/models';
 interface Nationality {
-  name: string;
-  count: number;
-}
-
-interface TreatmentItem {
-  key: string;
   name: string;
   count: number;
 }
@@ -34,38 +27,8 @@ export class DashboardAdminStatsComponent {
   loading = true;
   activeChart: 'users' | 'patients' | 'treatments' = 'users';
 
-  // Datos estáticos para los gráficos
-  public chartData = {
-    users: {
-      labels: ['Profesores', 'Alumnos', 'Administradores', 'Encargados de clínica'],
-      data: [50, 380, 10, 40],
-      label: 'Usuarios'
-    },
-    patients: {
-      labels: ['Mexico', 'Argentina', 'Peru', 'Guatemala'],
-      data: [120, 80, 50, 30],
-      label: 'Pacientes'
-    },
-    treatments: {
-      labels: ['Profilaxis', 'Resinas', 'Fluorosis', 'Exodoncias'],
-      data: [60, 120, 40, 80],
-      label: 'Tratamientos'
-    }
-  };
-
-  public currentChartData: ChartData<'bar' | 'line', number[], string> = {
-    labels: this.chartData.users.labels,
-    datasets: [{
-      label: this.chartData.users.label,
-      data: this.chartData.users.data,
-      backgroundColor: 'rgba(32, 55, 114, 0.84)',
-      borderColor: 'rgb(7, 40, 112)',
-      borderWidth: 1,
-      type: 'bar'
-    }]
-  };
-
-  public lineChartOptions = {
+  // Opciones del gráfico (compartidas)
+  public chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -75,11 +38,20 @@ export class DashboardAdminStatsComponent {
     }
   };
 
-  public lineChartType: ChartType = 'line';
+  public currentChartData: ChartData<'bar' | 'line', number[], string> = {
+    labels: [],
+    datasets: [{
+      label: '',
+      data: [],
+      backgroundColor: 'rgba(32, 55, 114, 0.84)',
+      borderColor: 'rgb(7, 40, 112)',
+      borderWidth: 1,
+      type: 'bar'
+    }]
+  };
 
   ngOnInit(): void {
     this.getStats();
-    this.initChart();
   }
 
   getStats() {
@@ -94,8 +66,8 @@ export class DashboardAdminStatsComponent {
       .subscribe({
         next: (response) => {
           this.stats = response;
-          console.log(this.stats);
           this.loading = false;
+          this.initChart(); // Inicializar gráfico después de tener los datos
         },
         error: (error) => {
           this.loading = false;
@@ -123,13 +95,45 @@ export class DashboardAdminStatsComponent {
   }
 
   private updateChart(): void {
-    const data = this.chartData[this.activeChart];
+    if (!this.stats) return;
+
+    let labels: string[] = [];
+    let data: number[] = [];
+    let label = '';
+
+    switch (this.activeChart) {
+      case 'users':
+        labels = ['Profesores', 'Alumnos', 'Administradores', 'Encargados de clínica'];
+        data = [this.stats.totalProfessors, this.stats.totalStudents, 1, this.stats.totalProfessors];
+        label = 'Usuarios';
+        break;
+
+      case 'patients':
+        const nationalities = this.getNationalities();
+        labels = nationalities.map(n => n.name);
+        data = nationalities.map(n => n.count);
+        label = 'Pacientes por nacionalidad';
+        break;
+
+      case 'treatments':
+        labels = ['Profilaxis', 'Resinas', 'Fluorosis', 'Sellantes', 'Exodoncias', 'Prótesis removibles'];
+        data = [
+          this.stats.treatments.prophylaxis,
+          this.stats.treatments.resins,
+          this.stats.treatments.fluorosis,
+          this.stats.treatments.pitAndFissureSealers,
+          this.stats.treatments.extractions,
+          this.stats.treatments.removableProsthesis
+        ];
+        label = 'Tratamientos realizados';
+        break;
+    }
 
     this.currentChartData = {
-      labels: data.labels,
+      labels: labels,
       datasets: [{
-        label: data.label,
-        data: data.data,
+        label: label,
+        data: data,
         backgroundColor: 'rgba(32, 55, 114, 0.84)',
         borderColor: 'rgb(7, 40, 112)',
         borderWidth: 1,
@@ -137,4 +141,16 @@ export class DashboardAdminStatsComponent {
       }]
     };
   }
+
+  public lineChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  public lineChartType: ChartType = 'line';
 }
