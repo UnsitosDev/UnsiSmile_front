@@ -18,6 +18,7 @@ import {
   StudentsOdontogramComponent,
   StudentsOralSurgeryHistoryComponent,
   StudentsPeriodonticsHistoryComponent,
+  treatmentsNotifications,
 } from '@mean/students';
 
 import { MatListModule } from '@angular/material/list';
@@ -49,7 +50,10 @@ import { TreatmentRepositoryService } from '../../repository/treatment-repositor
   templateUrl: './treatment-details.component.html',
   styleUrl: './treatment-details.component.scss',
 })
-export class TreatmentDetailsComponent implements OnInit {
+export class TreatmentDetailsComponent
+  extends treatmentsNotifications
+  implements OnInit
+{
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
 
   private readonly medicalRecordRepositoryService = inject(
@@ -74,7 +78,9 @@ export class TreatmentDetailsComponent implements OnInit {
   treatmentDetails!: TreatmentDetailResponse;
   selectedIndex = 0;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) {
+    super();
+  }
 
   ngOnInit(): void {
     this.patientUuid = this.route.snapshot.params['idPatient'];
@@ -90,6 +96,10 @@ export class TreatmentDetailsComponent implements OnInit {
         this.idTreatmentDetail = response.idTreatmentDetail;
         this.patientClinicalHistoryId = response.patient.idPatientMedicalRecord;
         this.medicalRecordId = response.treatment.clinicalHistoryCatalogId;
+        this.connectToTreatmentDetails(
+          String(this.idTreatmentDetail),
+          this.patientUuid
+        );
         this.isLoading = false;
       },
       error: (error) => {
@@ -184,5 +194,11 @@ export class TreatmentDetailsComponent implements OnInit {
 
   cancelOdontogramCreation(): void {
     this.changeOdontogramViewStatus();
+  }
+    
+  protected override onTreatmentsNotification(): void {
+    // Refresh treatment details when a notification is received
+      this.loadTreatmentDetails(String(this.idTreatmentDetail));
+      console.log('Treatment details updated');
   }
 }

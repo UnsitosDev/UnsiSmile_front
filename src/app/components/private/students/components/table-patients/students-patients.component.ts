@@ -100,7 +100,7 @@ export class StudentsPatientsComponent implements OnInit {
   }
 
   editar(objeto: PatientInfo) {
-    this.router.navigate(['/students/treatments/patient/' + objeto.patientID]);
+    this.router.navigate(['/students/patients/treatments/patient/' + objeto.patientID]);
   }
 
   eliminar(nombre: string) {
