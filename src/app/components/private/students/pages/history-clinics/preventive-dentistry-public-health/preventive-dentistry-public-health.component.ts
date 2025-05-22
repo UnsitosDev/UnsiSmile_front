@@ -59,7 +59,6 @@ export class PreventiveDentistryPublicHealthComponent {
   public role!: string;
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-  public idPatientClinicalHistory!: number;
   private idTreatmentDetail!: number;
   public viewCardTreatments: boolean = false;
   private token!: string;
@@ -95,10 +94,6 @@ export class PreventiveDentistryPublicHealthComponent {
   }
 
   private handleNonStudentParams(params: Params): void {
-    // Asignación común para todos los roles excepto STUDENT
-    this.id = params[ID_MEDICAL_RECORD];
-    this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-    this.idPatientClinicalHistory = params[ID_PATIENT_MEDICAL_RECORD];
 
     // Manejo específico para CLINICAL_AREA_SUPERVISOR
     if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
@@ -106,11 +101,6 @@ export class PreventiveDentistryPublicHealthComponent {
     }
   }
 
-  private handleStudentWithoutTreatmentParams(): void {
-    this.id = this.medicalRecord;
-    this.idpatient = this.patientUuid;
-    this.idPatientClinicalHistory = this.patientMedicalRecord;
-  }
 
   private loadClinicalHistory(): void {
     this.historyData.

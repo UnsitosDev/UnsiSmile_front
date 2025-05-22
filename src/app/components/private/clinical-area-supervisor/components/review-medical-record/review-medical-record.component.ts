@@ -1,22 +1,22 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
-import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { Router } from '@angular/router';
 import { ApiService } from '@mean/services';
+import { LoadingComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
 import { patientsTableDataProfessor } from 'src/app/models/shared/patients';
-import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient/patient';
+import { Patient } from 'src/app/models/shared/patients/patient/patient';
 import { Accion, getEntityPropiedades } from 'src/app/models/tabla/tabla-columna';
-import { Router } from '@angular/router';
-import { DialogHistoryClinicsComponent } from '../../../students/components/dialog-history-clinics/dialog-history-clinics.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
+import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { STATUS } from 'src/app/utils/statusToReview';
-import { LoadingComponent } from '@mean/shared';
+import { DialogHistoryClinicsComponent } from '../../../students/components/dialog-history-clinics/dialog-history-clinics.component';
+import { REVIEW_TABLE_DATA, ReviewAsigneds } from '@mean/supervisors';
 
 @Component({
   selector: 'app-review-history-clinics',
@@ -31,7 +31,7 @@ import { LoadingComponent } from '@mean/shared';
   styleUrl: './review-medical-record.component.scss',
 })
 export class ReviewMedicalRecordComponent implements OnInit {
-  private readonly apiService = inject(ApiService<PatientResponse>);
+  private readonly apiService = inject(ApiService<ReviewAsigneds>);
   private readonly dialog = inject(MatDialog);
   readonly router = inject(Router);
   public selectedStatus!: string; 
@@ -48,13 +48,11 @@ export class ReviewMedicalRecordComponent implements OnInit {
   public sortAsc = true;
 
   readonly sortableColumns = {
-    nombres: 'person.firstName',
-    apellidos: 'person.firstLastName',
-    curp: 'person.curp',
+    curp: 'patient.person.curp',
   };
 
   ngOnInit(): void {
-    this.columns = [...getEntityPropiedades('professor')];
+    this.columns = [...REVIEW_TABLE_DATA];
     this.getClinicalHistoriesToReview();
   }
 
@@ -89,16 +87,16 @@ export class ReviewMedicalRecordComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          console.log(response);
           if (Array.isArray(response.content)) {
             this.totalElements = response.totalElements;
-            this.patientsList = response.content.map((patient: Patient) => {
-              const { person, medicalRecordNumber } = patient;
+            this.patientsList = response.content.map((reviewAsigned: ReviewAsigneds) => {
               return {
-                patientID: patient.idPatient, 
-                nombres: `${person.firstName} ${person.secondName}`,
-                apellidos: `${person.firstLastName} ${person.secondLastName}`,
-                curp: person.curp,
-                expediente: medicalRecordNumber 
+                idPatient: reviewAsigned.patient.id, 
+                Paciente: reviewAsigned.patient.name,
+                CURP: reviewAsigned.patient.curp,
+                Expediente: reviewAsigned.patient.medicalRecordNumber, 
+                Estudiante: reviewAsigned.studentName,
               };
             });
           } else {

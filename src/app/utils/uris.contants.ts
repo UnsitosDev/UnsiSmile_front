@@ -335,7 +335,7 @@ export class UriConstants {
   public static readonly POST_CLINICAL_HISTORY_REVIEW = basePath + '/medical-records/status'
   // Obtener el estado de la historia clinica
   public static readonly GET_CLINICAL_HISTORY_STATUS = basePath + '/medical-records/status';
-  public static readonly GET_HC_TO_REVIEW = basePath +'/medical-records/status/list'
+  public static readonly GET_HC_TO_REVIEW = basePath +'/medical-records/status/review/assigned-sections'
   public static readonly SAVE_REVIEW_HC = basePath + '/medical-records/status'
 
   public static readonly GET_PROFESSORS = basePath + '/professors';

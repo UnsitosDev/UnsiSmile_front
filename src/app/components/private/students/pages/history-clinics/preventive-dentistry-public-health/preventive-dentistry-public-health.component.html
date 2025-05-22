@@ -2,7 +2,7 @@
   <mat-card-title>
     <app-header-history-clinic
       [mappedHistoryData]="mappedHistoryData"
-      [idPatientClinicalHistory]="idPatientClinicalHistory"
+      [idPatientClinicalHistory]="patientMedicalRecord"
       [currentSectionId]="currentSectionId"
       [currentStatus]="currentStatus"
       [currentIndex]="currentIndex"
@@ -15,7 +15,7 @@
         <mat-tab [label]="tab.title">
           @if (tab.isAnswered && tab.title !== 'Profilaxis Dental' && tab.title !== 'Fluorosis') {
             <app-tab-form-update
-              [patientMedicalRecord]="idPatientClinicalHistory"
+              [patientMedicalRecord]="patientMedicalRecord"
               [fieldsTab]="tab"
               (nextMatTab)="onNextTab()"
               (previousMatTab)="onPreviousTab()"
@@ -23,7 +23,7 @@
           }
           @if (!tab.isAnswered && tab.title !== 'Profilaxis Dental' && tab.title !== 'Fluorosis') {
             <app-tab-form
-              [patientMedicalRecord]="idPatientClinicalHistory"
+              [patientMedicalRecord]="patientMedicalRecord"
               [fieldsTab]="tab"
               (nextMatTab)="onNextTab()"
               (previousMatTab)="onPreviousTab()"

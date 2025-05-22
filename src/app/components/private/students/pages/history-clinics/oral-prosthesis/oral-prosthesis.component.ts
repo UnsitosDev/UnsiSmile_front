@@ -53,7 +53,6 @@ export class OralProsthesisComponent {
   public role!: string;
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-  public idPatientClinicalHistory!: number;
   public viewCardTreatments: boolean = false;
   public isLoading: boolean = true;
 
@@ -95,7 +94,6 @@ export class OralProsthesisComponent {
       // Asignación común para todos los roles excepto STUDENT
       this.id = Number(params[ID_MEDICAL_RECORD]) || 0;
       this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-      this.idPatientClinicalHistory = Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
 
       // Manejo específico para CLINICAL_AREA_SUPERVISOR
       if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
@@ -184,7 +182,7 @@ export class OralProsthesisComponent {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}/${currentTab.idFormSection}`,
+        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.patientMedicalRecord}/${currentTab.idFormSection}`,
         data: {},
       })
       .subscribe({
