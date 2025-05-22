@@ -23,20 +23,17 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
         @for (field of personal; track $index) {
           @if (shouldShowField(field)) {
-            <app-field-component 
-              [field]="field" 
-              [formGroup]="formGroup" 
+            <app-field-component
+              [field]="field"
+              [formGroup]="formGroup"
               [errors]="field.errorMessages"
               (setFieldValue)="onFieldValueChange($event)"
               (ageStatusChange)="onAgeStatusChange($event)">
             </app-field-component>
           }
-        }      
+        }
       </div>
-      <div class="button-container">
-        <button mat-flat-button color="warn" (click)="onBack()" class="mr-2">
-          <i class="fas fa-arrow-left"></i> Cancelar
-        </button>
+      <div class="button-container single">
         <button mat-flat-button color="primary" matStepperNext>Siguiente <i class="fas fa-long-arrow-alt-right"></i></button>
       </div>
     </form>
@@ -48,11 +45,11 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6" (scroll)="onScroll($event)">
         @for (field of address; track $index) {
           @if (shouldShowField(field)) {
-            <app-field-component 
-            [field]="field" 
-            [formGroup]="formGroup" 
-            [errors]="field.errorMessages"
-            (setFieldValue)="onFieldValueChange($event)">
+            <app-field-component
+              [field]="field"
+              [formGroup]="formGroup"
+              [errors]="field.errorMessages"
+              (setFieldValue)="onFieldValueChange($event)">
             </app-field-component>
           }
         }
@@ -70,11 +67,11 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
         @for (field of other; track $index) {
           @if (shouldShowField(field)) {
-            <app-field-component 
-            [field]="field" 
-            [formGroup]="formGroup" 
-            [errors]="field.errorMessages"
-            (setFieldValue)="onFieldValueChange($event)">
+            <app-field-component
+              [field]="field"
+              [formGroup]="formGroup"
+              [errors]="field.errorMessages"
+              (setFieldValue)="onFieldValueChange($event)">
             </app-field-component>
           }
         }
@@ -104,11 +101,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
           @for (field of guardian; track $index) {
             @if (shouldShowField(field)) {
-              <app-field-component 
-              [field]="field" 
-              [formGroup]="formGroup" 
-              [errors]="field.errorMessages"
-              (setFieldValue)="onFieldValueChange($event)">
+              <app-field-component
+                [field]="field"
+                [formGroup]="formGroup"
+                [errors]="field.errorMessages"
+                (setFieldValue)="onFieldValueChange($event)">
               </app-field-component>
             }
           }
@@ -122,4 +119,7 @@
   }
 </mat-stepper>
 }
+
 <app-alert></app-alert>
+
+

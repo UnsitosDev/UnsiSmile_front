@@ -60,6 +60,7 @@ export class FormUpdatePatientComponent implements OnInit {
   private addressId: number = 0;
 
   isEditMode: boolean = false; // Variable para controlar el estado de edición
+  public isLoading: boolean = true; // Agregada la variable isLoading
   
   constructor(
     private route: ActivatedRoute,
@@ -70,14 +71,19 @@ export class FormUpdatePatientComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    await this.loadRequiredData();
-    this.route.params.subscribe(params => {
-      this.patientId = params['idPatient'];
-      if (this.patientId) {
-        this.initializeForm();
-        this.loadPatientData();
-      }
-    });
+    try {
+      await this.loadRequiredData();
+      this.route.params.subscribe(params => {
+        this.patientId = params['idPatient'];
+        if (this.patientId) {
+          this.initializeForm();
+          this.loadPatientData();
+        }
+      });
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }
   }
 
   private async loadRequiredData(): Promise<void> {

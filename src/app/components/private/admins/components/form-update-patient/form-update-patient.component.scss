@@ -55,3 +55,11 @@
 .btn i {
   margin-right: 8px;
 }
+
+.loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+}
