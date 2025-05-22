@@ -9,6 +9,7 @@ import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import { treatmentsListNotifications } from '../components/treatments-list-notifications.component';
 
 @Component({
   selector: 'app-review-treatment',
@@ -17,7 +18,7 @@ import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
   templateUrl: './review-treatment.component.html',
   styleUrl: './review-treatment.component.scss'
 })
-export class ReviewTreatmentComponent {
+export class ReviewTreatmentComponent extends treatmentsListNotifications {
   private readonly apiService = inject(ApiService);
   private readonly router = inject(Router);
   private readonly toastr = inject(ToastrService);
@@ -55,6 +56,7 @@ export class ReviewTreatmentComponent {
     }).subscribe({
       next: (response: PaginatedData<TreatmentDetailResponse>) => {
         this.treatments = response;
+        this.connectToTreatmentDetailsList(this.professorId);
       },
       error: (error) => {
         console.error(error);
@@ -80,5 +82,8 @@ export class ReviewTreatmentComponent {
     ]);
   }
 
+  protected override onTreatmentsNotification(): void {
+    this.fetchTreatments();
+  }
   
 }
