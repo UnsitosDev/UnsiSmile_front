@@ -87,12 +87,15 @@ export class TreatmentReportsComponent {
 
   // Procesa acciones CRUD
   public onAction(accion: Accion) {
-    
-    this.openDialogTreatments();
+    const idStudent = accion.fila.matricula;
+    this.openDialogTreatments(idStudent);
   }
 
-  openDialogTreatments(){
-    const dialogRef = this.dialog.open(DialogReportsTreatmentsComponent);
+  openDialogTreatments(idStudent: string){
+
+    const dialogRef = this.dialog.open(DialogReportsTreatmentsComponent, {
+      data: { idStudent },
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
