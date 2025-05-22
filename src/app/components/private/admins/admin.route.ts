@@ -58,7 +58,7 @@ export default [
                                 (m) => m.FormUpdatePatientComponent
                             ),
                     }
-                    
+
                 ]
             },
             {
@@ -217,6 +217,12 @@ export default [
                     import('./components/table-professor-clinical/table-professor-clinical.component').then(
                         (m) => m.TableProfessorClinicalComponent
                     ),
+            },
+            {
+              path: 'treatments',
+              loadComponent: () => import('./components/treatment-reports/treatment-reports.component').then(
+                (m) => m.TreatmentReportsComponent
+              )
             },
             {
                 path: '**',

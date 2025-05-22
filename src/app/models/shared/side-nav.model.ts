@@ -1,4 +1,23 @@
-import { faChartPie, IconDefinition, faHospitalUser, faHome, faFileUpload, faUserGraduate, faUserShield, faFileArchive, faFileArrowDown, faFileClipboard, faPeace, faShopLock, faTasks, faCheck, faClose, faUsers, faClinicMedical, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChartPie,
+  IconDefinition,
+  faHospitalUser,
+  faHome,
+  faFileUpload,
+  faUserGraduate,
+  faUserShield,
+  faFileArchive,
+  faFileArrowDown,
+  faFileClipboard,
+  faPeace,
+  faShopLock,
+  faTasks,
+  faCheck,
+  faClose,
+  faUsers,
+  faClinicMedical,
+  faPlus
+} from '@fortawesome/free-solid-svg-icons';
 
 // Nueva interfaz con children
 export interface MenuItem {
@@ -129,6 +148,12 @@ export const AdminItems: MenuItem[] = [
     buttonText: 'Carga de archivos',
     buttonDescription: 'Subir archivos',
     routerlink: '/admin/upload-files'
+  },
+  {
+    fontAwesomeIcon: faFileClipboard,
+    buttonText: 'Tratamientos',
+    buttonDescription: 'Reportes de tratamientos',
+    routerlink: '/admin/treatments',
   }
 ];
 

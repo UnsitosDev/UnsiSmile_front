@@ -26,14 +26,6 @@ export class DashboardAdminStatsComponent {
   stats!: AdminDashboard;
   loading = true;
 
-  nationalityIcons: { [key: string]: string } = {
-    Española: '🇪🇸',
-    Mexicana: '🇲🇽',
-    Canadiense: '🇨🇦',
-    Estadounidense: '🇺🇸',
-    Francesa: '🇫🇷',
-  };
-
   ngOnInit(): void {
     this.getStats();
   }
