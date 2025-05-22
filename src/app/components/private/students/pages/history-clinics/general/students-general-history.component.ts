@@ -8,28 +8,27 @@ import { Router } from '@angular/router';
 import { TabViewModule } from 'primeng/tabview';
 
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { CardPatientDataComponent } from "../../../components/card-patient-data/card-patient-data.component";
 import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
 
 import { ApiService, AuthService } from '@mean/services';
 
 // Modelos
 import { HttpHeaders } from '@angular/common/http';
+import { dataTabs } from '@mean/models';
+import { TokenData } from '@mean/public';
 import { ROLES, STATUS, UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
+import { mapClinicalHistoryToDataTabs } from '../../../adapters/clinical-history.adapters';
 import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
 import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
-import { TokenData } from '@mean/public';
-import { dataTabs } from '@mean/models';
-import { mapClinicalHistoryToDataTabs } from '../../../adapters/clinical-history.adapters';
 
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, CardPatientDataComponent, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, ProgressNotesComponent, HeaderHistoryClinicComponent],
+  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, ProgressNotesComponent, HeaderHistoryClinicComponent],
 })
 
 export class StudentsGeneralHistoryComponent implements OnInit {

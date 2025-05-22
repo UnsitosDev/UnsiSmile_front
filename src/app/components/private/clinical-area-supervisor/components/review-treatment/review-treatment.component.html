@@ -4,16 +4,15 @@
 
 <div class="p-4">
   <mat-list>
-    @for (item of treatments?.content; track $index) {
+    @for (treatment of treatments?.content; track $index) {
     <section class="item-container">
       <div class="content-wrapper">
         <mat-list-item class="list-content">
-          <span matListItemTitle>{{ item.patient.name }}</span>
-          <span matListItemTitle>{{ item.student.name }}</span>
-          <!-- <span matListItemSubtitle>{{item.treatment.}}</span> -->
-          {{ item.treatment.name }}
+          <span matListItemTitle>{{ treatment.patient.name }}</span>
+          <span matListItemTitle>{{ treatment.student.name }}</span>
+          {{ treatment.treatment.name }}
         </mat-list-item>
-        @switch (item.status) { @case (STATUS.IN_REVIEW) {
+        @switch (treatment.status) { @case (STATUS.IN_REVIEW) {
         <span class="in-review">En revisión</span>
         } @case (STATUS.APPROVED) {
         <span class="approved">Aprobado</span>
@@ -24,7 +23,7 @@
         } @case (STATUS.FINISHED) {
         <span class="finished">Finalizado</span>
         } }
-        <span class="view-badge cursor-pointer" (click)="rateTreatment(item)"> Calificar tratamiento </span>
+        <span class="view-badge cursor-pointer" (click)="rateTreatment(treatment)"> Calificar tratamiento </span>
       </div>
       <mat-divider></mat-divider>
     </section>

@@ -12,7 +12,7 @@ import { OdontogramData } from 'src/app/services/odontogram-data.service';
   providedIn: 'root'
 })
 export class OdontogramService {
-  private odontogram: IOdontogram = { teeth: [] };
+  private odontogram: IOdontogram = { teeth: [], observations: ""};
 
   constructor(private odontogramData: OdontogramData) {}
 

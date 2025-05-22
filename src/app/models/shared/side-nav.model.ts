@@ -118,9 +118,15 @@ export const AdminItems: MenuItem[] = [
             buttonText: 'Nuevo administrador',
             buttonDescription: 'Registrar administrador',
             routerlink: '/admin/admins/addAdmin'
-          }
+          },
         ]
-      }
+      },
+      {
+            fontAwesomeIcon: faUserShield,
+            buttonText: 'Encargados de area clínica ',
+            buttonDescription: 'Ver encargados de area',
+            routerlink: '/admin/clinical-area',
+      },
     ]
   },
   {
