@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-title>
     <div class="title-container">
-      <span><strong>Tratamientos</strong></span>
+      <span><strong>Descargar reportes PDF por tratamiento</strong></span>
       <mat-icon matListItemIcon (click)="closeDialog()" class="cursor-pointer">close</mat-icon>
     </div>
   </mat-card-title>
@@ -9,17 +9,23 @@
 
 <div class="custom-dialog-container">
   <mat-dialog-content class="mat-typography">
-    @for (treatment of treatments.content; track $index) {
-      <section (click)="getReportTreatment(treatment)" class="cursor-pointer">
-        <div>
-          <span><i class="fas fa-file-pdf"></i></span>
-          <br>
-          <span>{{ treatment.treatment.name }}</span>
-        </div>
-      </section>
-      <br>
-
-
+    <mat-form-field>
+      <mat-label>Selecciona tratamiento</mat-label>
+      <mat-select [(value)]="selectedIdTreatment">
+        @for (optionTreatment of treatmentData; track optionTreatment.idTreatment) {
+          <mat-option [value]="optionTreatment.idTreatment" (click)="fetchTreatmentStudent()">{{optionTreatment.name}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    @if (selectedIdTreatment !== 'none') {
+      @for (treatment of treatments?.content; track $index) {
+        <section (click)="getReportTreatment(treatment)" class="cursor-pointer flex justify-start">
+          <div class="flex flex-col items-center">
+            <img src="../../../../../../assets/svg/pdf.svg" class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12" alt="PDF icon"/>
+            <span class="text-center">{{ treatment.treatment.name }}</span>
+          </div>
+        </section>
+      }
     }
   </mat-dialog-content>
 </div>
