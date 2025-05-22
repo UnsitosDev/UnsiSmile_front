@@ -390,6 +390,7 @@ export class UriConstants {
 
   public static readonly GET_TREATMENT_DETAIL_REPORTS = basePath + '/treatment-details/reports'
   public static readonly GET_PATIENTS_FOR_REPORTS = basePath + '/treatment-details/students/report'
+  public static readonly GET_GENERATE_REPORT_TREATMENT = basePath + '/treatment-details/reports/students';
 
 }
 

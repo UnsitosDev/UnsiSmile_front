@@ -1,1 +1,5 @@
 <p>dialog-reports-treatments works!</p>
+@for (treatment of treatments.content; track $index) {
+  <span>{{treatment.treatment.name}}</span>
+  <button (click)="getReportTreatment(treatment)">descargar</button>
+}
