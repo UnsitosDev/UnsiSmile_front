@@ -67,7 +67,6 @@ export class StudentsPeriodonticsHistoryComponent {
   public role!: string;
   public currentSectionId: number | null = null;
   public currentStatus: string | null = null;
-  public idPatientClinicalHistory!: number;
   public viewCardTreatments: boolean = false;
 
   public isSupervisorWithTreatment: boolean = false;
@@ -100,39 +99,18 @@ export class StudentsPeriodonticsHistoryComponent {
 
   private processRoleBasedParams(params: Params): void {
     if (this.role !== ROLES.STUDENT) {
-      this.handleNonStudentParams(params);
     } else {
       this.handleStudentParams(params);
     }
   }
 
-  private handleNonStudentParams(params: Params): void {
-    // Asignación común para todos los roles excepto STUDENT
-    this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-    this.idPatientClinicalHistory =
-      Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
-
-    // Manejo específico para CLINICAL_AREA_SUPERVISOR
-    if (this.role === ROLES.CLINICAL_AREA_SUPERVISOR) {
-      this.idTreatmentDetail = params[ID_TREATMENT_DETAIL] || '';
-    }
-  }
 
   private handleStudentParams(params: Params): void {
     // Caso específico para STUDENT con tratamiento en params
     if (params[ID_TREATMENT_DETAIL]) {
-      this.handleStudentWithTreatmentParams(params);
     } else {
       this.handleStudentWithoutTreatmentParams();
     }
-  }
-
-  private handleStudentWithTreatmentParams(params: Params): void {
-    this.idTreatmentDetail = params[ID_TREATMENT_DETAIL];
-    this.idpatient = params[PATIENT_UUID_ROUTE] || '';
-    this.idPatientClinicalHistory =
-      Number(params[ID_PATIENT_MEDICAL_RECORD]) || 0;
-    this.viewCardTreatments = true;
   }
 
   private handleStudentWithoutTreatmentParams(): void {
@@ -250,7 +228,7 @@ export class StudentsPeriodonticsHistoryComponent {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.idPatientClinicalHistory}/${currentTab.idFormSection}`,
+        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.patientMedicalRecord}/${currentTab.idFormSection}`,
         data: {},
       })
       .subscribe({
