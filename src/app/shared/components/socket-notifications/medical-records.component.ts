@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy } from "@angular/core";
-import { MedicalRecordWsService } from "@mean/students";
+import { MedicalRecordWsService } from "@mean/services";
 import { Subscription } from "rxjs";
 
 @Component({

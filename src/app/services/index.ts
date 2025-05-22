@@ -7,3 +7,4 @@ export * from './odontogram-data.service';
 export * from './loading.service';
 export * from './web-socket.service';
 export * from './prophylaxis.service';
+export * from './medical-record-ws.service'
