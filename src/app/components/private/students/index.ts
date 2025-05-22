@@ -14,5 +14,7 @@ export * from './pages/history-clinics/oral-prosthesis/oral-prosthesis.component
 export * from './pages/history-clinics/oral-surgery/students-oral-surgery-history.component';
 export * from './pages/history-clinics/periodontics/students-periodontics-history.component';
 export * from './pages/history-clinics/preventive-dentistry-public-health/preventive-dentistry-public-health.component';
-export * from './components/form-update-patient/form-update-patient.component'
-
+export * from './components/form-update-patient/form-update-patient.component';
+export * from './components/socket-notifications/services/medical-record-ws.service';
+export * from './components/socket-notifications/services/treatments-notifications-ws.service';
+export * from './components/socket-notifications/components/treatments-notifications.component'

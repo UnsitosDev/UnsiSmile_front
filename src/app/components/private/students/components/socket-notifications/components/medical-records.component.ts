@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy } from "@angular/core";
-import { MedicalRecordWsService } from "@mean/services";
+import { MedicalRecordWsService } from "@mean/students";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -7,7 +7,7 @@ import { Subscription } from "rxjs";
   standalone: true
 })
 export abstract class MedicalRecordsNotifications implements OnDestroy {
-    private subscription?: Subscription;
+    private notificationSubscription?: Subscription;
     protected medicalRecordWsService = inject(MedicalRecordWsService)
 
     constructor() {}
@@ -19,7 +19,7 @@ export abstract class MedicalRecordsNotifications implements OnDestroy {
       medicalRecordId: string,
       patientId: string
     ): void {
-      this.subscription = this.medicalRecordWsService
+      this.notificationSubscription = this.medicalRecordWsService
         .listenToMedicalRecordUpdates(medicalRecordId, patientId)
         .subscribe({
           next: (message) => this.onMedicalRecordNotification(),
@@ -33,6 +33,6 @@ export abstract class MedicalRecordsNotifications implements OnDestroy {
     protected abstract onMedicalRecordNotification(): void;
   
     ngOnDestroy(): void {
-      this.subscription?.unsubscribe();
+      this.notificationSubscription?.unsubscribe();
     }
   }
