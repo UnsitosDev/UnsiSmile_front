@@ -1,18 +1,3 @@
-@if (role !== ROL.STUDENT) {
-    <mat-card appearance="outlined" class="custom">
-        <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
-    </mat-card>
-    <br>
-}
-
-@if (isSupervisorWithTreatment) {
-    <div class="rate-treatment flex justify-end mb-4">
-        <button mat-button (click)="opedDialogRateTreatment()">
-            Calificar Tratamiento
-        </button>
-    </div>
-}
-
 @if (mappedHistoryData) {
     <mat-card-title>
         <app-header-history-clinic 
