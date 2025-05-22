@@ -17,3 +17,7 @@ export * from './form-fields/form-utils';
 export * from './fluorosis/codigo-tooth.model';
 export * from './history-clinic/historyClinic'
 export * from './treatments/patientTreatments.model';
+export * from './shared/students'
+export * from './tabla/tabla-columna'
+export * from './shared/pagination/pagination';
+export * from '../models/dashboards/admin-dashboard';

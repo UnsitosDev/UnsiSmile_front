@@ -388,5 +388,9 @@ export class UriConstants {
   public static readonly POST_DEAN_INDEX = basePath + '/medical-records/fluorosis/dean-index'
   public static readonly GET_DEAN_INDEX = basePath + '/medical-records/fluorosis/dean-index/treatment'
 
+  public static readonly GET_TREATMENT_DETAIL_REPORTS = basePath + '/treatment-details/reports'
+  public static readonly GET_PATIENTS_FOR_REPORTS = basePath + '/treatment-details/students/report'
+  public static readonly GET_GENERATE_REPORT_TREATMENT = basePath + '/treatment-details/reports/students';
+
 }
 

@@ -1,73 +1,136 @@
 @if (loading) {
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-  @for (_ of [1,2,3,4,5]; track $index) {
-  <div class="animate-pulse bg-gray-200 rounded-lg h-32"></div>
-  }
-</div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for (_ of [1, 2, 3, 4, 5]; track $index) {
+      <div class="animate-pulse custom-item rounded-lg h-32"></div>
+    }
+  </div>
 } @else {
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-  <!-- Total Patients -->
-  <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
-    title="Total de pacientes"
-    [value]="stats.totalPatients || 0"
-    icon="fas fa-users"
-    cardType="numeric"
-    valueClass="text-blue-600 text-2xl font-bold"
-  >
-  </app-dashboard-card>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
+    <!-- Card de Usuarios -->
+    <app-dashboard-card
+      (click)="switchChart('users')"
+      [class.active]="activeChart === 'users'"
+      class="transform transition-all duration-300 hover:scale-105 cursor-pointer"
+      title="Usuarios"
+      icon="fas fa-users"
+      cardType="numeric">
+    </app-dashboard-card>
 
-  <!-- Patients by Nationality -->
-  <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
-    title="Pacientes por nacionalidad"
-    icon="fas fa-globe"
-    cardType="list"
-    [listItems]="getNationalities()"
-  >
-  </app-dashboard-card>
+    <!-- Card de Pacientes -->
+    <app-dashboard-card
+      (click)="switchChart('patients')"
+      [class.active]="activeChart === 'patients'"
+      class="transform transition-all duration-300 hover:scale-105 cursor-pointer"
+      title="Pacientes"
+      icon="fas fa-hospital-user"
+      cardType="list">
+    </app-dashboard-card>
 
-  <!-- Monthly Patients -->
-  <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
-    title="Pacientes en el último mes"
-    [value]="stats.patientsRegisteredLastMonth || 0"
-    icon="fas fa-calendar-alt"
-    cardType="numeric"
-    valueClass="text-blue-600 text-2xl font-bold"
-  >
-  </app-dashboard-card>
-</div>
+    <!-- Card de Tratamientos -->
+    <app-dashboard-card
+      (click)="switchChart('treatments')"
+      [class.active]="activeChart === 'treatments'"
+      class="transform transition-all duration-300 hover:scale-105 cursor-pointer"
+      title="Tratamientos"
+      icon="fas fa-notes-medical"
+      cardType="numeric">
+    </app-dashboard-card>
+  </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
-  <!-- Total Professors -->
-  <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
-    title="Total de profesores"
-    icon="fas fa-chalkboard-teacher"
-    cardType="numeric"
-    [value]="stats.totalProfessors || 0"
-    [colorBar]="'bg-blue-500'"
-  ></app-dashboard-card>
+  <div class="flex custom-bar">
+    <section class="p-4">
+      <div style="width: 600px; height: 400px;">
+        <canvas
+          baseChart
+          [type]="lineChartType"
+          [data]="currentChartData"
+          [options]="lineChartOptions">
+        </canvas>
+      </div>
+    </section>
 
-  <!-- Total Students -->
-  <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
-    title="Total de estudiantes"
-    icon="fas fa-user-graduate"
-    cardType="numeric"
-    [value]="stats.totalStudents || 0"
-    [colorBar]="'bg-green-500'"
-  ></app-dashboard-card>
+    @if (activeChart === 'users') {
+      <div class="p-4 flex-1 overflow-auto">
+        <div mat-subheader><p><strong>Usuarios</strong></p></div>
+        <mat-list role="list">
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Estudiantes:</span> {{ stats.totalStudents }}</mat-list-item>
+          <mat-divider></mat-divider>
 
-  <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
-    title="Total de pacientes con discapacidad"
-    icon="fas fa-wheelchair"
-    cardType="numeric"
-    [value]="stats.patientsWithDisability || 0"
-    [colorBar]="'bg-purple-500'"
-  ></app-dashboard-card>
-</div>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Profesores:</span> {{ stats.totalProfessors }}</mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Estudiantes registrados el ultimo mes:</span>
+             {{ stats.studentsRegisteredLastMonth }}
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+        </mat-list>
+      </div>
+    }
+
+    @if (activeChart === 'patients') {
+      <div class="p-4 flex-1 overflow-auto">
+        <div mat-subheader><p><strong>Pacientes</strong></p></div>
+        <mat-list role="list">
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes:</span> {{ stats.totalPatients }}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes con discapacidad:</span> {{ stats.patientsWithDisability }}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes registrados el ultimo mes:</span> {{ stats.patientsRegisteredLastMonth }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    }
+
+    @if (activeChart === 'treatments') {
+      <div class="p-4 flex-1 overflow-auto">
+        <div mat-subheader><p><strong>Tratamientos</strong></p></div>
+        <mat-list role="list">
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Resinas:</span> {{ stats.treatments.resins }}</mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Profilaxis:</span> {{ stats.treatments.prophylaxis }}</mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Fluorosis:</span> {{ stats.treatments.fluorosis }}</mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Selladores de fosetas y fisuras:</span>{{ stats.treatments.pitAndFissureSealers }}
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Extracciones:</span> {{ stats.treatments.extractions }}</mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Prótesis removible:</span> {{ stats.treatments.removableProsthesis }}</mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Prótesis removible (alternativo):</span> {{ stats.treatments.prosthesisRemovable }}
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Prostodoncia:</span> {{ stats.treatments.prosthodontics }}</mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Endodoncia (conductos radiculares)</span>: {{ stats.treatments.rootCanals }}
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Raspado y alisado:</span> {{ stats.treatments.scrapedAndSmoothed }}</mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Cerrado y abierto:</span> {{ stats.treatments.closedAndOpen }}</mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">uña distal:</span>C {{ stats.treatments.distalWedges }}</mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pulpotomía y corona:</span> {{ stats.treatments.pulpotomyAndCrowns }}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-divider></mat-divider>
+        </mat-list>
+      </div>
+    }
+  </div>
 
 }

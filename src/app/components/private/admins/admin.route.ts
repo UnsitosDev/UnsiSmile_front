@@ -226,6 +226,12 @@ export default [
                     ),
             },
             {
+              path: 'treatments',
+              loadComponent: () => import('./components/treatment-reports/treatment-reports.component').then(
+                (m) => m.TreatmentReportsComponent
+              )
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

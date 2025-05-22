@@ -27,3 +27,39 @@ export interface ProfessorDashboard {
     totalGroups: number;
     totalStudents: number;
 }
+
+
+export interface PatientsByNationality {
+  [nationality: string]: number;
+}
+
+export interface TreatmentsCatalog {
+  resins:               number;
+  prophylaxis:          number;
+  fluorosis:            number;
+  pitAndFissureSealers: number;
+  extractions:          number;
+  prosthesisRemovable:  number;
+  removableProsthesis:  number;
+  prosthodontics:       number;
+  rootCanals:           number;
+  scrapedAndSmoothed:   number;
+  closedAndOpen:        number;
+  distalWedges:         number;
+  pulpotomyAndCrowns:   number;
+  pulpectomyAndCrowns:  number;
+}
+
+export interface StatisticsResponse {
+  totalPatients:                number;
+  patientsWithDisability:       number;
+  patientsRegisteredLastMonth:  number;
+  patientsByNationality:        PatientsByNationality;
+  totalStudents:                number;
+  studentsRegisteredLastMonth:  number;
+  totalProfessors:              number;
+  treatments:                   TreatmentsCatalog;
+  rejectedTreatments:           number;
+  progressingTreatments:        number;
+  inReviewTreatments:           number;
+}
