@@ -6,17 +6,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '@mean/services';
 import { LoadingComponent } from '@mean/shared';
+import { REVIEW_TABLE_DATA, ReviewAsigneds } from '@mean/supervisors';
 import { UriConstants } from '@mean/utils';
-import { patientsTableDataProfessor } from 'src/app/models/shared/patients';
-import { Patient } from 'src/app/models/shared/patients/patient/patient';
-import { Accion, getEntityPropiedades } from 'src/app/models/tabla/tabla-columna';
+import { Accion } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { STATUS } from 'src/app/utils/statusToReview';
-import { DialogHistoryClinicsComponent } from '../../../students/components/dialog-history-clinics/dialog-history-clinics.component';
-import { REVIEW_TABLE_DATA, ReviewAsigneds } from '@mean/supervisors';
 
 @Component({
   selector: 'app-review-history-clinics',
@@ -37,7 +34,7 @@ export class ReviewMedicalRecordComponent implements OnInit {
   public selectedStatus!: string; 
   public statusControl = new FormControl(STATUS.IN_REVIEW); 
   public STATUS = STATUS;
-  public patientsList: patientsTableDataProfessor[] = [];
+  public patientsList = [];
   public title = '';
   public columns: string[] = [];
   public currentPage = 0;
@@ -46,6 +43,7 @@ export class ReviewMedicalRecordComponent implements OnInit {
   public totalElements = 0;
   public sortField = 'person.firstName';
   public sortAsc = true;
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   readonly sortableColumns = {
     curp: 'patient.person.curp',
@@ -58,16 +56,22 @@ export class ReviewMedicalRecordComponent implements OnInit {
 
   onAction(accion: Accion) {
     if (accion.accion === 'Editar') {
-      this.getListHc(accion.fila);
+      this.navigateToReview(accion.fila);
     }
   }
 
-  getListHc(objeto: any) {
-    this.dialog.open(DialogHistoryClinicsComponent, {
-      width: '650px',
-      data: { objeto },
-    });
+  navigateToReview(row: any): void {
+    this.router.navigate([
+      '/clinical-area-supervisor/review-section',
+      row.formSectionId,
+      'patient-medical-record',
+      row.Expediente,
+      'patient',
+      row.idPatient
+    ]);
   }
+  
+  
 
   getClinicalHistoriesToReview(): void {
     const status = this.statusControl.value;
@@ -97,6 +101,8 @@ export class ReviewMedicalRecordComponent implements OnInit {
                 CURP: reviewAsigned.patient.curp,
                 Expediente: reviewAsigned.patient.medicalRecordNumber, 
                 Estudiante: reviewAsigned.studentName,
+                formSectionId: reviewAsigned.idSection,
+
               };
             });
           } else {

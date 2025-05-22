@@ -18,10 +18,13 @@ export default [
             {
                 path: 'history-clinics',
                 loadComponent: () =>
-                    import('./components/review-medical-record/review-medical-record.component').then(
-                        (m) => m.ReviewMedicalRecordComponent
-                    ),
-            },
+                  import('./components/review-medical-record/review-medical-record.component').then(
+                    (m) => m.ReviewMedicalRecordComponent
+                  ),
+                children: [
+                  
+                ]
+              },
             {
                 path: 'general/:id/patient/:patient/medical-record-id/:patientID', // Ruta para historia clínica general
                 loadComponent: () =>
@@ -49,6 +52,13 @@ export default [
                     import('./components/review-treatment/presentation/review-treatment.component').then(
                         (m) => m.ReviewTreatmentComponent
                     ),
+            },
+            {
+                path: 'review-section/:formSectionId/patient-medical-record/:patientMedicalRecordId/patient/:patientId',
+                loadComponent: () =>
+                  import('./pages/rate-form-sections/rate-form-sections.component').then(
+                    (m) => m.RateFormSectionsComponent
+                  ),
             },
             {
                 path: '**',

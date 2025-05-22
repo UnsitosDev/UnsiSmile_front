@@ -65,7 +65,9 @@ interface FormData {
 export class TabFormComponent implements TabsHandler {
   @Input() fieldsTab!: formSectionFields;
   @Input() fieldsSubTab!: subSeccion;
-  @Input() patientMedicalRecord!: number; 
+  @Input({required: true}) patientMedicalRecord!: number; 
+  @Input({required: true}) patientUuid!: string;
+  @Input({required: true}) id!: number; // ID del paciente
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
   route = inject(ActivatedRoute);
@@ -78,21 +80,14 @@ export class TabFormComponent implements TabsHandler {
   private tokenData!: TokenData;
   role!: string;
   formGroup!: FormGroup;
-  id: number = 0; // Variable para el parámetro 'id'
-  patientID: number = 0; // Variable para el parámetro 'patientID'
   private toastr = inject(ToastrService);
-  patientUuid!: string;
+  
   sendFile!: boolean;
   disabledControl = false;
 
   ngOnInit(): void {
+    console.log('fieldsTab', this.fieldsTab);
     this.section();
-    this.route.paramMap.subscribe((params) => {
-      this.id = +params.get('id')!; // Id historia clinica
-      this.patientID = +params.get('patientID')!; // id paciente hc
-      this.patientUuid = params.get('patient')!; // uuid paciente
-      this.cdr.detectChanges(); // Fuerza la detección de cambios
-    });
     this.getRole();
   }
 
@@ -226,7 +221,7 @@ export class TabFormComponent implements TabsHandler {
       formData.append('files', this.files[i]);
     }
 
-    formData.append('idPatientClinicalHistory', this.patientID.toString());
+    formData.append('idPatientClinicalHistory', this.patientUuid);
     formData.append('idQuestion', this.idQuestion.toString());
 
     this.apiService
