@@ -10,11 +10,13 @@ import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { treatmentsListNotifications } from '../components/treatments-list-notifications.component';
+import {LoadingComponent} from "@mean/shared";
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
   selector: 'app-review-treatment',
   standalone: true,
-  imports: [MatListModule, MatCardModule],
+  imports: [MatListModule, MatCardModule, LoadingComponent, MatButtonModule],
   templateUrl: './review-treatment.component.html',
   styleUrl: './review-treatment.component.scss'
 })
@@ -85,5 +87,5 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
   protected override onTreatmentsNotification(): void {
     this.fetchTreatments();
   }
-  
+
 }
