@@ -2,6 +2,11 @@
     <mat-card-title><strong>Tratamientos - Consulta y administración</strong></mat-card-title>
 </mat-card>
 
+@if (!treatments || treatments.content.length === 0) {
+  <div class="flex justify-center p-6">
+    <span>No hay tratamientos registrados</span>
+  </div>
+}
 <div class="p-4">
   <mat-list>
       @for (treatment of treatments?.content; track $index) {
@@ -11,7 +16,7 @@
                   <span matListItemTitle>{{treatment.patient.name}}</span>
                   {{treatment.treatment.name}}
                 </mat-list-item>
-                
+
                 <!-- Estados del tratamiento -->
                 @switch (treatment.status) {
                   @case (STATUS.IN_REVIEW) {
@@ -43,7 +48,7 @@
 
 @if (!isLastPage) {
     <div class="text-center mt-3">
-        <button 
+        <button
           class="btn btn-primary"
           (click)="loadMoreTreatments()"
           [disabled]="isLoading">

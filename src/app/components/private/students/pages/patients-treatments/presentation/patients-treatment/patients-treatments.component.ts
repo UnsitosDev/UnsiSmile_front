@@ -29,7 +29,6 @@ export class PatientsTreatmentsComponent {
   public isLastPage = false;
   public currentPage = 0;
   public treatments: PaginatedData<TreatmentDetailResponse> | null = null;
-  public ptreatments: TreatmentDetailResponse[] = [];
   STATUS = STATUS_TREATMENTS;
 
   ngOnInit(): void {

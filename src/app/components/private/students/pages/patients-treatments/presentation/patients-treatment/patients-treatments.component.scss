@@ -2,7 +2,7 @@
     background-color: var(--tertiary);
     padding: 8px;
     border-radius: 2px;
-    color: var(--white-color);  
+    color: var(--white-color);
 }
 
 .content-wrapper {
@@ -74,4 +74,8 @@ button {
     @extend .badge-base-treatment-status;
     background: var(--secondary);
     color: var(--status-finished);
+}
+
+span{
+  color: var(--text);
 }
