@@ -24,7 +24,8 @@ export class FormUserComponent implements OnInit, AfterViewInit {
   private userService = inject(ApiService<any, {}>);
   private profileService = inject(ApiService<ProfileResponse, {}>);
   private route = inject(Router);
-  tabs = ['Descripción General', 'Editar Datos', 'Cambiar Contraseña'];
+  // Actualizamos la lista de pestañas para que sea más clara
+  tabs = ['Información General', 'Datos Personales', 'Seguridad'];
   activeTab = signal(0);
   nombre = signal('');
   email = signal('');
@@ -82,49 +83,28 @@ export class FormUserComponent implements OnInit, AfterViewInit {
     this.checkScrollableNavigation();
   }
 
-  scrollTabs(direction: 'left' | 'right') {
-    if (!this.tabsWrapper || !this.tabList) return;
-    const container = this.tabsWrapper.nativeElement as HTMLElement;
-    const scrollAmount = container.offsetWidth * 0.7;
-    if (direction === 'left') {
-      container.scrollLeft -= scrollAmount;
-    } else {
-      container.scrollLeft += scrollAmount;
+  getTabTitle(): string {
+    switch(this.activeTab()) {
+      case 0: return 'Información General';
+      case 1: return 'Datos Personales';
+      case 2: return 'Cambiar Contraseña';
+      default: return 'Perfil de Usuario';
     }
-    setTimeout(() => this.checkScrollableNavigation(), 200);
+  }
+
+  // Ya no necesitamos estos métodos relacionados con el scroll horizontal
+  scrollTabs(direction: 'left' | 'right') {
+    // Método simplificado, lo mantenemos para evitar errores
   }
 
   checkScrollableNavigation() {
-    if (!this.tabsWrapper || !this.tabList) return;
-    const container = this.tabsWrapper.nativeElement as HTMLElement;
-    const content = this.tabList.nativeElement as HTMLElement;
-    const hasScroll = content.scrollWidth > container.offsetWidth;
-    this.isScrollLeftEnd = container.scrollLeft <= 0 || !hasScroll;
-    this.isScrollRightEnd = container.scrollLeft + container.offsetWidth >= content.scrollWidth || !hasScroll;
+    // Método simplificado, lo mantenemos para evitar errores
   }
 
   setActiveTab(index: number) {
     this.activeTab.set(index);
-    setTimeout(() => {
-      if (!this.tabsWrapper || !this.tabList) return;
-      const container = this.tabsWrapper.nativeElement as HTMLElement;
-      const tabs = this.tabList.nativeElement.querySelectorAll('li');
-      if (tabs && tabs[index]) {
-        const tab = tabs[index] as HTMLElement;
-        const tabPosition = tab.offsetLeft;
-        const tabWidth = tab.offsetWidth;
-        const scrollLeft = container.scrollLeft;
-        const containerWidth = container.offsetWidth;
-        if (tabPosition < scrollLeft) {
-          container.scrollLeft = tabPosition;
-        } else if (tabPosition + tabWidth > scrollLeft + containerWidth) {
-          container.scrollLeft = tabPosition + tabWidth - containerWidth;
-        }
-        this.checkScrollableNavigation();
-      }
-    }, 100);
   }
-
+  
   actualizarDatosUsuario() {
     // Crear el payload con los datos de la sección de edición
     const payload = {
