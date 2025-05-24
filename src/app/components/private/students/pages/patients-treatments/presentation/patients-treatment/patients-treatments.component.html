@@ -1,5 +1,5 @@
 <mat-card class="full-width-card">
-    <mat-card-title><strong>Tratamientos - Consulta y administración</strong></mat-card-title>
+  <mat-card-title><strong>Tratamientos - Consulta y administración</strong></mat-card-title>
 </mat-card>
 
 @if (!treatments || treatments.content.length === 0) {
@@ -9,67 +9,82 @@
 }
 <div class="p-4">
   <mat-list>
-      @for (treatment of treatments?.content; track $index) {
-          <section>
-              <div>
-                <mat-list-item>
-                  <span matListItemTitle>{{treatment.patient.name}}</span>
-                  {{treatment.treatment.name}}
-                </mat-list-item>
+    @for (treatment of treatments?.content; track $index) {
+      <section class="w-full">
+        <div class="flex items-center justify-between w-full">
+          <div class="flex-1 min-w-0 pr-4">
+            <mat-list-item>
+              <span matListItemTitle>{{ treatment.patient.name }}</span>
+              <span>{{ treatment.treatment.name }}</span>
+            </mat-list-item>
+          </div>
 
-                <!-- Estados del tratamiento -->
-                @switch (treatment.status) {
-                  @case (STATUS.IN_REVIEW) {
-                    <button mat-stroked-button class="mr-1" disabled>
-                      <span class="in-review"> <i class="far fa-clock mr-1"></i>En revisión</span>
-                    </button>
-                  }
-                  @case (STATUS.APPROVED) {
-                    <button mat-stroked-button class="mr-1" disabled>
-                      <span class="approved"><i class="fas fa-check-circle mr-1"></i>Aprobado</span>
-                    </button>
-                  }
-                  @case (STATUS.REJECTED) {
-                    <button mat-stroked-button class="mr-1" disabled><span class="rejected"><i
-                      class="fas fa-times-circle mr-1"></i>Rechazado</span></button>
-                  }
-                  @case (STATUS.IN_PROGRESS) {
-                    <button mat-stroked-button class="mr-1" disabled>
-                      <span class="in-progress"><i class="fas fa-solid fa-spinner mr-1"></i>En progreso</span>
-                    </button>
-                  }
-                  @case (STATUS.FINISHED) {
-                    <button mat-stroked-button class="mr-1" disabled>
-                      <span class="finished"> <i class="fas fa-user-check mr-1"></i>Finalizado</span>
-                    </button>
-                  }
-                }
-
-                <button mat-stroked-button matTooltip="Ver tratamiento">
-                  <span (click)="navigateToTreatmentDetails(treatment)"><i
-                    class="fas fa-eye cursor-pointer mr-1"></i>
-                  Ver tratamiento
-                </span>
+          <div class="flex-shrink-0 flex items-center space-x-2">
+            @switch (treatment.status) {
+              @case (STATUS.IN_REVIEW) {
+                <button mat-stroked-button class="whitespace-nowrap" disabled> 
+                  <span class="in-review flex items-center">
+              <i class="far fa-clock mr-1"></i>En revisión
+            </span>
                 </button>
-              </div>
-              <mat-divider></mat-divider>
-            </section>
-      }
+              }
+              @case (STATUS.APPROVED) {
+                <button mat-stroked-button class="whitespace-nowrap" disabled>
+            <span class="approved flex items-center">
+              <i class="fas fa-check-circle mr-1"></i>Aprobado
+            </span>
+                </button>
+              }
+              @case (STATUS.REJECTED) {
+                <button mat-stroked-button class="whitespace-nowrap" disabled>
+            <span class="rejected flex items-center">
+              <i class="fas fa-times-circle mr-1"></i>Rechazado
+            </span>
+                </button>
+              }
+              @case (STATUS.IN_PROGRESS) {
+                <button mat-stroked-button class="whitespace-nowrap" disabled>
+            <span class="in-progress flex items-center">
+              <i class="fas fa-solid fa-spinner mr-1"></i>En progreso
+            </span>
+                </button>
+              }
+              @case (STATUS.FINISHED) {
+                <button mat-stroked-button class="whitespace-nowrap" disabled>
+            <span class="finished flex items-center">
+              <i class="fas fa-user-check mr-1"></i>Finalizado
+            </span>
+                </button>
+              }
+            }
+
+            <!-- Botón Ver tratamiento -->
+            <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap">
+        <span class="flex items-center" (click)="navigateToTreatmentDetails(treatment)">
+          <i class="fas fa-eye cursor-pointer mr-1"></i>
+          Ver tratamiento
+        </span>
+            </button>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </section>
+    }
   </mat-list>
 </div>
 
 @if (!isLastPage) {
-    <div class="text-center mt-3">
-        <button
-          class="btn btn-primary"
-          (click)="loadMoreTreatments()"
-          [disabled]="isLoading">
-          @if (!isLoading) {
-            <span>Cargar más tratamientos</span>
+  <div class="text-center mt-3">
+    <button
+      class="btn btn-primary"
+      (click)="loadMoreTreatments()"
+      [disabled]="isLoading">
+      @if (!isLoading) {
+        <span>Cargar más tratamientos</span>
 
-          }
-        </button>
-    </div>
+      }
+    </button>
+  </div>
 }
 
 <app-loading/>
