@@ -1,24 +1,24 @@
 .mat-mdc-card-title {
-    background-color: var(--tertiary);
-    padding: 8px;
-    border-radius: 2px;
-    color: var(--white-color);
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: var(--white-color);
 }
 
 .in-review {
   color: var(--status-in-review);
   margin-right: 6px;
-  i{
+
+  i {
     color: var(--status-in-review);
   }
 }
 
-
-
 .approved {
   color: var(--status-approved);
   margin-right: 6px;
-  i{
+
+  i {
     color: var(--status-approved);
   }
 }
@@ -26,7 +26,8 @@
 .rejected {
   color: var(--status-rejected);
   margin-right: 6px;
-  i{
+
+  i {
     color: var(--status-rejected);
   }
 }
@@ -34,7 +35,8 @@
 .in-progress {
   color: var(--status-in-progress);
   margin-right: 6px;
-  i{
+
+  i {
     color: var(--status-in-progress);
   }
 }
@@ -42,11 +44,12 @@
 .finished {
   color: var(--status-finished);
   margin-right: 6px;
-  i{
+
+  i {
     color: var(--status-finished);
   }
 }
 
-span{
+span {
   color: var(--text);
 }
