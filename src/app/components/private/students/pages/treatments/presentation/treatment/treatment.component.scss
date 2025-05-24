@@ -39,18 +39,6 @@
   min-width: 0;
 }
 
-.view-badge {
-  background: var(--on-primary);
-  color: var(--subtext);
-  padding: 4px 8px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 12px;
-  white-space: nowrap;
-  margin-left: 8px;
-  flex-shrink: 0;
-}
-
 mat-list-item {
   overflow: hidden;
 }
@@ -61,79 +49,28 @@ mat-list-item span {
   text-overflow: ellipsis;
 }
 
-.treatment {
-  background: #c4c4c4;
-  color: var(--text);
-  border-radius: 6px;
-  cursor: pointer;
-  white-space: nowrap;
-  margin-left: 8px;
-  flex-shrink: 0;
-}
-
-.status-badge {
-  background: var(--on-primary);
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  white-space: nowrap;
-  margin-left: 8px;
-  margin-right: 6px;
-  flex-shrink: 0;
-}
-
-.badge-base-treatment-status {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 12px;
-  font-size: 12px;
-  white-space: nowrap;
-  margin-left: 8px;
-  padding: 0 8px;
-  line-height: 1.2;
-  height: 24px;
-  box-sizing: border-box;
-  font-weight: 500;
-}
-
 .in-review {
-  @extend .status-badge;
   color: var(--status-in-review);
-}
-
-.in-review-treatment {
-  @extend .badge-base-treatment-status;
-  background: var(--secondary);
-  color: var(--status-in-review);
+  margin-right: 6px;
+  i{
+    color: var(--status-in-review);
+  }
 }
 
 .approved {
-  @extend .status-badge;
   color: var(--status-approved);
-}
-
-.view-treatment {
-  @extend .status-badge;
-  background-color: var(--view-treatment);
-  color: var(--tertiary);
-}
-
-.approved-treatment {
-  @extend .badge-base-treatment-status;
-  background: var(--secondary);
-  color: var(--status-approved);
-
+  margin-right: 6px;
+  i{
+    color: var(--status-approved);
+  }
 }
 
 .rejected {
-  @extend .status-badge;
   color: var(--status-rejected);
-}
-
-.rejected-treatment {
-  @extend .badge-base-treatment-status;
-  background: var(--secondary);
-  color: var(--status-rejected);
+  margin-right: 6px;
+  i{
+    color: var(--status-rejected);
+  }
 }
 
 .in-progress {
@@ -144,25 +81,12 @@ mat-list-item span {
   }
 }
 
-.in-progress-treatment {
-  @extend .badge-base-treatment-status;
-  background: var(--secondary);
-  color: var(--status-in-progress);
-}
-
 .finished {
-  @extend .status-badge;
   color: var(--status-finished);
-}
-
-.finished-treatment {
-  @extend .badge-base-treatment-status;
-  background: var(--secondary);
-  color: var(--status-finished);
-}
-
-.update-treatment {
-  color: var(--tertiary);
+  margin-right: 6px;
+  i{
+    color: var(--status-finished);
+  }
 }
 
 i {
