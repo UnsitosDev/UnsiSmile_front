@@ -92,14 +92,14 @@
           </section>
         }
       </mat-list>
+
       @if (!isPatientLastPage && treatmentsPatient?.content?.length) {
         <div class="text-center mt-3">
-          <button
-            class="btn btn-primary"
-            (click)="loadMorePatientTreatments()"
-            [disabled]="isPatientLoading">
+          <button mat-stroked-button
+                  (click)="loadMorePatientTreatments()"
+                  [disabled]="isPatientLoading">
             @if (!isPatientLoading) {
-              <span>Cargar más tratamientos</span>
+              <span> <i class="fas fa-chevron-down"></i> Cargar más tratamientos</span>
             }
           </button>
         </div>
