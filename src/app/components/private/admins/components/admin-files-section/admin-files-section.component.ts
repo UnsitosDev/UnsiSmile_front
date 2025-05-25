@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
@@ -20,6 +20,8 @@ import { FileData } from '@mean/models';
 })
 
 export class AdminFilesSectionComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
   private toastr = inject(ToastrService);
   private apiService = inject(ApiService);
   private router = inject(Router);
@@ -83,6 +85,10 @@ export class AdminFilesSectionComponent implements OnInit {
         next: (response) => {
           this.getAllFormats();
           this.toastr.success(Messages.SUCCESS_FILE);
+          
+          // Limpiar el input y la lista de archivos
+          this.fileInput.nativeElement.value = '';
+          this.files = [];
         },
         error: (error) => {
           this.toastr.error(error);
