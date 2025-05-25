@@ -27,9 +27,8 @@ import {
   FormUpdatePatientComponent,
   StudentsGeneralHistoryComponent,
 } from '@mean/students';
-import { UriConstants } from '@mean/utils';
+import {STATUS_TREATMENTS, UriConstants} from '@mean/utils';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
-import { STATUS_TREATMENTS } from 'src/app/utils/statusToReview';
 import {MatTooltip} from "@angular/material/tooltip";
 export interface TreatmentParams {
   idTreatmentDetail: number;

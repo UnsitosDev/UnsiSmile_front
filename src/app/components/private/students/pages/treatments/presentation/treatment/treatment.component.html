@@ -40,48 +40,53 @@
       </div>
       <mat-list>
         @for (treatmentDetail of treatmentsPatient?.content; track treatmentDetail.idTreatmentDetail) {
-          <section class="item-container">
-            <div class="content-wrapper">
-              <mat-list-item class="list-content">
+          <section>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between w-full mb-1 gap-2 sm:gap-0">
+              <mat-list-item>
                 <span matListItemTitle><strong>Tratamiento:</strong> {{ treatmentDetail.treatment.name }}</span>
                 {{ treatmentDetail.treatment.clinicalHistoryCatalogName }}
                 <span matListItemLine><strong>Duración:</strong> {{ formatArrayDate(treatmentDetail.startDate) }}
                   - {{ formatArrayDate(treatmentDetail.endDate) }}</span>
               </mat-list-item>
-              @switch (treatmentDetail.status) {
-                @case (STATUS.IN_REVIEW) {
-                  <button mat-stroked-button class="mr-1" disabled>
-                    <span class="in-review"> <i class="far fa-clock mr-1"></i>En revisión</span>
-                  </button>
+              <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4">
+                @switch (treatmentDetail.status) {
+                  @case (STATUS.IN_REVIEW) {
+                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                      <span class="flex items-center in-review"><i class="far fa-clock mr-1"></i>En revisión</span>
+                    </button>
+                  }
+                  @case (STATUS.APPROVED) {
+                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                      <span class="flex items-center approved"><i class="fas fa-check-circle mr-1"></i>Aprobado</span>
+                    </button>
+                  }
+                  @case (STATUS.REJECTED) {
+                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                      <span class="flex items-center rejected"><i class="fas fa-times-circle mr-1"></i>Rechazado</span>
+                    </button>
+                  }
+                  @case (STATUS.IN_PROGRESS) {
+                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                      <span class="flex items-center in-progress"><i class="fas fa-solid fa-spinner mr-1"></i>En progreso</span>
+                    </button>
+                    <button mat-stroked-button class="whitespace-nowrap" matTooltip="Actualizar fecha de tratamiento"
+                            (click)="openUpdateTreatmentDialog(treatmentDetail)">
+                      <span class="flex items-center"><i class="fas fa-edit mr-1"></i>Actualizar</span>
+                    </button>
+                  }
+                  @case (STATUS.FINISHED) {
+                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                      <span class="flex items-center finished"><i class="fas fa-user-check mr-1"></i>Finalizado</span>
+                    </button>
+                  }
                 }
-                @case (STATUS.APPROVED) {
-                  <button mat-stroked-button class="mr-1" disabled>
-                    <span class="approved"><i class="fas fa-check-circle mr-1"></i>Aprobado</span>
-                  </button>
-                }
-                @case (STATUS.REJECTED) {
-                  <button mat-stroked-button class="mr-1" disabled><span class="rejected"><i
-                    class="fas fa-times-circle mr-1"></i>Rechazado</span></button>
-                }
-                @case (STATUS.IN_PROGRESS) {
-                  <button mat-stroked-button class="mr-1" disabled>
-                    <span class="in-progress"><i class="fas fa-solid fa-spinner mr-1"></i>En progreso</span>
-                  </button>
-                  <button mat-stroked-button matTooltip="Actualizar fecha de tratamiento" class="mr-1"
-                          (click)="openUpdateTreatmentDialog(treatmentDetail)"><i
-                    class="fas fa-edit cursor-pointer mr-1"></i>Actualizar
-                  </button>
-                }
-                @case (STATUS.FINISHED) {
-                  <button mat-stroked-button class="mr-1" disabled>
-                    <span class="finished"> <i class="fas fa-user-check mr-1"></i>Finalizado</span>
-                  </button>
-                }
-              }
-              <button mat-stroked-button matTooltip="Ver tratamiento"
-                      (click)="navigateToTreatmentDetails(treatmentDetail)"><i
-                class="fas fa-eye cursor-pointer mr-1"></i> Ver tratamiento
-              </button>
+
+                <!-- Botón Ver tratamiento ahora dentro del mismo contenedor flex -->
+                <button mat-stroked-button class="whitespace-nowrap" matTooltip="Ver tratamiento"
+                        (click)="navigateToTreatmentDetails(treatmentDetail)">
+                  <span class="flex items-center"><i class="fas fa-eye mr-1"></i>Ver tratamiento</span>
+                </button>
+              </div>
             </div>
             <mat-divider></mat-divider>
           </section>
