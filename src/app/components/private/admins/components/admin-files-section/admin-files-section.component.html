@@ -25,14 +25,14 @@
     <div class="all-files">
       <mat-card-title><strong>Archivos</strong></mat-card-title>
       <mat-list>
-        @for (item of filesData; track $index) {
+        @for (file of filesData; track $index) {
           <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 sm:mr-2 mb-1">
             <mat-list-item class="file-item w-full sm:w-auto">
               <mat-icon matListItemIcon><i class="fas fa-file-alt"></i></mat-icon>
-              <div (click)="onFileClick(item)" matListItemTitle>{{ item.fileName }}</div>
+              <div (click)="onFileClick(file)" matListItemTitle>{{ file.fileName }}</div>
             </mat-list-item>
 
-            <button mat-stroked-button class="whitespace-nowrap sm:ml-4 self-start sm:self-auto">
+            <button mat-stroked-button class="whitespace-nowrap sm:ml-4 self-start sm:self-auto truncate max-w-full" (click)="dialogDeleteFile(file.idFile)">
               <i class="fas fa-trash trash-button mr-1"></i>
               <span class="trash-button">Eliminar archivo</span>
             </button>

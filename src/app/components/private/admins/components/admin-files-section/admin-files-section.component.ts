@@ -1,15 +1,23 @@
-import { HttpHeaders } from '@angular/common/http';
+import {HttpHeaders} from '@angular/common/http';
 import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { Router } from '@angular/router';
-import { ApiService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
-import { ToastrService } from 'ngx-toastr';
-import { Messages } from 'src/app/utils/messageConfirmLeave';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { FileData } from '@mean/models';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {Router} from '@angular/router';
+import {ApiService} from '@mean/services';
+import {UriConstants} from '@mean/utils';
+import {ToastrService} from 'ngx-toastr';
+import {Messages} from 'src/app/utils/messageConfirmLeave';
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+import {FileData} from '@mean/models';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-admin-files-section',
@@ -21,7 +29,7 @@ import { FileData } from '@mean/models';
 
 export class AdminFilesSectionComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
-
+  private dialog = inject(MatDialog);
   private toastr = inject(ToastrService);
   private apiService = inject(ApiService);
   private router = inject(Router);
@@ -47,6 +55,7 @@ export class AdminFilesSectionComponent implements OnInit {
           this.filesData = response;
         },
         error: (error) => {
+          this.filesData = [];
           error.status === 404
             ? this.toastr.warning(Messages.NO_FILES_YET)
             : this.toastr.error();
@@ -96,6 +105,21 @@ export class AdminFilesSectionComponent implements OnInit {
       });
   }
 
+  dialogDeleteFile(idFile: string) {
+    const dialogRef = this.dialog.open(DialogDeleteFileComponent, {
+      width: '300px',
+      data: {idFile},
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result === true) {
+        this.getAllFormats();
+      } else {
+        console.log('El archivo no fue eliminado o el diálogo fue cancelado.');
+      }
+    });
+  }
+
   onFileClick(file: any) {
     this.apiService
       .getService({
@@ -108,7 +132,7 @@ export class AdminFilesSectionComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          const blob = new Blob([response], { type: response.type || 'application/octet-stream' });
+          const blob = new Blob([response], {type: response.type || 'application/octet-stream'});
 
           const link = document.createElement('a');
           const url = window.URL.createObjectURL(blob);
@@ -126,3 +150,45 @@ export class AdminFilesSectionComponent implements OnInit {
       });
   }
 }
+
+@Component({
+  selector: 'dialog-delete-file',
+  templateUrl: 'dialog-delete-file.html',
+  styleUrl: './admin-files-section.component.scss',
+  standalone: true,
+  imports: [MatButtonModule, MatDialogActions, MatDialogTitle, MatDialogContent],
+})
+export class DialogDeleteFileComponent {
+  readonly dialogRef = inject(MatDialogRef<DialogDeleteFileComponent>);
+  readonly data = inject(MAT_DIALOG_DATA);
+  private readonly apiService = inject(ApiService);
+  private readonly toastr = inject(ToastrService);
+  isLoading = false;
+
+  deleteFile() {
+    this.isLoading = true;
+
+    this.apiService.deleteService({
+      headers: new HttpHeaders({}),
+      url: `${UriConstants.DELETE_FILE_GENERAL}/${this.data.idFile}`,
+      data: {},
+    }).subscribe({
+      next: () => {
+        this.toastr.success('Se eliminó el archivo');
+        this.dialogRef.close(true);
+      },
+      error: (error) => {
+        this.toastr.error(error.message);
+        this.dialogRef.close(false);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+  cancel() {
+    this.dialogRef.close(false);
+  }
+}
+
