@@ -114,8 +114,6 @@ export class AdminFilesSectionComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result === true) {
         this.getAllFormats();
-      } else {
-        console.log('El archivo no fue eliminado o el diálogo fue cancelado.');
       }
     });
   }
