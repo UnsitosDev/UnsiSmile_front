@@ -3,7 +3,8 @@
   <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
 </mat-card>
 
-<mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="onTabSelected($event)">
+<mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start"
+               (selectedTabChange)="onTabSelected($event)">
   <!-- Tab 1: Datos personales -->
   <mat-tab>
     <ng-template mat-tab-label>
@@ -20,71 +21,91 @@
         <i class="fas fa-folder"></i>
         <span class="ml-2">Historia clínica general</span>
       </ng-template>
-        <app-students-general-history [patientUuid]="patientUuid"></app-students-general-history>
+      <app-students-general-history [patientUuid]="patientUuid"></app-students-general-history>
     </mat-tab>
   }
 
   <!-- Tab 3: Tratamientos -->
-   @if (!viewTreatment ) {
+  @if (!viewTreatment) {
     <mat-tab>
       <ng-template mat-tab-label>
         <i class="fas fa-file"></i>
         <span class="ml-2">Tratamientos</span>
       </ng-template>
-        <div class="p-4">
-          <div class="flex justify-end">
-            <button mat-button class="button-custom !text-white" (click)="openDialogNewTreatment()">Crear tratamiento</button>
-          </div>
+      <div class="p-4">
+        <div class="flex justify-end">
+          <button mat-button class="button-custom !text-white" (click)="openDialogNewTreatment()">Crear tratamiento
+          </button>
         </div>
-        <mat-list>
-          @for (treatmentDetail of treatmentsPatient?.content; track treatmentDetail.idTreatmentDetail) {
-          <section class="item-container">
-            <div class="content-wrapper">
-              <mat-list-item class="list-content">
-                <span matListItemTitle><strong>Tratamiento:</strong> {{treatmentDetail.treatment.name}}</span>
-                {{treatmentDetail.treatment.clinicalHistoryCatalogName}}
-                <span matListItemLine><strong>Duración:</strong> {{ formatArrayDate(treatmentDetail.startDate) }} - {{ formatArrayDate(treatmentDetail.endDate) }}</span>
+      </div>
+      <mat-list>
+        @for (treatmentDetail of treatmentsPatient?.content; track treatmentDetail.idTreatmentDetail) {
+          <section>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between w-full mb-1 gap-2 sm:gap-0">
+              <mat-list-item>
+                <span matListItemTitle><strong>Tratamiento:</strong> {{ treatmentDetail.treatment.name }}</span>
+                {{ treatmentDetail.treatment.clinicalHistoryCatalogName }}
+                <span matListItemLine><strong>Duración:</strong> {{ formatArrayDate(treatmentDetail.startDate) }}
+                  - {{ formatArrayDate(treatmentDetail.endDate) }}</span>
               </mat-list-item>
+              <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4">
                 @switch (treatmentDetail.status) {
                   @case (STATUS.IN_REVIEW) {
-                  <span class="in-review">En revisión</span>
+                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                      <span class="flex items-center in-review"><i class="far fa-clock mr-1"></i>En revisión</span>
+                    </button>
                   }
                   @case (STATUS.APPROVED) {
-                  <span class="approved">Aprobado</span>
+                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                      <span class="flex items-center approved"><i class="fas fa-check-circle mr-1"></i>Aprobado</span>
+                    </button>
                   }
                   @case (STATUS.REJECTED) {
-                  <span class="rejected">Rechazado</span>
+                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                      <span class="flex items-center rejected"><i class="fas fa-times-circle mr-1"></i>Rechazado</span>
+                    </button>
                   }
                   @case (STATUS.IN_PROGRESS) {
-                  <span (click)="openUpdateTreatmentDialog(treatmentDetail)"><i class="fas fa-edit cursor-pointer update-treatment"></i></span>
-                  <span class="in-progress">En progreso</span>
+                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                      <span class="flex items-center in-progress"><i class="fas fa-solid fa-spinner mr-1"></i>En progreso</span>
+                    </button>
+                    <button mat-stroked-button class="whitespace-nowrap" matTooltip="Actualizar fecha de tratamiento"
+                            (click)="openUpdateTreatmentDialog(treatmentDetail)">
+                      <span class="flex items-center"><i class="fas fa-edit mr-1"></i>Actualizar</span>
+                    </button>
                   }
                   @case (STATUS.FINISHED) {
-                  <span class="finished">Finalizado</span>
+                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                      <span class="flex items-center finished"><i class="fas fa-user-check mr-1"></i>Finalizado</span>
+                    </button>
                   }
                 }
-              <span class="view-treatment cursor-pointer" (click)="navigateToTreatmentDetails(treatmentDetail)">
-                Ver tratamiento
-              </span>
+
+                <!-- Botón Ver tratamiento ahora dentro del mismo contenedor flex -->
+                <button mat-stroked-button class="whitespace-nowrap" matTooltip="Ver tratamiento"
+                        (click)="navigateToTreatmentDetails(treatmentDetail)">
+                  <span class="flex items-center"><i class="fas fa-eye mr-1"></i>Ver tratamiento</span>
+                </button>
+              </div>
             </div>
             <mat-divider></mat-divider>
           </section>
-          }
-        </mat-list>
-        @if (!isPatientLastPage && treatmentsPatient?.content?.length) {
-          <div class="text-center mt-3">
-            <button 
-              class="btn btn-primary"
-              (click)="loadMorePatientTreatments()"
-              [disabled]="isPatientLoading">
-              @if (!isPatientLoading) {
-                <span>Cargar más tratamientos</span>
-              }
-            </button>
-          </div>
         }
+      </mat-list>
+
+      @if (!isPatientLastPage && treatmentsPatient?.content?.length) {
+        <div class="text-center mt-3">
+          <button mat-stroked-button
+                  (click)="loadMorePatientTreatments()"
+                  [disabled]="isPatientLoading">
+            @if (!isPatientLoading) {
+              <span> <i class="fas fa-chevron-down"></i> Cargar más tratamientos</span>
+            }
+          </button>
+        </div>
+      }
     </mat-tab>
-   }
+  }
 
 </mat-tab-group>
 

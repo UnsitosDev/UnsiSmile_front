@@ -34,7 +34,7 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --on-tertiary: #5995fd;
   --on-hover: #2b6cb0;
   --background-color: #f0f0f0;
-  
+
   // Colores login
   --input-icon-color: #acacac;
   --input-text-color: #333;
@@ -52,7 +52,7 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   --hover-close: rgba(255, 255, 255, 0.1);
   --subtext:#274CA2;
-  
+
   //spinner
   --spinner-color: #5995fd;
 
@@ -81,13 +81,13 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --on-primary: #0C151C; // Fondo del contenido principal
   --secondary: #151d26;
   --on-secondary: #FFFFFF;
-  --on-secondary-rgb: 255, 255, 255; 
+  --on-secondary-rgb: 255, 255, 255;
   --tertiary: #274CA2; // Botones
   --background: #0C151C; // Fondo más oscuro para el tema oscuro
   --on-background: #E5E7EB; // Texto claro sobre fondo oscuro
   --on-tertiary: #5995fd;
   --on-hover: #0A0B2B;
-  
+
   // Colores login
   --input-icon-color: #acacac;
   --input-text-color: #f5f5f5;
@@ -108,7 +108,7 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
 
   //spinner
   --spinner-color: #274CA2;
-  
+
  //background
   --primary-icon: #eaeaea;
 
@@ -132,19 +132,19 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
 }
 
 :root {
-    // Botones para profilaxis 
-  --green-color: #16a34a; 
-  --red-color: #dc2626;   
+    // Botones para profilaxis
+  --green-color: #16a34a;
+  --red-color: #dc2626;
   --white-color: #ffffff;
 
   // Colores para estados de tratamientos
-  --status-in-review: #f59e0b; 
+  --status-in-review: #df910c;
   --status-approved: #10b981;
   --status-approved-backgroud: #1bf3ab;
-  --status-rejected: #ef4444; 
+  --status-rejected: #ef4444;
   --status-in-progress: #3b82f6;
-  --view-treatment: #ddeaff; 
-  --status-finished: #6b7280; 
+  --view-treatment: #ddeaff;
+  --status-finished: #1baf7f;
 
   // color fluorosis
   --fluorosis: #3b82f6;
