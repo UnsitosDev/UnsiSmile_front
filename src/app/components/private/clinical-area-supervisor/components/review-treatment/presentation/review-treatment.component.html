@@ -73,18 +73,19 @@
     }
   </mat-list>
 </div>
-<!--@if (!isLastPage) {-->
-<!--  <div class="text-center mt-3">-->
-<!--    <button mat-stroked-button-->
-<!--            (click)="loadMoreTreatments()"-->
-<!--            [disabled]="isLoading">-->
-<!--      @if (!isLoading) {-->
-<!--        <span> <i class="fas fa-chevron-down"></i> Cargar más tratamientos</span>-->
 
-<!--      }-->
-<!--    </button>-->
-<!--  </div>-->
-<!--}-->
+@if (!isLastPage) {
+  <div class="text-center mt-3">
+    <button mat-stroked-button
+            (click)="loadMoreTreatments()"
+            [disabled]="isLoading">
+      @if (!isLoading) {
+        <span> <i class="fas fa-chevron-down"></i> Cargar más tratamientos</span>
+
+      }
+    </button>
+  </div>
+}
 
 <app-loading/>
 

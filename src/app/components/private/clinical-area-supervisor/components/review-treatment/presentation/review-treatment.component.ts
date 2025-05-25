@@ -1,15 +1,15 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
-import { Router } from '@angular/router';
-import { TreatmentDetailResponse } from '@mean/models';
-import { ApiService, AuthService } from '@mean/services';
-import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
-import { ToastrService } from 'ngx-toastr';
-import { TokenData } from 'src/app/components/public/login/model/tokenData';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
-import { treatmentsListNotifications } from '../components/treatments-list-notifications.component';
+import {HttpHeaders} from '@angular/common/http';
+import {Component, inject} from '@angular/core';
+import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
+import {Router} from '@angular/router';
+import {TreatmentDetailResponse} from '@mean/models';
+import {ApiService, AuthService} from '@mean/services';
+import {STATUS_TREATMENTS, UriConstants} from '@mean/utils';
+import {ToastrService} from 'ngx-toastr';
+import {TokenData} from 'src/app/components/public/login/model/tokenData';
+import {PaginatedData} from 'src/app/models/shared/pagination/pagination';
+import {treatmentsListNotifications} from '../components/treatments-list-notifications.component';
 import {LoadingComponent} from "@mean/shared";
 import {MatButtonModule} from "@angular/material/button";
 
@@ -37,6 +37,9 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
   private patientUuid!: string;
   private clinicalHistoryCatalogId!: number;
 
+  public currentPage: number = 0;
+  public isLastPage: boolean = false;
+  public isLoading: boolean = false;
   ngOnInit() {
     this.getRole();
     this.fetchTreatments();
@@ -48,23 +51,62 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
     this.professorId = this.tokenData.sub;
   }
 
-  fetchTreatments() {
+  fetchTreatments(
+    page: number = 0,
+    resetPagination: boolean = false
+  ): void {
+    if (resetPagination) {
+      this.currentPage = 0;
+      this.treatments = null;
+      this.isLastPage = false;
+    }
+
+    this.isLoading = true;
+
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.GET_TREATMENT_REVIEW}/${this.professorId}`,
+      url: `${UriConstants.GET_TREATMENT_REVIEW}/${this.professorId}?page=${page}&size=10`,
       data: {},
     }).subscribe({
       next: (response: PaginatedData<TreatmentDetailResponse>) => {
-        this.treatments = response;
+        this.handleResponse(response, page);
         this.connectToTreatmentDetailsList(this.professorId);
       },
       error: (error) => {
         console.error(error);
         this.toastr.error(error.message);
+        this.isLoading = false;
       }
     });
+  }
+
+  private handleResponse(
+    response: PaginatedData<TreatmentDetailResponse>,
+    page: number
+  ): void {
+    if (!this.treatments || page === 0) {
+      this.treatments = response;
+    } else {
+      this.treatments.content = [
+        ...this.treatments.content,
+        ...response.content,
+      ];
+      this.treatments.pageable = response.pageable;
+      this.treatments.last = response.last;
+      this.treatments.totalPages = response.totalPages;
+    }
+
+    this.isLastPage = response.last;
+    this.currentPage = page;
+    this.isLoading = false;
+  }
+
+  public loadMoreTreatments(): void {
+    if (!this.isLoading && !this.isLastPage) {
+      this.fetchTreatments(this.currentPage + 1);
+    }
   }
 
   rateTreatment(treatment: TreatmentDetailResponse): void {
