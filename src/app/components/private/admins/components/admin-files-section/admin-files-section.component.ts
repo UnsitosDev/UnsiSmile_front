@@ -1,15 +1,7 @@
-import {HttpHeaders} from '@angular/common/http';
-import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {Router} from '@angular/router';
-import {ApiService} from '@mean/services';
-import {UriConstants} from '@mean/utils';
-import {ToastrService} from 'ngx-toastr';
-import {Messages} from 'src/app/utils/messageConfirmLeave';
-import {MatListModule} from '@angular/material/list';
-import {MatIconModule} from '@angular/material/icon';
-import {FileData} from '@mean/models';
+import { HttpHeaders } from '@angular/common/http';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -18,6 +10,14 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { Router } from '@angular/router';
+import { FileData } from '@mean/models';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
 
 @Component({
   selector: 'app-admin-files-section',
@@ -108,7 +108,7 @@ export class AdminFilesSectionComponent implements OnInit {
   dialogDeleteFile(idFile: string) {
     const dialogRef = this.dialog.open(DialogDeleteFileComponent, {
       width: '300px',
-      data: {idFile},
+      data: { idFile },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -132,7 +132,7 @@ export class AdminFilesSectionComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          const blob = new Blob([response], {type: response.type || 'application/octet-stream'});
+          const blob = new Blob([response], { type: response.type || 'application/octet-stream' });
 
           const link = document.createElement('a');
           const url = window.URL.createObjectURL(blob);
