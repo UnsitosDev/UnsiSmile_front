@@ -55,6 +55,10 @@ export class FormUserComponent implements OnInit, AfterViewInit {
 
   @ViewChild('tabList') tabList!: ElementRef;
   @ViewChild('tabsWrapper') tabsWrapper!: ElementRef;
+  @ViewChild('tabButton') tabButton!: ElementRef;
+  
+  canScrollLeft = signal(false);
+  canScrollRight = signal(false);
 
   isScrollLeftEnd = true;
   isScrollRightEnd = false;
@@ -75,14 +79,66 @@ export class FormUserComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => this.checkScrollableNavigation(), 300);
+    setTimeout(() => this.checkScrollable(), 300);
   }
 
   @HostListener('window:resize')
   onResize() {
-    this.checkScrollableNavigation();
+    this.checkScrollable();
+    // Asegurarse de que la pestaña activa sea visible después de redimensionar
+    setTimeout(() => this.scrollToActiveTab(), 100);
   }
-
+  
+  // Nuevo método para comprobar si se puede hacer scroll
+  checkScrollable() {
+    if (this.tabsWrapper) {
+      const wrapper = this.tabsWrapper.nativeElement;
+      this.canScrollLeft.set(wrapper.scrollLeft > 0);
+      this.canScrollRight.set(wrapper.scrollLeft < wrapper.scrollWidth - wrapper.clientWidth);
+    }
+  }
+  
+  // Método mejorado para manejar el scroll
+  scrollTabs(direction: 'left' | 'right') {
+    if (!this.tabsWrapper) return;
+    
+    const wrapper = this.tabsWrapper.nativeElement;
+    const scrollAmount = wrapper.clientWidth / 2;
+    
+    if (direction === 'left') {
+      wrapper.scrollLeft -= scrollAmount;
+    } else {
+      wrapper.scrollLeft += scrollAmount;
+    }
+    
+    // Verificar después del scroll si todavía se puede seguir desplazando
+    setTimeout(() => this.checkScrollable(), 100);
+  }
+  
+  // Método para hacer scroll a la pestaña activa
+  scrollToActiveTab() {
+    if (!this.tabsWrapper) return;
+    
+    const wrapper = this.tabsWrapper.nativeElement;
+    const buttons = wrapper.querySelectorAll('.tab-button');
+    
+    if (buttons && buttons[this.activeTab()]) {
+      const activeButton = buttons[this.activeTab()];
+      const buttonLeft = activeButton.offsetLeft;
+      const buttonWidth = activeButton.offsetWidth;
+      const wrapperWidth = wrapper.offsetWidth;
+      const scrollLeft = wrapper.scrollLeft;
+      
+      // Si el botón activo está fuera del área visible
+      if (buttonLeft < scrollLeft || buttonLeft + buttonWidth > scrollLeft + wrapperWidth) {
+        // Centra el botón activo en el wrapper
+        wrapper.scrollLeft = buttonLeft - (wrapperWidth / 2) + (buttonWidth / 2);
+      }
+    }
+    
+    this.checkScrollable();
+  }
+  
   getTabTitle(): string {
     switch(this.activeTab()) {
       case 0: return 'Información General';
@@ -92,17 +148,10 @@ export class FormUserComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // Ya no necesitamos estos métodos relacionados con el scroll horizontal
-  scrollTabs(direction: 'left' | 'right') {
-    // Método simplificado, lo mantenemos para evitar errores
-  }
-
-  checkScrollableNavigation() {
-    // Método simplificado, lo mantenemos para evitar errores
-  }
-
   setActiveTab(index: number) {
     this.activeTab.set(index);
+    // Hacer visible la pestaña activa
+    setTimeout(() => this.scrollToActiveTab(), 100);
   }
   
   actualizarDatosUsuario() {

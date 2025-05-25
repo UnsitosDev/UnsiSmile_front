@@ -192,15 +192,17 @@
 // Estilos para el contenedor de título y pestañas similar al header
 .title-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 2rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--outline);
   
   strong {
     font-size: 1.3rem;
     color: var(--text);
+    margin-bottom: 0.5rem;
   }
 
   @media (max-width: 768px) {
@@ -223,35 +225,40 @@
   }
 }
 
+// Mejoras en el contenedor de pestañas para utilizar todo el espacio disponible
 .tabs-container {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 1rem;
+}
 
-  @media (max-width: 768px) {
-    gap: 0.4rem;
-  }
+.tabs-wrapper {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-width: calc(100% - 64px);
+  margin: 0 auto;
+  padding: 0.25rem 0;
+  width: 100%; // Asegura que ocupe todo el ancho disponible
+}
 
-  @media (max-width: 576px) {
-    width: 100%;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
-    justify-content: flex-start;
-    
-    &::-webkit-scrollbar {
-      height: 4px;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--outline);
-      border-radius: 4px;
-    }
-  }
+.tabs-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .tab-button {
+  flex: 1;
+  text-align: center;
   background-color: transparent;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
+  margin: 0 0.5rem; // Añadir margen horizontal para separación
   cursor: pointer;
   border-radius: 0.25rem;
   font-weight: 500;
@@ -271,13 +278,74 @@
   }
 
   @media (max-width: 768px) {
-    padding: 0.4rem 0.8rem;
+    padding: 0.6rem 1rem;
     font-size: 0.95rem;
+    margin: 0 0.25rem;
   }
 
   @media (max-width: 576px) {
-    padding: 0.4rem 0.75rem;
+    padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
+    margin: 0 0.15rem;
+  }
+}
+
+// Estilos mejorados para las flechas de navegación
+.tab-arrow {
+  background: var(--tertiary);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  color: var(--border);
+  cursor: pointer;
+  z-index: 2;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.tab-arrow.left {
+  margin-right: 4px;
+}
+
+.tab-arrow.right {
+  margin-left: 4px;
+}
+
+// Ajustes responsivos para el título y pestañas
+@media (max-width: 576px) {
+  .title-container {
+    flex-direction: column;
+    align-items: center;
+    
+    strong {
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
+  }
+  
+  .tabs-container {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  
+  .tabs-wrapper {
+    max-width: calc(100% - 64px);
   }
 }
 

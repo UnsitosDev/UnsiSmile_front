@@ -28,11 +28,15 @@
       <div class="title-container">
         <span><strong>{{ getTabTitle() }}</strong></span>
         <div class="tabs-container">
-          @for (tab of tabs; track tab; let i = $index) {
-            <button class="tab-button" [class.active]="i === activeTab()" (click)="setActiveTab(i)">
-              {{ tab }}
-            </button>
-          }
+          <button class="tab-arrow left" (click)="scrollTabs('left')" type="button" [disabled]="!canScrollLeft()">&lt;</button>
+          <div class="tabs-wrapper" #tabsWrapper>
+            @for (tab of tabs; track tab; let i = $index) {
+              <button class="tab-button" [class.active]="i === activeTab()" (click)="setActiveTab(i)" #tabButton>
+                {{ tab }}
+              </button>
+            }
+          </div>
+          <button class="tab-arrow right" (click)="scrollTabs('right')" type="button" [disabled]="!canScrollRight()">&gt;</button>
         </div>
       </div>
   
