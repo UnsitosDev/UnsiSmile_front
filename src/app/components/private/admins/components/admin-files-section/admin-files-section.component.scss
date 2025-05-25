@@ -9,10 +9,10 @@
     text-align: center;
     background-color: var(--on-primary);
     color: var(--on-secondary);
-    padding-top: 20px; 
-    padding-bottom: 20px; 
-    margin-top: 10px; 
-    margin-bottom: 10px; 
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .all-files {
@@ -33,14 +33,14 @@
 }
 
 .file-item:hover {
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .no-files {
     text-align: center;
     padding: 50px;
     background-color: var(--on-primary);
-    color: var(--on-secondary);     
+    color: var(--on-secondary);
 }
 
 .no-files-content {
@@ -57,4 +57,8 @@
 
 .no-files p {
     margin: 8px 0;
+}
+
+.trash-button{
+  color: var(--delete-color);
 }

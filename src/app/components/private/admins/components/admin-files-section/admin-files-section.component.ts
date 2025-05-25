@@ -85,7 +85,7 @@ export class AdminFilesSectionComponent implements OnInit {
         next: (response) => {
           this.getAllFormats();
           this.toastr.success(Messages.SUCCESS_FILE);
-          
+
           // Limpiar el input y la lista de archivos
           this.fileInput.nativeElement.value = '';
           this.files = [];
