@@ -21,7 +21,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MenuAssessMedicalHistoryComponent {
   @Input() idClinicalHistoryPatient!: number;
-  @Input() selectedIndex: number | null = null;
   @Input() status: string | null = null;
   @Input() idReviewStatus: number | null = null;
 
@@ -29,13 +28,12 @@ export class MenuAssessMedicalHistoryComponent {
 
   data!: {
     idClinicalHistoryPatient: number;
-    selectedIndex: number | null;
     status: string | null;
     idReviewStatus: number | null;
   };
 
   openDialog(): void {
-    this.data = { idClinicalHistoryPatient: this.idClinicalHistoryPatient, selectedIndex: this.selectedIndex, status: this.status, idReviewStatus: this.idReviewStatus };
+    this.data = { idClinicalHistoryPatient: this.idClinicalHistoryPatient, status: this.status, idReviewStatus: this.idReviewStatus };
     const dialogRef = this.dialog.open(DialogSendReview, { data: this.data });
     dialogRef.afterClosed().subscribe(result => { });
   }

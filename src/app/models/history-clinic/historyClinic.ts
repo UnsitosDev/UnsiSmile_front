@@ -18,7 +18,7 @@ export interface ClinicalHistoryCatalog {
 }
 
 export interface FormSection {
-    idFormSection: number;
+    idFormSection: string;
     formName: string;
     isAnswered: boolean;
     subSections: SubSection[]; // Array de SubSection

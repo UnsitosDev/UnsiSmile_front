@@ -26,7 +26,7 @@ export interface formSectionFields {
     seccion: FormField[] | null;
     component?: string;
     isAnswered?: boolean;
-    idFormSection: number;
+    idFormSection: string;
     status: string;
     idReviewStatus: number;
     message: string;

@@ -28,7 +28,7 @@ import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dia
 export class ProfilaxisComponent implements OnInit {
   @Input({ required: true }) idPatient!: string;
   @Input({ required: true }) idPatientClinicalHistory!: number;
-  @Input({ required: true }) idFormSection!: number;
+  @Input({ required: true }) idFormSection!: string;
 
   @Output() nextMatTab = new EventEmitter<void>();                // Evento para tab siguiente
 
