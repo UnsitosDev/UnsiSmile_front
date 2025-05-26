@@ -30,7 +30,7 @@ import { ToastrService } from "ngx-toastr";
 export class FluorosisComponent {
   @Input({ required: true }) patientUuid!: string;
   @Input({ required: true }) idPatientClinicalHistory!: number;
-  @Input({ required: true }) idFormSection!: number | null;
+  @Input({ required: true }) idFormSection!: string | null;
 
   @Output() nextMatTab = new EventEmitter<void>();                  // Emite evento para avanzar a la siguiente pestaña
   @Output() previousMatTab = new EventEmitter<void>();              // Emite evento para retroceder a la pestaña anterior

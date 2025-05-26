@@ -51,7 +51,7 @@ export class OralProsthesisComponent {
   public currentIndex: number = 0;
   public mappedHistoryData!: dataTabs;
   public role!: string;
-  public currentSectionId: number | null = null;
+  public currentSectionId: string | null = null;
   public currentStatus: string | null = null;
   public viewCardTreatments: boolean = false;
   public isLoading: boolean = true;

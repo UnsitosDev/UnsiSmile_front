@@ -19,7 +19,7 @@ import { DialogConfirmSendToReviewComponent } from '../dialog-confirm-send-to-re
 export class HeaderHistoryClinicComponent {
   @Input({ required: true }) mappedHistoryData!: dataTabs;
   @Input({ required: true }) idPatientClinicalHistory!: number;
-  @Input({ required: true }) currentSectionId!: number | null;
+  @Input({ required: true }) currentSectionId!: string | null;
   @Input({ required: true }) currentStatus!: string | null;
   @Input({ required: true }) currentIndex!: number;
   @Input({ required: true }) role!: string;
