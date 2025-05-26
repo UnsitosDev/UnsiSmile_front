@@ -139,17 +139,25 @@ $on-primary-color: #FFFFFF; // Texto en blanco sobre el color primario
   --delete-color: #fa5e55;
 
   // Colores para estados de tratamientos
-  --status-in-review: #f59e0b;
+  --status-in-review: #df910c;
   --status-approved: #10b981;
   --status-approved-backgroud: #1bf3ab;
   --status-rejected: #ef4444;
   --status-in-progress: #3b82f6;
   --view-treatment: #ddeaff;
-  --status-finished: #6b7280;
+  --status-finished: #1baf7f;
 
   // color fluorosis
   --fluorosis: #3b82f6;
   --prophylaxis: #FF69B4;
+
+  // Variables para inputs similares a login
+  --input-color: #f5f5f5;
+  --input-color-disabled: #cecdcd;
+  --input-text-color: #333333;
+  --input-placeholder-color: #a0aec0;
+  --input-icon-color: #07437a;
+  --toggle-password-icon-color: #718096;
 
   @include light-theme;
   --primary-rgb: 59, 130, 246; // Color primario en RGB para transparencias

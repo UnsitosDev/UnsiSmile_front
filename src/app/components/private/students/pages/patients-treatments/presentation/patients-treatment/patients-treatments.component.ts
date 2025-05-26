@@ -1,19 +1,21 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
-import { Router } from '@angular/router';
-import { TreatmentDetailResponse } from '@mean/models';
-import { ApiService, AuthService } from '@mean/services';
-import { LoadingComponent } from '@mean/shared';
-import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
-import { TokenData } from 'src/app/components/public/login/model/tokenData';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import {HttpHeaders} from '@angular/common/http';
+import {Component, inject} from '@angular/core';
+import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
+import {Router} from '@angular/router';
+import {TreatmentDetailResponse} from '@mean/models';
+import {ApiService, AuthService} from '@mean/services';
+import {LoadingComponent} from '@mean/shared';
+import {STATUS_TREATMENTS, UriConstants} from '@mean/utils';
+import {TokenData} from 'src/app/components/public/login/model/tokenData';
+import {PaginatedData} from 'src/app/models/shared/pagination/pagination';
+import {MatButtonModule} from "@angular/material/button";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-patients-treatments',
   standalone: true,
-  imports: [MatCardModule, MatListModule, LoadingComponent],
+  imports: [MatCardModule, MatListModule, LoadingComponent, MatButtonModule, MatTooltip],
   templateUrl: './patients-treatments.component.html',
   styleUrl: './patients-treatments.component.scss',
 })
@@ -29,7 +31,6 @@ export class PatientsTreatmentsComponent {
   public isLastPage = false;
   public currentPage = 0;
   public treatments: PaginatedData<TreatmentDetailResponse> | null = null;
-  public ptreatments: TreatmentDetailResponse[] = [];
   STATUS = STATUS_TREATMENTS;
 
   ngOnInit(): void {

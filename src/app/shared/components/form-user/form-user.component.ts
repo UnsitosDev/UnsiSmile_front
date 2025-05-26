@@ -24,7 +24,8 @@ export class FormUserComponent implements OnInit, AfterViewInit {
   private userService = inject(ApiService<any, {}>);
   private profileService = inject(ApiService<ProfileResponse, {}>);
   private route = inject(Router);
-  tabs = ['Descripción General', 'Editar Datos', 'Cambiar Contraseña'];
+  // Actualizamos la lista de pestañas para que sea más clara
+  tabs = ['Información General', 'Datos Personales', 'Seguridad'];
   activeTab = signal(0);
   nombre = signal('');
   email = signal('');
@@ -54,6 +55,10 @@ export class FormUserComponent implements OnInit, AfterViewInit {
 
   @ViewChild('tabList') tabList!: ElementRef;
   @ViewChild('tabsWrapper') tabsWrapper!: ElementRef;
+  @ViewChild('tabButton') tabButton!: ElementRef;
+  
+  canScrollLeft = signal(false);
+  canScrollRight = signal(false);
 
   isScrollLeftEnd = true;
   isScrollRightEnd = false;
@@ -74,57 +79,81 @@ export class FormUserComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => this.checkScrollableNavigation(), 300);
+    setTimeout(() => this.checkScrollable(), 300);
   }
 
   @HostListener('window:resize')
   onResize() {
-    this.checkScrollableNavigation();
+    this.checkScrollable();
+    // Asegurarse de que la pestaña activa sea visible después de redimensionar
+    setTimeout(() => this.scrollToActiveTab(), 100);
   }
-
-  scrollTabs(direction: 'left' | 'right') {
-    if (!this.tabsWrapper || !this.tabList) return;
-    const container = this.tabsWrapper.nativeElement as HTMLElement;
-    const scrollAmount = container.offsetWidth * 0.7;
-    if (direction === 'left') {
-      container.scrollLeft -= scrollAmount;
-    } else {
-      container.scrollLeft += scrollAmount;
+  
+  // Nuevo método para comprobar si se puede hacer scroll
+  checkScrollable() {
+    if (this.tabsWrapper) {
+      const wrapper = this.tabsWrapper.nativeElement;
+      this.canScrollLeft.set(wrapper.scrollLeft > 0);
+      this.canScrollRight.set(wrapper.scrollLeft < wrapper.scrollWidth - wrapper.clientWidth);
     }
-    setTimeout(() => this.checkScrollableNavigation(), 200);
   }
-
-  checkScrollableNavigation() {
-    if (!this.tabsWrapper || !this.tabList) return;
-    const container = this.tabsWrapper.nativeElement as HTMLElement;
-    const content = this.tabList.nativeElement as HTMLElement;
-    const hasScroll = content.scrollWidth > container.offsetWidth;
-    this.isScrollLeftEnd = container.scrollLeft <= 0 || !hasScroll;
-    this.isScrollRightEnd = container.scrollLeft + container.offsetWidth >= content.scrollWidth || !hasScroll;
+  
+  // Método mejorado para manejar el scroll
+  scrollTabs(direction: 'left' | 'right') {
+    if (!this.tabsWrapper) return;
+    
+    const wrapper = this.tabsWrapper.nativeElement;
+    const scrollAmount = wrapper.clientWidth / 2;
+    
+    if (direction === 'left') {
+      wrapper.scrollLeft -= scrollAmount;
+    } else {
+      wrapper.scrollLeft += scrollAmount;
+    }
+    
+    // Verificar después del scroll si todavía se puede seguir desplazando
+    setTimeout(() => this.checkScrollable(), 100);
+  }
+  
+  // Método para hacer scroll a la pestaña activa
+  scrollToActiveTab() {
+    if (!this.tabsWrapper) return;
+    
+    const wrapper = this.tabsWrapper.nativeElement;
+    const buttons = wrapper.querySelectorAll('.tab-button');
+    
+    if (buttons && buttons[this.activeTab()]) {
+      const activeButton = buttons[this.activeTab()];
+      const buttonLeft = activeButton.offsetLeft;
+      const buttonWidth = activeButton.offsetWidth;
+      const wrapperWidth = wrapper.offsetWidth;
+      const scrollLeft = wrapper.scrollLeft;
+      
+      // Si el botón activo está fuera del área visible
+      if (buttonLeft < scrollLeft || buttonLeft + buttonWidth > scrollLeft + wrapperWidth) {
+        // Centra el botón activo en el wrapper
+        wrapper.scrollLeft = buttonLeft - (wrapperWidth / 2) + (buttonWidth / 2);
+      }
+    }
+    
+    this.checkScrollable();
+  }
+  
+  getTabTitle(): string {
+    switch(this.activeTab()) {
+      case 0: return 'Información General';
+      case 1: return 'Datos Personales';
+      case 2: return 'Cambiar Contraseña';
+      default: return 'Perfil de Usuario';
+    }
   }
 
   setActiveTab(index: number) {
     this.activeTab.set(index);
-    setTimeout(() => {
-      if (!this.tabsWrapper || !this.tabList) return;
-      const container = this.tabsWrapper.nativeElement as HTMLElement;
-      const tabs = this.tabList.nativeElement.querySelectorAll('li');
-      if (tabs && tabs[index]) {
-        const tab = tabs[index] as HTMLElement;
-        const tabPosition = tab.offsetLeft;
-        const tabWidth = tab.offsetWidth;
-        const scrollLeft = container.scrollLeft;
-        const containerWidth = container.offsetWidth;
-        if (tabPosition < scrollLeft) {
-          container.scrollLeft = tabPosition;
-        } else if (tabPosition + tabWidth > scrollLeft + containerWidth) {
-          container.scrollLeft = tabPosition + tabWidth - containerWidth;
-        }
-        this.checkScrollableNavigation();
-      }
-    }, 100);
+    // Hacer visible la pestaña activa
+    setTimeout(() => this.scrollToActiveTab(), 100);
   }
-
+  
   actualizarDatosUsuario() {
     // Crear el payload con los datos de la sección de edición
     const payload = {
