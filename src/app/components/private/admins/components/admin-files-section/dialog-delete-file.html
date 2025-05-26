@@ -1,0 +1,10 @@
+<div class="dialog-custom">
+  <h2 mat-dialog-title>Eliminar archivo</h2>
+  <mat-dialog-content>
+    Este archivo dejara de estar disponible para los alumnos
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" style="gap: 8px">
+    <button mat-stroked-button (click)="cancel()" [disabled]="isLoading">Cancelar</button>
+    <button mat-button class="delete-button" (click)="deleteFile()" [disabled]="isLoading">Eliminar</button>
+  </mat-dialog-actions>
+</div>

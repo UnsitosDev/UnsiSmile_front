@@ -1,15 +1,23 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
+import { FileData } from '@mean/models';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { FileData } from '@mean/models';
 
 @Component({
   selector: 'app-admin-files-section',
@@ -20,6 +28,8 @@ import { FileData } from '@mean/models';
 })
 
 export class AdminFilesSectionComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef;
+  private dialog = inject(MatDialog);
   private toastr = inject(ToastrService);
   private apiService = inject(ApiService);
   private router = inject(Router);
@@ -45,6 +55,7 @@ export class AdminFilesSectionComponent implements OnInit {
           this.filesData = response;
         },
         error: (error) => {
+          this.filesData = [];
           error.status === 404
             ? this.toastr.warning(Messages.NO_FILES_YET)
             : this.toastr.error();
@@ -83,11 +94,28 @@ export class AdminFilesSectionComponent implements OnInit {
         next: (response) => {
           this.getAllFormats();
           this.toastr.success(Messages.SUCCESS_FILE);
+
+          // Limpiar el input y la lista de archivos
+          this.fileInput.nativeElement.value = '';
+          this.files = [];
         },
         error: (error) => {
           this.toastr.error(error);
         },
       });
+  }
+
+  dialogDeleteFile(idFile: string) {
+    const dialogRef = this.dialog.open(DialogDeleteFileComponent, {
+      width: '300px',
+      data: { idFile },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result === true) {
+        this.getAllFormats();
+      }
+    });
   }
 
   onFileClick(file: any) {
@@ -120,3 +148,45 @@ export class AdminFilesSectionComponent implements OnInit {
       });
   }
 }
+
+@Component({
+  selector: 'dialog-delete-file',
+  templateUrl: 'dialog-delete-file.html',
+  styleUrl: './admin-files-section.component.scss',
+  standalone: true,
+  imports: [MatButtonModule, MatDialogActions, MatDialogTitle, MatDialogContent],
+})
+export class DialogDeleteFileComponent {
+  readonly dialogRef = inject(MatDialogRef<DialogDeleteFileComponent>);
+  readonly data = inject(MAT_DIALOG_DATA);
+  private readonly apiService = inject(ApiService);
+  private readonly toastr = inject(ToastrService);
+  isLoading = false;
+
+  deleteFile() {
+    this.isLoading = true;
+
+    this.apiService.deleteService({
+      headers: new HttpHeaders({}),
+      url: `${UriConstants.DELETE_FILE_GENERAL}/${this.data.idFile}`,
+      data: {},
+    }).subscribe({
+      next: () => {
+        this.toastr.success('Se eliminó el archivo');
+        this.dialogRef.close(true);
+      },
+      error: (error) => {
+        this.toastr.error(error.message);
+        this.dialogRef.close(false);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+  cancel() {
+    this.dialogRef.close(false);
+  }
+}
+
