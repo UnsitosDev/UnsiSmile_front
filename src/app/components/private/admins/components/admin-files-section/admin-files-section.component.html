@@ -32,9 +32,9 @@
               <div (click)="onFileClick(file)" matListItemTitle>{{ file.fileName }}</div>
             </mat-list-item>
 
-            <button mat-stroked-button class="whitespace-nowrap sm:ml-4 self-start sm:self-auto truncate max-w-full" (click)="dialogDeleteFile(file.idFile)">
+            <button mat-stroked-button class="trash-button whitespace-nowrap sm:ml-4 self-start sm:self-auto truncate max-w-full" (click)="dialogDeleteFile(file.idFile)">
               <i class="fas fa-trash trash-button mr-1"></i>
-              <span class="trash-button">Eliminar archivo</span>
+              <span>Eliminar archivo</span>
             </button>
           </div>
           <mat-divider></mat-divider>

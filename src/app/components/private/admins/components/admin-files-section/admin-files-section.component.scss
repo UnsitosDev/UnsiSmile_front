@@ -61,6 +61,16 @@
 
 .trash-button{
   color: var(--delete-color);
+  span{
+    color: var(--delete-color);
+  }
+}
+
+.trash-button:hover {
+    background-color: var(--red-color);
+    span, i{
+        color: var(--white-color);
+    }
 }
 
 .dialog-custom{
@@ -69,4 +79,9 @@
 
 .delete-button {
     color: var(--delete-color);
+}
+
+.delete-button:hover {
+    color: var(--white-color);
+    background-color: var(--red-color);
 }
