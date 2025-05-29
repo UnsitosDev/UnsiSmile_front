@@ -80,17 +80,20 @@ export class FormInsertStudentComponent {
     if (this.formGroup.valid) {
       const formValues = this.formGroup.value;
       
+      const genderField = this.student.find(field => field.name === 'gender');
+      const genderLabel = genderField?.options?.find(opt => opt.value === formValues.gender)?.label || '';
+      
+      const groupField = this.student.find(field => field.name === 'group');
+      const groupLabel = groupField?.options?.find(opt => opt.value === formValues.group)?.label || '';
+      
+      const semesterField = this.student.find(field => field.name === 'semester');
+      const semesterLabel = semesterField?.options?.find(opt => opt.value === formValues.semester)?.label || '';
+      
+      const careerField = this.student.find(field => field.name === 'career');
+      const careerLabel = careerField?.options?.find(opt => opt.value === formValues.career)?.label || '';
+      
       const studentData = {
         enrollment: formValues.enrollment,
-        user: {
-          idUser: '', // Se generará automáticamente
-          username: formValues.email, // Usando el email como username
-          password: 'password123', // Password temporal o generado
-          role: {
-            idRole: 2, // ID del rol estudiante
-            role: 'ROLE_STUDENT'
-          }
-        },
         person: {
           curp: formValues.curp,
           firstName: formValues.firstName,
@@ -101,21 +104,21 @@ export class FormInsertStudentComponent {
           birthDate: new Date(formValues.birthDate).toISOString().split('T')[0],
           email: formValues.email,
           gender: {
-            idGender: +formValues.gender,
-            gender: ''
+            idGender: formValues.gender,
+            gender: genderLabel
           }
         },
         group: {
-          id: +formValues.group,
-          groupName: '',
+          id: formValues.group,
+          groupName: groupLabel,
           semesterNumber: formValues.semester,
           career: {
             idCareer: formValues.career,
-            career: ''
+            career: careerLabel
           }
         }
       };
-  
+
       this.apiService
         .postService({
           headers: new HttpHeaders({
