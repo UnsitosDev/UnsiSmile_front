@@ -11,12 +11,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { Treatments } from '@mean/models';
-import { ApiService } from '@mean/services';
+import { ApiService, storeDentalOrgans } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { ThoothProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.model';
 import { RequestTreatment } from 'src/app/models/treatments/payloadtreatments.model';
-import { storeProphylaxis } from 'src/app/services/prophylaxis.service';
 import { SpanishDateAdapter } from 'src/app/shared/adapters/spanish-date.adapter';
 import { STATUS } from 'src/app/utils/statusToReview';
 
@@ -59,7 +58,11 @@ export class DialogNewTreatmentComponent {
   public selectedTreatmentsName: string = '';
   public nameTreatment: string = '';
 
-  public teeth = storeProphylaxis.theetProphylaxis;
+  public teeth = storeDentalOrgans.teethDentalOrgans.map(tooth => ({
+    idTooth: tooth.idTooth.toString(),
+    idDetailTooth: 0 
+  })) as ToothInput[];
+
   STATUS = STATUS;
 
   // Identificar modo edición
