@@ -7,17 +7,23 @@
     <span>No hay tratamientos por calificar</span>
   </div>
 }
-<div class="p-4">
+<div>
   <mat-list>
     @for (treatment of treatments?.content; track $index) {
       <section class="w-full">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between w-full mb-1 gap-2 sm:gap-0">
-          <div class="flex-1 min-w-0 sm:pr-4">
-            <mat-list-item>
-              <span matListItemTitle><strong>Paciente:</strong> {{ treatment.patient.name }}</span>
-              <span matListItemTitle><strong>Alumno:</strong> {{ treatment.student.name }}</span>
-              <span><strong>Tratamiento:</strong> {{ treatment.treatment.name }}</span>
-            </mat-list-item>
+        <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center md:px-4 lg:px-6 mb-1">
+            <div class="flex-1 min-w-0 sm:pr-4">
+            <ul>
+              <li matListItemTitle><strong>Paciente:</strong> {{ treatment.patient.name }}</li>
+              <li matListItemTitle><strong>Alumno:</strong> {{ treatment.student.name }}</li>
+              <li><strong>Tratamiento:</strong> {{ treatment.treatment.name }}</li>
+              <li><strong>Fecha de inicio:</strong> {{ treatment.startDate | arrayToDate }}</li>
+              <li><strong>Fecha  de finalización:</strong> {{ treatment.endDate | arrayToDate }}</li>
+              <li><strong>Organos dentarios: </strong>
+              @for (tooth of treatment.teeth; track $index) {{{tooth.idTooth}} @if (!$last) {, }}
+              </li>
+            </ul>  
+            <br>
           </div>
 
           <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4">
