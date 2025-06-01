@@ -1,16 +1,16 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
-import { MatTooltip } from "@angular/material/tooltip";
-import { Router } from '@angular/router';
-import { TreatmentDetailResponse } from '@mean/models';
-import { ApiService, AuthService } from '@mean/services';
-import { ArrayToDatePipe, LoadingComponent } from '@mean/shared';
-import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
-import { TokenData } from 'src/app/components/public/login/model/tokenData';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import {HttpHeaders} from '@angular/common/http';
+import {Component, inject} from '@angular/core';
+import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
+import {Router} from '@angular/router';
+import {TreatmentDetailResponse} from '@mean/models';
+import {ApiService, AuthService} from '@mean/services';
+import {ArrayToDatePipe, LoadingComponent} from '@mean/shared';
+import {STATUS_TREATMENTS, UriConstants} from '@mean/utils';
+import {TokenData} from 'src/app/components/public/login/model/tokenData';
+import {PaginatedData} from 'src/app/models/shared/pagination/pagination';
+import {MatButtonModule} from "@angular/material/button";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-patients-treatments',
