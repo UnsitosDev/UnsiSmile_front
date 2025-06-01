@@ -1,3 +1,4 @@
+import { reviewStatus } from '../../../../../models/history-clinic/historyClinic';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -67,7 +68,9 @@ export class ReviewMedicalRecordComponent implements OnInit {
       'patient-medical-record',
       row.Expediente,
       'patient',
-      row.idPatient
+      row.idPatient,
+      'review',
+      row.idReviewStatus
     ]);
   }
   
@@ -91,7 +94,6 @@ export class ReviewMedicalRecordComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          console.log(response);
           if (Array.isArray(response.content)) {
             this.totalElements = response.totalElements;
             this.patientsList = response.content.map((reviewAsigned: ReviewAsigneds) => {
@@ -102,7 +104,7 @@ export class ReviewMedicalRecordComponent implements OnInit {
                 Expediente: reviewAsigned.patient.medicalRecordNumber, 
                 Estudiante: reviewAsigned.studentName,
                 formSectionId: reviewAsigned.idSection,
-
+                idReviewStatus: reviewAsigned.idReviewStatus
               };
             });
           } else {

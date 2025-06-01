@@ -18,7 +18,7 @@ export default [
             {
                 path: 'history-clinics',
                 loadComponent: () =>
-                  import('./components/review-medical-record/review-medical-record.component').then(
+                  import('./pages/table-review-medical-record/review-medical-record.component').then(
                     (m) => m.ReviewMedicalRecordComponent
                   ),
                 children: [
@@ -54,7 +54,7 @@ export default [
                     ),
             },
             {
-                path: 'review-section/:formSectionId/patient-medical-record/:patientMedicalRecordId/patient/:patientId',
+                path: 'review-section/:formSectionId/patient-medical-record/:patientMedicalRecordId/patient/:patientId/review/:idReviewStatus',
                 loadComponent: () =>
                   import('./pages/rate-form-sections/rate-form-sections.component').then(
                     (m) => m.RateFormSectionsComponent

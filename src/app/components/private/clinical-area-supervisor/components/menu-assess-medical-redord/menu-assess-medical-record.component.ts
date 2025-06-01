@@ -67,7 +67,7 @@ export class DialogSendReview {
     const data: IsaveReview = {
       status: this.newStatus,
       message: this.message,
-      idReviewStatus: this.idReviewStatus!
+      idReviewStatus: this.idReviewStatus
     };
 
     this.apiService

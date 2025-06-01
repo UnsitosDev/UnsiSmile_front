@@ -28,13 +28,6 @@ export default [
                     ),
             },
             {
-                path: 'history-clinics',
-                loadComponent: () =>
-                    import('../clinical-area-supervisor/components/review-medical-record/review-medical-record.component').then(
-                        (m) => m.ReviewMedicalRecordComponent
-                    ),
-            },
-            {
                 path: 'general/:id/patient/:patient/medical-record-id/:patientID', // Ruta para historia clínica general
                 loadComponent: () =>
                     import('../students/pages/medicalRecords/general/students-general-history.component').then(
