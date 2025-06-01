@@ -30,6 +30,7 @@ import {
 import {STATUS_TREATMENTS, UriConstants} from '@mean/utils';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import {MatTooltip} from "@angular/material/tooltip";
+import { ArrayToDatePipe } from '@mean/shared';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -50,7 +51,8 @@ export interface TreatmentParams {
     CardPatientDataComponent,
     StudentsGeneralHistoryComponent,
     FormUpdatePatientComponent,
-    MatTooltip
+    MatTooltip,
+    ArrayToDatePipe
   ],
   templateUrl: './treatment.component.html',
   styleUrl: './treatment.component.scss',
@@ -237,16 +239,6 @@ export class TreatmentComponent implements OnInit {
     this.idTreatmentDetail = treatment.idTreatmentDetail;
     this.medicalRecordId = Number(treatment.medicalRecordId);
     this.tabMedicalRecord = treatment.tabMedicalRecord;
-  }
-
-  formatArrayDate(dateArray: number[]): string {
-    if (!dateArray || dateArray.length < 3) return 'Fecha inválida';
-
-    const year = dateArray[0];
-    const month = dateArray[1].toString().padStart(2, '0');
-    const day = dateArray[2].toString().padStart(2, '0');
-
-    return `${day}/${month}/${year}`;
   }
 
   openUpdateTreatmentDialog(treatment: TreatmentDetailResponse): void {

@@ -16,7 +16,10 @@
             <ul>
               <li matListItemTitle><strong>Paciente:</strong> {{ treatment.patient.name }}</li>
               <li><strong>Tratamiento:</strong> {{ treatment.treatment.name }}</li>
-              <li> <strong>Órgano dentario</strong>: {{ treatment.teeth[0].idTooth}}</li>            
+              <li><strong>Fecha de inicio:</strong> {{ treatment.startDate | arrayToDate }}</li>
+              <li><strong>Fecha  de finalización:</strong> {{ treatment.endDate | arrayToDate }}</li>
+              <li> <strong>Órgano dentario: </strong> {{ treatment.teeth[0].idTooth}}</li> 
+              <li><strong>Revisor: </strong> {{treatment.professor.name}}</li>           
             </ul>
             <br>
           </div>

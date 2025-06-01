@@ -17,6 +17,8 @@
               <li matListItemTitle><strong>Paciente:</strong> {{ treatment.patient.name }}</li>
               <li matListItemTitle><strong>Alumno:</strong> {{ treatment.student.name }}</li>
               <li><strong>Tratamiento:</strong> {{ treatment.treatment.name }}</li>
+              <li><strong>Fecha de inicio:</strong> {{ treatment.startDate | arrayToDate }}</li>
+              <li><strong>Fecha  de finalización:</strong> {{ treatment.endDate | arrayToDate }}</li>
               <li><strong>Organos dentarios: </strong>
               @for (tooth of treatment.teeth; track $index) {{{tooth.idTooth}} @if (!$last) {, }}
               </li>

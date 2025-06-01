@@ -5,7 +5,7 @@ import {MatListModule} from '@angular/material/list';
 import {Router} from '@angular/router';
 import {TreatmentDetailResponse} from '@mean/models';
 import {ApiService, AuthService} from '@mean/services';
-import {LoadingComponent} from '@mean/shared';
+import {ArrayToDatePipe, LoadingComponent} from '@mean/shared';
 import {STATUS_TREATMENTS, UriConstants} from '@mean/utils';
 import {TokenData} from 'src/app/components/public/login/model/tokenData';
 import {PaginatedData} from 'src/app/models/shared/pagination/pagination';
@@ -15,7 +15,7 @@ import {MatTooltip} from "@angular/material/tooltip";
 @Component({
   selector: 'app-patients-treatments',
   standalone: true,
-  imports: [MatCardModule, MatListModule, LoadingComponent, MatButtonModule, MatTooltip],
+  imports: [MatCardModule, MatListModule, LoadingComponent, MatButtonModule, MatTooltip, ArrayToDatePipe],
   templateUrl: './patients-treatments.component.html',
   styleUrl: './patients-treatments.component.scss',
 })

@@ -44,8 +44,8 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between w-full mb-1 gap-2 sm:gap-0">
               <ul class="p-4">
                 <li><strong>Tratamiento:</strong> {{ treatmentDetail.treatment.name }}</li>
-                <li><strong>Duración:</strong> {{ formatArrayDate(treatmentDetail.startDate) }}
-                  - {{ formatArrayDate(treatmentDetail.endDate) }}</li>
+                <li><strong>Fecha de inicio:</strong> {{ treatmentDetail.startDate | arrayToDate }}</li>
+                <li><strong>Fecha  de finalización:</strong> {{ treatmentDetail.endDate | arrayToDate }}</li>
                 <li><strong>Órganos dentario</strong>: 
                   @for (tooth of treatmentDetail.teeth; track $index) {
                     {{tooth.idTooth}} @if (!$last) {, }
