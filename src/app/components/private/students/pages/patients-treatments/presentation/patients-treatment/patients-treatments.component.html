@@ -18,8 +18,14 @@
               <li><strong>Tratamiento:</strong> {{ treatment.treatment.name }}</li>
               <li><strong>Fecha de inicio:</strong> {{ treatment.startDate | arrayToDate }}</li>
               <li><strong>Fecha  de finalización:</strong> {{ treatment.endDate | arrayToDate }}</li>
-              <li> <strong>Órgano dentario: </strong> {{ treatment.teeth[0].idTooth}}</li> 
-              <li><strong>Revisor: </strong> {{treatment.professor.name}}</li>           
+              @if (treatment.teeth && treatment.teeth !== null) {
+                <li> <strong>Órgano dentario: </strong> {{ treatment.teeth[0].idTooth}}</li>
+              }
+              @if (treatment.professor && treatment.professor !== null) {
+                <li><strong>Revisor: </strong> {{treatment.professor.name}}</li>
+              }@else {
+                <li><strong>Revisor: </strong> Aún no se ha asignado un revisor</li>
+              }           
             </ul>
             <br>
           </div>
