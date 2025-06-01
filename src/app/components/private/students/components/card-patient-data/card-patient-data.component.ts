@@ -1,5 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltip } from '@angular/material/tooltip';
 import { TreatmentDetailResponse } from "@mean/models";
 import { ApiService } from '@mean/services';
 import { ArrayToDatePipe } from '@mean/shared';
@@ -24,7 +25,7 @@ export interface PatientSummary {
 @Component({
   selector: 'app-card-patient-data',
   standalone: true,
-  imports: [MatCardModule, ArrayToDatePipe],
+  imports: [MatCardModule, ArrayToDatePipe, MatTooltip],
   templateUrl: './card-patient-data.component.html',
   styleUrl: './card-patient-data.component.scss'
 })
