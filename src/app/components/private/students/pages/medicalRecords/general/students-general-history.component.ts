@@ -44,7 +44,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   public medicalRecordId!: number                     // medicalRecordId para enviar a notas de evolución
 
   public currentIndex: number = 0;                    // State tabs
-  public currentSectionId: string | null = null;
+  public currentSectionId!: string;
   public currentStatus: string | null = null;
 
   public role!: string;                               // Auth

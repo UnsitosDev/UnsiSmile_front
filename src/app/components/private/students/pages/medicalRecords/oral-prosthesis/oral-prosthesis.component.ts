@@ -4,25 +4,20 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TabViewModule } from 'primeng/tabview';
 
 // Componentes
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
+import { CardPatientDataComponent } from '../../../components/card-patient-data/card-patient-data.component';
 
 // Servicios
 import { ApiService, AuthService } from '@mean/services';
-import { GeneralHistoryService } from 'src/app/services/history-clinics/general/medical-records.service';
+import { GeneralMedicalRecordService } from 'src/app/services/history-clinics/general/medical-records.service';
 
 // Modelos
 import { HttpHeaders } from '@angular/common/http';
-import {
-  ID_PATIENT_MEDICAL_RECORD,
-  ID_TREATMENT_DETAIL,
-  PATIENT_UUID_ROUTE,
-} from '@mean/models';
 import { UriConstants } from '@mean/utils';
-import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { EMedicalRecords } from 'src/app/models/history-clinic/historyClinic';
@@ -32,7 +27,7 @@ import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-
 import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';
 
 @Component({
-  selector: 'app-students-periodontics-history',
+  selector: 'app-oral-prosthesis',
   standalone: true,
   imports: [
     MatInputModule,
@@ -43,31 +38,33 @@ import { HeaderHistoryClinicComponent } from '../../../components/header-history
     MatDialogModule,
     MatCardModule,
     MatButtonModule,
+    CardPatientDataComponent,
     TabViewModule,
     TabFormUpdateComponent,
     HeaderHistoryClinicComponent,
   ],
-  templateUrl: './students-periodontics-history.component.html',
-  styleUrl: './students-periodontics-history.component.scss',
+  templateUrl: './oral-prosthesis.component.html',
+  styleUrl: './oral-prosthesis.component.scss',
 })
-export class StudentsPeriodonticsHistoryComponent {
+export class OralProsthesisComponent {
   @Input() public patientUuid!: string;
 
-  private router = inject(ActivatedRoute);
   private route = inject(Router);
-  private historyData = inject(GeneralHistoryService);
+  private historyData = inject(GeneralMedicalRecordService);
   private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   private userService = inject(AuthService);
 
-  public patientMedicalRecord: number = 0;
+  public id!: number;
   public idpatient!: string;
+  public patientMedicalRecord!: number;
   public currentIndex: number = 0;
   public mappedHistoryData!: dataTabs;
   public role!: string;
-  public currentSectionId: string | null = null;
+  public currentSectionId!: string;
   public currentStatus: string | null = null;
   public viewCardTreatments: boolean = false;
+  public isLoading: boolean = true;
 
   public isSupervisorWithTreatment: boolean = false;
   private idTreatmentDetail!: number;
@@ -81,7 +78,7 @@ export class StudentsPeriodonticsHistoryComponent {
 
   ngOnInit(): void {
     this.initializeUserRole();
-    this.initializeRouteParams();
+    this.getMedicalRecordConfig();
   }
 
   private initializeUserRole(): void {
@@ -90,36 +87,9 @@ export class StudentsPeriodonticsHistoryComponent {
     this.role = this.tokenData.role[0].authority;
   }
 
-  private initializeRouteParams(): void {
-    this.router.params.subscribe((params) => {
-      this.processRoleBasedParams(params);
-      this.loadClinicalHistory();
-    });
-  }
-
-  private processRoleBasedParams(params: Params): void {
-    if (this.role !== ROLES.STUDENT) {
-    } else {
-      this.handleStudentParams(params);
-    }
-  }
-
-
-  private handleStudentParams(params: Params): void {
-    // Caso específico para STUDENT con tratamiento en params
-    if (params[ID_TREATMENT_DETAIL]) {
-    } else {
-      this.handleStudentWithoutTreatmentParams();
-    }
-  }
-
-  private handleStudentWithoutTreatmentParams(): void {
-    this.idpatient = this.patientUuid;
-  }
-
-  private loadClinicalHistory(): void {
+  private getMedicalRecordConfig(): void {
     this.historyData
-      .getMedicalRecord(EMedicalRecords.PERIODONCIA, this.patientUuid)
+      .getMedicalRecord(EMedicalRecords.PROTESIS_BUCAL, this.patientUuid)
       .subscribe({
         next: (mappedData: dataTabs) => {
           this.mappedHistoryData = this.processMappedData(
@@ -132,8 +102,9 @@ export class StudentsPeriodonticsHistoryComponent {
             this.mappedHistoryData.tabs[this.currentIndex].status;
           this.getFirstTab();
           this.getStatusHc();
-          this.patientMedicalRecord = mappedData.idPatientMedicalRecord;
           this.isSupervisorWithTreatment = true;
+          this.patientMedicalRecord = mappedData.idPatientMedicalRecord;
+          this.isLoading = false;
           // Solo procesar tabs si no es supervisor con tratamiento
           if (
             !(
@@ -198,17 +169,6 @@ export class StudentsPeriodonticsHistoryComponent {
     this.currentSectionId =
       this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
     this.getStatusHc();
-  }
-
-  opedDialogRateTreatment() {
-    const dialogRef = this.dialog.open(DialogRateTreatmentComponent, {
-      data: {
-        idTreatmentDetail: this.idTreatmentDetail,
-      },
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   getStatusHc(forceRequest: boolean = false) {

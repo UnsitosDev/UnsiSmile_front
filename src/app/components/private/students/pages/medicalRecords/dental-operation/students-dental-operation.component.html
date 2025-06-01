@@ -10,7 +10,7 @@
         </app-header-history-clinic>
     </mat-card-title>
     <mat-card class="custom">
-            <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
+            <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange()">
                 @for (tab of mappedHistoryData.tabs; track tab) {
                     <mat-tab [label]="tab.title">
                         @if (tab.isAnswered) {

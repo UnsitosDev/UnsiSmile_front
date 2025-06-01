@@ -12,11 +12,13 @@ import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.co
 
 // Servicios
 import { ApiService, AuthService } from '@mean/services';
-import { GeneralHistoryService } from 'src/app/services/history-clinics/general/medical-records.service';
+import { GeneralMedicalRecordService } from 'src/app/services/history-clinics/general/medical-records.service';
 
 // Modelos
 import { HttpHeaders } from '@angular/common/http';
-import { ID_PATIENT_MEDICAL_RECORD, ID_TREATMENT_DETAIL, PATIENT_UUID_ROUTE } from '@mean/models';
+import {
+  ID_TREATMENT_DETAIL
+} from '@mean/models';
 import { UriConstants } from '@mean/utils';
 import { DialogRateTreatmentComponent } from 'src/app/components/private/clinical-area-supervisor/components/dialog-rate-treatment/dialog-rate-treatment.component';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
@@ -24,32 +26,44 @@ import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
 import { EMedicalRecords } from 'src/app/models/history-clinic/historyClinic';
 import { ROLES } from 'src/app/utils/roles';
 import { STATUS } from 'src/app/utils/statusToReview';
-import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
-import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
+import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-form-update/tab-form-update.component';
+import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';
 
 @Component({
-  selector: 'app-students-oral-surgery-history',
+  selector: 'app-students-periodontics-history',
   standalone: true,
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, TabViewModule, TabFormUpdateComponent, HeaderHistoryClinicComponent],
-  templateUrl: './students-oral-surgery-history.component.html',
-  styleUrl: './students-oral-surgery-history.component.scss'
+  imports: [
+    MatInputModule,
+    TabFormComponent,
+    MatTabsModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatDialogModule,
+    MatCardModule,
+    MatButtonModule,
+    TabViewModule,
+    TabFormUpdateComponent,
+    HeaderHistoryClinicComponent,
+  ],
+  templateUrl: './students-periodontics-history.component.html',
+  styleUrl: './students-periodontics-history.component.scss',
 })
-export class StudentsOralSurgeryHistoryComponent {
+export class StudentsPeriodonticsHistoryComponent {
   @Input() public patientUuid!: string;
 
   private router = inject(ActivatedRoute);
   private route = inject(Router);
-  private historyData = inject(GeneralHistoryService);
+  private historyData = inject(GeneralMedicalRecordService);
   private apiService = inject(ApiService);
   readonly dialog = inject(MatDialog);
   private userService = inject(AuthService);
 
-  public patientMedicalRecord!: number;
+  public patientMedicalRecord: number = 0;
   public idpatient!: string;
   public currentIndex: number = 0;
   public mappedHistoryData!: dataTabs;
   public role!: string;
-  public currentSectionId: string | null = null;
+  public currentSectionId: string = '';
   public currentStatus: string | null = null;
   public viewCardTreatments: boolean = false;
 
@@ -61,7 +75,7 @@ export class StudentsOralSurgeryHistoryComponent {
 
   ROL = ROLES;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.initializeUserRole();
@@ -75,7 +89,7 @@ export class StudentsOralSurgeryHistoryComponent {
   }
 
   private initializeRouteParams(): void {
-    this.router.params.subscribe(params => {
+    this.router.params.subscribe((params) => {
       this.processRoleBasedParams(params);
       this.loadClinicalHistory();
     });
@@ -88,8 +102,13 @@ export class StudentsOralSurgeryHistoryComponent {
     }
   }
 
-  private handleStudentParams(params: Params): void {
 
+  private handleStudentParams(params: Params): void {
+    // Caso específico para STUDENT con tratamiento en params
+    if (params[ID_TREATMENT_DETAIL]) {
+    } else {
+      this.handleStudentWithoutTreatmentParams();
+    }
   }
 
   private handleStudentWithoutTreatmentParams(): void {
@@ -97,26 +116,37 @@ export class StudentsOralSurgeryHistoryComponent {
   }
 
   private loadClinicalHistory(): void {
-    this.historyData.getMedicalRecord(EMedicalRecords.CIRUGIA_BUCAL, this.patientUuid)
-    .subscribe({
-      next: (mappedData: dataTabs) => {
-        this.mappedHistoryData = this.processMappedData(mappedData, this.role);
-        this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
-        this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
-        this.getFirstTab();
-        this.getStatusHc();
-        this.patientMedicalRecord = mappedData.idPatientMedicalRecord;
-        this.isSupervisorWithTreatment = true;
-        // Solo procesar tabs si no es supervisor con tratamiento
-        if (!(this.role === ROLES.CLINICAL_AREA_SUPERVISOR && this.idTreatmentDetail)) {
-          const processedData = this.getTabsforReview(this.mappedHistoryData);
-          this.isSupervisorWithTreatment = false;
-          if (processedData) {
-            this.mappedHistoryData = processedData;
+    this.historyData
+      .getMedicalRecord(EMedicalRecords.PERIODONCIA, this.patientUuid)
+      .subscribe({
+        next: (mappedData: dataTabs) => {
+          this.mappedHistoryData = this.processMappedData(
+            mappedData,
+            this.role
+          );
+          this.currentSectionId =
+            this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+          this.currentStatus =
+            this.mappedHistoryData.tabs[this.currentIndex].status;
+          this.getFirstTab();
+          this.getStatusHc();
+          this.patientMedicalRecord = mappedData.idPatientMedicalRecord;
+          this.isSupervisorWithTreatment = true;
+          // Solo procesar tabs si no es supervisor con tratamiento
+          if (
+            !(
+              this.role === ROLES.CLINICAL_AREA_SUPERVISOR &&
+              this.idTreatmentDetail
+            )
+          ) {
+            const processedData = this.getTabsforReview(this.mappedHistoryData);
+            this.isSupervisorWithTreatment = false;
+            if (processedData) {
+              this.mappedHistoryData = processedData;
+            }
           }
-        }
-      }
-    });
+        },
+      });
   }
 
   private getTabsforReview(historyData: dataTabs): dataTabs | null {
@@ -126,7 +156,7 @@ export class StudentsOralSurgeryHistoryComponent {
 
     const filteredData = {
       ...historyData,
-      tabs: historyData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW)
+      tabs: historyData.tabs.filter((tab) => tab.status === STATUS.IN_REVIEW),
     };
 
     if (filteredData.tabs.length === 0) {
@@ -139,13 +169,15 @@ export class StudentsOralSurgeryHistoryComponent {
 
   getFirstTab() {
     if (this.mappedHistoryData.tabs.length > 0) {
-      this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
-      this.currentStatus = this.mappedHistoryData.tabs[this.currentIndex].status;
+      this.currentSectionId =
+        this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+      this.currentStatus =
+        this.mappedHistoryData.tabs[this.currentIndex].status;
     }
   }
 
   getRole() {
-    this.token = this.userService.getToken() ?? "";
+    this.token = this.userService.getToken() ?? '';
     this.tokenData = this.userService.getTokenDataUser(this.token);
     this.role = this.tokenData.role[0].authority;
   }
@@ -153,13 +185,16 @@ export class StudentsOralSurgeryHistoryComponent {
   private processMappedData(mappedData: dataTabs, role: string): dataTabs {
     let processedData = { ...mappedData };
     if (role === ROLES.PROFESSOR) {
-      processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
+      processedData.tabs = processedData.tabs.filter(
+        (tab) => tab.status === STATUS.IN_REVIEW
+      );
     }
     return processedData;
   }
 
   onTabChange(index: number) {
-    this.currentSectionId = this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
+    this.currentSectionId =
+      this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
     this.getStatusHc();
   }
 
@@ -171,19 +206,20 @@ export class StudentsOralSurgeryHistoryComponent {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
 
-    if (!forceRequest && (currentTab.status === STATUS.NOT_REQUIRED || currentTab.status === STATUS.NO_REQUIRED || currentTab.status === STATUS.NO_STATUS)) {
+    if (
+      !forceRequest &&
+      (currentTab.status === STATUS.NOT_REQUIRED ||
+        currentTab.status === STATUS.NO_REQUIRED ||
+        currentTab.status === STATUS.NO_STATUS)
+    ) {
       return;
     }
-
-
 
     this.apiService
       .getService({

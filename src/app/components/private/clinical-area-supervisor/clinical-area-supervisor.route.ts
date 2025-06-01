@@ -28,7 +28,7 @@ export default [
             {
                 path: 'general/:id/patient/:patient/medical-record-id/:patientID', // Ruta para historia clínica general
                 loadComponent: () =>
-                    import('../students/pages/history-clinics/general/students-general-history.component').then(
+                    import('../students/pages/medicalRecords/general/students-general-history.component').then(
                         (m) => m.StudentsGeneralHistoryComponent
                     ),
             },
