@@ -1,113 +1,152 @@
 <mat-card-title><strong>Datos del paciente</strong></mat-card-title>
 <mat-card-content>
-    @if (data) {
-        <div class="mx-2 sm:mx-8"> 
-            <br>
-            <!-- Grid responsivo -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 card-custom custom-color">
-                <!-- Columna 1 -->
-                <div>
-                    <div>
-                        <strong><i class="far fa-user"></i>&nbsp; {{data.fullName}}</strong>
-                    </div>
-                    <div>
-                        <i class="far fa-id-card"></i>&nbsp; {{data.curp}}
-                    </div>  
-                    <div>
-                        <i class="fas fa-venus-mars"></i> {{data.gender}}
-                    </div>
-                    <div>
-                        <i class="far fa-calendar"></i>&nbsp; Fecha de Nacimiento - {{data.birthDate}}
-                    </div>                  
-                </div>
-                
-                <!-- Columna 2 -->
-                <div>
-                    <div>
-                        <i class="fas fa-phone"></i>&nbsp; {{data.phone}}
-                    </div>
-                    <div>
-                        <i class="fas fa-envelope"></i>&nbsp; 
-                        <a href="mailto:{{ data.email }}">{{ data.email }}</a>
-                    </div>
-                    <div>
-                        <i class="fas fa-map-marker-alt"></i> &nbsp;&nbsp;{{data.address}}
-                    </div>
-                </div>
-                
-                <!-- Columna 3 -->
-                <div>
-                    <div>
-                        <i class="far fa-calendar"></i>&nbsp; Fecha de Ingreso - {{data.admissionDate}}
-                    </div>
-                    <div>
-                        <i class="fas fa-notes-medical"></i>&nbsp; Numero de expediente: <strong>{{data.medicalRecord}}</strong>
-                    </div>
-                    @if (data.hasTreatmentInProgress) {
-                        <div class="mt-2 mb-2 ml-3">
-                            <span class="view-badge">
-                                En tratamiento
-                            </span>
-                        </div>
-                    }
-                </div>
-            </div>
+  @if (data) {
+  <div class="mx-2 sm:mx-8">
+    <br />
+    <!-- Grid responsivo -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 card-custom custom-color"
+    >
+      <!-- Columna 1 -->
+      <div>
+        <div>
+          <strong><i class="far fa-user"></i>&nbsp; {{ data.fullName }}</strong>
         </div>
+        <div><i class="far fa-id-card"></i>&nbsp; {{ data.curp }}</div>
+        <div><i class="fas fa-venus-mars"></i> {{ data.gender }}</div>
+        <div>
+          <i class="far fa-calendar"></i>&nbsp; Fecha de Nacimiento -
+          {{ data.birthDate }}
+        </div>
+        <div>
+          <i class="fas fa-notes-medical"></i>&nbsp; Numero de expediente:
+          <strong>{{ data.medicalRecord }}</strong>
+        </div>
+      </div>
+
+      <!-- Columna 2 -->
+      <div>
+        <div><i class="fas fa-phone"></i>&nbsp; {{ data.phone }}</div>
+        <div>
+          <i class="fas fa-envelope"></i>&nbsp;
+          <a href="mailto:{{ data.email }}">{{ data.email }}</a>
+        </div>
+        <div>
+          <i class="fas fa-map-marker-alt"></i> &nbsp;&nbsp;{{ data.address }}
+        </div>
+        <div>
+          <i class="far fa-calendar"></i>&nbsp; Fecha de Ingreso -
+          {{ data.admissionDate }}
+        </div>
+      </div>
+
+      <!-- Columna 3 -->
+      <div class="info-column">
+        @if (treatmentData) {
+        <div>
+          <span><strong>Detalles de tratamiento</strong></span>
+          <ul>
+            <li>
+              <i class="far fa-calendar-alt"></i>&nbsp; Duración:
+              {{ treatmentData.startDate | arrayToDate }} -
+              {{ treatmentData.endDate | arrayToDate }}
+            </li>
+            <li>
+              <i class="fas fa-pills"></i>&nbsp; Tratamiento:
+              {{ treatmentData.treatment.name }}
+            </li>
+            <li>
+              <i class="fas fa-tooth"></i>&nbsp; Órganos dentarios: 
+              @for (tooth of treatmentData.teeth; track $index) {
+                {{ tooth.idTooth }}@if (!$last) {, }
+              }
+            </li>
+            <li>
+              <i class="fas fa-user"></i>&nbsp;
+              @if (treatmentData.professor) {
+                Revisor: {{ treatmentData.professor.name }}
+              } @else {
+                <span class="pending-review">Por mandar a revisión</span>
+              }
+            </li>
+          </ul>
+        </div>
+        }@else {
+          <span class="cursor-pointer" matTooltip="Selecciona un tratamiento para ver los detalles">
+            <i class="fas fa-question-circle mr-1"></i>
+            <strong>Detalles de tratamiento</strong>
+          </span>
+        }
         
-        <br>
-        
-        @if (guardianData) {
-            <br>
-            <p><strong>Datos del tutor</strong></p>
-            <mat-card-content>
-                <div class="mx-2 sm:mx-8">
-                    <br>
-                    <!-- Grid responsivo para tutor -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 card-custom custom-color">
-                        <!-- Columna 1 -->
-                        <div>
-                            <div>
-                                <strong><i class="far fa-user"></i>&nbsp; {{guardianData.firstName}} {{guardianData.lastName}}</strong>
-                            </div>                 
-                        </div>
-                        
-                        <!-- Columna 2 -->
-                        <div>
-                            <div>
-                                <i class="fas fa-phone"></i>&nbsp; {{guardianData.phone}}
-                            </div>
-                        </div>
-                        
-                        <!-- Columna 3 -->
-                        <div>
-                            <div>
-                                <i class="fas fa-envelope"></i>&nbsp; 
-                                <a href="mailto:{{ guardianData.email }}">{{ guardianData.email }}</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Segunda fila de datos del tutor -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 card-custom custom-color mt-4">
-                        <!-- Columna 1 -->
-                        <div>
-                            <div>
-                                <strong><i class="fas fa-user-friends"></i>&nbsp;Padres: {{guardianData.parentalStatus.optionName}}</strong>
-                            </div>                 
-                        </div>
-                        
-                        <!-- Columna 2 -->
-                        <div>
-                            <div>
-                                <i class="fas fa-user-md"></i>&nbsp; {{guardianData.doctorName}}
-                            </div>
-                        </div>
-                        
-                        <!-- Columna 3 (vacía pero mantiene estructura) -->
-                        <div></div>
-                    </div>
-                </div>
-            </mat-card-content>        
-        }          
-    }
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  @if (guardianData) {
+  <br />
+  <p><strong>Datos del tutor</strong></p>
+  <mat-card-content>
+    <div class="mx-2 sm:mx-8">
+      <br />
+      <!-- Grid responsivo para tutor -->
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 card-custom custom-color"
+      >
+        <!-- Columna 1 -->
+        <div>
+          <div>
+            <strong
+              ><i class="far fa-user"></i>&nbsp; {{ guardianData.firstName }}
+              {{ guardianData.lastName }}</strong
+            >
+          </div>
+        </div>
+
+        <!-- Columna 2 -->
+        <div>
+          <div><i class="fas fa-phone"></i>&nbsp; {{ guardianData.phone }}</div>
+        </div>
+
+        <!-- Columna 3 -->
+        <div>
+          <div>
+            <i class="fas fa-envelope"></i>&nbsp;
+            <a href="mailto:{{ guardianData.email }}">{{
+              guardianData.email
+            }}</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Segunda fila de datos del tutor -->
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 card-custom custom-color mt-4"
+      >
+        <!-- Columna 1 -->
+        <div>
+          <div>
+            <strong
+              ><i class="fas fa-user-friends"></i>&nbsp;Padres:
+              {{ guardianData.parentalStatus.optionName }}</strong
+            >
+          </div>
+        </div>
+
+        <!-- Columna 2 -->
+        <div>
+          <div>
+            <i class="fas fa-user-md"></i>&nbsp; {{ guardianData.doctorName }}
+          </div>
+        </div>
+
+        <!-- Columna 3 (vacía pero mantiene estructura) -->
+        <div>
+          <section>de tratamiento</section>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  } }
 </mat-card-content>

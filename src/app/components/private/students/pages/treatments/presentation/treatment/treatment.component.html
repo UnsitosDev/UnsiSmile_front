@@ -42,14 +42,19 @@
         @for (treatmentDetail of treatmentsPatient?.content; track treatmentDetail.idTreatmentDetail) {
           <section>
             <div class="flex flex-col sm:flex-row sm:items-center justify-between w-full mb-1 gap-2 sm:gap-0">
-              <mat-list-item>
-                <span matListItemTitle><strong>Tratamiento:</strong> {{ treatmentDetail.treatment.name }}</span>
-                {{ treatmentDetail.treatment.clinicalHistoryCatalogName }}
-                <span matListItemLine><strong>Duración:</strong> {{ formatArrayDate(treatmentDetail.startDate) }}
-                  - {{ formatArrayDate(treatmentDetail.endDate) }}</span>
-              </mat-list-item>
-              <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4">
-                @switch (treatmentDetail.status) {
+              <ul class="p-4">
+                <li><strong>Tratamiento:</strong> {{ treatmentDetail.treatment.name }}</li>
+                <li><strong>Fecha de inicio:</strong> {{ treatmentDetail.startDate | arrayToDate }}</li>
+                <li><strong>Fecha  de finalización:</strong> {{ treatmentDetail.endDate | arrayToDate }}</li>
+                <li><strong>Órganos dentario</strong>: 
+                  @for (tooth of treatmentDetail.teeth; track $index) {
+                    {{tooth.idTooth}} @if (!$last) {, }
+                  }
+                </li>
+                <li>{{ treatmentDetail.treatment.clinicalHistoryCatalogName }}</li>
+              </ul>
+              <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4 md:px-4 lg:px-6">
+                  @switch (treatmentDetail.status) {
                   @case (STATUS.IN_REVIEW) {
                     <button mat-stroked-button class="whitespace-nowrap" disabled>
                       <span class="flex items-center in-review"><i class="far fa-clock mr-1"></i>En revisión</span>
