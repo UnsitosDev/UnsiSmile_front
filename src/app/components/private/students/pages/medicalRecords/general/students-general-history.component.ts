@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { TabViewModule } from 'primeng/tabview';
 
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { HistoryInitialBagComponent } from "../../../components/form-history-initial-bag/history-initial-bag.component";
+import { HistoryInitialBagComponent } from '../../../components/form-history-initial-bag/history-initial-bag.component';
 
 import { ApiService, AuthService } from '@mean/services';
 
@@ -18,42 +18,55 @@ import { dataTabs } from '@mean/models';
 import { TokenData } from '@mean/public';
 import { ROLES, STATUS, UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
-import { TabFormUpdateComponent } from "../../../../../../shared/components/tab-form-update/tab-form-update.component";
+import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-form-update/tab-form-update.component';
 import { mapClinicalHistoryToDataTabs } from '../../../adapters/clinical-history.adapters';
-import { HeaderHistoryClinicComponent } from "../../../components/header-history-clinic/header-history-clinic.component";
-import { ProgressNotesComponent } from "../../../components/progress-notes/progress-notes.component";
+import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';
+import { ProgressNotesComponent } from '../../../components/progress-notes/progress-notes.component';
 
 @Component({
   selector: 'app-students-general-history',
   standalone: true,
   templateUrl: './students-general-history.component.html',
   styleUrl: './students-general-history.component.scss',
-  imports: [MatInputModule, TabFormComponent, MatTabsModule, MatDialogModule, MatTabsModule, MatDialogModule, MatCardModule, MatButtonModule, TabViewModule, HistoryInitialBagComponent, TabFormUpdateComponent, ProgressNotesComponent, HeaderHistoryClinicComponent],
+  imports: [
+    MatInputModule,
+    TabFormComponent,
+    MatTabsModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatDialogModule,
+    MatCardModule,
+    MatButtonModule,
+    TabViewModule,
+    HistoryInitialBagComponent,
+    TabFormUpdateComponent,
+    ProgressNotesComponent,
+    HeaderHistoryClinicComponent,
+  ],
 })
-
 export class StudentsGeneralHistoryComponent implements OnInit {
-  @Input() public patientUuid!: string;               // PatientUuid
-  public medicalRecordData!: dataTabs;                // Configuracion de la historia clinica
+  @Input() public patientUuid!: string; // PatientUuid
+  public medicalRecordData!: dataTabs; // Configuracion de la historia clinica
 
-  private readonly route = inject(Router);            // Servicio de routing de Angular
-  private readonly apiService = inject(ApiService);   // Servicio para estado de historias clínica
+  private readonly route = inject(Router); // Servicio de routing de Angular
+  private readonly apiService = inject(ApiService); // Servicio para estado de historias clínica
   private readonly userService = inject(AuthService); // Servicio de autenticación y roles
 
-  public patientData!: cardPatient;                   // Información completa del paciente
-  public patientMedicalRecord!: number;               // patientMedicalRecord para enviar a componente tabform
-  public medicalRecordId!: number                     // medicalRecordId para enviar a notas de evolución
+  public patientData!: cardPatient; // Información completa del paciente
+  public patientMedicalRecord!: number; // patientMedicalRecord para enviar a componente tabform
+  public medicalRecordId!: number; // medicalRecordId para enviar a notas de evolución
 
-  public currentIndex: number = 0;                    // State tabs
+  public currentIndex: number = 0; // State tabs
   public currentSectionId!: string;
   public currentStatus: string | null = null;
 
-  public role!: string;                               // Auth
+  public role!: string; // Auth
   private token!: string;
   private tokenData!: TokenData;
 
-  ROL = ROLES;                                         // Roles de usuario disponibles
+  ROL = ROLES; // Roles de usuario disponibles
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.initializeUserRole();
@@ -73,8 +86,10 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.medicalRecordData = mapClinicalHistoryToDataTabs(response);
-          this.patientMedicalRecord = this.medicalRecordData.idPatientMedicalRecord;
-          this.medicalRecordId = this.medicalRecordData.idClinicalHistoryCatalog;
+          this.patientMedicalRecord =
+            this.medicalRecordData.idPatientMedicalRecord;
+          this.medicalRecordId =
+            this.medicalRecordData.idClinicalHistoryCatalog;
         },
         error: (errorResponse) => {
           if (errorResponse.status === 404) {
@@ -119,7 +134,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
     const filteredData = {
       ...historyData,
-      tabs: historyData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW)
+      tabs: historyData.tabs.filter((tab) => tab.status === STATUS.IN_REVIEW),
     };
 
     if (filteredData.tabs.length === 0) {
@@ -132,13 +147,15 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
   getFirstTab() {
     if (this.medicalRecordData.tabs.length > 0) {
-      this.currentSectionId = this.medicalRecordData.tabs[this.currentIndex].idFormSection;
-      this.currentStatus = this.medicalRecordData.tabs[this.currentIndex].status;
+      this.currentSectionId =
+        this.medicalRecordData.tabs[this.currentIndex].idFormSection;
+      this.currentStatus =
+        this.medicalRecordData.tabs[this.currentIndex].status;
     }
   }
 
   getRole() {
-    this.token = this.userService.getToken() ?? "";
+    this.token = this.userService.getToken() ?? '';
     this.tokenData = this.userService.getTokenDataUser(this.token);
     this.role = this.tokenData.role[0].authority;
   }
@@ -146,20 +163,28 @@ export class StudentsGeneralHistoryComponent implements OnInit {
   private processMappedData(mappedData: dataTabs, role: string): dataTabs {
     let processedData = { ...mappedData };
     if (role === ROLES.PROFESSOR) {
-      processedData.tabs = processedData.tabs.filter(tab => tab.status === STATUS.IN_REVIEW);
+      processedData.tabs = processedData.tabs.filter(
+        (tab) => tab.status === STATUS.IN_REVIEW
+      );
     }
     return processedData;
   }
 
   onTabChange(index: number) {
-    this.currentSectionId = this.medicalRecordData.tabs[this.currentIndex].idFormSection;
+    this.currentSectionId =
+      this.medicalRecordData.tabs[this.currentIndex].idFormSection;
     this.getStatusHc();
   }
 
   getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.medicalRecordData.tabs[this.currentIndex];
 
-    if (!forceRequest && (currentTab.status === STATUS.NOT_REQUIRED || currentTab.status === STATUS.NO_REQUIRED || currentTab.status === STATUS.NO_STATUS)) {
+    if (
+      !forceRequest &&
+      (currentTab.status === STATUS.NOT_REQUIRED ||
+        currentTab.status === STATUS.NO_REQUIRED ||
+        currentTab.status === STATUS.NO_STATUS)
+    ) {
       return;
     }
 
@@ -195,4 +220,3 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     }
   }
 }
-
