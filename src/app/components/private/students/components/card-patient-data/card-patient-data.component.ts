@@ -1,10 +1,12 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { TreatmentDetailResponse } from "@mean/models";
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { PatientResponse } from 'src/app/models/card-info-patient/card.info.patient';
 import { mapToCardPatientView } from 'src/app/models/card-info-patient/card.info.patient.mapper';
 import { cardGuardian } from 'src/app/models/shared/patients/cardPatient';
+import { ArrayToDatePipe } from 'src/app/shared/pipes/array-to-date.pipe';
 
 export interface PatientSummary {
   fullName: string;
@@ -22,7 +24,7 @@ export interface PatientSummary {
 @Component({
   selector: 'app-card-patient-data',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MatCardModule, ArrayToDatePipe],
   templateUrl: './card-patient-data.component.html',
   styleUrl: './card-patient-data.component.scss'
 })
@@ -30,6 +32,7 @@ export class CardPatientDataComponent implements OnInit {
   @Input() patientUuid!: string;
   @Input() data!: PatientSummary;
   @Input() guardianData: cardGuardian | null = null;
+  @Input() treatmentData!: TreatmentDetailResponse;
   private patientService = inject(ApiService);
 
   ngOnInit(): void {
