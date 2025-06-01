@@ -2,11 +2,11 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { TreatmentDetailResponse } from "@mean/models";
 import { ApiService } from '@mean/services';
+import { ArrayToDatePipe } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
 import { PatientResponse } from 'src/app/models/card-info-patient/card.info.patient';
 import { mapToCardPatientView } from 'src/app/models/card-info-patient/card.info.patient.mapper';
 import { cardGuardian } from 'src/app/models/shared/patients/cardPatient';
-import { ArrayToDatePipe } from 'src/app/shared/pipes/array-to-date.pipe';
 
 export interface PatientSummary {
   fullName: string;
