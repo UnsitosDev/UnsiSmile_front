@@ -24,7 +24,7 @@ export class RateFormSectionsComponent implements OnInit, OnDestroy {
   private activatedRoute = inject(ActivatedRoute);
   private subscriptions = new Subscription();
 
-  public formSectionId!: number;
+  public formSectionId!: string;
   public patientMedicalRecordId!: number;
   public formSection!: FormSection;
   public formSectionMapped!: formSectionFields;
@@ -36,7 +36,7 @@ export class RateFormSectionsComponent implements OnInit, OnDestroy {
       this.activatedRoute.params.subscribe({
         next: (params) => {
           console.log('Route Params:', params);
-          this.formSectionId = parseInt(params['formSectionId'], 10);
+          this.formSectionId = params['formSectionId'];
           this.patientMedicalRecordId = parseInt(
             params['patientMedicalRecordId'],
             10
