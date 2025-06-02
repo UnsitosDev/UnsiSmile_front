@@ -7,12 +7,13 @@ import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.co
 import { mapFormSectionToFormSectionFields } from '../../../students/adapters/clinical-history.adapters';
 import { DialogSendReview } from '../../components/menu-assess-medical-redord/menu-assess-medical-record.component';
 import { RateFormSectionService } from './services/rate-form-section.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-rate-form-sections',
   standalone: true,
   imports: [
-    TabFormComponent
+    TabFormComponent, MatCardModule
   ],
   templateUrl: './rate-form-sections.component.html',
   styleUrl: './rate-form-sections.component.scss',
