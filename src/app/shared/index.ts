@@ -7,3 +7,4 @@ export * from './interfaces/tabs_handler'
 export * from './components/loading/loading.component';
 export * from './components/tabla-data/tabla-data.component';
 export * from './interfaces/student/student'
+export * from './pipes/array-to-date.pipe'

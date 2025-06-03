@@ -11,7 +11,7 @@ export class RateFormSectionService {
   constructor(private http: HttpClient) {}
 
   getFormSection(
-    formSectionId: number,
+    formSectionId: string,
     idPatientClinicalHistory: number
   ): Observable<FormSection> {
     const url = UriConstants.GET_FORM_SECTION.replace(

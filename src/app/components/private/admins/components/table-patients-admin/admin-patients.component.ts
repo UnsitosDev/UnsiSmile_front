@@ -12,7 +12,7 @@ import {
   getEntityPropiedades,
 } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
-import { StudentsGeneralHistoryComponent } from '../../../students/pages/history-clinics/general/students-general-history.component';
+import { StudentsGeneralHistoryComponent } from '../../../students/pages/medicalRecords/general/students-general-history.component';
 import { DialogHistoryClinicsComponent } from '../../../students/components/dialog-history-clinics/dialog-history-clinics.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';

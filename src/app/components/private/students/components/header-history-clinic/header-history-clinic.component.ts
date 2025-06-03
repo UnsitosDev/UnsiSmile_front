@@ -19,7 +19,7 @@ import { DialogConfirmSendToReviewComponent } from '../dialog-confirm-send-to-re
 export class HeaderHistoryClinicComponent {
   @Input({ required: true }) mappedHistoryData!: dataTabs;
   @Input({ required: true }) idPatientClinicalHistory!: number;
-  @Input({ required: true }) currentSectionId!: string | null;
+  @Input({ required: true }) currentSectionId!: string;
   @Input({ required: true }) currentStatus!: string | null;
   @Input({ required: true }) currentIndex!: number;
   @Input({ required: true }) role!: string;
@@ -51,7 +51,7 @@ export class HeaderHistoryClinicComponent {
 
   openConfirmDialog() {
     const dialogRef = this.dialog.open(DialogConfirmSendToReviewComponent, {
-      data: { idPatientClinicalHistory: +this.idPatientClinicalHistory, idFormSection: this.currentSectionId },      
+      data: { idPatientClinicalHistory: + this.idPatientClinicalHistory, idFormSection: this.currentSectionId },      
     });
 
     dialogRef.afterClosed().subscribe((result) => {

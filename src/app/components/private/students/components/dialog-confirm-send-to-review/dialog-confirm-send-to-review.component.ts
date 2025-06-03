@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 
 interface sendToReview {
   idPatientClinicalHistory: number;
-  idFormSection: number,
+  idFormSection: string,
   send?: boolean;
   treatmentId?: number;
 }
@@ -31,7 +31,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
   public data = inject(MAT_DIALOG_DATA) as sendToReview;
   public toastr = inject(ToastrService);
   public professorAreasData!: PaginatedData<ProfessorClinicalAreaResponse>;
-  public professorClinicalAreaId: number | null = null; 
+  public professorClinicalAreaId: number = 0; 
   private currentPage = 0;
   private readonly pageSize = 10;
   public isLoading = false;
@@ -117,14 +117,29 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
   sendToReview() {
     if (!this.professorClinicalAreaId) return;
 
+    // Convert and validate parameters
+    const patientClinicalHistoryId = Number(this.data.idPatientClinicalHistory);
+    // formSectionId is a string, so do not convert it.
+    const formSectionId = this.data.idFormSection;
+    const clinicalAreaId = Number(this.professorClinicalAreaId);
+
+    if (isNaN(patientClinicalHistoryId) || !formSectionId || isNaN(clinicalAreaId)) {
+      console.error('Invalid parameters:', {
+        patientClinicalHistoryId,
+        formSectionId,
+        clinicalAreaId,
+      });
+      this.toastr.error('Datos inválidos para enviar a revisión.');
+      return;
+    }
+
     this.apiService
       .postService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.POST_CLINICAL_HISTORY_REVIEW}/${+this.data.idPatientClinicalHistory}/sections/${+this.data.idFormSection}/review/${+this.professorClinicalAreaId}`,
+        url: `${UriConstants.POST_CLINICAL_HISTORY_REVIEW}/${patientClinicalHistoryId}/sections/${formSectionId}/review/${clinicalAreaId}`,
         data: {},
-        
       })
       .subscribe({
         next: (response) => {

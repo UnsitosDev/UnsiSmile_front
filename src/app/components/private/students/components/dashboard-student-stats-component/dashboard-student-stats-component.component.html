@@ -5,10 +5,10 @@
   }
 </div>
 } @else {
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 card-container">
   <!-- Total Patients -->
   <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
+    class="transform transition-all duration-300 hover:scale-105 equal-height-card"
     title="Pacientes"
     [value]="stats.totalPatients || 0"
     icon="fas fa-users"
@@ -17,7 +17,7 @@
   >
   </app-dashboard-card>
   <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
+    class="transform transition-all duration-300 hover:scale-105 equal-height-card"
     title="Pacientes entre 18 y 60 años"
     [value]="stats.patientsBetween18And60"
     icon="fas fa-user-friends"
@@ -26,7 +26,7 @@
   >
   </app-dashboard-card>
   <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
+    class="transform transition-all duration-300 hover:scale-105 equal-height-card"
     title="Pacientes menores de edad"
     [value]="stats.patientsUnder18"
     icon="fas fa-child"
@@ -36,18 +36,18 @@
   </app-dashboard-card>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6 card-container">
   <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
-    title="Total de pacientes mayores de 60 años"
+    class="transform transition-all duration-300 hover:scale-105 equal-height-card"
+    title="Pacientes mayores de 60 años"
     icon="fas fa-user-plus"
     cardType="numeric"
     [value]="stats.patientsOver60"
     [colorBar]="'bg-blue-500'"
   ></app-dashboard-card>
   <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105"
-    title="Total de pacientes en el último mes"
+    class="transform transition-all duration-300 hover:scale-105 equal-height-card"
+    title="Pacientes en el último mes"
     icon="fas fa-calendar-alt"
     cardType="numeric"
     [value]="stats.patientsRegisteredLastMonth"

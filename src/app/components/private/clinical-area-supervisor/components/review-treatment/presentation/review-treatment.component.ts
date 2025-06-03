@@ -1,24 +1,22 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { MatSelectModule } from "@angular/material/select";
 import { Router } from '@angular/router';
 import { TreatmentDetailResponse } from '@mean/models';
 import { ApiService, AuthService } from '@mean/services';
-import { LoadingComponent } from "@mean/shared";
-import { STATUS, STATUS_TREATMENTS, UriConstants } from '@mean/utils';
+import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { treatmentsListNotifications } from '../components/treatments-list-notifications.component';
+import { ArrayToDatePipe, LoadingComponent } from "@mean/shared";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: 'app-review-treatment',
   standalone: true,
-  imports: [MatListModule, MatCardModule, LoadingComponent, MatButtonModule, MatSelectModule, ReactiveFormsModule],
+  imports: [MatListModule, MatCardModule, LoadingComponent, MatButtonModule, ArrayToDatePipe],
   templateUrl: './review-treatment.component.html',
   styleUrl: './review-treatment.component.scss'
 })

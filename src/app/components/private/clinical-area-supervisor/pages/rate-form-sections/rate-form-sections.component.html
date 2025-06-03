@@ -1,10 +1,19 @@
 @if (!isLoading) {
 
-<app-tab-form
-  [patientMedicalRecord]="patientMedicalRecordId"
-  [fieldsTab]="formSectionMapped"
-  [patientUuid]="patientUUID"
-  [id]="2"
-></app-tab-form>
+@if (formSectionMapped.status === 'IN_REVIEW') {
+  <div class="flex justify-end mb-4">
+    <button class="rate-treatment" mat-button (click)="opedDialogRateFormSections()">
+      Calificar tratamiento
+    </button>
+</div>
+}
 
+<mat-card-title><strong>{{formSectionMapped.title}}</strong></mat-card-title>
+<mat-card>
+  <app-tab-form
+    [patientMedicalRecord]="patientMedicalRecordId"
+    [fieldsTab]="formSectionMapped"
+    [patientUuid]="patientUUID">
+  ></app-tab-form>
+</mat-card>
 }

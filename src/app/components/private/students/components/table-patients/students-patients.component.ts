@@ -19,7 +19,7 @@ import {
 } from 'src/app/models/tabla/tabla-columna';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
-import { StudentsGeneralHistoryComponent } from '../../pages/history-clinics/general/students-general-history.component';
+import { StudentsGeneralHistoryComponent } from '../../pages/medicalRecords/general/students-general-history.component';
 import { DetailsPatientsComponent } from '../details-patients/details-patients.component';
 
 
