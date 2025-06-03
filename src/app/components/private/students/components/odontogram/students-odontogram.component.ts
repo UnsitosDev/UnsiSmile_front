@@ -258,7 +258,7 @@ export class StudentsOdontogramComponent implements OnInit {
   setFace(event: ToothEvent): void {
     const { tooth, faceId } = event;
 
-    if(this.marked.condition === ToothConditionsConstants.DIENTE_EXTRAIDO || this.marked.condition === ToothConditionsConstants.DIENTE_NO_PRESENTE){
+    if(this.marked.condition === ToothConditionsConstants.DIENTE_EXTRAIDO || this.marked.condition === ToothConditionsConstants.DIENTE_NO_PRESENTE || this.marked.condition === ToothConditionsConstants.PROTESIS_REMOVIBLE){
       //clear all conditions to thoot
       this.clearTooth(tooth)
     }
