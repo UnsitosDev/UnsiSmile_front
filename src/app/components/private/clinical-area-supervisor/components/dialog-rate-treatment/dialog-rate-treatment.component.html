@@ -11,7 +11,7 @@
     <br>
     <mat-form-field class="w-full" appearance="fill">
       <mat-label>Observaciones</mat-label>
-      <textarea matInput placeholder="Anotar observaciones del tratamiento..."></textarea>
+      <textarea matInput [(ngModel)]="comment" placeholder="Anotar observaciones del tratamiento..."></textarea>
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end" style="gap: 8px">
