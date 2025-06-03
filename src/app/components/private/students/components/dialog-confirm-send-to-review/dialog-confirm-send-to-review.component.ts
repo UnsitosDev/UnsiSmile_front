@@ -99,8 +99,11 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.POST_TREATMENT_REVIEW}/${this.data.treatmentId}/revision?professorClinicalAreaId=${this.professorClinicalAreaId}`,
-        data: {},
+        url: `${UriConstants.POST_TREATMENT_REVIEW}/${this.data.treatmentId}/revision`,
+        data: {
+          professorClinicalAreaId: this.professorClinicalAreaId,
+          comments: '',
+        },
       })
       .subscribe({
         next: (response) => {

@@ -1,21 +1,16 @@
-<mat-card-title>
-  <div class="title-container">
-    <span><strong>Calificar tratamiento</strong></span>
-    <span (click)="closeDialog()" class="close-btn cursor-pointer">
-      <i class="fas fa-times"></i>
-    </span>
-  </div>
-</mat-card-title>
-<div class="custom-dialog flex flex-col p-2">
-  <mat-radio-group 
-    aria-label="Select an option"
-    (change)="onStatusChange($event)"
-    class="flex flex-row gap-4">
-      <mat-radio-button [value]="STATUS.REJECTED">Rechazar</mat-radio-button>
-      <mat-radio-button [value]="STATUS.FINISHED">Aprobar</mat-radio-button>
-  </mat-radio-group>
-  
-</div>
-<div class="custom-dialog p-2">
-  <button mat-button (click)="rateTreatment()" class="w-full">Calificar</button>
+<div class="dialog-custom">
+  <h2 mat-dialog-title>Calificar tratamiento</h2>
+  <mat-dialog-content>
+    <mat-radio-group 
+      aria-label="Select an option"
+      (change)="onStatusChange($event)"
+      class="flex flex-row gap-4">
+        <mat-radio-button [value]="STATUS.REJECTED">Rechazar</mat-radio-button>
+        <mat-radio-button [value]="STATUS.FINISHED">Aprobar</mat-radio-button>
+    </mat-radio-group>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" style="gap: 8px">
+    <button mat-stroked-button (click)="closeDialog()">Cancelar</button>
+    <button mat-button class="rate" (click)="rateTreatment()">Calificar</button>
+  </mat-dialog-actions>
 </div>

@@ -2,7 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { Router } from '@angular/router';
 import { ApiService } from '@mean/services';
@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-dialog-rate-treatment',
   standalone: true,
-  imports: [MatRadioModule, MatCardModule, MatButtonModule],
+  imports: [MatRadioModule, MatCardModule, MatButtonModule, MatDialogModule],
   templateUrl: './dialog-rate-treatment.component.html',
   styleUrl: './dialog-rate-treatment.component.scss'
 })

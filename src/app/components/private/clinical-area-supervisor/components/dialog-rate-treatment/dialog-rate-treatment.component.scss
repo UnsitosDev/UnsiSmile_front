@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-between;
     color: var(--white-color);
+    background-color: var(--tertiary);
 }
 
 .custom-dialog {
@@ -9,7 +10,6 @@
     color: var(--white-color);   
 }
 
-button {
+.rate{
     background-color: var(--tertiary);
-    color: var(--white-color);
 }
