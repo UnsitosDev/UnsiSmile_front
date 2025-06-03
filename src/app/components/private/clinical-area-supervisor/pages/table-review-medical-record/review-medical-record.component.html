@@ -6,7 +6,7 @@
   <mat-label>Seleccione historias clínicas: Por revisar, Aprobadas o Rechazadas</mat-label>
   <mat-select [formControl]="statusControl" (selectionChange)="getClinicalHistoriesToReview()">
     <mat-option [value]="STATUS.IN_REVIEW">Historias clinicas por revisar</mat-option>
-    <mat-option [value]="STATUS.APPROVED">Historias clinicas aprovadas</mat-option>
+    <mat-option [value]="STATUS.APPROVED">Historias clinicas aprobadas</mat-option>
     <mat-option [value]="STATUS.REJECTED">Historias clinicas rechazadas</mat-option>
   </mat-select>
 </mat-form-field>

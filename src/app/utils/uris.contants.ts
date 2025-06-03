@@ -289,6 +289,7 @@ export class UriConstants {
   public static readonly POST_FILES = basePath + '/files';
   // Descargar archivo
   public static readonly DOWLOAD_FILES = basePath + '/files/general-files/';
+  public static readonly DOWLOAD_FILES_SECTION = basePath + '/files/file';
   // obtener el odontograma mas reciente
   public static readonly GET_LAST_ODONTOGRAM_BY_PATIENT = basePath + '/medical-histories/odontograms/latest'
   // Crear semestre

@@ -189,8 +189,8 @@
           <mat-list>
             @for (file of field.answerField?.files; track file) {
               <mat-list-item>
-                <mat-icon matListItemIcon><i class="fas fa-file-alt"></i></mat-icon>
-                <div (click)="onFileClick(file)" matListItemTitle>{{ file.fileName }}</div>
+                <mat-icon matListItemIcon><i class="fas fa-file-alt cursor-pointer"></i></mat-icon>
+                <div (click)="onFileClick(file)" matListItemTitle class="cursor-pointer">{{ file.fileName }}</div>
               </mat-list-item>
             }
         </mat-list>
