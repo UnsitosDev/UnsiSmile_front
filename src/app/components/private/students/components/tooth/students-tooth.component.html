@@ -220,15 +220,11 @@
           opacity="0.6"
         />
       </ng-container>
-      }
-      @if (condition.condition ===
-      ToothConditionsConstant.DIENTE_EXTRAIDO) {
+      } @if (condition.condition === ToothConditionsConstant.DIENTE_EXTRAIDO) {
       <ng-container>
-        <path fill="#e74c3c" d="M15 5 0 30h30z"/>
+        <path fill="#e74c3c" d="M15 5 0 30h30z" />
       </ng-container>
-      }
-   }
-      
+      } }
     </svg>
 
     <!-- Contenedor de simbologías debajo del diente -->
@@ -253,9 +249,8 @@
       <img src="../../../../../../assets/svg/hipoplasia.svg" />
       }
       <!-- Diente con resto radicular-->
-       <!-- Diente con hipoplasia -->
-      @if (condition.condition ===
-      ToothConditionsConstant.RESTO_RADICULAR) {
+      <!-- Diente con hipoplasia -->
+      @if (condition.condition === ToothConditionsConstant.RESTO_RADICULAR) {
       <img src="../../../../../../assets/svg/resto_radicular.svg" />
       }
       <!-- Diente en mal posición derecha -->
@@ -274,8 +269,14 @@
       <!-- Prótesis removible -->
       @if (condition.condition === ToothConditionsConstant.PROTESIS_REMOVIBLE) {
       <img src="../../../../../../assets/svg/protesis_removible.svg" />
-      } @if (condition.condition === ToothConditionsConstant.PUENTE) {
+      } 
+      <!-- Puente -->
+      @if (condition.condition === ToothConditionsConstant.PUENTE) {
       <img src="../../../../../../assets/svg/puente.svg" />
+      }
+      <!-- Endodoncia -->
+      @if (condition.condition === ToothConditionsConstant.ENDODONCIA) {
+      <img src="../../../../../../assets/svg/endodoncia.svg" />
       } }
     </div>
   </div>

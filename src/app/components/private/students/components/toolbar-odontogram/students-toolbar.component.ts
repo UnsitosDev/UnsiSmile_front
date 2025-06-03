@@ -47,8 +47,7 @@ export class StudentsToolbarComponent {
       ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA,
       ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA,
       ToothConditionsConstants.PROTESIS_REMOVIBLE,
-      ToothConditionsConstants.PUENTE,
-      ToothConditionsConstants.DIENTE_NO_PRESENTE
+      ToothConditionsConstants.PUENTE
     ];
     return normalConditions.includes(condition);
   }
@@ -65,6 +64,7 @@ export class StudentsToolbarComponent {
       ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES,
       ToothConditionsConstants.RESTO_RADICULAR,
       ToothConditionsConstants.DIENTE_EXTRAIDO,
+      ToothConditionsConstants.ENDODONCIA
     ];
     return abnormalConditions.includes(condition);
   }

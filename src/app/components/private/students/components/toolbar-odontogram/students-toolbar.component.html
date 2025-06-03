@@ -221,12 +221,9 @@
             }
             <!-- Diente extraido -->
             @case (ToothConditionsConstants.DIENTE_EXTRAIDO) {
-              <g>
-                <polygon
-                  points="15,5 0,30 30,30"
-                  fill="#e74c3c"
-                />
-              </g>
+            <g>
+              <polygon points="15,5 0,30 30,30" fill="#e74c3c" />
+            </g>
             }
             <!-- Diente con fractura -->
             @case (ToothConditionsConstants.DIENTE_CON_FRACTURA) {
@@ -291,6 +288,10 @@
             ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
             <span>
               <img src="../../../../../../assets/svg/flecha izquierda.svg" />
+            </span>
+            } @if (symbol.condition === ToothConditionsConstants.ENDODONCIA) {
+            <span>
+              <img src="../../../../../../assets/svg/endodoncia.svg" />
             </span>
             }
           </div>
