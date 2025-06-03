@@ -69,6 +69,12 @@
                 <span class="pending-review">Por mandar a revisión</span>
               }
             </li>
+            @if (treatmentData.comments) {
+              <li>
+                <i class="fas fa-clipboard-list mr-1"></i>
+                <span> Observaciones: {{treatmentData.comments}}</span>
+              </li>
+            }
           </ul>
         </div>
         }@else {

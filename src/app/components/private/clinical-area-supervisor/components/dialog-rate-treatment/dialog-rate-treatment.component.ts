@@ -25,7 +25,7 @@ export class DialogRateTreatmentComponent {
   private readonly apiService = inject(ApiService);
   private readonly toastr = inject(ToastrService);
   private readonly router = inject(Router);
-  public comment: string = '';
+  public comments: string = '';
 
   private idTreatmentDetail!: number;
   private selectedStatus: string = '';  
@@ -50,7 +50,7 @@ export class DialogRateTreatmentComponent {
       return;
     }
 
-    if (!this.comment?.trim()) {
+    if (!this.comments?.trim()) {
       this.toastr.warning('Agrega observaciones');
       return;
     }
@@ -62,7 +62,7 @@ export class DialogRateTreatmentComponent {
       url: `${UriConstants.POST_RATE_TREATMENT}/${this.idTreatmentDetail}/status`,
       data: {
         status: this.selectedStatus,
-        comment: this.comment
+        comments: this.comments
       },
     }).subscribe({
       next: (response) => {
