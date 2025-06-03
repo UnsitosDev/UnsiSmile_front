@@ -1,34 +1,59 @@
 @if (!isLoading) {
-    
-    <div class=" flex justify-end mb-4">
-        <button class="rate-treatment" mat-button (click)="opedDialogRateTreatment()">
-            Calificar Tratamiento
-        </button>
-    </div>
-      @switch (medicalRecord) { @case (2) {
-      <!--Protesis bucal-->
-      <app-oral-prosthesis [patientUuid]="idPatient"></app-oral-prosthesis>
-      } @case (3) {
-      <!-- Periodoncia -->
-      <app-students-periodontics-history
-        [patientUuid]="idPatient"
-      ></app-students-periodontics-history>
-      } @case (4) {
-      <!-- Operatioria dental -->
-      <app-students-dental-operation
-        [patientUuid]="idPatient"
-      ></app-students-dental-operation>
-      } @case (5) {
-      <!-- Cirujia bucal -->
-      <app-students-oral-surgery-history
-        [patientUuid]="idPatient"
-      ></app-students-oral-surgery-history>
-      } @case (6) {
-      <app-preventive-dentistry-public-health    
-        [patientUuid]="idPatient"
-      ></app-preventive-dentistry-public-health>
-      } @default {
-      <p>No existe esta historia clinica.</p>
-      } }
+
+  <div class=" flex justify-end mb-4">
+    <button class="rate-treatment" mat-button (click)="opedDialogRateTreatment()">
+      Calificar Tratamiento
+    </button>
+  </div>
+
+  <div class="mat-tab-group">
+<mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="fas fa-folder"></i>
+        <span class="ml-2">Historia clínica general</span>
+      </ng-template>
+      <app-students-general-history [patientUuid]="idPatient"></app-students-general-history>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="fas fa-pills"></i>
+        <span class="ml-2">Tratamiento</span>
+      </ng-template>
+      @switch (medicalRecord) {
+        @case (2) {
+          <!--Protesis bucal-->
+          <app-oral-prosthesis [patientUuid]="idPatient"></app-oral-prosthesis>
+        }
+        @case (3) {
+          <!-- Periodoncia -->
+          <app-students-periodontics-history
+            [patientUuid]="idPatient"
+          ></app-students-periodontics-history>
+        }
+        @case (4) {
+          <!-- Operatioria dental -->
+          <app-students-dental-operation
+            [patientUuid]="idPatient"
+          ></app-students-dental-operation>
+        }
+        @case (5) {
+          <!-- Cirujia bucal -->
+          <app-students-oral-surgery-history
+            [patientUuid]="idPatient"
+          ></app-students-oral-surgery-history>
+        }
+        @case (6) {
+          <app-preventive-dentistry-public-health
+            [patientUuid]="idPatient"
+          ></app-preventive-dentistry-public-health>
+        }
+        @default {
+          <p>No existe esta historia clinica.</p>
+        }
+      }
+    </mat-tab>
+  </mat-tab-group>
+  </div>
 
 }
