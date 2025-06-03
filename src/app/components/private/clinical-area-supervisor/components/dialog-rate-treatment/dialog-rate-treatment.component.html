@@ -2,11 +2,10 @@
   <h2 mat-dialog-title>Calificar tratamiento</h2>
   <mat-dialog-content class="mt-2">
     <mat-radio-group 
-      aria-label="Select an option"
-      (change)="onStatusChange($event)"
-      class="flex flex-row gap-4">
-        <mat-radio-button [value]="STATUS.REJECTED">Rechazar</mat-radio-button>
-        <mat-radio-button [value]="STATUS.FINISHED">Aprobar</mat-radio-button>
+      (change)="onStatusChange($event)">
+      <mat-radio-button [value]="STATUS.FINISHED">Aprobar</mat-radio-button><br>
+      <mat-radio-button [value]="STATUS.REJECTED">Rechazar</mat-radio-button><br>
+      <mat-radio-button [value]="STATUS.CANCELLED">Cancelar</mat-radio-button>
     </mat-radio-group>
     <br>
     <mat-form-field class="w-full" appearance="fill">
