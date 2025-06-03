@@ -34,7 +34,7 @@ export class StudentsToothComponent {
    * @param index Índice del diente actual.
    */
   clicked(data: ITooth, index: number, faceId: any, idCondition: number) {
-    if (this.state === 'read') {
+    if (this.state === 'read' || this.hasProsthesisOrMissingTeeth()) {
       return;
     }
 
@@ -99,6 +99,14 @@ export class StudentsToothComponent {
   hasConditions(): boolean {
     return this.data.conditions.length > 0 || 
            this.data.faces.some(face => face.conditions && face.conditions.length > 0);
+  }
+
+  hasProsthesisOrMissingTeeth(): boolean {
+    return this.data.conditions.some(condition => 
+      condition.condition === ToothConditionsConstants.DIENTE_EXTRAIDO ||
+      condition.condition === ToothConditionsConstants.DIENTE_NO_PRESENTE ||
+      condition.condition === ToothConditionsConstants.PROTESIS_REMOVIBLE
+    );
   }
 
 
