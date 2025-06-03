@@ -1,15 +1,18 @@
-.title-container {
-    display: flex;
-    justify-content: space-between;
-    color: var(--white-color);
-    background-color: var(--tertiary);
-}
-
-.custom-dialog {
+.dialog-custom {
     background-color: var(--on-primary);
     color: var(--white-color);   
 }
 
 .rate{
     background-color: var(--tertiary);
+    color: var(--white-color);
+}
+
+textarea{
+    color: var(--text);
+}
+
+textarea:focus{
+  outline: none;
+  box-shadow: none;
 }

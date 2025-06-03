@@ -1,6 +1,6 @@
 <div class="dialog-custom">
   <h2 mat-dialog-title>Calificar tratamiento</h2>
-  <mat-dialog-content>
+  <mat-dialog-content class="mt-2">
     <mat-radio-group 
       aria-label="Select an option"
       (change)="onStatusChange($event)"
@@ -8,6 +8,11 @@
         <mat-radio-button [value]="STATUS.REJECTED">Rechazar</mat-radio-button>
         <mat-radio-button [value]="STATUS.FINISHED">Aprobar</mat-radio-button>
     </mat-radio-group>
+    <br>
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Observaciones</mat-label>
+      <textarea matInput placeholder="Anotar observaciones del tratamiento..."></textarea>
+    </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end" style="gap: 8px">
     <button mat-stroked-button (click)="closeDialog()">Cancelar</button>
