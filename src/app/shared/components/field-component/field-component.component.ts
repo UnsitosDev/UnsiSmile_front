@@ -288,7 +288,7 @@ export class FieldComponentComponent implements OnChanges {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.DOWLOAD_FILES}${file.idFile}`,
+        url: `${UriConstants.DOWLOAD_FILES_SECTION}/${file.idFile}`,
         data: {},
         responseType: 'blob'
       })

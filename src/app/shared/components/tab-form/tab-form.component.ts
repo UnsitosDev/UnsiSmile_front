@@ -215,7 +215,7 @@ export class TabFormComponent implements TabsHandler {
       formData.append('files', this.files[i]);
     }
 
-    formData.append('idPatientClinicalHistory', this.patientUuid);
+    formData.append('idPatientClinicalHistory', this.patientMedicalRecord.toString());
     formData.append('idQuestion', this.idQuestion.toString());
 
     this.apiService

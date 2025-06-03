@@ -213,7 +213,7 @@ export class TabFormUpdateComponent {
       formData.append('files', this.files[i]);
     }
 
-    formData.append('idPatientClinicalHistory', this.patientID.toString());
+    formData.append('idPatientClinicalHistory', this.patientMedicalRecord.toString());
     formData.append('idQuestion', this.idQuestion.toString());
 
 
