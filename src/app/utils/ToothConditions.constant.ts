@@ -23,4 +23,5 @@ export class ToothConditionsConstants {
   public static readonly RESTO_RADICULAR = 'Resto radicular';
   public static readonly DIENTE_NO_PRESENTE = 'Diente no presente';
   public static readonly DIENTE_EXTRAIDO = 'Diente extraido';
+  public static readonly ENDODONCIA = 'Endodoncia';
 }
