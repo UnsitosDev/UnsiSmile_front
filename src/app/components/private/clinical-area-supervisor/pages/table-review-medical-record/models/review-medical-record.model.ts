@@ -3,7 +3,7 @@ export interface ReviewAsigneds {
     status:                  string;
     message:                 string;
     idPatientMedicalRecord:  number;
-    idSection:               number;
+    idSection:               string;
     idProfessorClinicalArea: number;
     idTreatmentDetail:       number;
     studentName:             string;
@@ -16,6 +16,7 @@ interface Patient {
     curp:                string;
     medicalRecordNumber: number;
 }
+
 
 
 export const REVIEW_TABLE_DATA = ["Paciente", "CURP", "Expediente", "Estudiante"];
