@@ -1,10 +1,12 @@
 @if (!isLoading) {
 
-<div class="flex justify-end mb-4">
+@if (formSectionMapped.status === 'IN_REVIEW') {
+  <div class="flex justify-end mb-4">
     <button class="rate-treatment" mat-button (click)="opedDialogRateFormSections()">
-        Calificar Tratamiento
+      Calificar tratamiento
     </button>
 </div>
+}
 
 <mat-card-title><strong>{{formSectionMapped.title}}</strong></mat-card-title>
 <mat-card>
