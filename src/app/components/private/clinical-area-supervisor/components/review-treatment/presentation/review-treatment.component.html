@@ -19,9 +19,9 @@
               <li><strong>Tratamiento:</strong> {{ treatment.treatment.name }}</li>
               <li><strong>Fecha de inicio:</strong> {{ treatment.startDate | arrayToDate }}</li>
               <li><strong>Fecha  de finalización:</strong> {{ treatment.endDate | arrayToDate }}</li>
-              <li><strong>Organos dentarios: </strong>
-              @for (tooth of treatment.teeth; track $index) {{{tooth.idTooth}} @if (!$last) {, }}
-              </li>
+              @if (treatment.teeth && treatment.teeth !== null) {
+                <li> <strong>Órgano dentario: </strong> {{ treatment.teeth[0].idTooth}}</li>
+              }
             </ul>  
             <br>
           </div>

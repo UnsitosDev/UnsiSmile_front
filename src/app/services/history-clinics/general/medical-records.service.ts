@@ -10,7 +10,7 @@ import { map, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class GeneralHistoryService {
+export class GeneralMedicalRecordService {
 
   private apiService = inject(ApiService);
 

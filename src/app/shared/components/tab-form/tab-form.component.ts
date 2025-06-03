@@ -17,24 +17,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar'; 
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService, AuthService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
+import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import {
   formSectionFields,
   subSeccion,
 } from 'src/app/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
-import { TabsHandler } from '../../interfaces/tabs_handler';
-import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
-import { TokenData } from 'src/app/components/public/login/model/tokenData';
+import { TabsHandler } from '../../interfaces/tabs_handler';
 
 interface FormData {
   idPatientClinicalHistory: number;
@@ -67,13 +62,11 @@ export class TabFormComponent implements TabsHandler {
   @Input() fieldsSubTab!: subSeccion;
   @Input({required: true}) patientMedicalRecord!: number; 
   @Input({required: true}) patientUuid!: string;
-  @Input({required: true}) id!: number; // ID del paciente
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
   route = inject(ActivatedRoute);
   apiService = inject(ApiService);
   private fb = inject(FormBuilder);
-  private cdr = inject(ChangeDetectorRef); // Inyecta ChangeDetectorRef para manejar la detección de cambios manualmente.
   router = inject(Router); 
   private userService = inject(AuthService);
   private token!: string;
@@ -81,6 +74,7 @@ export class TabFormComponent implements TabsHandler {
   role!: string;
   formGroup!: FormGroup;
   private toastr = inject(ToastrService);
+  public isLoading = true;
   
   sendFile!: boolean;
   disabledControl = false;
@@ -160,6 +154,7 @@ export class TabFormComponent implements TabsHandler {
         }
       });
     }
+    this.isLoading = false; // Indicamos que la carga del formulario ha finalizado
   }
 
   idQuestion!: number;

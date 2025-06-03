@@ -1,30 +1,28 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges, OnChanges, model, signal } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ChangeDetectionStrategy } from '@angular/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
-import { ApiService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
-import { MatIconModule } from '@angular/material/icon';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
+import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { ProgressNotesService } from 'src/app/services/form-progress-notes.service';
 
 @Component({
   selector: 'app-field-component',
   standalone: true,
-  imports: [MatExpansionModule, MatCardModule, MatIconModule, MatListModule, MatCheckboxModule, MatInputModule, FormsModule, AsyncPipe, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
+  imports: [MatExpansionModule, MatCardModule, MatIconModule, MatListModule, MatCheckboxModule, MatInputModule, FormsModule, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule, MatDatepickerModule, MatButtonModule, MatAutocompleteModule],
   templateUrl: './field-component.component.html',
   styleUrl: './field-component.component.scss',
   providers: [provideNativeDateAdapter(), DatePipe],

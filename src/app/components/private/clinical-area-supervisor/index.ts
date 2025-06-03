@@ -1,1 +1,1 @@
-export * from './components/review-medical-record/models/review-medical-record.model'
+export * from './pages/table-review-medical-record/models/review-medical-record.model'

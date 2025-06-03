@@ -1,6 +1,6 @@
-@if(!isLoading){ @if (role !== ROL.STUDENT) {
+@if(!isLoading){ @if (role !== ROLE.STUDENT) {
 <mat-card appearance="outlined" class="custom">
-  <app-card-patient-data [patientUuid]="idpatient"></app-card-patient-data>
+  <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
 </mat-card>
 <br />
 } @if (mappedHistoryData) {
@@ -18,7 +18,7 @@
 <mat-card class="custom">
   <mat-tab-group
     [(selectedIndex)]="currentIndex"
-    (selectedIndexChange)="onTabChange($event)"
+    (selectedIndexChange)="currentIndex"
   >
     @for (tab of mappedHistoryData.tabs; track tab) {
     <mat-tab [label]="tab.title">

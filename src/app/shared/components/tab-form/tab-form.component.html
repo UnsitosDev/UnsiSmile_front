@@ -1,52 +1,55 @@
-<div class="mx-8 pb-8 custom">
-  <form [formGroup]="formGroup">
-    @if (fieldsTab.seccion) {
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mt-4">
-        @for (field of fieldsTab.seccion; track field) {
-          <div class="{{ field.grids }}">
-            <app-field-component
-              [field]="field"
-              [formGroup]="formGroup"
-              [errors]="field.errorMessages"
-              [disabledMultivalued]="disabledControl"
-              (setFieldValue)="handleFieldValue($event)"
-              (setFileValue)="handleFileValue($event)">
-            </app-field-component>
-          </div>
-        }
-      </div>
-    } 
-    @for (subSection of fieldsTab.childFormSection; track subSection) {
-      <div class="mt-2">
-        <span><strong></strong></span>
-        <mat-card-title><strong>{{ subSection.formName }}</strong></mat-card-title> 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-4">
-          @for (childField of subSection.questions; track childField) {
-            <app-field-component
-              [field]="childField"
-              [formGroup]="formGroup"
-              [errors]="childField.errorMessages"
-              [disabledMultivalued]="disabledControl"
-              (setFieldValue)="handleFieldValue($event)">
-            </app-field-component>
+@if (!isLoading) {
+  <div class="mx-8 pb-8 custom">
+    <form [formGroup]="formGroup">
+      @if (fieldsTab.seccion) {
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mt-4">
+          @for (field of fieldsTab.seccion; track field) {
+            <div class="{{ field.grids }}">
+              <app-field-component
+                [field]="field"
+                [formGroup]="formGroup"
+                [errors]="field.errorMessages"
+                [disabledMultivalued]="disabledControl"
+                (setFieldValue)="handleFieldValue($event)"
+                (setFileValue)="handleFileValue($event)">
+              </app-field-component>
+            </div>
           }
         </div>
+      } 
+      @for (subSection of fieldsTab.childFormSection; track subSection) {
+        <div class="mt-2">
+          <span><strong></strong></span>
+          <mat-card-title><strong>{{ subSection.formName }}</strong></mat-card-title> 
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-4">
+            @for (childField of subSection.questions; track childField) {
+              <app-field-component
+                [field]="childField"
+                [formGroup]="formGroup"
+                [errors]="childField.errorMessages"
+                [disabledMultivalued]="disabledControl"
+                (setFieldValue)="handleFieldValue($event)">
+              </app-field-component>
+            }
+          </div>
+        </div>
+      }
+      <div class="button-container">
+        <button (click)="previousTab()" type="button" mat-button matStepperNext>
+          <i class="fas fa-long-arrow-alt-left"></i>&nbsp;
+          <span class="hidden sm:inline">Anterior</span>
+        </button>
+        <div>
+          @if (!disabledControl) {
+            <button type="button" (click)="handleSubmission()" mat-button> Guardar <i class="fas fa-save"></i></button>
+          }    
+          <button type="button" (click)="nextTab()" mat-button>
+            <span class="hidden sm:inline">Avanzar</span>&nbsp;
+            <i class="fas fa-long-arrow-alt-right"></i>
+          </button>              
+        </div>
       </div>
-    }
-    <div class="button-container">
-      <button (click)="previousTab()" type="button" mat-button matStepperNext>
-        <i class="fas fa-long-arrow-alt-left"></i>&nbsp;
-        <span class="hidden sm:inline">Anterior</span>
-      </button>
-      <div>
-        @if (!disabledControl) {
-          <button type="button" (click)="handleSubmission()" mat-button> Guardar <i class="fas fa-save"></i></button>
-        }    
-        <button type="button" (click)="nextTab()" mat-button>
-          <span class="hidden sm:inline">Avanzar</span>&nbsp;
-          <i class="fas fa-long-arrow-alt-right"></i>
-        </button>              
-      </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
+  
+}
