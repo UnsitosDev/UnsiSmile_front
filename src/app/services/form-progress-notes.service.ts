@@ -108,6 +108,12 @@ export class ProgressNotesService {
         },
         {
             type: 'textArea',
+            label: ' Actualización del cuadro clínico',
+            name: 'clinicalStatus',
+            placeholder: 'Ingrese la actualización del cuadro clínico del paciente',
+        },
+        {
+            type: 'textArea',
             label: 'Diagnóstico',
             name: 'diagnosis',
             placeholder: 'Ingrese el diagnóstico del paciente',
