@@ -67,6 +67,13 @@
                   </span>
                 </button>
               }
+              @case (STATUS.CANCELLED) {
+                <button mat-stroked-button class="whitespace-nowrap" disabled>
+                  <span class="rejected flex items-center">
+                    <i class="fas fa-times-circle mr-1"></i>Cancelado
+                  </span>
+                </button>
+              }
             }
 
             <!-- Botón Ver tratamiento -->

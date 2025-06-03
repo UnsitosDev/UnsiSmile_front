@@ -27,6 +27,7 @@
     [class.in-review-treatment]="treatmentDetails.status === STATUS.IN_REVIEW"
     [class.approved-treatment]="treatmentDetails.status === STATUS.APPROVED"
     [class.rejected-treatment]="treatmentDetails.status === STATUS.REJECTED"
+    [class.rejected-treatment]="treatmentDetails.status === STATUS.CANCELLED"
     [class.in-progress-treatment]="
       treatmentDetails.status === STATUS.IN_PROGRESS
     "
@@ -35,7 +36,8 @@
     @switch (treatmentDetails.status) { @case (STATUS.IN_REVIEW) { Tratamiento
     en revisión } @case (STATUS.APPROVED) { Aprobado } @case (STATUS.REJECTED) {
     Rechazado } @case (STATUS.IN_PROGRESS) { En progreso } @case
-    (STATUS.FINISHED) { Finalizado } }
+    (STATUS.FINISHED) { Finalizado } @case
+    (STATUS.CANCELLED) { Cancelado } }
   </span>
   }
 </div>

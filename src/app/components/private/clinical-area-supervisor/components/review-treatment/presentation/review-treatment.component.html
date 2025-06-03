@@ -8,6 +8,7 @@
     <mat-option [value]="STATUS.IN_REVIEW">Tratamientos por revisar</mat-option>
     <mat-option [value]="STATUS.FINISHED">Tratamientos aprobados</mat-option>
     <mat-option [value]="STATUS.REJECTED">Tratamientos rechazadas</mat-option>
+    <mat-option [value]="STATUS.CANCELLED">Tratamientos cancelados</mat-option>
   </mat-select>
 </mat-form-field>
 
@@ -79,6 +80,13 @@
                 <button mat-stroked-button class="whitespace-nowrap" disabled>
                   <span class="finished flex items-center">
                     <i class="fas fa-user-check mr-1"></i>Finalizado
+                  </span>
+                </button>
+              }
+              @case (STATUS.CANCELLED) {
+                <button mat-stroked-button class="whitespace-nowrap" disabled>
+                  <span class="rejected flex items-center">
+                    <i class="fas fa-times-circle mr-1"></i>Cancelado
                   </span>
                 </button>
               }
