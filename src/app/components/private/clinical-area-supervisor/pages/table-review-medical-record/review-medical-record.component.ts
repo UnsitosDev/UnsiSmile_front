@@ -101,7 +101,7 @@ export class ReviewMedicalRecordComponent implements OnInit {
                 idPatient: reviewAsigned.patient.id, 
                 Paciente: reviewAsigned.patient.name,
                 CURP: reviewAsigned.patient.curp,
-                Expediente: reviewAsigned.patient.medicalRecordNumber, 
+                Expediente: reviewAsigned.idPatientMedicalRecord, 
                 Estudiante: reviewAsigned.studentName,
                 formSectionId: reviewAsigned.idSection,
                 idReviewStatus: reviewAsigned.idReviewStatus
