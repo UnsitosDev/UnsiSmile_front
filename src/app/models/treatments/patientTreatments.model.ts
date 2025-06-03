@@ -8,6 +8,7 @@ export interface TreatmentDetailResponse {
     student:           Student;
     treatment:         Treatment;
     teeth:             Tooth[];
+    comments:          string;
 }
 
 interface Patient {
