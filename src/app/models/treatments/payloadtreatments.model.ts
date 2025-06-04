@@ -1,6 +1,7 @@
 // En tu archivo payloadtreatments.model.ts
 export interface RequestTreatment {
     idTreatmentDetail: number;
+    professorClinicalAreaId: number;
     patientId: string;
     treatmentId: number;
     startDate: string;  

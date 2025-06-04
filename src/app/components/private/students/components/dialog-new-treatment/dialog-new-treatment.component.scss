@@ -1,11 +1,11 @@
 .custom-dialog {
     background-color: var(--on-primary);
     color: var(--white-color);
+}
 
-    button {
-        background-color: var(--tertiary);
-        color: var(--white-color);
-    }
+.button-custom {
+    background-color: var(--tertiary);
+    color: var(--white-color);
 }
 
 .title-container {
@@ -38,4 +38,8 @@
         outline: none;
         box-shadow: none;
     }
+}
+
+mat-error{
+    color: var(--input-error);
 }

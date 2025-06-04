@@ -21,3 +21,6 @@ export * from './shared/students'
 export * from './tabla/tabla-columna'
 export * from './shared/pagination/pagination';
 export * from '../models/dashboards/admin-dashboard';
+export * from './clinical-areas/clinical.areas.model';
+export * from './treatments/payloadtreatments.model';
+export * from './shared/prophylaxis/prophylaxis.model';
