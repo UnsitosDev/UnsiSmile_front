@@ -195,3 +195,89 @@ button {
     padding: 0 10px;
   }
 }
+
+.symbol-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem 2rem;
+  background-color: var(--surface-variant);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .symbol-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--primary);
+    color: var(--primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+
+    &:hover {
+      background-color: var(--tertiary);
+      transform: translateY(-1px);
+    }
+
+    mat-icon {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .selected-symbol {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-light);
+    border-radius: 4px;
+    border: 1px solid var(--primary);
+    flex: 1;
+    max-width: 400px;
+
+    .symbol-preview {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      border-radius: 4px;
+      padding: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .symbol-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      flex: 1;
+
+      .symbol-name {
+        font-weight: 600;
+        color: var(--on-secondary);
+        font-size: 1rem;
+      }
+
+      .symbol-description {
+        color: var(--on-secondary);
+        opacity: 0.8;
+        font-size: 0.875rem;
+      }
+    }
+
+    .clear-symbol {
+      color: var(--on-secondary);
+      opacity: 0.7;
+      transition: all 0.2s ease;
+
+      &:hover {
+        opacity: 1;
+        color: var(--error);
+      }
+    }
+  }
+}
