@@ -34,7 +34,7 @@
 <mat-divider></mat-divider>
 
 <div class="p-4 flex justify-end">
-  <button matbutton color="primary" (click)="openInsertProphylaxis()" class="button-custom">
+  <button matbutton color="primary" [hidden]="!newSessionButton" (click)="openInsertProphylaxis()" class="button-custom">
     <strong>+</strong> Nueva sesión profilaxis
   </button>
 </div>
