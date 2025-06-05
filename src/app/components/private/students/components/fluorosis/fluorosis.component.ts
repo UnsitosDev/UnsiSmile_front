@@ -81,6 +81,16 @@ export class FluorosisComponent {
     this.token = this.userService.getToken() ?? '';
     this.tokenData = this.userService.getTokenDataUser(this.token);
     this.role = this.tokenData.role[0].authority;
+    this.contentEditable(this.role);
+  }
+
+  public contentEditable(role: string){
+    if(role !== this.ROL.STUDENT){
+      this.tableEditable = false;
+      this.enableSaveButtonFluorosis = false;
+      this.isReadOnlyMode = true;
+      this.enableSaveDeanIndex = true;
+    }
   }
 
   // Verifica si una cara ha sido seleccionada
