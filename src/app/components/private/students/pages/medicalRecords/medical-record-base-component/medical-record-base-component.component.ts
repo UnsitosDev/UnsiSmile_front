@@ -13,6 +13,7 @@ import { MedicalRecordBaseService } from '../../services/medical-record-base.ser
 })
 export abstract class MedicalRecordBaseComponent implements OnInit, OnDestroy {
   @Input() patientUuid!: string;
+  @Input() public readonlyTreatment: boolean = false;
 
   protected historyService = inject(GeneralMedicalRecordService);
   protected userService = inject(AuthService);

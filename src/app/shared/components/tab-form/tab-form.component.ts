@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService, AuthService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
+import { ROLES, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import {
@@ -62,6 +62,7 @@ export class TabFormComponent implements TabsHandler {
   @Input() fieldsSubTab!: subSeccion;
   @Input({required: true}) patientMedicalRecord!: number; 
   @Input({required: true}) patientUuid!: string;
+  @Input() readonlyTreatment: boolean = false;
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
   route = inject(ActivatedRoute);
@@ -75,6 +76,7 @@ export class TabFormComponent implements TabsHandler {
   formGroup!: FormGroup;
   private toastr = inject(ToastrService);
   public isLoading = true;
+  public ROL = ROLES;
   
   sendFile!: boolean;
   disabledControl = false;
@@ -89,7 +91,7 @@ export class TabFormComponent implements TabsHandler {
     this.tokenData = this.userService.getTokenDataUser(this.token);
     this.role = this.tokenData.role[0].authority;
 
-    if (this.role !== 'ROLE_STUDENT') {
+    if (this.role !== this.ROL.STUDENT || this.readonlyTreatment) {
       this.disableForm(); 
     }
   }

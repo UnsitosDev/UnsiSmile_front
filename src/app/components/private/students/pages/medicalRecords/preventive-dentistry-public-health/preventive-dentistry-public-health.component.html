@@ -17,6 +17,7 @@
             <app-tab-form-update
               [patientMedicalRecord]="patientMedicalRecord"
               [fieldsTab]="tab"
+              [readonlyTreatment]="readonlyTreatment"
               (nextMatTab)="onNextTab()"
               (previousMatTab)="onPreviousTab()"
             ></app-tab-form-update>
@@ -25,6 +26,7 @@
             <app-tab-form
               [patientMedicalRecord]="patientMedicalRecord"
               [fieldsTab]="tab"
+              [readonlyTreatment]="readonlyTreatment"
               [patientUuid]="patientUuid"
                             [id]=6
               (nextMatTab)="onNextTab()"
