@@ -31,6 +31,7 @@ export class FluorosisComponent {
   @Input({ required: true }) patientUuid!: string;
   @Input({ required: true }) idPatientClinicalHistory!: number;
   @Input({ required: true }) idFormSection!: string | null;
+  @Input({ required: true }) readonlyTreatment: boolean = false;    // Indica si el tratamiento es de solo lectura
 
   @Output() nextMatTab = new EventEmitter<void>();                  // Emite evento para avanzar a la siguiente pestaña
   @Output() previousMatTab = new EventEmitter<void>();              // Emite evento para retroceder a la pestaña anterior
@@ -85,7 +86,7 @@ export class FluorosisComponent {
   }
 
   public contentEditable(role: string){
-    if(role !== this.ROL.STUDENT){
+    if(role !== this.ROL.STUDENT || this.readonlyTreatment){
       this.tableEditable = false;
       this.enableSaveButtonFluorosis = false;
       this.isReadOnlyMode = true;

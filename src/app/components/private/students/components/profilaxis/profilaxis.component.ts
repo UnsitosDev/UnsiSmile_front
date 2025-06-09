@@ -30,6 +30,7 @@ export class ProfilaxisComponent implements OnInit {
   @Input({ required: true }) idPatient!: string;
   @Input({ required: true }) idPatientClinicalHistory!: number;
   @Input({ required: true }) idFormSection!: string;
+  @Input({ required: true }) readonlyTreatment: boolean = false; // Indica si el tratamiento es de solo lectura
 
   @Output() nextMatTab = new EventEmitter<void>();                // Evento para tab siguiente
 
@@ -87,8 +88,8 @@ export class ProfilaxisComponent implements OnInit {
   }
 
   public contentEditable(role: string){
-    if (role !== this.ROL.STUDENT) {
-       this.showButtonIHOS = false;
+    if (role !== this.ROL.STUDENT || this.readonlyTreatment) {
+      this.showButtonIHOS = false;
       this.tableEditable = false;
       this.newSessionButton = false;
     }

@@ -35,6 +35,7 @@
           }
           @if (tab.title == "Profilaxis Dental" && !tab.isAnswered) {
             <app-profilaxis
+              [readonlyTreatment]="readonlyTreatment"
               [idPatient]="patientUuid"
               [idPatientClinicalHistory]="patientMedicalRecord"
               [idFormSection]="tab.idFormSection"
@@ -43,6 +44,7 @@
           }
           @if (tab.title === "Fluorosis" && !tab.isAnswered) {
             <app-fluorosis
+            [readonlyTreatment]="readonlyTreatment"
             [idFormSection]="currentSectionId"
             [idPatientClinicalHistory]="patientMedicalRecord"
             (nextMatTab)="onNextTab()"
