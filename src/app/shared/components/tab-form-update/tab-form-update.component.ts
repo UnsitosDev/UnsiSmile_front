@@ -17,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService, AuthService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
+import { ROLES, UriConstants } from '@mean/utils';
 import {
   formSectionFields,
   subSeccion,
@@ -55,6 +55,7 @@ export class TabFormUpdateComponent {
   @Input() fieldsTab!: formSectionFields;
   @Input() fieldsSubTab!: subSeccion;
   @Input() patientMedicalRecord!: number; 
+  @Input() readonlyTreatment: boolean = false;
   @Output() nextMatTab = new EventEmitter<void>(); // Evento para ir al siguiente tab
   @Output() previousMatTab = new EventEmitter<void>(); // Evento para ir al tab anterior
   fb = inject(FormBuilder);
@@ -72,6 +73,8 @@ export class TabFormUpdateComponent {
   patientID: number = 0; // Variable para el parámetro 'patientID'
   patientUuid!: string;
   disabledControl = false;
+  public ROL = ROLES;
+
   ngOnInit(): void {
     this.section();
     this.route.paramMap.subscribe((params) => {
@@ -80,7 +83,7 @@ export class TabFormUpdateComponent {
       this.patientUuid = params.get('patient')!; // uuid paciente
       this.cdr.detectChanges(); // Fuerza la detección de cambios
     });
-    this.getRole(); 
+    this.getRole();   
   }
 
   getRole() {
@@ -88,7 +91,7 @@ export class TabFormUpdateComponent {
     this.tokenData = this.userService.getTokenDataUser(this.token);
     this.role = this.tokenData.role[0].authority;
 
-    if (this.role !== 'ROLE_STUDENT') {
+    if (this.role !== this.ROL.STUDENT || this.readonlyTreatment) {
       this.disableForm(); 
     }
   }

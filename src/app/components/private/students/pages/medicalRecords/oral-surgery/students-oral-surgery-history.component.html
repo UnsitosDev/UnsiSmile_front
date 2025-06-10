@@ -15,6 +15,7 @@
                     <mat-tab [label]="tab.title">
                         @if (tab.isAnswered) {
                             <app-tab-form-update
+                            [readonlyTreatment]="readonlyTreatment"
                             [patientMedicalRecord]="patientMedicalRecord"
                             [fieldsTab]="tab" 
                             (nextMatTab)="onNextTab()"
@@ -23,6 +24,7 @@
                         }
                         @if (!tab.isAnswered) {
                             <app-tab-form 
+                            [readonlyTreatment]="readonlyTreatment"
                             [patientMedicalRecord]="patientMedicalRecord"
                             [fieldsTab]="tab" 
                             [patientUuid]="patientUuid"

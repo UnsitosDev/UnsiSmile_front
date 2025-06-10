@@ -70,7 +70,8 @@ export class TreatmentDetailsComponent
   public isLoading = true;
   public isLoadingGeneralMedicalRecord = true;
   public creatingOdontogram = false;
-
+  public readonlyTreatment : boolean = false; 
+  
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
   STATUS = STATUS_TREATMENTS;
@@ -101,6 +102,9 @@ export class TreatmentDetailsComponent
           this.patientUuid
         );
         this.isLoading = false;
+        if (this.treatmentDetails.status === this.STATUS.FINISHED) {
+          this.readonlyTreatment = true;
+        }
       },
       error: (error) => {
         console.error('Error loading treatment details:', error);
