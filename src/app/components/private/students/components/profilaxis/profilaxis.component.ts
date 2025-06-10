@@ -11,12 +11,13 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatSelectModule } from "@angular/material/select";
 import { ActivatedRoute, Params } from "@angular/router";
 import { CodigoTooth, DentalTreatmentPayload, ID_TREATMENT_DETAIL } from "@mean/models";
-import { ApiService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
+import { ApiService, AuthService } from '@mean/services';
+import { ROLES, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { DentalProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.response.model';
 import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
+import { TokenData } from '@mean/public';
 
 @Component({
   selector: 'app-profilaxis',
@@ -29,6 +30,7 @@ export class ProfilaxisComponent implements OnInit {
   @Input({ required: true }) idPatient!: string;
   @Input({ required: true }) idPatientClinicalHistory!: number;
   @Input({ required: true }) idFormSection!: string;
+  @Input({ required: true }) readonlyTreatment: boolean = false; // Indica si el tratamiento es de solo lectura
 
   @Output() nextMatTab = new EventEmitter<void>();                // Evento para tab siguiente
 
@@ -36,14 +38,20 @@ export class ProfilaxisComponent implements OnInit {
   private readonly api = inject(ApiService);                      // ApiService
   public toastr = inject(ToastrService);                          // Servicio para mensajes
   private readonly router = inject(ActivatedRoute);               // Servicio para obtener de la ruta idTreatmentDetail
+  private readonly userService = inject(AuthService);             // Servicio de autenticación y obtención de datos del usuario
+
+  public role!: string;                                           // Rol del usuario autenticado
+  private token!: string;
+  private tokenData!: TokenData;
 
   public idTreatmentDetail!: number;                              // Id tratamiento
   public registerProfilaxis!: PaginatedData<DentalProphylaxis>;   // Sesiones profilaxis
   public responseIHOS!: DentalTreatmentPayload;                   // Respuesta para indice de higiene oral simplificado
   public showButtonIHOS: boolean = true;                          // estado para mostrar/ocultar btn guardar IHOS
-  public tableEditable: boolean = true;                            // Tabla editable
-
+  public tableEditable: boolean = true;                           // Tabla editable
+  public newSessionButton: boolean = true;
   public indexPage: number = 0;
+  public ROL = ROLES;
 
   idQuestion: number = 244;
 
@@ -60,6 +68,7 @@ export class ProfilaxisComponent implements OnInit {
   codes: { [key: string]: CodigoTooth } = {};
 
   ngOnInit(): void {
+    this.initializeUserRole();
     this.routeParams();
     this.getProphylaxis();
     this.fetchIHOS();
@@ -69,6 +78,21 @@ export class ProfilaxisComponent implements OnInit {
     this.router.params.subscribe((params: Params) => {
       this.idTreatmentDetail = params[ID_TREATMENT_DETAIL]
     })
+  }
+
+   private initializeUserRole(): void {
+    this.token = this.userService.getToken() ?? '';
+    this.tokenData = this.userService.getTokenDataUser(this.token);
+    this.role = this.tokenData.role[0].authority;
+    this.contentEditable(this.role);
+  }
+
+  public contentEditable(role: string){
+    if (role !== this.ROL.STUDENT || this.readonlyTreatment) {
+      this.showButtonIHOS = false;
+      this.tableEditable = false;
+      this.newSessionButton = false;
+    }
   }
 
   openInsertProphylaxis() {
