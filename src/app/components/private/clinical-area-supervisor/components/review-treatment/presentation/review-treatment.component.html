@@ -98,7 +98,7 @@
                     <i class="fas fa-times-circle mr-1"></i>Rechazar
                   </span>
                 </button>
-                <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap">
+                <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap"  (click)="approvedTreatment(treatment.idTreatmentDetail)">
                   <span class="flex items-center">
                     <i class="fas fa-check-circle cursor-pointer mr-2"></i>
                     Aprobar

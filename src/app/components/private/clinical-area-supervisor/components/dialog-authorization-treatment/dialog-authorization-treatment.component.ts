@@ -23,7 +23,6 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
   private readonly apiService = inject(ApiService);
   private toastr = inject(ToastrService);
   public comment: string = '';
-  public authorized = false;
 
   ngOnInit(): void {
   }
@@ -39,7 +38,7 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
     }
 
     const params = new URLSearchParams();
-    params.set('authorized', this.authorized.toString());
+    params.set('authorized', false.toString());
     params.set('comment', this.comment);
 
     this.apiService.patchService({

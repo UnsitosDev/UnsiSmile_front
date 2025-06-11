@@ -139,6 +139,28 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
     });
   }
 
+  public approvedTreatment(idTreatmentDetail: number) {
+    const params = new URLSearchParams();
+    params.set('authorized', true.toString());
+    params.set('comment', '');
+
+    this.apiService.patchService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${idTreatmentDetail}/authorization?${params.toString()}`, 
+      data: {},
+    }).subscribe({
+      next: (response) => {
+        this.toastr.success('Tratamiento aprovado');
+        this.fetchTreatments();
+      },
+      error: (error) => {
+        console.error(error);
+        this.toastr.error(error.message);
+      }
+    });
+  }
 
   rateTreatment(treatment: TreatmentDetailResponse): void {
     this.idTreatmentDetail = treatment.idTreatmentDetail;
