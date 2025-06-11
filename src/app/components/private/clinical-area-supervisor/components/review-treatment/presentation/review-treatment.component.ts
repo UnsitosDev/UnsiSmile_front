@@ -125,7 +125,6 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
   }
 
   public opedDialogAuthorizationTreatment(idTreatmentDetail: number) {
-    console.log(idTreatmentDetail);
     const dialogRef = this.dialog.open(DialogAuthorizationTreatmentComponent, {
       data: {
         idTreatmentDetail: idTreatmentDetail,
