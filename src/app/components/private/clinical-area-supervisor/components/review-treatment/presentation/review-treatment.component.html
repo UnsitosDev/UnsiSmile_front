@@ -9,6 +9,8 @@
     <mat-option [value]="STATUS.FINISHED">Tratamientos aprobados</mat-option>
     <mat-option [value]="STATUS.REJECTED">Tratamientos rechazadas</mat-option>
     <mat-option [value]="STATUS.CANCELLED">Tratamientos cancelados</mat-option>
+    <mat-option [value]="STATUS.AWAITING_APPROVAL">Tratamientos en espera</mat-option>
+
   </mat-select>
 </mat-form-field>
 
@@ -90,15 +92,30 @@
                   </span>
                 </button>
               }
+              @case (STATUS.AWAITING_APPROVAL) {
+                <button mat-stroked-button class="whitespace-nowrap" (click)="opedDialogAuthorizationTreatment(treatment.idTreatmentDetail)">
+                  <span class="rejected flex items-center">
+                    <i class="fas fa-times-circle mr-1"></i>Rechazar
+                  </span>
+                </button>
+                <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap">
+                  <span class="flex items-center">
+                    <i class="fas fa-check-circle cursor-pointer mr-2"></i>
+                    Aprobar
+                  </span>
+                </button>
+              }
             }
 
             <!-- Botón Ver tratamiento -->
+            @if (treatment.status !== STATUS.AWAITING_APPROVAL) {
             <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap">
               <span class="flex items-center" (click)="rateTreatment(treatment)">
                 <i class="fas fa-eye cursor-pointer mr-1"></i>
                 Calificar tratamiento
               </span>
             </button>
+            }
           </div>
         </div>
         <mat-divider></mat-divider>

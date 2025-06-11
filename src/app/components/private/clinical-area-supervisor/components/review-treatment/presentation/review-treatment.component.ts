@@ -14,6 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { treatmentsListNotifications } from '../components/treatments-list-notifications.component';
+import { DialogAuthorizationTreatmentComponent } from '../../dialog-authorization-treatment/dialog-authorization-treatment.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-review-treatment',
@@ -26,6 +28,8 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
   private readonly apiService = inject(ApiService);
   private readonly router = inject(Router);
   private readonly toastr = inject(ToastrService);
+  private readonly dialog = inject(MatDialog);
+
   private token!: string;
   private tokenData!: TokenData;
   private userService = inject(AuthService);
@@ -66,11 +70,19 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
 
     this.isLoading = true;
 
+    let url: string;
+
+    if (this.statusControl.value === STATUS_TREATMENTS.AWAITING_APPROVAL) {
+      url = `${UriConstants.GET_TREATMENT_REVIEW}/${this.professorId}/treatments-to-approve?reviewStatus=${this.statusControl.value}&page=${page}&size=10`;
+    } else {
+      url = `${UriConstants.GET_TREATMENT_REVIEW}/${this.professorId}?reviewStatus=${this.statusControl.value}&page=${page}&size=10`;
+    }
+
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.GET_TREATMENT_REVIEW}/${this.professorId}?reviewStatus=${this.statusControl.value}&page=${page}&size=10`,
+      url: url,
       data: {},
     }).subscribe({
       next: (response: PaginatedData<TreatmentDetailResponse>) => {
@@ -111,6 +123,19 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
       this.fetchTreatments(this.currentPage + 1);
     }
   }
+
+  public opedDialogAuthorizationTreatment(idTreatmentDetail: number) {
+    console.log(idTreatmentDetail);
+    const dialogRef = this.dialog.open(DialogAuthorizationTreatmentComponent, {
+      data: {
+        idTreatmentDetail: idTreatmentDetail,
+      },
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => { });
+  }
+
 
   rateTreatment(treatment: TreatmentDetailResponse): void {
     this.idTreatmentDetail = treatment.idTreatmentDetail;

@@ -1,0 +1,18 @@
+.dialog-custom {
+    background-color: var(--on-primary);
+    color: var(--white-color);   
+}
+
+.rejected{
+    background-color: var(--red-color);
+    color: var(--white-color);
+}
+
+textarea{
+    color: var(--text);
+}
+
+textarea:focus{
+  outline: none;
+  box-shadow: none;
+}
