@@ -133,7 +133,11 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchTreatments(0, true);
+      }
+    });
   }
 
 

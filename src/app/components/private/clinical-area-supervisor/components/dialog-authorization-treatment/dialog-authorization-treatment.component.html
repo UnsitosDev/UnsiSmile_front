@@ -5,7 +5,7 @@
     <mat-dialog-content class="mt-2">
         <mat-form-field class="w-full" appearance="fill">
         <mat-label>Motivo del rechazo</mat-label>
-        <textarea matInput placeholder="Anotar motivo de rechazo"></textarea>
+        <textarea matInput [(ngModel)]="comment" placeholder="Anotar motivo de rechazo"></textarea>
         </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="end" style="gap: 8px">
