@@ -37,7 +37,7 @@ export type ToothOption = TreatmentTooth;
   styleUrl: './dialog-new-treatment.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogNewTreatmentComponent implements OnInit{
+export class DialogNewTreatmentComponent implements OnInit {
   @ViewChild('startPicker') startPicker!: MatDatepicker<Date>;
   @ViewChild('endPicker') endPicker!: MatDatepicker<Date>;
 
@@ -105,6 +105,9 @@ export class DialogNewTreatmentComponent implements OnInit{
     this.treatmentDetailId = treatment.idTreatmentDetail;
     this.nameTreatment = treatment.treatment.name;
     this.selectedTreatmentsName = treatment.treatment.treatmentScope.name;
+
+    this.professorControl.setValue(treatment.treatment.professor);
+    
 
     if (treatment.startDate && Array.isArray(treatment.startDate)) {
       const [year, month, day, hour, minute] = treatment.startDate;
@@ -256,7 +259,7 @@ export class DialogNewTreatmentComponent implements OnInit{
       data: {},
     }).subscribe({
       next: (response: PaginatedData<ProfessorClinicalAreaResponse>) => { this.professorAreasData = response; },
-      error: (error) => {this.toast.error(error); }
+      error: (error) => { this.toast.error(error); }
     });
   }
 

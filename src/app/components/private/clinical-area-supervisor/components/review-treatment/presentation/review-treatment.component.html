@@ -42,7 +42,12 @@
               <li><strong>Fecha de inicio:</strong> {{ treatment.startDate | arrayToDate }}</li>
               <li><strong>Fecha  de finalización:</strong> {{ treatment.endDate | arrayToDate }}</li>
               @if (treatment.teeth && treatment.teeth !== null) {
-                <li> <strong>Órgano dentario: </strong> {{ treatment.teeth[0].idTooth}}</li>
+                <li>
+                  <strong>Órganos dentarios: </strong>
+                  @for (tooth of treatment.teeth; track tooth.idTooth; let last = $last) {
+                    {{ tooth.idTooth }}{{ !last ? ', ' : '' }}
+                  }
+                </li>
               }
             </ul>  
             <br>
@@ -108,7 +113,7 @@
             }
 
             <!-- Botón Ver tratamiento -->
-            @if (treatment.status !== STATUS.AWAITING_APPROVAL) {
+            @if (treatment.status === STATUS.IN_REVIEW || treatment.status === STATUS.FINISHED) {
             <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap">
               <span class="flex items-center" (click)="rateTreatment(treatment)">
                 <i class="fas fa-eye cursor-pointer mr-1"></i>

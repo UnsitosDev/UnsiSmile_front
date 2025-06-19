@@ -39,7 +39,7 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
 
     const params = new URLSearchParams();
     params.set('authorized', false.toString());
-    params.set('comment', this.comment);
+    params.set('comments', this.comment);
 
     this.apiService.patchService({
       headers: new HttpHeaders({

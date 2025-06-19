@@ -72,17 +72,11 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
 
     let url: string;
 
-    if (this.statusControl.value === STATUS_TREATMENTS.AWAITING_APPROVAL) {
-      url = `${UriConstants.GET_TREATMENT_REVIEW}/${this.professorId}/treatments-to-approve?reviewStatus=${this.statusControl.value}&page=${page}&size=10`;
-    } else {
-      url = `${UriConstants.GET_TREATMENT_REVIEW}/${this.professorId}?reviewStatus=${this.statusControl.value}&page=${page}&size=10`;
-    }
-
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: url,
+      url: `${UriConstants.GET_TREATMENT_REVIEW}/${this.professorId}?reviewStatus=${this.statusControl.value}&page=${page}&size=10`,
       data: {},
     }).subscribe({
       next: (response: PaginatedData<TreatmentDetailResponse>) => {
