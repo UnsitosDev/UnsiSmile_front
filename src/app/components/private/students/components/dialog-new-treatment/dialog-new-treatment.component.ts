@@ -70,10 +70,10 @@ export class DialogNewTreatmentComponent implements OnInit {
   ngOnInit(): void {
     this.fetchTreatmentData();
     this.fetchProfessorAreas();
-    if (this.data.treatment) {
-      this.isEditMode = true;
-      this.loadExistingTreatmentData();
-    }
+    // if (this.data.treatment) {
+    //   this.isEditMode = true;
+    //   this.loadExistingTreatmentData();
+    // }
   }
 
   public cancel() {
@@ -100,8 +100,9 @@ export class DialogNewTreatmentComponent implements OnInit {
   public loadExistingTreatmentData() {
     const treatment = this.data.treatment;
 
-    if (this.isEditMode) { this.treatmentControl.disable(); this.startDateControl.disable(); }
+    if (this.isEditMode) { this.startDateControl.disable(); }
 
+    console.log('treatment', this.isEditMode, treatment);
     this.treatmentDetailId = treatment.idTreatmentDetail;
     this.nameTreatment = treatment.treatment.name;
     this.selectedTreatmentsName = treatment.treatment.treatmentScope.name;
@@ -151,7 +152,7 @@ export class DialogNewTreatmentComponent implements OnInit {
       .subscribe({
         next: (response: Treatments[]) => {
           this.treatmentData = response;
-
+          console.log('treatmentData', this.treatmentData);
           if (this.isEditMode && this.data.treatment) {
             this.selectTreatmentById(this.data.treatment.treatment.idTreatment);
           }
@@ -202,10 +203,11 @@ export class DialogNewTreatmentComponent implements OnInit {
     const startDateISO = this.startDateControl.value ? this.startDateControl.value.toISOString() : '';
     const endDateISO = this.endDateControl.value ? this.endDateControl.value.toISOString() : '';
 
+    console.log('selectedTeeth', this.isEditMode);
     return {
       idTreatmentDetail: this.isEditMode ? this.treatmentDetailId : 0,
       professorClinicalAreaId: this.professorControl.value || 0,
-      patientId: this.isEditMode ? this.data.treatment.patientId : this.data.patientUuid,
+      patientId: this.isEditMode ? this.data.treatment.patient.id : this.data.patientUuid,
       treatmentId: this.isEditMode
         ? this.data.treatment.treatment.idTreatment
         : this.treatmentControl.value!.idTreatment,
@@ -267,3 +269,4 @@ export class DialogNewTreatmentComponent implements OnInit {
     this.dialogRef.close();
   }
 }
+  

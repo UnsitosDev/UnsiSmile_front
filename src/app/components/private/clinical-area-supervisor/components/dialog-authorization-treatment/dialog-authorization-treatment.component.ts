@@ -7,7 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ApiService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
+import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -23,7 +23,7 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
   private readonly apiService = inject(ApiService);
   private toastr = inject(ToastrService);
   public comment: string = '';
-
+  public NOT_APPROVE = STATUS_TREATMENTS.NOT_APPROVED;  
   ngOnInit(): void {
   }
 
@@ -37,16 +37,15 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
       return;
     }
 
-    const params = new URLSearchParams();
-    params.set('authorized', false.toString());
-    params.set('comments', this.comment);
-
     this.apiService.patchService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${this.data.idTreatmentDetail}/authorization?${params.toString()}`, 
-      data: {},
+      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${this.data.idTreatmentDetail}/status`, 
+      data: {
+        status:  this.NOT_APPROVE,
+        comments: this.comment
+      },
     }).subscribe({
       next: (response) => {
         this.toastr.success('Tratamiento rechazado');
