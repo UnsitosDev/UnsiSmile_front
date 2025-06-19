@@ -70,10 +70,10 @@ export class DialogNewTreatmentComponent implements OnInit {
   ngOnInit(): void {
     this.fetchTreatmentData();
     this.fetchProfessorAreas();
-    // if (this.data.treatment) {
-    //   this.isEditMode = true;
-    //   this.loadExistingTreatmentData();
-    // }
+    if (this.data.treatment) {
+      this.isEditMode = true;
+      this.loadExistingTreatmentData();
+    }
   }
 
   public cancel() {
