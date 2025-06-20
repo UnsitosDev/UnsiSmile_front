@@ -47,6 +47,7 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
   public currentPage: number = 0;
   public isLastPage: boolean = false;
   public isLoading: boolean = false;
+  public readonly STATUS_APPROVED = STATUS_TREATMENTS.APPROVED;
   ngOnInit() {
     this.getRole();
     this.fetchTreatments();
@@ -69,8 +70,6 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
     }
 
     this.isLoading = true;
-
-    let url: string;
 
     this.apiService.getService({
       headers: new HttpHeaders({
@@ -134,16 +133,15 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
   }
 
   public approvedTreatment(idTreatmentDetail: number) {
-    const params = new URLSearchParams();
-    params.set('authorized', true.toString());
-    params.set('comment', '');
-
     this.apiService.patchService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${idTreatmentDetail}/authorization?${params.toString()}`, 
-      data: {},
+      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${idTreatmentDetail}/status`, 
+      data: {
+        status: STATUS_TREATMENTS.APPROVED,
+        comments: '',
+      },
     }).subscribe({
       next: (response) => {
         this.toastr.success('Tratamiento aprovado');
