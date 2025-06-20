@@ -9,6 +9,7 @@
     <mat-option [value]="STATUS.FINISHED">Tratamientos aprobados</mat-option>
     <mat-option [value]="STATUS.REJECTED">Tratamientos rechazadas</mat-option>
     <mat-option [value]="STATUS.CANCELLED">Tratamientos cancelados</mat-option>
+    <mat-option [value]="STATUS.APPROVED">Tratamientos aprobados</mat-option>
     <mat-option [value]="STATUS.AWAITING_APPROVAL">Tratamientos en espera</mat-option>
 
   </mat-select>
@@ -25,6 +26,15 @@
       }
       @case (STATUS.REJECTED) {
         <span>No hay tratamientos rechazados</span>
+      }
+      @case (STATUS.AWAITING_APPROVAL) {
+        <span>No hay tratamientos por aprobar</span>
+      }
+      @case (STATUS.CANCELLED) {
+        <span>No hay tratamientos cancelados</span>
+      }
+      @case (STATUS.APPROVED) {
+        <span>No hay tratamientos aprobados</span>
       }
     }
   </div>
