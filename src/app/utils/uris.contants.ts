@@ -394,6 +394,7 @@ export class UriConstants {
   public static readonly GET_GENERATE_REPORT_TREATMENT = basePath + '/treatment-details/reports/students';
   public static readonly GET_FORM_SECTION = basePath + '/form-sections/:formSectionId?idPatientClinicalHistory=:idPatientClinicalHistory';
   public static readonly DELETE_FILE_GENERAL = basePath + '/files/general-files'
+  public static readonly PATCH_AUTHORIZATION_TREATMENT = basePath + '/treatment-details'
 
 }
 

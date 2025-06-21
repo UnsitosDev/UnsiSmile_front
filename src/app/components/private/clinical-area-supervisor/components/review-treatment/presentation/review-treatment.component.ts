@@ -14,6 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { treatmentsListNotifications } from '../components/treatments-list-notifications.component';
+import { DialogAuthorizationTreatmentComponent } from '../../dialog-authorization-treatment/dialog-authorization-treatment.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-review-treatment',
@@ -26,6 +28,8 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
   private readonly apiService = inject(ApiService);
   private readonly router = inject(Router);
   private readonly toastr = inject(ToastrService);
+  private readonly dialog = inject(MatDialog);
+
   private token!: string;
   private tokenData!: TokenData;
   private userService = inject(AuthService);
@@ -43,6 +47,7 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
   public currentPage: number = 0;
   public isLastPage: boolean = false;
   public isLoading: boolean = false;
+  public readonly STATUS_APPROVED = STATUS_TREATMENTS.APPROVED;
   ngOnInit() {
     this.getRole();
     this.fetchTreatments();
@@ -110,6 +115,43 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
     if (!this.isLoading && !this.isLastPage) {
       this.fetchTreatments(this.currentPage + 1);
     }
+  }
+
+  public opedDialogAuthorizationTreatment(idTreatmentDetail: number) {
+    const dialogRef = this.dialog.open(DialogAuthorizationTreatmentComponent, {
+      data: {
+        idTreatmentDetail: idTreatmentDetail,
+      },
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchTreatments(0, true);
+      }
+    });
+  }
+
+  public approvedTreatment(idTreatmentDetail: number) {
+    this.apiService.patchService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${idTreatmentDetail}/status`, 
+      data: {
+        status: STATUS_TREATMENTS.APPROVED,
+        comments: '',
+      },
+    }).subscribe({
+      next: (response) => {
+        this.toastr.success('Tratamiento aprovado');
+        this.fetchTreatments();
+      },
+      error: (error) => {
+        console.error(error);
+        this.toastr.error(error.message);
+      }
+    });
   }
 
   rateTreatment(treatment: TreatmentDetailResponse): void {

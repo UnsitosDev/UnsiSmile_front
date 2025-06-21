@@ -11,6 +11,8 @@ import {TokenData} from 'src/app/components/public/login/model/tokenData';
 import {PaginatedData} from 'src/app/models/shared/pagination/pagination';
 import {MatButtonModule} from "@angular/material/button";
 import {MatTooltip} from "@angular/material/tooltip";
+import { DialogNewTreatmentComponent } from '../../../../components/dialog-new-treatment/dialog-new-treatment.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-patients-treatments',
@@ -23,6 +25,7 @@ export class PatientsTreatmentsComponent {
   private apiService = inject(ApiService);
   private userService = inject(AuthService);
   private router = inject(Router);
+  public readonly dialog = inject(MatDialog);
 
   private idStudent!: string;
   private token!: string;
@@ -110,4 +113,19 @@ export class PatientsTreatmentsComponent {
       treatment.patient.id,
     ]);
   }
+
+  openUpdateTreatmentDialog(treatment: TreatmentDetailResponse): void {
+      const dialogRef = this.dialog.open(DialogNewTreatmentComponent, {
+        width: '800px',
+        data: {
+          treatment: treatment,
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.fetchTreatments();
+        }
+      });
+    }
 }

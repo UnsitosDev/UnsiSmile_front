@@ -74,8 +74,16 @@
                   </span>
                 </button>
               }
+              @case (STATUS.AWAITING_APPROVAL) {
+                <button mat-stroked-button class="whitespace-nowrap" disabled>
+                  <span class="in-progress flex items-center">
+                    <i class="fas fa-solid fa-spinner mr-1"></i>En espera de aprobación
+                  </span>
+                </button> 
+              }
             }
 
+            @if (treatment.status !== STATUS.NOT_APPROVED && treatment.status !== STATUS.AWAITING_APPROVAL) {
             <!-- Botón Ver tratamiento -->
             <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap">
               <span class="flex items-center" (click)="navigateToTreatmentDetails(treatment)">
@@ -83,6 +91,7 @@
                 Ver tratamiento
               </span>
             </button>
+            }
           </div>
         </div>
         <mat-divider></mat-divider>

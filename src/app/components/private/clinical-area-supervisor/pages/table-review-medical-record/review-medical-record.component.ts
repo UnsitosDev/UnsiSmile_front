@@ -1,4 +1,3 @@
-import { reviewStatus } from '../../../../../models/history-clinic/historyClinic';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
