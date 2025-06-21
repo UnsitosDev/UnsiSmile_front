@@ -83,14 +83,14 @@
               }
             }
 
-            @if (treatment.status !== STATUS.NOT_APPROVED) {
+            @if (treatment.status !== STATUS.NOT_APPROVED && treatment.status !== STATUS.AWAITING_APPROVAL) {
             <!-- Botón Ver tratamiento -->
-            <!-- <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap">
+            <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap">
               <span class="flex items-center" (click)="navigateToTreatmentDetails(treatment)">
                 <i class="fas fa-eye cursor-pointer mr-1"></i>
                 Ver tratamiento
               </span>
-            </button> -->
+            </button>
             }
           </div>
         </div>
