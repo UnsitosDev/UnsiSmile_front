@@ -79,7 +79,6 @@ export class DialogUpdateTreatmentComponent implements OnInit {
     this.fetchTreatmentData();
     this.fetchProfessorAreas();
     this.loadExistingTreatmentData();
-    console.log('Dialog update datasdlkfsjdlfksjlfkj:', this.data);
   }
 
   public cancel() {
@@ -155,7 +154,6 @@ export class DialogUpdateTreatmentComponent implements OnInit {
       .subscribe({
         next: (response: Treatments[]) => {
           this.treatmentData = response;
-          console.log('treatmentData', this.treatmentData);
           this.selectTreatmentById(this.data.treatment.treatment.idTreatment);
         },
         error: (error) => {
@@ -167,7 +165,6 @@ export class DialogUpdateTreatmentComponent implements OnInit {
   public onTreatmentSelected(event: MatSelectChange): void {
     const selectedTreatment = event.value;
     this.idTreatment = selectedTreatment.idTreatment;
-    console.log('Selected treatment:', selectedTreatment);
     if (selectedTreatment?.treatmentScope) {
       this.selectedTreatmentsName = selectedTreatment.treatmentScope.name;
     }
@@ -177,7 +174,6 @@ export class DialogUpdateTreatmentComponent implements OnInit {
     if (!this.validateAndMarkControls()) { return; }
     const payload = this.buildTreatmentPayload();
 
-    console.log('Updating treatment with payload:', payload);
     this.apiService
       .patchService({
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

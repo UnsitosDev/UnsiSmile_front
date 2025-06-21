@@ -58,7 +58,6 @@ export class PatientsTreatmentsComponent {
 
     this.isLoading = true;
 
-    console.log(`Fetching treatments for student ID: ${this.idStudent}, page: ${page}`);
     this.apiService
       .getService({
         headers: new HttpHeaders({
@@ -71,7 +70,6 @@ export class PatientsTreatmentsComponent {
         next: (response: PaginatedData<TreatmentDetailResponse>) => {
           this.handleResponse(response, page);
           this.treatments = response;
-          console.log('Fetched treatments:', this.treatments);
         },
         error: (error) => {
           console.error('Error fetching treatments:', error);
@@ -103,7 +101,6 @@ export class PatientsTreatmentsComponent {
 
   public loadMoreTreatments(): void {
     if (!this.isLoading && !this.isLastPage) {
-      console.log('Loading more treatments...');
       this.fetchTreatments(this.currentPage + 1);
     }
   }

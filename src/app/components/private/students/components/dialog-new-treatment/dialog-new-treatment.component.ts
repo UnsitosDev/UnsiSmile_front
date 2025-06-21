@@ -70,10 +70,6 @@ export class DialogNewTreatmentComponent implements OnInit {
   ngOnInit(): void {
     this.fetchTreatmentData();
     this.fetchProfessorAreas();
-    if (this.data.treatment) {
-      this.isEditMode = true;
-      this.loadExistingTreatmentData();
-    }
   }
 
   public cancel() {
@@ -95,39 +91,6 @@ export class DialogNewTreatmentComponent implements OnInit {
   toothToOption(tooth: ToothInput): ToothOption {
     if ('idDetailTooth' in tooth) { return tooth; }
     return { idDetailTooth: 0, idTooth: tooth.idTooth.toString() };
-  }
-
-  public loadExistingTreatmentData() {
-    const treatment = this.data.treatment;
-
-    if (this.isEditMode) { this.startDateControl.disable(); }
-
-    console.log('treatment', this.isEditMode, treatment);
-    this.treatmentDetailId = treatment.idTreatmentDetail;
-    this.nameTreatment = treatment.treatment.name;
-    this.selectedTreatmentsName = treatment.treatment.treatmentScope.name;
-
-    this.professorControl.setValue(treatment.treatment.professor);
-    
-
-    if (treatment.startDate && Array.isArray(treatment.startDate)) {
-      const [year, month, day, hour, minute] = treatment.startDate;
-      const startDate = new Date(year, month - 1, day, hour, minute);
-      this.startDateControl.setValue(startDate);
-    }
-
-    if (treatment.endDate && Array.isArray(treatment.endDate)) {
-      const [year, month, day, hour, minute] = treatment.endDate;
-      const endDate = new Date(year, month - 1, day, hour, minute);
-      this.endDateControl.setValue(endDate);
-    }
-
-    if (this.treatmentData.length > 0) { this.selectTreatmentById(treatment.treatment.idTreatment); }
-
-    // Configuración de dientes seleccionados
-    if (treatment.teeth && Array.isArray(treatment.teeth)) {
-      this.itemTeeth.setValue(treatment.teeth);
-    }
   }
 
   public selectTreatmentById(idTreatment: number) {
@@ -152,7 +115,6 @@ export class DialogNewTreatmentComponent implements OnInit {
       .subscribe({
         next: (response: Treatments[]) => {
           this.treatmentData = response;
-          console.log('treatmentData', this.treatmentData);
           if (this.isEditMode && this.data.treatment) {
             this.selectTreatmentById(this.data.treatment.treatment.idTreatment);
           }
@@ -171,9 +133,8 @@ export class DialogNewTreatmentComponent implements OnInit {
   }
 
   public saveTreatment() {
-    if (!this.validateAndMarkControls()) { return; }
     const payload = this.buildTreatmentPayload();
-    this.isEditMode ? this.updateTreatment(payload) : this.sendTreatmentRequest(payload);
+    this.sendTreatmentRequest(payload);
   }
 
   private validateAndMarkControls(): boolean {
@@ -203,18 +164,15 @@ export class DialogNewTreatmentComponent implements OnInit {
     const startDateISO = this.startDateControl.value ? this.startDateControl.value.toISOString() : '';
     const endDateISO = this.endDateControl.value ? this.endDateControl.value.toISOString() : '';
 
-    console.log('selectedTeeth', this.isEditMode);
     return {
-      idTreatmentDetail: this.isEditMode ? this.treatmentDetailId : 0,
-      professorClinicalAreaId: this.professorControl.value || 0,
-      patientId: this.isEditMode ? this.data.treatment.patient.id : this.data.patientUuid,
-      treatmentId: this.isEditMode
-        ? this.data.treatment.treatment.idTreatment
-        : this.treatmentControl.value!.idTreatment,
+      idTreatmentDetail: 0,
+      professorClinicalAreaId: this.professorControl.value ?? 0,
+      patientId: this.data.patientUuid,
+      treatmentId: this.treatmentControl.value?.idTreatment ?? 0,
       startDate: startDateISO,
       endDate: endDateISO,
       treatmentDetailToothRequest: {
-        idTreatmentDetail: this.isEditMode ? this.treatmentDetailId : 0,
+        idTreatmentDetail: 0,
         idTeeth: selectedTeeth,
       },
     };
@@ -235,22 +193,6 @@ export class DialogNewTreatmentComponent implements OnInit {
         error: (error) => {
           this.toast.error(error);
         },
-      });
-  }
-
-  private updateTreatment(payload: RequestTreatment): void {
-    this.apiService
-      .patchService({
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-        url: `${UriConstants.PUT_TREATMENT}/${this.treatmentDetailId}`,
-        data: payload,
-      })
-      .subscribe({
-        next: () => {
-          this.toast.success('Tratamiento actualizado');
-          this.dialogRef.close(true);
-        },
-        error: (error) => { this.toast.error(error); },
       });
   }
 
