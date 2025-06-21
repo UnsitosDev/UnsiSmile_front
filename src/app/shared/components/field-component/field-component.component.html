@@ -3,6 +3,7 @@
     @case('multivalued') {
       <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
         <div class="md:col-span-8 col-span-12 flex flex-wrap items-center gap-4 p-4">
+          <div class="w-full mb-2 text-sm text-gray-600">Palomee en caso de sí, dejar en blanco en caso de no</div>
           <label class="flex-1 min-w-[50%] md:min-w-0">{{ field.label }}</label>
           
           <section class="example-section">
@@ -30,21 +31,24 @@
       </div>
     }
     @case ('boolean') {
-      <div class="flex items-center gap-4 p-4 flex-wrap sm:flex-nowrap">
-        <!-- Label: Puede crecer y hacer saltos de línea -->
-        <label class="flex-1 min-w-[50px] break-words">
-          {{ field.label }}
-        </label>
-        
-        <!-- Checkbox: Nunca salta de línea -->
-        <section class="example-section flex-shrink-0">
-          <mat-checkbox
-            class="example-margin"
-            [formControlName]="field.name"
-            (change)="onValueChangeCheck($event)"
-            [checked]="field.answerField?.answerBoolean">
-          </mat-checkbox>
-        </section>
+      <div class="flex flex-col p-4">
+        <div class="w-full mb-2 text-sm text-gray-600">Palomee en caso de sí, dejar en blanco en caso de no</div>
+        <div class="flex items-center gap-4 flex-wrap sm:flex-nowrap">
+          <!-- Label: Puede crecer y hacer saltos de línea -->
+          <label class="flex-1 min-w-[50px] break-words">
+            {{ field.label }}
+          </label>
+          
+          <!-- Checkbox: Nunca salta de línea -->
+          <section class="example-section flex-shrink-0">
+            <mat-checkbox
+              class="example-margin"
+              [formControlName]="field.name"
+              (change)="onValueChangeCheck($event)"
+              [checked]="field.answerField?.answerBoolean">
+            </mat-checkbox>
+          </section>
+        </div>
       </div>
       <hr>
     }
