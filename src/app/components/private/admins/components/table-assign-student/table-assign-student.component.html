@@ -19,11 +19,5 @@
   (sortChange)="onSort($event)">
 </app-tabla-data>
 
-<div *ngIf="isLoading" class="flex justify-center mt-4">
-  <mat-spinner diameter="40"></mat-spinner>
-</div>
 
-<div *ngIf="!isLoading && studentsList.length === 0" class="mt-4 text-center">
-  <p>No hay estudiantes asignados a este paciente.</p>
-</div>
 
