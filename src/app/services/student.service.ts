@@ -7,6 +7,7 @@ import { FieldNames } from '../models/form-fields/form-utils';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from './api.service';
 import { UriConstants } from '@mean/utils';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -328,6 +329,19 @@ export class studentService {
     // Formularios
     getPersonalDataFields(): FormField[] {
         return this.personalDataFields;
+    }
+
+    /**
+     * Crea un nuevo paciente y lo asigna a un estudiante en una sola operación
+     */
+    createPatientWithStudent(patientData: any): Observable<any> {
+        return this.apiService.postService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: UriConstants.POST_PATIENT,
+            data: patientData,
+        });
     }
 
 }
