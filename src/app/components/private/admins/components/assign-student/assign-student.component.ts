@@ -46,7 +46,6 @@ export class AssignStudentComponent implements OnInit {
 
   formGroup!: FormGroup;
   studentFields: FormField[] = [];
-  isLoading: boolean = false;
 
   ngOnInit(): void {
     this.studentFields = this.studentService.studentFields;
@@ -86,7 +85,6 @@ export class AssignStudentComponent implements OnInit {
       return;
     }
 
-    this.isLoading = true;
     const assignmentData = {
       patientId: this.data.patientId,
       studentEnrollment: this.formGroup.get('studentEnrollment')?.value
@@ -97,12 +95,10 @@ export class AssignStudentComponent implements OnInit {
       data: assignmentData
     }).subscribe({
       next: () => {
-        this.isLoading = false;
         this.toastr.success('Estudiante asignado correctamente', 'Éxito');
         this.dialogRef.close(true);
       },
       error: (error) => {
-        this.isLoading = false;
         const errorMsg = error?.error?.message || 'Error al asignar estudiante';
         this.toastr.error(errorMsg, 'Error');
       }
