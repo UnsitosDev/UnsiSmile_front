@@ -21,12 +21,13 @@ import { MatCardModule } from '@angular/material/card';
 import { LoadingComponent } from '@mean/shared';
 import { ToastrService } from 'ngx-toastr';
 import { AssignStudentComponent } from '../assign-student/assign-student.component';
+import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
 
 
 @Component({
   selector: 'app-students-patients',
   standalone: true,
-  imports: [FormsModule, LoadingComponent, ReactiveFormsModule, MatCheckboxModule ,MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
+  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule ,MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule],
   templateUrl: './admin-patients.component.html',
   styleUrl: './admin-patients.component.scss',
 })
@@ -117,8 +118,8 @@ export class AdminPatientsComponent implements OnInit {
     });
   }
 
-  edit(objeto: any) {
-    this.router.navigate(['/admin/patients/updatePatient', objeto.patientID]);
+edit(objeto: PatientInfo) {
+    this.router.navigate(['/admin/patients/treatments/patient/' + objeto.patientID]);
   }
 
 

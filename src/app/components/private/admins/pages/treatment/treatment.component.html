@@ -1,0 +1,34 @@
+<!-- card patient -->
+<mat-card appearance="outlined" class="custom mb-4">
+  <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
+</mat-card>
+
+<mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start"
+               (selectedTabChange)="onTabSelected($event)">
+  <!-- Tab 1: Datos personales -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-user"></i>
+      <span class="ml-2">Datos personales</span>
+    </ng-template>
+    <app-form-update-patient [patientUuid]="patientUuid"></app-form-update-patient>
+  </mat-tab>
+
+  <!-- Tab 2: Historia clínica general -->
+  @if (!viewTreatment) {
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="fas fa-folder"></i>
+        <span class="ml-2">Alumnos asignados</span>
+      </ng-template>
+      <app-table-assign-student [patientUuid]="patientUuid"></app-table-assign-student>
+    </mat-tab>
+  }
+
+  <!-- Tab 3: Tratamientos -->
+  @if (!viewTreatment) {
+    
+  }
+
+</mat-tab-group>
+
