@@ -1,0 +1,39 @@
+<mat-card class="p-4">
+  <div class="card-header">
+    <mat-card-title><strong>Asignar Estudiante a Paciente</strong></mat-card-title>
+    <button class="close-button" (click)="closeDialog()">×</button>
+  </div>
+  <mat-card-content>
+    <div class="patient-info">
+      <div class="patient-name">
+        <i class="fas fa-user-injured"></i>
+        <span>Paciente: <strong>{{ patientName }}</strong></span>
+      </div>
+    </div>
+    
+    <form [formGroup]="formGroup" class="assign-form">
+      <div class="form-container">
+        <div class="form-field-container">
+          @for (field of studentFields; track $index) {
+            <app-field-component 
+              [field]="field" 
+              [formGroup]="formGroup" 
+              [errors]="field.errorMessages"
+              (setFieldValue)="onFieldValueChange($event)">
+            </app-field-component>
+          }
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button mat-button (click)="closeDialog()">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+        <button mat-flat-button color="primary" (click)="assignStudent()" [disabled]="formGroup.invalid">
+          <i class="fas fa-user-plus"></i> Asignar Estudiante
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+

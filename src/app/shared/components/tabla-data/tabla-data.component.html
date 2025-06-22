@@ -66,6 +66,13 @@
                 <i class="fas fa-folder"></i>
               </a>
               }
+              @if (showAssignIcon) {
+              <a class="text-blue-600 hover:text-blue-700 mr-4" 
+                 (click)="onAction('Asignar', data)"
+                 title="Asignar estudiante">
+                <i class="fas fa-user-graduate"></i>
+              </a>
+              }
               @if (showStatusIcon) {
                 <a class="text-blue-600 hover:text-blue-700 mr-4" 
                    (click)="onAction('Restablecer', data)"

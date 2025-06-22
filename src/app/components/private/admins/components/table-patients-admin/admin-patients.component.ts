@@ -19,6 +19,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar estos módulos
 import { MatCardModule } from '@angular/material/card';
 import { LoadingComponent } from '@mean/shared';
+import { ToastrService } from 'ngx-toastr';
+import { AssignStudentComponent } from '../assign-student/assign-student.component';
 
 
 @Component({
@@ -36,6 +38,7 @@ export class AdminPatientsComponent implements OnInit {
   currentPage = 0;
   itemsPerPage = 10;
   private apiService = inject(ApiService<PatientResponse>);
+  private toastr = inject(ToastrService);
   isChecked: boolean = false;
   searchTerm: string = ''; // Variable para almacenar el término de búsqueda
   totalElements: number = 0; // Agregar esta propiedad
@@ -77,15 +80,41 @@ export class AdminPatientsComponent implements OnInit {
   }
 
   onAction(accion: Accion) {
-    if (accion.accion === 'Editar') {  // Cambiado de 'Editar' a 'Modificar'
+    if (accion.accion === 'Editar') {
       this.editar(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
       this.openDetailsDialog(accion.fila);
-    }  else if (accion.accion === 'Modificar') {
+    } else if (accion.accion === 'Modificar') {
       this.edit(accion.fila);
+    } else if (accion.accion === 'Asignar') {
+      this.openAssignStudentDialog(accion.fila);
     }
+  }
+
+  openAssignStudentDialog(patient: patientsTableData): void {
+    console.log('ID del paciente que se enviará:', patient.patientID);
+    
+    const dialogRef = this.dialog.open(AssignStudentComponent, {
+      width: '500px',
+      data: {
+        patientId: patient.patientID.toString(), // Convertir a string para asegurar compatibilidad
+        patientName: `${patient.nombres} ${patient.apellidos}`
+      }
+    });
+
+    console.log('Datos enviados al diálogo:', {
+      patientId: patient.patientID.toString(),
+      patientName: `${patient.nombres} ${patient.apellidos}`
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Refrescar la lista de pacientes después de asignar un estudiante
+        this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
+      }
+    });
   }
 
   edit(objeto: any) {
