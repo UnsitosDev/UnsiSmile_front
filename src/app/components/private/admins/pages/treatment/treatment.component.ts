@@ -48,15 +48,10 @@ export interface TreatmentParams {
   standalone: true,
   imports: [
     MatListModule,
-    MatButton,
     MatTabsModule,
     MatCardModule,
     CardPatientDataComponent,
-    StudentsGeneralHistoryComponent,
     FormUpdatePatientComponent,
-    MatTooltip,
-    ArrayToDatePipe,
-    TableStudentsComponent,
     TableAssignStudentComponent
 ],
   templateUrl: './treatment.component.html',

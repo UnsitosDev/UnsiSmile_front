@@ -1,1 +1,35 @@
-<p>table-assign-student works!</p>
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Alumnos asignados al paciente</strong></mat-card-title>
+</mat-card>
+<br>
+<div class="flex justify-end">
+    <button class="mr-10" mat-flat-button color="primary" (click)="openAssignStudentDialog()">
+        <i class="fas fa-user-plus"></i>  
+        Asignar alumno
+    </button>
+</div>
+<br>
+
+<app-tabla-data
+  [titulo]="title"
+  [columns]="columnas"
+  [data]="studentsList"
+  [totalItems]="totalElements"
+  [sortableColumns]="sortableColumns"
+  [showSearchIcon]="true"
+  [showDeleteIcon]="true"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (pageChange)="onPageChange($event)"
+  (action)="onAction($event)"
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)">
+</app-tabla-data>
+
+<div *ngIf="isLoading" class="flex justify-center mt-4">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>
+
+<div *ngIf="!isLoading && studentsList.length === 0" class="mt-4 text-center">
+  <p>No hay estudiantes asignados a este paciente.</p>
+</div>
+
