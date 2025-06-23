@@ -57,7 +57,14 @@ export default [
                             import('../admins/components/form-update-patient/form-update-patient.component').then(
                                 (m) => m.FormUpdatePatientComponent
                             ),
-                    }
+                    },
+                      {
+                        path: 'treatments/patient/:patientID',
+                        loadComponent: () =>
+                            import('./pages/treatment/treatment.component').then(
+                                (m) => m.TreatmentComponent
+                            ),
+                    },
 
                 ]
             },

@@ -6,6 +6,7 @@ export interface Ipatients {
   email: string
 }
 export class patientsTableData {
+  patientID = 0
   nombres = ''
   apellidos = ''
   correo = ''

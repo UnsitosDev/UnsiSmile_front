@@ -76,9 +76,8 @@ export class FormPatientPersonalDataComponent {
   private additionalRoutes = ['/students/user'];
   private route = inject(Router);
   @ViewChild('stepper') stepper!: MatStepper;
-  patientId: number | null = null; // Añadir esta propiedad
-  patientCurp: string = ''; // Añadir esta propiedad
   canAccessStudentTab: boolean = false;
+  patientData: any = null; // Guardaremos los datos del paciente aquí
 
   constructor(
     private fb: FormBuilder,
@@ -441,7 +440,6 @@ export class FormPatientPersonalDataComponent {
     // Actualizar validaciones antes de validar el formulario
     this.updateGuardianValidations();
     
-    this.markFormGroupTouched(this.formGroup);
     const formValues = this.formGroup.value;
 
     // Validar grupo étnico, religión y nacionalidad
@@ -474,7 +472,8 @@ export class FormPatientPersonalDataComponent {
     });
     
     if (!hasErrors) {
-      const patientData = {
+      // Crear el objeto de datos del paciente pero no enviarlo todavía
+      this.patientData = {
         isMinor: this.minorPatient,
         hasDisability: formValues.hasDisability === 'true',
         nationalityId: isNaN(+formValues.nationality) ? 0 : +formValues.nationality,
@@ -571,50 +570,61 @@ export class FormPatientPersonalDataComponent {
           },
           doctorName: formValues.doctorName
         } : null
-      };              
+      };
       
       // Actualizar la estructura de los datos de nacionalidad en el objeto
-      if (patientData.nationalityId === 0 && formValues.nationality) {
+      if (this.patientData.nationalityId === 0 && formValues.nationality) {
         const matchingNationality = this.patientService.nationalityOptions.find(
           option => option.label.toLowerCase() === formValues.nationality.toLowerCase()
         );
         if (matchingNationality) {
-          patientData.nationalityId = +matchingNationality.value;
+          this.patientData.nationalityId = +matchingNationality.value;
         }
       }
       
-      this.apiService
-        .postService({
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-          }),
-          url: `${UriConstants.POST_PATIENT}`,
-          data: patientData,
-        })
-        .subscribe({
-          next: (response) => {
-            // También podemos mostrar la respuesta del servidor            
-            this.isNavigationPrevented = false;
-            this.navigationComplete = true;
-            this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
-            this.canAccessStudentTab = true; // Habilitar la pestaña de alumno
-            this.patientCurp = formValues.curp; // Guardar la CURP del paciente
-            setTimeout(() => {
-              this.searchPatientByCurp(this.patientCurp); // Buscar el ID usando la CURP
-            });
-          },
-          error: (error) => {
-            // También mostrar errores detallados
-            this.toastr.error(error, 'Error');
-          },
-        });
-    } else {
-
+      // En lugar de enviar los datos ahora, solo habilitamos la pestaña del alumno
+      this.canAccessStudentTab = true;
       
+      // Avanzar a la siguiente pestaña
+      setTimeout(() => {
+        this.stepper.next();
+      });
+    } else {
       this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
     }
   }
-  
+
+  // Eliminar el método searchPatientByCurp ya que no lo necesitamos más
+
+  // Modificamos el método para enviar todos los datos juntos
+  assignStudentToPatient() {
+    const formValues = this.formGroup.value;
+    
+    if (!this.patientData || !formValues.studentEnrollment) {
+      this.toastr.error('Faltan datos requeridos para la asignación', 'Error');
+      return;
+    }
+
+    // Añadir el enrollment del estudiante al objeto de datos del paciente
+    this.patientData.studentEnrollment = formValues.studentEnrollment;
+
+    // Enviar todos los datos juntos
+    this.studentService.createPatientWithStudent(this.patientData)
+      .subscribe({
+        next: (response) => {
+          this.isNavigationPrevented = false;
+          this.navigationComplete = true;
+          this.toastr.success('Paciente creado y asignado correctamente', 'Éxito');
+          setTimeout(() => {
+            this.router.navigate(['/admin/patients']);
+          }, 1000);
+        },
+        error: (error) => {
+          this.toastr.error(error, 'Error');
+        },
+      });
+  }
+
   getFormValidationErrors() {
     const result: any[] = [];
     const shouldRequireGuardian = this.minorPatient || (this.disabledPatient && this.needsGuardian);
@@ -636,121 +646,5 @@ export class FormPatientPersonalDataComponent {
     });
     return result;
   }
-
-  // Agregar nuevo método para buscar paciente por CURP
-  searchPatientByCurp(curp: string) {
-    if (!curp) {
-      this.toastr.error('CURP no válida', 'Error');
-      return;
-    }
-
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_PATIENTS}?keyword=${curp}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          if (response.content && response.content.length > 0) {
-            const patient = response.content[0];
-            this.patientId = patient.idPatient;
-            
-            this.stepper.next();
-          } else {
-            this.toastr.error('No se encontró el paciente con la CURP proporcionada', 'Error');
-          }
-        },
-        error: (error) => {
-          this.toastr.error('Error al buscar el paciente: ' + error, 'Error');
-        },
-      });
-  }
-
-  assignStudentToPatient() {
-    const formValues = this.formGroup.value;
-    
-    if (!this.patientId || !formValues.studentEnrollment) {
-      this.toastr.error('Faltan datos requeridos para la asignación', 'Error');
-      return;
-    }
-
-    const assignmentData = {
-      patientId: this.patientId.toString(),
-      studentEnrollment: formValues.studentEnrollment
-    };
-
-    this.apiService
-      .postService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: UriConstants.POST_PATIENT_STUDENT,
-        data: assignmentData,
-      })
-      .subscribe({
-        next: (response) => {
-          this.toastr.success('Alumno asignado correctamente', 'Éxito');
-          this.router.navigate(['/admin/patients']);
-        },
-        error: (error) => {
-          this.toastr.error(error);
-        },
-      });
-  }
-
-  handleStudentEnrollmentSearch(searchTerm: string) {
-    if (searchTerm && searchTerm.length >= 2) {
-      this.apiService.getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_STUDENTS}?keyword=${searchTerm}`,
-        data: {},
-      }).subscribe({
-        next: (response) => {
-          const enrollmentField = this.studentFields.find(field => field.name === 'studentEnrollment');
-          if (enrollmentField && response.content) {
-            enrollmentField.options = response.content.map((student: any) => ({
-              value: student.enrollment,
-              label: `${student.enrollment} - ${student.person.firstName} ${student.person.firstLastName}`
-            }));
-          }
-        },
-        error: (error) => {
-          this.toastr.error(error);
-        }
-      });
-    }
-  }
-
-  onScroll(event: any): void {
-    const element = event.target;
-    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-      this.currentPage++;
-      this.personalDataFields.handleStateClick('', this.currentPage);
-      this.personalDataFields.handleMunicipalityClick('', this.currentPage);
-      this.personalDataFields.handleLocalityClick('', this.currentPage);
-      this.personalDataFields.handleNeighborhoodClick('', this.currentPage);
-      this.personalDataFields.handleStreetClick('', this.currentPage);
-
-    }
-  }
-
-  markFormGroupTouched(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(controlName => {
-      const control = formGroup.get(controlName);
-      if (control) {
-        control.markAsTouched();
-        control.updateValueAndValidity(); 
-      }
-
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
-    });
-  }
-
 }
+        
