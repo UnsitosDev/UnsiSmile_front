@@ -74,7 +74,7 @@ export class ApprovalOfTreatmentsComponent extends treatmentsListNotifications {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_TREATMENT_REVIEW}/${this.professorId}/to-approve?reviewStatus=${this.statusControl.value}&page=${page}&size=10`,
+        url: `${UriConstants.GET_TREATMENT_REVIEW}/${this.professorId}/to-approve?status=${this.statusControl.value}&page=${page}&size=10`,
         data: {},
       }).subscribe({
         next: (response: PaginatedData<TreatmentDetailResponse>) => {
