@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Asignar Grupo a Profesor</h2>
+<mat-dialog-content>
+  <p>Seleccione un grupo para asignar al profesor con número de empleado: <strong>{{ data.employeeNumber }}</strong></p>
+  
+  <div *ngIf="loading" class="loading-spinner">
+    <app-loading></app-loading>
+  </div>
+  
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Grupo</mat-label>
+    <mat-select [(ngModel)]="selectedGroupId">
+      <mat-option *ngFor="let group of groups" [value]="group.idGroup">
+        {{ group.groupName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" color="warn">Cancelar</button>
+  <button mat-raised-button (click)="assignGroup()" color="primary" [disabled]="!selectedGroupId">Asignar</button>
+</mat-dialog-actions>
