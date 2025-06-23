@@ -19,6 +19,7 @@ import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-a
 import { DetailsAdminComponent } from '../details-admin/details-admin.component';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from '@mean/shared';
+import { DialogAssignGroupComponent } from '../dialog-assign-group/dialog-assign-group.component';
 
 @Component({
   selector: 'app-table-professor-admin',
@@ -86,15 +87,29 @@ export class TableProfessorAdminComponent implements OnInit {
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
-      this.openDetailsDialog(accion.fila);
+      this.openAssignGroupDialog(accion.fila['numero empleado']);
     } 
   }
 
-   openDetailsDialog(admin: ProfessorTableData): void {
+  openAssignGroupDialog(employeeNumber: string): void {
+    const dialogRef = this.dialog.open(DialogAssignGroupComponent, {
+      width: '500px',
+      data: { employeeNumber: employeeNumber }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.toastr.success('Grupo asignado correctamente', 'Éxito');
+      }
+    });
+  }
+
+  openDetailsDialog(admin: ProfessorTableData): void {
     }
 
 
   edit(objeto: any) {
+    this.router.navigate(['/admin/professors/updateProfessor', objeto['numero empleado']]);
    }
 
   delete(nombre: string) {
