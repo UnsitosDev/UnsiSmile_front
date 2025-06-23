@@ -32,6 +32,7 @@ import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import {MatTooltip} from "@angular/material/tooltip";
 import { ArrayToDatePipe } from '@mean/shared';
 import { DialogUpdateTreatmentComponent } from '../../../../components/dialog-update-treatment/dialog-update-treatment.component';
+import { DialogCommentsTreatmentsComponent } from '../../../../components/dialog-comments-treatments/dialog-comments-treatments.component';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -145,6 +146,15 @@ export class TreatmentComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.patientUuid = params[PATIENT_UUID];
     });
+  }
+
+  openCommentDialog(comments: string): void {
+    const dialogRef = this.dialog.open(DialogCommentsTreatmentsComponent, {
+      data: comments,
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   openDialogNewTreatment(): void {
