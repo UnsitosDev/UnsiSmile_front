@@ -23,7 +23,6 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
   private readonly apiService = inject(ApiService);
   private toastr = inject(ToastrService);
   public comment: string = '';
-  public NOT_APPROVE = STATUS_TREATMENTS.NOT_APPROVED;
   ngOnInit(): void {
   }
 
@@ -45,9 +44,9 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${this.data.idTreatmentDetail}/status`,
+      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${this.data.idTreatmentDetail}/approval`,
       data: {
-        status: this.NOT_APPROVE,
+        status: STATUS_TREATMENTS.NOT_APPROVED,
         comments: this.comment
       },
     }).subscribe({

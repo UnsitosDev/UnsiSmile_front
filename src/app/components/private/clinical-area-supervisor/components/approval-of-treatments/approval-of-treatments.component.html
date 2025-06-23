@@ -7,7 +7,7 @@
   <mat-select [formControl]="statusControl" (selectionChange)="fetchTreatments()">
     <mat-option [value]="STATUS.AWAITING_APPROVAL">Tratamientos en espera</mat-option>
     <mat-option [value]="STATUS.APPROVED">Tratamientos aprobados</mat-option>
-
+    <mat-option [value]="STATUS.NOT_APPROVED">Tratamientos no aprobados</mat-option>
   </mat-select>
 </mat-form-field>
 
@@ -19,6 +19,9 @@
       }
       @case (STATUS.APPROVED) {
         <span>No hay tratamientos aprobados</span>
+      }
+      @case (STATUS.NOT_APPROVED) {
+        <span>No hay tratamientos</span>
       }
     }
   </div>

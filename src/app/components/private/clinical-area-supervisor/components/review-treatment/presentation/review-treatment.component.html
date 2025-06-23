@@ -7,11 +7,8 @@
   <mat-select [formControl]="statusControl" (selectionChange)="fetchTreatments()">
     <mat-option [value]="STATUS.IN_REVIEW">Tratamientos por revisar</mat-option>
     <mat-option [value]="STATUS.FINISHED">Tratamientos aprobados</mat-option>
-    <mat-option [value]="STATUS.REJECTED">Tratamientos rechazadas</mat-option>
+    <mat-option [value]="STATUS.REJECTED">Tratamientos rechazados</mat-option>
     <mat-option [value]="STATUS.CANCELLED">Tratamientos cancelados</mat-option>
-    <mat-option [value]="STATUS.APPROVED">Tratamientos aprobados</mat-option>
-    <mat-option [value]="STATUS.AWAITING_APPROVAL">Tratamientos en espera</mat-option>
-
   </mat-select>
 </mat-form-field>
 
@@ -32,9 +29,6 @@
       }
       @case (STATUS.CANCELLED) {
         <span>No hay tratamientos cancelados</span>
-      }
-      @case (STATUS.APPROVED) {
-        <span>No hay tratamientos aprobados</span>
       }
     }
   </div>
@@ -104,19 +98,6 @@
                 <button mat-stroked-button class="whitespace-nowrap" disabled>
                   <span class="rejected flex items-center">
                     <i class="fas fa-times-circle mr-1"></i>Cancelado
-                  </span>
-                </button>
-              }
-              @case (STATUS.AWAITING_APPROVAL) {
-                <button mat-stroked-button class="whitespace-nowrap" (click)="opedDialogAuthorizationTreatment(treatment.idTreatmentDetail)">
-                  <span class="rejected flex items-center">
-                    <i class="fas fa-times-circle mr-1"></i>Rechazar
-                  </span>
-                </button>
-                <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap"  (click)="approvedTreatment(treatment.idTreatmentDetail)">
-                  <span class="flex items-center">
-                    <i class="fas fa-check-circle cursor-pointer mr-2"></i>
-                    Aprobar
                   </span>
                 </button>
               }
