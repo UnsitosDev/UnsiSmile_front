@@ -61,6 +61,11 @@ export default [
                   ),
             },
             {
+                path:'approval-treatments',
+                loadComponent:() =>
+                    import('./components/approval-of-treatments/approval-of-treatments.component').then((m) => m.ApprovalOfTreatmentsComponent)
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

@@ -212,6 +212,12 @@ export const ProfessorClinicalAlreaItems: MenuItem[] = [
     buttonText: 'Tratamientos',
     buttonDescription: 'Revisar Tratamientos',
     routerlink: '/clinical-area-supervisor/review-treatment'
+  },
+  {
+    fontAwesomeIcon: faFileClipboard,
+    buttonText: 'Tratamientos en espera',
+    buttonDescription: 'Aprobar tratamientos en espera',
+    routerlink: '/clinical-area-supervisor/approval-treatments'
   }
 ];
 

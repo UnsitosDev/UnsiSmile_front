@@ -1,0 +1,105 @@
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Revisión de tratamientos</strong></mat-card-title>
+</mat-card>
+
+<mat-form-field class="mt-4 w-full">
+  <mat-label>Seleccione tratamientos: Por revisar, aprobados o rechazados</mat-label>
+  <mat-select [formControl]="statusControl" (selectionChange)="fetchTreatments()">
+    <mat-option [value]="STATUS.AWAITING_APPROVAL">Tratamientos en espera</mat-option>
+    <mat-option [value]="STATUS.IN_PROGRESS">Tratamientos aprobados</mat-option>
+
+  </mat-select>
+</mat-form-field>
+
+@if (!treatments || treatments.content.length === 0) {
+  <div class="flex justify-center p-6">
+    @switch (statusControl.value) {
+      @case (STATUS.AWAITING_APPROVAL) {
+        <span>No hay tratamientos por aprobar</span>
+      }
+      @case (STATUS.APPROVED) {
+        <span>No hay tratamientos aprobados</span>
+      }
+    }
+  </div>
+}
+<div>
+  <mat-list>
+    @for (treatment of treatments?.content; track $index) {
+      <section class="w-full">
+        <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center md:px-4 lg:px-6 mb-1">
+            <div class="flex-1 min-w-0 sm:pr-4">
+            <ul>
+              <li matListItemTitle><strong>Paciente:</strong> {{ treatment.patient.name }}</li>
+              <li matListItemTitle><strong>Alumno:</strong> {{ treatment.student.name }}</li>
+              <li><strong>Tratamiento:</strong> {{ treatment.treatment.name }}</li>
+              <li><strong>Fecha de inicio:</strong> {{ treatment.startDate | arrayToDate }}</li>
+              <li><strong>Fecha  de finalización:</strong> {{ treatment.endDate | arrayToDate }}</li>
+              @if (treatment.teeth && treatment.teeth !== null) {
+                <li>
+                  <strong>Órganos dentarios: </strong>
+                  @for (tooth of treatment.teeth; track tooth.idTooth; let last = $last) {
+                    {{ tooth.idTooth }}{{ !last ? ', ' : '' }}
+                  }
+                </li>
+              }
+            </ul>  
+            <br>
+          </div>
+
+          <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4">
+            @switch (treatment.status) {
+              @case (STATUS.IN_PROGRESS) {
+                <button mat-stroked-button class="whitespace-nowrap" disabled>
+                  <span class="in-progress flex items-center">
+                    <i class="fas fa-solid fa-spinner mr-1"></i>En progreso
+                  </span>
+                </button>
+              }
+              @case (STATUS.AWAITING_APPROVAL) {
+                <button mat-stroked-button class="whitespace-nowrap" (click)="opedDialogAuthorizationTreatment(treatment.idTreatmentDetail)">
+                  <span class="rejected flex items-center">
+                    <i class="fas fa-times-circle mr-1"></i>Rechazar
+                  </span>
+                </button>
+                <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap"  (click)="approvedTreatment(treatment.idTreatmentDetail)">
+                  <span class="flex items-center">
+                    <i class="fas fa-check-circle cursor-pointer mr-2"></i>
+                    Aprobar
+                  </span>
+                </button>
+              }
+            }
+
+            <!-- Botón Ver tratamiento -->
+            @if (treatment.status === STATUS.IN_REVIEW || treatment.status === STATUS.FINISHED) {
+            <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap">
+              <span class="flex items-center" (click)="rateTreatment(treatment)">
+                <i class="fas fa-eye cursor-pointer mr-1"></i>
+                Calificar tratamiento
+              </span>
+            </button>
+            }
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </section>
+    }
+  </mat-list>
+</div>
+
+@if (!isLastPage) {
+  <div class="text-center mt-3">
+    <button mat-stroked-button
+            (click)="loadMoreTreatments()"
+            [disabled]="isLoading">
+      @if (!isLoading) {
+        <span> <i class="fas fa-chevron-down"></i> Cargar más tratamientos</span>
+
+      }
+    </button>
+  </div>
+}
+
+<app-loading/>
+

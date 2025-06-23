@@ -19,11 +19,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class DialogAuthorizationTreatmentComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<DialogAuthorizationTreatmentComponent>);
-  private readonly data = inject(MAT_DIALOG_DATA);
+  public readonly data = inject(MAT_DIALOG_DATA);
   private readonly apiService = inject(ApiService);
   private toastr = inject(ToastrService);
   public comment: string = '';
-  public NOT_APPROVE = STATUS_TREATMENTS.NOT_APPROVED;  
+  public NOT_APPROVE = STATUS_TREATMENTS.NOT_APPROVED;
   ngOnInit(): void {
   }
 
@@ -31,9 +31,13 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  public approvalTreatment() {
+    this.data.state === 'Aprobar' ? this.approveTreatment() : this.rejectedTreatment();
+  }
+
   public rejectedTreatment() {
     if (!this.comment?.trim()) {
-      this.toastr.warning('Agrega observaciones');
+      this.toastr.warning('Agrega comentarios');
       return;
     }
 
@@ -41,14 +45,42 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${this.data.idTreatmentDetail}/status`, 
+      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${this.data.idTreatmentDetail}/status`,
       data: {
-        status:  this.NOT_APPROVE,
+        status: this.NOT_APPROVE,
         comments: this.comment
       },
     }).subscribe({
       next: (response) => {
         this.toastr.success('Tratamiento rechazado');
+        this.dialogRef.close(true);
+      },
+      error: (error) => {
+        console.error(error);
+        this.toastr.error(error.message);
+      }
+    });
+  }
+
+  public approveTreatment() {
+    
+    if (!this.comment?.trim()) {
+      this.toastr.warning('Agrega comentarios');
+      return;
+    }
+
+    this.apiService.patchService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${this.data.idTreatmentDetail}/approval`,
+      data: {
+        status: STATUS_TREATMENTS.APPROVED,
+        comments: this.comment,
+      },
+    }).subscribe({
+      next: (response) => {
+        this.toastr.success('Tratamiento aprovado');
         this.dialogRef.close(true);
       },
       error: (error) => {
