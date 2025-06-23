@@ -95,6 +95,7 @@ export class TableProfessorAdminComponent implements OnInit {
 
 
   edit(objeto: any) {
+    this.router.navigate(['/admin/professors/updateProfessor', objeto['numero empleado']]);
    }
 
   delete(nombre: string) {

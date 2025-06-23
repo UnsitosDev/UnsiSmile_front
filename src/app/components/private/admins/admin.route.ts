@@ -182,10 +182,10 @@ export default [
                             ),
                     },
                     {
-                        path: 'updateAdmin/:employeeNumber',
+                        path: 'updateProfessor/:professorId',
                         loadComponent: () =>
-                            import('./components/form-update-admin/form-update-admin.component').then(
-                                (m) => m.FormUpdateAdminComponent
+                            import('./components/form-update-professor/form-update-professor.component').then(
+                                (m) => m.FormUpdateProfessorComponent
                             ),
                     },
                 ]
