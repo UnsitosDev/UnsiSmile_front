@@ -1,27 +1,32 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { TreatmentDetailResponse } from '@mean/models';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
 import { ProfessorClinicalAreaResponse } from 'src/app/models/clinical-areas/clinical.areas.model';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
-import { MatCardModule } from '@angular/material/card';
-import { ToastrService } from 'ngx-toastr';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 interface sendToReview {
   idPatientClinicalHistory: number;
   idFormSection: string,
   send?: boolean;
   treatmentId?: number;
+  treatment?: TreatmentDetailResponse;
 }
 @Component({
   selector: 'app-dialog-confirm-send-to-review',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatListModule, MatIconModule, LoadingComponent, MatCardModule],
+  imports: [MatDialogModule, MatButtonModule, MatListModule, MatIconModule, LoadingComponent, MatCardModule, MatSelectModule, MatFormFieldModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
   templateUrl: './dialog-confirm-send-to-review.component.html',
   styleUrl: './dialog-confirm-send-to-review.component.scss'
 })
@@ -31,13 +36,15 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
   public data = inject(MAT_DIALOG_DATA) as sendToReview;
   public toastr = inject(ToastrService);
   public professorAreasData!: PaginatedData<ProfessorClinicalAreaResponse>;
-  public professorClinicalAreaId: number = 0; 
+  public professorClinicalAreaId: number = 0;
+  public  selectedTeeth: string[] = [];
   private currentPage = 0;
   private readonly pageSize = 10;
   public isLoading = false;
 
   ngOnInit(): void {
     this.professorAreas();
+    console.log(this.data);
   }
 
   checkSendToReview() {
@@ -92,7 +99,13 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
     this.professorClinicalAreaId = id;
   }
 
-  sendToReviewTreatment(){
+  sendToReviewTreatment() {
+
+    if (this.data.send && this.data.treatment?.teeth && this.selectedTeeth.length === 0) {
+      this.toastr.warning('Debe seleccionar al menos un diente para enviar a revisión.');
+      return;
+    }
+    
     if (!this.professorClinicalAreaId) return;
     this.apiService
       .patchService({
@@ -100,7 +113,10 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
           'Content-Type': 'application/json',
         }),
         url: `${UriConstants.POST_TREATMENT_REVIEW}/${this.data.treatmentId}/revision?professorClinicalAreaId=${this.professorClinicalAreaId}`,
-        data: {},
+        data: {
+          idTreatmentDetail: this.data.treatmentId,
+          idTeeth: this.selectedTeeth,
+        },
       })
       .subscribe({
         next: (response) => {

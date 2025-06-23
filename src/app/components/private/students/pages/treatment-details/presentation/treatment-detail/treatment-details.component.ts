@@ -175,6 +175,7 @@ export class TreatmentDetailsComponent
       data: {
         treatmentId: this.idTreatmentDetail,
         send: sendTreatment,
+        treatment: this.treatmentDetails,
       },
     });
   }
