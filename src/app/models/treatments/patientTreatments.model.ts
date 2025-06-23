@@ -33,6 +33,8 @@ interface Student {
 interface Tooth {
     idDetailTooth: number;
     idTooth:       string;
+    inReview:      boolean;
+    reviewed:      boolean;
 }
 
 interface Treatment {

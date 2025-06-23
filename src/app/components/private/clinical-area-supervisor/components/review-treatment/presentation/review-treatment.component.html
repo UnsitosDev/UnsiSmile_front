@@ -49,8 +49,9 @@
                 <li>
                   <strong>Órganos dentarios: </strong>
                   @for (tooth of treatment.teeth; track tooth.idTooth; let last = $last) {
-                    {{ tooth.idTooth }}{{ !last ? ', ' : '' }}
-                  }
+                    @if (tooth.inReview === true) {
+                      {{ tooth.idTooth }}{{ !last ? ', ' : '' }}  
+                    }                  }
                 </li>
               }
             </ul>  
