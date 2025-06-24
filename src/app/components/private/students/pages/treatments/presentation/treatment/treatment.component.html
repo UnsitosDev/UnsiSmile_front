@@ -71,11 +71,6 @@
                   @case (STATUS.REJECTED) {
                     <button mat-stroked-button class="whitespace-nowrap" disabled>
                       <span class="flex items-center rejected"><i class="fas fa-times-circle mr-1"></i>Rechazado</span>
-                    </button>
-
-                    <button mat-stroked-button class="whitespace-nowrap" matTooltip="Actualizar fecha de tratamiento"
-                            (click)="openUpdateTreatmentDialog(treatmentDetail)">
-                      <span class="flex items-center"><i class="fas fa-edit mr-1"></i>Actualizar</span>
                     </button> 
                   }
                   @case (STATUS.IN_PROGRESS) {

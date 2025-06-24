@@ -5,6 +5,7 @@ import { TreatmentDetailResponse } from '@mean/models';
 import { ArrayToDatePipe } from '@mean/shared';
 import { DialogConfirmSendToReviewComponent } from '../dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { MatCardModule } from '@angular/material/card';
+import { STATUS_TREATMENTS } from '@mean/utils';
 
 export interface TreatmentDetail {
     treatment: TreatmentDetailResponse;
@@ -21,7 +22,7 @@ export class DialogDetailsTreatmentComponent implements OnInit {
   public readonly dialogRef = inject(MatDialogRef<DialogDetailsTreatmentComponent>);
   public readonly data: TreatmentDetail = inject(MAT_DIALOG_DATA);
   public readonly dialog = inject(MatDialog);
-
+  public readonly STATUS = STATUS_TREATMENTS;
   ngOnInit(): void { }
 
   openDialogSendToReview(): void {
