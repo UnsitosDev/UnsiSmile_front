@@ -1,0 +1,19 @@
+.custom-dialog-content{
+    background-color: var(--on-primary);
+    color: var(--white-color); 
+}
+p{
+    margin-top: 14px;
+}
+
+.button-custom{
+    background-color: var(--tertiary);
+    color: var(--white-color);
+}
+
+.mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: var(--side-text);
+}

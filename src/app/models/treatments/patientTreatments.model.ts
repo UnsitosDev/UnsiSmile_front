@@ -21,6 +21,8 @@ interface Patient {
 interface Professor {
     id:   string;
     name: string;
+    idProfessorClinicalArea?:   string;
+    professorName?: string;
 }
 
 interface Student {

@@ -1,0 +1,29 @@
+<mat-card-title><strong>Detalles del tratamiento</strong></mat-card-title>
+<div class="custom-dialog-content">
+    <mat-dialog-content class="mat-typography">
+        <p><strong>Tratamiento: </strong>{{data.treatment.treatment.name}}</p>
+        <p><strong>Duración: </strong>{{data.treatment.startDate | arrayToDate}} - {{data.treatment.endDate | arrayToDate}}</p>
+        <p><strong>Órganos dentarios: </strong>
+            @for (tooth of data.treatment.teeth; track $index) {
+                <span class="badge badge-primary">{{tooth.idTooth}}</span>
+            }
+        </p>
+        @if (data.treatment.treatment.treatmentScope.name === 'Diente') {
+            <p><strong>Órganos dentarios en revisión: </strong>
+                @for (tooth of data.treatment.teeth; track $index) {
+                    @if (tooth.inReview) {
+                        <span class="badge badge-primary">{{tooth.idTooth}}</span>
+                    }
+                }
+            </p>
+        }
+        <p><strong>Revisor: </strong>{{data.treatment.professor.professorName}}</p>
+        <p><strong>Observaciones: </strong>{{data.treatment.comments}}</p>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+    <button mat-stroked-button mat-dialog-close>Cerrar</button>
+    <button mat-button class="button-custom" (click)="openDialogSendToReview()">
+        Enviar tratamiento a revisión
+    </button>
+    </mat-dialog-actions>
+</div>

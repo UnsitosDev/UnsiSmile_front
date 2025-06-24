@@ -40,17 +40,16 @@
       </mat-select>
     </mat-form-field>
   }
+  <mat-dialog-actions align="end">
+    <div>
+      <button mat-stroked-button mat-dialog-close color="warn">Cancelar</button>
+      <button 
+        mat-button 
+        color="primary"
+        (click)="checkSendToReview()"
+        [disabled]="!professorClinicalAreaId" class="custom-button">
+        Enviar
+      </button>
+    </div>
+  </mat-dialog-actions>
 </div>
-
-<mat-dialog-actions align="end">
-  <div>
-    <button mat-stroked-button mat-dialog-close color="warn">Cancelar</button>
-    <button 
-      mat-button 
-      color="primary"
-      (click)="checkSendToReview()"
-      [disabled]="!professorClinicalAreaId" class="custom-button">
-      Enviar
-    </button>
-  </div>
-</mat-dialog-actions>
