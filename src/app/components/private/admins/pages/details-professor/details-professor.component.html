@@ -1,1 +1,23 @@
-<p>details-professor works!</p>
+
+<!-- card professor -->
+<mat-card appearance="outlined" class="custom mb-4">
+  <app-card-professor-data [professorId]="professorId"></app-card-professor-data>
+</mat-card>
+
+<mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start"
+               (selectedTabChange)="onTabSelected($event)">
+  <!-- Tab 1: Datos personales -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-user"></i>
+      <span class="ml-2">Datos personales</span>
+    </ng-template>
+    <app-form-update-professor [professorId]="professorId"></app-form-update-professor>
+  </mat-tab>
+
+  <!-- Otras pestañas se pueden agregar en el futuro, como grupos asignados, áreas clínicas, etc. -->
+
+</mat-tab-group>
+
+<app-loading *ngIf="isLoading"></app-loading>
+

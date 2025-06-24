@@ -195,6 +195,13 @@ export default [
                                 (m) => m.FormUpdateProfessorComponent
                             ),
                     },
+                    {
+                        path: 'details/professor/:professorId',
+                        loadComponent: () =>
+                            import('./pages/details-professor/details-professor.component').then(
+                                (m) => m.DetailsProfessorComponent
+                            ),
+                    },
                 ]
             },
             {
