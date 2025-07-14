@@ -1,0 +1,11 @@
+::ng-deep .mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: var(--side-text);  
+}
+
+.full-width-card {
+  width: 100%;
+  margin-bottom: 1rem;
+}

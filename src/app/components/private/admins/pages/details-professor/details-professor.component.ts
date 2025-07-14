@@ -9,6 +9,7 @@ import { UriConstants } from '@mean/utils';
 import { LoadingComponent } from '@mean/shared';
 import { CardProfessorDataComponent } from '../../components/card-professor-data/card-professor-data.component';
 import { FormUpdateProfessorComponent } from "../../components/form-update-professor/form-update-professor.component";
+import { TableAssignGroupComponent } from "../../components/table-assign-group/table-assign-group.component";
 import { HttpHeaders } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 
@@ -22,6 +23,7 @@ import { ToastrService } from 'ngx-toastr';
     MatCardModule,
     CardProfessorDataComponent,
     FormUpdateProfessorComponent,
+    TableAssignGroupComponent,
     LoadingComponent
   ],
   templateUrl: './details-professor.component.html',
@@ -68,7 +70,7 @@ export class DetailsProfessorComponent implements OnInit {
         // Tab de datos personales, no necesita cargar datos adicionales
         break;
       case 1:
-        // Para futuras tabs (ej: grupos asignados, áreas clínicas, etc.)
+        // Tab de grupos asignados, ya maneja su propia carga de datos
         break;
       default:
         console.warn('Tab index not handled:', tabIndex);

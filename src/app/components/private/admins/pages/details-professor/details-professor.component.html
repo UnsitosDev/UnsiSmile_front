@@ -1,3 +1,5 @@
+<div class="mb-4 flex justify-between">
+</div>
 
 <!-- card professor -->
 <mat-card appearance="outlined" class="custom mb-4">
@@ -15,7 +17,16 @@
     <app-form-update-professor [professorId]="professorId"></app-form-update-professor>
   </mat-tab>
 
-  <!-- Otras pestañas se pueden agregar en el futuro, como grupos asignados, áreas clínicas, etc. -->
+  <!-- Tab 2: Grupos asignados -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-users"></i>
+      <span class="ml-2">Grupos asignados</span>
+    </ng-template>
+    <app-table-assign-group [professorId]="professorId"></app-table-assign-group>
+  </mat-tab>
+
+  <!-- Otras pestañas se pueden agregar en el futuro, como áreas clínicas, etc. -->
 
 </mat-tab-group>
 
