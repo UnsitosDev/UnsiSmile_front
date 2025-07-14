@@ -2,8 +2,13 @@
   <mat-card-title><strong>Alumnos asignados al paciente</strong></mat-card-title>
 </mat-card>
 <br>
+<div class="flex justify-end">
+  <button class="mr-10" mat-flat-button color="primary" (click)="openAssignStudentDialog()">
+    <i class="fas fa-users"></i>  
+    Asignar nuevo alumno
+  </button>
+</div>
 <br>
-
 <app-tabla-data
   [titulo]="title"
   [columns]="columnas"
