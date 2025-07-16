@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { TreatmentDetailResponse } from '@mean/models';
+import { Tooth, TreatmentDetailResponse } from '@mean/models';
 import { ApiService, AuthService } from '@mean/services';
 import { ArrayToDatePipe, LoadingComponent } from "@mean/shared";
 import { STATUS, STATUS_TREATMENTS, UriConstants } from '@mean/utils';

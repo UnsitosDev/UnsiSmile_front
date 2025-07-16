@@ -4,15 +4,17 @@
         <p><strong>Tratamiento: </strong>{{data.treatment.treatment.name}}</p>
         <p><strong>Duración: </strong>{{data.treatment.startDate | arrayToDate}} - {{data.treatment.endDate | arrayToDate}}</p>
         <p><strong>Órganos dentarios: </strong>
-            @for (tooth of data.treatment.teeth; track $index) {
-                <span class="badge badge-primary">{{tooth.idTooth}}</span>
+            @for (tooth of data.treatment.teeth; track $index; let last = $last) {
+                <span class="badge badge-primary">{{ tooth.idTooth }}{{ !last ? ',' : '' }}</span>
             }
         </p>
         @if (data.treatment.treatment.treatmentScope.name === 'Diente') {
             <p><strong>Órganos dentarios en revisión: </strong>
-                @for (tooth of data.treatment.teeth; track $index) {
-                    @if (tooth.inReview) {
-                        <span class="badge badge-primary">{{tooth.idTooth}}</span>
+                @for (tooth of data.treatment.teeth; track $index; let last = $last) {
+                    @if (tooth.status === STATUS.REJECTED) {
+                        <span class="badge badge-primary">
+                            {{ tooth.idTooth }}{{ !last ? ',' : '' }}
+                        </span>
                     }
                 }
             </p>
