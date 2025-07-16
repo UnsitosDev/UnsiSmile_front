@@ -218,6 +218,5 @@ export class TreatmentDetailsComponent
   protected override onTreatmentsNotification(): void {
     // Refresh treatment details when a notification is received
     this.loadTreatmentDetails(String(this.idTreatmentDetail));
-    console.log('Treatment details updated');
   }
 }
