@@ -121,6 +121,20 @@ export const AdminItems: MenuItem[] = [
           },
         ]
       },
+       {
+        fontAwesomeIcon: faUserShield,
+        buttonText: 'Capturadores',
+        buttonDescription: 'Ver capturadores',
+        routerlink: '/admin/digitizers',
+        children: [
+          {
+            fontAwesomeIcon: faPlus,
+            buttonText: 'Nuevo capturador',
+            buttonDescription: 'Registrar capturador',
+            routerlink: '/admin/digitizers/addDigitizer'
+          },
+        ]
+      },
       {
         fontAwesomeIcon: faUserShield,
         buttonText: 'Encargados de area clínica ',

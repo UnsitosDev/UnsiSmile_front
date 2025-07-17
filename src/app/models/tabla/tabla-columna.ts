@@ -1,6 +1,7 @@
 import {columnPatientsTableData, patientsTableData, patientsTableDataProfessor} from "../shared/patients";
 import {studentsTableData} from "../shared/students";
 import {AdminTableData} from "../shared/admin/admin";
+import {digitizersTableData} from "../shared/digitizers";
 
 
 //* El parámetro genérico T en la interfaz Accion
@@ -27,6 +28,9 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
       break;
     case 'professor':
       clase = new patientsTableDataProfessor();
+      break;
+    case 'digitizers':
+      clase = new digitizersTableData();
       break;
   }
 
