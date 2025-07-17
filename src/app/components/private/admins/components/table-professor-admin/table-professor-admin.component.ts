@@ -82,13 +82,15 @@ export class TableProfessorAdminComponent implements OnInit {
   }
 
   onAction(accion: Accion) {
-    if (accion.accion === 'Modificar') {  // Cambiado de 'Editar' a 'Modificar'
+    if (accion.accion === 'Modificar') {
       this.edit(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
+      this.openDetailsPage(accion.fila);
+    } else if (accion.accion === 'Asignar') {
       this.openAssignGroupDialog(accion.fila['numero empleado']);
-    } 
+    }
   }
 
   openAssignGroupDialog(employeeNumber: string): void {
@@ -104,13 +106,17 @@ export class TableProfessorAdminComponent implements OnInit {
     });
   }
 
-  openDetailsDialog(admin: ProfessorTableData): void {
-    }
-
+  openDetailsPage(professor: ProfessorTableData): void {
+    const professorId = professor['numero empleado'];
+    console.log('Navegando a detalles del profesor:', professorId);
+    
+    // Usar navigateByUrl en lugar de navigate para asegurar una URL limpia
+    this.router.navigateByUrl(`/admin/professors/details/professor/${professorId}`);
+  }
 
   edit(objeto: any) {
     this.router.navigate(['/admin/professors/updateProfessor', objeto['numero empleado']]);
-   }
+  }
 
   delete(nombre: string) {
   }

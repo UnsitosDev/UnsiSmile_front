@@ -11,6 +11,7 @@ import { UriConstants } from '@mean/utils';
 import { MatInputModule } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from '@mean/shared';
+import { MatCardModule } from '@angular/material/card';
 
 interface Group {
   idGroup: number;
@@ -28,7 +29,8 @@ interface Group {
     MatButtonModule,
     FormsModule,
     MatInputModule,
-    LoadingComponent
+    LoadingComponent,
+    MatCardModule
   ],
   templateUrl: './dialog-assign-group.component.html',
   styleUrl: './dialog-assign-group.component.scss'
@@ -37,6 +39,7 @@ export class DialogAssignGroupComponent implements OnInit {
   groups: Group[] = [];
   selectedGroupId: number | null = null;
   loading = false;
+  professorName: string = '';
   
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
@@ -47,7 +50,29 @@ export class DialogAssignGroupComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getProfessorInfo();
     this.getGroups();
+  }
+
+  getProfessorInfo(): void {
+    this.loading = true;
+    this.apiService.getService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      url: `${UriConstants.GET_PROFESSORS}/${this.data.employeeNumber}`,
+      data: {}
+    }).subscribe({
+      next: (response: any) => {
+        this.professorName = `${response.person.firstName} ${response.person.secondName || ''} ${response.person.firstLastName} ${response.person.secondLastName || ''}`.trim();
+        this.loading = false;
+      },
+      error: (error) => {
+        this.toastr.error('Error al cargar la información del profesor', 'Error');
+        console.error('Error al cargar la información del profesor:', error);
+        this.loading = false;
+      }
+    });
   }
 
   getGroups(): void {

@@ -1,0 +1,49 @@
+::ng-deep .mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: var(--side-text);
+}
+
+::ng-deep .mat-step-header .mat-step-label {
+  color: var(--on-primary);
+}
+
+.fondo {
+  background: var(--secondary);
+}
+
+i {
+  color: #07437a;
+}
+
+.custom-color {
+  color: rgb(104, 104, 104);
+}
+
+p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #939393;
+  color: var(--on-primary);
+  height: 30px;
+}
+
+.status-active {
+  color: var(--status-approved);
+  font-weight: bold;
+}
+
+.status-inactive {
+  color: var(--status-rejected);
+  font-weight: bold;
+}
+
+.text-success {
+  color: var(--status-approved);
+}
+
+.text-danger {
+  color: var(--status-rejected);
+}

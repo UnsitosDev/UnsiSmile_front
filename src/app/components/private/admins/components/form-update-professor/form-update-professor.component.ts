@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -40,7 +40,7 @@ import { LoadingComponent } from '@mean/shared';
 })
 export class FormUpdateProfessorComponent implements OnInit {
   private toastr = inject(ToastrService);
-  professorId: string = '';
+  @Input() professorId: string = '';
   formGroup!: FormGroup;
   professor: FormField[] = [];
   private apiService = inject(ApiService<any>);
@@ -57,7 +57,11 @@ export class FormUpdateProfessorComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.professorId = this.route.snapshot.params['professorId'];
+    // Si no se proporciona el professorId como input, intentar obtenerlo de los parámetros de la ruta
+    if (!this.professorId) {
+      this.professorId = this.route.snapshot.params['professorId'];
+    }
+    
     this.professor = this.professorService.getPersonalDataFields();
     
     // Asegurarnos de que se carguen las opciones de género antes de inicializar el form
