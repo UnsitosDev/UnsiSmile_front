@@ -5,30 +5,23 @@
 <mat-form-field class="mt-4 w-full">
   <mat-label>Seleccione tratamientos: Por revisar, aprobados o rechazados</mat-label>
   <mat-select [formControl]="statusControl" (selectionChange)="fetchTreatments()">
-    <mat-option [value]="STATUS.IN_REVIEW">Tratamientos por revisar</mat-option>
-    <mat-option [value]="STATUS.FINISHED">Tratamientos aprobados</mat-option>
-    <mat-option [value]="STATUS.REJECTED">Tratamientos rechazados</mat-option>
-    <mat-option [value]="STATUS.CANCELLED">Tratamientos cancelados</mat-option>
+    <mat-option [value]="STATUS.AWAITING_APPROVAL">Tratamientos en espera</mat-option>
+    <mat-option [value]="STATUS.APPROVED">Tratamientos aprobados</mat-option>
+    <mat-option [value]="STATUS.NOT_APPROVED">Tratamientos no aprobados</mat-option>
   </mat-select>
 </mat-form-field>
 
 @if (!treatments || treatments.content.length === 0) {
   <div class="flex justify-center p-6">
     @switch (statusControl.value) {
-      @case (STATUS.IN_REVIEW) {
-        <span>No hay tratamientos por revisar</span>
-      }
-      @case (STATUS.FINISHED) {
-        <span>No hay tratamientos aprobados</span>
-      }
-      @case (STATUS.REJECTED) {
-        <span>No hay tratamientos rechazados</span>
-      }
       @case (STATUS.AWAITING_APPROVAL) {
         <span>No hay tratamientos por aprobar</span>
       }
-      @case (STATUS.CANCELLED) {
-        <span>No hay tratamientos cancelados</span>
+      @case (STATUS.APPROVED) {
+        <span>No hay tratamientos aprobados</span>
+      }
+      @case (STATUS.NOT_APPROVED) {
+        <span>No hay tratamientos</span>
       }
     }
   </div>
@@ -51,7 +44,7 @@
                   @for (tooth of treatment.teeth; track tooth.idTooth; let last = $last) {
                     @if (tooth.status === STATUS.IN_REVIEW) {
                       {{ tooth.idTooth }}{{ !last ? ', ' : '' }}  
-                    }                  
+                    }
                   }
                 </li>
               }
@@ -61,27 +54,6 @@
 
           <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4">
             @switch (treatment.status) {
-              @case (STATUS.IN_REVIEW) {
-                <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="in-review flex items-center">
-                    <i class="far fa-clock mr-1"></i>En revisión
-                  </span>
-                </button>
-              }
-              @case (STATUS.APPROVED) {
-                <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="approved flex items-center">
-                    <i class="fas fa-check-circle mr-1"></i>Aprobado
-                  </span>
-                </button>
-              }
-              @case (STATUS.REJECTED) {
-                <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="rejected flex items-center">
-                    <i class="fas fa-times-circle mr-1"></i>Rechazado
-                  </span>
-                </button>
-              }
               @case (STATUS.IN_PROGRESS) {
                 <button mat-stroked-button class="whitespace-nowrap" disabled>
                   <span class="in-progress flex items-center">
@@ -89,17 +61,16 @@
                   </span>
                 </button>
               }
-              @case (STATUS.FINISHED) {
-                <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="finished flex items-center">
-                    <i class="fas fa-user-check mr-1"></i>Finalizado
+              @case (STATUS.AWAITING_APPROVAL) {
+                <button mat-stroked-button class="whitespace-nowrap" (click)="opedDialogAuthorizationTreatment(treatment.idTreatmentDetail)">
+                  <span class="rejected flex items-center">
+                    <i class="fas fa-times-circle mr-1"></i>Rechazar
                   </span>
                 </button>
-              }
-              @case (STATUS.CANCELLED) {
-                <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="rejected flex items-center">
-                    <i class="fas fa-times-circle mr-1"></i>Cancelado
+                <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap"  (click)="approvedTreatment(treatment.idTreatmentDetail)">
+                  <span class="flex items-center">
+                    <i class="fas fa-check-circle cursor-pointer mr-2"></i>
+                    Aprobar
                   </span>
                 </button>
               }

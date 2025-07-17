@@ -27,6 +27,7 @@ import { LoadingComponent } from '@mean/shared';
 import { STATUS_TREATMENTS } from '@mean/utils';
 import { MedicalRecordRepositoryService } from '../../repository/medical-record-repository.service';
 import { TreatmentRepositoryService } from '../../repository/treatment-repository.service';
+import { DialogDetailsTreatmentComponent } from '../../../../components/dialog-details-treatment/dialog-details-treatment.component';
 
 @Component({
   selector: 'app-treatments',
@@ -52,8 +53,7 @@ import { TreatmentRepositoryService } from '../../repository/treatment-repositor
 })
 export class TreatmentDetailsComponent
   extends treatmentsNotifications
-  implements OnInit
-{
+  implements OnInit {
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
 
   private readonly medicalRecordRepositoryService = inject(
@@ -70,8 +70,8 @@ export class TreatmentDetailsComponent
   public isLoading = true;
   public isLoadingGeneralMedicalRecord = true;
   public creatingOdontogram = false;
-  public readonlyTreatment : boolean = false; 
-  
+  public readonlyTreatment: boolean = false;
+
   private suppressTabChangeLogic = false;
   private idTreatmentDetail!: number;
   STATUS = STATUS_TREATMENTS;
@@ -175,6 +175,7 @@ export class TreatmentDetailsComponent
       data: {
         treatmentId: this.idTreatmentDetail,
         send: sendTreatment,
+        treatment: this.treatmentDetails,
       },
     });
   }
@@ -185,6 +186,20 @@ export class TreatmentDetailsComponent
       data: {
         treatment: treatment,
       },
+    });
+  }
+
+  openDialogDetailsTreatment(treatment: TreatmentDetailResponse): void {
+    const dialogRef = this.dialog.open(DialogDetailsTreatmentComponent, {
+      width: '800px',
+      data: {
+        treatment: treatment,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+      }
     });
   }
 
@@ -199,10 +214,9 @@ export class TreatmentDetailsComponent
   cancelOdontogramCreation(): void {
     this.changeOdontogramViewStatus();
   }
-    
+
   protected override onTreatmentsNotification(): void {
     // Refresh treatment details when a notification is received
-      this.loadTreatmentDetails(String(this.idTreatmentDetail));
-      console.log('Treatment details updated');
+    this.loadTreatmentDetails(String(this.idTreatmentDetail));
   }
 }

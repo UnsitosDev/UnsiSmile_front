@@ -76,8 +76,8 @@ export class DialogUpdateTreatmentComponent implements OnInit {
   public treatmentDetailId: number = 0;
 
   ngOnInit(): void {
-    this.fetchTreatmentData();
     this.fetchProfessorAreas();
+    this.fetchTreatmentData();
     this.loadExistingTreatmentData();
   }
 
@@ -129,6 +129,10 @@ export class DialogUpdateTreatmentComponent implements OnInit {
 
     if (treatment.teeth && Array.isArray(treatment.teeth)) {
       this.itemTeeth.setValue(treatment.teeth);
+    }
+
+    if(treatment.professor){
+      this.professorControl.setValue(treatment.professor.idProfessorClinicalArea);
     }
   }
 

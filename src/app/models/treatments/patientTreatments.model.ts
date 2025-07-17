@@ -21,6 +21,8 @@ interface Patient {
 interface Professor {
     id:   string;
     name: string;
+    idProfessorClinicalArea?:   string;
+    professorName?: string;
 }
 
 interface Student {
@@ -33,6 +35,8 @@ interface Student {
 interface Tooth {
     idDetailTooth: number;
     idTooth:       string;
+    status:        string;
+    isRecent:      boolean;
 }
 
 interface Treatment {

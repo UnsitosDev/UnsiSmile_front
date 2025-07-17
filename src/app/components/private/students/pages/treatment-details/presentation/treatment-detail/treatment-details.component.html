@@ -1,7 +1,10 @@
 @if(!isLoading && !isLoadingGeneralMedicalRecord) {
 <!-- card patient -->
 <mat-card appearance="outlined" class="custom mb-4">
-  <app-card-patient-data [patientUuid]="patientUuid" [treatmentData]="treatmentDetails"></app-card-patient-data>
+  <app-card-patient-data
+    [patientUuid]="patientUuid"
+    [treatmentData]="treatmentDetails"
+  ></app-card-patient-data>
 </mat-card>
 
 <div class="flex justify-between w-full mb-4">
@@ -22,23 +25,76 @@
     Enviar tratamiento a revisión<i class="fas fa-file-upload ml-2"></i>
   </button>
   } @else {
-  <span
-    class="treatment-status-badge"
-    [class.in-review-treatment]="treatmentDetails.status === STATUS.IN_REVIEW"
-    [class.approved-treatment]="treatmentDetails.status === STATUS.APPROVED"
-    [class.rejected-treatment]="treatmentDetails.status === STATUS.REJECTED"
-    [class.rejected-treatment]="treatmentDetails.status === STATUS.CANCELLED"
-    [class.in-progress-treatment]="
-      treatmentDetails.status === STATUS.IN_PROGRESS
-    "
-    [class.finished-treatment]="treatmentDetails.status === STATUS.FINISHED"
+  <div
+    class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4 md:px-4 lg:px-6"
   >
-    @switch (treatmentDetails.status) { @case (STATUS.IN_REVIEW) { Tratamiento
-    en revisión } @case (STATUS.APPROVED) { Aprobado } @case (STATUS.REJECTED) {
-    Rechazado } @case (STATUS.IN_PROGRESS) { En progreso } @case
-    (STATUS.FINISHED) { Finalizado } @case
-    (STATUS.CANCELLED) { Cancelado } }
-  </span>
+    <button mat-stroked-button class="whitespace-nowrap" (click)="openDialogDetailsTreatment(treatmentDetails)">
+      <span class="flex items-center"><i class="fas fa-info-circle mr-1"></i>Detalles del tratamiento</span>
+    </button>
+    @switch (treatmentDetails.status) { @case (STATUS.IN_REVIEW) {
+    <button mat-stroked-button class="whitespace-nowrap" disabled>
+      <span class="flex items-center in-review"
+        ><i class="far fa-clock mr-1"></i>En revisión</span
+      >
+    </button>
+    } @case (STATUS.APPROVED) {
+    <button mat-stroked-button class="whitespace-nowrap" disabled>
+      <span class="flex items-center approved"
+        ><i class="fas fa-check-circle mr-1"></i>Aprobado</span
+      >
+    </button>
+    } @case (STATUS.REJECTED) {
+    <button mat-stroked-button class="whitespace-nowrap" disabled>
+      <span class="flex items-center rejected"
+        ><i class="fas fa-times-circle mr-1"></i>Rechazado</span
+      >
+    </button>
+    } @case (STATUS.IN_PROGRESS) {
+    <button mat-stroked-button class="whitespace-nowrap" disabled>
+      <span class="flex items-center in-progress"
+        ><i class="fas fa-solid fa-spinner mr-1"></i>En progreso</span
+      >
+    </button>
+    } @case (STATUS.FINISHED) {
+    <button mat-stroked-button class="whitespace-nowrap" disabled>
+      <span class="flex items-center finished"
+        ><i class="fas fa-user-check mr-1"></i>Finalizado</span
+      >
+    </button>
+    } @case (STATUS.CANCELLED) {
+    <button mat-stroked-button class="whitespace-nowrap" disabled>
+      <span class="rejected flex items-center">
+        <i class="fas fa-times-circle mr-1"></i>Cancelado
+      </span>
+    </button>
+    } @case (STATUS.NOT_APPROVED) {
+    <button mat-stroked-button class="whitespace-nowrap">
+      <span class="flex items-center"><i class="fas fa-comment-alt"></i></span>
+    </button>
+
+    <button mat-stroked-button class="whitespace-nowrap">
+      <span class="flex items-center rejected"
+        ><i class="fas fa-times-circle mr-1"></i>No aprobado</span
+      >
+    </button>
+
+    <button
+      mat-stroked-button
+      class="whitespace-nowrap"
+      matTooltip="Actualizar fecha de tratamiento"
+    >
+      <span class="flex items-center"
+        ><i class="fas fa-edit mr-1"></i>Actualizar</span
+      >
+    </button>
+    } @case (STATUS.AWAITING_APPROVAL) {
+    <button mat-stroked-button class="whitespace-nowrap" disabled>
+      <span class="in-progress flex items-center">
+        <i class="fas fa-solid fa-spinner mr-1"></i>En espera de aprobación
+      </span>
+    </button>
+    } }
+  </div>
   }
 </div>
 
@@ -69,9 +125,9 @@
     </ng-template>
     @switch (medicalRecordId) { @case (2) {
     <!--Protesis bucal-->
-    <app-oral-prosthesis 
-    [readonlyTreatment]="readonlyTreatment"
-    [patientUuid]="patientUuid"
+    <app-oral-prosthesis
+      [readonlyTreatment]="readonlyTreatment"
+      [patientUuid]="patientUuid"
     ></app-oral-prosthesis>
     } @case (3) {
     <!-- Periodoncia -->
@@ -106,40 +162,43 @@
   <mat-tab>
     <ng-template mat-tab-label>
       <i class="fas fa-tooth"></i>
-      <span class="ml-2">
-        Odontograma
-      </span>
+      <span class="ml-2"> Odontograma </span>
     </ng-template>
 
     @if(creatingOdontogram){
-      <app-students-odontogram
+    <app-students-odontogram
       [patientId]="patientUuid"
       [idTreatmentDetails]="treatmentDetails.idTreatmentDetail"
       [state]="'create'"
       (transactionCarriedOut)="transactionCarriedOut()"
       (cancel)="cancelOdontogramCreation()"
-      ></app-students-odontogram>
+    ></app-students-odontogram>
     }@else {
-      <div class="odontogram-tab-content">
-        <div class="action-container">
-          <button mat-raised-button color="primary" (click)="changeOdontogramViewStatus()">
-            <i class="fas fa-plus mr-2"></i>
-            Nuevo odontograma
-          </button>
-        </div>
-        <mat-card-title><strong>Historial de odontogramas</strong></mat-card-title>
-        <mat-card appearance="outlined" class="custom">
-          <mat-card-content>
-            <app-odontogram-list
+    <div class="odontogram-tab-content">
+      <div class="action-container">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="changeOdontogramViewStatus()"
+        >
+          <i class="fas fa-plus mr-2"></i>
+          Nuevo odontograma
+        </button>
+      </div>
+      <mat-card-title
+        ><strong>Historial de odontogramas</strong></mat-card-title
+      >
+      <mat-card appearance="outlined" class="custom">
+        <mat-card-content>
+          <app-odontogram-list
             [treatmentId]="treatmentDetails.idTreatmentDetail"
             [patientUuid]="patientUuid"
-            >
-            </app-odontogram-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
+          >
+          </app-odontogram-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
     }
-
   </mat-tab>
 </mat-tab-group>
 }

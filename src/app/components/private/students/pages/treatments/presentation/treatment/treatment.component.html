@@ -71,14 +71,13 @@
                   @case (STATUS.REJECTED) {
                     <button mat-stroked-button class="whitespace-nowrap" disabled>
                       <span class="flex items-center rejected"><i class="fas fa-times-circle mr-1"></i>Rechazado</span>
-                    </button>
-
-                    <button mat-stroked-button class="whitespace-nowrap" matTooltip="Actualizar fecha de tratamiento"
-                            (click)="openUpdateTreatmentDialog(treatmentDetail)">
-                      <span class="flex items-center"><i class="fas fa-edit mr-1"></i>Actualizar</span>
                     </button> 
                   }
                   @case (STATUS.IN_PROGRESS) {
+                    <button mat-stroked-button class="whitespace-nowrap" (click)="openCommentDialog(treatmentDetail.comments)">
+                      <span class="flex items-center"><i class="fas fa-comment-alt"></i></span>
+                    </button>
+
                     <button mat-stroked-button class="whitespace-nowrap" disabled>
                       <span class="flex items-center in-progress"><i class="fas fa-solid fa-spinner mr-1"></i>En progreso</span>
                     </button>
@@ -96,7 +95,11 @@
                     </button>
                   }
                   @case (STATUS.NOT_APPROVED) {
-                    <button mat-stroked-button class="whitespace-nowrap" disabled>
+                    <button mat-stroked-button class="whitespace-nowrap" (click)="openCommentDialog(treatmentDetail.comments)">
+                      <span class="flex items-center"><i class="fas fa-comment-alt"></i></span>
+                    </button>
+
+                    <button mat-stroked-button class="whitespace-nowrap">
                       <span class="flex items-center rejected"><i class="fas fa-times-circle mr-1"></i>No aprobado</span>
                     </button>
 
@@ -141,4 +144,3 @@
   }
 
 </mat-tab-group>
-
