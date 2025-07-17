@@ -399,6 +399,6 @@ export class UriConstants {
   public static readonly PATCH_AUTHORIZATION_TREATMENT = basePath + '/treatment-details'
 
   public static readonly GET_DIGITIZERS = basePath + '/medical-record-digitizers';
-
+  public static readonly POST_DIGITIZER = basePath + '/medical-record-digitizers';
 }
 
