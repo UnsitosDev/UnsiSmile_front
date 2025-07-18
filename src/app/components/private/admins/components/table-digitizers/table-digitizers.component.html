@@ -19,11 +19,12 @@
   [showSearchIcon]="true"
   [showEditIcon]="true"
   [showFolderIcon]="false"
-  [showStatusIcon]="false"
+  [showStatusIcon]="true"
   (pageChange)="onPageChange($event)"
   (pageSizeChange)="onPageSizeChange($event)"
   (action)="onAction($event)"
   (searchChange)="onSearch($event)"
-  (sortChange)="onSort($event)">
+  (sortChange)="onSort($event)"
+  (statusChange)="onStatusChange($event)">
 </app-tabla-data>
 <app-loading/>

@@ -20,6 +20,7 @@ import { MatCardModule } from '@angular/material/card';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from "@mean/shared";
+import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 
 @Component({
   selector: 'app-table-digitizers',
@@ -49,7 +50,8 @@ export class TableDigitizersComponent implements OnInit {
     'nombreCompleto': 'studentFullName', 
     'matricula': 'idStudent',
     'fechaInicio': 'startDate',
-    'fechaFin': 'endDate'
+    'fechaFin': 'endDate',
+    'estatus': 'status'
   };
 
   constructor(
@@ -129,7 +131,8 @@ export class TableDigitizersComponent implements OnInit {
             nombreCompleto: digitizer.studentFullName || 'N/A',
             matricula: digitizer.idStudent || 'N/A',
             fechaInicio: digitizer.startDate || 'N/A',
-            fechaFin: digitizer.endDate || 'N/A'
+            fechaFin: digitizer.endDate || 'N/A',
+            estatus: digitizer.status ? 'Inactivo' : 'Activo'
           }));
         } else {
           this.digitizersList = [];
@@ -165,5 +168,35 @@ export class TableDigitizersComponent implements OnInit {
     //   height: 'auto',
     //   panelClass: 'custom-dialog-container'
     // });
+  }
+
+  onStatusChange(event: { row: any, newStatus: string }) {
+    const dialogRef = this.dialog.open(ConfirmationAlertComponent, {
+      width: '300px',
+      data: { message: `¿Estás seguro de que deseas cambiar el estatus a ${event.newStatus}?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const digitizerId = event.row.id;
+        const url = `${UriConstants.PATCH_DIGITIZER_STATUS}/${digitizerId}/status`;
+
+        this.apiService.patchService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url,
+          data: {}
+        }).subscribe({
+          next: () => {
+            event.row.estatus = event.newStatus;
+            this.toastr.success('Estado del capturador actualizado correctamente', 'Éxito');
+          },
+          error: (error) => {
+            this.toastr.error('Error al cambiar el estado del capturador', 'Error');
+          }
+        });
+      }
+    });
   }
 }

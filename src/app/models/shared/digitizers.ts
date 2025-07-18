@@ -4,15 +4,19 @@ export interface IDigitizers {
   idStudent: string;
   startDate: string;
   endDate: string;
+  status: boolean;
 }
 
-export class digitizersTableData {
-  id = 0;
-  nombreCompleto = '';
-  matricula = '';
-  fechaInicio = '';
-  fechaFin = '';
+export interface digitizersTableData {
+  id: number;
+  nombreCompleto: string;
+  matricula: string;
+  fechaInicio: string;
+  fechaFin: string;
+  estatus: string;
 }
+
+
 
 export interface DigitizersResponse {
   totalElements: number;

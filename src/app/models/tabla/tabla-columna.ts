@@ -24,14 +24,13 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
       clase = new studentsTableData();
       break;
     case 'admin':
-      clase = new AdminTableData();  // Agregamos el caso para admin
+      clase = new AdminTableData();
       break;
     case 'professor':
       clase = new patientsTableDataProfessor();
       break;
     case 'digitizers':
-      clase = new digitizersTableData();
-      break;
+      return ENTIDADES['digitizers'] || [];
   }
 
   if (clase) {
@@ -42,5 +41,14 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
 
 export const ENTIDADES: { [key: string]: string[] } = {
   admin: ['numeroEmpleado', 'nombre', 'apellido', 'correo', 'status'],
+  digitizers: [
+    'id',
+    'nombreCompleto', 
+    'matricula',
+    'fechaInicio',
+    'fechaFin',
+    'estatus'
+  ],
   // ...otros modelos...
 };
+
