@@ -4,4 +4,5 @@ export interface DigitizerRequest {
   idStudent: string;
   startDate: string;
   endDate: string;
+  status: string; // Agregado el campo status
 }

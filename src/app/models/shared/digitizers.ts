@@ -4,7 +4,7 @@ export interface IDigitizers {
   idStudent: string;
   startDate: string;
   endDate: string;
-  status: boolean;
+  status: string; // Cambiado de boolean a string
 }
 
 export interface digitizersTableData {

@@ -51,7 +51,7 @@ export class TableDigitizersComponent implements OnInit {
     'matricula': 'idStudent',
     'fechaInicio': 'startDate',
     'fechaFin': 'endDate',
-    'estatus': 'status'
+    'estatus': 'status' // Agregado el campo estatus
   };
 
   constructor(
@@ -89,7 +89,33 @@ export class TableDigitizersComponent implements OnInit {
   }
 
   delete(id: number) {
-    // Implementar lógica de eliminación
+    const dialogRef = this.dialog.open(ConfirmationAlertComponent, {
+      width: '300px',
+      data: { message: '¿Estás seguro de que deseas eliminar este capturador?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const url = `${UriConstants.DELETE_DIGITIZER}/${id}`;
+
+        this.apiService.deleteService({
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+          url,
+          data: {}
+        }).subscribe({
+          next: () => {
+            this.toastr.success('Capturador eliminado correctamente', 'Éxito');
+            this.getDigitizers(this.currentPage, this.itemsPerPage, this.searchTerm);
+          },
+          error: (error) => {
+            this.toastr.error('Error al eliminar el capturador', 'Error');
+            console.error('Error al eliminar:', error);
+          }
+        });
+      }
+    });
   }
 
   showAlert() {
@@ -132,7 +158,7 @@ export class TableDigitizersComponent implements OnInit {
             matricula: digitizer.idStudent || 'N/A',
             fechaInicio: digitizer.startDate || 'N/A',
             fechaFin: digitizer.endDate || 'N/A',
-            estatus: digitizer.status ? 'Inactivo' : 'Activo'
+            estatus: this.mapStatus(digitizer.status)
           }));
         } else {
           this.digitizersList = [];
@@ -145,6 +171,19 @@ export class TableDigitizersComponent implements OnInit {
         this.totalElements = 0;
       },
     });
+  }
+
+  private mapStatus(status: string): string {
+    switch (status) {
+      case 'ACTIVO':
+        return 'Activo';
+      case 'INACTIVO':
+        return 'Inactivo';
+      case 'FINALIZADO':
+        return 'Finalizado';
+      default:
+        return 'Inactivo';
+    }
   }
 
   onPageChange(event: number) {
@@ -186,14 +225,18 @@ export class TableDigitizersComponent implements OnInit {
             'Content-Type': 'application/json',
           }),
           url,
-          data: {}
+          data: {} // El endpoint requiere solo el ID en la URL, no datos en el cuerpo
         }).subscribe({
           next: () => {
+            // Actualizar el estado localmente
             event.row.estatus = event.newStatus;
+            // Recargar los datos para asegurar consistencia
+            this.getDigitizers(this.currentPage, this.itemsPerPage, this.searchTerm);
             this.toastr.success('Estado del capturador actualizado correctamente', 'Éxito');
           },
           error: (error) => {
             this.toastr.error('Error al cambiar el estado del capturador', 'Error');
+            console.error('Error al cambiar estado:', error);
           }
         });
       }
