@@ -2,19 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
 
-
-
 @Component({
-  selector: 'app-students-layout',
+  selector: 'app-layout-medical-record-digitizer',
   standalone: true,
-  imports: [
-    RouterOutlet, SideNavComponent, HeaderComponent,
-],
-  templateUrl: './proffessor-layout.component.html',
-  styleUrls: ['./proffessor-layout.component.scss']
+  imports: [RouterOutlet, SideNavComponent, HeaderComponent],
+  templateUrl: './layout-medical-record-digitizer.component.html',
+  styleUrl: './layout-medical-record-digitizer.component.scss'
 })
-export class ProffesorLayoutComponent implements OnInit  {
-  isSidebarOpen = false; // Cambiamos el valor inicial a false
+export class LayoutMedicalRecordDigitizerComponent implements OnInit {
+  isSidebarOpen = false;
 
   ngOnInit() {
     this.isSidebarOpen = window.innerWidth > 768;
@@ -24,4 +20,3 @@ export class ProffesorLayoutComponent implements OnInit  {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 }
-

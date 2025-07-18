@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService, AuthService } from '@mean/services';
 import { BaseComponent } from '@mean/shared';
-import { Messages, UriConstants } from '@mean/utils';
+import { Messages, ROLES, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from 'src/app/models/shared/loading/loading.component';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
@@ -26,8 +26,7 @@ import { TokenData } from './model/tokenData';
 })
 export class LoginComponent
   extends BaseComponent<Get, PostLogin>
-  implements OnInit
-{
+  implements OnInit {
   private userService = inject(AuthService);
   showPassword: boolean = false;
   returnUrl: string = '/';
@@ -79,14 +78,15 @@ export class LoginComponent
           );
 
           const tokenData: TokenData = this.userService.getTokenDataUser(token);
+
           if (tokenData.firstLogin) {
             this.router.navigate(['/new-password']);
+          } else if (tokenData.role[0].authority === ROLES.ROLE_MEDICAL_RECORD_DIGITIZER) {
+            this.router.navigate(['/medical-record-digitizer']);
           } else {
-            this.userService.redirectByRole(
-              tokenData.role[0].authority,
-              this.returnUrl
-            );
+            this.userService.redirectByRole(tokenData.role[0].authority, this.returnUrl);
           }
+
         },
         error: (error) => {
           if (error != Messages.ERROR) {

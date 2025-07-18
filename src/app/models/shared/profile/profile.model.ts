@@ -59,5 +59,4 @@ export interface ProfessorProfile {
   employeeNumber: string;
   person: Person;
   user: User;
-  }
-
+}
