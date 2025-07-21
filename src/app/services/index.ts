@@ -8,3 +8,4 @@ export * from './loading.service';
 export * from './web-socket.service';
 export * from './prophylaxis.service';
 export * from './dental-organs-data.service'
+export * from './form-digitizer-patient.service'

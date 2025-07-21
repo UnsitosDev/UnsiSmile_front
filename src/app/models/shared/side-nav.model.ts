@@ -232,7 +232,7 @@ export const MedicalRecordDigitizerItems: MenuItem[] = [
       fontAwesomeIcon: faFileClipboard,
       buttonText: 'Historias Clinicas',
       buttonDescription: 'Digitalizar historias clinicas',
-      routerlink: '/medical-record-digitizer/history-clinics'
+      routerlink: '/medical-record-digitizer/patients'
     },
   ];
 

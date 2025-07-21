@@ -1,0 +1,30 @@
+.fondo {
+    background: var(--secondary);
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button-container button {
+    max-width: 400px;
+    flex: 0 0 auto;
+    margin: 0 5px;
+}
+
+.mat-step-header .mat-step-label {
+    color: var(--on-secondary);
+}
+
+.mat-step-header[aria-disabled="true"] .mat-step-label {
+    color: var(--mat-stepper-header-icon-background-color)
+}
+
+.mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: var(--side-text);
+}

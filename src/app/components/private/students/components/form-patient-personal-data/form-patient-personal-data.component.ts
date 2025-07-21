@@ -51,9 +51,9 @@ import { LoadingComponent } from '@mean/shared';
 
 
 export class FormPatientPersonalDataComponent {
- private apiService = inject(ApiService<religionRequest>);
-   private patientService = inject(PatientService);
-   private toastr = inject(ToastrService);
+ protected apiService = inject(ApiService<religionRequest>);
+   protected patientService = inject(PatientService);
+   protected toastr = inject(ToastrService);
    readonly dialog = inject(MatDialog);
    minorPatient: boolean = false;
    disabledPatient: boolean = false;  // Nueva variable para controlar si el paciente es discapacitado
@@ -87,7 +87,7 @@ export class FormPatientPersonalDataComponent {
      private addressDataFields: FormFieldsService,
      private otherDataFields: FormFieldsService,
      private guardianField: FormFieldsService,
-     private router: Router,
+     protected router: Router,
      private cdr: ChangeDetectorRef // Agregamos ChangeDetectorRef para forzar la actualización de la vista
    ) { }
  
@@ -396,20 +396,20 @@ export class FormPatientPersonalDataComponent {
    }
  
    // Agregar métodos de validación que faltan
-   private validateEthnicGroup(value: string): boolean {
+   protected validateEthnicGroup(value: string): boolean {
      return this.patientService.ethnicGroupOptions.some(option => 
        option.value === value || option.label.toLowerCase() === value.toLowerCase()
      );
    }
  
-   private validateReligion(value: string): boolean {
+   protected validateReligion(value: string): boolean {
      return this.patientService.religionOptions.some(option => 
        option.value === value || option.label.toLowerCase() === value.toLowerCase()
      );
    }
    
    // Agregar método para validar nacionalidad
-   private validateNationality(value: string): boolean {
+   protected validateNationality(value: string): boolean {
      return this.patientService.nationalityOptions.some(option => 
        option.value === value || option.label.toLowerCase() === value.toLowerCase()
      );

@@ -16,6 +16,20 @@ export default [
                     ),
             },
             {
+                path: 'add-patient',
+                loadComponent: () =>
+                    import('../medical-record-digitizer/components/form-patient-digitizer/form-patient-digitizer.component').then(
+                        (m) => m.FormPatientDigitizerComponent
+                    ),
+            },
+            {
+                path: 'patients',
+                loadComponent: () =>
+                    import('../medical-record-digitizer/components/table-patients-digitizer/table-patients-digitizer.component').then(
+                        (m) => m.TablePatientsDigitizerComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

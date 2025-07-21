@@ -400,5 +400,7 @@ export class UriConstants {
   public static readonly DELETE_FILE_GENERAL = basePath + '/files/general-files'
   public static readonly PATCH_AUTHORIZATION_TREATMENT = basePath + '/treatment-details'
 
+
+  public static readonly GET_PATIENTS_DIGITIZER = basePath + '/digitizer-patients';
 }
 
