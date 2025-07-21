@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '@mean/services';
-import { LoadingComponent } from '@mean/shared';
+import { LoadingComponent, studentResponse } from '@mean/shared';
 import { StudentsGeneralHistoryComponent } from '@mean/students';
 import { UriConstants } from '@mean/utils';
 import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
@@ -31,6 +31,8 @@ import { DetailsPatientsComponent } from '../../../students/components/details-p
   styleUrl: './table-patients-digitizer.component.scss'
 })
 export class TablePatientsDigitizerComponent {
+  private userService = inject(ApiService<studentResponse, {}>);
+
   patientsList: patientsTableData[] = [];
   columnas: string[] = [];
   title: string = 'Pacientes';
@@ -51,7 +53,7 @@ export class TablePatientsDigitizerComponent {
     'estatus': 'user.status'  // Agregado el campo estatus para ordenamiento
   };
   private dataSharingService = inject(DataSharingService);
-
+  enrollment: string = '';
 
   check(event: any) {
     this.isChecked = event.checked; // Actualiza el estado según el valor del checkbox
@@ -63,8 +65,24 @@ export class TablePatientsDigitizerComponent {
   ) { }
 
   ngOnInit(): void {
+    this.fetchUserData(); // Llama al método para obtener los datos del usuario
     this.columnas = [...getEntityPropiedades('patients'), 'estatus'];
-    this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
+  }
+
+  fetchUserData() {
+    this.userService
+      .getService({
+        url: `${UriConstants.GET_USER_INFO}`,
+      })
+      .subscribe({
+        next: (data) => {
+          this.enrollment = data.enrollment; // Asigna el valor de enrollment desde la respuesta
+          this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
+        },
+        error: (error) => {
+          console.error('Error fetching user data:', error);
+        },
+      });
   }
 
   onPageSizeChange(newSize: number) {
@@ -128,7 +146,7 @@ export class TablePatientsDigitizerComponent {
   patients!: Patient[];
   getPacientes(page: number = 0, size: number = 10, keyword: string = '') {
     const encodedKeyword = encodeURIComponent(keyword.trim());
-    const url = `${UriConstants.GET_PATIENTS_DIGITIZER}?page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
+    const url = `${UriConstants.GET_PATIENTS_DIGITIZER}?enrollment=${this.enrollment}&page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
 
     this.apiService.getService({
       headers: new HttpHeaders({

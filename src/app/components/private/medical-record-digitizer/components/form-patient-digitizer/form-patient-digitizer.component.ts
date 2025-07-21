@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -11,7 +12,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
-import { FormDigitizerPatientService } from '@mean/services';
+import { ApiService, FormDigitizerPatientService } from '@mean/services';
+import { studentResponse } from '@mean/shared';
+import { UriConstants } from '@mean/utils';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
@@ -29,7 +32,10 @@ import { FormPatientPersonalDataComponent } from '../../../students/components/f
   templateUrl: './form-patient-digitizer.component.html',
   styleUrl: './form-patient-digitizer.component.scss'
 })
-export class FormPatientDigitizerComponent extends FormPatientPersonalDataComponent {
+export class FormPatientDigitizerComponent extends FormPatientPersonalDataComponent implements OnInit {
+
+  private userService = inject(ApiService<studentResponse, {}>);
+  private enrollment!: string;
 
   constructor(
     fb: FormBuilder,
@@ -42,6 +48,22 @@ export class FormPatientDigitizerComponent extends FormPatientPersonalDataCompon
     private digitizerPatientService: FormDigitizerPatientService
   ) {
     super(fb, personalDataFields, addressDataFields, otherDataFields, guardianField, router, cdr);
+    this.fetchUserData();
+  }
+
+  fetchUserData() {
+    this.userService
+      .getService({
+        url: `${UriConstants.GET_USER_INFO}`,
+      })
+      .subscribe({
+        next: (data) => {
+          this.enrollment = data.enrollment;
+        },
+        error: (error) => {
+          console.error('Error fetching user data:', error);
+        },
+      });
   }
 
   override onSubmit() {
@@ -82,7 +104,8 @@ export class FormPatientDigitizerComponent extends FormPatientPersonalDataCompon
 
       const extendedPatientData = {
         ...basePatientData,
-        medicalRecordNumber: formValues.medicalRecordNumber
+        medicalRecordNumber: formValues.medicalRecordNumber,
+        studentEnrollment: this.enrollment
       };
 
       // Enviar los datos extendidos
@@ -204,23 +227,22 @@ export class FormPatientDigitizerComponent extends FormPatientPersonalDataCompon
       }
     }
 
-    console.log('Datos del paciente a enviar:', patientData);
-    // this.apiService
-    //   .postService({
-    //     headers: new HttpHeaders({
-    //       'Content-Type': 'application/json',
-    //     }),
-    //     url: `${UriConstants.POST_PATIENT}`,
-    //     data: patientData,
-    //   })
-    //   .subscribe({
-    //     next: (response) => {
-    //       this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
-    //       this.router.navigate(['/students/patients']);
-    //     },
-    //     error: (error) => {
-    //       this.toastr.error(error, 'Error');
-    //     },
-    //   });
+    this.apiService
+      .postService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.POST_PATIENT_DIGITIZER}`,
+        data: patientData,
+      })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success(Messages.SUCCES_INSERT_PATIENT, 'Éxito');
+          this.router.navigate(['/medical-record-digitizer/patients']);
+        },
+        error: (error) => {
+          this.toastr.error(error, 'Error');
+        },
+      });
   }
 }
