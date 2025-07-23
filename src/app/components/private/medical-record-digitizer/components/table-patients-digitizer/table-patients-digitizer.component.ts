@@ -1,26 +1,17 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Asegúrate de importar estos módulos
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ApiService } from '@mean/services';
-import { LoadingComponent, studentResponse } from '@mean/shared';
-import { StudentsGeneralHistoryComponent } from '@mean/students';
+import { Router, RouterLink } from '@angular/router';
+import { Accion, PatientInfo, PatientResponse, patientsTableData } from '@mean/models';
+import { ApiService, DataSharingService } from '@mean/services';
+import { LoadingComponent, studentResponse, TablaDataComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
-import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
-import { patientsTableData } from 'src/app/models/shared/patients';
-import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient/patient';
-import {
-  Accion
-} from 'src/app/models/tabla/tabla-columna';
-import { DataSharingService } from 'src/app/services/data-sharing.service';
-import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { DetailsPatientsComponent } from '../../../students/components/details-patients/details-patients.component';
-
 
 @Component({
   selector: 'app-table-patients-digitizer',
@@ -35,10 +26,9 @@ export class TablePatientsDigitizerComponent {
   private dataSharingService = inject(DataSharingService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  private cdr = inject(ChangeDetectorRef);
 
   title = 'Pacientes';
-  role = 'student';
   columnas: string[] = [];
   sortableColumns = {
     'nombres': 'person.firstName',
@@ -54,15 +44,7 @@ export class TablePatientsDigitizerComponent {
 
   currentPage = 0;
   itemsPerPage = 10;
-  sortField = 'person.student.firstName';
-  sortAsc = true;
-
   searchTerm = '';
-  isChecked = false;
-
-  check(event: any) {
-    this.isChecked = event.checked;
-  }
 
   ngOnInit(): void {
     this.fetchUserData();
@@ -91,26 +73,14 @@ export class TablePatientsDigitizerComponent {
     this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
-  openDialog(objeto: any) {
-    this.dialog.open(StudentsGeneralHistoryComponent, {
-      data: objeto,
-    });
-  }
-
   onAction(accion: Accion) {
     if (accion.accion === 'Editar') {
       this.editar(accion.fila);
-    } else if (accion.accion === 'Eliminar') {
-      this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
       this.openDetailsDialog(accion.fila);
     } else if (accion.accion === 'Modificar') {
       this.edit(accion.fila);
     }
-  }
-
-  delete(nombre: string) {
-
   }
 
   edit(objeto: any) {
@@ -119,14 +89,6 @@ export class TablePatientsDigitizerComponent {
 
   editar(objeto: PatientInfo) {
     this.router.navigate(['/students/patients/treatments/patient/' + objeto.patientID]);
-  }
-
-  eliminar(nombre: string) {
-
-  }
-
-  mostrarAlerta() {
-    alert('¡Haz clic en un icono!');
   }
 
   openDetailsDialog(patient: any): void {
@@ -138,14 +100,10 @@ export class TablePatientsDigitizerComponent {
       height: 'auto',
       panelClass: 'custom-dialog-container'
     });
-
   }
 
-  idPatientx: number = 0;
-  patients!: Patient[];
   getPacientes(page: number = 0, size: number = 10, keyword: string = '') {
-    const encodedKeyword = encodeURIComponent(keyword.trim());
-    const url = `${UriConstants.GET_PATIENTS_DIGITIZER}?enrollment=${this.enrollment}&page=${page}&size=${size}&keyword=${encodedKeyword}&order=${this.sortField}&asc=${this.sortAsc}`;
+    const url = `${UriConstants.GET_PATIENTS_DIGITIZER}?enrollment=${this.enrollment}&page=${page}&size=${size}&order=createdAt&asc=false`;
 
     this.apiService.getService({
       headers: new HttpHeaders({
@@ -157,21 +115,22 @@ export class TablePatientsDigitizerComponent {
       next: (response) => {
         if (Array.isArray(response.content)) {
           this.totalElements = response.totalElements;
-          this.patientsList = response.content.map((patient: Patient) => {
+          this.patientsList = response.content.map((item: any) => {
+            const patient = item.patient;
             const person = patient.person;
+
             return {
               patientID: patient.idPatient,
-              nombres: person.firstName,
+              nombres: `${person.firstName} ${person.secondName}`,
               apellidos: `${person.firstLastName} ${person.secondLastName}`,
               correo: person.email,
               curp: person.curp,
-              telefono: person.phone,
-              fechaNacimiento: person.birthDate,
+              idMedicalHistory: patient.medicalRecordNumber,
               estatus: 'Activo'
-            };
+            } as patientsTableData;
           });
+          this.cdr.detectChanges();
         } else {
-          console.error('La respuesta no contiene un array en content.');
           this.patientsList = [];
           this.totalElements = 0;
         }
@@ -196,8 +155,6 @@ export class TablePatientsDigitizerComponent {
   }
 
   onSort(event: { field: string, asc: boolean }) {
-    this.sortField = event.field;
-    this.sortAsc = event.asc;
     this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
