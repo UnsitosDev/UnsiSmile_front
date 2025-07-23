@@ -6,7 +6,7 @@
   <mat-label>Seleccione tratamientos: Por revisar, aprobados o rechazados</mat-label>
   <mat-select [formControl]="statusControl" (selectionChange)="fetchTreatments()">
     <mat-option [value]="STATUS.IN_REVIEW">Tratamientos por revisar</mat-option>
-    <mat-option [value]="STATUS.FINISHED">Tratamientos finalizados</mat-option>
+    <mat-option [value]="STATUS.FINISHED">Tratamientos aprobados</mat-option>
     <mat-option [value]="STATUS.REJECTED">Tratamientos rechazados</mat-option>
     <mat-option [value]="STATUS.CANCELLED">Tratamientos cancelados</mat-option>
   </mat-select>
