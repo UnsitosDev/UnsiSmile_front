@@ -15,8 +15,7 @@ import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.
 import { patientsTableData } from 'src/app/models/shared/patients';
 import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient/patient';
 import {
-  Accion,
-  getEntityPropiedades,
+  Accion
 } from 'src/app/models/tabla/tabla-columna';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
@@ -32,41 +31,42 @@ import { DetailsPatientsComponent } from '../../../students/components/details-p
 })
 export class TablePatientsDigitizerComponent {
   private userService = inject(ApiService<studentResponse, {}>);
-
-  patientsList: patientsTableData[] = [];
-  columnas: string[] = [];
-  title: string = 'Pacientes';
-  currentPage = 0;
-  itemsPerPage = 10;
   private apiService = inject(ApiService<PatientResponse>);
-  isChecked: boolean = false;
-  searchTerm: string = ''; // Variable para almacenar el término de búsqueda
-  totalElements: number = 0; // Agregar esta propiedad
-  sortField: string = 'person.student.firstName';
-  role = 'student'
-  sortAsc: boolean = true;
+  private dataSharingService = inject(DataSharingService);
+  private dialog = inject(MatDialog);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  title = 'Pacientes';
+  role = 'student';
+  columnas: string[] = [];
   sortableColumns = {
     'nombres': 'person.firstName',
     'apellidos': 'person.firstLastName',
     'correo': 'person.email',
     'curp': 'person.curp',
-    'estatus': 'user.status'  // Agregado el campo estatus para ordenamiento
+    'estatus': 'user.status'
   };
-  private dataSharingService = inject(DataSharingService);
-  enrollment: string = '';
+
+  patientsList: patientsTableData[] = [];
+  totalElements = 0;
+  enrollment = '';
+
+  currentPage = 0;
+  itemsPerPage = 10;
+  sortField = 'person.student.firstName';
+  sortAsc = true;
+
+  searchTerm = '';
+  isChecked = false;
 
   check(event: any) {
-    this.isChecked = event.checked; // Actualiza el estado según el valor del checkbox
+    this.isChecked = event.checked;
   }
-  constructor(
-    public dialog: MatDialog,
-    public router: Router,
-    public route: ActivatedRoute
-  ) { }
 
   ngOnInit(): void {
-    this.fetchUserData(); // Llama al método para obtener los datos del usuario
-    this.columnas = [...getEntityPropiedades('patients'), 'estatus'];
+    this.fetchUserData();
+    this.columnas = ['nombres', 'apellidos', 'correo', 'curp'];
   }
 
   fetchUserData() {
@@ -76,7 +76,7 @@ export class TablePatientsDigitizerComponent {
       })
       .subscribe({
         next: (data) => {
-          this.enrollment = data.enrollment; // Asigna el valor de enrollment desde la respuesta
+          this.enrollment = data.enrollment;
           this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
         },
         error: (error) => {
@@ -87,7 +87,7 @@ export class TablePatientsDigitizerComponent {
 
   onPageSizeChange(newSize: number) {
     this.itemsPerPage = newSize;
-    this.currentPage = 0;  // Opcionalmente, reinicia a la primera página
+    this.currentPage = 0;
     this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
@@ -98,7 +98,7 @@ export class TablePatientsDigitizerComponent {
   }
 
   onAction(accion: Accion) {
-    if (accion.accion === 'Editar') {  // Cambiado de 'Editar' a 'Modificar'
+    if (accion.accion === 'Editar') {
       this.editar(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
@@ -129,7 +129,6 @@ export class TablePatientsDigitizerComponent {
     alert('¡Haz clic en un icono!');
   }
 
-  // Agregar este nuevo método
   openDetailsDialog(patient: any): void {
     this.dataSharingService.setPatientData(patient);
     const dialogRef = this.dialog.open(DetailsPatientsComponent, {
