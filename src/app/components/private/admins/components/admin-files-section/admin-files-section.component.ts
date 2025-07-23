@@ -56,9 +56,6 @@ export class AdminFilesSectionComponent implements OnInit {
         },
         error: (error) => {
           this.filesData = [];
-          error.status === 404
-            ? this.toastr.warning(Messages.NO_FILES_YET)
-            : this.toastr.error();
         },
       });
   }
