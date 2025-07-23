@@ -87,9 +87,10 @@ export class StudentsGeneralHistoryComponent implements OnInit {
         next: (response) => {
           this.medicalRecordData = mapClinicalHistoryToDataTabs(response);
           this.patientMedicalRecord =
-            this.medicalRecordData.idPatientMedicalRecord;
+          this.medicalRecordData.idPatientMedicalRecord;
           this.medicalRecordId =
-            this.medicalRecordData.idClinicalHistoryCatalog;
+          this.medicalRecordData.idClinicalHistoryCatalog;
+          this.onTabChange(0);
         },
         error: (errorResponse) => {
           if (errorResponse.status === 404) {
@@ -170,11 +171,14 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     return processedData;
   }
 
-  onTabChange(index: number) {
-    this.currentSectionId =
-      this.medicalRecordData.tabs[this.currentIndex].idFormSection;
-    this.getStatusHc();
+  onTabChange(index: number): void {
+    this.currentIndex = index;
+    if (this.medicalRecordData?.tabs?.length > index) {
+      this.currentSectionId = this.medicalRecordData.tabs[index].idFormSection;
+      this.getStatusHc();
+    }
   }
+
 
   getStatusHc(forceRequest: boolean = false) {
     const currentTab = this.medicalRecordData.tabs[this.currentIndex];
