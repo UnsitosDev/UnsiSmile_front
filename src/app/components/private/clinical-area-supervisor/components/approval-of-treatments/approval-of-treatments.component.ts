@@ -27,7 +27,6 @@ export class ApprovalOfTreatmentsComponent extends treatmentsListNotifications {
   private readonly apiService = inject(ApiService);
     private readonly router = inject(Router);
     private readonly toastr = inject(ToastrService);
-    private readonly dialog = inject(MatDialog);
   
     private token!: string;
     private tokenData!: TokenData;
@@ -115,39 +114,14 @@ export class ApprovalOfTreatmentsComponent extends treatmentsListNotifications {
         this.fetchTreatments(this.currentPage + 1);
       }
     }
-  
-    public opedDialogAuthorizationTreatment(idTreatmentDetail: number) {
-      const dialogRef = this.dialog.open(DialogAuthorizationTreatmentComponent, {
-        data: {
-          idTreatmentDetail: idTreatmentDetail,
-          title: '¿Está seguro de rechazar el tratamiento?',
-          state: 'Rechazar'
-        },
-        width: '400px',
-      });
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.fetchTreatments(0, true);
-        }
-      });
-    }
-  
-    public approvedTreatment(idTreatmentDetail: number) {
-      const dialogRef = this.dialog.open(DialogAuthorizationTreatmentComponent, {
-        data: {
-          idTreatmentDetail: idTreatmentDetail,
-          title: '¿Está seguro de aprobar el tratamiento?',
-          state: 'Aprobar'
-        },
-        width: '400px',
-      });
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.fetchTreatments(0, true);
-        }
-      });
+
+     public navigateToGeneralMedicalRecord(patientUuid: string, idTreatmentDetail: number) {
+      this.router.navigate([
+        '/clinical-area-supervisor/authorize-treatments/patient',
+        patientUuid,
+        'treatment-detail',
+        idTreatmentDetail
+      ]);
     }
   
     rateTreatment(treatment: TreatmentDetailResponse): void {

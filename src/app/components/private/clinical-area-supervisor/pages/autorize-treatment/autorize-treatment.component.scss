@@ -1,0 +1,19 @@
+.mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: var(--white-color);  
+}
+
+.rejected {
+  color: var(--input-error);
+  margin-right: 6px;
+
+  i {
+    color: var(--input-error);
+  }
+}
+
+.custom-background {
+  background-color: var(--secondary);
+}
