@@ -1,0 +1,46 @@
+<mat-card class="full-width-card">
+    <mat-card-title><strong>Autorización de tratamiento – Aprobar o rechazar</strong></mat-card-title>
+</mat-card>
+<br> 
+<div class="flex justify-end space-x-2 mb-4">
+    <button mat-stroked-button class="whitespace-nowrap mr-2" (click)="openDialogRejectTreatment()">
+        <span class="flex items-center rejected">
+            <i class="fas fa-times-circle cursor-pointer mr-2"></i>Rechazar
+        </span>
+    </button>
+    <button mat-stroked-button class="whitespace-nowrap" (click)="openDialogAproveTreatment()">
+        <span class="flex items-center">
+            <i class="fas fa-check-circle cursor-pointer mr-2"></i>Aprobar
+        </span>
+    </button>
+</div>
+
+<mat-tab-group class="custom-background">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-file-medical"></i> <!-- Ícono para historia clínica -->
+      <span class="ml-2">Historia clínica general</span>
+    </ng-template>
+    <app-students-general-history [patientUuid]="patientUuid"></app-students-general-history>
+  </mat-tab>
+  
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-tooth"></i>
+      <span class="ml-2">Odontograma</span>
+    </ng-template>
+    
+    <div class="odontogram-tab-content">
+      <mat-card-title><strong>Historial de odontogramas</strong></mat-card-title>
+      <mat-card appearance="outlined" class="custom">
+        <mat-card-content>
+          <app-odontogram-list
+            [treatmentId]="idTreatmentDetail"
+            [patientUuid]="patientUuid"
+          >
+          </app-odontogram-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+</mat-tab-group>

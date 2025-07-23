@@ -66,6 +66,11 @@ export default [
                     import('./components/approval-of-treatments/approval-of-treatments.component').then((m) => m.ApprovalOfTreatmentsComponent)
             },
             {
+                path:'authorize-treatments/patient/:patientUuid/treatment-detail/:idTreatmentDetail',
+                loadComponent:() =>
+                    import('./pages/autorize-treatment/autorize-treatment.component').then((m) => m.AutorizeTreatmentComponent)
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

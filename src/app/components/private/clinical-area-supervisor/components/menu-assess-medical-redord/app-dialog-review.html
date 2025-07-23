@@ -1,28 +1,25 @@
-<mat-card>
-    <mat-card-title>
-        <div class="title-container card-custom">
-            <span><strong>Calificar Historia Clínica</strong></span>
-            <mat-icon matListItemIcon (click)="closeDialog()">close</mat-icon>
-        </div>
-    </mat-card-title>
-</mat-card>
-
-<mat-card class="custom-container">
-    <mat-radio-group aria-label="Seleccione una opción" [(ngModel)]="newStatus">
-        <mat-radio-button value="APPROVED">Aprobar</mat-radio-button>
-        <mat-radio-button value="REJECTED">Rechazar</mat-radio-button>
+<div class="dialog-custom">
+  <h2 mat-dialog-title>Calificar sección</h2>
+  <mat-dialog-content class="mt-2">
+    <mat-radio-group 
+      aria-label="Seleccione una opción" 
+      [(ngModel)]="newStatus">
+      <mat-radio-button value="APPROVED">Aprobar</mat-radio-button><br>
+      <mat-radio-button value="REJECTED">Rechazar</mat-radio-button>
     </mat-radio-group>
     <br>
-    <form>
-        <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Observaciones</mat-label>
-            <textarea
-                matInput
-                placeholder="Escriba aquí las observaciones sobre la historia clínica..."
-                [(ngModel)]="message"
-                name="message"
-            ></textarea>
-        </mat-form-field>
-    </form>
-    <button mat-button (click)="saveReviewHc()">Enviar calificación</button>
-</mat-card>
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Observaciones</mat-label>
+      <textarea 
+        matInput 
+        [(ngModel)]="message" 
+        name="message"
+        placeholder="Escriba aquí las observaciones sobre la historia clínica...">
+      </textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" style="gap: 8px">
+    <button mat-stroked-button (click)="closeDialog()">Cancelar</button>
+    <button mat-button class="rate" class="button-custom" (click)="saveReviewHc()">Enviar calificación</button>
+  </mat-dialog-actions>
+</div>

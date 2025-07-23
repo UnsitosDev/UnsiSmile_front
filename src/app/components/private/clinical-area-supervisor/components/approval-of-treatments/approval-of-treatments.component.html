@@ -42,9 +42,7 @@
                 <li>
                   <strong>Órganos dentarios: </strong>
                   @for (tooth of treatment.teeth; track tooth.idTooth; let last = $last) {
-                    @if (tooth.status === STATUS.IN_REVIEW) {
                       {{ tooth.idTooth }}{{ !last ? ', ' : '' }}  
-                    }
                   }
                 </li>
               }
@@ -62,15 +60,10 @@
                 </button>
               }
               @case (STATUS.AWAITING_APPROVAL) {
-                <button mat-stroked-button class="whitespace-nowrap" (click)="opedDialogAuthorizationTreatment(treatment.idTreatmentDetail)">
-                  <span class="rejected flex items-center">
-                    <i class="fas fa-times-circle mr-1"></i>Rechazar
-                  </span>
-                </button>
-                <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap"  (click)="approvedTreatment(treatment.idTreatmentDetail)">
+                <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap"  (click)="navigateToGeneralMedicalRecord(treatment.patient.id, treatment.idTreatmentDetail)">
                   <span class="flex items-center">
-                    <i class="fas fa-check-circle cursor-pointer mr-2"></i>
-                    Aprobar
+                    <i class="fas fa-notes-medical cursor-pointer mr-2"></i>
+                    Revisar tratamiento
                   </span>
                 </button>
               }

@@ -106,7 +106,7 @@
             }
 
             <!-- Botón Ver tratamiento -->
-            @if (treatment.status === STATUS.IN_REVIEW || treatment.status === STATUS.FINISHED) {
+            @if (treatment.status === STATUS.IN_REVIEW) {
             <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap">
               <span class="flex items-center" (click)="rateTreatment(treatment)">
                 <i class="fas fa-eye cursor-pointer mr-1"></i>
