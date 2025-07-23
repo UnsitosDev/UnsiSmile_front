@@ -1,6 +1,7 @@
 import {columnPatientsTableData, patientsTableData, patientsTableDataProfessor} from "../shared/patients";
 import {studentsTableData} from "../shared/students";
 import {AdminTableData} from "../shared/admin/admin";
+import {digitizersTableData} from "../shared/digitizers";
 
 
 //* El parámetro genérico T en la interfaz Accion
@@ -23,11 +24,13 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
       clase = new studentsTableData();
       break;
     case 'admin':
-      clase = new AdminTableData();  // Agregamos el caso para admin
+      clase = new AdminTableData();
       break;
     case 'professor':
       clase = new patientsTableDataProfessor();
       break;
+    case 'digitizers':
+      return ENTIDADES['digitizers'] || [];
   }
 
   if (clase) {
@@ -38,5 +41,14 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
 
 export const ENTIDADES: { [key: string]: string[] } = {
   admin: ['numeroEmpleado', 'nombre', 'apellido', 'correo', 'status'],
+  digitizers: [
+    'id',
+    'nombreCompleto', 
+    'matricula',
+    'fechaInicio',
+    'fechaFin',
+    'estatus'
+  ],
   // ...otros modelos...
 };
+

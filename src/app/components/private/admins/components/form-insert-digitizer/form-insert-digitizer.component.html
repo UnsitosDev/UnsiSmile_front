@@ -1,0 +1,37 @@
+<mat-card class="p-4">
+  <div class="card-header">
+    <mat-card-title><strong>Crear Nuevo Capturador</strong></mat-card-title>
+  </div>
+  <mat-card-content>
+    <div class="info-section">
+      <div class="info-message">
+        <i class="fas fa-info-circle"></i>
+        <span>Asigna un estudiante como capturador de expedientes médicos</span>
+      </div>
+    </div>
+    
+    <form [formGroup]="formGroup" class="digitizer-form">
+      <div class="form-container">
+        <div class="form-field-container">
+          @for (field of studentFields; track $index) {
+            <app-field-component 
+              [field]="field" 
+              [formGroup]="formGroup" 
+              [errors]="field.errorMessages"
+              (setFieldValue)="onFieldValueChange($event)">
+            </app-field-component>
+          }
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button mat-stroked-button type="button" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i> Regresar
+        </button>
+        <button mat-flat-button color="primary" (click)="createDigitizer()" [disabled]="formGroup.invalid">
+          <i class="fas fa-save"></i> Crear Capturador
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

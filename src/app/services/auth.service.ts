@@ -59,6 +59,8 @@ export class AuthService {
       route = returnUrl ? `/${returnUrl}` : '/professor';
     } else if (role === this.ROL.CLINICAL_AREA_SUPERVISOR) {
       route = returnUrl ? `/${returnUrl}` : '/clinical-area-supervisor';
+    } else if (role === this.ROL.RECORD_DIGITIZER) {
+      route = returnUrl ? `/${returnUrl}` : '/record-digitizer';
     }
 
     if (route) {
