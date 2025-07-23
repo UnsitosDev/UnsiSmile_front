@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, Input, model, OnInit } from
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-menu-assess-medical-history',
   standalone: true,
-  imports: [],
+  imports: [MatDialogModule],
   templateUrl: './menu-assess-medical-record.component.html',
   styleUrl: './menu-assess-medical-record.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,7 +50,7 @@ interface IsaveReview {
   templateUrl: './app-dialog-review.html',
   styleUrl: './menu-assess-medical-record.component.scss',
   standalone: true,
-  imports: [MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatCardModule, MatRadioModule, FormsModule, MatFormFieldModule, MatInputModule,],
+  imports: [MatDialogModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatCardModule, MatRadioModule, FormsModule, MatFormFieldModule, MatInputModule,],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogSendReview {
@@ -78,7 +78,7 @@ export class DialogSendReview {
       .subscribe({
         next: (response) => {
           this.toastr.success('La revisión se envió con éxito')
-          this.closeDialog();
+          this.dialogRef.close(true);
         },
         error: (error) => {
           console.error(error);

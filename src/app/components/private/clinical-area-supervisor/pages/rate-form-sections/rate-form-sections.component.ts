@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormSection, formSectionFields } from '@mean/models';
 import { Subscription } from 'rxjs';
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
@@ -22,6 +22,7 @@ export class RateFormSectionsComponent implements OnInit, OnDestroy {
   private rateService = inject(RateFormSectionService);
   private activatedRoute = inject(ActivatedRoute);
   private subscriptions = new Subscription();
+  private router = inject(Router);
   readonly dialog = inject(MatDialog);
 
   public formSectionId!: string;
@@ -59,8 +60,8 @@ export class RateFormSectionsComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (data: FormSection) => {
 
-           this.formSectionMapped = mapFormSectionToFormSectionFields(data);
-            
+            this.formSectionMapped = mapFormSectionToFormSectionFields(data);
+
 
             this.isLoading = false;
           },
@@ -79,12 +80,16 @@ export class RateFormSectionsComponent implements OnInit, OnDestroy {
   opedDialogRateFormSections() {
     const dialogRef = this.dialog.open(DialogSendReview, {
       data: {
-      idReviewStatus: this.reviewStatusId, 
+        idReviewStatus: this.reviewStatusId,
       },
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.router.navigate(['/clinical-area-supervisor/history-clinics']);
+      }
+    });
   }
-  
+
 }
