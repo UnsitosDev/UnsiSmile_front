@@ -121,6 +121,20 @@ export const AdminItems: MenuItem[] = [
           },
         ]
       },
+       {
+        fontAwesomeIcon: faUserShield,
+        buttonText: 'Capturadores',
+        buttonDescription: 'Ver capturadores',
+        routerlink: '/admin/digitizers',
+        children: [
+          {
+            fontAwesomeIcon: faPlus,
+            buttonText: 'Nuevo capturador',
+            buttonDescription: 'Registrar capturador',
+            routerlink: '/admin/digitizers/addDigitizer'
+          },
+        ]
+      },
       {
         fontAwesomeIcon: faUserShield,
         buttonText: 'Encargados de area clínica ',
@@ -215,8 +229,8 @@ export const ProfessorClinicalAlreaItems: MenuItem[] = [
   },
   {
     fontAwesomeIcon: faFileClipboard,
-    buttonText: 'Tratamientos en espera',
-    buttonDescription: 'Aprobar tratamientos en espera',
+    buttonText: 'Autorizar tratamientos',
+    buttonDescription: 'Autorizar tratamientos en espera',
     routerlink: '/clinical-area-supervisor/approval-treatments'
   }
 ];

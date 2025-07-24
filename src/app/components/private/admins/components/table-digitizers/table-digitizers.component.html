@@ -1,0 +1,27 @@
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Capturadores - consulta y administración</strong></mat-card-title>
+</mat-card>
+
+<br>
+<div class="flex justify-end">
+    <button class="mr-10" mat-flat-button color="primary" routerLink="/admin/digitizers/addDigitizer">
+        <i class="fas fa-user-plus"></i>  
+        Nuevo capturador
+    </button>
+</div>
+<br>
+<app-tabla-data
+  [titulo]="title"
+  [columns]="columns"
+  [data]="digitizersList"
+  [totalItems]="totalElements"
+  [sortableColumns]="sortableColumns"
+  [showDeleteIcon]="true"
+  (pageChange)="onPageChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (action)="onAction($event)"
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)"
+  (statusChange)="onStatusChange($event)">
+</app-tabla-data>
+<app-loading/>

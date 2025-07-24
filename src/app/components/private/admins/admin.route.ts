@@ -204,6 +204,25 @@ export default [
                     },
                 ]
             },
+              {
+                path: 'digitizers',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./components/table-digitizers/table-digitizers.component').then(
+                                (m) => m.TableDigitizersComponent
+                            ),
+                    },
+                    {
+                        path: 'addDigitizer',
+                        loadComponent: () =>
+                            import('./components/form-insert-digitizer/form-insert-digitizer.component').then(
+                                (m) => m.FormInsertDigitizerComponent
+                            ),
+                    },
+                ]
+            },
             {
                 path: 'create-area',
                 loadComponent: () =>
