@@ -243,7 +243,7 @@ export class studentService {
         }
     }
 
-    private handleCareerClick(): void {
+    public handleCareerClick(): void {
         this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -264,7 +264,7 @@ export class studentService {
         });
     }
 
-    private handleGroupClick(): void {
+    public handleGroupClick(): void {
         this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -305,7 +305,7 @@ export class studentService {
         });
     }
 
-    private handleSemesterClick(): void {
+    public handleSemesterClick(): void {
         this.apiService.getService({
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
