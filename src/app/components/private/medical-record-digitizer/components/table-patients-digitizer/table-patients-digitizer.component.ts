@@ -40,7 +40,7 @@ export class TablePatientsDigitizerComponent {
 
   patientsList: patientsTableData[] = [];
   totalElements = 0;
-  enrollment = '';
+  username = '';
 
   currentPage = 0;
   itemsPerPage = 10;
@@ -58,7 +58,7 @@ export class TablePatientsDigitizerComponent {
       })
       .subscribe({
         next: (data) => {
-          this.enrollment = data.enrollment;
+          this.username = data.user.username;
           this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
         },
         error: (error) => {
@@ -103,7 +103,7 @@ export class TablePatientsDigitizerComponent {
   }
 
   getPacientes(page: number = 0, size: number = 10, keyword: string = '') {
-    const url = `${UriConstants.GET_PATIENTS_DIGITIZER}?enrollment=${this.enrollment}&page=${page}&size=${size}&order=createdAt&asc=false`;
+    const url = `${UriConstants.GET_PATIENTS_DIGITIZER}?username=${this.username}&page=${page}&size=${size}&order=createdAt&asc=false`;
 
     this.apiService.getService({
       headers: new HttpHeaders({
