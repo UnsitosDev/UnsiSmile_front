@@ -214,16 +214,15 @@ export class FieldComponentComponent implements OnChanges {
 
   // Autocomplete
   onInputAutocomplete(event: Event): void {
-
     const inputElement = event.target as HTMLInputElement;
     const value = inputElement.value;
 
-    if (this.field.onInputChange) {
+    // Solo llamar a la función de búsqueda si hay contenido y cumple con la longitud mínima
+    if (this.field.onInputChange && value.length >= (this.field.onInputChange.length || 1)) {
       this.field.onInputChange.changeFunction?.(value);
     }
 
     this.setFieldValue.emit({ field: this.field.name, value: value });
-
   }
 
   // Método para manejar el cambio de archivo
