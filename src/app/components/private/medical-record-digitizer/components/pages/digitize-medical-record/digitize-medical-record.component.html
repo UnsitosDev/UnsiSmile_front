@@ -1,5 +1,36 @@
-    <app-oral-prosthesis [patientUuid]="patientUuid"></app-oral-prosthesis>
-    <app-students-periodontics-history [patientUuid]="patientUuid"></app-students-periodontics-history>
-    <app-students-dental-operation [patientUuid]="patientUuid"></app-students-dental-operation>
-    <app-students-oral-surgery-history [patientUuid]="patientUuid"></app-students-oral-surgery-history>
-    <app-preventive-dentistry-public-health [patientUuid]="patientUuid"></app-preventive-dentistry-public-health>
+<mat-card appearance="outlined" class="custom-background">
+  <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
+</mat-card>
+<br />
+
+@if (medicalRecordId) {
+    @switch (medicalRecordId) {
+        @case (1) {
+            <!-- Prótesis bucal -->
+            <app-oral-prosthesis [patientUuid]="patientUuid"></app-oral-prosthesis>
+        }
+        @case (2) {
+            <!-- Prótesis bucal -->
+            <app-oral-prosthesis [patientUuid]="patientUuid"></app-oral-prosthesis>
+        }
+        @case (3) {
+            <!-- Periodoncia -->
+            <app-students-periodontics-history [patientUuid]="patientUuid"></app-students-periodontics-history>
+        }
+        @case (4) {
+            <!-- Operatoría dental -->
+            <app-students-dental-operation [patientUuid]="patientUuid"></app-students-dental-operation>
+        }
+        @case (5) {
+            <!-- Cirugía bucal -->
+            <app-students-oral-surgery-history [patientUuid]="patientUuid"></app-students-oral-surgery-history>
+        }
+        @case (6) {
+            <!-- Odontología preventiva y salud pública -->
+            <app-preventive-dentistry-public-health [patientUuid]="patientUuid"></app-preventive-dentistry-public-health>
+        }
+        @default {
+            <p>No existe esta historia clínica.</p>
+        }
+    }
+}

@@ -25,7 +25,7 @@ export class DigitizeMedicalRecordComponent implements OnInit {
   public routeParams() {
     this.route.params.subscribe((params) => {
       this.patientUuid = params[PATIENT_UUID];
-      this.medicalRecordId = params[ID_MEDICAL_RECORD_DIGITIZER];
+      this.medicalRecordId = +params[ID_MEDICAL_RECORD_DIGITIZER];
       this.patientMedicalRecordId = params[ID_PATIENT_MEDICAL_RECORD_DIGITIZER];
     });
   }
