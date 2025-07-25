@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { ClinicalHistoryCatalog, EMedicalRecords } from 'src/app/models/history-clinic/historyClinic';
+import { MedicalRecordCatalog, EMedicalRecords } from 'src/app/models/history-clinic/medical-record.models';
 import { ApiService } from '../../api.service';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
-import { mapClinicalHistoryToDataTabs } from 'src/app/components/private/students/adapters/clinical-history.adapters'; // Asegúrate de que la ruta sea correcta
+import { mapMedicalRecordToDataTabs } from 'src/app/components/private/students/adapters/medical-record.adapter'; // Asegúrate de que la ruta sea correcta
 import { map, Observable } from 'rxjs';
 
 @Injectable({
@@ -14,20 +14,20 @@ export class GeneralMedicalRecordService {
 
   private apiService = inject(ApiService);
 
-  historyData: ClinicalHistoryCatalog[] = [];
+  historyData: MedicalRecordCatalog[] = [];
   mappedHistoryData!: dataTabs;
- getHistoryClinics(idPatientClinicalHistory: number, idPatientUuid: string): Observable<dataTabs> {
+ getHistoryClinics(idPatientMedicalRecord: number, idPatientUuid: string): Observable<dataTabs> {
     return this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_HISTORY_CONFIG}/${idPatientClinicalHistory}/patients/${idPatientUuid}`,
+        url: `${UriConstants.GET_MEDICAL_RECORD_CONFIG}/${idPatientMedicalRecord}/patients/${idPatientUuid}`,
         data: {},
       })
       .pipe(
-        map((response: ClinicalHistoryCatalog) => {
-          return mapClinicalHistoryToDataTabs(response);
+        map((response: MedicalRecordCatalog) => {
+          return mapMedicalRecordToDataTabs(response);
         })
       );
   }
@@ -43,31 +43,31 @@ export class GeneralMedicalRecordService {
         data: {},
       })
       .pipe(
-        map((response: ClinicalHistoryCatalog) => {
-          return mapClinicalHistoryToDataTabs(response);
+        map((response: MedicalRecordCatalog) => {
+          return mapMedicalRecordToDataTabs(response);
         })
       );
   }
 
-  getHistoryClinicsStudent(idPatient: string, idClinicalHistory: number): Observable<dataTabs> {
+  getHistoryClinicsStudent(idPatient: string, idMedicalRecord: number): Observable<dataTabs> {
     return this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_HISTORY_CONFIG}/${idPatient}/patients/${idClinicalHistory}`,
+        url: `${UriConstants.GET_MEDICAL_RECORD_CONFIG}/${idPatient}/patients/${idMedicalRecord}`,
         data: {},
       })
       .pipe(
-        map((response: ClinicalHistoryCatalog) => {
-          return mapClinicalHistoryToDataTabs(response);
+        map((response: MedicalRecordCatalog) => {
+          return mapMedicalRecordToDataTabs(response);
         })
       );
   }
 
   getMedicalRecord(type: EMedicalRecords, idPatient: string): Observable<dataTabs> {
     
-    const url = UriConstants.GET_HISTORY_CONFIG_BY_PATIENT
+    const url = UriConstants.GET_MEDICAL_RECORD_CONFIG_BY_PATIENT
     .replace(':medicalRecordType', type.toString())
     .replace(':idPatient', idPatient);
     
@@ -80,8 +80,8 @@ export class GeneralMedicalRecordService {
         data: {},
       })
       .pipe(
-        map((response: ClinicalHistoryCatalog) => {
-          return mapClinicalHistoryToDataTabs(response);
+        map((response: MedicalRecordCatalog) => {
+          return mapMedicalRecordToDataTabs(response);
         })
       );
   }

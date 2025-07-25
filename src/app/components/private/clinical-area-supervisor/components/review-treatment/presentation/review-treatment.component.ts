@@ -158,7 +158,7 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
     this.idTreatmentDetail = treatment.idTreatmentDetail;
     this.patientClinicalHistoryId = treatment.patient.idPatientMedicalRecord;
     this.patientUuid = treatment.patient.id ?? "";
-    this.clinicalHistoryCatalogId = treatment.treatment.clinicalHistoryCatalogId;
+    this.clinicalHistoryCatalogId = treatment.treatment.medicalRecordCatalogId;
     this.router.navigate([
       'clinical-area-supervisor',
       'rate-treatment',

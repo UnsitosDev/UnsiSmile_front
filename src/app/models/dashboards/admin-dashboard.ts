@@ -17,9 +17,9 @@ export interface PatientsByNationality {
 export interface SupervisorDashboard {
     totalPatients: number;
     totalStudents: number;
-    clinicalHistoriesInReview: number;
-    clinicalHistoriesRejected: number;
-    clinicalHistoriesAccepted: number;
+    medicalRecordsInReview: number;
+    medicalRecordsRejected: number;
+    medicalRecordsAccepted: number;
     treatmentsCompleted: number;
 }
 

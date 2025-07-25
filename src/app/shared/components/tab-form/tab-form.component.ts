@@ -32,7 +32,7 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { TabsHandler } from '../../interfaces/tabs_handler';
 
 interface FormData {
-  idPatientClinicalHistory: number;
+  idPatientMedicalRecord: number;
   idQuestion: number;
   answerBoolean: boolean | null;
   answerNumeric: number | null;
@@ -217,7 +217,7 @@ export class TabFormComponent implements TabsHandler {
       formData.append('files', this.files[i]);
     }
 
-    formData.append('idPatientClinicalHistory', this.patientMedicalRecord.toString());
+    formData.append('idPatientMedicalRecord', this.patientMedicalRecord.toString());
     formData.append('idQuestion', this.idQuestion.toString());
 
     this.apiService
@@ -254,7 +254,7 @@ export class TabFormComponent implements TabsHandler {
         const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
 
         const hcData: FormData = {
-          idPatientClinicalHistory: this.patientMedicalRecord,
+          idPatientMedicalRecord: this.patientMedicalRecord,
           idQuestion: questionID,
           answerBoolean: this.checkboxValues[fieldName] || typeof fieldValue === 'boolean' ? fieldValue : null,
           answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,

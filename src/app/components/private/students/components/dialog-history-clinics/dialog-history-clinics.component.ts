@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ApiService, AuthService } from '@mean/services';
-import { ClinicalHistory, ClinicalHistoryCatalog, RelationHistoryPatient } from 'src/app/models/history-clinic/historyClinic';
+import { MedicalRecord, MedicalRecordCatalog, RelationHistoryPatient } from 'src/app/models/history-clinic/medical-record.models';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { Router } from '@angular/router';
@@ -28,13 +28,14 @@ export class DialogHistoryClinicsComponent implements OnInit {
   patient: number = 0;
   clinicalHistoryId: number = 0;
   historyName: string = '';
-  private apiService = inject(ApiService<ClinicalHistoryCatalog>);
+  private apiService = inject(ApiService<MedicalRecordCatalog>);
   private router = inject(Router);
   private dialogRef = inject(MatDialogRef<DialogHistoryClinicsComponent>);
   private toastr = inject(ToastrService);
   private userService = inject(AuthService);
   private token!: string;
   private tokenData!: TokenData;
+  patientConfigMedicalRecord: MedicalRecord[] = [];
   ROL = ROLES;
   STATUS = STATUS;
   role!: string;
@@ -80,13 +81,13 @@ export class DialogHistoryClinicsComponent implements OnInit {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
           }),
-          url: `${UriConstants.POST_CLINICAL_HISTORY}?idPatient=${this.dataRoleAndObject.objeto.patientID}&idClinicalHistory=${idClinicalHistoryCatalog}`,
+          url: `${UriConstants.POST_CLINICAL_HISTORY}?idPatient=${this.dataRoleAndObject.objeto.patientID}&idMedicalRecordCatalog=${idClinicalHistoryCatalog}`,
           data: {},
         })
         .subscribe({
           next: (response) => {
             this.clinicalHistoryCatalogRelation = response;
-            const newHistoryId = this.clinicalHistoryCatalogRelation.idPatientClinicalHistory;
+            const newHistoryId = this.clinicalHistoryCatalogRelation.idPatientMedicalRecord;
             resolve(newHistoryId);
           },
           error: (error) => {
@@ -98,19 +99,19 @@ export class DialogHistoryClinicsComponent implements OnInit {
 
   pushUrl = '';
 
-  selectMedicalRecordStudent(history: ClinicalHistory) {
+  selectMedicalRecordStudent(history: MedicalRecord) {
     this.pushUrl = 'students'
     this.dialogRef.close();
     this.getConfigHistories();
 
-    const existingHistory = this.patientConfigHistories.find(h =>
-      h.clinicalHistoryName === history.clinicalHistoryName &&
-      h.patientClinicalHistoryId !== 0
+    const existingHistory = this.patientConfigMedicalRecord.find(h =>
+      h.medicalRecordName === history.medicalRecordName &&
+      h.patientMedicalRecordId !== 0
     );
 
     if (existingHistory) {
       // Usar el ID de la historia clínica existente
-      this.idPatientClinicalHistory = existingHistory.patientClinicalHistoryId;
+      this.idPatientClinicalHistory = existingHistory.patientMedicalRecordId;
       // Navegar a la historia clínica existente
       this.navigateToHistory(history, this.idPatientClinicalHistory);
     } else {
@@ -125,18 +126,18 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  selectMedicalRecordAdmin(history: ClinicalHistory) {
+  selectMedicalRecordAdmin(history: MedicalRecord) {
     this.pushUrl = 'admin'
     this.dialogRef.close();
     this.getConfigHistories();
-    const existingHistory = this.patientConfigHistories.find(h =>
-      h.clinicalHistoryName === history.clinicalHistoryName &&
-      h.patientClinicalHistoryId !== 0 
+    const existingHistory = this.patientConfigMedicalRecord.find(h =>
+      h.medicalRecordName === history.medicalRecordName &&
+      h.patientMedicalRecordId !== 0 
     );
 
     if (existingHistory) {
       // Usar el ID de la historia clínica existente
-      this.idPatientClinicalHistory = existingHistory.patientClinicalHistoryId;
+      this.idPatientClinicalHistory = existingHistory.patientMedicalRecordId;
       // Navegar a la historia clínica existente
       this.navigateToHistory(history, this.idPatientClinicalHistory);
     } else {
@@ -144,18 +145,18 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  selectMedicalRecordProfessor(history: ClinicalHistory) {
+  selectMedicalRecordProfessor(history: MedicalRecord) {
     this.pushUrl = 'professor'
     this.dialogRef.close();
     this.getConfigHistoriesToReview();
-    const existingHistory = this.patientConfigHistories.find(h =>
-      h.clinicalHistoryName === history.clinicalHistoryName &&
-      h.patientClinicalHistoryId !== 0 
+    const existingHistory = this.patientConfigMedicalRecord.find(h =>
+      h.medicalRecordName === history.medicalRecordName &&
+      h.patientMedicalRecordId !== 0 
     );
 
     if (existingHistory) {
       // Usar el ID de la historia clínica existente
-      this.idPatientClinicalHistory = existingHistory.patientClinicalHistoryId;
+      this.idPatientClinicalHistory = existingHistory.patientMedicalRecordId;
       // Navegar a la historia clínica existente
       this.navigateToHistory(history, this.idPatientClinicalHistory);
     } else {
@@ -163,18 +164,18 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  selectMedicalRecordReview(history: ClinicalHistory) {
+  selectMedicalRecordReview(history: MedicalRecord) {
     this.pushUrl = 'clinical-area-supervisor'
     this.dialogRef.close();
     this.getConfigHistoriesToReview();
-    const existingHistory = this.patientConfigHistories.find(h =>
-      h.clinicalHistoryName === history.clinicalHistoryName &&
-      h.patientClinicalHistoryId !== 0
+    const existingHistory = this.patientConfigMedicalRecord.find(h =>
+      h.medicalRecordName === history.medicalRecordName &&
+      h.patientMedicalRecordId !== 0
     );
 
     if (existingHistory) {
       // Usar el ID de la historia clínica existente
-      this.idPatientClinicalHistory = existingHistory.patientClinicalHistoryId;
+      this.idPatientClinicalHistory = existingHistory.patientMedicalRecordId;
       // Navegar a la historia clínica existente
       this.navigateToHistory(history, this.idPatientClinicalHistory);
     } else {
@@ -182,8 +183,8 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  navigateToHistory(history: ClinicalHistory, patientHistoryId: number) {
-    switch (history.clinicalHistoryName) {
+  navigateToHistory(history: MedicalRecord, patientHistoryId: number) {
+    switch (history.medicalRecordName) {
       case 'General':
         this.router.navigate([`/${this.pushUrl}/general`, history.id, 'patient', this.dataRoleAndObject.objeto.patientID, 'medical-record-id', patientHistoryId]);
         break;
@@ -208,19 +209,18 @@ export class DialogHistoryClinicsComponent implements OnInit {
     }
   }
 
-  patientConfigHistories: ClinicalHistory[] = [];
   getConfigHistories() {
     this.apiService
       .getService({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.dataRoleAndObject.objeto.patientID}`,
+        url: `${UriConstants.GET_MEDICAL_RECORDS_PATIENT}?idPatient=${this.dataRoleAndObject.objeto.patientID}`,
         data: {},
       })
       .subscribe({
         next: (response) => {
-          this.patientConfigHistories = response;
+          this.patientConfigMedicalRecord = response;
         },
         error: (error) => {
           console.error('Error al obtener las historias clínicas:', error);
@@ -234,13 +234,13 @@ export class DialogHistoryClinicsComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_CONFIG_HISTORY_CLINICS}?idPatient=${this.dataRoleAndObject.objeto.patientID}&status=${this.STATUS.IN_REVIEW}`,
+        url: `${UriConstants.GET_MEDICAL_RECORDS_PATIENT}?idPatient=${this.dataRoleAndObject.objeto.patientID}&status=${this.STATUS.IN_REVIEW}`,
         data: {},
       })
       .subscribe({
-        next: (response: ClinicalHistory[]) => {
-            this.patientConfigHistories = response.filter(
-              (history) => history.patientClinicalHistoryId !== 0 && history.patientId !== null
+        next: (response: MedicalRecord[]) => {
+            this.patientConfigMedicalRecord = response.filter(
+              (history) => history.patientMedicalRecordId !== 0 && history.patientId !== null
             );
         },
         error: (error) => {
