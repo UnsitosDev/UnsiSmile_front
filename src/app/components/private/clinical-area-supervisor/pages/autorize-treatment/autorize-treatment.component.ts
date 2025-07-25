@@ -4,13 +4,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OdontogramListComponent, StudentsGeneralHistoryComponent } from "@mean/students";
+import { StudentsGeneralHistoryComponent } from "@mean/students";
 import { DialogAuthorizationTreatmentComponent } from '../../components/dialog-authorization-treatment/dialog-authorization-treatment.component';
 
 @Component({
   selector: 'app-autorize-treatment',
   standalone: true,
-  imports: [StudentsGeneralHistoryComponent, MatCardModule, MatButtonModule, MatTabsModule, OdontogramListComponent],
+  imports: [StudentsGeneralHistoryComponent, MatCardModule, MatButtonModule, MatTabsModule],
   templateUrl: './autorize-treatment.component.html',
   styleUrl: './autorize-treatment.component.scss'
 })

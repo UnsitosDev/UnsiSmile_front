@@ -15,7 +15,7 @@ import { OdontogramListService } from './repository/odontogram-list.service';
   styleUrl: './odontogram-list.component.scss'
 })
 export class OdontogramListComponent implements OnInit {
-  @Input({ required: true }) treatmentId!: number;
+  @Input({ required: true }) idPatientMedicalRecord!: number;
   @Input({ required: true }) patientUuid!: string;
   
   odontograms: OdontogramTreatment[] = [];
@@ -30,7 +30,7 @@ export class OdontogramListComponent implements OnInit {
 
   private loadOdontograms(): void {
     this.isLoading = true;
-    this.odontogramListService.getOdontogramsByTreatmentId(this.treatmentId)
+    this.odontogramListService.getOdontogramsByPatientMedicalRecordId(this.idPatientMedicalRecord)
       .subscribe({
         next: (response) => {
           this.odontograms = response;

@@ -44,9 +44,7 @@ import { DialogDetailsTreatmentComponent } from '../../../../components/dialog-d
     OralProsthesisComponent,
     StudentsDentalOperationComponent,
     LoadingComponent,
-    StudentsGeneralHistoryComponent,
-    StudentsOdontogramComponent,
-    OdontogramListComponent,
+    StudentsGeneralHistoryComponent
   ],
   templateUrl: './treatment-details.component.html',
   styleUrl: './treatment-details.component.scss',

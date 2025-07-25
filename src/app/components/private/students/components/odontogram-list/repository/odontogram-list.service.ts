@@ -10,9 +10,9 @@ import { OdontogramTreatment } from '../models/odontogram-list.model';
 export class OdontogramListService {
   constructor(private http: HttpClient) {}
 
-  getOdontogramsByTreatmentId(treatmentId: number): Observable<OdontogramTreatment[]> {
-    const url = UriConstants.GET_ODONTOGRAMS_BY_TREATMENT_ID
-      .replace(':idTreatment', treatmentId.toString());
+  getOdontogramsByPatientMedicalRecordId(patientClinicalHistoryId: number): Observable<OdontogramTreatment[]> {
+    const url = UriConstants.GET_ODONTOGRAMS_BY_PATIENT_MEDICAL_RECORD_ID
+      .replace(':patientClinicalHistoryId', patientClinicalHistoryId.toString());
     
     return this.http.get<OdontogramTreatment[]>(url);
   }
