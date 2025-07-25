@@ -59,10 +59,75 @@ button {
 
 ::ng-deep .mat-mdc-card-title {
   background-color: var(--tertiary);
-  padding: 8px;
-  border-radius: 2px;
-  color: var( --border);
-  margin-bottom: 0 !important;
+  padding: 1rem;
+  color: var(--side-text);
+  margin-bottom: 1rem !important;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  text-align: center; 
+  display: flex;     
+  justify-content: center; 
+}
+
+.mat-mdc-card {
+  background-color: var(--on-primary);
+}
+
+.card-header {
+  position: relative;
+  width: 100%;
+}
+
+.info-section {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: var(--input-color);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+}
+
+.info-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  i {
+    color: var(--tertiary);
+    font-size: 1.2rem;
+  }
+  
+  span {
+    color: var(--text);
+    font-size: 1rem;
+  }
+}
+
+.form-container {
+  margin: 1rem 0;
+}
+
+.form-field-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
 }
 
 .search-container {
