@@ -37,6 +37,13 @@ export default [
                     ),
             },
             {
+                path: 'medical-record/:medical-record/patient/:patientID',
+                loadComponent: () =>
+                    import('./components/pages/digitize-medical-record/digitize-medical-record.component').then(
+                        (m) => m.DigitizeMedicalRecordComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',

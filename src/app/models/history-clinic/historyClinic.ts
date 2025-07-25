@@ -152,6 +152,6 @@ export const MedicalRecordsDescription = new Map<EMedicalRecords, string>([
 export interface MedicalRecordsDigitizer {
     id: number;
     medicalRecordName: string;
-    patientId: number | null;
+    patientId: string | null;
     patientMedicalRecordId: number | null;
 }

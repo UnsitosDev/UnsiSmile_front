@@ -8,13 +8,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MedicalRecordsDigitizer, PATIENT_UUID } from '@mean/models';
 import { ApiService } from '@mean/services';
-import { CardPatientDataComponent, FormUpdatePatientComponent } from "@mean/students";
+import { CardPatientDataComponent, FormUpdatePatientComponent, OdontogramListComponent, StudentsOdontogramComponent } from "@mean/students";
 import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-medical-records-diditizer',
   standalone: true,
-  imports: [CardPatientDataComponent, MatCardModule, MatTabsModule, MatListModule, MatDivider, FormUpdatePatientComponent, MatButtonModule],
+  imports: [CardPatientDataComponent, MatCardModule, MatTabsModule, MatListModule, MatDivider, FormUpdatePatientComponent, MatButtonModule, StudentsOdontogramComponent, OdontogramListComponent],
   templateUrl: './medical-records-digitizer.component.html',
   styleUrl: './medical-records-digitizer.component.scss'
 })
@@ -22,8 +23,11 @@ export class MedicalRecordsDigitizerComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private apiService = inject(ApiService);
   private router = inject(Router);
+  private toast = inject(ToastrService);
   public patientUuid!: string;
   public medicalRecords: MedicalRecordsDigitizer[] = [];
+  public creatingOdontogram = false;
+
 
   ngOnInit(): void {
     this.routeParams();
@@ -54,13 +58,43 @@ export class MedicalRecordsDigitizerComponent implements OnInit {
     });
   }
 
-  navigateToMedicalRecord(medicalRecord: MedicalRecordsDigitizer): void{
-      // this.router.navigate([
-      //   'students/treatment-details',
-      //   medicalRecord.id,
-      //   'patient',
-      //   medicalRecord.patientId,
-      // ]);
-      console.log('Navigating to medical record:', medicalRecord);
+  public createMedicalRecord(idPatient: string, idMedicalRecordCatalog: number) {
+    this.apiService.postService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url: `${UriConstants.POST_RELATIONSHIP_MEDICAL_RECORDS}?idPatient=${idPatient}&idMedicalRecordCatalog=${idMedicalRecordCatalog}`,
+      data: {},
+    }).subscribe({
+      next: () => {
+        this.toast.success('Historia clínica creada exitosamente', 'Éxito');
+        this.goToMedicalRecord(idMedicalRecordCatalog);
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
+
+  public navigateToMedicalRecord(medicalRecord: MedicalRecordsDigitizer): void {
+    const alreadyExists = this.medicalRecords.some(
+      mr => mr.id === medicalRecord.id && mr.patientId === this.patientUuid
+    );
+
+    if (alreadyExists) {
+      this.goToMedicalRecord(medicalRecord.id);
+    } else {
+      this.createMedicalRecord(this.patientUuid, medicalRecord.id);
+    }
+  }
+
+  private goToMedicalRecord(medicalRecordId: number): void {
+    this.router.navigate([
+      'medical-record-digitizer/medical-record',
+      medicalRecordId,
+      'patient',
+      this.patientUuid,
+    ]);
+  }
+
 }
