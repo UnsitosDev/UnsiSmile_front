@@ -94,7 +94,7 @@ export class TreatmentDetailsComponent
         this.treatmentDetails = response;
         this.idTreatmentDetail = response.idTreatmentDetail;
         this.patientClinicalHistoryId = response.patient.idPatientMedicalRecord;
-        this.medicalRecordId = response.treatment.clinicalHistoryCatalogId;
+        this.medicalRecordId = response.treatment.medicalRecordCatalogId;
         this.connectToTreatmentDetails(
           String(this.idTreatmentDetail),
           this.patientUuid

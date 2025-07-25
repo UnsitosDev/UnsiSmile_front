@@ -6,6 +6,6 @@ export interface Treatments {
         name: string;
     };
     cost: number;
-    clinicalHistoryCatalogId: number;
-    clinicalHistoryCatalogName: string;
+    medicalRecordCatalogId: number;
+    medicalRecordCatalogName: string;
 }
