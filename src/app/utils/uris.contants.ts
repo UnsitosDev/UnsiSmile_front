@@ -54,7 +54,7 @@ export class UriConstants {
     basePath + '/medical-histories/odontograms';
   public static readonly POST_ODONTOGRAM =
     basePath + '/medical-histories/odontograms';
-  public static GET_ODONTOGRAMS_BY_PATIENT_MEDICAL_RECORD_ID = basePath + '/medical-histories/odontograms/patient-clinical-history/:patientClinicalHistoryId';
+  public static GET_ODONTOGRAMS_BY_PATIENT_MEDICAL_RECORD_ID = basePath + '/medical-histories/odontograms/patient-medical-record/:patientClinicalHistoryId';
   // non-pathological-personal-antecedents-controller
   public static readonly GETID_PERSONAL_ANTECEDENTS_PATHOLOGICAL =
     basePath + '/medical-histories/non-pathological-personal-antecedents/';
@@ -270,21 +270,21 @@ export class UriConstants {
   // get postalCode
   public static readonly GET_POSTAL_CODE = basePath + '/locality/postal-code/';
   // Historias Clinicas
-  public static readonly GET_CONFIG_HISTORY_CLINICS =
-    basePath + '/clinical-histories/patient-clinical-histories';
+  public static readonly GET_MEDICAL_RECORDS_PATIENT =
+    basePath + '/medical-records/patient-medical-records';
   // Crear Historia Clinica del paciente
   public static readonly POST_CLINICAL_HISTORY =
-    basePath + '/clinical-histories/patient-clinical-history';
+    basePath + '/medical-records/patient-medical-record';
   // Obtener la configuracion de la historia clinica:
-  public static readonly GET_HISTORY_CONFIG = basePath + '/clinical-histories';
+  public static readonly GET_MEDICAL_RECORD_CONFIG = basePath + '/medical-records';
 
   // Obtener la configuracion de la historia clinica por paciente
-  public static readonly GET_HISTORY_CONFIG_BY_PATIENT =
-    basePath + '/clinical-histories/catalog/:medicalRecordType/patients/:idPatient';
+  public static readonly GET_MEDICAL_RECORD_CONFIG_BY_PATIENT =
+    basePath + '/medical-records/catalog/:medicalRecordType/patients/:idPatient';
 
   // Obtiene una lista de historías clínicas y su relación con el paciente.
   public static readonly GET_PATIENT_HISTORIES =
-    basePath + '/clinical-histories';
+    basePath + '/medical-records';
   // Enviar seccion del formulario
   public static readonly POST_SECTION_FORM = basePath + '/answers/forms';
   // Enviar archivos
@@ -363,10 +363,9 @@ export class UriConstants {
   public static readonly GET_PROFESSORS_AREAS = basePath + '/professor-clinical-areas'
 
   public static readonly GET_TREATMENTS = basePath + '/treatments';
-  public static readonly GET_MEDICAL_RECORD_GENERAL = basePath + '/clinical-histories/general';
-  public static readonly GET_MEDICAL_RECORDS = basePath + '/clinical-histories';
-  public static readonly GET_GENERAL_MEDICAL_RECORD = basePath + '/clinical-histories/general';
-  public static readonly POST_GENERAL_MEDICAL_RECORD = basePath + '/clinical-histories/general';
+  public static readonly GET_MEDICAL_RECORDS = basePath + '/medical-records';
+  public static readonly GET_GENERAL_MEDICAL_RECORD = basePath + '/medical-records/general';
+  public static readonly POST_GENERAL_MEDICAL_RECORD = basePath + '/medical-records/general';
 
   public static readonly DOWLOAD_FORMAT_PROGRESS_NOTES = basePath + '/progress-notes/files';
   public static readonly DOWLOAD_SIGNED_NOTES = basePath + '/progress-notes/files';

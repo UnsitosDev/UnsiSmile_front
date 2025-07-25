@@ -22,7 +22,7 @@ import {
 } from '@mean/students';
 
 import { MatListModule } from '@angular/material/list';
-import { ClinicalHistoryCatalog, TreatmentDetailResponse } from '@mean/models';
+import { MedicalRecordCatalog, TreatmentDetailResponse } from '@mean/models';
 import { LoadingComponent } from '@mean/shared';
 import { STATUS_TREATMENTS } from '@mean/utils';
 import { MedicalRecordRepositoryService } from '../../repository/medical-record-repository.service';
@@ -64,7 +64,7 @@ export class TreatmentDetailsComponent
   public patientUuid!: string;
   public medicalRecordId!: number;
   public idMedicalRecordGeneral: number = 1;
-  public medicalRecordConfig!: ClinicalHistoryCatalog;
+  public medicalRecordConfig!: MedicalRecordCatalog;
   public isLoading = true;
   public isLoadingGeneralMedicalRecord = true;
   public creatingOdontogram = false;
