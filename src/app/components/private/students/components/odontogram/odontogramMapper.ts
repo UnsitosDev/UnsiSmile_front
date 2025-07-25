@@ -6,12 +6,12 @@ export class OdontogramMapper {
   public static mapOdontogramToPost(
     patientId: string,
     odontogram: { observations: string; teeth: ITooth[] },
-    idTreatmentDetails: number
+    idPatientMedicalRecord: number
   ): OdontogramPost {
     return {
       idPatient: patientId,
       observations: odontogram.observations,
-      idTreatmentDetail: idTreatmentDetails,
+      idPatientMedicalRecord: idPatientMedicalRecord,
       teeth: odontogram.teeth.map((tooth: ITooth) => ({
         ...tooth,
         faces: tooth.faces.map((face: IFace) => ({

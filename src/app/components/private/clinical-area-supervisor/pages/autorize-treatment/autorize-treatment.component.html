@@ -29,18 +29,5 @@
       <i class="fas fa-tooth"></i>
       <span class="ml-2">Odontograma</span>
     </ng-template>
-    
-    <div class="odontogram-tab-content">
-      <mat-card-title><strong>Historial de odontogramas</strong></mat-card-title>
-      <mat-card appearance="outlined" class="custom">
-        <mat-card-content>
-          <app-odontogram-list
-            [treatmentId]="idTreatmentDetail"
-            [patientUuid]="patientUuid"
-          >
-          </app-odontogram-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
   </mat-tab>
 </mat-tab-group>

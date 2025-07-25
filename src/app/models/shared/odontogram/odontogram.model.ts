@@ -3,7 +3,7 @@ import { ITooth } from './odontogram';
 export interface OdontogramPost {
   teeth: Tooth[];
   idPatient: string;
-  idTreatmentDetail: number;
+  idPatientMedicalRecord: number;
   observations: string;
 }
 
