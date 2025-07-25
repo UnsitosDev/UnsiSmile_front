@@ -307,7 +307,7 @@ export class FormFieldsService {
             },
             onInputChange: {
                 changeFunction: this.handleOcupationClick.bind(this),
-                length: 5
+                length: 1  // Cambiar de 2 a 1 para que se active inmediatamente
             }
         },
         {
@@ -493,6 +493,7 @@ export class FormFieldsService {
         this.handleNacionalityClick({} as MouseEvent);
         this.handleMaritalStatusClick({} as MouseEvent);
         this.handleParentsMaritalStatusClick({} as MouseEvent);
+        // Removemos la carga automática de ocupaciones para que solo aparezcan al escribir
     }
 
     private handleGenderClick(event: MouseEvent): void {
@@ -774,10 +775,32 @@ export class FormFieldsService {
         maritalStatusField && (maritalStatusField.options = this.patientService.maritalStatusOptions);
     }
 
-    private handleOcupationClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        this.patientService.getOcupationDataPaginated(searchTerm, page, size).subscribe(response => {
+    private handleOcupationClick(searchTerm: string, page: number = 0, size: number = 15): void {
+        // Solo buscar si hay un término de búsqueda
+        if (!searchTerm || searchTerm.trim() === '') {
+            // Si no hay término de búsqueda, limpiar las opciones
             const occupationField = this.otherDataFields.find(field => field.name === FieldNames.OCCUPATION);
-            occupationField && (occupationField.options = this.patientService.occupationOptions);
+            if (occupationField) {
+                occupationField.options = [];
+            }
+            return;
+        }
+        
+        this.patientService.getOcupationDataPaginated(searchTerm, page, size).subscribe({
+            next: (response) => {
+                const occupationField = this.otherDataFields.find(field => field.name === FieldNames.OCCUPATION);
+                if (occupationField) {
+                    occupationField.options = this.patientService.occupationOptions;
+                }
+            },
+            error: (error) => {
+                console.error('Error al obtener ocupaciones:', error);
+                // En caso de error, limpiar las opciones
+                const occupationField = this.otherDataFields.find(field => field.name === FieldNames.OCCUPATION);
+                if (occupationField) {
+                    occupationField.options = [];
+                }
+            }
         });
     }
 

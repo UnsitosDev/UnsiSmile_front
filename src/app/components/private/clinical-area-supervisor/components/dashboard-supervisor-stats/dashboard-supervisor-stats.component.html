@@ -5,11 +5,11 @@
     }
   </div>
 } @else {
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
     <!-- Total Students -->
     <app-dashboard-card
       class="transform transition-all duration-300 hover:scale-105"
-      title="Total de estudiantes"
+      title="Estudiantes"
       [value]="stats.totalStudents || 0"
       icon="fas fa-user-graduate"
       cardType="numeric"
@@ -20,7 +20,7 @@
     <!-- Total Patients -->
     <app-dashboard-card
       class="transform transition-all duration-300 hover:scale-105"
-      title="Total de pacientes"
+      title="Pacientes"
       [value]="stats.totalPatients || 0"
       icon="fas fa-user-injured"
       cardType="numeric"

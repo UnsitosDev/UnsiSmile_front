@@ -49,13 +49,16 @@ export class FormUpdateStudentComponent implements OnInit {
     // Cargar los campos de estudiante primero
     this.studentFields = this.studentService.getPersonalDataFields();
     
-    // Asegurarnos de que se carguen las opciones de género antes de inicializar el form
+    // Asegurarnos de que se carguen las opciones de todos los campos select antes de inicializar el form
     const genderField = this.studentFields.find(field => field.name === 'gender');
     if (genderField && genderField.onClick) {
       genderField.onClick(new MouseEvent('click'));
     }
 
-    // Inicializar el formulario después de cargar los campos y las opciones de género
+    this.studentService.handleCareerClick();
+    this.studentService.handleSemesterClick();
+    this.studentService.handleGroupClick();
+
     this.formGroup = this.fb.group({});
     this.studentFields.forEach(field => {
       const control = this.fb.control({
@@ -65,7 +68,6 @@ export class FormUpdateStudentComponent implements OnInit {
       this.formGroup.addControl(field.name, control);
     });
 
-    // Suscribirse a los parámetros de ruta y cargar datos del estudiante
     this.route.params.subscribe(params => {
       this.matricula = params['matricula'];
       this.loadStudentData(this.matricula);
@@ -79,34 +81,61 @@ export class FormUpdateStudentComponent implements OnInit {
         if (response.content && response.content.length > 0) {
           const student = response.content[0]; // Tomamos el primer estudiante del array
           
-          // Asegurar que el género se cargue correctamente
-          const genderField = this.studentFields.find(field => field.name === 'gender');
-          if (genderField && genderField.onClick) {
-            genderField.onClick(new MouseEvent('click'));
-            setTimeout(() => {
-              // Establecer el valor después de que se hayan cargado las opciones
-              this.formGroup.patchValue({
-                gender: student.person.gender.idGender.toString(),
-              });
-              
-              // Marcar el control como "touched" para que muestre el valor seleccionado
-              this.formGroup.get('gender')?.markAsTouched();
-            }, 100);
-          }
+          const loadOptions = () => {
+            const promises: Promise<void>[] = [];
+            
+            const genderField = this.studentFields.find(field => field.name === 'gender');
+            if (genderField && genderField.onClick) {
+              genderField.onClick(new MouseEvent('click'));
+            }
+            
+            promises.push(
+              new Promise<void>((resolve) => {
+                this.studentService.handleCareerClick();
+                setTimeout(resolve, 200);
+              })
+            );
+            
+            promises.push(
+              new Promise<void>((resolve) => {
+                this.studentService.handleSemesterClick();
+                setTimeout(resolve, 200);
+              })
+            );
+            
+            promises.push(
+              new Promise<void>((resolve) => {
+                this.studentService.handleGroupClick();
+                setTimeout(resolve, 200);
+              })
+            );
+            
+            return Promise.all(promises);
+          };
 
-          this.formGroup.patchValue({
-            firstName: student.person.firstName,
-            secondName: student.person.secondName,
-            firstLastName: student.person.firstLastName,
-            secondLastName: student.person.secondLastName,
-            enrollment: student.enrollment,
-            curp: student.person.curp,
-            phone: student.person.phone,
-            birthDate: new Date(student.person.birthDate),
-            email: student.person.email,
-            career: student.group.career.idCareer,
-            semester: student.group.semester.idSemester,
-            group: student.group.idGroup.toString()
+          loadOptions().then(() => {
+            setTimeout(() => {
+              this.formGroup.patchValue({
+                firstName: student.person.firstName,
+                secondName: student.person.secondName,
+                firstLastName: student.person.firstLastName,
+                secondLastName: student.person.secondLastName,
+                enrollment: student.enrollment,
+                curp: student.person.curp,
+                phone: student.person.phone,
+                birthDate: new Date(student.person.birthDate),
+                email: student.person.email,
+                gender: student.person.gender.idGender.toString(),
+                career: student.group.career.idCareer,
+                semester: student.group.semester.idSemester,
+                group: student.group.idGroup.toString()
+              });
+
+              this.formGroup.get('gender')?.markAsTouched();
+              this.formGroup.get('career')?.markAsTouched();
+              this.formGroup.get('semester')?.markAsTouched();
+              this.formGroup.get('group')?.markAsTouched();
+            }, 300);
           });
 
           // Asegurar que los campos CURP, birthDate y enrollment estén deshabilitados
@@ -125,7 +154,6 @@ export class FormUpdateStudentComponent implements OnInit {
             control?.markAsTouched();
           });
 
-          // Guardar valores adicionales
           this.userId = student.user.id;
           this.userPassword = student.user.password || '';
           this.userStatus = student.user.status;
