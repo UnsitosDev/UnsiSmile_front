@@ -15,10 +15,10 @@ import { UriConstants } from '@mean/utils';
   selector: 'app-medical-records-diditizer',
   standalone: true,
   imports: [CardPatientDataComponent, MatCardModule, MatTabsModule, MatListModule, MatDivider, FormUpdatePatientComponent, MatButtonModule],
-  templateUrl: './medical-records-diditizer.component.html',
-  styleUrl: './medical-records-diditizer.component.scss'
+  templateUrl: './medical-records-digitizer.component.html',
+  styleUrl: './medical-records-digitizer.component.scss'
 })
-export class MedicalRecordsDiditizerComponent implements OnInit {
+export class MedicalRecordsDigitizerComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private apiService = inject(ApiService);
   private router = inject(Router);
