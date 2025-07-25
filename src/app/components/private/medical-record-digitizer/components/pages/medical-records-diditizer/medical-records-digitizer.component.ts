@@ -93,10 +93,7 @@ export class MedicalRecordsDigitizerComponent implements OnInit {
       'medical-record-digitizer/medical-record',
       medicalRecordId,
       'patient',
-      this.patientUuid,
-      'patient-medical-record',
-      patientMedicalRecordId
-    ]);
+      this.patientUuid]);
   }
 
 }

@@ -1,13 +1,19 @@
-<mat-card appearance="outlined" class="custom-background">
+<mat-card appearance="raised" class="custom-background mb-4">
   <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
 </mat-card>
-<br />
+
+<div class="flex justify-between w-full mb-4">
+  <button mat-stroked-button class="!text-white" (click)="back()">
+    <i class="fas fa-arrow-left mr-2"></i>Regresar
+  </button>
+</div>
+
 
 @if (medicalRecordId) {
     @switch (medicalRecordId) {
         @case (1) {
             <!-- Prótesis bucal -->
-            <app-oral-prosthesis [patientUuid]="patientUuid"></app-oral-prosthesis>
+            <app-students-general-history [patientUuid]="patientUuid"></app-students-general-history>
         }
         @case (2) {
             <!-- Prótesis bucal -->
