@@ -17,7 +17,7 @@ export class RateFormSectionService {
     const url = UriConstants.GET_FORM_SECTION.replace(
       ':formSectionId',
       formSectionId.toString()
-    ).replace(':idPatientClinicalHistory', idPatientClinicalHistory.toString());
+    ).replace(':idPatientMedicalRecord', idPatientClinicalHistory.toString());
 
     return this.http.get<FormSection>(url);
   }

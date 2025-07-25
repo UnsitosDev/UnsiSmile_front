@@ -74,7 +74,7 @@ export class StudentsOdontogramComponent implements OnInit {
 
   private odontogramService = inject(ApiService<{}, OdontogramPost>);
   @Input({ required: true }) patientId!: string;
-  @Input({ required: true }) idTreatmentDetails!: number;
+  @Input({ required: true }) idPatientMedicalRecord!: number;
   @Input() idOdontogram: number = 0;
   @Input({ required: true }) state!:
     | 'create'
@@ -464,7 +464,7 @@ export class StudentsOdontogramComponent implements OnInit {
       OdontogramMapper.mapOdontogramToPost(
         this.patientId,
         this.odontogram,
-        this.idTreatmentDetails
+        this.idPatientMedicalRecord
       );
 
     this.odontogramService

@@ -16,7 +16,7 @@ export interface dataTabs {
     title: string;
     tabs: formSectionFields[];
     medicalRecordNumber: number;
-    idClinicalHistoryCatalog: number;
+    idMedicalRecordCatalog: number;
     idPatientMedicalRecord: number
 }
 

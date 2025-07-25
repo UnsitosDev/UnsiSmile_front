@@ -1,4 +1,3 @@
-// En tu archivo payloadtreatments.model.ts
 export interface RequestTreatment {
     idTreatmentDetail: number;
     professorClinicalAreaId: number;

@@ -1,16 +1,14 @@
-// clinical-history.adapters.ts
-
 import { AnswerField, dataTabs, FormField, formSectionFields, subSeccion, ValidationField, validationsFront } from "src/app/models/form-fields/form-field.interface";
-import { Answer, AnswerType, ClinicalHistoryCatalog, FormSection, Question, SubSection, Validation, ValidationType } from "src/app/models/history-clinic/historyClinic";
+import { Answer, AnswerType, FormSection, MedicalRecordCatalog, Question, SubSection, Validation } from "src/app/models/history-clinic/medical-record.models";
 
 // Mapea el catálogo de historia clínica a la estructura de datos de las pestañas (dataTabs)
-export function mapClinicalHistoryToDataTabs(catalog: ClinicalHistoryCatalog): dataTabs {
+export function mapMedicalRecordToDataTabs(catalog: MedicalRecordCatalog): dataTabs {
     // Mapea la estructura del catálogo a la estructura de datos esperada en dataTabs
     return {
-        title: catalog.clinicalHistoryName, // Asigna el nombre de la historia clínica
+        title: catalog.medicalRecordName, // Asigna el nombre de la historia clínica
         tabs: catalog.formSections.map(section => mapFormSectionToFormSectionFields(section)), // Mapea las secciones del formulario
         medicalRecordNumber: catalog.medicalRecordNumber,
-        idClinicalHistoryCatalog: catalog.idClinicalHistoryCatalog,
+        idMedicalRecordCatalog: catalog.idMedicalRecordCatalog,
         idPatientMedicalRecord: catalog.idPatientMedicalRecord
     };
 }

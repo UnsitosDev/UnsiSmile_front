@@ -1,17 +1,17 @@
 import { formSectionFields } from "../form-fields/form-field.interface";
 
 // Historias clinicas del paciente
-export interface ClinicalHistory {
+export interface MedicalRecord {
     id: number;                         
-    clinicalHistoryName: string;       
-    patientClinicalHistoryId: number;  
+    medicalRecordName: string;       
+    patientMedicalRecordId: number;  
     patientId: string;                 
 }
 
-export interface ClinicalHistoryCatalog {
+export interface MedicalRecordCatalog {
     idPatientMedicalRecord:   number;
-    idClinicalHistoryCatalog: number;
-    clinicalHistoryName:      string;
+    idMedicalRecordCatalog: number;
+    medicalRecordName:      string;
     medicalRecordNumber:      number;
     appointmentDate:          Date;
     formSections:             FormSection[];
@@ -95,10 +95,10 @@ export interface Validation {
     validationType: ValidationType;  // Tipo de validación
 }
 
-export interface ClinicalHistoryCatalogRelation {
+export interface MedicalRecordCatalogRelation {
     statusKey: string;
-    idClinicalHistoryCatalog: number;
-    clinicalHistoryName: string | null; // Puede ser null
+    idMedicalRecordCatalog: number;
+    medicalRecordName: string | null; // Puede ser null
 }
 
 export interface Patient {
@@ -119,8 +119,8 @@ export interface Patient {
 
 export interface RelationHistoryPatient {
     statusKey: string;
-    idPatientClinicalHistory: number;
-    clinicalHistoryCatalog: ClinicalHistoryCatalogRelation; // Cambiado aquí
+    idPatientMedicalRecord: number;
+    medicalRecordCatalog: MedicalRecordCatalogRelation; // Cambiado aquí
     patient: Patient;
     date: [number, number, number, number, number, number, number]; // Array de números
 }

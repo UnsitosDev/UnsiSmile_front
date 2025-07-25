@@ -19,7 +19,7 @@ import { TokenData } from '@mean/public';
 import { ROLES, STATUS, UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-form-update/tab-form-update.component';
-import { mapClinicalHistoryToDataTabs } from '../../../adapters/clinical-history.adapters';
+import { mapMedicalRecordToDataTabs } from '../../../adapters/medical-record.adapter';
 import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';
 import { ProgressNotesComponent } from '../../../components/progress-notes/progress-notes.component';
 
@@ -85,11 +85,11 @@ export class StudentsGeneralHistoryComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.medicalRecordData = mapClinicalHistoryToDataTabs(response);
+          this.medicalRecordData = mapMedicalRecordToDataTabs(response);
           this.patientMedicalRecord =
           this.medicalRecordData.idPatientMedicalRecord;
           this.medicalRecordId =
-          this.medicalRecordData.idClinicalHistoryCatalog;
+          this.medicalRecordData.idMedicalRecordCatalog;
           this.onTabChange(0);
         },
         error: (errorResponse) => {

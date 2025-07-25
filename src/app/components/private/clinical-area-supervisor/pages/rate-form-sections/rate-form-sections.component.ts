@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormSection, formSectionFields } from '@mean/models';
 import { Subscription } from 'rxjs';
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-import { mapFormSectionToFormSectionFields } from '../../../students/adapters/clinical-history.adapters';
+import { mapFormSectionToFormSectionFields } from '../../../students/adapters/medical-record.adapter';
 import { DialogSendReview } from '../../components/menu-assess-medical-redord/menu-assess-medical-record.component';
 import { RateFormSectionService } from './services/rate-form-section.service';
 import { MatCardModule } from '@angular/material/card';
