@@ -36,7 +36,7 @@
       title="Historias clínicas en revisión"
       icon="fas fa-clipboard-list"
       cardType="numeric"
-      [value]="stats.clinicalHistoriesInReview || 0"
+      [value]="stats.medicalRecordsInReview"
       [colorBar]="'bg-blue-500'"
     ></app-dashboard-card>
 
@@ -46,7 +46,7 @@
       title="Historias clínicas rechazadas"
       icon="fas fa-times-circle"
       cardType="numeric"
-      [value]="stats.clinicalHistoriesRejected || 0"
+      [value]="stats.medicalRecordsRejected"
       [colorBar]="'bg-green-500'"
     ></app-dashboard-card>
 
@@ -56,7 +56,7 @@
       title="Historias clínicas aceptadas"
       icon="fas fa-check-circle"
       cardType="numeric"
-      [value]="stats.clinicalHistoriesAccepted || 0"
+      [value]="stats.medicalRecordsAccepted"
       [colorBar]="'bg-purple-500'"
     ></app-dashboard-card>
 

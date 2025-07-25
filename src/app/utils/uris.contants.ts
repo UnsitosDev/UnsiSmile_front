@@ -12,107 +12,105 @@ export class UriConstants {
   public static readonly USER_REGISTER = basePath + '/auth/register';
   // tooth-region-controller
   public static readonly GETID_TOOTH_REGION =
-    basePath + '/medical-histories/tooth-regions/';
+    basePath + '/medical-records/tooth-regions/';
   public static readonly GET_TOOTH_REGION =
-    basePath + '/medical-histories/tooth-regions';
+    basePath + '/medical-records/tooth-regions';
   public static readonly POST_TOOTH_REGION =
-    basePath + '/medical-histories/tooth-regions';
+    basePath + '/medical-records/tooth-regions';
   // tooth-region-periodontogram-controller
   public static readonly GETID_TOOTH_REGION_PERIODONTOGRAM =
-    basePath + '/medical-histories/tooth-region-periodontograms/';
+    basePath + '/medical-records/tooth-region-periodontograms/';
   public static readonly GET_TOOTH_REGION_PERIODONTOGRAM =
-    basePath + '/medical-histories/tooth-region-periodontograms';
+    basePath + '/medical-records/tooth-region-periodontograms';
   public static readonly POST_TOOTH_REGION_PERIODONTOGRAM =
-    basePath + '/medical-histories/tooth-region-periodontograms';
+    basePath + '/medical-records/tooth-region-periodontograms';
   // tooth-detail-controller
   public static readonly GETID_TOOTH_DETAIL =
-    basePath + '/medical-histories/tooth-details/';
+    basePath + '/medical-records/tooth-details/';
   public static readonly GET_TOOTH_DETAIL =
-    basePath + '/medical-histories/tooth-details';
+    basePath + '/medical-records/tooth-details';
   public static readonly POST_TOOTH_DETAIL =
-    basePath + '/medical-histories/tooth-details';
+    basePath + '/medical-records/tooth-details';
   // tooth-condition-controller
   public static readonly GETID_TOOTH_CONDITION =
-    basePath + '/medical-histories/tooth-conditions/';
+    basePath + '/medical-records/tooth-conditions/';
   public static readonly GET_TOOTH_CONDITION =
-    basePath + '/medical-histories/tooth-conditions';
+    basePath + '/medical-records/tooth-conditions';
   public static readonly GET_TOOTH_FACE_CONDITION =
-    basePath + '/medical-histories/tooth-face-conditions';
+    basePath + '/medical-records/tooth-face-conditions';
   public static readonly POST_TOOTH_CONDITION =
-    basePath + '/medical-histories/tooth-conditions';
+    basePath + '/medical-records/tooth-conditions';
   // open-question-pathological-antecedents-controller
   public static readonly GETID_PATHOLOGICAL_ANTECEDENTS =
-    basePath + '/medical-histories/open-question-pathological-antecedents/';
+    basePath + '/medical-records/open-question-pathological-antecedents/';
   public static readonly GET_PATHOLOGICAL_ANTECEDENTS =
-    basePath + '/medical-histories/open-question-pathological-antecedents';
+    basePath + '/medical-records/open-question-pathological-antecedents';
   public static readonly POST_PATHOLOGICAL_ANTECEDENTS =
-    basePath + '/medical-histories/open-question-pathological-antecedents';
+    basePath + '/medical-records/open-question-pathological-antecedents';
   // odontogram-controller
-  public static readonly GETID_ODONTOGRAM =
-    basePath + '/medical-histories/odontograms/';
   public static readonly GET_ODONTOGRAM =
-    basePath + '/medical-histories/odontograms';
+    basePath + '/medical-records/odontograms';
   public static readonly POST_ODONTOGRAM =
-    basePath + '/medical-histories/odontograms';
-  public static GET_ODONTOGRAMS_BY_PATIENT_MEDICAL_RECORD_ID = basePath + '/medical-histories/odontograms/patient-medical-record/:patientClinicalHistoryId';
+    basePath + '/medical-records/odontograms';
+  public static GET_ODONTOGRAMS_BY_PATIENT_MEDICAL_RECORD_ID = basePath + '/medical-records/odontograms/patient-medical-record/:patientMedicalRecordId';
   // non-pathological-personal-antecedents-controller
   public static readonly GETID_PERSONAL_ANTECEDENTS_PATHOLOGICAL =
-    basePath + '/medical-histories/non-pathological-personal-antecedents/';
+    basePath + '/medical-records/non-pathological-personal-antecedents/';
   public static readonly GET_PERSONAL_ANTECEDENTS_PATHOLOGICAL =
-    basePath + '/medical-histories/non-pathological-personal-antecedents';
+    basePath + '/medical-records/non-pathological-personal-antecedents';
   public static readonly POST_PERSONAL_ANTECEDENTS_PATHOLOGICAL =
-    basePath + '/medical-histories/non-pathological-personal-antecedents';
+    basePath + '/medical-records/non-pathological-personal-antecedents';
   // hereditary-family-history-question-controller
   public static readonly GETID_HEREDITARY_FAMILY_HISTORY_QUESTION =
-    basePath + '/medical-histories/hereditary-family-history-questions/';
+    basePath + '/medical-records/hereditary-family-history-questions/';
   public static readonly GET_HEREDITARY_FAMILY_HISTORY_QUESTION =
-    basePath + '/medical-histories/hereditary-family-history-questions';
+    basePath + '/medical-records/hereditary-family-history-questions';
   public static readonly POST_HEREDITARY_FAMILY_HISTORY_QUESTION =
-    basePath + '/medical-histories/hereditary-family-history-questions';
+    basePath + '/medical-records/hereditary-family-history-questions';
   // hereditary-family-history-controller
   public static readonly GETID_HEREDITARY_FAMILY_HISTORY =
-    basePath + '/medical-histories/hereditary-family-histories/';
+    basePath + '/medical-records/hereditary-family-histories/';
   public static readonly GET_HEREDITARY_FAMILY_HISTORY =
-    basePath + '/medical-histories/hereditary-family-histories';
+    basePath + '/medical-records/hereditary-family-histories';
   public static readonly POST_HEREDITARY_FAMILY_HISTORY =
-    basePath + '/medical-histories/hereditary-family-histories';
+    basePath + '/medical-records/hereditary-family-histories';
   // facial-profile-controller
   public static readonly GETID_FACIAL_PROFILE =
-    basePath + '/medical-histories/facial-profiles/';
+    basePath + '/medical-records/facial-profiles/';
   public static readonly GET_FACIAL_PROFILE =
-    basePath + '/medical-histories/facial-profiles';
+    basePath + '/medical-records/facial-profiles';
   public static readonly POST_FACIAL_PROFILE_ =
-    basePath + '/medical-histories/facial-profiles';
+    basePath + '/medical-records/facial-profiles';
   // facial-front-controller
   public static readonly GETID_FACIAL_FRONT =
-    basePath + '/medical-histories/facial-fronts/';
+    basePath + '/medical-records/facial-fronts/';
   public static readonly GET_FACIAL_FRONT =
-    basePath + '/medical-histories/facial-fronts';
+    basePath + '/medical-records/facial-fronts';
   public static readonly GET_FACIAL_FRONT_BYNAME =
-    basePath + '/medical-histories/facial-fronts/byName/';
+    basePath + '/medical-records/facial-fronts/byName/';
   public static readonly POST_FACIAL_FRONT =
-    basePath + '/medical-histories/facial-fronts';
+    basePath + '/medical-records/facial-fronts';
   // facial-exam-controller
   public static readonly GETID_FACIAL_EXAM =
-    basePath + '/medical-histories/facial-exams/';
+    basePath + '/medical-records/facial-exams/';
   public static readonly GET_FACIAL_EXAM =
-    basePath + '/medical-histories/facial-exams';
+    basePath + '/medical-records/facial-exams';
   public static readonly POST_FACIAL_EXAM =
-    basePath + '/medical-histories/facial-exams';
+    basePath + '/medical-records/facial-exams';
   // dental-code-controller
   public static readonly GETID_DENTAL_CODE =
-    basePath + '/medical-histories/dental-codes/';
+    basePath + '/medical-records/dental-codes/';
   public static readonly GET_DENTAL_CODE =
-    basePath + '/medical-histories/dental-codes';
+    basePath + '/medical-records/dental-codes';
   public static readonly POST_DENTAL_CODE =
-    basePath + '/medical-histories/dental-codes';
+    basePath + '/medical-records/dental-codes';
   // closed-question-pathological-antecedents-controller
   public static readonly GETID_CLOSED_QUESTION_PATHOLOGICAL_ANTECEDENTS =
-    basePath + '/medical-histories/closed-question-pathological-antecedents/';
+    basePath + '/medical-records/closed-question-pathological-antecedents/';
   public static readonly GET_CLOSED_QUESTION_PATHOLOGICAL_ANTECEDENTS =
-    basePath + '/medical-histories/closed-question-pathological-antecedents';
+    basePath + '/medical-records/closed-question-pathological-antecedents';
   public static readonly POST_CLOSED_QUESTION_PATHOLOGICAL_ANTECEDENTS =
-    basePath + '/medical-histories/closed-question-pathological-antecedents';
+    basePath + '/medical-records/closed-question-pathological-antecedents';
   // group-controller
   public static readonly GETID_GROUP = basePath + '/groups/';
   public static readonly GET_GROUP = basePath + '/groups';
@@ -132,11 +130,11 @@ export class UriConstants {
   public static readonly GET_CAREERS = basePath + '/careers';
   // housing-material-controller
   public static readonly GETID_HOUSING_MATERIAL =
-    basePath + '/medical-histories/housing-materials/';
+    basePath + '/medical-records/housing-materials/';
   public static readonly GET_HOUSING_MATERIAL =
-    basePath + '/medical-histories/housing-materials';
+    basePath + '/medical-records/housing-materials';
   public static readonly POST_HOUSING_MATERIAL =
-    basePath + '/medical-histories/housing-materials';
+    basePath + '/medical-records/housing-materials';
   // auth-controller
   public static readonly POST_AUTH = basePath + '/auth/register';
   public static readonly POSTB_AUTH = basePath + '/auth/register';
@@ -162,32 +160,32 @@ export class UriConstants {
   public static readonly GET_SEMESTERS = basePath + '/semesters';
   // region measurement pockets
   public static readonly GETID_REGION_MEASUREMENT_POCKETS =
-    basePath + '/medical-histories/region-measurement-pockets/';
+    basePath + '/medical-records/region-measurement-pockets/';
   public static readonly GET_REGION_MEASUREMENT_POCKETS =
-    basePath + '/medical-histories/region-measurement-pockets';
+    basePath + '/medical-records/region-measurement-pockets';
   public static readonly POST_REGION_MEASUREMENT_POCKETS =
-    basePath + '/medical-histories/region-measurement-pockets';
+    basePath + '/medical-records/region-measurement-pockets';
   // pocket measurement detail
   public static readonly GETID_POCKET_MEASUREMENT_DETAIL =
-    basePath + '/medical-histories/pocket-measurement-details/';
+    basePath + '/medical-records/pocket-measurement-details/';
   public static readonly GET_POCKET_MEASUREMENT_DETAIL =
-    basePath + '/medical-histories/region-measurement-pockets';
+    basePath + '/medical-records/region-measurement-pockets';
   public static readonly POST_POCKET_MEASUREMENT_DETAIL =
-    basePath + '/medical-histories/region-measurement-pockets';
+    basePath + '/medical-records/region-measurement-pockets';
   // periodontograma
   public static readonly GETID_PERIODONTOGRAM =
-    basePath + '/medical-histories/periodontograms/';
+    basePath + '/medical-records/periodontograms/';
   public static readonly GET_PERIODONTOGRAM =
-    basePath + '/medical-histories/periodontograms';
+    basePath + '/medical-records/periodontograms';
   public static readonly POST_PERIODONTOGRAM =
-    basePath + '/medical-histories/periodontograms';
+    basePath + '/medical-records/periodontograms';
   // open question pathological antecedentes
   public static readonly GETID_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS =
-    basePath + '/medical-histories/open-question-pathological-antecedents/';
+    basePath + '/medical-records/open-question-pathological-antecedents/';
   public static readonly GET_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS =
-    basePath + '/medical-histories/open-question-pathological-antecedents';
+    basePath + '/medical-records/open-question-pathological-antecedents';
   public static readonly POST_OPEN_QUESTION_PATHOLOGICAL_ANTECEDENTS =
-    basePath + '/medical-histories/open-question-pathological-antecedents';
+    basePath + '/medical-records/open-question-pathological-antecedents';
 
   //´getpacientes
   public static readonly GET_PATIENTS = basePath + '/patients';
@@ -213,11 +211,11 @@ export class UriConstants {
 
   // vital-signs-controller
   public static readonly GETID_VITAL_SIGNS =
-    basePath + '/medical-histories/vital-signs/{id}';
+    basePath + '/medical-records/vital-signs/{id}';
   public static readonly GET_VITAL_SIGNS =
-    basePath + '/medical-histories/vital-signs';
+    basePath + '/medical-records/vital-signs';
   public static readonly POST_VITAL_SIGNS =
-    basePath + '/medical-histories/vital-signs';
+    basePath + '/medical-records/vital-signs';
   // religion-controller
   public static readonly GETID_RELIGION = basePath + '/patients/religion/';
   public static readonly GET_RELIGION = basePath + '/religions';
@@ -293,7 +291,7 @@ export class UriConstants {
   public static readonly DOWLOAD_FILES = basePath + '/files/general-files/';
   public static readonly DOWLOAD_FILES_SECTION = basePath + '/files/file';
   // obtener el odontograma mas reciente
-  public static readonly GET_LAST_ODONTOGRAM_BY_PATIENT = basePath + '/medical-histories/odontograms/latest'
+  public static readonly GET_LAST_ODONTOGRAM_BY_PATIENT = basePath + '/medical-records/odontograms/latest'
   // Crear semestre
   public static readonly POST_SEMESTERS = basePath +   '/semesters'
   // Subir archivo de estudiantes
@@ -304,8 +302,8 @@ export class UriConstants {
   public static readonly GET_ALL_CYCLES = basePath + '/cycles'
 
   //obtener un odontogram por id de formulario
-  public static readonly GET_ODONTOGRAM_BY_FORM_ID = basePath + '/medical-histories/odontograms'
-  public static readonly GET_ODONTOGRAM_BY_ID = basePath + '/medical-histories/odontograms/:idOdontogram'
+  public static readonly GET_ODONTOGRAM_BY_FORM_ID = basePath + '/medical-records/odontograms'
+  public static readonly GET_ODONTOGRAM_BY_ID = basePath + '/medical-records/odontograms/:idOdontogram'
 
   public static readonly REFRESH_TOKEN_ENDPOINT = basePath + '/auth/refresh';
 
@@ -356,10 +354,10 @@ export class UriConstants {
   public static GET_PROFESSOR_CLINICAL_AREA_BY_ID = basePath + '/professor-clinical-areas/';
   public static DELETE_PROFESSOR_CLINICAL_AREAS = basePath + '/professor-clinical-areas/';
 
-  public static readonly GET_CONDITION_PROFILAXIS_FACE = basePath + '/medical-histories/tooth-face-conditions/prophylaxis';
-  public static readonly GET_CONDITION_PROFILAXIS_TOOTH = basePath + '/medical-histories/tooth-conditions/prophylaxis';
-  public static readonly POS_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis';
-  public static readonly GET_PROFILAXIS = basePath + '/medical-histories/dental-prophylaxis/treatments';
+  public static readonly GET_CONDITION_PROFILAXIS_FACE = basePath + '/medical-records/tooth-face-conditions/prophylaxis';
+  public static readonly GET_CONDITION_PROFILAXIS_TOOTH = basePath + '/medical-records/tooth-conditions/prophylaxis';
+  public static readonly POS_PROFILAXIS = basePath + '/medical-records/dental-prophylaxis';
+  public static readonly GET_PROFILAXIS = basePath + '/medical-records/dental-prophylaxis/treatments';
   public static readonly GET_PROFESSORS_AREAS = basePath + '/professor-clinical-areas'
 
   public static readonly GET_TREATMENTS = basePath + '/treatments';
@@ -385,8 +383,8 @@ export class UriConstants {
     public static readonly GET_TREATMENT_BY_ID = basePath + '/treatment-details/patients';
     public static readonly GET_TREATMENTS_DETAILS = basePath + '/treatment-details/:idTreatmentDetail'; 
   
-  public static readonly POST_IHOS = basePath + '/medical-histories/dental-prophylaxis/sohi';
-  public static readonly GET_IHOS = basePath + '/medical-histories/dental-prophylaxis/sohi/treatment';
+  public static readonly POST_IHOS = basePath + '/medical-records/dental-prophylaxis/sohi';
+  public static readonly GET_IHOS = basePath + '/medical-records/dental-prophylaxis/sohi/treatment';
   public static readonly POST_FLUOROSIS = basePath + '/medical-records/fluorosis';
   public static readonly GET_FLUOROSIS_BY_PATIENT = basePath + '/medical-records/fluorosis/treatments'
   public static readonly POST_DEAN_INDEX = basePath + '/medical-records/fluorosis/dean-index'
@@ -395,7 +393,7 @@ export class UriConstants {
   public static readonly GET_TREATMENT_DETAIL_REPORTS = basePath + '/treatment-details/reports'
   public static readonly GET_PATIENTS_FOR_REPORTS = basePath + '/treatment-details/students/report'
   public static readonly GET_GENERATE_REPORT_TREATMENT = basePath + '/treatment-details/reports/students';
-  public static readonly GET_FORM_SECTION = basePath + '/form-sections/:formSectionId?idPatientClinicalHistory=:idPatientClinicalHistory';
+  public static readonly GET_FORM_SECTION = basePath + '/form-sections/:formSectionId?idPatientMedicalRecord=:idPatientMedicalRecord';
   public static readonly DELETE_FILE_GENERAL = basePath + '/files/general-files'
   public static readonly PATCH_AUTHORIZATION_TREATMENT = basePath + '/treatment-details'
 

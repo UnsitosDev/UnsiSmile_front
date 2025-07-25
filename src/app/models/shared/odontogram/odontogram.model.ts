@@ -35,6 +35,7 @@ export interface OdontogramResponse {
   adultArcade: Arcade[];
   childArcade: Arcade[];
   observations: string;
+  idPatientMedicalRecord: number;
 }
 
 export interface Arcade {

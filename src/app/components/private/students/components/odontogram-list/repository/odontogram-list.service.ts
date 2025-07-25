@@ -12,7 +12,7 @@ export class OdontogramListService {
 
   getOdontogramsByPatientMedicalRecordId(patientClinicalHistoryId: number): Observable<OdontogramTreatment[]> {
     const url = UriConstants.GET_ODONTOGRAMS_BY_PATIENT_MEDICAL_RECORD_ID
-      .replace(':patientClinicalHistoryId', patientClinicalHistoryId.toString());
+      .replace(':patientMedicalRecordId', patientClinicalHistoryId.toString());
     
     return this.http.get<OdontogramTreatment[]>(url);
   }
