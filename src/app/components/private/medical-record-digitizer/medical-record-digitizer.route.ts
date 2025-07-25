@@ -37,7 +37,7 @@ export default [
                     ),
             },
             {
-                path: 'medical-record/:medical-record/patient/:patientID',
+                path: 'medical-record/:medical-record/patient/:patientID/patient-medical-record/:patientMedicalRecordID',
                 loadComponent: () =>
                     import('./components/pages/digitize-medical-record/digitize-medical-record.component').then(
                         (m) => m.DigitizeMedicalRecordComponent

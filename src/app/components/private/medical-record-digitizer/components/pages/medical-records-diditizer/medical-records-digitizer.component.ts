@@ -58,7 +58,7 @@ export class MedicalRecordsDigitizerComponent implements OnInit {
     });
   }
 
-  public createMedicalRecord(idPatient: string, idMedicalRecordCatalog: number) {
+  public createMedicalRecord(idPatient: string, idMedicalRecordCatalog: number, patientMedicalRecordId: number) {
     this.apiService.postService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export class MedicalRecordsDigitizerComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.toast.success('Historia clínica creada exitosamente', 'Éxito');
-        this.goToMedicalRecord(idMedicalRecordCatalog);
+        this.goToMedicalRecord(idMedicalRecordCatalog, patientMedicalRecordId);
       },
       error: (error) => {
         console.error(error);
@@ -82,18 +82,20 @@ export class MedicalRecordsDigitizerComponent implements OnInit {
     );
 
     if (alreadyExists) {
-      this.goToMedicalRecord(medicalRecord.id);
+      this.goToMedicalRecord(medicalRecord.id, medicalRecord.patientMedicalRecordId ?? 0);
     } else {
-      this.createMedicalRecord(this.patientUuid, medicalRecord.id);
+      this.createMedicalRecord(this.patientUuid, medicalRecord.id, medicalRecord.patientMedicalRecordId ?? 0);
     }
   }
 
-  private goToMedicalRecord(medicalRecordId: number): void {
+  private goToMedicalRecord(medicalRecordId: number, patientMedicalRecordId: number): void {
     this.router.navigate([
       'medical-record-digitizer/medical-record',
       medicalRecordId,
       'patient',
       this.patientUuid,
+      'patient-medical-record',
+      patientMedicalRecordId
     ]);
   }
 
