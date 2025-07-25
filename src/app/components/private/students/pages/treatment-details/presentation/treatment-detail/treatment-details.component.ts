@@ -10,24 +10,22 @@ import {
   CardPatientDataComponent,
   DialogConfirmSendToReviewComponent,
   DialogNewTreatmentComponent,
-  OdontogramListComponent,
   OralProsthesisComponent,
   PreventiveDentistryPublicHealthComponent,
   StudentsDentalOperationComponent,
   StudentsGeneralHistoryComponent,
-  StudentsOdontogramComponent,
   StudentsOralSurgeryHistoryComponent,
   StudentsPeriodonticsHistoryComponent,
-  treatmentsNotifications,
+  treatmentsNotifications
 } from '@mean/students';
 
 import { MatListModule } from '@angular/material/list';
 import { MedicalRecordCatalog, TreatmentDetailResponse } from '@mean/models';
 import { LoadingComponent } from '@mean/shared';
 import { STATUS_TREATMENTS } from '@mean/utils';
+import { DialogDetailsTreatmentComponent } from '../../../../components/dialog-details-treatment/dialog-details-treatment.component';
 import { MedicalRecordRepositoryService } from '../../repository/medical-record-repository.service';
 import { TreatmentRepositoryService } from '../../repository/treatment-repository.service';
-import { DialogDetailsTreatmentComponent } from '../../../../components/dialog-details-treatment/dialog-details-treatment.component';
 
 @Component({
   selector: 'app-treatments',
