@@ -5,9 +5,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '@mean/services';
+import { ApiService, AuthService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
-import { UriConstants } from '@mean/utils';
+import { ROLES, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { FormFieldsService } from 'src/app/services/form-fields.service';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
@@ -18,6 +18,7 @@ import { DialogConfirmGuardianComponent } from '../../../admins/components/dialo
 import { MatDialog } from '@angular/material/dialog';
 import { LoadingComponent } from '@mean/shared';
 import { firstValueFrom } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-form-update-patient',
@@ -39,8 +40,10 @@ export class FormUpdatePatientComponent {
    private toastr = inject(ToastrService);
     private apiService = inject(ApiService<any>);
     private patientService = inject(PatientService);
+    protected userService = inject(AuthService);
+    private location = inject(Location);
     readonly dialog = inject(MatDialog);
-    
+    role!: string;
     patientId: string = '';
     formGroup!: FormGroup;
     personal: any[] = [];
@@ -71,6 +74,7 @@ export class FormUpdatePatientComponent {
     ) {}
   
     async ngOnInit() {
+      this.initializeUserRole();
       try {
         await this.loadRequiredData();
         this.route.params.subscribe(async params => {
@@ -86,6 +90,12 @@ export class FormUpdatePatientComponent {
         this.isLoading = false;
         this.cdr.detectChanges();
       }
+    }
+  
+    initializeUserRole(): void {
+      const token = this.userService.getToken() ?? '';
+      const tokenData = this.userService.getTokenDataUser(token);
+      this.role = tokenData.role[0].authority;
     }
   
     private async loadAllPatientData(): Promise<void> {
@@ -681,7 +691,7 @@ export class FormUpdatePatientComponent {
               this.formGroup.get(key)?.disable();
             });
             setTimeout(() => {
-              this.router.navigate(['/admin/patients']);
+              this.navigateAfterUpdate();
             }, 1000);
           },
           error: (error) => {
@@ -692,9 +702,10 @@ export class FormUpdatePatientComponent {
         this.toastr.warning(Messages.WARNING_INSERT_PATIENT, 'Advertencia');
       }
     }
-  
-    onBack() {
-      this.router.navigate(['/admin/patients']);
+
+    navigateAfterUpdate(){
+        this.role === ROLES.ROLE_MEDICAL_RECORD_DIGITIZER ? null : this.location.back();
+        console.log(this.role);
     }
   
   }

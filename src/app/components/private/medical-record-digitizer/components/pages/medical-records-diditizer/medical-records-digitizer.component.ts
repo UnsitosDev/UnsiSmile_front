@@ -8,14 +8,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MedicalRecordsDigitizer, PATIENT_UUID } from '@mean/models';
 import { ApiService } from '@mean/services';
-import { CardPatientDataComponent, FormUpdatePatientComponent, OdontogramListComponent, StudentsOdontogramComponent } from "@mean/students";
+import { CardPatientDataComponent, FormUpdatePatientComponent } from "@mean/students";
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-medical-records-diditizer',
   standalone: true,
-  imports: [CardPatientDataComponent, MatCardModule, MatTabsModule, MatListModule, MatDivider, FormUpdatePatientComponent, MatButtonModule, StudentsOdontogramComponent, OdontogramListComponent],
+  imports: [CardPatientDataComponent, MatCardModule, MatTabsModule, MatListModule, MatDivider, FormUpdatePatientComponent, MatButtonModule],
   templateUrl: './medical-records-digitizer.component.html',
   styleUrl: './medical-records-digitizer.component.scss'
 })
