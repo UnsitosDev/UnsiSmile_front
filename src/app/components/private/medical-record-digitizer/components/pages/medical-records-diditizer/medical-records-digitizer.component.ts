@@ -58,7 +58,7 @@ export class MedicalRecordsDigitizerComponent implements OnInit {
     });
   }
 
-  public createMedicalRecord(idPatient: string, idMedicalRecordCatalog: number, patientMedicalRecordId: number) {
+  public createMedicalRecord(idPatient: string, idMedicalRecordCatalog: number) {
     this.apiService.postService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -66,9 +66,9 @@ export class MedicalRecordsDigitizerComponent implements OnInit {
       url: `${UriConstants.POST_RELATIONSHIP_MEDICAL_RECORDS}?idPatient=${idPatient}&idMedicalRecordCatalog=${idMedicalRecordCatalog}`,
       data: {},
     }).subscribe({
-      next: () => {
+      next: (response) => {
         this.toast.success('Historia clínica creada exitosamente', 'Éxito');
-        this.goToMedicalRecord(idMedicalRecordCatalog, patientMedicalRecordId);
+        this.goToMedicalRecord(idMedicalRecordCatalog, response.idPatientMedicalRecord);
       },
       error: (error) => {
         console.error(error);
@@ -84,7 +84,7 @@ export class MedicalRecordsDigitizerComponent implements OnInit {
     if (alreadyExists) {
       this.goToMedicalRecord(medicalRecord.id, medicalRecord.patientMedicalRecordId ?? 0);
     } else {
-      this.createMedicalRecord(this.patientUuid, medicalRecord.id, medicalRecord.patientMedicalRecordId ?? 0);
+      this.createMedicalRecord(this.patientUuid, medicalRecord.id);
     }
   }
 
