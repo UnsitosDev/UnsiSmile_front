@@ -32,6 +32,7 @@ export abstract class MedicalRecordBaseComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeUserRole();
     this.loadMedicalRecord();
+    console.log('patientMedicalRecord', this.patientMedicalRecord)
   }
 
   ngOnDestroy(): void {}

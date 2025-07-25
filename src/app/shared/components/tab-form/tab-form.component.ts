@@ -91,7 +91,7 @@ export class TabFormComponent implements TabsHandler {
     this.tokenData = this.userService.getTokenDataUser(this.token);
     this.role = this.tokenData.role[0].authority;
 
-    if (this.role !== this.ROL.STUDENT || this.readonlyTreatment) {
+    if (this.role !== this.ROL.STUDENT && this.role !== this.ROL.ROLE_MEDICAL_RECORD_DIGITIZER || this.readonlyTreatment) {
       this.disableForm(); 
     }
   }
