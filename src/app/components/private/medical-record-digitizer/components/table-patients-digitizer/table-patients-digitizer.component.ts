@@ -73,22 +73,20 @@ export class TablePatientsDigitizerComponent {
     this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
   }
 
-  onAction(accion: Accion) {
-    if (accion.accion === 'Editar') {
-      this.editar(accion.fila);
-    } else if (accion.accion === 'Detalles') {
-      this.openDetailsDialog(accion.fila);
-    } else if (accion.accion === 'Modificar') {
-      this.edit(accion.fila);
+  onAction({ accion, fila }: Accion) {
+    switch (accion) {
+      case 'Editar':
+        this.navigateToMedicalRecords(fila);
+        console.log('Editar action triggered for:', fila);
+        break;
+      case 'Detalles':
+        this.openDetailsDialog(fila);
+        break;
     }
   }
 
-  edit(objeto: any) {
-    this.router.navigate(['/students/patients/updatePatient', objeto.patientID]);
-  }
-
-  editar(objeto: PatientInfo) {
-    this.router.navigate(['/students/patients/treatments/patient/' + objeto.patientID]);
+  navigateToMedicalRecords(patient: PatientInfo) {
+    this.router.navigate(['/medical-record-digitizer/medical-records/patient/', patient.patientID]);
   }
 
   openDetailsDialog(patient: any): void {

@@ -148,3 +148,10 @@ export const MedicalRecordsDescription = new Map<EMedicalRecords, string>([
   [EMedicalRecords.PULPOTOMIA, "Pulpotomía"],
   [EMedicalRecords.PULPECTOMIA, "Pulpectomía"]
 ]);
+
+export interface MedicalRecordsDigitizer {
+    id: number;
+    medicalRecordName: string;
+    patientId: number | null;
+    patientMedicalRecordId: number | null;
+}

@@ -30,6 +30,13 @@ export default [
                     ),
             },
             {
+                path: 'medical-records/patient/:patientID',
+                loadComponent: () =>
+                    import('../medical-record-digitizer/components/pages/medical-records-diditizer/medical-records-diditizer.component').then(
+                        (m) => m.MedicalRecordsDiditizerComponent
+                    ),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'dashboard',
