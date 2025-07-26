@@ -69,7 +69,7 @@ export class FormInsertDigitizerComponent implements OnInit {
 
     const digitizerData = {
       idMedicalRecordDigitizer: 0,
-      idStudent: this.formGroup.get('studentEnrollment')?.value
+      username: this.formGroup.get('studentEnrollment')?.value
     };
 
     this.apiService.postService({

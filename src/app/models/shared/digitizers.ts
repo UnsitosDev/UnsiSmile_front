@@ -1,10 +1,9 @@
 export interface IDigitizers {
   idMedicalRecordDigitizer: number;
-  studentFullName: string;
-  idStudent: string;
-  startDate: string;
-  endDate: string;
-  status: string; // Cambiado de boolean a string
+  digitizerName: string;
+  username: string;
+  startDate: string; // Puede venir como string o se convierte si es arreglo
+  status: boolean;
 }
 
 export interface digitizersTableData {
@@ -12,11 +11,8 @@ export interface digitizersTableData {
   nombreCompleto: string;
   matricula: string;
   fechaInicio: string;
-  fechaFin: string;
   estatus: string;
 }
-
-
 
 export interface DigitizersResponse {
   totalElements: number;
