@@ -337,6 +337,16 @@ export class UriConstants {
   public static readonly GET_DEAN_INDEX =
     basePath + '/medical-records/fluorosis/dean-index/treatment';
 
+
+  public static readonly GET_PATIENTS_DIGITIZER = basePath + '/digitizer-patients';
+  public static readonly POST_PATIENT_DIGITIZER = basePath + '/digitizers/patients'
+  public static readonly GET_DIGITIZERS = basePath + '/medical-record-digitizers';
+  public static readonly POST_DIGITIZER = basePath + '/medical-record-digitizers';
+  public static readonly PATCH_DIGITIZER_STATUS = basePath + '/medical-record-digitizers';
+  public static readonly DELETE_DIGITIZER = basePath + '/medical-record-digitizers';
+
+  public static readonly GET_MEDICAL_RECORDS_BY_ID = basePath + '/digitizers/patients/medical-records';
+  public static readonly POST_RELATIONSHIP_MEDICAL_RECORDS = basePath + '/medical-records/patient-medical-record';
   public static readonly GET_TREATMENT_DETAIL_REPORTS =
     basePath + '/treatment-details/reports';
   public static readonly GET_PATIENTS_FOR_REPORTS =

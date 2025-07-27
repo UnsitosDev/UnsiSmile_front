@@ -1,0 +1,28 @@
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Pacientes - Consulta y Administración</strong></mat-card-title>
+</mat-card>
+<br>
+<div class="flex justify-end">
+    <button class="mr-10" mat-flat-button color="primary" (click)="navigateToAddPatient()">
+        <i class="fas fa-user-plus"></i>  
+        Nuevo Paciente
+    </button>
+</div>
+<br>
+
+<app-tabla-data
+  [titulo]="title"
+  [columns]="columnas"
+  [data]="patientsList"
+  [totalItems]="totalElements"
+  [sortableColumns]="sortableColumns"
+  [showSearchIcon]="true"
+  [showFolderIcon]="true"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (pageChange)="onPageChange($event)"
+  (action)="onAction($event)"
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)">
+</app-tabla-data>
+<app-loading/>
+
