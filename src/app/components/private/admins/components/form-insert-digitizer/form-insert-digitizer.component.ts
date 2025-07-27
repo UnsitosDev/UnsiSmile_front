@@ -4,13 +4,22 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
-import { studentService } from 'src/app/services/student.service';
+import { HttpHeaders } from '@angular/common/http';
+import { LoadingComponent } from '@mean/shared';
+
+interface UserInfo {
+  username: string;
+  role: string;
+  email: string;
+  fullName: string;
+  idProfessor: string | null;
+  career: string | null;
+}
 
 @Component({
   selector: 'app-form-insert-digitizer',
@@ -20,8 +29,9 @@ import { studentService } from 'src/app/services/student.service';
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatInputModule,
     ReactiveFormsModule,
-    FieldComponentComponent,
+    LoadingComponent
   ],
   templateUrl: './form-insert-digitizer.component.html',
   styleUrls: ['./form-insert-digitizer.component.scss']
@@ -29,47 +39,74 @@ import { studentService } from 'src/app/services/student.service';
 export class FormInsertDigitizerComponent implements OnInit {
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
-  private studentService = inject(studentService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
 
   formGroup!: FormGroup;
-  studentFields: FormField[] = [];
+  loading: boolean = false;
+  userInfo: UserInfo | null = null;
+  userFound: boolean = false;
 
   ngOnInit(): void {
-    this.studentFields = this.studentService.studentFields;
-
     this.formGroup = this.fb.group({
-      studentEnrollment: ['', Validators.required]
+      username: ['', Validators.required]
     });
-
-    this.studentFields.forEach(field => {
-      if (!this.formGroup.contains(field.name)) {
-        this.formGroup.addControl(
-          field.name,
-          this.fb.control(field.value || '', field.validators || [])
-        );
-      }
-    });
-  }
-  onFieldValueChange(event: any) {
-    const { name, value } = event;
-    this.formGroup.get(name)?.setValue(value);
   }
 
   goBack(): void {
     this.router.navigate(['/admin/digitizers']);
   }
 
-  createDigitizer(): void {
+  checkUser(): void {
     if (this.formGroup.invalid) {
-      this.toastr.warning('Por favor, completa todos los campos requeridos', 'Advertencia');
+      this.toastr.warning('Por favor, ingresa un nombre de usuario', 'Advertencia');
       return;
     }
 
+    this.loading = true;
+    const username = this.formGroup.get('username')?.value;
+    
+    this.apiService.getService({
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      url: `${UriConstants.GET_USER_BY_USERNAME}${username}`,
+      data: {},
+    }).subscribe({
+      next: (response: UserInfo) => {
+        this.loading = false;
+        if (response) {
+          this.userInfo = response;
+          this.userFound = true;
+          this.toastr.success('Usuario encontrado', 'Éxito');
+        } else {
+          this.userInfo = null;
+          this.userFound = false;
+          this.toastr.error('Usuario no encontrado', 'Error');
+        }
+      },
+      error: (error) => {
+        this.loading = false;
+        this.userInfo = null;
+        this.userFound = false;
+        this.toastr.error('Usuario no encontrado', 'Error');
+      }
+    });
+  }
+
+  createDigitizer(): void {
+    if (!this.userInfo) {
+      this.toastr.warning('Primero debes verificar que el usuario exista', 'Advertencia');
+      return;
+    }
+
+    this.loading = true;
+    const username = this.formGroup.get('username')?.value;
+    
     const digitizerData = {
       idMedicalRecordDigitizer: 0,
-      username: this.formGroup.get('studentEnrollment')?.value
+      username: username,
+      type: this.userInfo.role === 'ROLE_PROFESSOR' ? 'PROFESSOR' : 'STUDENT'
     };
 
     this.apiService.postService({
@@ -79,10 +116,12 @@ export class FormInsertDigitizerComponent implements OnInit {
       next: () => {
         this.toastr.success('Capturador creado correctamente', 'Éxito');
         this.router.navigate(['/admin/digitizers']);
+        this.loading = false;
       },
       error: (error) => {
         const errorMsg = error?.error?.message || 'Error al crear el capturador';
         this.toastr.error(errorMsg, 'Error');
+        this.loading = false;
       }
     });
   }

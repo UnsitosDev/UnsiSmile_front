@@ -61,6 +61,33 @@
   margin-top: 1.5rem;
 }
 
+.user-info-section {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: rgba(0, 123, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+}
+
+.user-details {
+  margin-top: 0.5rem;
+  
+  p {
+    margin: 0.5rem 0;
+    color: var(--text);
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
 @media (max-width: 768px) {
   .action-buttons {
     flex-direction: column;

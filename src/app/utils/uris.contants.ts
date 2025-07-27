@@ -359,4 +359,6 @@ export class UriConstants {
     basePath + '/medical-record-digitizers';
   public static readonly DELETE_DIGITIZER =
     basePath + '/medical-record-digitizers';
+  public static readonly GET_USER_BY_USERNAME =
+    basePath + '/users/username/';
 }
