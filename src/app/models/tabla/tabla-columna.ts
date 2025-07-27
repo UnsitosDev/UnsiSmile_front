@@ -45,8 +45,7 @@ export const ENTIDADES: { [key: string]: string[] } = {
     'id',
     'nombreCompleto', 
     'matricula',
-    'fechaInicio',
-    'fechaFin',
+    'fecha Inicio',
     'estatus'
   ],
   // ...otros modelos...

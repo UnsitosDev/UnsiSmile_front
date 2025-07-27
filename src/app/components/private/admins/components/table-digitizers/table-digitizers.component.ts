@@ -50,9 +50,8 @@ export class TableDigitizersComponent implements OnInit {
     'id': 'idMedicalRecordDigitizer',
     'nombreCompleto': 'digitizerName', 
     'matricula': 'user.username',
-    'fechaInicio': 'startDate',
-    'fechaFin': 'endDate',
-    'estatus': 'status' // Agregado el campo estatus
+    'fecha Inicio': 'startDate',
+    'estatus': 'status'
   };
 
   constructor(
@@ -157,7 +156,7 @@ export class TableDigitizersComponent implements OnInit {
             id: digitizer.idMedicalRecordDigitizer,
             nombreCompleto: digitizer.digitizerName || 'N/A',
             matricula: digitizer.username || 'N/A',
-            fechaInicio: Array.isArray(digitizer.startDate)
+            'fecha Inicio': Array.isArray(digitizer.startDate)
               ? digitizer.startDate.join('-')
               : digitizer.startDate || 'N/A',
             estatus: digitizer.status ? 'Activo' : 'Inactivo'
@@ -245,3 +244,4 @@ export class TableDigitizersComponent implements OnInit {
     });
   }
 }
+
