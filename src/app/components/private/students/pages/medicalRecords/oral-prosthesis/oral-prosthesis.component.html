@@ -1,9 +1,4 @@
-@if(!isLoading){ @if (role !== ROLE.STUDENT) {
-<mat-card appearance="outlined" class="custom">
-  <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
-</mat-card>
-<br />
-} @if (mappedHistoryData) {
+@if(!isLoading){ @if (mappedHistoryData) {
 <mat-card-title>
   <app-header-history-clinic
     [mappedHistoryData]="mappedHistoryData"

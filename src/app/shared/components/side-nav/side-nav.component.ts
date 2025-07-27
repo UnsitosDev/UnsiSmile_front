@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
-import { StudentItems, AdminItems, MenuItem, ProfessorItems, ProfessorClinicalAlreaItems } from '@mean/models';
+import { StudentItems, AdminItems, MenuItem, ProfessorItems, ProfessorClinicalAlreaItems, MedicalRecordDigitizerItems } from '@mean/models';
 import {
   studentResponse,
   studentUserResponse,
@@ -106,20 +106,42 @@ export class SideNavComponent implements OnInit {
   }
 
   setMenuItems() {
-    if (this.user.user.role.role === 'ROLE_STUDENT') {
-      this.menuItems = StudentItems;
-      this.userLink = '/students/user';
-    } else if (this.user.user.role.role === 'ROLE_ADMIN') {
-      this.menuItems = AdminItems;
-      this.userLink = '/admin/user';
-    } else if (this.user.user.role.role === 'ROLE_PROFESSOR') {
-      this.menuItems = ProfessorItems;
-      this.userLink = '/professor/user';
-    } else if (this.rol = this.ROL.CLINICAL_AREA_SUPERVISOR) {
-      this.menuItems = ProfessorClinicalAlreaItems;
-      this.userLink = '/clinical-area-supervisor/user';
+    const role = this.user.user.role.role; // o ajusta según tu estructura real
+
+    switch (role) {
+      case this.ROL.STUDENT:
+        this.menuItems = StudentItems;
+        this.userLink = '/students/user';
+        break;
+
+      case this.ROL.ADMIN:
+        this.menuItems = AdminItems;
+        this.userLink = '/admin/user';
+        break;
+
+      case this.ROL.PROFESSOR:
+        this.menuItems = ProfessorItems;
+        this.userLink = '/professor/user';
+        break;
+
+      case this.ROL.CLINICAL_AREA_SUPERVISOR:
+        this.menuItems = ProfessorClinicalAlreaItems;
+        this.userLink = '/clinical-area-supervisor/user';
+        break;
+
+      case this.ROL.ROLE_MEDICAL_RECORD_DIGITIZER:
+        this.menuItems = MedicalRecordDigitizerItems;
+        this.userLink = '/medical-record-digitizer/user';
+        break;
+
+      default:
+        // Opcional: manejar un rol desconocido
+        this.menuItems = [];
+        this.userLink = '/';
+        break;
     }
   }
+
 
   setWelcomeMessage() {
     switch (this.user.person.gender.idGender) {

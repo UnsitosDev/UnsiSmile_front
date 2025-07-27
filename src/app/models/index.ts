@@ -24,3 +24,7 @@ export * from '../models/dashboards/admin-dashboard';
 export * from './clinical-areas/clinical.areas.model';
 export * from './treatments/payloadtreatments.model';
 export * from './shared/prophylaxis/prophylaxis.model';
+export * from './card-info-patient/card.info.patient';
+export * from './shared/patients';
+export * from '../models/patient-object-table/patient.object.table';
+export * from '../models/tabla/tabla-columna';

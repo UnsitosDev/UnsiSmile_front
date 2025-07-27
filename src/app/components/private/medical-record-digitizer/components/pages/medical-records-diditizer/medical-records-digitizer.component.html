@@ -1,0 +1,38 @@
+<mat-card appearance="raised" class="custom-background mb-4">
+  <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
+</mat-card>
+
+<div class="mat-tab-group">
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="fas fa-user"></i>
+        <span class="ml-2">Datos personales</span>
+      </ng-template>
+      <app-form-update-patient [patientUuid]="patientUuid"></app-form-update-patient>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="fas fa-notes-medical"></i>
+        <span class="ml-2">Historias clínicas</span>
+      </ng-template>
+      <mat-card-title><strong>Historias clínicas disponibles para digitalizar</strong></mat-card-title>
+
+     <section class="p-4">
+      <mat-list>
+        @for (medicalRecord of medicalRecords; track $index) {
+          <mat-list-item class="mt-3 mb-3" (click)="navigateToMedicalRecord(medicalRecord)">
+            <div class="w-full flex justify-between items-center">
+              <span class="text-left">{{ medicalRecord.medicalRecordName }}</span>
+              <button mat-stroked-button>
+                <i class="far fa-clipboard mr-2"></i>Digitalizar
+              </button>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        }
+      </mat-list>
+    </section>
+    </mat-tab>
+  </mat-tab-group>
+</div>

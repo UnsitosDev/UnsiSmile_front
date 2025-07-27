@@ -9,3 +9,4 @@ export * from './components/tabla-data/tabla-data.component';
 export * from './interfaces/student/student'
 export * from './pipes/array-to-date.pipe'
 export * from './adapters/spanish-date.adapter'
+export * from './components/tabla-data/tabla-data.component'

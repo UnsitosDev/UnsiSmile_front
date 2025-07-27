@@ -7,6 +7,7 @@ import { NewPasswordGuard } from './guards/new-password.guard';
 import { NewPasswordComponent } from './shared/components/new-password/new-password.component';
 import { proffesorGuard } from './guards/proffessor.guard';
 import { clinicalAreaSupervisorGuard } from './guards/clinical-area-supervisor.guard';
+import { MedicalRecordDigitizer } from './guards/medical-record-digitizer.guard';
 
 const routes: Routes = [
   {
@@ -34,6 +35,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/private/clinical-area-supervisor/clinical-area-supervisor.route'),
     canActivate: [clinicalAreaSupervisorGuard, PasswordChangeGuard],
+  },
+  {
+    path: 'medical-record-digitizer',
+    loadChildren: () =>
+      import('./components/private/medical-record-digitizer/medical-record-digitizer.route'),
+    canActivate: [MedicalRecordDigitizer, PasswordChangeGuard],
   },
   {
     path: 'new-password',
