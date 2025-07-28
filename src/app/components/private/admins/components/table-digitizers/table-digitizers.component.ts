@@ -43,15 +43,15 @@ export class TableDigitizersComponent implements OnInit {
   isChecked: boolean = false;
   searchTerm: string = '';
   totalElements: number = 0;
-  sortField: string = 'student.person.firstName';
+  // Actualización de sortField y sortableColumns para enviar parámetros correctos a la API
+  sortField: string = 'user.username'; // actualizado de 'username' o 'student.person.firstName'
   sortAsc: boolean = true;
   sortableColumns = {
     'id': 'idMedicalRecordDigitizer',
-    'nombreCompleto': 'studentFullName', 
-    'matricula': 'idStudent',
-    'fechaInicio': 'startDate',
-    'fechaFin': 'endDate',
-    'estatus': 'status' // Agregado el campo estatus
+    'nombreCompleto': 'digitizerName', 
+    'matricula': 'user.username',
+    'fecha Inicio': 'startDate',
+    'estatus': 'status'
   };
 
   constructor(
@@ -154,11 +154,12 @@ export class TableDigitizersComponent implements OnInit {
           this.totalElements = response.totalElements;
           this.digitizersList = response.content.map((digitizer: IDigitizers) => ({
             id: digitizer.idMedicalRecordDigitizer,
-            nombreCompleto: digitizer.studentFullName || 'N/A',
-            matricula: digitizer.idStudent || 'N/A',
-            fechaInicio: digitizer.startDate || 'N/A',
-            fechaFin: digitizer.endDate || 'N/A',
-            estatus: this.mapStatus(digitizer.status)
+            nombreCompleto: digitizer.digitizerName || 'N/A',
+            matricula: digitizer.username || 'N/A',
+            'fecha Inicio': Array.isArray(digitizer.startDate)
+              ? digitizer.startDate.join('-')
+              : digitizer.startDate || 'N/A',
+            estatus: digitizer.status ? 'Activo' : 'Inactivo'
           }));
         } else {
           this.digitizersList = [];
@@ -243,3 +244,4 @@ export class TableDigitizersComponent implements OnInit {
     });
   }
 }
+

@@ -6,32 +6,49 @@
     <div class="info-section">
       <div class="info-message">
         <i class="fas fa-info-circle"></i>
-        <span>Asigna un estudiante como capturador de expedientes médicos</span>
+        <span>Ingresa el nombre de usuario (matrícula o número de empleado) para agregar un nuevo capturador</span>
       </div>
     </div>
     
     <form [formGroup]="formGroup" class="digitizer-form">
       <div class="form-container">
         <div class="form-field-container">
-          @for (field of studentFields; track $index) {
-            <app-field-component 
-              [field]="field" 
-              [formGroup]="formGroup" 
-              [errors]="field.errorMessages"
-              (setFieldValue)="onFieldValueChange($event)">
-            </app-field-component>
-          }
+          <mat-form-field  class="full-width">
+            <mat-label>Nombre de usuario</mat-label>
+            <input matInput formControlName="username" placeholder="Ej: 2022130154 o E12345">
+            <mat-error *ngIf="formGroup.get('username')?.hasError('required')">
+              El nombre de usuario es obligatorio
+            </mat-error>
+          </mat-form-field>
+          
+          <div class="button-container">
+            <button mat-stroked-button type="button" (click)="checkUser()" [disabled]="formGroup.invalid">
+              <i class="fas fa-search"></i> Verificar usuario
+            </button>
+          </div>
         </div>
       </div>
+      
+      @if (userFound && userInfo) {
+        <div class="user-info-section">
+          <h3>Información del usuario</h3>
+          <div class="user-details">
+            <p><strong>Nombre completo:</strong> {{ userInfo.fullName }}</p>
+            <p><strong>Correo:</strong> {{ userInfo.email }}</p>
+            <p><strong>Rol:</strong> {{ userInfo.role === 'ROLE_PROFESSOR' ? 'Profesor' : 'Estudiante' }}</p>
+          </div>
+        </div>
+      }
       
       <div class="action-buttons">
         <button mat-stroked-button type="button" (click)="goBack()">
           <i class="fas fa-arrow-left"></i> Regresar
         </button>
-        <button mat-flat-button color="primary" (click)="createDigitizer()" [disabled]="formGroup.invalid">
+        <button mat-flat-button color="primary" (click)="createDigitizer()" [disabled]="!userFound">
           <i class="fas fa-save"></i> Crear Capturador
         </button>
       </div>
     </form>
   </mat-card-content>
 </mat-card>
+<app-loading *ngIf="loading"/>
