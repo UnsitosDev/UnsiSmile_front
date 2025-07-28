@@ -360,15 +360,7 @@ export class UriConstants {
     basePath + '/files/general-files';
   public static readonly PATCH_AUTHORIZATION_TREATMENT =
     basePath + '/treatment-details';
-
-  public static readonly GET_DIGITIZERS =
-    basePath + '/medical-record-digitizers';
-  public static readonly POST_DIGITIZER =
-    basePath + '/medical-record-digitizers';
-  public static readonly PATCH_DIGITIZER_STATUS =
-    basePath + '/medical-record-digitizers';
-  public static readonly DELETE_DIGITIZER =
-    basePath + '/medical-record-digitizers';
+    
   public static readonly GET_USER_BY_USERNAME =
     basePath + '/users/username/';
 }
