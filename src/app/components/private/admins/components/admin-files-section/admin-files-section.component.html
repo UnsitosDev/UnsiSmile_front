@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-card-title><strong>Subir formatos</strong></mat-card-title>
+  <mat-card-title><strong>Subir archivos</strong></mat-card-title>
 
 </mat-card>
 <mat-card class="full-width-card custom">
@@ -15,7 +15,7 @@
         />
     </div>
     <div class="custom-button">
-        <button mat-flat-button color="primary" (click)="sendFiles()">Subir formatos <i class="fas fa-file-upload"></i></button>
+        <button mat-flat-button color="primary" (click)="sendFiles()">Subir archivos <i class="fas fa-file-upload"></i></button>
     </div>
 </mat-card>
 <br>
@@ -23,7 +23,7 @@
 @if (filesData && filesData.length > 0) {
   <mat-card class="all-files">
     <div class="all-files">
-      <mat-card-title><strong>Formatos</strong></mat-card-title>
+      <mat-card-title><strong>Archivos</strong></mat-card-title>
       <mat-list>
         @for (file of filesData; track $index) {
           <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 sm:mr-2 mb-1">
@@ -34,7 +34,7 @@
 
             <button mat-stroked-button class="trash-button whitespace-nowrap sm:ml-4 self-start sm:self-auto truncate max-w-full" (click)="dialogDeleteFile(file.idFile)">
               <i class="fas fa-trash trash-button mr-1"></i>
-              <span>Eliminar formato</span>
+              <span>Eliminar archivo</span>
             </button>
           </div>
           <mat-divider></mat-divider>
@@ -46,9 +46,9 @@
   <mat-card class="no-files">
     <div class="no-files-content">
       <mat-icon class="empty-icon" color="primary"><i class="fas fa-folder"></i></mat-icon>
-      <p><strong>No se han encontrado formatos en esta sección.</strong></p>
+      <p><strong>No se han encontrado archivos en esta sección.</strong></p>
       <p>
-        Para asegurar que los alumnos puedan acceder a los formatos necesarios,
+        Para asegurar que los alumnos puedan acceder a los archivos necesarios,
         es importante subir los documentos correspondientes a esta sección.
       </p>
     </div>
