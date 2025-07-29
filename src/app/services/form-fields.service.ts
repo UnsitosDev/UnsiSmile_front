@@ -281,7 +281,7 @@ export class FormFieldsService {
             },
             onInputChange: {
                 changeFunction: this.handleNationalityClick.bind(this),
-                length: 5
+                length: 1
             }
         },
         {
@@ -322,7 +322,7 @@ export class FormFieldsService {
             },
             onInputChange: {
                 changeFunction: this.handleEthnicGroupClick.bind(this),
-                length: 5
+                length: 1
             }
         },
         {
@@ -337,7 +337,7 @@ export class FormFieldsService {
             },
             onInputChange: {
                 changeFunction: this.handleReligionClick.bind(this),
-                length: 5
+                length: 1
             }
         },
         {
@@ -747,18 +747,31 @@ export class FormFieldsService {
     
 
     // Modificar el método handleNationalityClick para cargar más opciones
-    private handleNationalityClick(searchTerm: string, page: number = 0, size: number = 1000): void {
+    private handleNationalityClick(searchTerm: string, page: number = 0, size: number = 15): void {
+        // Solo buscar si hay un término de búsqueda
+        if (!searchTerm || searchTerm.trim() === '') {
+            // Si no hay término de búsqueda, limpiar las opciones
+            const nationalityField = this.otherDataFields.find(field => field.name === FieldNames.NATIONALITY);
+            if (nationalityField) {
+                nationalityField.options = [];
+            }
+            return;
+        }
+        
         this.patientService.getNationalityDataPaginated(searchTerm, page, size).subscribe({
             next: (response) => {
                 const nationalityField = this.otherDataFields.find(field => field.name === FieldNames.NATIONALITY);
                 if (nationalityField) {
-                    // Si hay término de búsqueda, mostrar todas las opciones filtradas
-                    // Si no hay término de búsqueda, mostrar todas las opciones
                     nationalityField.options = response;
                 }
             },
             error: (error) => {
                 console.error('Error al obtener nacionalidades:', error);
+                // En caso de error, limpiar las opciones
+                const nationalityField = this.otherDataFields.find(field => field.name === FieldNames.NATIONALITY);
+                if (nationalityField) {
+                    nationalityField.options = [];
+                }
             }
         });
     }
@@ -804,20 +817,62 @@ export class FormFieldsService {
         });
     }
 
-    private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        this.patientService.getEthnicGroupDataPaginated(searchTerm, page, size).subscribe(response => {
+    private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 15): void {
+        // Solo buscar si hay un término de búsqueda
+        if (!searchTerm || searchTerm.trim() === '') {
+            // Si no hay término de búsqueda, limpiar las opciones
             const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
             if (ethnicGroupField) {
-                ethnicGroupField.options = this.patientService.ethnicGroupOptions;
+                ethnicGroupField.options = [];
+            }
+            return;
+        }
+        
+        this.patientService.getEthnicGroupDataPaginated(searchTerm, page, size).subscribe({
+            next: (response) => {
+                const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
+                if (ethnicGroupField) {
+                    ethnicGroupField.options = this.patientService.ethnicGroupOptions;
+                }
+            },
+            error: (error) => {
+                console.error('Error al obtener grupos étnicos:', error);
+                // En caso de error, limpiar las opciones
+                const ethnicGroupField = this.otherDataFields.find(field => field.name === FieldNames.ETHNIC_GROUP);
+                if (ethnicGroupField) {
+                    ethnicGroupField.options = [];
+                }
             }
         });
     }
 
 
-    private handleReligionClick(searchTerm: string, page: number = 0, size: number = 3): void {
-        this.patientService.getReligionDataPaginated(searchTerm, page, size).subscribe(response => {
+    private handleReligionClick(searchTerm: string, page: number = 0, size: number = 15): void {
+        // Solo buscar si hay un término de búsqueda
+        if (!searchTerm || searchTerm.trim() === '') {
+            // Si no hay término de búsqueda, limpiar las opciones
             const religionField = this.otherDataFields.find(field => field.name === FieldNames.RELIGION);
-            religionField && (religionField.options = this.patientService.religionOptions);
+            if (religionField) {
+                religionField.options = [];
+            }
+            return;
+        }
+        
+        this.patientService.getReligionDataPaginated(searchTerm, page, size).subscribe({
+            next: (response) => {
+                const religionField = this.otherDataFields.find(field => field.name === FieldNames.RELIGION);
+                if (religionField) {
+                    religionField.options = this.patientService.religionOptions;
+                }
+            },
+            error: (error) => {
+                console.error('Error al obtener religiones:', error);
+                // En caso de error, limpiar las opciones
+                const religionField = this.otherDataFields.find(field => field.name === FieldNames.RELIGION);
+                if (religionField) {
+                    religionField.options = [];
+                }
+            }
         });
     }
 
