@@ -7,6 +7,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { patientsTableData } from 'src/app/models/shared/patients';
+import { AssignStudentComponent } from '../assign-student/assign-student.component';
+import { AssignDigitizerComponent } from '../assign-digitizer/assign-digitizer.component';
 import {
   Accion,
   getEntityPropiedades,
@@ -20,7 +22,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrat
 import { MatCardModule } from '@angular/material/card';
 import { LoadingComponent } from '@mean/shared';
 import { ToastrService } from 'ngx-toastr';
-import { AssignStudentComponent } from '../assign-student/assign-student.component';
 import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
 
 
@@ -91,6 +92,8 @@ export class AdminPatientsComponent implements OnInit {
       this.edit(accion.fila);
     } else if (accion.accion === 'Asignar') {
       this.openAssignStudentDialog(accion.fila);
+    } else if (accion.accion === 'AsignarDigitalizador') {
+      this.openAssignDigitizerDialog(accion.fila);
     }
   }
 
@@ -122,6 +125,24 @@ edit(objeto: PatientInfo) {
     this.router.navigate(['/admin/patients/treatments/patient/' + objeto.patientID]);
   }
 
+  openAssignDigitizerDialog(patient: patientsTableData): void {
+    console.log('ID del paciente para asignar digitalizador:', patient.patientID);
+    
+    const dialogRef = this.dialog.open(AssignDigitizerComponent, {
+      width: '500px',
+      data: {
+        patientId: patient.patientID.toString(),
+        patientName: `${patient.nombres} ${patient.apellidos}`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Refrescar la lista de pacientes después de asignar un digitalizador
+        this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
+      }
+    });
+  }
 
   editar(objeto: any) {
     this.dialog.open(DialogHistoryClinicsComponent, {
