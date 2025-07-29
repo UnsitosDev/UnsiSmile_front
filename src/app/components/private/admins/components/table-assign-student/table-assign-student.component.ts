@@ -22,37 +22,41 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { DetailsStudentComponent } from '../details-student/details-student.component';
 
 interface StudentResponse {
-  enrollment: string;
-  user: {
-    id: string;
-    username: string;
-    role: {
-      idRole: number;
-      role: string;
+  idStudentPatient: number;
+  patient: null | any;
+  student: {
+    enrollment: string;
+    user: {
+      id: string;
+      username: string;
+      role: {
+        idRole: number;
+        role: string;
+      };
+      status: boolean;
+      profilePictureId: string | null;
     };
-    status: boolean;
-    profilePictureId: string | null;
-  };
-  person: {
-    curp: string;
-    firstName: string;
-    secondName: string;
-    firstLastName: string;
-    secondLastName: string;
-    phone: string;
-    birthDate: number[];
-    email: string;
-    gender: {
-      idGender: number;
-      gender: string;
+    person: {
+      curp: string;
+      firstName: string;
+      secondName: string | null;
+      firstLastName: string;
+      secondLastName: string | null;
+      phone: string;
+      birthDate: number[];
+      email: string;
+      gender: {
+        idGender: number;
+        gender: string;
+      };
+      fullName: string;
     };
-    fullName: string;
+    group: {
+      idGroup: number;
+      name: string;
+    } | null;
+    studentStatus: string;
   };
-  group: {
-    idGroup: number;
-    name: string;
-  } | null;
-  studentStatus: string;
 }
 
 interface StudentTableData {
@@ -63,6 +67,7 @@ interface StudentTableData {
   curp: string;
   fechaNacimiento: string | number[];
   estatus: string;
+  idStudentPatient?: number;
 }
 
 @Component({
@@ -141,14 +146,15 @@ export class TableAssignStudentComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response: PaginatedData<StudentResponse>) => {
-        this.studentsList = response.content.map(student => ({
-          matricula: student.enrollment,
-          nombre: `${student.person.firstName} ${student.person.secondName || ''} ${student.person.firstLastName} ${student.person.secondLastName || ''}`.trim(),
-          correo: student.person.email,
-          telefono: student.person.phone || 'No disponible',
-          curp: student.person.curp || 'N/A',
-          fechaNacimiento: student.person.birthDate || 'N/A',
-          estatus: student.user.status ? 'Activo' : 'Inactivo'
+        this.studentsList = response.content.map(item => ({
+          idStudentPatient: item.idStudentPatient,
+          matricula: item.student.enrollment,
+          nombre: `${item.student.person.firstName} ${item.student.person.secondName || ''} ${item.student.person.firstLastName} ${item.student.person.secondLastName || ''}`.trim(),
+          correo: item.student.person.email,
+          telefono: item.student.person.phone || 'No disponible',
+          curp: item.student.person.curp || 'N/A',
+          fechaNacimiento: item.student.person.birthDate || 'N/A',
+          estatus: item.student.user.status ? 'Activo' : 'Inactivo'
         }));
         this.totalElements = response.totalElements;
         this.isLoading = false;
@@ -226,11 +232,12 @@ export class TableAssignStudentComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        // Utilizamos el nuevo endpoint que toma directamente el ID de la relación estudiante-paciente
         this.apiService.deleteService({
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
           }),
-          url: `${UriConstants.GET_PATIENTS}/${this.patientUuid}/students/${student.matricula}`,
+          url: `${UriConstants.DELETE_STUDENT_PATIENT}${student.idStudentPatient}`,
           data: {}
         }).subscribe({
           next: () => {

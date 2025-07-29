@@ -107,6 +107,10 @@ export class UriConstants {
   // Endpoint para eliminar estudiante asignado a un paciente
   public static readonly DELETE_PATIENT_STUDENT =
     basePath + '/patients/:patientId/students/:studentId';
+  
+  // Endpoint para eliminar asignación estudiante-paciente por ID
+  public static readonly DELETE_STUDENT_PATIENT =
+    basePath + '/patients/student-patient/';
 
   public static readonly POST_ADMIN = basePath + '/administrators';
   public static readonly GET_ADMIN = basePath + '/administrators';
