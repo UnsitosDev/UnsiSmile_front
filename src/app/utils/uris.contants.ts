@@ -339,7 +339,7 @@ export class UriConstants {
 
 
   public static readonly GET_PATIENTS_DIGITIZER = basePath + '/digitizer-patients';
-  public static readonly POST_PATIENT_DIGITIZER = basePath + '/digitizers/patients'
+  public static readonly POST_PATIENT_DIGITIZER = basePath + '/digitizer-patients';
   public static readonly GET_DIGITIZERS = basePath + '/medical-record-digitizers';
   public static readonly POST_DIGITIZER = basePath + '/medical-record-digitizers';
   public static readonly PATCH_DIGITIZER_STATUS = basePath + '/medical-record-digitizers';
