@@ -5,40 +5,43 @@
   }
 </div>
 } @else {
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 card-container">
-  <!-- Total Patients -->
+<!-- Un solo contenedor para todas las tarjetas -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 card-container">
+  <!-- Primera fila: 3 cards en pantallas grandes -->
   <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105 equal-height-card"
+    class="transform transition-all duration-300 hover:scale-105 equal-height-card lg:col-span-2"
     title="Pacientes"
     [value]="stats.totalPatients || 0"
     icon="fas fa-users"
     cardType="numeric"
     valueClass="text-blue-600 text-2xl font-bold"
+    [colorBar]="'bg-blue-500'"
   >
   </app-dashboard-card>
   <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105 equal-height-card"
+    class="transform transition-all duration-300 hover:scale-105 equal-height-card lg:col-span-2"
     title="Pacientes entre 18 y 60 años"
     [value]="stats.patientsBetween18And60"
     icon="fas fa-user-friends"
     cardType="numeric"
     valueClass="text-blue-600 text-2xl font-bold"
+    [colorBar]="'bg-blue-500'"
   >
   </app-dashboard-card>
   <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105 equal-height-card"
+    class="transform transition-all duration-300 hover:scale-105 equal-height-card lg:col-span-2"
     title="Pacientes menores de edad"
     [value]="stats.patientsUnder18"
     icon="fas fa-child"
     cardType="numeric"
     valueClass="text-blue-600 text-2xl font-bold"
+    [colorBar]="'bg-blue-500'"
   >
   </app-dashboard-card>
-</div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6 card-container">
+  <!-- Segunda fila: 2 cards que ocupan todo el ancho en pantallas grandes -->
   <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105 equal-height-card"
+    class="transform transition-all duration-300 hover:scale-105 equal-height-card lg:col-span-3"
     title="Pacientes mayores de 60 años"
     icon="fas fa-user-plus"
     cardType="numeric"
@@ -46,7 +49,7 @@
     [colorBar]="'bg-blue-500'"
   ></app-dashboard-card>
   <app-dashboard-card
-    class="transform transition-all duration-300 hover:scale-105 equal-height-card"
+    class="transform transition-all duration-300 hover:scale-105 equal-height-card lg:col-span-3"
     title="Pacientes en el último mes"
     icon="fas fa-calendar-alt"
     cardType="numeric"
