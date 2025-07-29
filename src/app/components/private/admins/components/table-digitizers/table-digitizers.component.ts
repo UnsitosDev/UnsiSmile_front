@@ -81,6 +81,16 @@ export class TableDigitizersComponent implements OnInit {
       this.delete(accion.fila.id);
     } else if (accion.accion === 'Detalles') {
       this.openDetailsDialog(accion.fila);
+    } else if (accion.accion === 'VerPacientes') {
+      this.viewAssignedPatients(accion.fila);
+    }
+  }
+  
+  viewAssignedPatients(digitizer: any): void {
+    if (digitizer && digitizer.matricula) {
+      this.router.navigate(['/admin/digitizers/patients', digitizer.matricula]);
+    } else {
+      this.toastr.warning('No se puede acceder a la información de pacientes para este capturador', 'Advertencia');
     }
   }
   

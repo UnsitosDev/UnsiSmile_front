@@ -80,6 +80,13 @@
                 <i class="fas fa-file-medical"></i>
               </a>
               }
+              @if (showPatientsIcon) {
+              <a class="text-blue-600 hover:text-blue-700 mr-4" 
+                 (click)="onAction('VerPacientes', data)"
+                 title="Ver pacientes asignados">
+                <i class="fas fa-users"></i>
+              </a>
+              }
               @if (showStatusIcon) {
                 <a class="text-blue-600 hover:text-blue-700 mr-4" 
                    (click)="onAction('Restablecer', data)"

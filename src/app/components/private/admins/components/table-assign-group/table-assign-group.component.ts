@@ -60,8 +60,7 @@ interface GroupTableData {
     MatCheckboxModule, 
     MatInputModule, 
     TablaDataComponent, 
-    MatButtonModule, 
-    RouterLink, 
+    MatButtonModule,  
     MatCardModule,
     MatProgressSpinnerModule,
     CommonModule

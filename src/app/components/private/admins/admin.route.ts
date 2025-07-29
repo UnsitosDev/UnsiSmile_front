@@ -221,6 +221,13 @@ export default [
                                 (m) => m.FormInsertDigitizerComponent
                             ),
                     },
+                    {
+                        path: 'patients/:username',
+                        loadComponent: () =>
+                            import('./components/table-assign-digitizer/table-assign-digitizer.component').then(
+                                (m) => m.TableAssignDigitizerComponent
+                            ),
+                    },
                 ]
             },
             {
