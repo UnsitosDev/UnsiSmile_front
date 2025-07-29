@@ -299,7 +299,7 @@ export class FormFieldsService {
             type: 'autocompleteoptions',
             label: 'Ocupación',
             name: 'occupation',
-            placeholder: 'Ej: Actor',
+            placeholder: 'Ej: No definido',
             required: true,
             validators: [Validators.required],
             errorMessages: {
@@ -452,7 +452,7 @@ export class FormFieldsService {
             label: 'Pediatra o Médico Familiar',
             name: 'doctorName',
             placeholder: 'Ej: Dr. Juan Pérez',
-            required: true,
+            required: false,
             validators: [Validators.required],
             errorMessages: {
                 required: 'El campo Pediatra o Médico Familiar es requerido.'
