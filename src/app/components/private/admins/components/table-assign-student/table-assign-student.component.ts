@@ -18,6 +18,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Accion } from 'src/app/models/tabla/tabla-columna';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { DetailsStudentComponent } from '../details-student/details-student.component';
 
 interface StudentResponse {
   enrollment: string;
@@ -58,6 +60,9 @@ interface StudentTableData {
   nombre: string;
   correo: string;
   telefono: string;
+  curp: string;
+  fechaNacimiento: string | number[];
+  estatus: string;
 }
 
 @Component({
@@ -70,7 +75,6 @@ interface StudentTableData {
     MatInputModule, 
     TablaDataComponent, 
     MatButtonModule, 
-    RouterLink, 
     MatCardModule,
     MatProgressSpinnerModule,
     CommonModule
@@ -84,6 +88,7 @@ export class TableAssignStudentComponent implements OnInit {
   private apiService = inject(ApiService);
   private toastr = inject(ToastrService);
   private dialog = inject(MatDialog);
+  private dataSharingService = inject(DataSharingService);
   
   columnas: string[] = ['matricula', 'nombre', 'correo', 'telefono'];
   title: string = 'Estudiantes asignados';
@@ -102,7 +107,7 @@ export class TableAssignStudentComponent implements OnInit {
     'matricula': 'student.enrollment',
     'nombre': 'student.person.firstName',
     'correo': 'student.person.email',
-    'telefono': 'student.person.phone'
+    'telefono': 'student.person.phone',
   };
 
   ngOnInit(): void {
@@ -117,6 +122,7 @@ export class TableAssignStudentComponent implements OnInit {
       this.loadStudents();
     });
   }
+  
 
   loadStudents(): void {
     if (!this.patientUuid) {
@@ -139,7 +145,10 @@ export class TableAssignStudentComponent implements OnInit {
           matricula: student.enrollment,
           nombre: `${student.person.firstName} ${student.person.secondName || ''} ${student.person.firstLastName} ${student.person.secondLastName || ''}`.trim(),
           correo: student.person.email,
-          telefono: student.person.phone || 'No disponible'
+          telefono: student.person.phone || 'No disponible',
+          curp: student.person.curp || 'N/A',
+          fechaNacimiento: student.person.birthDate || 'N/A',
+          estatus: student.user.status ? 'Activo' : 'Inactivo'
         }));
         this.totalElements = response.totalElements;
         this.isLoading = false;
@@ -178,7 +187,20 @@ export class TableAssignStudentComponent implements OnInit {
   onAction(accion: Accion): void {
     if (accion.accion === 'Eliminar') {
       this.removeStudent(accion.fila);
+    } else if (accion.accion === 'Detalles') {
+      this.openDetailsDialog(accion.fila);
     }
+  }
+
+  openDetailsDialog(student: any): void {
+    this.dataSharingService.setAdminData(student);
+    const dialogRef = this.dialog.open(DetailsStudentComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
   }
 
   openAssignStudentDialog(): void {
