@@ -100,12 +100,9 @@ export class AssignStudentComponent implements OnInit {
       },
       error: (error) => {
         // Manejamos específicamente el error 409 (Conflicto)
-        if (error?.status === 409) {
-          this.toastr.warning('El estudiante ya está asignado a este paciente', 'Estudiante ya asignado');
-        } else {
-          const errorMsg = error?.error?.message || 'Error al asignar estudiante';
-          this.toastr.error(errorMsg, 'Error');
-        }
+        this.toastr.warning('Error al asignar estudiante', error);
+        
+      
       }
     });
   }
