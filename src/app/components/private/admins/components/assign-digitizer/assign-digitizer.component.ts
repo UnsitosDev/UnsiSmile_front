@@ -147,8 +147,8 @@ export class AssignDigitizerComponent implements OnInit {
         this.dialogRef.close(true);
       },
       error: (error) => {
-        const errorMsg = error?.error?.message || 'Error al asignar capturador';
-        this.toastr.error(errorMsg, 'Error');
+        const errorMsg = error?.error?.message || 'El paciente ya está asignado a este capturador.';
+        this.toastr.warning(errorMsg, 'Advertencia');
       }
     });
   }
