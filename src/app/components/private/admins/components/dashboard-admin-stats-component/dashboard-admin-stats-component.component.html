@@ -37,100 +37,78 @@
     </app-dashboard-card>
   </div>
 
-  <div class="flex custom-bar">
-    <section class="p-4">
-      <div style="width: 600px; height: 400px;">
-        <canvas
-          baseChart
-          [type]="lineChartType"
-          [data]="currentChartData"
-          [options]="lineChartOptions">
-        </canvas>
-      </div>
-    </section>
-
-    @if (activeChart === 'users') {
-      <div class="p-4 flex-1 overflow-auto">
-        <div mat-subheader><p><strong>Usuarios</strong></p></div>
-        <mat-list role="list">
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Estudiantes:</span> {{ stats.totalStudents }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Profesores:</span> {{ stats.totalProfessors }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Estudiantes registrados el ultimo mes:</span>
-             {{ stats.studentsRegisteredLastMonth }}
-          </mat-list-item>
-          <mat-divider></mat-divider>
-
-        </mat-list>
-      </div>
-    }
-
-    @if (activeChart === 'patients') {
-      <div class="p-4 flex-1 overflow-auto">
-        <div mat-subheader><p><strong>Pacientes</strong></p></div>
-        <mat-list role="list">
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes:</span> {{ stats.totalPatients }}</mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes con discapacidad:</span> {{ stats.patientsWithDisability }}</mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes registrados el ultimo mes:</span> {{ stats.patientsRegisteredLastMonth }}
-          </mat-list-item>
-        </mat-list>
-      </div>
-    }
-
-    @if (activeChart === 'treatments') {
-      <div class="p-4 flex-1 overflow-auto">
+  <!-- Layout especial para tratamientos - gráfico de ancho completo -->
+  @if (activeChart === 'treatments') {
+    <div class="w-full custom-bar">
+      <section class="p-4">
+        <div class="w-full h-96">
+          <canvas
+            baseChart
+            [type]="lineChartType"
+            [data]="currentChartData"
+            [options]="lineChartOptions">
+          </canvas>
+        </div>
+      </section>
+      
+      <div class="p-4 overflow-auto">
         <div mat-subheader><p><strong>Tratamientos</strong></p></div>
         <mat-list role="list">
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Resinas:</span> {{ stats.treatments.resins }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Profilaxis:</span> {{ stats.treatments.prophylaxis }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Fluorosis:</span> {{ stats.treatments.fluorosis }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Selladores de fosetas y fisuras:</span>{{ stats.treatments.pitAndFissureSealers }}
-          </mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Extracciones:</span> {{ stats.treatments.extractions }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Prótesis removible:</span> {{ stats.treatments.removableProsthesis }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Prótesis removible:</span> {{ stats.treatments.prosthesisRemovable }}
-          </mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Prostodoncia:</span> {{ stats.treatments.prosthodontics }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Endodoncia</span>: {{ stats.treatments.rootCanals }}
-          </mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Raspado y alisado:</span> {{ stats.treatments.scrapedAndSmoothed }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Cerrado y abierto:</span> {{ stats.treatments.closedAndOpen }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Cuña distal:</span> {{ stats.treatments.distalWedges }}</mat-list-item>
-          <mat-divider></mat-divider>
-
-          <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pulpotomía y corona:</span> {{ stats.treatments.pulpotomyAndCrowns }}</mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-divider></mat-divider>
+          @for (treatment of getTreatmentsList(); track treatment.label) {
+            <mat-list-item role="listitem">
+              <span class="custom-item rounded-lg w-full px-2">{{ treatment.label }}:</span> {{ treatment.value }}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          }
         </mat-list>
       </div>
-    }
-  </div>
+    </div>
+  } @else {
+    <!-- Layout normal para usuarios y pacientes - lado a lado -->
+    <div class="flex custom-bar">
+      <section class="p-4">
+        <div style="width: 600px; height: 400px;">
+          <canvas
+            baseChart
+            [type]="lineChartType"
+            [data]="currentChartData"
+            [options]="lineChartOptions">
+          </canvas>
+        </div>
+      </section>
 
+      @if (activeChart === 'users') {
+        <div class="p-4 flex-1 overflow-auto">
+          <div mat-subheader><p><strong>Usuarios</strong></p></div>
+          <mat-list role="list">
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Estudiantes:</span> {{ stats.totalStudents }}</mat-list-item>
+            <mat-divider></mat-divider>
+
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Profesores:</span> {{ stats.totalProfessors }}</mat-list-item>
+            <mat-divider></mat-divider>
+
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Estudiantes registrados el ultimo mes:</span>
+               {{ stats.studentsRegisteredLastMonth }}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+
+          </mat-list>
+        </div>
+      }
+
+      @if (activeChart === 'patients') {
+        <div class="p-4 flex-1 overflow-auto">
+          <div mat-subheader><p><strong>Pacientes</strong></p></div>
+          <mat-list role="list">
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes:</span> {{ stats.totalPatients }}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes con discapacidad:</span> {{ stats.patientsWithDisability }}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes registrados el ultimo mes:</span> {{ stats.patientsRegisteredLastMonth }}
+            </mat-list-item>
+          </mat-list>
+        </div>
+      }
+    </div>
+  }
 }

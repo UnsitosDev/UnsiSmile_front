@@ -8,9 +8,15 @@ import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartType } from 'chart.js';
 import { MatListModule } from "@angular/material/list";
 import { StatisticsResponse } from '@mean/models';
+
 interface Nationality {
   name: string;
   count: number;
+}
+
+interface TreatmentConfig {
+  key: keyof StatisticsResponse['treatments'];
+  label: string;
 }
 
 @Component({
@@ -26,6 +32,23 @@ export class DashboardAdminStatsComponent {
   stats!: StatisticsResponse;
   loading = true;
   activeChart: 'users' | 'patients' | 'treatments' = 'users';
+
+  private treatmentConfig: TreatmentConfig[] = [
+    { key: 'resins', label: 'Resinas' },
+    { key: 'prophylaxis', label: 'Profilaxis' },
+    { key: 'fluorosis', label: 'Fluorosis' },
+    { key: 'pitAndFissureSealers', label: 'Selladores de fosetas y fisuras' },
+    { key: 'extractions', label: 'Extracciones' },
+    { key: 'removableProsthesis', label: 'Prótesis removible' },
+    { key: 'prosthesisRemovable', label: 'Prótesis removible (alt)' },
+    { key: 'prosthodontics', label: 'Prostodoncia' },
+    { key: 'rootCanals', label: 'Endodoncia' },
+    { key: 'scrapedAndSmoothed', label: 'Raspado y alisado' },
+    { key: 'closedAndOpen', label: 'Cerrado y abierto' },
+    { key: 'distalWedges', label: 'Cuña distal' },
+    { key: 'pulpotomyAndCrowns', label: 'Pulpotomía y corona' },
+    { key: 'pulpectomyAndCrowns', label: 'Pulpectomía y corona' }
+  ];
 
   // Opciones del gráfico (compartidas)
   public chartOptions = {
@@ -67,7 +90,7 @@ export class DashboardAdminStatsComponent {
         next: (response) => {
           this.stats = response;
           this.loading = false;
-          this.initChart(); // Inicializar gráfico después de tener los datos
+          this.initChart();
         },
         error: (error) => {
           this.loading = false;
@@ -83,6 +106,15 @@ export class DashboardAdminStatsComponent {
     return Object.entries(this.stats.patientsByNationality).map(
       ([name, count]) => ({ name, count })
     );
+  }
+
+  getTreatmentsList(): Array<{ label: string; value: number }> {
+    if (!this.stats?.treatments) return [];
+
+    return this.treatmentConfig.map(treatment => ({
+      label: treatment.label,
+      value: this.stats.treatments[treatment.key] || 0
+    }));
   }
 
   switchChart(chartType: 'users' | 'patients' | 'treatments'): void {
@@ -116,15 +148,9 @@ export class DashboardAdminStatsComponent {
         break;
 
       case 'treatments':
-        labels = ['Profilaxis', 'Resinas', 'Fluorosis', 'Sellantes', 'Exodoncias', 'Prótesis removibles'];
-        data = [
-          this.stats.treatments.prophylaxis,
-          this.stats.treatments.resins,
-          this.stats.treatments.fluorosis,
-          this.stats.treatments.pitAndFissureSealers,
-          this.stats.treatments.extractions,
-          this.stats.treatments.removableProsthesis
-        ];
+        const treatments = this.getTreatmentsList();
+        labels = treatments.map(t => t.label);
+        data = treatments.map(t => t.value);
         label = 'Tratamientos realizados';
         break;
     }
