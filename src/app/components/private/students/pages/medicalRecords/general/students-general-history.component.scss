@@ -46,3 +46,35 @@ button {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.odontogram-tab-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .action-container {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      padding: 8px 24px;
+      font-size: 16px;
+    }
+  }
+
+  .list-container {
+    border-radius: 8px;
+
+    mat-card-content {
+      padding: 0;
+    }
+  }
+
+  .mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: white;
+  }
+}

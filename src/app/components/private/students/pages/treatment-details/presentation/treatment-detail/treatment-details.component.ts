@@ -199,18 +199,6 @@ export class TreatmentDetailsComponent
     });
   }
 
-  changeOdontogramViewStatus() {
-    this.creatingOdontogram = !this.creatingOdontogram;
-  }
-
-  transactionCarriedOut(): void {
-    this.changeOdontogramViewStatus();
-  }
-
-  cancelOdontogramCreation(): void {
-    this.changeOdontogramViewStatus();
-  }
-
   protected override onTreatmentsNotification(): void {
     // Refresh treatment details when a notification is received
     this.loadTreatmentDetails(String(this.idTreatmentDetail));

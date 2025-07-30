@@ -8,8 +8,7 @@ import { MedicalRecordBaseService } from '../../services/medical-record-base.ser
 
 @Component({
   selector: 'app-medical-record-base-component',
-  templateUrl: './medical-record-base-component.component.html',
-  styleUrls: ['./medical-record-base-component.component.scss'],
+  template: ``
 })
 export abstract class MedicalRecordBaseComponent implements OnInit, OnDestroy {
   @Input() patientUuid!: string;

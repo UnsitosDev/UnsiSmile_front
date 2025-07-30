@@ -28,6 +28,9 @@ export class UriConstants {
   public static GET_ODONTOGRAMS_BY_PATIENT_MEDICAL_RECORD_ID =
     basePath +
     '/medical-records/odontograms/patient-medical-record/:patientMedicalRecordId';
+  public static GET_ODONTOGRAMS_BY_PATIEN_ID =
+    basePath +
+    '/medical-records/odontograms/patients/:patientId';
   // group-controller
   public static readonly GETID_GROUP = basePath + '/groups/';
   public static readonly GET_GROUP = basePath + '/groups';

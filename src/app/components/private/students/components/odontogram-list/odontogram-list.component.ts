@@ -3,9 +3,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { StudentsOdontogramComponent } from '@mean/students';
 import { OdontogramTreatment } from './models/odontogram-list.model';
 import { OdontogramListService } from './repository/odontogram-list.service';
+import { StudentsOdontogramComponent } from '../odontogram/students-odontogram.component';
 
 @Component({
   selector: 'app-odontogram-list',

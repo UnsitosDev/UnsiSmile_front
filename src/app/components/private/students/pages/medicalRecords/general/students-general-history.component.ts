@@ -22,6 +22,9 @@ import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-
 import { mapMedicalRecordToDataTabs } from '../../../adapters/medical-record.adapter';
 import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';
 import { ProgressNotesComponent } from '../../../components/progress-notes/progress-notes.component';
+import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
+import { OdontogramListComponent } from '../../../components/odontogram-list/odontogram-list.component';
+import { OdontogramContainerBaseComponent } from '../../../components/odontogram-container-base/odontogram-container-base.component';
 
 @Component({
   selector: 'app-students-general-history',
@@ -42,9 +45,11 @@ import { ProgressNotesComponent } from '../../../components/progress-notes/progr
     TabFormUpdateComponent,
     ProgressNotesComponent,
     HeaderHistoryClinicComponent,
+    StudentsOdontogramComponent,
+    OdontogramListComponent
   ],
 })
-export class StudentsGeneralHistoryComponent implements OnInit {
+export class StudentsGeneralHistoryComponent extends OdontogramContainerBaseComponent implements OnInit {
   @Input() public patientUuid!: string; // PatientUuid
   public medicalRecordData!: dataTabs; // Configuracion de la historia clinica
 
@@ -66,7 +71,9 @@ export class StudentsGeneralHistoryComponent implements OnInit {
 
   ROL = ROLES; // Roles de usuario disponibles
 
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
     this.initializeUserRole();

@@ -4,12 +4,10 @@ export class OdontogramMapper {
   constructor() {}
 
   public static mapOdontogramToPost(
-    patientId: string,
     odontogram: { observations: string; teeth: ITooth[] },
     idPatientMedicalRecord: number
   ): OdontogramPost {
     return {
-      idPatient: patientId,
       observations: odontogram.observations,
       idPatientMedicalRecord: idPatientMedicalRecord,
       teeth: odontogram.teeth.map((tooth: ITooth) => ({

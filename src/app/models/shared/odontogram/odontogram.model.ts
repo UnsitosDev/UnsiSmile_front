@@ -2,7 +2,6 @@ import { ITooth } from './odontogram';
 
 export interface OdontogramPost {
   teeth: Tooth[];
-  idPatient: string;
   idPatientMedicalRecord: number;
   observations: string;
 }
