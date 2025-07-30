@@ -56,7 +56,6 @@ interface ToothEvent {
   standalone: true,
   imports: [
     StudentsToothComponent,
-    StudentsToolbarComponent,
     MatTabsModule,
     MatButtonModule,
     MatCardModule,
@@ -465,7 +464,6 @@ export class StudentsOdontogramComponent implements OnInit {
   storeOdontogram(): void {
     const odontogramStore: OdontogramPost =
       OdontogramMapper.mapOdontogramToPost(
-        this.patientId,
         this.odontogram,
         this.idPatientMedicalRecord
       );
