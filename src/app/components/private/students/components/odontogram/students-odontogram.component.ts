@@ -43,6 +43,7 @@ import { UriConstants } from '@mean/utils';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { DeleteConditionsDialogComponent } from '../delete-conditions-dialog/delete-conditions-dialog.component';
 import { OdontogramMapper } from './odontogramMapper';
+import { SymbolDialogComponent } from '../symbol-dialog/symbol-dialog.component';
 
 interface ToothEvent {
   faceId: string;
@@ -109,6 +110,8 @@ export class StudentsOdontogramComponent implements OnInit {
   toolbar: { options: ICondition[] } = { options: [] };
   marked!: ICondition;
   value = 0;
+
+  ToothConditionsConstants = ToothConditionsConstants;
 
   ngOnInit(): void {
     this.loadConditions();
@@ -584,5 +587,25 @@ export class StudentsOdontogramComponent implements OnInit {
 
   cancelOdontogram(): void {
     this.cancel.emit(true);
+  }
+
+  openSymbolDialog(): void {
+    const dialogRef = this.dialog.open(SymbolDialogComponent, {
+      width: '800px',
+      data: { 
+        symbols: this.options,
+        currentSymbol: this.marked
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.handleAction({
+          description: result.description,
+          condition: result.condition,
+          idCondition: result.idCondition
+        });
+      }
+    });
   }
 }

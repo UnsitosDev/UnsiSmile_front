@@ -1,6 +1,69 @@
 @if (renderOdontogram) {
 <div>
   <div class="root custom-text">
+    <!-- Symbol Selection Header -->
+    @if (toolbar.options && state != 'read') {
+    <div class="symbol-header">
+      <button mat-button (click)="openSymbolDialog()" class="symbol-button">
+        <mat-icon>add_circle</mat-icon>
+        Seleccionar símbolo
+      </button>
+      @if (marked) {
+      <div class="selected-symbol">
+        <div class="symbol-preview">
+          <svg width="30" height="35" viewBox="0 0 30 35">
+            <!-- Representación del diente con cinco caras -->
+            <polygon stroke="black" points="1,1 7,9 21,9 28,1" fill="#EAEDEA" stroke-width="0.5"/>
+            <polygon stroke="black" points="21,9 21,25 28,33 28,1" fill="#EAEDEA" stroke-width="0.5"/>
+            <polygon stroke="black" points="21,25 28,33 1,33 7,25" fill="#EAEDEA" stroke-width="0.5"/>
+            <polygon stroke="black" points="1,1 1,33 7,25 7,9" fill="#EAEDEA" stroke-width="0.5"/>
+            <polygon stroke="black" points="7,9 21,9 21,25 7,25" fill="#EAEDEA" stroke-width="0.5"/>
+            
+            @switch (marked.condition) {
+              @case (ToothConditionsConstants.DIENTE_OBTURADO) {
+                <polygon points="7,9 21,9 21,25 7,25" fill="#1919e6" opacity="0.6"/>
+              }
+              @case (ToothConditionsConstants.DIENTE_CON_CORONA) {
+                <polygon points="1,1 28,1 28,33 1,33" fill="#1919e6" opacity="0.6"/>
+              }
+              @case (ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
+                <polygon points="1,1 28,1 28,33 1,33" fill="#1919e6" opacity="0.3"/>
+                <line x1="0" y1="28" x2="29" y2="28" stroke="black" stroke-width="2" opacity="0.6"/>
+                <line x1="20" y1="17" x2="29" y2="17" stroke="black" stroke-width="2" opacity="0.6"/>
+                <line x1="0" y1="6" x2="29" y2="6" stroke="black" stroke-width="2" opacity="0.6"/>
+              }
+              @case (ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA) {
+                <line x1="0" y1="28" x2="29" y2="28" stroke="black" stroke-width="2" opacity="0.6"/>
+                <line x1="20" y1="17" x2="29" y2="17" stroke="black" stroke-width="2" opacity="0.6"/>
+                <line x1="0" y1="6" x2="29" y2="6" stroke="black" stroke-width="2" opacity="0.6"/>
+              }
+              @case (ToothConditionsConstants.DIENTE_CARIADO) {
+                <polygon points="7,9 21,9 21,25 7,25" fill="red" opacity="0.6"/>
+              }
+              @case (ToothConditionsConstants.DIENTE_EXTRAIDO) {
+                <polygon points="15,5 0,30 30,30" fill="#e74c3c"/>
+              }
+              @case (ToothConditionsConstants.DIENTE_CON_FRACTURA) {
+                <line x1="21" y1="9" x2="28" y2="33" stroke="red" stroke-width="2" stroke-dasharray="4"/>
+              }
+              @case (ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES) {
+                <polygon points="7,9 21,9 21,25 7,25" fill="#1919e6" opacity="0.8" stroke="red" stroke-width="2"/>
+              }
+            }
+          </svg>
+        </div>
+        <div class="symbol-info">
+          <span class="symbol-name">{{ marked.condition }}</span>
+          <span class="symbol-description">{{ marked.description }}</span>
+        </div>
+        <button mat-icon-button class="clear-symbol" (click)="handleAction({description: '', condition: '', idCondition: 0})">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      }
+    </div>
+    }
+
     <mat-tab-group
       [(selectedIndex)]="value"
       (selectedIndexChange)="handleChange($event, value)"
@@ -156,15 +219,6 @@
     </mat-tab-group>
   </div>
 
-  @if (toolbar.options && state != 'read') {
-  <app-students-toolbar
-    [toolbar]="toolbar"
-    (handleAction)="handleAction($event)"
-    [state]="state"
-    [marked]="this.marked"
-  />
-  }
-  
   @if (state === 'read') {
   <mat-form-field appearance="fill" class="full-width">
     <mat-label>Observaciones</mat-label>
