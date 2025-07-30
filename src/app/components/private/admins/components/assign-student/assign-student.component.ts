@@ -99,8 +99,10 @@ export class AssignStudentComponent implements OnInit {
         this.dialogRef.close(true);
       },
       error: (error) => {
-        const errorMsg = error?.error?.message || 'Error al asignar estudiante';
-        this.toastr.error(errorMsg, 'Error');
+        // Manejamos específicamente el error 409 (Conflicto)
+        this.toastr.warning('Error al asignar estudiante', error);
+        
+      
       }
     });
   }
