@@ -5,11 +5,11 @@ export class OdontogramMapper {
 
   public static mapOdontogramToPost(
     odontogram: { observations: string; teeth: ITooth[] },
-    idPatientMedicalRecord: number
+    patientId: string
   ): OdontogramPost {
     return {
       observations: odontogram.observations,
-      idPatientMedicalRecord: idPatientMedicalRecord,
+      idPatient: patientId,
       teeth: odontogram.teeth.map((tooth: ITooth) => ({
         ...tooth,
         faces: tooth.faces.map((face: IFace) => ({
