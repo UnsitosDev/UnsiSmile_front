@@ -1,0 +1,53 @@
+.odontogram-tab-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  
+    .action-container {
+      display: flex;
+      justify-content: flex-end;
+  
+      button {
+        padding: 8px 24px;
+        font-size: 16px;
+      }
+    }
+  
+    .list-container {
+      border-radius: 8px;
+  
+      mat-card-content {
+        padding: 0;
+      }
+    }
+  
+    .mat-mdc-card-title {
+      background-color: var(--tertiary);
+      padding: 8px;
+      border-radius: 2px;
+      color: white;
+    }
+}
+
+button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+
+    &:hover {
+      background-color: var(--tertiary);
+      transform: translateY(-1px);
+    }
+
+    mat-icon {
+      margin-right: 0.5rem;
+    }
+}
+  

@@ -1,0 +1,38 @@
+<ng-template mat-tab-label>
+    <i class="fas fa-tooth"></i>
+    <span class="ml-2"> Odontograma </span>
+  </ng-template>
+
+  @if(creatingOdontogram){
+  <app-odontogram
+    [patientId]="patientUuid"
+    [state]="'create'"
+    (transactionCarriedOut)="transactionCarriedOut()"
+    (cancel)="cancelOdontogramCreation()"
+  ></app-odontogram>
+  }@else {
+  <div class="odontogram-tab-content">
+    <div class="action-container">
+      <button
+        mat-raised-button
+        color="secondary"
+        (click)="changeOdontogramViewStatus()"
+      >
+        <i class="fas fa-plus mr-2"></i>
+        Nuevo odontograma
+      </button>
+    </div>
+    <mat-card-title
+      ><strong>Historial de odontogramas</strong></mat-card-title
+    >
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <app-odontogram-list
+          [patientUuid]="patientUuid"
+          [scope]="'PATIENT'"
+        >
+        </app-odontogram-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  }
