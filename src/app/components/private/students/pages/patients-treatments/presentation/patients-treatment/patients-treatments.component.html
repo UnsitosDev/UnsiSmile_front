@@ -16,6 +16,7 @@
           <div class="flex-1 min-w-0 sm:pr-4">
             <ul>
               <li matListItemTitle><strong>Paciente:</strong> {{ treatment.patient.name }}</li>
+              <li matListItemTitle><strong>Alumno:</strong> {{ treatment.student.name }}</li>
               <li><strong>Tratamiento:</strong> {{ treatment.treatment.name }}</li>
               <li><strong>Fecha de inicio:</strong> {{ treatment.startDate | arrayToDate }}</li>
               <li><strong>Fecha  de finalización:</strong> {{ treatment.endDate | arrayToDate }}</li>

@@ -39,9 +39,7 @@ export class FormatsComponent implements OnInit {
           this.filesData = response;
         },
         error: (error) => {
-          error.status === 404
-            ? this.toastr.warning(Messages.NO_FILES_YET)
-            : this.toastr.error();
+          console.log(error);
         },
       });
   }

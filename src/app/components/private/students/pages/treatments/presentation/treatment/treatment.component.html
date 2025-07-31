@@ -53,7 +53,7 @@
   <mat-tab>
     <ng-template mat-tab-label>
       <i class="fas fa-file"></i>
-      <span class="ml-2">Tratamientos</span>
+      <span class="ml-2">Historial de tratamientos</span>
     </ng-template>
     <div class="p-4">
       <div class="flex justify-end">
@@ -92,7 +92,7 @@
               (!$last) {, } }
             </li>
             }
-
+            <li><strong>Alumno:</strong> {{ treatmentDetail.student.name }}</li>
             <li>{{ treatmentDetail.treatment.medicalRecordCatalogName }}</li>
           </ul>
           <div
