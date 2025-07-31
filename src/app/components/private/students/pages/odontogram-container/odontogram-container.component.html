@@ -10,18 +10,23 @@
     (transactionCarriedOut)="transactionCarriedOut()"
     (cancel)="cancelOdontogramCreation()"
   ></app-odontogram>
-  }@else {
+  }
+  
+  @if(!creatingOdontogram){
+
   <div class="odontogram-tab-content">
-    <div class="action-container">
-      <button
-        mat-raised-button
-        color="secondary"
-        (click)="changeOdontogramViewStatus()"
-      >
-        <i class="fas fa-plus mr-2"></i>
-        Nuevo odontograma
-      </button>
-    </div>
+    @if(!readonly){
+      <div class="action-container">
+        <button
+          mat-raised-button
+          color="secondary"
+          (click)="changeOdontogramViewStatus()"
+        >
+          <i class="fas fa-plus mr-2"></i>
+          Nuevo odontograma
+        </button>
+      </div>
+    }
     <mat-card-title
       ><strong>Historial de odontogramas</strong></mat-card-title
     >

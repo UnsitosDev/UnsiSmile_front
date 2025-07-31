@@ -13,4 +13,5 @@ import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 })
 export class OdontogramContainerComponent  extends OdontogramContainerBaseComponent {
    @Input({required:true}) public patientUuid!: string;
+   @Input({required:true}) public readonly!: boolean;
 }

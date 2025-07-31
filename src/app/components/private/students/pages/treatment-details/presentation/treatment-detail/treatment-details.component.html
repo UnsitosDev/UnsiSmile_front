@@ -98,7 +98,7 @@
   }
 </div>
 
-<!-- Tab 2: Historia clínica general -->
+<!-- Tab 1: Historia clínica general -->
 <mat-tab-group
   class="custom-background"
   mat-stretch-tabs="false"
@@ -113,6 +113,18 @@
     <app-students-general-history
       [patientUuid]="patientUuid"
     ></app-students-general-history>
+  </mat-tab>
+
+  <!-- Tab 2: Odontograma -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-tooth"></i>
+      <span class="ml-2">Odontogramas</span>
+    </ng-template>
+    <app-odontogram-container
+      [patientUuid]="patientUuid"
+      [readonly]="false"
+      ></app-odontogram-container>
   </mat-tab>
 
   <!-- Tab 3: hitorias clinicas por tratamietos -->
