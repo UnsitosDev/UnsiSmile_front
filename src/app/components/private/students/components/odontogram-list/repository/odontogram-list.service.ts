@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UriConstants } from '@mean/utils';
 import { Observable } from 'rxjs';
-import { OdontogramTreatment } from '../models/odontogram-list.model';
+import { OdontogramSimpleResponse } from '../models/odontogram-list.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +10,18 @@ import { OdontogramTreatment } from '../models/odontogram-list.model';
 export class OdontogramListService {
   constructor(private http: HttpClient) {}
 
-  getOdontogramsByPatientMedicalRecordId(patientClinicalHistoryId: number): Observable<OdontogramTreatment[]> {
+  getOdontogramsByPatientMedicalRecordId(patientClinicalHistoryId: number): Observable<OdontogramSimpleResponse[]> {
     const url = UriConstants.GET_ODONTOGRAMS_BY_PATIENT_MEDICAL_RECORD_ID
       .replace(':patientMedicalRecordId', patientClinicalHistoryId.toString());
     
-    return this.http.get<OdontogramTreatment[]>(url);
+    return this.http.get<OdontogramSimpleResponse[]>(url);
   }
+
+  getOdontogramsByPatientUuid(patientId: string): Observable<OdontogramSimpleResponse[]> {
+    const url = UriConstants.GET_ODONTOGRAMS_BY_PATIEN_ID
+      .replace(':patientId', patientId);
+    
+    return this.http.get<OdontogramSimpleResponse[]>(url);
+  }
+
 }

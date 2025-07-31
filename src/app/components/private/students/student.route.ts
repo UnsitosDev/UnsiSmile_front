@@ -49,13 +49,6 @@ export default [
                     ),
             },
             {
-                path: 'odontogram',
-                loadComponent: () =>
-                    import('@mean/students').then(
-                        (m) => m.StudentsOdontogramComponent
-                    ),
-            },
-            {
                 path: 'dashboard',
                 loadComponent: () =>
                     import('./components/dashboard/dashboard.component').then(

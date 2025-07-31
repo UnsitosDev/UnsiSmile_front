@@ -28,6 +28,9 @@ export class UriConstants {
   public static GET_ODONTOGRAMS_BY_PATIENT_MEDICAL_RECORD_ID =
     basePath +
     '/medical-records/odontograms/patient-medical-record/:patientMedicalRecordId';
+  public static GET_ODONTOGRAMS_BY_PATIEN_ID =
+    basePath +
+    '/medical-records/odontograms/patients/:patientId';
   // group-controller
   public static readonly GETID_GROUP = basePath + '/groups/';
   public static readonly GET_GROUP = basePath + '/groups';
@@ -107,6 +110,10 @@ export class UriConstants {
   // Endpoint para eliminar estudiante asignado a un paciente
   public static readonly DELETE_PATIENT_STUDENT =
     basePath + '/patients/:patientId/students/:studentId';
+  
+  // Endpoint para eliminar asignación estudiante-paciente por ID
+  public static readonly DELETE_STUDENT_PATIENT =
+    basePath + '/patients/student-patient/';
 
   public static readonly POST_ADMIN = basePath + '/administrators';
   public static readonly GET_ADMIN = basePath + '/administrators';

@@ -1,66 +1,70 @@
 @if (medicalRecordData) {
-  <mat-card-title>
-    <app-header-history-clinic
+<mat-card-title>
+  <app-header-history-clinic
     [mappedHistoryData]="medicalRecordData"
     [idPatientClinicalHistory]="patientMedicalRecord"
     [currentSectionId]="currentSectionId"
     [currentStatus]="currentStatus"
     [currentIndex]="currentIndex"
-    [role]="role">
-    </app-header-history-clinic>
-  </mat-card-title>
-  <mat-card class="custom">
-        <mat-tab-group [(selectedIndex)]="currentIndex" (selectedIndexChange)="onTabChange($event)">
-            @for (tab of medicalRecordData.tabs; track tab) {
-                <mat-tab [label]="tab.title">
-                    @if (tab.title === 'Nota de evolución' && !tab.isAnswered) {
-                      <app-progress-notes
-                      [patientId]="patientUuid"
-                      [data]="patientData"
-                      [medicalRecordNumber]="medicalRecordId"
-                      (previousMatTab)="onPreviousTab()"
-                      ></app-progress-notes>
-                    }
-                    @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
-                        <app-history-initial-bag
-                        [idClinicalHistoryPatient]=patientMedicalRecord
-                        [state]="'create'"
-                        [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                        [patientId]="patientUuid"
-                        (nextMatTab)="onNextTab()"
-                        (previousMatTab)="onPreviousTab()"
-                        ></app-history-initial-bag>
-                    }
-                    @if (tab.title === 'Medición de bolsas inicial' && tab.isAnswered) {
-                        <app-history-initial-bag
-                        [idClinicalHistoryPatient]=patientMedicalRecord
-                        [state]="'read'"
-                        [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
-                        [patientId]="patientUuid"
-                        (nextMatTab)="onNextTab()"
-                        (previousMatTab)="onPreviousTab()"
-                        ></app-history-initial-bag>
-                    }
-                    @if (tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial' && tab.title !== 'Nota de evolución') {
-                        <app-tab-form-update
-                        [patientMedicalRecord]="patientMedicalRecord"
-                        [fieldsTab]="tab"
-                        (nextMatTab)="onNextTab()"
-                        (previousMatTab)="onPreviousTab()"
-                        ></app-tab-form-update>
-                    }
-                    @if (!tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial' && tab.title !== 'Nota de evolución') {
-                        <app-tab-form
-                        [patientMedicalRecord]="patientMedicalRecord"
-                        [fieldsTab]="tab"
-                        [patientUuid]="patientUuid"
-                        [id]=1
-                        (nextMatTab)="onNextTab()"
-                        (previousMatTab)="onPreviousTab()"
-                    ></app-tab-form>
-                    }
-                </mat-tab>
-            }
-        </mat-tab-group>
-    </mat-card>
+    [role]="role"
+  >
+  </app-header-history-clinic>
+</mat-card-title>
+<mat-card class="custom">
+  <mat-tab-group
+    [(selectedIndex)]="currentIndex"
+    (selectedIndexChange)="onTabChange($event)"
+  >
+    @for (tab of medicalRecordData.tabs; track tab) {
+    <mat-tab [label]="tab.title">
+      @if (tab.title === 'Nota de evolución' && !tab.isAnswered) {
+      <app-progress-notes
+        [patientId]="patientUuid"
+        [data]="patientData"
+        [medicalRecordNumber]="medicalRecordId"
+        (previousMatTab)="onPreviousTab()"
+      ></app-progress-notes>
+      } @if (tab.title === 'Medición de bolsas inicial' && !tab.isAnswered) {
+      <app-history-initial-bag
+        [idClinicalHistoryPatient]="patientMedicalRecord"
+        [state]="'create'"
+        [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+        [patientId]="patientUuid"
+        (nextMatTab)="onNextTab()"
+        (previousMatTab)="onPreviousTab()"
+      ></app-history-initial-bag>
+      } @if (tab.title === 'Medición de bolsas inicial' && tab.isAnswered) {
+      <app-history-initial-bag
+        [idClinicalHistoryPatient]="patientMedicalRecord"
+        [state]="'read'"
+        [idQuestion]="tab.seccion?.[0]?.questionID ?? 0"
+        [patientId]="patientUuid"
+        (nextMatTab)="onNextTab()"
+        (previousMatTab)="onPreviousTab()"
+      ></app-history-initial-bag>
+      } @if (tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title
+      !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial' &&
+      tab.title !== 'Nota de evolución') {
+      <app-tab-form-update
+        [patientMedicalRecord]="patientMedicalRecord"
+        [fieldsTab]="tab"
+        (nextMatTab)="onNextTab()"
+        (previousMatTab)="onPreviousTab()"
+      ></app-tab-form-update>
+      } @if (!tab.isAnswered && tab.title !== 'Odontograma inicial' && tab.title
+      !== 'Odontograma final' && tab.title !== 'Medición de bolsas inicial' &&
+      tab.title !== 'Nota de evolución') {
+      <app-tab-form
+        [patientMedicalRecord]="patientMedicalRecord"
+        [fieldsTab]="tab"
+        [patientUuid]="patientUuid"
+        [id]="1"
+        (nextMatTab)="onNextTab()"
+        (previousMatTab)="onPreviousTab()"
+      ></app-tab-form>
+      }
+    </mat-tab>
+    }
+  </mat-tab-group>
+</mat-card>
 }
