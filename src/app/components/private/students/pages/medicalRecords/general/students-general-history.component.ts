@@ -21,10 +21,10 @@ import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-form-update/tab-form-update.component';
 import { mapMedicalRecordToDataTabs } from '../../../adapters/medical-record.adapter';
 import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';
-import { ProgressNotesComponent } from '../../../components/progress-notes/progress-notes.component';
-import { StudentsOdontogramComponent } from '../../../components/odontogram/students-odontogram.component';
-import { OdontogramListComponent } from '../../../components/odontogram-list/odontogram-list.component';
 import { OdontogramContainerBaseComponent } from '../../../components/odontogram-container-base/odontogram-container-base.component';
+import { OdontogramListComponent } from '../../../components/odontogram-list/odontogram-list.component';
+import { OdontogramComponent } from '../../../components/odontogram/odontogram.component';
+import { ProgressNotesComponent } from '../../../components/progress-notes/progress-notes.component';
 
 @Component({
   selector: 'app-students-general-history',
@@ -45,11 +45,9 @@ import { OdontogramContainerBaseComponent } from '../../../components/odontogram
     TabFormUpdateComponent,
     ProgressNotesComponent,
     HeaderHistoryClinicComponent,
-    StudentsOdontogramComponent,
-    OdontogramListComponent
   ],
 })
-export class StudentsGeneralHistoryComponent extends OdontogramContainerBaseComponent implements OnInit {
+export class StudentsGeneralHistoryComponent implements OnInit {
   @Input() public patientUuid!: string; // PatientUuid
   public medicalRecordData!: dataTabs; // Configuracion de la historia clinica
 
@@ -71,9 +69,7 @@ export class StudentsGeneralHistoryComponent extends OdontogramContainerBaseComp
 
   ROL = ROLES; // Roles de usuario disponibles
 
-  constructor() {
-    super();
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.initializeUserRole();

@@ -10,15 +10,20 @@ import { OdontogramListService } from './repository/odontogram-list.service';
 @Component({
   selector: 'app-odontogram-list',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIcon, MatExpansionModule, OdontogramComponent],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatIcon,
+    MatExpansionModule,
+    OdontogramComponent,
+  ],
   templateUrl: './odontogram-list.component.html',
-  styleUrl: './odontogram-list.component.scss'
+  styleUrl: './odontogram-list.component.scss',
 })
 export class OdontogramListComponent implements OnInit {
-  @Input({ required: true }) idPatientMedicalRecord!: number;
   @Input({ required: true }) patientUuid!: string;
   @Input({ required: true }) scope!: 'MEDICAL_RECORD' | 'PATIENT';
-  
+
   odontograms: OdontogramSimpleResponse[] = [];
   displayedColumns: string[] = ['idOdontogram', 'creationDate', 'actions'];
   isLoading = false;
@@ -31,16 +36,17 @@ export class OdontogramListComponent implements OnInit {
 
   private loadOdontograms(): void {
     this.isLoading = true;
-        this.odontogramListService.getOdontogramsByPatientUuid(this.patientUuid)
-        .subscribe({
-          next: (response) => {
-            this.odontograms = response;
-            this.isLoading = false;
-          },
-          error: (error) => {
-            console.error('Error loading odontograms:', error);
-            this.isLoading = false;
-          }
-        });
+    this.odontogramListService
+      .getOdontogramsByPatientUuid(this.patientUuid)
+      .subscribe({
+        next: (response) => {
+          this.odontograms = response;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading odontograms:', error);
+          this.isLoading = false;
+        },
+      });
   }
 }

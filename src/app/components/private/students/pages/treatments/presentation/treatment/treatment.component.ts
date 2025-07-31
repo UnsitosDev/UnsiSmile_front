@@ -33,6 +33,7 @@ import {MatTooltip} from "@angular/material/tooltip";
 import { ArrayToDatePipe } from '@mean/shared';
 import { DialogUpdateTreatmentComponent } from '../../../../components/dialog-update-treatment/dialog-update-treatment.component';
 import { DialogCommentsTreatmentsComponent } from '../../../../components/dialog-comments-treatments/dialog-comments-treatments.component';
+import { OdontogramContainerComponent } from '../../../odontogram-container/odontogram-container.component';
 export interface TreatmentParams {
   idTreatmentDetail: number;
   patientClinicalHistoryId: number;
@@ -54,7 +55,8 @@ export interface TreatmentParams {
     StudentsGeneralHistoryComponent,
     FormUpdatePatientComponent,
     MatTooltip,
-    ArrayToDatePipe
+    ArrayToDatePipe,
+    OdontogramContainerComponent
   ],
   templateUrl: './treatment.component.html',
   styleUrl: './treatment.component.scss',

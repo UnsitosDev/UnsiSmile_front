@@ -15,50 +15,6 @@
     [(selectedIndex)]="currentIndex"
     (selectedIndexChange)="onTabChange($event)"
   >
-    <!-- Tab 4: Odontograma -->
-
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <i class="fas fa-tooth"></i>
-        <span class="ml-2"> Odontograma </span>
-      </ng-template>
-
-      @if(creatingOdontogram){
-      <app-students-odontogram
-        [patientId]="patientUuid"
-        [idPatientMedicalRecord]="patientMedicalRecord"
-        [state]="'create'"
-        (transactionCarriedOut)="transactionCarriedOut()"
-        (cancel)="cancelOdontogramCreation()"
-      ></app-students-odontogram>
-      }@else {
-      <div class="odontogram-tab-content">
-        <div class="action-container">
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="changeOdontogramViewStatus()"
-          >
-            <i class="fas fa-plus mr-2"></i>
-            Nuevo odontograma
-          </button>
-        </div>
-        <mat-card-title
-          ><strong>Historial de odontogramas</strong></mat-card-title
-        >
-        <mat-card appearance="outlined" class="custom">
-          <mat-card-content>
-            <app-odontogram-list
-              [idPatientMedicalRecord]="patientMedicalRecord"
-              [patientUuid]="patientUuid"
-            >
-            </app-odontogram-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      }
-    </mat-tab>
-
     @for (tab of medicalRecordData.tabs; track tab) {
     <mat-tab [label]="tab.title">
       @if (tab.title === 'Nota de evolución' && !tab.isAnswered) {
