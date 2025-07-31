@@ -27,7 +27,11 @@
   <mat-tab>
     <ng-template mat-tab-label>
       <i class="fas fa-tooth"></i>
-      <span class="ml-2">Odontograma</span>
+      <span class="ml-2">Odontogramas</span>
     </ng-template>
+    <app-odontogram-container
+      [patientUuid]="patientUuid"
+      [readonly]="true"
+      ></app-odontogram-container>
   </mat-tab>
 </mat-tab-group>

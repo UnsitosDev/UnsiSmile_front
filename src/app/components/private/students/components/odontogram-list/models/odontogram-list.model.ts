@@ -1,5 +1,5 @@
-export interface OdontogramTreatment {
+export interface OdontogramSimpleResponse {
     idOdontogram: number;
-    idTreatment:  number;
+    idPatient:  number;
     creationDate: Date;
 }

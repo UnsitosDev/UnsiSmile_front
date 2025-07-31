@@ -26,6 +26,7 @@ import { STATUS_TREATMENTS } from '@mean/utils';
 import { DialogDetailsTreatmentComponent } from '../../../../components/dialog-details-treatment/dialog-details-treatment.component';
 import { MedicalRecordRepositoryService } from '../../repository/medical-record-repository.service';
 import { TreatmentRepositoryService } from '../../repository/treatment-repository.service';
+import { OdontogramContainerComponent } from '../../../odontogram-container/odontogram-container.component';
 
 @Component({
   selector: 'app-treatments',
@@ -42,7 +43,8 @@ import { TreatmentRepositoryService } from '../../repository/treatment-repositor
     OralProsthesisComponent,
     StudentsDentalOperationComponent,
     LoadingComponent,
-    StudentsGeneralHistoryComponent
+    StudentsGeneralHistoryComponent,
+    OdontogramContainerComponent
   ],
   templateUrl: './treatment-details.component.html',
   styleUrl: './treatment-details.component.scss',
@@ -197,18 +199,6 @@ export class TreatmentDetailsComponent
       if (result) {
       }
     });
-  }
-
-  changeOdontogramViewStatus() {
-    this.creatingOdontogram = !this.creatingOdontogram;
-  }
-
-  transactionCarriedOut(): void {
-    this.changeOdontogramViewStatus();
-  }
-
-  cancelOdontogramCreation(): void {
-    this.changeOdontogramViewStatus();
   }
 
   protected override onTreatmentsNotification(): void {

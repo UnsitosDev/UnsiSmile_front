@@ -21,6 +21,9 @@ import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-form-update/tab-form-update.component';
 import { mapMedicalRecordToDataTabs } from '../../../adapters/medical-record.adapter';
 import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';
+import { OdontogramContainerBaseComponent } from '../../../components/odontogram-container-base/odontogram-container-base.component';
+import { OdontogramListComponent } from '../../../components/odontogram-list/odontogram-list.component';
+import { OdontogramComponent } from '../../../components/odontogram/odontogram.component';
 import { ProgressNotesComponent } from '../../../components/progress-notes/progress-notes.component';
 
 @Component({

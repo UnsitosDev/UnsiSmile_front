@@ -3,7 +3,6 @@ import { ITooth } from './odontogram';
 export interface OdontogramPost {
   teeth: Tooth[];
   idPatient: string;
-  idPatientMedicalRecord: number;
   observations: string;
 }
 
@@ -35,7 +34,7 @@ export interface OdontogramResponse {
   adultArcade: Arcade[];
   childArcade: Arcade[];
   observations: string;
-  idPatientMedicalRecord: number;
+  idPatient: number;
 }
 
 export interface Arcade {

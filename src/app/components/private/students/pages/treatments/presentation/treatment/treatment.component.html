@@ -3,144 +3,216 @@
   <app-card-patient-data [patientUuid]="patientUuid"></app-card-patient-data>
 </mat-card>
 
-<mat-tab-group class="custom-background" mat-stretch-tabs="false" mat-align-tabs="start"
-               (selectedTabChange)="onTabSelected($event)">
+<mat-tab-group
+  class="custom-background"
+  mat-stretch-tabs="false"
+  mat-align-tabs="start"
+  (selectedTabChange)="onTabSelected($event)"
+>
   <!-- Tab 1: Datos personales -->
   <mat-tab>
     <ng-template mat-tab-label>
       <i class="fas fa-user"></i>
       <span class="ml-2">Datos personales</span>
     </ng-template>
-    <app-form-update-patient [patientUuid]="patientUuid"></app-form-update-patient>
+    <app-form-update-patient
+      [patientUuid]="patientUuid"
+    ></app-form-update-patient>
   </mat-tab>
 
   <!-- Tab 2: Historia clínica general -->
   @if (!viewTreatment) {
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <i class="fas fa-folder"></i>
-        <span class="ml-2">Historia clínica general</span>
-      </ng-template>
-      <app-students-general-history [patientUuid]="patientUuid"></app-students-general-history>
-    </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-folder"></i>
+      <span class="ml-2">Historia clínica general</span>
+    </ng-template>
+    <app-students-general-history
+      [patientUuid]="patientUuid"
+    ></app-students-general-history>
+  </mat-tab>
   }
 
-  <!-- Tab 3: Tratamientos -->
+  <!-- Tab 3: Odontograma -->
+  <!--historial de odontograma-->
   @if (!viewTreatment) {
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <i class="fas fa-file"></i>
-        <span class="ml-2">Tratamientos</span>
-      </ng-template>
-      <div class="p-4">
-        <div class="flex justify-end">
-          <button mat-button class="button-custom !text-white" (click)="openDialogNewTreatment()">Crear tratamiento
-          </button>
-        </div>
-      </div>
-      <mat-list>
-        @for (treatmentDetail of treatmentsPatient?.content; track treatmentDetail.idTreatmentDetail) {
-          <section>
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between w-full mb-1 gap-2 sm:gap-0">
-              <ul class="p-4">
-                <li><strong>Tratamiento:</strong> {{ treatmentDetail.treatment.name }}</li>
-                <li><strong>Fecha de inicio:</strong> {{ treatmentDetail.startDate | arrayToDate }}</li>
-                <li><strong>Fecha  de finalización:</strong> {{ treatmentDetail.endDate | arrayToDate }}</li>
-                @if (treatmentDetail.teeth && treatmentDetail.teeth !== null) {
-                  <li><strong>Órganos dentario</strong>: 
-                    @for (tooth of treatmentDetail.teeth; track $index) {
-                      {{tooth.idTooth}} @if (!$last) {, }
-                  }
-                  </li>
-                }
-               
-                <li>{{ treatmentDetail.treatment.medicalRecordCatalogName }}</li>
-              </ul>
-              <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4 md:px-4 lg:px-6">
-                  @switch (treatmentDetail.status) {
-                  @case (STATUS.IN_REVIEW) {
-                    <button mat-stroked-button class="whitespace-nowrap" disabled>
-                      <span class="flex items-center in-review"><i class="far fa-clock mr-1"></i>En revisión</span>
-                    </button>
-                  }
-                  @case (STATUS.APPROVED) {
-                    <button mat-stroked-button class="whitespace-nowrap" disabled>
-                      <span class="flex items-center approved"><i class="fas fa-check-circle mr-1"></i>Aprobado</span>
-                    </button>
-                  }
-                  @case (STATUS.REJECTED) {
-                    <button mat-stroked-button class="whitespace-nowrap" disabled>
-                      <span class="flex items-center rejected"><i class="fas fa-times-circle mr-1"></i>Rechazado</span>
-                    </button> 
-                  }
-                  @case (STATUS.IN_PROGRESS) {
-                    <button mat-stroked-button class="whitespace-nowrap" (click)="openCommentDialog(treatmentDetail.comments)">
-                      <span class="flex items-center"><i class="fas fa-comment-alt"></i></span>
-                    </button>
-
-                    <button mat-stroked-button class="whitespace-nowrap" disabled>
-                      <span class="flex items-center in-progress"><i class="fas fa-solid fa-spinner mr-1"></i>En progreso</span>
-                    </button>
-                  }
-                  @case (STATUS.FINISHED) {
-                    <button mat-stroked-button class="whitespace-nowrap" disabled>
-                      <span class="flex items-center finished"><i class="fas fa-user-check mr-1"></i>Finalizado</span>
-                    </button>
-                  }
-                  @case (STATUS.CANCELLED) {
-                    <button mat-stroked-button class="whitespace-nowrap" disabled>
-                      <span class="rejected flex items-center">
-                        <i class="fas fa-times-circle mr-1"></i>Cancelado
-                      </span>
-                    </button>
-                  }
-                  @case (STATUS.NOT_APPROVED) {
-                    <button mat-stroked-button class="whitespace-nowrap" (click)="openCommentDialog(treatmentDetail.comments)">
-                      <span class="flex items-center"><i class="fas fa-comment-alt"></i></span>
-                    </button>
-
-                    <button mat-stroked-button class="whitespace-nowrap">
-                      <span class="flex items-center rejected"><i class="fas fa-times-circle mr-1"></i>No aprobado</span>
-                    </button>
-
-                    <button mat-stroked-button class="whitespace-nowrap" matTooltip="Actualizar fecha de tratamiento"
-                            (click)="openUpdateTreatmentDialog(treatmentDetail)">
-                      <span class="flex items-center"><i class="fas fa-edit mr-1"></i>Actualizar</span>
-                    </button>
-                  }
-                  @case (STATUS.AWAITING_APPROVAL) {
-                    <button mat-stroked-button class="whitespace-nowrap" disabled>
-                      <span class="in-progress flex items-center">
-                        <i class="fas fa-solid fa-spinner mr-1"></i>En espera de aprobación
-                      </span>
-                    </button>
-                  }
-                }
-                @if (treatmentDetail.status !== STATUS.NOT_APPROVED && treatmentDetail.status !== STATUS.AWAITING_APPROVAL) { 
-                      <button mat-stroked-button class="whitespace-nowrap" matTooltip="Ver tratamiento"
-                        (click)="navigateToTreatmentDetails(treatmentDetail)">
-                        <span class="flex items-center"><i class="fas fa-eye mr-1"></i>Ver tratamiento</span>
-                    </button>
-                }
-              </div>
-            </div>
-            <mat-divider></mat-divider>
-          </section>
-        }
-      </mat-list>
-
-      @if (!isPatientLastPage && treatmentsPatient?.content?.length) {
-        <div class="text-center mt-3">
-          <button mat-stroked-button
-                  (click)="loadMorePatientTreatments()"
-                  [disabled]="isPatientLoading">
-            @if (!isPatientLoading) {
-              <span> <i class="fas fa-chevron-down"></i> Cargar más tratamientos</span>
-            }
-          </button>
-        </div>
-      }
-    </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-folder"></i>
+      <span class="ml-2">Odontogramas</span>
+    </ng-template>
+    <app-odontogram-container
+      [patientUuid]="patientUuid"
+      [readonly]="false"
+    ></app-odontogram-container>
+  </mat-tab>
   }
 
+  <!-- Tab 4: Tratamientos -->
+  @if (!viewTreatment) {
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-file"></i>
+      <span class="ml-2">Tratamientos</span>
+    </ng-template>
+    <div class="p-4">
+      <div class="flex justify-end">
+        <button
+          mat-button
+          class="button-custom !text-white"
+          (click)="openDialogNewTreatment()"
+        >
+          Crear tratamiento
+        </button>
+      </div>
+    </div>
+    <mat-list>
+      @for (treatmentDetail of treatmentsPatient?.content; track
+      treatmentDetail.idTreatmentDetail) {
+      <section>
+        <div
+          class="flex flex-col sm:flex-row sm:items-center justify-between w-full mb-1 gap-2 sm:gap-0"
+        >
+          <ul class="p-4">
+            <li>
+              <strong>Tratamiento:</strong> {{ treatmentDetail.treatment.name }}
+            </li>
+            <li>
+              <strong>Fecha de inicio:</strong>
+              {{ treatmentDetail.startDate | arrayToDate }}
+            </li>
+            <li>
+              <strong>Fecha de finalización:</strong>
+              {{ treatmentDetail.endDate | arrayToDate }}
+            </li>
+            @if (treatmentDetail.teeth && treatmentDetail.teeth !== null) {
+            <li>
+              <strong>Órganos dentario</strong>: @for (tooth of
+              treatmentDetail.teeth; track $index) { {{ tooth.idTooth }} @if
+              (!$last) {, } }
+            </li>
+            }
+
+            <li>{{ treatmentDetail.treatment.medicalRecordCatalogName }}</li>
+          </ul>
+          <div
+            class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4 md:px-4 lg:px-6"
+          >
+            @switch (treatmentDetail.status) { @case (STATUS.IN_REVIEW) {
+            <button mat-stroked-button class="whitespace-nowrap" disabled>
+              <span class="flex items-center in-review"
+                ><i class="far fa-clock mr-1"></i>En revisión</span
+              >
+            </button>
+            } @case (STATUS.APPROVED) {
+            <button mat-stroked-button class="whitespace-nowrap" disabled>
+              <span class="flex items-center approved"
+                ><i class="fas fa-check-circle mr-1"></i>Aprobado</span
+              >
+            </button>
+            } @case (STATUS.REJECTED) {
+            <button mat-stroked-button class="whitespace-nowrap" disabled>
+              <span class="flex items-center rejected"
+                ><i class="fas fa-times-circle mr-1"></i>Rechazado</span
+              >
+            </button>
+            } @case (STATUS.IN_PROGRESS) {
+            <button
+              mat-stroked-button
+              class="whitespace-nowrap"
+              (click)="openCommentDialog(treatmentDetail.comments)"
+            >
+              <span class="flex items-center"
+                ><i class="fas fa-comment-alt"></i
+              ></span>
+            </button>
+
+            <button mat-stroked-button class="whitespace-nowrap" disabled>
+              <span class="flex items-center in-progress"
+                ><i class="fas fa-solid fa-spinner mr-1"></i>En progreso</span
+              >
+            </button>
+            } @case (STATUS.FINISHED) {
+            <button mat-stroked-button class="whitespace-nowrap" disabled>
+              <span class="flex items-center finished"
+                ><i class="fas fa-user-check mr-1"></i>Finalizado</span
+              >
+            </button>
+            } @case (STATUS.CANCELLED) {
+            <button mat-stroked-button class="whitespace-nowrap" disabled>
+              <span class="rejected flex items-center">
+                <i class="fas fa-times-circle mr-1"></i>Cancelado
+              </span>
+            </button>
+            } @case (STATUS.NOT_APPROVED) {
+            <button
+              mat-stroked-button
+              class="whitespace-nowrap"
+              (click)="openCommentDialog(treatmentDetail.comments)"
+            >
+              <span class="flex items-center"
+                ><i class="fas fa-comment-alt"></i
+              ></span>
+            </button>
+
+            <button mat-stroked-button class="whitespace-nowrap">
+              <span class="flex items-center rejected"
+                ><i class="fas fa-times-circle mr-1"></i>No aprobado</span
+              >
+            </button>
+
+            <button
+              mat-stroked-button
+              class="whitespace-nowrap"
+              matTooltip="Actualizar fecha de tratamiento"
+              (click)="openUpdateTreatmentDialog(treatmentDetail)"
+            >
+              <span class="flex items-center"
+                ><i class="fas fa-edit mr-1"></i>Actualizar</span
+              >
+            </button>
+            } @case (STATUS.AWAITING_APPROVAL) {
+            <button mat-stroked-button class="whitespace-nowrap" disabled>
+              <span class="in-progress flex items-center">
+                <i class="fas fa-solid fa-spinner mr-1"></i>En espera de
+                aprobación
+              </span>
+            </button>
+            } } @if (treatmentDetail.status !== STATUS.NOT_APPROVED &&
+            treatmentDetail.status !== STATUS.AWAITING_APPROVAL) {
+            <button
+              mat-stroked-button
+              class="whitespace-nowrap"
+              matTooltip="Ver tratamiento"
+              (click)="navigateToTreatmentDetails(treatmentDetail)"
+            >
+              <span class="flex items-center"
+                ><i class="fas fa-eye mr-1"></i>Ver tratamiento</span
+              >
+            </button>
+            }
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </section>
+      }
+    </mat-list>
+
+    @if (!isPatientLastPage && treatmentsPatient?.content?.length) {
+    <div class="text-center mt-3">
+      <button
+        mat-stroked-button
+        (click)="loadMorePatientTreatments()"
+        [disabled]="isPatientLoading"
+      >
+        @if (!isPatientLoading) {
+        <span>
+          <i class="fas fa-chevron-down"></i> Cargar más tratamientos</span
+        >
+        }
+      </button>
+    </div>
+    }
+  </mat-tab>
+  }
 </mat-tab-group>
