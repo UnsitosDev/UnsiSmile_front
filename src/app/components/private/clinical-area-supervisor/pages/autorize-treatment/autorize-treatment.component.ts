@@ -4,15 +4,22 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudentsGeneralHistoryComponent } from "@mean/students";
+import { StudentsGeneralHistoryComponent } from '@mean/students';
+import { OdontogramContainerComponent } from '../../../students/pages/odontogram-container/odontogram-container.component';
 import { DialogAuthorizationTreatmentComponent } from '../../components/dialog-authorization-treatment/dialog-authorization-treatment.component';
 
 @Component({
   selector: 'app-autorize-treatment',
   standalone: true,
-  imports: [StudentsGeneralHistoryComponent, MatCardModule, MatButtonModule, MatTabsModule],
+  imports: [
+    StudentsGeneralHistoryComponent,
+    MatCardModule,
+    MatButtonModule,
+    MatTabsModule,
+    OdontogramContainerComponent,
+  ],
   templateUrl: './autorize-treatment.component.html',
-  styleUrl: './autorize-treatment.component.scss'
+  styleUrl: './autorize-treatment.component.scss',
 })
 export class AutorizeTreatmentComponent {
   private route = inject(ActivatedRoute);
@@ -23,7 +30,7 @@ export class AutorizeTreatmentComponent {
   public idTreatmentDetail!: number;
 
   ngOnInit() {
-    this.patientUuid = this.route.snapshot.params['patientUuid']
+    this.patientUuid = this.route.snapshot.params['patientUuid'];
     this.idTreatmentDetail = this.route.snapshot.params['idTreatmentDetail'];
   }
 
@@ -32,7 +39,7 @@ export class AutorizeTreatmentComponent {
       data: {
         idTreatmentDetail: this.idTreatmentDetail,
         title: '¿Está seguro de rechazar el tratamiento?',
-        state: 'Rechazar'
+        state: 'Rechazar',
       },
       width: '400px',
     });
@@ -49,7 +56,7 @@ export class AutorizeTreatmentComponent {
       data: {
         idTreatmentDetail: this.idTreatmentDetail,
         title: '¿Está seguro de aprobar el tratamiento?',
-        state: 'Aprobar'
+        state: 'Aprobar',
       },
       width: '400px',
     });
