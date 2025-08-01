@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AdminItems } from '@mean/models';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
 
 @Component({
-  selector: 'app-layout-medical-record-digitizer',
+  selector: 'app-layout-admin',
   standalone: true,
   imports: [RouterOutlet, SideNavComponent, HeaderComponent],
-  templateUrl: './layout-medical-record-digitizer.component.html',
-  styleUrl: './layout-medical-record-digitizer.component.scss'
+  templateUrl: './layout-admin.component.html',
+  styleUrl: './layout-admin.component.scss'
 })
-export class LayoutMedicalRecordDigitizerComponent implements OnInit {
-  isSidebarOpen = false;
+export class LayoutAdminComponent implements OnInit {
+  isSidebarOpen = false; // Cambiamos el valor inicial a false
+  adminMenuItems = AdminItems;
+  readonly userLink = '/admin/user';
 
   ngOnInit() {
     this.isSidebarOpen = window.innerWidth > 768;

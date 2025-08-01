@@ -1,22 +1,15 @@
 import {
-  faChartPie,
-  IconDefinition,
-  faHospitalUser,
-  faHome,
-  faFileUpload,
-  faUserGraduate,
-  faUserShield,
-  faFileArchive,
-  faFileArrowDown,
-  faFileClipboard,
-  faPeace,
-  faShopLock,
-  faTasks,
-  faCheck,
-  faClose,
-  faUsers,
   faClinicMedical,
-  faPlus
+  faFileArchive,
+  faFileClipboard,
+  faFileUpload,
+  faHome,
+  faHospitalUser,
+  faPlus,
+  faUserGraduate,
+  faUsers,
+  faUserShield,
+  IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 
 // Nueva interfaz con children
@@ -35,7 +28,7 @@ export const StudentItems: MenuItem[] = [
     fontAwesomeIcon: faHome,
     buttonText: 'Inicio',
     buttonDescription: 'Información relevante',
-    routerlink: '/students/dashboard'
+    routerlink: '/students/dashboard',
   },
   {
     fontAwesomeIcon: faHospitalUser,
@@ -47,22 +40,22 @@ export const StudentItems: MenuItem[] = [
         fontAwesomeIcon: faPlus,
         buttonText: 'Nuevo paciente',
         buttonDescription: 'Registrar paciente',
-        routerlink: '/students/patients/addPatient'
-      }
-    ]
+        routerlink: '/students/patients/addPatient',
+      },
+    ],
   },
   {
     fontAwesomeIcon: faFileArchive,
     buttonText: 'Archivos',
     buttonDescription: 'Descargar archivos',
-    routerlink: '/students/dowload-formats'
+    routerlink: '/students/dowload-formats',
   },
   {
     fontAwesomeIcon: faFileClipboard,
     buttonText: 'Tratamientos',
     buttonDescription: 'Ver tratamientos',
-    routerlink: '/students/all-treatments'
-  }
+    routerlink: '/students/all-treatments',
+  },
 ];
 
 // Menú para administradores
@@ -71,7 +64,7 @@ export const AdminItems: MenuItem[] = [
     fontAwesomeIcon: faHome,
     buttonText: 'Inicio',
     buttonDescription: 'Inicio',
-    routerlink: '/admin/dashboard'
+    routerlink: '/admin/dashboard',
   },
   {
     fontAwesomeIcon: faUsers,
@@ -89,9 +82,9 @@ export const AdminItems: MenuItem[] = [
             fontAwesomeIcon: faPlus,
             buttonText: 'Nuevo estudiante',
             buttonDescription: 'Registrar estudiante',
-            routerlink: '/admin/students/addStudent'
-          }
-        ]
+            routerlink: '/admin/students/addStudent',
+          },
+        ],
       },
       {
         fontAwesomeIcon: faFileUpload,
@@ -103,9 +96,9 @@ export const AdminItems: MenuItem[] = [
             fontAwesomeIcon: faPlus,
             buttonText: 'Nuevo profesor',
             buttonDescription: 'Registrar profesor',
-            routerlink: '/admin/professors/addProfessor'
-          }
-        ]
+            routerlink: '/admin/professors/addProfessor',
+          },
+        ],
       },
       {
         fontAwesomeIcon: faUserShield,
@@ -117,11 +110,11 @@ export const AdminItems: MenuItem[] = [
             fontAwesomeIcon: faPlus,
             buttonText: 'Nuevo administrador',
             buttonDescription: 'Registrar administrador',
-            routerlink: '/admin/admins/addAdmin'
+            routerlink: '/admin/admins/addAdmin',
           },
-        ]
+        ],
       },
-       {
+      {
         fontAwesomeIcon: faUserShield,
         buttonText: 'Capturadores',
         buttonDescription: 'Ver capturadores',
@@ -131,9 +124,9 @@ export const AdminItems: MenuItem[] = [
             fontAwesomeIcon: faPlus,
             buttonText: 'Nuevo capturador',
             buttonDescription: 'Registrar capturador',
-            routerlink: '/admin/digitizers/addDigitizer'
+            routerlink: '/admin/digitizers/addDigitizer',
           },
-        ]
+        ],
       },
       {
         fontAwesomeIcon: faUserShield,
@@ -141,7 +134,7 @@ export const AdminItems: MenuItem[] = [
         buttonDescription: 'Ver encargados de area',
         routerlink: '/admin/clinical-area',
       },
-    ]
+    ],
   },
   {
     fontAwesomeIcon: faUserShield,
@@ -153,9 +146,9 @@ export const AdminItems: MenuItem[] = [
         fontAwesomeIcon: faPlus,
         buttonText: 'Nuevo paciente',
         buttonDescription: 'Registrar paciente',
-        routerlink: '/admin/patients/addPatient'
-      }
-    ]
+        routerlink: '/admin/patients/addPatient',
+      },
+    ],
   },
 
   {
@@ -168,28 +161,28 @@ export const AdminItems: MenuItem[] = [
         fontAwesomeIcon: faPlus,
         buttonText: 'Nueva área clínica',
         buttonDescription: 'Crear nueva área clínica',
-        routerlink: '/admin/create-area'
-      }
-    ]
+        routerlink: '/admin/create-area',
+      },
+    ],
   },
   {
     fontAwesomeIcon: faFileUpload,
     buttonText: 'Carga de alumnos',
     buttonDescription: 'Subir excel de alumnos',
-    routerlink: '/admin/upload-students'
+    routerlink: '/admin/upload-students',
   },
   {
     fontAwesomeIcon: faFileUpload,
     buttonText: 'Carga de archivos',
     buttonDescription: 'Subir archivos',
-    routerlink: '/admin/upload-files'
+    routerlink: '/admin/upload-files',
   },
   {
     fontAwesomeIcon: faFileClipboard,
     buttonText: 'Tratamientos',
     buttonDescription: 'Reportes de tratamientos',
     routerlink: '/admin/treatments',
-  }
+  },
 ];
 
 // Menú para profesores
@@ -198,55 +191,54 @@ export const ProfessorItems: MenuItem[] = [
     fontAwesomeIcon: faHome,
     buttonText: 'Inicio',
     buttonDescription: 'Información relevante',
-    routerlink: '/professor/dashboard'
+    routerlink: '/professor/dashboard',
   },
   {
     fontAwesomeIcon: faUserGraduate,
     buttonText: 'Estudiantes',
     buttonDescription: 'Ver estudiantes',
-    routerlink: '/professor/students'
-  }
+    routerlink: '/professor/students',
+  },
 ];
 
-export const ProfessorClinicalAlreaItems: MenuItem[] = [
+export const ClinicalAreaSupervisorsItems: MenuItem[] = [
   {
     fontAwesomeIcon: faHome,
     buttonText: 'Inicio',
     buttonDescription: 'Información relevante',
-    routerlink: '/clinical-area-supervisor/dashboard'
+    routerlink: '/clinical-area-supervisor/dashboard',
   },
   {
     fontAwesomeIcon: faFileClipboard,
     buttonText: 'Historias Clinicas',
     buttonDescription: 'Revisar Historias Clinicas',
-    routerlink: '/clinical-area-supervisor/history-clinics'
+    routerlink: '/clinical-area-supervisor/history-clinics',
   },
   {
     fontAwesomeIcon: faFileClipboard,
     buttonText: 'Tratamientos',
     buttonDescription: 'Revisar Tratamientos',
-    routerlink: '/clinical-area-supervisor/review-treatment'
+    routerlink: '/clinical-area-supervisor/review-treatment',
   },
   {
     fontAwesomeIcon: faFileClipboard,
     buttonText: 'Autorizar tratamientos',
     buttonDescription: 'Autorizar tratamientos en espera',
-    routerlink: '/clinical-area-supervisor/approval-treatments'
-  }
+    routerlink: '/clinical-area-supervisor/approval-treatments',
+  },
 ];
 
 export const MedicalRecordDigitizerItems: MenuItem[] = [
-    {
-      fontAwesomeIcon: faHome,
-      buttonText: 'Inicio',
-      buttonDescription: 'Información relevante',
-      routerlink: '/medical-record-digitizer/dashboard'
-    },
-    {
-      fontAwesomeIcon: faFileClipboard,
-      buttonText: 'Historias Clinicas',
-      buttonDescription: 'Digitalizar historias clinicas',
-      routerlink: '/medical-record-digitizer/patients'
-    },
-  ];
-
+  {
+    fontAwesomeIcon: faHome,
+    buttonText: 'Inicio',
+    buttonDescription: 'Información relevante',
+    routerlink: '/medical-record-digitizer/dashboard',
+  },
+  {
+    fontAwesomeIcon: faFileClipboard,
+    buttonText: 'Historias Clinicas',
+    buttonDescription: 'Digitalizar historias clinicas',
+    routerlink: '/medical-record-digitizer/patients',
+  },
+];

@@ -4,7 +4,7 @@ export default [
     {
         path: '',
         loadComponent: () =>
-            import('./components/layout-admin/layout-admin.component').then(
+            import('./pages/layout-admin/layout-admin.component').then(
                 (m) => m.LayoutAdminComponent
             ),
         children: [

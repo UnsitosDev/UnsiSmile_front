@@ -1,18 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ProfessorItems } from '@mean/models';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
 
+
+
 @Component({
-  selector: 'app-layout-clinical-area-supervisor',
+  selector: 'app-students-layout',
   standalone: true,
   imports: [
     RouterOutlet, SideNavComponent, HeaderComponent,
-  ],
-  templateUrl: './layout-clinical-area-supervisor.component.html',
-  styleUrl: './layout-clinical-area-supervisor.component.scss'
+],
+  templateUrl: './proffessor-layout.component.html',
+  styleUrls: ['./proffessor-layout.component.scss']
 })
-export class LayoutClinicalAreaSupervisorComponent {
+export class ProffesorLayoutComponent implements OnInit  {
   isSidebarOpen = false; // Cambiamos el valor inicial a false
+  professorItems = ProfessorItems;
+  readonly userLink = '/professor/user';
 
   ngOnInit() {
     this.isSidebarOpen = window.innerWidth > 768;
@@ -22,3 +27,4 @@ export class LayoutClinicalAreaSupervisorComponent {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 }
+

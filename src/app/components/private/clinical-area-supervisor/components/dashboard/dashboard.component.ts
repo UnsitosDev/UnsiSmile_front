@@ -7,21 +7,20 @@ import { faUserMd } from '@fortawesome/free-solid-svg-icons'; // Ícono de docto
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
+import { WelcomeMessageService } from 'src/app/services/welcome-message.service';
 import {
   studentResponse,
   studentUserResponse,
 } from 'src/app/shared/interfaces/student/student';
-import { WelcomeMessageService } from 'src/app/services/welcome-message.service';
 import { DashboardSupervisorStatsComponent } from '../dashboard-supervisor-stats/dashboard-supervisor-stats.component';
-import { LoadingComponent } from '@mean/shared';
 
 @Component({
   selector: 'app-dashboard-professor-clinical',
   standalone: true,
-  imports: [FontAwesomeModule,DashboardSupervisorStatsComponent],
+  imports: [FontAwesomeModule, DashboardSupervisorStatsComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-})  
+})
 export class DashboardProfessorClinicalComponent implements OnInit {
   constructor(library: FaIconLibrary) {
     library.addIcons(faUserMd);
@@ -54,7 +53,9 @@ export class DashboardProfessorClinicalComponent implements OnInit {
 
   setWelcomeMessage() {
     if (this.user?.person?.gender?.idGender) {
-      this.welcomeMessage = this.welcomeMessageService.getWelcomeMessage(this.user.person.gender.idGender);
+      this.welcomeMessage = this.welcomeMessageService.getWelcomeMessage(
+        this.user.person.gender.idGender
+      );
     }
   }
 }

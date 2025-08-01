@@ -4,6 +4,8 @@
   <app-side-nav 
     [isSidebarOpen]="isSidebarOpen" 
     (menuSelect)="onSidebarToggle()"
+    [menuItems]="adminMenuItems"
+    [userLink]="userLink"
   ></app-side-nav>
   <!-- Main content -->
   <div class="content flex flex-col flex-1" [class.sidebar-open]="isSidebarOpen" [class.sidebar-closed]="!isSidebarOpen">

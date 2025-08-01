@@ -1,26 +1,21 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  FaIconLibrary,
+  FontAwesomeModule,
+} from '@fortawesome/angular-fontawesome';
 import { faUserMd } from '@fortawesome/free-solid-svg-icons'; // Ícono de doctor
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
-import {
-  studentResponse,
-  studentUserResponse,
-} from 'src/app/shared/interfaces/student/student';
-import { DashboardAdminStatsComponent } from '../../../admins/components/dashboard-admin-stats-component/dashboard-admin-stats-component.component';
 import { ProfessorResponse } from 'src/app/models/shared/professor/professor.model';
-import { DashboardProfessorClinicalComponent } from "../../../clinical-area-supervisor/components/dashboard/dashboard.component";
-import { DashboardProfessorStatsComponent } from "../dashboard-professor-stats/dashboard-professor-stats.component";
-//import { DashboardAdminStatsComponent } from '../dashboard-admin-stats-component/dashboard-admin-stats-component.component';
-
+import { studentResponse } from 'src/app/shared/interfaces/student/student';
+import { DashboardProfessorStatsComponent } from '../../components/dashboard-professor-stats/dashboard-professor-stats.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [FontAwesomeModule, DashboardProfessorStatsComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-})  
+})
 export class DashboardComponent implements OnInit {
   constructor(library: FaIconLibrary) {
     library.addIcons(faUserMd);

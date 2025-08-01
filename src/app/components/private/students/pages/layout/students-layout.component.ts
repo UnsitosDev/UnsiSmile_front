@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { HeaderComponent, SideNavComponent } from '@mean/shared';
-import { NewPasswordComponent } from "../../../../../shared/components/new-password/new-password.component";
+import { StudentItems } from '@mean/models';
 import { AuthService } from '@mean/services';
+import { HeaderComponent, SideNavComponent } from '@mean/shared';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 
@@ -19,6 +19,8 @@ import { SessionStorageConstants } from 'src/app/utils/session.storage';
 export class StudentsLayoutComponent implements OnInit  {
   private token!: string;
   private tokenData!:  TokenData;
+  StudentItems = StudentItems;
+  readonly userLink = '/students/user';
 
   constructor(private router: Router) {}
 
