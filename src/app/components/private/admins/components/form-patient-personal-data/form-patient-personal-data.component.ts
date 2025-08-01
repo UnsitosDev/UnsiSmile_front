@@ -1,40 +1,35 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { ChangeDetectionStrategy, } from '@angular/core';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
-import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
 import { FormField } from 'src/app/models/form-fields/form-field.interface';
 import { FormFieldsService } from 'src/app/services/form-fields.service';
-import { inject } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
+import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
 
 
+import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { AlertModel, StudentItems } from '@mean/models';
-import { PatientService } from 'src/app/services/patient/patient.service';
-import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
-import { ApiService } from '@mean/services';
-import { HttpHeaders } from '@angular/common/http';
-import { UriConstants } from '@mean/utils';
 import { NavigationStart, Router } from '@angular/router';
+import { AlertModel } from '@mean/models';
+import { ApiService } from '@mean/services';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogConfirmLeaveComponent } from '../../../students/components/dialog-confirm-leave/dialog-confirm-leave.component';
-import { Messages } from 'src/app/utils/messageConfirmLeave';
-import { MatCardModule } from '@angular/material/card';
+import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
+import { PatientService } from 'src/app/services/patient/patient.service';
 import { studentService } from 'src/app/services/student.service';
+import { Messages } from 'src/app/utils/messageConfirmLeave';
+import { DialogConfirmLeaveComponent } from '../../../students/components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { DialogConfirmGuardianComponent } from '../dialog-confirm-guardian/dialog-confirm-guardian.component';
-import { LoadingComponent } from '@mean/shared';
+import { StudentItems } from '../../../students/pages/layout/student-menu-items.model';
 
 @Component({
   selector: 'app-form-patient-personal-data',

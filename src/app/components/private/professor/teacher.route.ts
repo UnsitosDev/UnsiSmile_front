@@ -15,7 +15,7 @@ export default [
             path: '',
             loadComponent: () =>
               import(
-                '../proffessor/components/table-students/table-students.component'
+                './components/table-students/table-students.component'
               ).then((m) => m.TableStudentsComponent),
           },
         ],
@@ -23,7 +23,7 @@ export default [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('../proffessor/pages/dashboard/dashboard.component').then(
+          import('./pages/dashboard/dashboard.component').then(
             (m) => m.DashboardComponent
           ),
       },

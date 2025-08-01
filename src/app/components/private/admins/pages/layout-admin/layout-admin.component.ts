@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AdminItems } from '@mean/models';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
+import { AdminItems } from './admin-menu-items.model';
 
 @Component({
   selector: 'app-layout-admin',

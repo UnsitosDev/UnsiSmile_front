@@ -1,20 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ProfessorItems } from '@mean/models';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
-
-
+import { ProfessorItems } from './proffesor-menu-items';
 
 @Component({
   selector: 'app-students-layout',
   standalone: true,
-  imports: [
-    RouterOutlet, SideNavComponent, HeaderComponent,
-],
+  imports: [RouterOutlet, SideNavComponent, HeaderComponent],
   templateUrl: './proffessor-layout.component.html',
-  styleUrls: ['./proffessor-layout.component.scss']
+  styleUrls: ['./proffessor-layout.component.scss'],
 })
-export class ProffesorLayoutComponent implements OnInit  {
+export class ProffesorLayoutComponent implements OnInit {
   isSidebarOpen = false; // Cambiamos el valor inicial a false
   professorItems = ProfessorItems;
   readonly userLink = '/professor/user';
@@ -27,4 +23,3 @@ export class ProffesorLayoutComponent implements OnInit  {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 }
-

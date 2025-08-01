@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ClinicalAreaSupervisorsItems } from '@mean/models';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
+import { ClinicalAreaSupervisorsItems } from './clinical-area-menu-items.model';
 
 @Component({
   selector: 'app-layout-clinical-area-supervisor',

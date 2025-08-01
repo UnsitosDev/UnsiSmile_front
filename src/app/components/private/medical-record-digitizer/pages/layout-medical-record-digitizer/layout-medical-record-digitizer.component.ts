@@ -1,8 +1,7 @@
-import { MedicalRecord } from 'src/app/models/history-clinic/medical-record.models';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
-import { MedicalRecordDigitizerItems } from '@mean/models';
+import { MedicalRecordDigitizerItems } from './medical-record-digitizer-menu-items.model';
 
 @Component({
   selector: 'app-layout-medical-record-digitizer',

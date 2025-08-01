@@ -1,10 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { StudentItems } from '@mean/models';
 import { AuthService } from '@mean/services';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
+import { StudentItems } from './student-menu-items.model';
 
 
 @Component({
