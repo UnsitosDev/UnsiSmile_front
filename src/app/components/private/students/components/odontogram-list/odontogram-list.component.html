@@ -1,33 +1,31 @@
 <div class="odontogram-list-container mat-elevation-z2">
   @if (isLoading) {
-    <div class="loading-container">
-    </div>
+  <div class="loading-container"></div>
   } @else if (odontograms.length === 0) {
-    <div class="empty-state">
-      <mat-icon class="empty-icon">assessment</mat-icon>
-      <p>No hay odontogramas registrados</p>
-    </div>
+  <div class="empty-state">
+    <mat-icon class="empty-icon">assessment</mat-icon>
+    <p>No hay odontogramas registrados</p>
+  </div>
   } @else {
-    <mat-accordion>
-      @for (odontogram of odontograms; track odontogram; let i = $index) {
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              sesión #{{ odontograms.length - i }}
-            </mat-panel-title>
-            <mat-panel-description>
-              {{odontogram.creationDate | date:'dd/MM/yyyy'}}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <app-students-odontogram
-            [patientId]="patientUuid"
-            [idPatientMedicalRecord]="idPatientMedicalRecord"
-            [idOdontogram]="odontogram.idOdontogram"
-            [state]="'read'"
-           >
-          </app-students-odontogram>
-        </mat-expansion-panel>
-      }
-    </mat-accordion>
+  <mat-accordion>
+    @for (odontogram of odontograms; track odontogram; let i = $index) {
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          sesión #{{ odontograms.length - i }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ odontogram.creationDate | date : "dd/MM/yyyy" }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-odontogram
+        [patientId]="patientUuid"
+        [idOdontogram]="odontogram.idOdontogram"
+        [state]="'read'"
+      >
+      </app-odontogram>
+    </mat-expansion-panel>
+    }
+  </mat-accordion>
   }
 </div>

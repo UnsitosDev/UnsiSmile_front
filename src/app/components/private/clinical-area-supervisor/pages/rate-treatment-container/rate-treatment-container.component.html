@@ -8,6 +8,7 @@
 
   <div class="mat-tab-group">
 <mat-tab-group>
+
     <mat-tab>
       <ng-template mat-tab-label>
         <i class="fas fa-folder"></i>
@@ -15,6 +16,18 @@
       </ng-template>
       <app-students-general-history [patientUuid]="idPatient"></app-students-general-history>
     </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="fas fa-tooth"></i>
+        <span class="ml-2">Odontogramas</span>
+      </ng-template>
+      <app-odontogram-container
+        [patientUuid]="idPatient"
+        [readonly]="false"
+        ></app-odontogram-container>
+    </mat-tab>
+
     <mat-tab>
       <ng-template mat-tab-label>
         <i class="fas fa-pills"></i>

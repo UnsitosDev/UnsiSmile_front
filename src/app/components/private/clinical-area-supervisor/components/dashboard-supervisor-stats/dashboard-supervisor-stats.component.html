@@ -14,6 +14,7 @@
       icon="fas fa-user-graduate"
       cardType="numeric"
       valueClass="text-blue-600 text-2xl font-bold"
+      [colorBar]="'bg-blue-500'"
     >
     </app-dashboard-card>
 
@@ -25,6 +26,7 @@
       icon="fas fa-user-injured"
       cardType="numeric"
       valueClass="text-blue-600 text-2xl font-bold"
+      [colorBar]="'bg-blue-500'"
     >
     </app-dashboard-card>
   </div>
@@ -47,7 +49,7 @@
       icon="fas fa-times-circle"
       cardType="numeric"
       [value]="stats.medicalRecordsRejected"
-      [colorBar]="'bg-green-500'"
+      [colorBar]="'bg-blue-500'"
     ></app-dashboard-card>
 
     <!-- Clinical Histories Accepted -->
@@ -57,7 +59,7 @@
       icon="fas fa-check-circle"
       cardType="numeric"
       [value]="stats.medicalRecordsAccepted"
-      [colorBar]="'bg-purple-500'"
+      [colorBar]="'bg-blue-500'"
     ></app-dashboard-card>
 
     <!-- Treatments Completed -->
@@ -67,7 +69,7 @@
       icon="fas fa-notes-medical"
       cardType="numeric"
       [value]="stats.treatmentsCompleted || 0"
-      [colorBar]="'bg-purple-500'"
+      [colorBar]="'bg-blue-500'"
     ></app-dashboard-card>
   </div>
 }

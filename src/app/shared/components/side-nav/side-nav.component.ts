@@ -1,29 +1,27 @@
 import {
   Component,
+  EventEmitter,
+  inject,
   Input,
   OnInit,
-  inject,
   Output,
-  EventEmitter,
   signal,
 } from '@angular/core';
-import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
-import { StudentItems, AdminItems, MenuItem, ProfessorItems, ProfessorClinicalAlreaItems, MedicalRecordDigitizerItems } from '@mean/models';
-import {
-  studentResponse,
-  studentUserResponse,
-} from '../../interfaces/student/student';
-import { ApiService } from '@mean/services';
+import { Router, RouterModule } from '@angular/router';
+import { MenuItem } from '@mean/models';
+import { ApiService, AuthService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
-import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
-import { RouterModule } from '@angular/router';
-import { AuthService } from '@mean/services';
-import { SessionStorageConstants } from 'src/app/utils/session.storage';
-import { Router, RouterLinkActive } from '@angular/router';
 import { Subject } from 'rxjs';
+import {
+  AdminProfile,
+  ProfessorProfile,
+  StudentProfile,
+} from 'src/app/models/shared/profile/profile.model';
 import { ProfilePictureService } from 'src/app/services/profile-picture.service';
-import { AdminProfile, ProfessorProfile, StudentProfile } from 'src/app/models/shared/profile/profile.model';
 import { ROLES } from 'src/app/utils/roles';
+import { SessionStorageConstants } from 'src/app/utils/session.storage';
+import { studentResponse } from '../../interfaces/student/student';
+import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
 
 @Component({
   selector: 'app-side-nav',
@@ -33,8 +31,8 @@ import { ROLES } from 'src/app/utils/roles';
   styleUrl: './side-nav.component.scss',
 })
 export class SideNavComponent implements OnInit {
-  userLink = ''; // Inicializamos vacía para luego asignarle el valor correcto
-  public menuItems: MenuItem[] = [];
+  @Input({ required: true }) userLink: string = ''; // Inicializamos con un valor por defecto
+  @Input({ required: true }) menuItems: MenuItem[] = []; // Inicializamos como un array vacío
   private userService = inject(ApiService<studentResponse, {}>);
   user!: StudentProfile | AdminProfile | ProfessorProfile;
   welcomeMessage: string = 'Bienvenido';
@@ -106,42 +104,8 @@ export class SideNavComponent implements OnInit {
   }
 
   setMenuItems() {
-    const role = this.user.user.role.role; // o ajusta según tu estructura real
-
-    switch (role) {
-      case this.ROL.STUDENT:
-        this.menuItems = StudentItems;
-        this.userLink = '/students/user';
-        break;
-
-      case this.ROL.ADMIN:
-        this.menuItems = AdminItems;
-        this.userLink = '/admin/user';
-        break;
-
-      case this.ROL.PROFESSOR:
-        this.menuItems = ProfessorItems;
-        this.userLink = '/professor/user';
-        break;
-
-      case this.ROL.CLINICAL_AREA_SUPERVISOR:
-        this.menuItems = ProfessorClinicalAlreaItems;
-        this.userLink = '/clinical-area-supervisor/user';
-        break;
-
-      case this.ROL.ROLE_MEDICAL_RECORD_DIGITIZER:
-        this.menuItems = MedicalRecordDigitizerItems;
-        this.userLink = '/medical-record-digitizer/user';
-        break;
-
-      default:
-        // Opcional: manejar un rol desconocido
-        this.menuItems = [];
-        this.userLink = '/';
-        break;
-    }
+    const role = this.user.user.role.role;
   }
-
 
   setWelcomeMessage() {
     switch (this.user.person.gender.idGender) {

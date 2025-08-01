@@ -3,22 +3,28 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { StudentsOdontogramComponent } from '@mean/students';
-import { OdontogramTreatment } from './models/odontogram-list.model';
+import { OdontogramComponent } from '../odontogram/odontogram.component';
+import { OdontogramSimpleResponse } from './models/odontogram-list.model';
 import { OdontogramListService } from './repository/odontogram-list.service';
 
 @Component({
   selector: 'app-odontogram-list',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIcon, MatExpansionModule, StudentsOdontogramComponent],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatIcon,
+    MatExpansionModule,
+    OdontogramComponent,
+  ],
   templateUrl: './odontogram-list.component.html',
-  styleUrl: './odontogram-list.component.scss'
+  styleUrl: './odontogram-list.component.scss',
 })
 export class OdontogramListComponent implements OnInit {
-  @Input({ required: true }) idPatientMedicalRecord!: number;
   @Input({ required: true }) patientUuid!: string;
-  
-  odontograms: OdontogramTreatment[] = [];
+  @Input({ required: true }) scope!: 'MEDICAL_RECORD' | 'PATIENT';
+
+  odontograms: OdontogramSimpleResponse[] = [];
   displayedColumns: string[] = ['idOdontogram', 'creationDate', 'actions'];
   isLoading = false;
 
@@ -30,7 +36,8 @@ export class OdontogramListComponent implements OnInit {
 
   private loadOdontograms(): void {
     this.isLoading = true;
-    this.odontogramListService.getOdontogramsByPatientMedicalRecordId(this.idPatientMedicalRecord)
+    this.odontogramListService
+      .getOdontogramsByPatientUuid(this.patientUuid)
       .subscribe({
         next: (response) => {
           this.odontograms = response;
@@ -39,7 +46,7 @@ export class OdontogramListComponent implements OnInit {
         error: (error) => {
           console.error('Error loading odontograms:', error);
           this.isLoading = false;
-        }
+        },
       });
   }
 }

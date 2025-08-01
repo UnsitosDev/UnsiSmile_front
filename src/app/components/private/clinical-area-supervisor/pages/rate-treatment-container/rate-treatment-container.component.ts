@@ -4,13 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { ID_TREATMENT_DETAIL, MEDICAL_RECORD_ID, PATIENT_UUID } from '@mean/models';
 import { OralProsthesisComponent, PreventiveDentistryPublicHealthComponent, StudentsDentalOperationComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent } from '@mean/students';
 import { DialogRateTreatmentComponent } from '../../components/dialog-rate-treatment/dialog-rate-treatment.component';
-import { StudentsGeneralHistoryComponent } from "../../../students/pages/medicalRecords/general/students-general-history.component";
+import { StudentsGeneralHistoryComponent } from "../../../students/pages/medical-records-forms/general/students-general-history.component";
 import { MatTabsModule } from '@angular/material/tabs';
+import { OdontogramContainerComponent } from '../../../students/pages/odontogram-container/odontogram-container.component';
 
 @Component({
   selector: 'app-rate-treatment-container',
   standalone: true,
-  imports: [OralProsthesisComponent, StudentsPeriodonticsHistoryComponent, StudentsDentalOperationComponent, StudentsPeriodonticsHistoryComponent, StudentsOralSurgeryHistoryComponent, PreventiveDentistryPublicHealthComponent, StudentsGeneralHistoryComponent, MatTabsModule],
+  imports: [OralProsthesisComponent, StudentsPeriodonticsHistoryComponent, StudentsDentalOperationComponent, StudentsPeriodonticsHistoryComponent, StudentsOralSurgeryHistoryComponent, PreventiveDentistryPublicHealthComponent, StudentsGeneralHistoryComponent, MatTabsModule, OdontogramContainerComponent],
   templateUrl: './rate-treatment-container.component.html',
   styleUrl: './rate-treatment-container.component.scss',
 })

@@ -4,7 +4,7 @@ export default [
     {
         path: '',
         loadComponent: () =>
-            import('./components/layout-medical-record-digitizer/layout-medical-record-digitizer.component').then(
+            import('./pages/layout-medical-record-digitizer/layout-medical-record-digitizer.component').then(
                 (m) => m.LayoutMedicalRecordDigitizerComponent
             ),
         children: [
@@ -32,14 +32,14 @@ export default [
             {
                 path: 'medical-records/patient/:patientID',
                 loadComponent: () =>
-                    import('./components/pages/medical-records-diditizer/medical-records-digitizer.component').then(
+                    import('./pages/medical-records-diditizer/medical-records-digitizer.component').then(
                         (m) => m.MedicalRecordsDigitizerComponent
                     ),
             },
             {
                 path: 'medical-record/:medical-record/patient/:patientID',
                 loadComponent: () =>
-                    import('./components/pages/digitize-medical-record/digitize-medical-record.component').then(
+                    import('./pages/digitize-medical-record/digitize-medical-record.component').then(
                         (m) => m.DigitizeMedicalRecordComponent
                     ),
             },

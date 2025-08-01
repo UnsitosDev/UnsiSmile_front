@@ -19,7 +19,7 @@ import { Validators } from '@angular/forms';
 
 
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { AlertModel, StudentItems } from '@mean/models';
+import { AlertModel } from '@mean/models';
 import { PatientService } from 'src/app/services/patient/patient.service';
 import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
 import { ApiService } from '@mean/services';
@@ -35,6 +35,7 @@ import { MatCardModule } from '@angular/material/card';
 import { studentService } from 'src/app/services/student.service';
 import { DialogConfirmGuardianComponent } from '../../../admins/components/dialog-confirm-guardian/dialog-confirm-guardian.component';
 import { LoadingComponent } from '@mean/shared';
+import { StudentItems } from '../../pages/layout/student-menu-items.model';
 
 
 @Component({
