@@ -1,40 +1,42 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { ApiService } from "@mean/services";
-import { HttpHeaders } from "@angular/common/http";
-import { UriConstants } from "@mean/utils";
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import { ToastrService } from "ngx-toastr";
-import { PaginatedData, TreatmentDetailResponse, Treatments } from '@mean/models';
-import {MatButtonModule} from "@angular/material/button";
-import {MatCard, MatCardTitle} from "@angular/material/card";
-import {MatIcon} from "@angular/material/icon";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatSelectModule} from "@angular/material/select";
+import { MatButtonModule } from '@angular/material/button';
+import { MatCard, MatCardTitle } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { ActivatedRoute } from '@angular/router';
+import { ID_STUDENT, PaginatedData, TreatmentDetailResponse, Treatments } from '@mean/models';
+import { ApiService } from '@mean/services';
+import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-dialog-reports-treatments',
+  selector: 'app-treatments-report-details',
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, MatCard, MatCardTitle, MatIcon, MatFormFieldModule, MatSelectModule],
-  templateUrl: './dialog-reports-treatments.component.html',
-  styleUrl: './dialog-reports-treatments.component.scss'
+  templateUrl: './treatments-report-details.component.html',
+  styleUrl: './treatments-report-details.component.scss'
 })
-export class DialogReportsTreatmentsComponent {
-  public dialogRef = inject(MatDialogRef<DialogReportsTreatmentsComponent>);
+export class TreatmentsReportDetailsComponent {
   private readonly apiService = inject(ApiService);               // Servicio para hacer peticiones a la API
-  private readonly data = inject(MAT_DIALOG_DATA);                // Datos inyectados desde el componente padre
   private readonly toastr = inject(ToastrService);                // Servicio para mostrar notificaciones toast
   private idStudent!: string;                                     // Almacena la matrícula del estudiante
-  public treatments: PaginatedData<TreatmentDetailResponse> | null = null;     // Almacena la lista paginada de tratamientos
+  private route = inject(ActivatedRoute);
+  public treatments!: PaginatedData<TreatmentDetailResponse>;     // Almacena la lista paginada de tratamientos
   public treatmentData: Treatments[] = [];
   public selectedIdTreatment = 'none';
 
   ngOnInit() {
-    this.idStudent = this.data.idStudent;                        // Asigna el ID del estudiante desde los datos inyectados
+    this.routeParams();
     this.fetchTreatments();
   }
 
-  public closeDialog(): void {
-    this.dialogRef.close();
+  public routeParams() {
+    this.route.params.subscribe((params) => {
+      this.idStudent = params[ID_STUDENT];
+    });
   }
 
   // Obtiene los tratamientos asociados al estudiante desde la API
@@ -96,7 +98,7 @@ export class DialogReportsTreatmentsComponent {
     });
   }
 
-  public fetchTreatments(){
+  public fetchTreatments() {
     this.apiService.getService({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

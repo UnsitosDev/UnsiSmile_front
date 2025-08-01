@@ -12,3 +12,4 @@ export const TAB_MEDICAL_RECORD = 'tabMedicalRecord';
 export const STATUS_TREATMENT = 'status';
 export const ID_MEDICAL_RECORD_DIGITIZER = 'medical-record';
 export const ID_PATIENT_MEDICAL_RECORD_DIGITIZER = 'patientMedicalRecordID';
+export const ID_STUDENT = 'idStudent';
