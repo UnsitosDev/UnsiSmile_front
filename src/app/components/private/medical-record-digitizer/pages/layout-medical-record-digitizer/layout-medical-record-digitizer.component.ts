@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
+import { MedicalRecordDigitizerItems } from './medical-record-digitizer-menu-items.model';
 
 @Component({
   selector: 'app-layout-medical-record-digitizer',
@@ -11,6 +12,8 @@ import { HeaderComponent, SideNavComponent } from '@mean/shared';
 })
 export class LayoutMedicalRecordDigitizerComponent implements OnInit {
   isSidebarOpen = false;
+  readonly userLink = '/medical-record-digitizer/user';
+  readonly medicalRecordDigitizerItems = MedicalRecordDigitizerItems;
 
   ngOnInit() {
     this.isSidebarOpen = window.innerWidth > 768;

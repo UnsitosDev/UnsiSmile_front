@@ -1,4 +1,4 @@
-export * from './components/layout/students-layout.component';
+export * from './pages/layout/students-layout.component';
 export * from './components/table-patients/students-patients.component';
 export * from './components/odontogram/tooth-event.model';
 export * from './components/toolbar-odontogram/students-toolbar.component'

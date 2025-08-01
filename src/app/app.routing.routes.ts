@@ -27,7 +27,7 @@ const routes: Routes = [
   },
   {
     path: 'professor',
-    loadChildren: () => import('./components/private/proffessor/teacher.route'),
+    loadChildren: () => import('./components/private/professor/teacher.route'),
     canActivate: [proffesorGuard, PasswordChangeGuard],
   },
   {

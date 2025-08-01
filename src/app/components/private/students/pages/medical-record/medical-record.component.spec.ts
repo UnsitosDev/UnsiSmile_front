@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SideNavComponent } from './side-nav.component';
+import { MedicalRecordComponent } from './medical-record.component';
 
-describe('SideNavComponent', () => {
-  let component: SideNavComponent;
-  let fixture: ComponentFixture<SideNavComponent>;
+describe('MedicalRecordComponent', () => {
+  let component: MedicalRecordComponent;
+  let fixture: ComponentFixture<MedicalRecordComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SideNavComponent]
+      imports: [MedicalRecordComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SideNavComponent);
+    fixture = TestBed.createComponent(MedicalRecordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
