@@ -14,7 +14,7 @@ import {
   getEntityPropiedades,
 } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
-import { StudentsGeneralHistoryComponent } from '../../../students/pages/medicalRecords/general/students-general-history.component';
+import { StudentsGeneralHistoryComponent } from '../../../students/pages/medical-records-forms/general/students-general-history.component';
 import { studentRequest } from 'src/app/shared/interfaces/student/student';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
