@@ -137,6 +137,8 @@ export class TreatmentComponent implements OnInit {
       case 1:
         break;
       case 2:
+        break;
+      case 3:
         this.fetchTreatmentData();
         break;
       default:
