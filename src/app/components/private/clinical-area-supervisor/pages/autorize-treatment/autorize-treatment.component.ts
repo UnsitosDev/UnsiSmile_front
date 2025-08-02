@@ -28,10 +28,12 @@ export class AutorizeTreatmentComponent {
 
   public patientUuid!: string;
   public idTreatmentDetail!: number;
+  public statusId!: number;
 
   ngOnInit() {
     this.patientUuid = this.route.snapshot.params['patientUuid'];
     this.idTreatmentDetail = this.route.snapshot.params['idTreatmentDetail'];
+    this.statusId = this.route.snapshot.params['statusId'];
   }
 
   public openDialogRejectTreatment() {
@@ -40,6 +42,7 @@ export class AutorizeTreatmentComponent {
         idTreatmentDetail: this.idTreatmentDetail,
         title: '¿Está seguro de rechazar el tratamiento?',
         state: 'Rechazar',
+        statusId: this.statusId
       },
       width: '400px',
     });
@@ -57,6 +60,7 @@ export class AutorizeTreatmentComponent {
         idTreatmentDetail: this.idTreatmentDetail,
         title: '¿Está seguro de aprobar el tratamiento?',
         state: 'Aprobar',
+        statusId: this.statusId
       },
       width: '400px',
     });

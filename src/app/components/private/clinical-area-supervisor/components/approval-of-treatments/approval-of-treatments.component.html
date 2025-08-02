@@ -60,7 +60,7 @@
                 </button>
               }
               @case (STATUS.AWAITING_APPROVAL) {
-                <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap"  (click)="navigateToGeneralMedicalRecord(treatment.patient.id, treatment.idTreatmentDetail)">
+                <button mat-stroked-button matTooltip="Ver tratamiento" class="whitespace-nowrap"  (click)="navigateToGeneralMedicalRecord(treatment.patient.id, treatment.idTreatmentDetail, treatment.idStatus)">
                   <span class="flex items-center">
                     <i class="fas fa-notes-medical cursor-pointer mr-2"></i>
                     Revisar tratamiento

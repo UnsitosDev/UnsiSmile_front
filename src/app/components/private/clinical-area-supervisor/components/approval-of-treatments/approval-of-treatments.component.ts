@@ -115,12 +115,14 @@ export class ApprovalOfTreatmentsComponent extends treatmentsListNotifications {
       }
     }
 
-     public navigateToGeneralMedicalRecord(patientUuid: string, idTreatmentDetail: number) {
+     public navigateToGeneralMedicalRecord(patientUuid: string, idTreatmentDetail: number, statusId: number): void {
       this.router.navigate([
         '/clinical-area-supervisor/authorize-treatments/patient',
         patientUuid,
         'treatment-detail',
-        idTreatmentDetail
+        idTreatmentDetail,
+        'status',
+        statusId
       ]);
     }
   

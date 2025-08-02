@@ -46,6 +46,7 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
       }),
       url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${this.data.idTreatmentDetail}/approval`,
       data: {
+        idExecutionReview: this.data.statusId,
         status: STATUS_TREATMENTS.NOT_APPROVED,
         comments: this.comment
       },
@@ -74,6 +75,7 @@ export class DialogAuthorizationTreatmentComponent implements OnInit {
       }),
       url: `${UriConstants.PATCH_AUTHORIZATION_TREATMENT}/${this.data.idTreatmentDetail}/approval`,
       data: {
+        idExecutionReview: this.data.statusId,
         status: STATUS_TREATMENTS.APPROVED,
         comments: this.comment,
       },

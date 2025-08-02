@@ -66,7 +66,7 @@ export default [
           ).then((m) => m.ApprovalOfTreatmentsComponent),
       },
       {
-        path: 'authorize-treatments/patient/:patientUuid/treatment-detail/:idTreatmentDetail',
+        path: 'authorize-treatments/patient/:patientUuid/treatment-detail/:idTreatmentDetail/status/:statusId',
         loadComponent: () =>
           import(
             './pages/autorize-treatment/autorize-treatment.component'

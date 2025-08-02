@@ -9,6 +9,7 @@ export interface TreatmentDetailResponse {
     treatment:         Treatment;
     teeth:             Tooth[];
     comments:          string;
+    idStatus:         number;
 }
 
 interface Patient {
