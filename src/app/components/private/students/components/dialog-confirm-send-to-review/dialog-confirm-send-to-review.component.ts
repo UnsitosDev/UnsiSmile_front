@@ -8,7 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { TreatmentDetailResponse } from '@mean/models';
 import { ApiService } from '@mean/services';
-import { UriConstants } from '@mean/utils';
+import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { ProfessorClinicalAreaResponse } from 'src/app/models/clinical-areas/clinical.areas.model';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
@@ -41,6 +41,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
   private currentPage = 0;
   private readonly pageSize = 10;
   public isLoading = false;
+  public STATUS = STATUS_TREATMENTS;
 
   ngOnInit(): void {
     this.professorAreas();
