@@ -1,6 +1,10 @@
-<mat-card class="full-width-card">
-  <mat-card-title><strong>Historias clínicas - Visualización</strong></mat-card-title>
-</mat-card>
+<div class="header-container">
+  <strong><h2 class="title">Historias clínicas - Visualización</h2></strong>
+  <button mat-stroked-button (click)="goBack()" class="back-button" matTooltip="Regresar a la vista anterior" aria-label="Regresar">
+    <i class="fas fa-arrow-left"></i>
+    <span class="button-text">Regresar</span>
+  </button>
+</div>
 
 <div class="medical-record-container">
   <!-- Loading State -->

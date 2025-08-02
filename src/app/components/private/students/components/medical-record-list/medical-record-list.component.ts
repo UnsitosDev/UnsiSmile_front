@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { DateAdapter } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -12,19 +13,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Subject, takeUntil } from 'rxjs';
+import { BaseNavigationComponent } from 'src/app/core/base/base-navigation.component';
 import { StatusService } from 'src/app/shared';
-import { DateAdapter } from '@angular/material/core';
 import { CustomSelectComponent, SelectOption } from 'src/app/shared/components/custom-select/custom-select.component';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
 import { MedicalRecordHistory, MedicalRecordHistoryResponse } from './models/medical-record-history.model';
 import { MedicalRecordHistoryRepository } from './repositories/medical-record-history.repository';
-
-interface SortOption {
-  value: string;
-  label: string;
-  icon: string;
-}
-
 @Component({
   selector: 'app-medical-record-list',
   standalone: true,
@@ -47,7 +41,7 @@ interface SortOption {
   templateUrl: './medical-record-list.component.html',
   styleUrl: './medical-record-list.component.scss'
 })
-export class MedicalRecordListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MedicalRecordListComponent extends BaseNavigationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() idPatient: string = '';
   @ViewChild('loadingTrigger', { static: false }) loadingTrigger!: ElementRef;
 
@@ -74,11 +68,13 @@ export class MedicalRecordListComponent implements OnInit, OnDestroy, AfterViewI
   private destroy$ = new Subject<void>();
   private intersectionObserver?: IntersectionObserver;
 
-  constructor(
-    private repo: MedicalRecordHistoryRepository,
-    private dateAdapter: DateAdapter<Date>,
-    public statusService: StatusService
-  ) {}
+  private repo = inject(MedicalRecordHistoryRepository);
+  private dateAdapter = inject(DateAdapter<Date>);
+  public statusService = inject(StatusService);
+
+  constructor() {
+    super();
+  }
 
 
 

@@ -1,4 +1,4 @@
-export * from './components/base/base.component';
+export * from '../core/base/base.component';
 export * from './components/button-menu-item/button-menu-item.component';
 export * from './components/footer/footer.component';
 export * from './components/header/header.component';
