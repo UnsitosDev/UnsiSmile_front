@@ -30,7 +30,6 @@ import { MedicalRecordBaseComponent } from '../medical-record-base-component/med
     MatDialogModule,
     MatCardModule,
     MatButtonModule,
-    CardPatientDataComponent,
     TabViewModule,
     TabFormUpdateComponent,
     HeaderHistoryClinicComponent,
