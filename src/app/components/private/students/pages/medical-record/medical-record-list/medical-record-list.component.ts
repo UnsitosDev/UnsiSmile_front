@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Subject, takeUntil } from 'rxjs';
 import { StatusService } from 'src/app/shared';
+import { DateAdapter } from '@angular/material/core';
 import { CustomSelectComponent, SelectOption } from 'src/app/shared/components/custom-select/custom-select.component';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
 import { MedicalRecordHistory, MedicalRecordHistoryResponse } from '../models/medical-record-history.model';
@@ -47,7 +48,6 @@ interface SortOption {
   styleUrl: './medical-record-list.component.scss'
 })
 export class MedicalRecordListComponent implements OnInit, OnDestroy, AfterViewInit {
-  statusService = inject(StatusService);
   @Input() idPatient: string = '';
   @ViewChild('loadingTrigger', { static: false }) loadingTrigger!: ElementRef;
 
@@ -75,8 +75,12 @@ export class MedicalRecordListComponent implements OnInit, OnDestroy, AfterViewI
   private intersectionObserver?: IntersectionObserver;
 
   constructor(
-    private repo: MedicalRecordHistoryRepository
+    private repo: MedicalRecordHistoryRepository,
+    private dateAdapter: DateAdapter<Date>,
+    public statusService: StatusService
   ) {}
+
+
 
   ngOnInit(): void {
     if (this.idPatient) {
@@ -184,7 +188,6 @@ export class MedicalRecordListComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   onOrderDirectionChange(): void {
-    // No necesitamos cambiar manualmente isAscending ya que ngModel se encarga de eso
     this.onSortChange();
   }
 
@@ -199,5 +202,11 @@ export class MedicalRecordListComponent implements OnInit, OnDestroy, AfterViewI
 
   trackByRecordId(index: number, record: MedicalRecordHistory): number {
     return record.patientMedicalRecordId || index;
+  }
+
+  formatDate(dateValue: string | Date): string {
+    if (!dateValue) return 'Sin fecha';
+    const date = dateValue instanceof Date ? dateValue : new Date(dateValue);
+    return this.dateAdapter.format(date, 'dd/MM/yyyy');
   }
 }

@@ -11,14 +11,21 @@ import { AuthInterceptor } from './app/core';
 import { LoadingInterceptor } from './app/core/interceptors/loading.interceptor';
 import { RefreshTokenInterceptor } from './app/core/interceptors/refresh-token.interceptor';
 import { globalHttpInterceptor } from './app/core/interceptors/global-http.interceptor';
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { provideNativeDateAdapter, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
+import { SpanishDateAdapter } from './app/shared/adapters/spanish-date.adapter';
 
 bootstrapApplication(
   AppComponent,
-  {providers:[
-    provideCharts(withDefaultRegisterables()),
-    importProvidersFrom(BrowserModule, ToastrModule.forRoot({
+  {
+    providers: [
+      provideCharts(withDefaultRegisterables()),
+      provideZoneChangeDetection({ eventCoalescing: true }),
+      { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+      { provide: DateAdapter, useClass: SpanishDateAdapter },
+      provideNativeDateAdapter(),
+      importProvidersFrom(BrowserModule, ToastrModule.forRoot({
       timeOut: 3000,
       progressBar: true,
       closeButton: true,
