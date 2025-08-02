@@ -45,13 +45,13 @@
               <li><strong>Tratamiento:</strong> {{ treatment.treatment.name }}</li>
               <li><strong>Fecha de inicio:</strong> {{ treatment.startDate | arrayToDate }}</li>
               <li><strong>Fecha  de finalización:</strong> {{ treatment.endDate | arrayToDate }}</li>
-              @if (treatment.teeth && treatment.teeth !== null) {
+              @if (treatment.teeth && treatment.teeth.length > 0) {
                 <li>
                   <strong>Órganos dentarios: </strong>
                   @for (tooth of treatment.teeth; track tooth.idTooth; let last = $last) {
-                    @if (tooth.status === STATUS.IN_REVIEW) {
-                      {{ tooth.idTooth }}{{ !last ? ', ' : '' }}  
-                    }                  
+                    @if (statusControl.value === STATUS.IN_REVIEW ? tooth.status === STATUS.IN_REVIEW : true) {
+                      {{ tooth.idTooth }}{{ !last ? ', ' : '' }}
+                    }
                   }
                 </li>
               }
