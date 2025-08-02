@@ -80,14 +80,16 @@ export class StudentsPatientsComponent implements OnInit {
   }
 
   onAction(accion: Accion) {
-    if (accion.accion === 'Editar') {  // Cambiado de 'Editar' a 'Modificar'
+    if (accion.accion === 'Editar') {
       this.editar(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
       this.openDetailsDialog(accion.fila);
-    }  else if (accion.accion === 'Modificar') {
+    } else if (accion.accion === 'Modificar') {
       this.edit(accion.fila);
+    } else if (accion.accion === 'Historial') {
+      this.viewMedicalHistory(accion.fila);
     }
   }
   
@@ -97,6 +99,10 @@ export class StudentsPatientsComponent implements OnInit {
 
   edit(objeto: any) {
     this.router.navigate(['/students/patients/updatePatient', objeto.patientID]);
+  }
+
+  viewMedicalHistory(patient: any) {
+    this.router.navigate(['/students/patients/medical-record', patient.patientID]);
   }
 
   editar(objeto: PatientInfo) {
