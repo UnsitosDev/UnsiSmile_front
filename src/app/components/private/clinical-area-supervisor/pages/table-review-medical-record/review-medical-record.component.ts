@@ -82,7 +82,7 @@ export class ReviewMedicalRecordComponent implements OnInit {
       status,
       page: 0,
       size: 10,
-      order: 'patientClinicalHistory.idPatientClinicalHistory',
+      order: 'patientMedicalRecord.idPatientMedicalRecord',
       asc: true,
     };
 

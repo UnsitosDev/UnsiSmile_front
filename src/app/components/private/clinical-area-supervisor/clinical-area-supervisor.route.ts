@@ -31,7 +31,7 @@ export default [
           ).then((m) => m.StudentsGeneralHistoryComponent),
       },
       {
-        path: 'rate-treatment/treatment-detail/:idTreatmentDetail/patient/:patientID/medical-record/:medicalRecordId', // Ruta para historia clínica general
+        path: 'rate-treatment/treatment-detail/:idTreatmentDetail/patient/:patientID/medical-record/:medicalRecordId/status/:idStatus', // Ruta para historia clínica general
         loadComponent: () =>
           import(
             './pages/rate-treatment-container/rate-treatment-container.component'

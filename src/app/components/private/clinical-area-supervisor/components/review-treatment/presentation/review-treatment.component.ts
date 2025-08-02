@@ -167,7 +167,9 @@ export class ReviewTreatmentComponent extends treatmentsListNotifications {
       'patient',
       this.patientUuid,
       'medical-record',
-      this.clinicalHistoryCatalogId
+      this.clinicalHistoryCatalogId,
+      'status',
+      treatment.idStatus
     ]);
   }
 

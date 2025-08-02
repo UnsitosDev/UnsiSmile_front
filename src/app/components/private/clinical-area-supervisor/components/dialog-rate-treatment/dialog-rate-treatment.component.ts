@@ -61,6 +61,7 @@ export class DialogRateTreatmentComponent {
       }),
       url: `${UriConstants.POST_RATE_TREATMENT}/${this.idTreatmentDetail}/status`,
       data: {
+        idExecutionReview: this.data.idStatus,
         status: this.selectedStatus,
         comments: this.comments
       },
