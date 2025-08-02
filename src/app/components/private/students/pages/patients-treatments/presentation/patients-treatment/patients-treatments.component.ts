@@ -2,28 +2,41 @@ import {HttpHeaders} from '@angular/common/http';
 import {Component, inject} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {TreatmentDetailResponse} from '@mean/models';
 import {ApiService, AuthService} from '@mean/services';
+import {StatusService} from 'src/app/services/status.service';
 import {ArrayToDatePipe, LoadingComponent} from '@mean/shared';
 import {STATUS_TREATMENTS, UriConstants} from '@mean/utils';
 import {TokenData} from 'src/app/components/public/login/model/tokenData';
 import {PaginatedData} from 'src/app/models/shared/pagination/pagination';
-import {MatButtonModule} from "@angular/material/button";
-import {MatTooltip} from "@angular/material/tooltip";
-import { DialogNewTreatmentComponent } from '../../../../components/dialog-new-treatment/dialog-new-treatment.component';
-import { MatDialog } from '@angular/material/dialog';
+import {DialogNewTreatmentComponent} from '../../../../components/dialog-new-treatment/dialog-new-treatment.component';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-patients-treatments',
   standalone: true,
-  imports: [MatCardModule, MatListModule, LoadingComponent, MatButtonModule, MatTooltip, ArrayToDatePipe],
+  imports: [
+    CommonModule,
+    MatCardModule, 
+    MatListModule, 
+    LoadingComponent, 
+    MatButtonModule, 
+    MatTooltip, 
+    ArrayToDatePipe,
+    FontAwesomeModule
+  ],
   templateUrl: './patients-treatments.component.html',
   styleUrl: './patients-treatments.component.scss',
 })
 export class PatientsTreatmentsComponent {
   private apiService = inject(ApiService);
   private userService = inject(AuthService);
+  private statusService = inject(StatusService);
   private router = inject(Router);
   public readonly dialog = inject(MatDialog);
 
@@ -34,7 +47,20 @@ export class PatientsTreatmentsComponent {
   public isLastPage = false;
   public currentPage = 0;
   public treatments: PaginatedData<TreatmentDetailResponse> | null = null;
-  STATUS = STATUS_TREATMENTS;
+  readonly STATUS = STATUS_TREATMENTS;
+
+  // Helper methods for template
+  getStatusColor(status: string): string {
+    return this.statusService.getStatusColor(status);
+  }
+
+  getStatusLabel(status: string): string {
+    return this.statusService.getStatusLabel(status);
+  }
+
+  getStatusIcon(status: string): any {
+    return this.statusService.getStatusIcon(status);
+  }
 
   ngOnInit(): void {
     this.getRole();
