@@ -100,21 +100,24 @@
           >
             @switch (treatmentDetail.status) { @case (STATUS.IN_REVIEW) {
             <button mat-stroked-button class="whitespace-nowrap" disabled>
-              <span class="flex items-center in-review"
-                ><i class="far fa-hourglass mr-1"></i>En revisión</span
-              >
+              <span class="flex items-center" [style.color]="getStatusColor(STATUS.IN_REVIEW)">
+                <fa-icon [icon]="getStatusIcon(STATUS.IN_REVIEW)" class="mr-1"></fa-icon>
+                {{ getStatusLabel(STATUS.IN_REVIEW) }}
+              </span>
             </button>
             } @case (STATUS.APPROVED) {
             <button mat-stroked-button class="whitespace-nowrap" disabled>
-              <span class="flex items-center approved"
-                ><i class="fas fa-check-circle mr-1"></i>Aprobado</span
-              >
+              <span class="flex items-center" [style.color]="getStatusColor(STATUS.APPROVED)">
+                <fa-icon [icon]="getStatusIcon(STATUS.APPROVED)" class="mr-1"></fa-icon>
+                {{ getStatusLabel(STATUS.APPROVED) }}
+              </span>
             </button>
             } @case (STATUS.REJECTED) {
             <button mat-stroked-button class="whitespace-nowrap" disabled>
-              <span class="flex items-center rejected"
-                ><i class="fas fa-times-circle mr-1"></i>Rechazado</span
-              >
+              <span class="flex items-center" [style.color]="getStatusColor(STATUS.REJECTED)">
+                <fa-icon [icon]="getStatusIcon(STATUS.REJECTED)" class="mr-1"></fa-icon>
+                {{ getStatusLabel(STATUS.REJECTED) }}
+              </span>
             </button>
             } @case (STATUS.IN_PROGRESS) {
             <button
@@ -122,26 +125,29 @@
               class="whitespace-nowrap"
               (click)="openCommentDialog(treatmentDetail.comments)"
             >
-              <span class="flex items-center"
-                ><i class="fas fa-comment-alt"></i
-              ></span>
+              <span class="flex items-center">
+                <i class="fas fa-comment-alt"></i>
+              </span>
             </button>
 
             <button mat-stroked-button class="whitespace-nowrap" disabled>
-              <span class="flex items-center in-progress"
-                ><i class="fas fa-solid fa-spinner mr-1"></i>En progreso</span
-              >
+              <span class="flex items-center" [style.color]="getStatusColor(STATUS.IN_PROGRESS)">
+                <i class="fas fa-spinner loading-icon"></i>
+                {{ getStatusLabel(STATUS.IN_PROGRESS) }}
+              </span>
             </button>
             } @case (STATUS.FINISHED) {
             <button mat-stroked-button class="whitespace-nowrap" disabled>
-              <span class="flex items-center finished"
-                ><i class="fas fa-user-check mr-1"></i>Finalizado</span
-              >
+              <span class="flex items-center" [style.color]="getStatusColor(STATUS.FINISHED)">
+                <fa-icon [icon]="getStatusIcon(STATUS.FINISHED)" class="mr-1"></fa-icon>
+                {{ getStatusLabel(STATUS.FINISHED) }}
+              </span>
             </button>
             } @case (STATUS.CANCELLED) {
             <button mat-stroked-button class="whitespace-nowrap" disabled>
-              <span class="rejected flex items-center">
-                <i class="fas fa-times-circle mr-1"></i>Cancelado
+              <span class="flex items-center" [style.color]="getStatusColor(STATUS.CANCELLED)">
+                <fa-icon [icon]="getStatusIcon(STATUS.CANCELLED)" class="mr-1"></fa-icon>
+                {{ getStatusLabel(STATUS.CANCELLED) }}
               </span>
             </button>
             } @case (STATUS.NOT_APPROVED) {
@@ -150,15 +156,16 @@
               class="whitespace-nowrap"
               (click)="openCommentDialog(treatmentDetail.comments)"
             >
-              <span class="flex items-center"
-                ><i class="fas fa-comment-alt"></i
-              ></span>
+              <span class="flex items-center">
+                <i class="fas fa-comment-alt"></i>
+              </span>
             </button>
 
             <button mat-stroked-button class="whitespace-nowrap">
-              <span class="flex items-center rejected"
-                ><i class="fas fa-times-circle mr-1"></i>No aprobado</span
-              >
+              <span class="flex items-center" [style.color]="getStatusColor(STATUS.NOT_APPROVED)">
+                <fa-icon [icon]="getStatusIcon(STATUS.NOT_APPROVED)" class="mr-1"></fa-icon>
+                {{ getStatusLabel(STATUS.NOT_APPROVED) }}
+              </span>
             </button>
 
             <button
@@ -167,15 +174,15 @@
               matTooltip="Actualizar fecha de tratamiento"
               (click)="openUpdateTreatmentDialog(treatmentDetail)"
             >
-              <span class="flex items-center"
-                ><i class="fas fa-edit mr-1"></i>Actualizar</span
-              >
+              <span class="flex items-center">
+                <i class="fas fa-edit mr-1"></i>Actualizar
+              </span>
             </button>
             } @case (STATUS.AWAITING_APPROVAL) {
             <button mat-stroked-button class="whitespace-nowrap" disabled>
-              <span class="in-progress flex items-center">
-                <i class="fas fa-solid fa-spinner mr-1"></i>En espera de
-                aprobación
+              <span class="flex items-center" [style.color]="getStatusColor(STATUS.AWAITING_APPROVAL)">
+                <i class="fas fa-spinner loading-icon"></i>
+                {{ getStatusLabel(STATUS.AWAITING_APPROVAL) }}
               </span>
             </button>
             } } @if (treatmentDetail.status !== STATUS.NOT_APPROVED &&

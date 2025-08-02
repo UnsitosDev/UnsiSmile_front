@@ -33,53 +33,60 @@
           </div>
 
           <div class="flex-shrink-0 flex flex-wrap gap-2 sm:gap-2 sm:items-center ml-4">
-            @switch (treatment.status) {
+              @switch (treatment.status) {
               @case (STATUS.IN_REVIEW) {
                 <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="in-review flex items-center">
-                    <i class="far fa-clock mr-1"></i>En revisión
+                  <span class="flex items-center" [style.color]="getStatusColor(treatment.status)">
+                    <fa-icon [icon]="getStatusIcon(treatment.status)" class="mr-1"></fa-icon>
+                    {{ getStatusLabel(treatment.status) }}
                   </span>
                 </button>
               }
               @case (STATUS.APPROVED) {
                 <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="approved flex items-center">
-                    <i class="fas fa-check-circle mr-1"></i>Aprobado
+                  <span class="flex items-center" [style.color]="getStatusColor(treatment.status)">
+                    <fa-icon [icon]="getStatusIcon(treatment.status)" class="mr-1"></fa-icon>
+                    {{ getStatusLabel(treatment.status) }}
                   </span>
                 </button>
               }
               @case (STATUS.REJECTED) {
                 <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="rejected flex items-center">
-                    <i class="fas fa-times-circle mr-1"></i>Rechazado
+                  <span class="flex items-center" [style.color]="getStatusColor(treatment.status)">
+                    <fa-icon [icon]="getStatusIcon(treatment.status)" class="mr-1"></fa-icon>
+                    {{ getStatusLabel(treatment.status) }}
                   </span>
                 </button>
               }
               @case (STATUS.IN_PROGRESS) {
                 <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="in-progress flex items-center">
-                    <i class="fas fa-solid fa-spinner mr-1"></i>En progreso
+                  <span class="flex items-center" [style.color]="getStatusColor(treatment.status)">
+                    <i class="fas fa-spinner loading-icon"></i>
+                    {{ getStatusLabel(treatment.status) }}
                   </span>
                 </button>
               }
               @case (STATUS.FINISHED) {
                 <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="finished flex items-center">
-                    <i class="fas fa-user-check mr-1"></i>Finalizado
+                  <span class="flex items-center" [style.color]="getStatusColor(treatment.status)">
+                    <fa-icon [icon]="getStatusIcon(treatment.status)" class="mr-1"></fa-icon>
+                    {{ getStatusLabel(treatment.status) }}
                   </span>
                 </button>
               }
               @case (STATUS.CANCELLED) {
                 <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="rejected flex items-center">
-                    <i class="fas fa-times-circle mr-1"></i>Cancelado
+                  <span class="flex items-center" [style.color]="getStatusColor(treatment.status)">
+                    <fa-icon [icon]="getStatusIcon(treatment.status)" class="mr-1"></fa-icon>
+                    {{ getStatusLabel(treatment.status) }}
                   </span>
                 </button>
               }
               @case (STATUS.AWAITING_APPROVAL) {
                 <button mat-stroked-button class="whitespace-nowrap" disabled>
-                  <span class="in-progress flex items-center">
-                    <i class="fas fa-solid fa-spinner mr-1"></i>En espera de aprobación
+                  <span class="flex items-center" [style.color]="getStatusColor(treatment.status)">
+                    <i class="fas fa-spinner loading-icon"></i>
+                    {{ getStatusLabel(treatment.status) }}
                   </span>
                 </button> 
               }
