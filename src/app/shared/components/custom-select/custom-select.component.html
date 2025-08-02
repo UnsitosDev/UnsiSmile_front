@@ -1,0 +1,63 @@
+<div class="custom-select" [class]="getSizeClass()" [class.disabled]="disabled" [class.error]="error" [class.open]="isOpen">
+  <!-- Label -->
+  @if (label) {
+    <label class="select-label" [class.required]="required">
+      {{ label }}
+    </label>
+  }
+
+  <!-- Select Container -->
+  <div class="select-container" (click)="toggleDropdown()" tabindex="0" [attr.aria-expanded]="isOpen" [attr.aria-haspopup]="true" role="combobox" [attr.aria-label]="label || placeholder">
+    <!-- Selected Value Display -->
+    <div class="selected-value">
+      <div class="value-content">
+        @if (selectedOption?.icon) {
+          <fa-icon [icon]="getFontAwesomeIcon(selectedOption?.icon)" class="option-icon"></fa-icon>
+        }
+        <span class="value-text" [class.placeholder]="!selectedOption">
+          {{ getDisplayText() }}
+        </span>
+      </div>
+      <div class="arrow-icon" [class.rotated]="isOpen">
+        <fa-icon [icon]="faChevronDown"></fa-icon>
+      </div>
+    </div>
+
+    <!-- Dropdown Options -->
+    @if (isOpen) {
+      <div class="dropdown">
+        <div class="dropdown-content">
+          @for (option of options; track trackByValue($index, option)) {
+            <div
+              class="option"
+              [class.selected]="option.value === value"
+              [class.disabled]="option.disabled"
+              (click)="selectOption(option)"
+              role="option"
+              [attr.aria-selected]="option.value === value"
+            >
+              <div class="option-content">
+                @if (option.icon) {
+                  <fa-icon [icon]="getFontAwesomeIcon(option.icon)" class="option-icon"></fa-icon>
+                }
+                <span class="option-label">{{ option.label }}</span>
+              </div>
+              @if (option.value === value) {
+                <div class="check-icon">
+                  <fa-icon [icon]="faCheck"></fa-icon>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Error Message -->
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+</div>

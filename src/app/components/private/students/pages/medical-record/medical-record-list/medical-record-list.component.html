@@ -1,0 +1,261 @@
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Historias clínicas - Visualización</strong></mat-card-title>
+</mat-card>
+
+<div class="medical-record-container">
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="loading-container">
+      <app-loading></app-loading>
+      <p>Cargando historial de historias clínicas...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error) {
+    <div class="error-container">
+      <i class="fas fa-exclamation-triangle" style="color: var(--status-error)"></i>
+      <h3>Error al cargar el historial</h3>
+      <p>{{ error }}</p>
+      <button mat-raised-button color="primary" (click)="retryLoad()">
+        <i class="fas fa-sync-alt"></i>
+        Reintentar
+      </button>
+    </div>
+  }
+
+  <!-- Content -->
+  @if (!loading && !error) {
+    <div class="content-container">
+      <div class="header">
+        <div class="header-main">
+          <h2>
+            <i class="fas fa-clinic-medical"></i>
+            Historial de historias clínicas
+          </h2>
+          <p>{{ totalElements }} registro{{ totalElements !== 1 ? 's' : '' }} encontrado{{ totalElements !== 1 ? 's' : '' }}</p>
+        </div>
+        <!-- Patient Info -->
+        @if (medicalRecords.length > 0) {
+          <div class="patient-info">
+            <i class="fas fa-user"></i>
+            <div class="patient-details">
+              <span class="patient-name">{{ patientName }}</span>
+              <span class="patient-number">Numero de expediente: {{ patientMedicalRecordNumber }}</span>
+            </div>
+          </div>
+        }
+      </div>
+      <!-- Sorting Controls -->
+      <div class="sorting-controls">
+        <div class="sort-field">
+          <app-custom-select
+            [options]="sortOptions"
+            [(value)]="selectedOrder"
+            placeholder="Ordenar por"
+            label="Campo de ordenamiento"
+            size="medium"
+            (selectionChange)="onSortChange()">
+          </app-custom-select>
+        </div>
+        <div class="sort-direction">
+          <mat-button-toggle-group [(ngModel)]="isAscending" (change)="onOrderDirectionChange()" name="sortDirection">
+            <mat-button-toggle [value]="true" matTooltip="Orden ascendente">
+              <i class="fas fa-sort-up"></i>
+              Ascendente
+            </mat-button-toggle>
+            <mat-button-toggle [value]="false" matTooltip="Orden descendente">
+              <i class="fas fa-sort-down"></i>
+              Descendente
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+      <!-- Empty State -->
+      @if (medicalRecords.length === 0) {
+        <div class="empty-state">
+          <i class="fas fa-folder-open"></i>
+          <h3>No hay historias clínicas</h3>
+          <p>No se encontraron registros médicos para este paciente. Los registros aparecerán aquí una vez que se creen historias clínicas.</p>
+        </div>
+      }
+      <!-- Records Grid -->
+      @if (medicalRecords.length > 0) {
+        <div class="records-grid">
+          @for (record of medicalRecords; track trackByRecordId($index, record)) {
+            <mat-card class="record-card">
+              <mat-card-header>
+                <mat-card-title>
+                  <i class="fas fa-file-medical"></i>
+                  {{ record.medicalRecordName }}
+                </mat-card-title>
+                <mat-card-subtitle>
+                  <i class="fas fa-calendar-alt"></i>
+                  {{ record.appointmentDate }}
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="record-details">
+                  <!-- Status -->
+                  @if (record.treatmentDetail) {
+                    <div class="status-section">
+                      <mat-chip-listbox>
+                        @switch (record.treatmentDetail.status) {
+                          @case ('IN_REVIEW') {
+                            <button mat-stroked-button class="whitespace-nowrap" disabled>
+                              <span class="flex items-center in-review">
+                                <fa-icon [icon]="statusService.getStatusIcon(record.treatmentDetail.status)" class="mr-1"></fa-icon>
+                                {{ statusService.getStatusLabel(record.treatmentDetail.status) }}
+                              </span>
+                            </button>
+                          }
+                          @case ('APPROVED') {
+                            <button mat-stroked-button class="whitespace-nowrap" disabled>
+                              <span class="flex items-center approved">
+                                <fa-icon [icon]="statusService.getStatusIcon(record.treatmentDetail.status)" class="mr-1"></fa-icon>
+                                {{ statusService.getStatusLabel(record.treatmentDetail.status) }}
+                              </span>
+                            </button>
+                          }
+                          @case ('REJECTED') {
+                            <button mat-stroked-button class="whitespace-nowrap" disabled>
+                              <span class="flex items-center rejected">
+                                <fa-icon [icon]="statusService.getStatusIcon(record.treatmentDetail.status)" class="mr-1"></fa-icon>
+                                {{ statusService.getStatusLabel(record.treatmentDetail.status) }}
+                              </span>
+                            </button>
+                          }
+                          @case ('IN_PROGRESS') {
+                            <button mat-stroked-button class="whitespace-nowrap" disabled>
+                              <span class="flex items-center in-progress">
+                                <fa-icon [icon]="statusService.getStatusIcon(record.treatmentDetail.status)" class="fa-spin mr-1"></fa-icon>
+                                {{ statusService.getStatusLabel(record.treatmentDetail.status) }}
+                              </span>
+                            </button>
+                          }
+                          @case ('FINISHED') {
+                            <button mat-stroked-button class="whitespace-nowrap" disabled>
+                              <span class="flex items-center finished">
+                                <fa-icon [icon]="statusService.getStatusIcon(record.treatmentDetail.status)" class="mr-1"></fa-icon>
+                                {{ statusService.getStatusLabel(record.treatmentDetail.status) }}
+                              </span>
+                            </button>
+                          }
+                          @case ('CANCELLED') {
+                            <button mat-stroked-button class="whitespace-nowrap" disabled>
+                              <span class="flex items-center rejected">
+                                <fa-icon [icon]="statusService.getStatusIcon(record.treatmentDetail.status)" class="mr-1"></fa-icon>
+                                {{ statusService.getStatusLabel(record.treatmentDetail.status) }}
+                              </span>
+                            </button>
+                          }
+                          @case ('AWAITING_APPROVAL') {
+                            <button mat-stroked-button class="whitespace-nowrap" disabled>
+                              <span class="flex items-center in-progress">
+                                <fa-icon [icon]="statusService.getStatusIcon(record.treatmentDetail.status)" class="fa-spin mr-1"></fa-icon>
+                                {{ statusService.getStatusLabel(record.treatmentDetail.status) }}
+                              </span>
+                            </button>
+                          }
+                          @case ('NOT_APPROVED') {
+                            <button mat-stroked-button class="whitespace-nowrap" disabled>
+                              <span class="flex items-center rejected">
+                                <fa-icon [icon]="statusService.getStatusIcon(record.treatmentDetail.status)" class="mr-1"></fa-icon>
+                                {{ statusService.getStatusLabel(record.treatmentDetail.status) }}
+                              </span>
+                            </button>
+                          }
+                        }
+                      </mat-chip-listbox>
+                    </div>
+                  }
+                  <!-- Treatment Details -->
+                  @if (record.treatmentDetail) {
+                    <div class="treatment-details">
+                      <mat-divider></mat-divider>
+                      @if (record.treatmentDetail.treatment) {
+                        <div class="detail-row">
+                          <i class="fas fa-tooth"></i>
+                          <span><strong>Tratamiento:</strong> {{ record.treatmentDetail.treatment.name || 'N/A' }}</span>
+                        </div>
+                      }
+                      @if (record.treatmentDetail.approvalProfessor) {
+                        <div class="detail-row">
+                          <i class="fas fa-chalkboard-teacher"></i>
+                          <span><strong>Profesor Aprobador:</strong> {{ record.treatmentDetail.approvalProfessor.professorName || 'N/A' }}</span>
+                        </div>
+                        @if (record.treatmentDetail.approvalProfessor.comments) {
+                          <div class="detail-row">
+                            <i class="fas fa-comments"></i>
+                            <span><strong>Comentarios Aprobador:</strong> {{ record.treatmentDetail.approvalProfessor.comments }}</span>
+                          </div>
+                        }
+                      }
+                      @if (record.treatmentDetail.reviewProfessor) {
+                        <div class="detail-row">
+                          <i class="fas fa-chalkboard-teacher"></i>
+                          <span><strong>Profesor Revisor:</strong> {{ record.treatmentDetail.reviewProfessor.professorName || 'N/A' }}</span>
+                        </div>
+                        @if (record.treatmentDetail.reviewProfessor.comments) {
+                          <div class="detail-row">
+                            <i class="fas fa-comments"></i>
+                            <span><strong>Comentarios Revisor:</strong> {{ record.treatmentDetail.reviewProfessor.comments }}</span>
+                          </div>
+                        }
+                      }
+                      @if (record.treatmentDetail.student) {
+                        <div class="detail-row">
+                          <i class="fas fa-user-graduate"></i>
+                          <span><strong>Estudiante:</strong> {{ record.treatmentDetail.student.name || 'N/A' }}</span>
+                        </div>
+                      }
+                      <!-- Teeth Information -->
+                      @if (record.treatmentDetail.teeth && record.treatmentDetail.teeth.length > 0) {
+                        <div class="teeth-section">
+                          <mat-divider></mat-divider>
+                          <div class="teeth-header">
+                            <i class="fas fa-tooth"></i>
+                            <span><strong>Dientes tratados:</strong> {{ record.treatmentDetail.teeth.length }}</span>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                  <!-- No Treatment Details -->
+                  @if (!record.treatmentDetail) {
+                    <div class="no-details">
+                      <i class="fas fa-exclamation-triangle"></i>
+                      <span>No hay detalles de tratamiento disponibles para este registro</span>
+                    </div>
+                  }
+                </div>
+              </mat-card-content>
+              <mat-card-footer class="details-footer">
+                <button mat-button color="primary" [matTooltip]="'Ver detalles completos de la historia clínica'">
+                  <i class="fas fa-eye"></i>
+                  Ver detalles
+                </button>
+              </mat-card-footer>
+            </mat-card>
+          }
+        </div>
+      }
+      <!-- Loading More Indicator -->
+      @if (loadingMore) {
+        <div class="loading-more-container">
+          <app-loading></app-loading>
+          <p>Cargando más registros...</p>
+        </div>
+      }
+      <!-- End of Data Indicator -->
+      @if (!hasMoreData && medicalRecords.length > 0) {
+        <div class="end-of-data">
+          <i class="fas fa-check-circle"></i>
+          <p>Has visto todos los registros</p>
+        </div>
+      }
+      <!-- Intersection Observer Trigger -->
+      <div #loadingTrigger class="intersection-trigger"></div>
+    </div>
+  }
+</div>

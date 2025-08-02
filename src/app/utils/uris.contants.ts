@@ -370,4 +370,5 @@ export class UriConstants {
     
   public static readonly GET_USER_BY_USERNAME =
     basePath + '/users/username/';
+  public static readonly GET_MEDICAL_RECORDS_BY_PATIENT_ID = basePath + '/medical-records/patient-medical-records/patients/';
 }
