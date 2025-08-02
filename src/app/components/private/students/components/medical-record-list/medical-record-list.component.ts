@@ -16,8 +16,8 @@ import { StatusService } from 'src/app/shared';
 import { DateAdapter } from '@angular/material/core';
 import { CustomSelectComponent, SelectOption } from 'src/app/shared/components/custom-select/custom-select.component';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
-import { MedicalRecordHistory, MedicalRecordHistoryResponse } from '../models/medical-record-history.model';
-import { MedicalRecordHistoryRepository } from '../repositories/medical-record-history.repository';
+import { MedicalRecordHistory, MedicalRecordHistoryResponse } from './models/medical-record-history.model';
+import { MedicalRecordHistoryRepository } from './repositories/medical-record-history.repository';
 
 interface SortOption {
   value: string;

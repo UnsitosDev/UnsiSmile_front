@@ -42,8 +42,8 @@ export default [
                     {
                         path: 'medical-record/:idPatient',
                         loadComponent: () =>
-                            import('./pages/medical-record/medical-record.component').then(
-                                (m) => m.MedicalRecordComponent
+                            import('./pages/medical-record-list-container/medical-record.component').then(
+                                (m) => m.MedicalRecordListContainerComponent
                             ),
                     },
                 ]
