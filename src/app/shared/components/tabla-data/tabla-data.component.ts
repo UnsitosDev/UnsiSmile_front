@@ -56,6 +56,7 @@ export class TablaDataComponent implements OnInit, OnDestroy {
   @Input() showAssignIcon: boolean = false;
   @Input() showAssignDigitizerIcon: boolean = false;
   @Input() showPatientsIcon: boolean = false;
+  @Input() showMedicalHistoryIcon: boolean = false;
   
 
 

@@ -49,44 +49,43 @@ mat-list-item span {
   text-overflow: ellipsis;
 }
 
+/* Status text colors */
 .in-review {
   color: var(--status-in-review);
   margin-right: 6px;
-  i{
-    color: var(--status-in-review);
-  }
 }
 
 .approved {
   color: var(--status-approved);
   margin-right: 6px;
-  i{
-    color: var(--status-approved);
-  }
 }
 
 .rejected {
   color: var(--status-rejected);
   margin-right: 6px;
-  i{
-    color: var(--status-rejected);
-  }
 }
 
 .in-progress {
   color: var(--status-in-progress);
   margin-right: 6px;
-  i{
-    color: var(--status-in-progress);
-  }
 }
 
 .finished {
   color: var(--status-finished);
   margin-right: 6px;
-  i{
-    color: var(--status-finished);
-  }
+}
+
+/* Loading animation for pending approval and in progress */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-icon {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
+  color: inherit; /* Inherit color from parent */
 }
 
 i {

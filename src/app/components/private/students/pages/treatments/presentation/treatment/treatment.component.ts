@@ -1,11 +1,14 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
+import { MatTooltip } from '@angular/material/tooltip';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { ApiService } from '@mean/services';
 
@@ -27,9 +30,10 @@ import {
   FormUpdatePatientComponent,
   StudentsGeneralHistoryComponent,
 } from '@mean/students';
-import {STATUS_TREATMENTS, UriConstants} from '@mean/utils';
+import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
+import { StatusService } from 'src/app/services/status.service';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
-import {MatTooltip} from "@angular/material/tooltip";
+
 import { ArrayToDatePipe } from '@mean/shared';
 import { DialogUpdateTreatmentComponent } from '../../../../components/dialog-update-treatment/dialog-update-treatment.component';
 import { DialogCommentsTreatmentsComponent } from '../../../../components/dialog-comments-treatments/dialog-comments-treatments.component';
@@ -47,6 +51,7 @@ export interface TreatmentParams {
   selector: 'app-treatments',
   standalone: true,
   imports: [
+    CommonModule,
     MatListModule,
     MatButton,
     MatTabsModule,
@@ -56,7 +61,8 @@ export interface TreatmentParams {
     FormUpdatePatientComponent,
     MatTooltip,
     ArrayToDatePipe,
-    OdontogramContainerComponent
+    OdontogramContainerComponent,
+    FontAwesomeModule
   ],
   templateUrl: './treatment.component.html',
   styleUrl: './treatment.component.scss',
@@ -67,6 +73,7 @@ export class TreatmentComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly apiService = inject(ApiService);
+  private readonly statusService = inject(StatusService);
   public readonly dialog = inject(MatDialog);
 
   public patientUuid!: string;
@@ -86,11 +93,31 @@ export class TreatmentComponent implements OnInit {
   public isPatientLoading = false;
   public isPatientLastPage = false;
   public currentPatientPage = 0;
-  STATUS = STATUS_TREATMENTS;
+  readonly STATUS = STATUS_TREATMENTS;
+
+  // Helper methods for template
+  getStatusColor(status: string): string {
+    return this.statusService.getStatusColor(status as any);
+  }
+
+  getStatusLabel(status: string): string {
+    return this.statusService.getStatusLabel(status as any);
+  }
+
+  getStatusIcon(status: string): any {
+    return this.statusService.getStatusIcon(status as any);
+  }
 
   ngOnInit(): void {
     this.routeParams();
     this.checkForPreselectedTreatment();
+    // Load treatments when component initializes
+    this.route.params.subscribe(params => {
+      if (params[PATIENT_UUID]) {
+        this.patientUuid = params[PATIENT_UUID];
+        this.fetchTreatmentData();
+      }
+    });
   }
 
   private checkForPreselectedTreatment(): void {
@@ -147,9 +174,7 @@ export class TreatmentComponent implements OnInit {
   }
 
   public routeParams() {
-    this.route.params.subscribe((params) => {
-      this.patientUuid = params[PATIENT_UUID];
-    });
+    // Moved the subscription to ngOnInit to ensure proper initialization order
   }
 
   openCommentDialog(comments: string): void {
