@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCard } from "@angular/material/card";
 import { ActivatedRoute } from '@angular/router';
-import { ID_MEDICAL_RECORD_DIGITIZER, PATIENT_UUID } from '@mean/models';
+import { ID_MEDICAL_RECORD_DIGITIZER, MEDICAL_RECORD_TYPES, PATIENT_UUID } from '@mean/models';
 import { CardPatientDataComponent, OralProsthesisComponent, PreventiveDentistryPublicHealthComponent, StudentsDentalOperationComponent, StudentsGeneralHistoryComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent } from "@mean/students";
 
 @Component({
@@ -18,6 +18,7 @@ export class DigitizeMedicalRecordComponent implements OnInit {
   private location = inject(Location);
   public patientUuid!: string;
   public medicalRecordId!: number;
+  public medicalRecordType = MEDICAL_RECORD_TYPES;
 
   ngOnInit(): void {
     this.routeParams();

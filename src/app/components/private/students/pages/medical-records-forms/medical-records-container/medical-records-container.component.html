@@ -1,28 +1,28 @@
-@switch (medicalRecordTypeId) { @case (2) {
+@switch (medicalRecordTypeId) { @case (medicalRecordType.ORAL_PROSTHESIS) {
     <!--Protesis bucal-->
     <app-oral-prosthesis
       [readonlyTreatment]="readOnly"
       [patientUuid]="patientId"
     ></app-oral-prosthesis>
-    } @case (3) {
+    } @case (medicalRecordType.PERIODONTICS) {
     <!-- Periodoncia -->
     <app-students-periodontics-history
       [readonlyTreatment]="readOnly"
       [patientUuid]="patientId"
     ></app-students-periodontics-history>
-    } @case (4) {
+    } @case (medicalRecordType.DENTAL_OPERATION) {
     <!-- Operatioria dental -->
     <app-students-dental-operation
       [readonlyTreatment]="readOnly"
       [patientUuid]="patientId"
     ></app-students-dental-operation>
-    } @case (5) {
+    } @case (medicalRecordType.ORAL_SURGERY) {
     <!-- Cirujia bucal -->
     <app-students-oral-surgery-history
       [readonlyTreatment]="readOnly"
       [patientUuid]="patientId"
     ></app-students-oral-surgery-history>
-    } @case (6) {
+    } @case (medicalRecordType.PREVENTIVE_DENTISTRY) {
     <app-preventive-dentistry-public-health
       [readonlyTreatment]="readOnly"
       [patientUuid]="patientId"

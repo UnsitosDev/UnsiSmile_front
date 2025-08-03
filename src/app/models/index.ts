@@ -28,3 +28,4 @@ export * from './card-info-patient/card.info.patient';
 export * from './shared/patients';
 export * from '../models/patient-object-table/patient.object.table';
 export * from '../models/tabla/tabla-columna';
+export * from './shared/medicalRecords';

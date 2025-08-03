@@ -3,7 +3,7 @@ import { MatCard, MatCardTitle } from "@angular/material/card";
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
-import { ID_STATUS, ID_TREATMENT_DETAIL, MEDICAL_RECORD_ID, PATIENT_UUID } from '@mean/models';
+import { ID_STATUS, ID_TREATMENT_DETAIL, MEDICAL_RECORD_ID, MEDICAL_RECORD_TYPES, PATIENT_UUID } from '@mean/models';
 import { OralProsthesisComponent, PreventiveDentistryPublicHealthComponent, StudentsDentalOperationComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent } from '@mean/students';
 import { StudentsGeneralHistoryComponent } from "../../../students/pages/medical-records-forms/general/students-general-history.component";
 import { OdontogramContainerComponent } from '../../../students/pages/odontogram-container/odontogram-container.component';
@@ -26,6 +26,7 @@ export class RateTreatmentContainerComponent implements OnInit{
   public medicalRecord!: number;
   public isLoading: boolean = true;
   public idStatus!: number;
+  public medicalRecordType= MEDICAL_RECORD_TYPES;
 
   
   opedDialogRateTreatment() {
