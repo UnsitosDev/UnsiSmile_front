@@ -90,13 +90,15 @@
         @for (condition of face.conditions; track condition) {
         <ng-container>
           <!-- Diente obturado -->
-          @if (condition.condition === ToothConditionsConstant.DIENTE_OBTURADO)
-          {
+          @if (condition.condition === ToothConditionsConstant.DIENTE_OBTURADO) {
           <ng-container>
             <polygon
               [attr.points]="getFacePoints(idx)"
               fill="blue"
               opacity="0.8"
+              (click)="onSymbolClick(condition.condition, $event)"
+              style="cursor: pointer;"
+              [attr.title]="condition.condition"
             />
           </ng-container>
           }
@@ -107,12 +109,14 @@
               [attr.points]="getFacePoints(idx)"
               fill="red"
               opacity="0.6"
+              (click)="onSymbolClick(condition.condition, $event)"
+              style="cursor: pointer;"
+              [attr.title]="condition.condition"
             />
           </ng-container>
           }
           <!-- Diente con fractura -->
-          @if (condition.condition ===
-          ToothConditionsConstant.DIENTE_CON_FRACTURA) {
+          @if (condition.condition === ToothConditionsConstant.DIENTE_CON_FRACTURA) {
           <ng-container>
             <line
               [attr.x1]="getFracturePoints(idx).x1"
@@ -122,13 +126,15 @@
               stroke="red"
               stroke-width="2"
               stroke-dasharray="4"
+              (click)="onSymbolClick(condition.condition, $event)"
+              style="cursor: pointer;"
+              [attr.title]="condition.condition"
             />
           </ng-container>
           }
 
           <!-- Diente obturado con caries -->
-          @if (condition.condition ===
-          ToothConditionsConstant.DIENTE_OBTURADO_CON_CARIES) {
+          @if (condition.condition === ToothConditionsConstant.DIENTE_OBTURADO_CON_CARIES) {
           <ng-container>
             <polygon
               [attr.points]="getFacePoints(idx)"
@@ -136,6 +142,9 @@
               opacity="0.6"
               stroke="red"
               stroke-width="2"
+              (click)="onSymbolClick(condition.condition, $event)"
+              style="cursor: pointer;"
+              [attr.title]="condition.condition"
             />
           </ng-container>
           }
@@ -150,14 +159,20 @@
       <!-- Diente con corona -->
       @if (condition.condition === ToothConditionsConstant.DIENTE_CON_CORONA) {
       <ng-container>
-        <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.6" />
+        <polygon 
+          points="1,1 28,1 28,33 1,33" 
+          fill="blue" 
+          opacity="0.6"
+          (click)="onSymbolClick(condition.condition, $event)"
+          style="cursor: pointer;"
+          [attr.title]="condition.condition"
+        />
       </ng-container>
       }
 
       <!-- Mantenedor de espacio con corona -->
-      @if (condition.condition ===
-      ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
-      <ng-container>
+      @if (condition.condition === ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
+      <ng-container (click)="onSymbolClick(condition.condition, $event)" style="cursor: pointer;" [attr.title]="condition.condition">
         <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
         <line
           x1="0"
@@ -189,9 +204,8 @@
       </ng-container>
       }
       <!-- Mantenedor de espacio con banda -->
-      @if (condition.condition ===
-      ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_BANDA) {
-      <ng-container>
+      @if (condition.condition === ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_BANDA) {
+      <ng-container (click)="onSymbolClick(condition.condition, $event)" style="cursor: pointer;" [attr.title]="condition.condition">
         <line
           x1="0"
           y1="28"
@@ -234,49 +248,103 @@
       <!-- Fístula -->
       @if (condition.condition === ToothConditionsConstant.FISTULA) {
       <ng-container>
-        <img src="../../../../../../assets/svg/fistula.svg" />
+        <img 
+          src="../../../../../../assets/svg/fistula.svg" 
+          (click)="onSymbolClick(condition.condition, $event)"
+          style="cursor: pointer;"
+          [title]="condition.condition"
+        />
       </ng-container>
       }
 
       <!-- Diente con fluorosis -->
-      @if (condition.condition === ToothConditionsConstant.DIENTE_CON_FLUOROSIS)
-      {
-      <img src="../../../../../../assets/svg/fluorosis.svg" />
+      @if (condition.condition === ToothConditionsConstant.DIENTE_CON_FLUOROSIS) {
+      <img 
+        src="../../../../../../assets/svg/fluorosis.svg" 
+        (click)="onSymbolClick(condition.condition, $event)"
+        style="cursor: pointer;"
+        [title]="condition.condition"
+      />
       }
+      
       <!-- Diente con hipoplasia -->
-      @if (condition.condition ===
-      ToothConditionsConstant.DIENTE_CON_HIPOPLASIA) {
-      <img src="../../../../../../assets/svg/hipoplasia.svg" />
+      @if (condition.condition === ToothConditionsConstant.DIENTE_CON_HIPOPLASIA) {
+      <img 
+        src="../../../../../../assets/svg/hipoplasia.svg" 
+        (click)="onSymbolClick(condition.condition, $event)"
+        style="cursor: pointer;"
+        [title]="condition.condition"
+      />
       }
-      <!-- Diente con resto radicular-->
-      <!-- Diente con hipoplasia -->
+      
+      <!-- Resto radicular -->
       @if (condition.condition === ToothConditionsConstant.RESTO_RADICULAR) {
-      <img src="../../../../../../assets/svg/resto_radicular.svg" />
+      <img 
+        src="../../../../../../assets/svg/resto_radicular.svg" 
+        (click)="onSymbolClick(condition.condition, $event)"
+        style="cursor: pointer;"
+        [title]="condition.condition"
+      />
       }
+      
       <!-- Diente en mal posición derecha -->
-      @if (condition.condition ===
-      ToothConditionsConstant.DIENTE_EN_MAL_POSICION_DERECHA) {
-      <img src="../../../../../../assets/svg/flecha derecha.svg" />
+      @if (condition.condition === ToothConditionsConstant.DIENTE_EN_MAL_POSICION_DERECHA) {
+      <img 
+        src="../../../../../../assets/svg/flecha derecha.svg" 
+        (click)="onSymbolClick(condition.condition, $event)"
+        style="cursor: pointer;"
+        [title]="condition.condition"
+      />
       }
+      
       <!-- Diente en mal posición izquierda -->
-      @if (condition.condition ===
-      ToothConditionsConstant.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
-      <img src="../../../../../../assets/svg/flecha izquierda.svg" />
-      } @if (condition.condition ===
-      ToothConditionsConstant.DIENTE_PARCIALMENTE_ERUPCIONADO) {
-      <img src="../../../../../../assets/svg/erupcion.svg" />
+      @if (condition.condition === ToothConditionsConstant.DIENTE_EN_MAL_POSICION_IZQUIERDA) {
+      <img 
+        src="../../../../../../assets/svg/flecha izquierda.svg" 
+        (click)="onSymbolClick(condition.condition, $event)"
+        style="cursor: pointer;"
+        [title]="condition.condition"
+      />
+      } 
+      
+      <!-- Diente parcialmente erupcionado -->
+      @if (condition.condition === ToothConditionsConstant.DIENTE_PARCIALMENTE_ERUPCIONADO) {
+      <img 
+        src="../../../../../../assets/svg/erupcion.svg" 
+        (click)="onSymbolClick(condition.condition, $event)"
+        style="cursor: pointer;"
+        [title]="condition.condition"
+      />
       }
+      
       <!-- Prótesis removible -->
       @if (condition.condition === ToothConditionsConstant.PROTESIS_REMOVIBLE) {
-      <img src="../../../../../../assets/svg/protesis_removible.svg" />
+      <img 
+        src="../../../../../../assets/svg/protesis_removible.svg" 
+        (click)="onSymbolClick(condition.condition, $event)"
+        style="cursor: pointer;"
+        [title]="condition.condition"
+      />
       } 
+      
       <!-- Puente -->
       @if (condition.condition === ToothConditionsConstant.PUENTE) {
-      <img src="../../../../../../assets/svg/puente.svg" />
+      <img 
+        src="../../../../../../assets/svg/puente.svg" 
+        (click)="onSymbolClick(condition.condition, $event)"
+        style="cursor: pointer;"
+        [title]="condition.condition"
+      />
       }
+      
       <!-- Endodoncia -->
       @if (condition.condition === ToothConditionsConstant.ENDODONCIA) {
-      <img src="../../../../../../assets/svg/endodoncia.svg" />
+      <img 
+        src="../../../../../../assets/svg/endodoncia.svg" 
+        (click)="onSymbolClick(condition.condition, $event)"
+        style="cursor: pointer;"
+        [title]="condition.condition"
+      />
       } }
     </div>
   </div>

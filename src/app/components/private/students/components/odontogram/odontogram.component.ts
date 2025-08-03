@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { OdontogramPost, IOdontogramHandler, IOdontogram, ICondition, IFace, OdontogramResponse, ITooth } from '@mean/models';
 import { TokenData } from '@mean/public';
 import { ApiService, AuthService, OdontogramData, createOdontogramHandler } from '@mean/services';
@@ -21,6 +22,7 @@ import { SymbolDialogComponent } from '../symbol-dialog/symbol-dialog.component'
 import { StudentsToothComponent } from '../tooth/students-tooth.component';
 import { OdontogramMapper } from './odontogramMapper';
 import { ToothEvent } from './tooth-event.model';
+import { SymbolDetailsDialogComponent, SymbolDetailsData } from './symbol-details-dialog/symbol-details-dialog.component';
 
 
 
@@ -38,12 +40,68 @@ import { ToothEvent } from './tooth-event.model';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTooltipModule,
   ],
   templateUrl: './odontogram.component.html',
-  styleUrl: './odontogram.component.scss',
+  styleUrls: ['./odontogram.component.scss', './tooltip.styles.scss'],
 })
 export class OdontogramComponent implements OnInit {
   constructor(private dialog: MatDialog) { }
+
+  showSymbolDetails(condition: string): void {
+    // Mapeo de condiciones a descripciones
+    const symbolDescriptions: Record<string, { title: string; description: string }> = {
+      [ToothConditionsConstants.DIENTE_OBTURADO]: {
+        title: 'Diente Obturado',
+        description: 'Diente con tratamiento de obturación (relleno) para tratar caries o daños menores.'
+      },
+      [ToothConditionsConstants.DIENTE_CON_CORONA]: {
+        title: 'Diente con Corona',
+        description: 'Diente restaurado con una corona dental que cubre toda la superficie visible.'
+      },
+      [ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA]: {
+        title: 'Mantenedor de Espacio con Corona',
+        description: 'Dispositivo que mantiene el espacio para dientes permanentes, incluyendo una corona.'
+      },
+      [ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA]: {
+        title: 'Mantenedor de Espacio con Banda',
+        description: 'Dispositivo que mantiene el espacio para dientes permanentes, utilizando bandas metálicas.'
+      },
+      [ToothConditionsConstants.DIENTE_CARIADO]: {
+        title: 'Diente Cariado',
+        description: 'Diente afectado por caries que requiere tratamiento dental.'
+      },
+      [ToothConditionsConstants.DIENTE_EXTRAIDO]: {
+        title: 'Diente Extraído',
+        description: 'Diente que ha sido extraído o está ausente.'
+      },
+      [ToothConditionsConstants.DIENTE_CON_FRACTURA]: {
+        title: 'Diente con Fractura',
+        description: 'Diente con fractura o grieta que puede requerir tratamiento.'
+      },
+      [ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES]: {
+        title: 'Diente Obturado con Caries',
+        description: 'Diente con una obturación existente que presenta nuevas caries.'
+      },
+      'puente': {
+        title: 'Puente Dental',
+        description: 'Prótesis fija que reemplaza uno o más dientes ausentes, apoyándose en los dientes adyacentes.'
+      }
+    };
+
+    const symbolInfo = symbolDescriptions[condition] || {
+      title: condition,
+      description: 'Descripción no disponible para este símbolo.'
+    };
+
+    this.dialog.open(SymbolDetailsDialogComponent, {
+      width: '450px',
+      data: {
+        title: symbolInfo.title,
+        description: symbolInfo.description
+      } as SymbolDetailsData
+    });
+  }
 
   private odontogramService = inject((ApiService<{}, OdontogramPost>));
   @Input({ required: true }) patientId!: string;

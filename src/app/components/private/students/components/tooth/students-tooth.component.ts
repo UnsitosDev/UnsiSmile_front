@@ -1,12 +1,11 @@
 import { NgClass } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import { ToothConditionsConstants } from '@mean/utils';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ICondition, ITooth } from 'src/app/models/shared/odontogram/odontogram';
+import { ToothConditionsConstants } from '@mean/utils';
+import { SymbolDetailsDialogComponent } from '../odontogram/symbol-details-dialog/symbol-details-dialog.component';
+
+export type State = 'read' | 'update' | 'create' | 'read-latest';
 
 @Component({
   selector: 'app-students-tooth',
@@ -22,11 +21,32 @@ export class StudentsToothComponent {
   @Input() index: number = 0;
   @Input() marked!: ICondition;
   @Input() toothConditions!: ICondition[];
+  @Input({ required: true }) state: State = 'read';
+  
   @Output() toggleTooth = new EventEmitter<ITooth>();
+  @Output() deleteConditions = new EventEmitter<ITooth>();
   @Output() setFace = new EventEmitter<{faceId: string, index: number, tooth: ITooth}>();
-  @Input({ required: true }) state!: "create" | "update" | "read" | "read-latest";
-  faceClicked = 0;
+
+  private dialog = inject(MatDialog);
   ToothConditionsConstant = ToothConditionsConstants;
+  faceClicked = 0;
+
+  onSymbolClick(condition: string, event: MouseEvent): void {
+    event.stopPropagation();
+    
+    const isMobile = window.innerWidth < 600; // 600px es el breakpoint de Angular Material para móviles
+    
+    const dialogRef = this.dialog.open(SymbolDetailsDialogComponent, {
+      width: isMobile ? '90vw' : '450px',
+      maxWidth: '100vw',
+      panelClass: 'symbol-details-dialog',
+      autoFocus: false,
+      data: {
+        title: condition
+      }
+    });
+  }
+
 
   /**
    * Función invocada cuando se hace clic en un diente.
@@ -94,8 +114,6 @@ export class StudentsToothComponent {
     }
   }
   
-  @Output() deleteConditions = new EventEmitter<ITooth>();
-
   hasConditions(): boolean {
     return this.data.conditions.length > 0 || 
            this.data.faces.some(face => face.conditions && face.conditions.length > 0);
