@@ -1,5 +1,19 @@
-<app-medical-records-container
-  [patientId]="patientId"
-  [medicalRecordTypeId]="medicalRecordTypeId"
-  [readOnly]="true"
-></app-medical-records-container>
+<div class="container">
+  <mat-card>
+    <div class="header-container">
+      <strong><h2 class="title">Detalle de la historia clínica</h2></strong>
+      <button mat-stroked-button (click)="goBack()" class="back-button" matTooltip="Regresar a la vista anterior" aria-label="Regresar">
+        <i class="fas fa-arrow-left"></i>
+        <span class="button-text">Regresar</span>
+      </button>
+    </div>
+    
+    <mat-card-content>
+      <app-medical-records-container
+        [patientId]="patientId"
+        [medicalRecordTypeId]="medicalRecordTypeId"
+        [readOnly]="true"
+      ></app-medical-records-container>
+    </mat-card-content>
+  </mat-card>
+</div>

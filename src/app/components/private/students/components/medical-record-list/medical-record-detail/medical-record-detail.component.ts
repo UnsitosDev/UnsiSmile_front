@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { Component, OnInit, inject } from '@angular/core';
+import { BaseNavigationComponent } from '../../../../../../core/base/base-navigation.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -9,8 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { StatusService } from 'src/app/shared';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MedicalRecordsContainerComponent } from '../../../pages/medical-records-forms/medical-records-container/medical-records-container.component';
 
 @Component({
@@ -33,19 +33,17 @@ import { MedicalRecordsContainerComponent } from '../../../pages/medical-records
   templateUrl: './medical-record-detail.component.html',
   styleUrls: ['./medical-record-detail.component.scss']
 })
-export class MedicalRecordDetailComponent implements OnInit {  
+export class MedicalRecordDetailComponent extends BaseNavigationComponent implements OnInit {  
   medicalRecordTypeId: number = 0;
   loading = true;
   error: string | null = null;
   patientId: string = '';
   patientMedicalRecordId: number = 0;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private statusService: StatusService,
-    private http: HttpClient
-  ) {
+  private route = inject(ActivatedRoute);
+
+  constructor() {
+    super();
   }
 
   ngOnInit(): void {
