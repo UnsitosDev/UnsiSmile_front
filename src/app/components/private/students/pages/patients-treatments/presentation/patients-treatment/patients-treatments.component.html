@@ -23,11 +23,14 @@
               @if (treatment.teeth && treatment.teeth !== null) {
                 <li> <strong>Órgano dentario: </strong> {{ treatment.teeth[0].idTooth}}</li>
               }
-              @if (treatment.professor && treatment.professor !== null) {
-                <li><strong>Revisor: </strong> {{treatment.professor.name}}</li>
+              @if (treatment.reviewProfessor && treatment.reviewProfessor !== null) {
+                <li><strong>Revisor: </strong> {{treatment.reviewProfessor.professorName}}</li>
               }@else {
-                <li><strong>Revisor: </strong> Aún no se ha asignado un revisor</li>
-              }           
+                @if (treatment.status === STATUS.AWAITING_APPROVAL) {
+                  <li><strong>Revisor: </strong> Aún no se ha asignado un revisor</li>
+                }
+              }  
+              <li><strong>Profesor que aprueba: </strong> {{treatment.approvalProfessor.professorName}}</li>
             </ul>
             <br>
           </div>
