@@ -25,7 +25,6 @@ export class PprophylaxisComponent {
       // Si no está seleccionado, lo agregamos
       this.selectedPolygons.add(polygonId);
     }
-    console.log("Polígonos seleccionados: ", this.selectedPolygons);
   }
 
   // Método para verificar si un polígono está seleccionado

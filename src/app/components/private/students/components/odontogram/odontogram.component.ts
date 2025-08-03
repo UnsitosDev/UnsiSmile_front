@@ -156,7 +156,6 @@ export class OdontogramComponent implements OnInit {
           this.mapResponseToOdontogram(response);
           this.odontogram.observations = this.data.observations;
           this.renderOdontogram = true;
-          console.log(response);
         },
         error: (error) => { },
       });

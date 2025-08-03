@@ -440,7 +440,6 @@ export class HistoryInitialBagComponent implements OnInit {
       idPatientClinicalHistory: this.idClinicalHistoryPatient
     };
 
-    console.log(data);
     return data;
   }
 

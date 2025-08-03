@@ -108,7 +108,6 @@ export class TableProfessorAdminComponent implements OnInit {
 
   openDetailsPage(professor: ProfessorTableData): void {
     const professorId = professor['numero empleado'];
-    console.log('Navegando a detalles del profesor:', professorId);
     
     // Usar navigateByUrl en lugar de navigate para asegurar una URL limpia
     this.router.navigateByUrl(`/admin/professors/details/professor/${professorId}`);

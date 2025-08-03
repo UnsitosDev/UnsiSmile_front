@@ -77,7 +77,6 @@ export class TablePatientsDigitizerComponent {
     switch (accion) {
       case 'Editar':
         this.navigateToMedicalRecords(fila);
-        console.log('Editar action triggered for:', fila);
         break;
       case 'Detalles':
         this.openDetailsDialog(fila);
