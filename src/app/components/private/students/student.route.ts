@@ -46,6 +46,13 @@ export default [
                                 (m) => m.MedicalRecordListContainerComponent
                             ),
                     },
+                    {
+                        path: 'medical-record/:medicalRecordTypeId/patient/:patientId/detail/:id',
+                        loadComponent: () =>
+                            import('./components/medical-record-list/medical-record-detail/medical-record-detail.component').then(
+                                (m) => m.MedicalRecordDetailComponent
+                            ),
+                    },
                 ]
             },
             {

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UriConstants } from 'src/app/utils/uris.contants';
-import { MedicalRecordHistoryResponse } from '../models/medical-record-history.model';
+import { MedicalRecordHistory, MedicalRecordHistoryResponse } from '../models/medical-record-history.model';
 
 @Injectable({ providedIn: 'root' })
 export class MedicalRecordHistoryRepository {
@@ -26,4 +26,5 @@ export class MedicalRecordHistoryRepository {
       { params }
     );
   }
+
 } 
