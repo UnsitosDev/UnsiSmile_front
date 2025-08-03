@@ -8,11 +8,15 @@ import { OralProsthesisComponent, PreventiveDentistryPublicHealthComponent, Stud
 import { StudentsGeneralHistoryComponent } from "../../../students/pages/medical-records-forms/general/students-general-history.component";
 import { OdontogramContainerComponent } from '../../../students/pages/odontogram-container/odontogram-container.component';
 import { DialogRateTreatmentComponent } from '../../components/dialog-rate-treatment/dialog-rate-treatment.component';
+import { EndodonticMedicalRecordComponent } from "../../../students/pages/medical-records-forms/endodontic-medical-record/endodontic-medical-record.component";
+import { PulpotomyMedicalRecordComponent } from "../../../students/pages/medical-records-forms/pulpotomy-medical-record/pulpotomy-medical-record.component";
+import { PulpectomyMedicalRecordComponent } from "../../../students/pages/medical-records-forms/pulpectomy-medical-record/pulpectomy-medical-record.component";
+import { DentalSurgeryMedicalRecordComponent } from "../../../students/pages/medical-records-forms/dental-surgery-medical-record/dental-surgery-medical-record.component";
 
 @Component({
   selector: 'app-rate-treatment-container',
   standalone: true,
-  imports: [OralProsthesisComponent, StudentsPeriodonticsHistoryComponent, StudentsDentalOperationComponent, StudentsPeriodonticsHistoryComponent, StudentsOralSurgeryHistoryComponent, PreventiveDentistryPublicHealthComponent, StudentsGeneralHistoryComponent, MatTabsModule, OdontogramContainerComponent, MatCardTitle, MatCard],
+  imports: [OralProsthesisComponent, StudentsPeriodonticsHistoryComponent, StudentsDentalOperationComponent, StudentsPeriodonticsHistoryComponent, StudentsOralSurgeryHistoryComponent, PreventiveDentistryPublicHealthComponent, StudentsGeneralHistoryComponent, MatTabsModule, OdontogramContainerComponent, MatCardTitle, MatCard, EndodonticMedicalRecordComponent, PulpotomyMedicalRecordComponent, PulpectomyMedicalRecordComponent, DentalSurgeryMedicalRecordComponent],
   templateUrl: './rate-treatment-container.component.html',
   styleUrl: './rate-treatment-container.component.scss',
 })

@@ -1,32 +1,63 @@
-@switch (medicalRecordTypeId) { @case (medicalRecordType.ORAL_PROSTHESIS) {
-    <!--Protesis bucal-->
+@switch (medicalRecordTypeId) {
+  @case (medicalRecordType.ORAL_PROSTHESIS) {
+    <!-- Protesis bucal -->
     <app-oral-prosthesis
       [readonlyTreatment]="readOnly"
       [patientUuid]="patientId"
     ></app-oral-prosthesis>
-    } @case (medicalRecordType.PERIODONTICS) {
+  }
+  @case (medicalRecordType.PERIODONTICS) {
     <!-- Periodoncia -->
     <app-students-periodontics-history
       [readonlyTreatment]="readOnly"
       [patientUuid]="patientId"
     ></app-students-periodontics-history>
-    } @case (medicalRecordType.DENTAL_OPERATION) {
-    <!-- Operatioria dental -->
+  }
+  @case (medicalRecordType.DENTAL_OPERATION) {
+    <!-- Operatoria dental -->
     <app-students-dental-operation
       [readonlyTreatment]="readOnly"
       [patientUuid]="patientId"
     ></app-students-dental-operation>
-    } @case (medicalRecordType.ORAL_SURGERY) {
-    <!-- Cirujia bucal -->
+  }
+  @case (medicalRecordType.ORAL_SURGERY) {
+    <!-- Cirugía bucal -->
     <app-students-oral-surgery-history
       [readonlyTreatment]="readOnly"
       [patientUuid]="patientId"
     ></app-students-oral-surgery-history>
-    } @case (medicalRecordType.PREVENTIVE_DENTISTRY) {
+  }
+  @case (medicalRecordType.PREVENTIVE_DENTISTRY) {
     <app-preventive-dentistry-public-health
       [readonlyTreatment]="readOnly"
       [patientUuid]="patientId"
     ></app-preventive-dentistry-public-health>
-    } @default {
-    <p>No existe esta historia clinica.</p>
-    } }
+  }
+  @case (medicalRecordType.ENDODONTIC) {
+    <app-endodontic-medical-record
+      [readonlyTreatment]="readOnly"
+      [patientUuid]="patientId"
+    ></app-endodontic-medical-record>
+  }
+  @case (medicalRecordType.PULPOTOMY) {
+    <app-pulpotomy-medical-record
+      [readonlyTreatment]="readOnly"
+      [patientUuid]="patientId"
+    ></app-pulpotomy-medical-record>
+  }
+  @case (medicalRecordType.PULPECTOMY) {
+    <app-pulpectomy-medical-record
+      [readonlyTreatment]="readOnly"
+      [patientUuid]="patientId"
+    ></app-pulpectomy-medical-record>
+  }
+  @case (medicalRecordType.DENTAL_OPERATION_PREVIO) {
+    <app-dental-surgery-medical-record
+      [readonlyTreatment]="readOnly"
+      [patientUuid]="patientId"
+    ></app-dental-surgery-medical-record>
+  }
+  @default {
+    <p>No existe esta historia clínica.</p>
+  }
+}

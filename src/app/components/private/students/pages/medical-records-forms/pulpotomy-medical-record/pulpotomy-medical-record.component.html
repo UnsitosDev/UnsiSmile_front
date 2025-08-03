@@ -1,0 +1,41 @@
+@if (mappedHistoryData) {
+    <mat-card-title>
+        <app-header-history-clinic 
+            [mappedHistoryData]="mappedHistoryData"
+            [idPatientMedicalRecord]="patientMedicalRecord"
+            [currentSectionId]="currentSectionId"
+            [currentStatus]="currentStatus"
+            [currentIndex]="currentIndex"
+            [role]="role">
+        </app-header-history-clinic>
+    </mat-card-title>
+    <mat-card class="custom">
+            <mat-tab-group [(selectedIndex)]="currentIndex">
+                @for (tab of mappedHistoryData.tabs; track tab) {
+                    <mat-tab [label]="tab.title">
+                        @if (tab.isAnswered) {
+                            <app-tab-form-update
+                            [readonlyTreatment]="readonlyTreatment"
+                            [patientMedicalRecord]="patientMedicalRecord"
+                            [fieldsTab]="tab" 
+                            (nextMatTab)="onNextTab()"
+                            (previousMatTab)="onPreviousTab()"
+                            ></app-tab-form-update>
+                        }
+                        @if (!tab.isAnswered) {
+                            <app-tab-form 
+                            [readonlyTreatment]="readonlyTreatment"
+                            [patientMedicalRecord]="patientMedicalRecord"
+                            [fieldsTab]="tab" 
+                            [patientUuid]="patientUuid"
+                            [id]=3
+                            (nextMatTab)="onNextTab()"
+                            (previousMatTab)="onPreviousTab()"
+                        ></app-tab-form>
+                        }
+                    </mat-tab>
+              }
+        </mat-tab-group>
+    </mat-card>
+}
+  

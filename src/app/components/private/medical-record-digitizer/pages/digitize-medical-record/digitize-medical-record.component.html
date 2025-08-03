@@ -35,6 +35,18 @@
             <!-- Odontología preventiva y salud pública -->
             <app-preventive-dentistry-public-health [patientUuid]="patientUuid"></app-preventive-dentistry-public-health>
         }
+        @case (medicalRecordType.ENDODONTIC) {
+            <app-endodontic-medical-record [patientUuid]="patientUuid"></app-endodontic-medical-record>
+        }
+        @case (medicalRecordType.PULPOTOMY) {
+            <app-pulpotomy-medical-record [patientUuid]="patientUuid"></app-pulpotomy-medical-record>
+        }
+        @case (medicalRecordType.PULPECTOMY) {
+            <app-pulpectomy-medical-record [patientUuid]="patientUuid"></app-pulpectomy-medical-record>
+        }
+        @case (medicalRecordType.DENTAL_OPERATION_PREVIO) {
+            <app-dental-surgery-medical-record [patientUuid]="patientUuid"></app-dental-surgery-medical-record>
+        }
         @default {
             <p>No existe esta historia clínica.</p>
         }
