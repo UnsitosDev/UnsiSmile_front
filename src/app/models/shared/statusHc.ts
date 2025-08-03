@@ -1,6 +1,6 @@
-export interface StatusClinicalHistoryResponse {
-    idStatusClinicalHistory: number; 
+export interface StatusMedicalRecordResponse {
+    idStatusMedicalRecord: number; 
     status: string; 
     message: string; 
-    idPatientClinicalHistory: number; 
+    idPatientMedicalRecord: number; 
 }

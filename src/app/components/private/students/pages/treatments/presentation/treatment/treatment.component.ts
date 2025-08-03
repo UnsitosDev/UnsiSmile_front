@@ -40,7 +40,7 @@ import { DialogCommentsTreatmentsComponent } from '../../../../components/dialog
 import { OdontogramContainerComponent } from '../../../odontogram-container/odontogram-container.component';
 export interface TreatmentParams {
   idTreatmentDetail: number;
-  patientClinicalHistoryId: number;
+  patientMedicalRecordId: number;
   medicalRecordId: number;
   patientUuid: string;
   tabMedicalRecord: string;
@@ -81,7 +81,7 @@ export class TreatmentComponent implements OnInit {
   public treatmentsPatient!: PaginatedData<TreatmentDetailResponse> | null;
   public viewTreatment = false;
   public tabMedicalRecord!: string;
-  public patientClinicalHistoryId!: number;
+  public patientMedicalRecordId!: number;
   public medicalRecordId!: number;
   public medicalRecordLoaded = false;
   private suppressTabChangeLogic = false;
@@ -128,7 +128,7 @@ export class TreatmentComponent implements OnInit {
       this.route.queryParams.subscribe((params) => {
         const treatmentParams: TreatmentParams = {
           idTreatmentDetail: params[ID_TREATMENT_DETAIL],
-          patientClinicalHistoryId: params[ID_PATIENT_CLINICAL_HISTORY],
+          patientMedicalRecordId: params[ID_PATIENT_CLINICAL_HISTORY],
           medicalRecordId: params[MEDICAL_RECORD_ID],
           patientUuid: params[PATIENT_UUID_TREATMENT],
           tabMedicalRecord: params[TAB_MEDICAL_RECORD],
@@ -223,7 +223,7 @@ export class TreatmentComponent implements OnInit {
         next: (response: PaginatedData<TreatmentDetailResponse>) => {
           this.handlePatientResponse(response, page);
           if (response.content.length > 0) {
-            this.patientClinicalHistoryId =
+            this.patientMedicalRecordId =
               response.content[0].patient.idPatientMedicalRecord;
             this.idTreatmentDetail = response.content[0].idTreatmentDetail;
           }
@@ -275,7 +275,7 @@ export class TreatmentComponent implements OnInit {
     this.viewTreatment = true;
     // Almacena el tratamiento para mostrarlo en el btn para enviar a revisión
     this.selectedTreatment = treatment.selectedTreatment;
-    this.patientClinicalHistoryId = treatment.patientClinicalHistoryId;
+    this.patientMedicalRecordId = treatment.patientMedicalRecordId;
     this.idTreatmentDetail = treatment.idTreatmentDetail;
     this.medicalRecordId = Number(treatment.medicalRecordId);
     this.tabMedicalRecord = treatment.tabMedicalRecord;

@@ -17,12 +17,13 @@ import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
 
 interface sendToReview {
-  idPatientClinicalHistory: number;
+  idPatientMedicalRecord: number;
   idFormSection: string,
   send?: boolean;
   treatmentId?: number;
   treatment?: TreatmentDetailResponse;
 }
+
 @Component({
   selector: 'app-dialog-confirm-send-to-review',
   standalone: true,
@@ -134,14 +135,14 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
     if (!this.professorClinicalAreaId) return;
 
     // Convert and validate parameters
-    const patientClinicalHistoryId = Number(this.data.idPatientClinicalHistory);
+    const patientMedicalRecordId = Number(this.data.idPatientMedicalRecord);
     // formSectionId is a string, so do not convert it.
     const formSectionId = this.data.idFormSection;
     const clinicalAreaId = Number(this.professorClinicalAreaId);
 
-    if (isNaN(patientClinicalHistoryId) || !formSectionId || isNaN(clinicalAreaId)) {
+    if (isNaN(patientMedicalRecordId) || !formSectionId || isNaN(clinicalAreaId)) {
       console.error('Invalid parameters:', {
-        patientClinicalHistoryId,
+        patientMedicalRecordId,
         formSectionId,
         clinicalAreaId,
       });
@@ -154,7 +155,7 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.POST_CLINICAL_HISTORY_REVIEW}/${patientClinicalHistoryId}/sections/${formSectionId}/review/${clinicalAreaId}`,
+        url: `${UriConstants.POST_CLINICAL_HISTORY_REVIEW}/${patientMedicalRecordId}/sections/${formSectionId}/review/${clinicalAreaId}`,
         data: {},
       })
       .subscribe({

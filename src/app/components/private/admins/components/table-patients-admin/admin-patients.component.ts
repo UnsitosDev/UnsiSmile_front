@@ -15,7 +15,6 @@ import {
 } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { StudentsGeneralHistoryComponent } from '../../../students/pages/medical-records-forms/general/students-general-history.component';
-import { DialogHistoryClinicsComponent } from '../../../students/components/dialog-history-clinics/dialog-history-clinics.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar estos módulos
@@ -83,7 +82,6 @@ export class AdminPatientsComponent implements OnInit {
 
   onAction(accion: Accion) {
     if (accion.accion === 'Editar') {
-      this.editar(accion.fila);
     } else if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
@@ -136,12 +134,6 @@ edit(objeto: PatientInfo) {
     });
   }
 
-  editar(objeto: any) {
-    this.dialog.open(DialogHistoryClinicsComponent, {
-      width: '650px',
-      data: { objeto, role: this.role },
-    });
-  }
 
    // Agregar método para abrir el diálogo de detalles
     openDetailsDialog(admin: patientsTableData): void {

@@ -20,20 +20,20 @@ import { ToastrService } from 'ngx-toastr';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuAssessMedicalHistoryComponent {
-  @Input() idClinicalHistoryPatient!: number;
+  @Input() idMedicalRecordPatient!: number;
   @Input() status: string | null = null;
   @Input() idReviewStatus: number | null = null;
 
   readonly dialog = inject(MatDialog);
 
   data!: {
-    idClinicalHistoryPatient: number;
+    idMedicalRecordPatient: number;
     status: string | null;
     idReviewStatus: number | null;
   };
 
   openDialog(): void {
-    this.data = { idClinicalHistoryPatient: this.idClinicalHistoryPatient, status: this.status, idReviewStatus: this.idReviewStatus };
+    this.data = { idMedicalRecordPatient: this.idMedicalRecordPatient, status: this.status, idReviewStatus: this.idReviewStatus };
     const dialogRef = this.dialog.open(DialogSendReview, { data: this.data });
     dialogRef.afterClosed().subscribe(result => { });
   }

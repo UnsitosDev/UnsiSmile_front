@@ -28,7 +28,7 @@ import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 
 interface updateFormData {
-  idPatientClinicalHistory: number;
+  idPatientMedicalRecord: number;
   idQuestion: number;
   answerBoolean: boolean | null;
   answerNumeric: number | null;
@@ -249,7 +249,7 @@ export class TabFormUpdateComponent {
       const isDateField = fieldName.toLowerCase().includes('fecha') && !isNaN(Date.parse(fieldValue));
   
       const update: updateFormData = {
-        idPatientClinicalHistory: this.patientMedicalRecord,
+        idPatientMedicalRecord: this.patientMedicalRecord,
         idQuestion: questionID,
         answerBoolean: this.checkboxValues[fieldName] || typeof fieldValue === 'boolean' ? fieldValue : null,
         answerNumeric: typeof fieldValue === 'number' ? fieldValue : null,

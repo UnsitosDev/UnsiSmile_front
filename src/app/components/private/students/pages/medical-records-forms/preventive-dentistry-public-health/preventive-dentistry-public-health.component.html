@@ -2,7 +2,7 @@
   <mat-card-title>
     <app-header-history-clinic
       [mappedHistoryData]="mappedHistoryData"
-      [idPatientClinicalHistory]="patientMedicalRecord"
+      [idPatientMedicalRecord]="patientMedicalRecord"
       [currentSectionId]="currentSectionId"
       [currentStatus]="currentStatus"
       [currentIndex]="currentIndex"
@@ -37,7 +37,7 @@
             <app-profilaxis
               [readonlyTreatment]="readonlyTreatment"
               [idPatient]="patientUuid"
-              [idPatientClinicalHistory]="patientMedicalRecord"
+              [idPatientMedicalRecord]="patientMedicalRecord"
               [idFormSection]="tab.idFormSection"
               (nextMatTab)="onNextTab()"
             ></app-profilaxis>
@@ -46,7 +46,7 @@
             <app-fluorosis
             [readonlyTreatment]="readonlyTreatment"
             [idFormSection]="currentSectionId"
-            [idPatientClinicalHistory]="patientMedicalRecord"
+            [idPatientMedicalRecord]="patientMedicalRecord"
             (nextMatTab)="onNextTab()"
             (previousMatTab)="onPreviousTab()"
             [patientUuid]="patientUuid"

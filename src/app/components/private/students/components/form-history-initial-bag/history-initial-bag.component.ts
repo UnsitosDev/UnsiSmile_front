@@ -24,7 +24,7 @@ export class HistoryInitialBagComponent implements OnInit {
   @Input() patientId!: string;                                   // ID del paciente
   @Input() idQuestion!: number;                                  // ID de la pregunta asociada
   @Input() state!: 'create' | 'update' | 'read' | 'read-latest'; // Estado del formulario
-  @Input() idClinicalHistoryPatient!: number;                    // ID de la historia clínica
+  @Input() idMedicalRecordPatient!: number;                    // ID de la historia clínica
 
   @Output() nextTabEventEmitted = new EventEmitter<boolean>();     // Evento para cambiar pestaña
   @Output() nextMatTab = new EventEmitter<void>();                 // Evento siguiente pestaña (Material)
@@ -437,7 +437,7 @@ export class HistoryInitialBagComponent implements OnInit {
       toothEvaluations,
       formSection: "GENERAL_CLINICAL_HISTORY",
       idQuestion: this.idQuestion,
-      idPatientClinicalHistory: this.idClinicalHistoryPatient
+      idPatientMedicalRecord: this.idMedicalRecordPatient
     };
 
     return data;

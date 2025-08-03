@@ -12,12 +12,12 @@ export class RateFormSectionService {
 
   getFormSection(
     formSectionId: string,
-    idPatientClinicalHistory: number
+    idPatientMedicalRecord: number
   ): Observable<FormSection> {
     const url = UriConstants.GET_FORM_SECTION.replace(
       ':formSectionId',
       formSectionId.toString()
-    ).replace(':idPatientMedicalRecord', idPatientClinicalHistory.toString());
+    ).replace(':idPatientMedicalRecord', idPatientMedicalRecord.toString());
 
     return this.http.get<FormSection>(url);
   }
