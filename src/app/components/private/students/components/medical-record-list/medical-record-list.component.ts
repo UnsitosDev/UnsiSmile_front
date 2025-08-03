@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -11,24 +20,31 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Subject, takeUntil } from 'rxjs';
 import { BaseNavigationComponent } from 'src/app/core/base/base-navigation.component';
 import { StatusService } from 'src/app/shared';
-import { CustomSelectComponent, SelectOption } from 'src/app/shared/components/custom-select/custom-select.component';
+import {
+  CustomSelectComponent,
+  SelectOption,
+} from 'src/app/shared/components/custom-select/custom-select.component';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
-import { MedicalRecordHistory, MedicalRecordHistoryResponse } from './models/medical-record-history.model';
+import {
+  MedicalRecordHistory,
+  MedicalRecordHistoryResponse,
+} from './models/medical-record-history.model';
 import { MedicalRecordHistoryRepository } from './repositories/medical-record-history.repository';
 @Component({
   selector: 'app-medical-record-list',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
-    MatListModule, 
-    MatCardModule, 
-    MatChipsModule, 
-    MatIconModule, 
+    MatListModule,
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
     MatDividerModule,
@@ -36,12 +52,15 @@ import { MedicalRecordHistoryRepository } from './repositories/medical-record-hi
     MatButtonToggleModule,
     LoadingComponent,
     CustomSelectComponent,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   templateUrl: './medical-record-list.component.html',
-  styleUrl: './medical-record-list.component.scss'
+  styleUrl: './medical-record-list.component.scss',
 })
-export class MedicalRecordListComponent extends BaseNavigationComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MedicalRecordListComponent
+  extends BaseNavigationComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Input() idPatient: string = '';
   @ViewChild('loadingTrigger', { static: false }) loadingTrigger!: ElementRef;
 
@@ -61,8 +80,16 @@ export class MedicalRecordListComponent extends BaseNavigationComponent implemen
   isAscending = false;
 
   sortOptions: SelectOption[] = [
-    { value: 'appointmentDate', label: 'Fecha de Inicio de tratamiento', icon: 'fas fa-calendar' },
-    { value: 'medicalRecordCatalog.medicalRecordName', label: 'Nombre de Historia Clínica', icon: 'fas fa-file-medical' }
+    {
+      value: 'appointmentDate',
+      label: 'Fecha de Inicio de tratamiento',
+      icon: 'fas fa-calendar',
+    },
+    {
+      value: 'medicalRecordCatalog.medicalRecordName',
+      label: 'Nombre de Historia Clínica',
+      icon: 'fas fa-file-medical',
+    },
   ];
 
   private destroy$ = new Subject<void>();
@@ -71,12 +98,12 @@ export class MedicalRecordListComponent extends BaseNavigationComponent implemen
   private repo = inject(MedicalRecordHistoryRepository);
   private dateAdapter = inject(DateAdapter<Date>);
   public statusService = inject(StatusService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   constructor() {
     super();
   }
-
-
 
   ngOnInit(): void {
     if (this.idPatient) {
@@ -103,18 +130,20 @@ export class MedicalRecordListComponent extends BaseNavigationComponent implemen
     this.medicalRecords = [];
     this.hasMoreData = true;
 
-    this.repo.getMedicalRecordsByPatientId(
-      this.idPatient, 
-      this.currentPage, 
-      this.pageSize,
-      this.selectedOrder,
-      this.isAscending
-    )
+    this.repo
+      .getMedicalRecordsByPatientId(
+        this.idPatient,
+        this.currentPage,
+        this.pageSize,
+        this.selectedOrder,
+        this.isAscending
+      )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: MedicalRecordHistoryResponse) => {
           this.patientName = response.patient.name;
-          this.patientMedicalRecordNumber = response.patient.medicalRecordNumber;
+          this.patientMedicalRecordNumber =
+            response.patient.medicalRecordNumber;
           this.medicalRecords = response.page.content;
           this.totalElements = response.page.totalElements;
           this.hasMoreData = !response.page.last;
@@ -123,7 +152,7 @@ export class MedicalRecordListComponent extends BaseNavigationComponent implemen
         error: (err) => {
           this.error = 'Error al cargar el historial';
           this.loading = false;
-        }
+        },
       });
   }
 
@@ -133,17 +162,21 @@ export class MedicalRecordListComponent extends BaseNavigationComponent implemen
     this.loadingMore = true;
     this.currentPage++;
 
-    this.repo.getMedicalRecordsByPatientId(
-      this.idPatient, 
-      this.currentPage, 
-      this.pageSize,
-      this.selectedOrder,
-      this.isAscending
-    )
+    this.repo
+      .getMedicalRecordsByPatientId(
+        this.idPatient,
+        this.currentPage,
+        this.pageSize,
+        this.selectedOrder,
+        this.isAscending
+      )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: MedicalRecordHistoryResponse) => {
-          this.medicalRecords = [...this.medicalRecords, ...response.page.content];
+          this.medicalRecords = [
+            ...this.medicalRecords,
+            ...response.page.content,
+          ];
           this.hasMoreData = !response.page.last;
           this.loadingMore = false;
         },
@@ -151,7 +184,7 @@ export class MedicalRecordListComponent extends BaseNavigationComponent implemen
           this.error = 'Error al cargar más registros';
           this.loadingMore = false;
           this.currentPage--; // Revertir la página en caso de error
-        }
+        },
       });
   }
 
@@ -160,7 +193,7 @@ export class MedicalRecordListComponent extends BaseNavigationComponent implemen
 
     this.intersectionObserver = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting && this.hasMoreData && !this.loadingMore) {
             this.loadMoreData();
           }
@@ -168,7 +201,7 @@ export class MedicalRecordListComponent extends BaseNavigationComponent implemen
       },
       {
         rootMargin: '100px', // Cargar cuando esté a 100px del final
-        threshold: 0.1
+        threshold: 0.1,
       }
     );
 
@@ -198,6 +231,27 @@ export class MedicalRecordListComponent extends BaseNavigationComponent implemen
 
   trackByRecordId(index: number, record: MedicalRecordHistory): number {
     return record.patientMedicalRecordId || index;
+  }
+
+  viewRecordDetails(record: MedicalRecordHistory): void {
+    // Get the patient ID from the current route
+    const patientId = this.route.snapshot.paramMap.get('idPatient');
+    // Navigate using the new route structure with patient ID
+    this.router.navigate(
+      [
+        'medical-record',
+        record.treatmentDetail.treatment.medicalRecordCatalogId,
+        'patient',
+        patientId,
+        'detail',
+        record.patientMedicalRecordId,
+      ],
+      {
+        relativeTo: this.route.parent, // Use relative navigation
+        state: { record }, // Pass the record data in the state
+        queryParams: { patientId }, // Also pass patientId as a query parameter
+      }
+    );
   }
 
   formatDate(dateValue: string | Date): string {

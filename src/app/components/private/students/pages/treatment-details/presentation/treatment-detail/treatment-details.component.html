@@ -135,38 +135,11 @@
         treatmentDetails.treatment.medicalRecordCatalogName
       }}</span>
     </ng-template>
-    @switch (medicalRecordId) { @case (2) {
-    <!--Protesis bucal-->
-    <app-oral-prosthesis
-      [readonlyTreatment]="readonlyTreatment"
-      [patientUuid]="patientUuid"
-    ></app-oral-prosthesis>
-    } @case (3) {
-    <!-- Periodoncia -->
-    <app-students-periodontics-history
-      [readonlyTreatment]="readonlyTreatment"
-      [patientUuid]="patientUuid"
-    ></app-students-periodontics-history>
-    } @case (4) {
-    <!-- Operatioria dental -->
-    <app-students-dental-operation
-      [readonlyTreatment]="readonlyTreatment"
-      [patientUuid]="patientUuid"
-    ></app-students-dental-operation>
-    } @case (5) {
-    <!-- Cirujia bucal -->
-    <app-students-oral-surgery-history
-      [readonlyTreatment]="readonlyTreatment"
-      [patientUuid]="patientUuid"
-    ></app-students-oral-surgery-history>
-    } @case (6) {
-    <app-preventive-dentistry-public-health
-      [readonlyTreatment]="readonlyTreatment"
-      [patientUuid]="patientUuid"
-    ></app-preventive-dentistry-public-health>
-    } @default {
-    <p>No existe esta historia clinica.</p>
-    } }
+    <app-medical-records-container
+      [medicalRecordTypeId]="treatmentDetails.treatment.medicalRecordCatalogId"
+      [patientId]="patientUuid"
+      [readOnly]="readonlyTreatment"
+      ></app-medical-records-container>
   </mat-tab>
 </mat-tab-group>
 }
