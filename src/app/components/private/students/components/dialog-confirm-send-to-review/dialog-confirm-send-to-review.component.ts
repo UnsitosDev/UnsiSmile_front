@@ -1,8 +1,10 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
@@ -13,8 +15,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ProfessorClinicalAreaResponse } from 'src/app/models/clinical-areas/clinical.areas.model';
 import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
 import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 interface sendToReview {
   idPatientClinicalHistory: number;
@@ -44,7 +44,6 @@ export class DialogConfirmSendToReviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.professorAreas();
-    console.log(this.data);
   }
 
   checkSendToReview() {

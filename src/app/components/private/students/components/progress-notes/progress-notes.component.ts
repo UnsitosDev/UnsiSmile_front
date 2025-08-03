@@ -160,7 +160,6 @@ export class ProgressNotesComponent implements OnInit, TabsHandler {
   }
 
   downloadFile(idProgressNoteFile: string) {
-    console.log(idProgressNoteFile);
     this.apiService
       .getService({
         headers: new HttpHeaders({

@@ -10,12 +10,7 @@ import {
   CardPatientDataComponent,
   DialogConfirmSendToReviewComponent,
   DialogNewTreatmentComponent,
-  OralProsthesisComponent,
-  PreventiveDentistryPublicHealthComponent,
-  StudentsDentalOperationComponent,
   StudentsGeneralHistoryComponent,
-  StudentsOralSurgeryHistoryComponent,
-  StudentsPeriodonticsHistoryComponent,
   treatmentsNotifications
 } from '@mean/students';
 
@@ -24,9 +19,10 @@ import { MedicalRecordCatalog, TreatmentDetailResponse } from '@mean/models';
 import { LoadingComponent } from '@mean/shared';
 import { STATUS_TREATMENTS } from '@mean/utils';
 import { DialogDetailsTreatmentComponent } from '../../../../components/dialog-details-treatment/dialog-details-treatment.component';
+import { MedicalRecordsContainerComponent } from '../../../medical-records-forms/medical-records-container/medical-records-container.component';
+import { OdontogramContainerComponent } from '../../../odontogram-container/odontogram-container.component';
 import { MedicalRecordRepositoryService } from '../../repository/medical-record-repository.service';
 import { TreatmentRepositoryService } from '../../repository/treatment-repository.service';
-import { OdontogramContainerComponent } from '../../../odontogram-container/odontogram-container.component';
 
 @Component({
   selector: 'app-treatments',
@@ -37,15 +33,11 @@ import { OdontogramContainerComponent } from '../../../odontogram-container/odon
     MatTabsModule,
     MatCardModule,
     CardPatientDataComponent,
-    PreventiveDentistryPublicHealthComponent,
-    StudentsOralSurgeryHistoryComponent,
-    StudentsPeriodonticsHistoryComponent,
-    OralProsthesisComponent,
-    StudentsDentalOperationComponent,
+    MedicalRecordsContainerComponent,
     LoadingComponent,
     StudentsGeneralHistoryComponent,
     OdontogramContainerComponent
-  ],
+],
   templateUrl: './treatment-details.component.html',
   styleUrl: './treatment-details.component.scss',
 })

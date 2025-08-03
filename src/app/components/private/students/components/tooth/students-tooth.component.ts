@@ -111,7 +111,6 @@ export class StudentsToothComponent {
 
 
   isNotPresent(conditions: ICondition[]): boolean{
-    console.log(conditions);
     return !conditions.some(condition => condition.condition === ToothConditionsConstants.DIENTE_NO_PRESENTE);
     }
   

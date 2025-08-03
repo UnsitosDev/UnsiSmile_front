@@ -235,7 +235,10 @@
                 </div>
               </mat-card-content>
               <mat-card-footer class="details-footer">
-                <button mat-button color="primary" [matTooltip]="'Ver detalles completos de la historia clínica'">
+                <button mat-button 
+                        color="primary" 
+                        [matTooltip]="'Ver detalles completos de la historia clínica'"
+                        (click)="viewRecordDetails(record)">
                   <i class="fas fa-eye"></i>
                   Ver detalles
                 </button>

@@ -123,7 +123,6 @@ export class TableAssignDigitizerComponent implements OnInit {
       data: {},
     }).subscribe({
       next: (response) => {
-        console.log('Respuesta API de pacientes por capturador:', response);
         if (response && response.content && Array.isArray(response.content)) {
           this.totalElements = response.totalElements;
           this.patientsList = response.content.map((item: any) => {
@@ -141,7 +140,6 @@ export class TableAssignDigitizerComponent implements OnInit {
               idPatientMedicalRecord: patient.idPatientMedicalRecord || 0
             };
           });
-          console.log('Pacientes mapeados:', this.patientsList);
         } else {
           this.patientsList = [];
           this.totalElements = 0;

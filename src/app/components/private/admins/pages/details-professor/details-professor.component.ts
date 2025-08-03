@@ -43,16 +43,13 @@ export class DetailsProfessorComponent implements OnInit {
 
   ngOnInit(): void {
     this.routeParams();
-    console.log('DetailsProfessorComponent initialized with professorId:', this.professorId);
   }
 
   private routeParams() {
     this.route.params.subscribe((params) => {
       this.professorId = params['professorId'];
-      console.log('ID del profesor recibido en params:', this.professorId);
       if (!this.professorId) {
         this.toastr.error('No se proporcionó ID del profesor');
-        console.error('No se proporcionó ID del profesor');
         this.router.navigate(['/admin/professors']);
       }
     });

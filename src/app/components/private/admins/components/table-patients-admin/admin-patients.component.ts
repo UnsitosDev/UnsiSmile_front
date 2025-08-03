@@ -98,7 +98,6 @@ export class AdminPatientsComponent implements OnInit {
   }
 
   openAssignStudentDialog(patient: patientsTableData): void {
-    console.log('ID del paciente que se enviará:', patient.patientID);
     
     const dialogRef = this.dialog.open(AssignStudentComponent, {
       width: '500px',
@@ -106,11 +105,6 @@ export class AdminPatientsComponent implements OnInit {
         patientId: patient.patientID.toString(), // Convertir a string para asegurar compatibilidad
         patientName: `${patient.nombres} ${patient.apellidos}`
       }
-    });
-
-    console.log('Datos enviados al diálogo:', {
-      patientId: patient.patientID.toString(),
-      patientName: `${patient.nombres} ${patient.apellidos}`
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -126,8 +120,6 @@ edit(objeto: PatientInfo) {
   }
 
   openAssignDigitizerDialog(patient: patientsTableData): void {
-    console.log('ID del paciente para asignar digitalizador:', patient.patientID);
-    
     const dialogRef = this.dialog.open(AssignDigitizerComponent, {
       width: '500px',
       data: {

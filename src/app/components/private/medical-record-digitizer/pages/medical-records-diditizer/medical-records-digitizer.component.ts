@@ -50,7 +50,6 @@ export class MedicalRecordsDigitizerComponent implements OnInit {
     }).subscribe({
       next: (response) => {
         this.medicalRecords = response;
-        console.log('Medical Records:', this.medicalRecords);
       },
       error: (error) => {
         console.error(error);

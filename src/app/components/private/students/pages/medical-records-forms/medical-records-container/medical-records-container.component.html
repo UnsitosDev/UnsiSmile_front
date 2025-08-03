@@ -1,0 +1,32 @@
+@switch (medicalRecordTypeId) { @case (2) {
+    <!--Protesis bucal-->
+    <app-oral-prosthesis
+      [readonlyTreatment]="readOnly"
+      [patientUuid]="patientId"
+    ></app-oral-prosthesis>
+    } @case (3) {
+    <!-- Periodoncia -->
+    <app-students-periodontics-history
+      [readonlyTreatment]="readOnly"
+      [patientUuid]="patientId"
+    ></app-students-periodontics-history>
+    } @case (4) {
+    <!-- Operatioria dental -->
+    <app-students-dental-operation
+      [readonlyTreatment]="readOnly"
+      [patientUuid]="patientId"
+    ></app-students-dental-operation>
+    } @case (5) {
+    <!-- Cirujia bucal -->
+    <app-students-oral-surgery-history
+      [readonlyTreatment]="readOnly"
+      [patientUuid]="patientId"
+    ></app-students-oral-surgery-history>
+    } @case (6) {
+    <app-preventive-dentistry-public-health
+      [readonlyTreatment]="readOnly"
+      [patientUuid]="patientId"
+    ></app-preventive-dentistry-public-health>
+    } @default {
+    <p>No existe esta historia clinica.</p>
+    } }

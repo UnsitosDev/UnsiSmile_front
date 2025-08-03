@@ -32,7 +32,6 @@ export class OdontogramService {
     if (!tooth) {
       tooth = { idTooth: toothId, conditions: [], faces: [], status: true };
       this.odontogram.teeth.push(tooth);
-      console.log(`Tooth with id ${toothId} created`);
     }
     return tooth;
   }
@@ -42,7 +41,6 @@ export class OdontogramService {
     if (!face) {
       face = { idFace: faceId, conditions: [] };
       tooth.faces.push(face);
-      console.log(`Face with id ${faceId} created for tooth ${tooth.idTooth}`);
     }
     return face;
   }
@@ -54,8 +52,6 @@ export class OdontogramService {
   addCondition(conditions: ICondition[], condition: ICondition) {
     if (!this.conditionExists(conditions, condition.idCondition)) {
       conditions.push(condition);
-    } else {
-      console.log('Condition already exists');
     }
   }
 

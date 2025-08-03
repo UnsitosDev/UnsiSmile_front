@@ -93,12 +93,8 @@ export class TreatmentReportsComponent {
 
   openDialogTreatments(idStudent: string){
 
-    const dialogRef = this.dialog.open(DialogReportsTreatmentsComponent, {
+    this.dialog.open(DialogReportsTreatmentsComponent, {
       data: { idStudent },
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 

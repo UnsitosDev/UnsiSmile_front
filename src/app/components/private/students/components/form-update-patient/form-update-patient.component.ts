@@ -705,7 +705,6 @@ export class FormUpdatePatientComponent {
 
     navigateAfterUpdate(){
         this.role === ROLES.ROLE_MEDICAL_RECORD_DIGITIZER ? null : this.location.back();
-        console.log(this.role);
     }
   
   }
