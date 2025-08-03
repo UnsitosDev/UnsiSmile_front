@@ -747,7 +747,7 @@ export class FormFieldsService {
     
 
     // Modificar el método handleNationalityClick para cargar más opciones
-    private handleNationalityClick(searchTerm: string, page: number = 0, size: number = 15): void {
+    public handleNationalityClick(searchTerm: string, page: number = 0, size: number = 15): void {
         // Solo buscar si hay un término de búsqueda
         if (!searchTerm || searchTerm.trim() === '') {
             // Si no hay término de búsqueda, limpiar las opciones
@@ -788,7 +788,7 @@ export class FormFieldsService {
         maritalStatusField && (maritalStatusField.options = this.patientService.maritalStatusOptions);
     }
 
-    private handleOcupationClick(searchTerm: string, page: number = 0, size: number = 15): void {
+    public handleOcupationClick(searchTerm: string, page: number = 0, size: number = 15): void {
         // Solo buscar si hay un término de búsqueda
         if (!searchTerm || searchTerm.trim() === '') {
             // Si no hay término de búsqueda, limpiar las opciones
@@ -817,7 +817,7 @@ export class FormFieldsService {
         });
     }
 
-    private handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 15): void {
+    public handleEthnicGroupClick(searchTerm: string, page: number = 0, size: number = 15): void {
         // Solo buscar si hay un término de búsqueda
         if (!searchTerm || searchTerm.trim() === '') {
             // Si no hay término de búsqueda, limpiar las opciones
@@ -847,7 +847,7 @@ export class FormFieldsService {
     }
 
 
-    private handleReligionClick(searchTerm: string, page: number = 0, size: number = 15): void {
+    public handleReligionClick(searchTerm: string, page: number = 0, size: number = 15): void {
         // Solo buscar si hay un término de búsqueda
         if (!searchTerm || searchTerm.trim() === '') {
             // Si no hay término de búsqueda, limpiar las opciones
