@@ -52,6 +52,14 @@ export class SideNavComponent implements OnInit {
         this.profilePicture.set(newProfilePicture);
       }
     );
+
+    // Escuchar cambios en los datos del usuario
+    this.profilePictureService.userDataUpdated.subscribe(
+      (updatedUserData) => {
+        this.user = updatedUserData;
+        this.setWelcomeMessage();
+      }
+    );
   }
 
   @Input() isSidebarOpen = false;
@@ -74,6 +82,9 @@ export class SideNavComponent implements OnInit {
           if (this.user.user.profilePictureId) {
             this.fetchProfilePicture();
           }
+          
+          // Notificar a otros componentes que los datos del usuario han sido cargados
+          this.profilePictureService.updateUserData(data);
         },
         error: (error) => {
           console.error('Error fetching user data:', error);

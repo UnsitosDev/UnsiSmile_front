@@ -10,7 +10,7 @@
           alt="Foto de perfil">
       </div>
       <h2 class="profile-name">{{user.person.firstName}} {{user.person.firstLastName}}</h2>
-      <p class="profile-role">Usuario</p>
+      <p class="profile-role">{{getRoleFriendlyName()}}</p>
       <label class="btn btn-primary" [class.disabled]="!modoEdicion()">
         Cambiar foto
         <input type="file" 
@@ -104,8 +104,8 @@
                     [class.readonly]="!modoEdicion()">
                 </div>
                 <div class="form-group">
-                  <label for="apellido">Segundo Apellido</label>
-                  <input id="apellido" type="text" name="apellido" 
+                  <label for="apellido2">Segundo Apellido</label>
+                  <input id="apellido2" type="text" name="apellido2" 
                     [(ngModel)]="user.person.secondLastName" 
                     class="form-control"
                     [readonly]="!modoEdicion()"
@@ -186,3 +186,4 @@
   </div>
   
 }
+

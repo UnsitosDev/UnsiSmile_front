@@ -270,6 +270,9 @@ export class FormUserComponent implements OnInit, AfterViewInit {
           if (this.user.user.profilePictureId) {
             this.fetchProfilePicture();
           }
+          
+          // Notificar a otros componentes que los datos del usuario han sido actualizados
+          this.profilePictureService.updateUserData(data);
         },
         error: (error) => {
           console.error('Error fetching user data:', error);
@@ -320,4 +323,15 @@ export class FormUserComponent implements OnInit, AfterViewInit {
     }
     this.modoEdicion.set(!this.modoEdicion());
   }
+
+  getRoleFriendlyName(): string {
+  switch(this.user.user.role.role) {
+    case 'ROLE_ADMIN': return 'Administrador';
+    case 'ROLE_STUDENT': return 'Estudiante';
+    case 'ROLE_PROFESSOR': return 'Profesor';
+    case 'ROLE_MEDICAL_RECORD_DIGITIZER': return 'Digitalizador';
+    case 'ROLE_CLINICAL_AREA_SUPERVISOR': return 'Supervisor de Área Clínica';
+    default: return this.user.user.role.role;
+  }
+}
 }
