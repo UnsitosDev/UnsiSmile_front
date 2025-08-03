@@ -25,7 +25,7 @@ export class FormUserComponent implements OnInit, AfterViewInit {
   private profileService = inject(ApiService<ProfileResponse, {}>);
   private route = inject(Router);
   // Actualizamos la lista de pestañas para que sea más clara
-  tabs = ['Información General', 'Datos Personales', 'Seguridad'];
+  tabs = ['Información general', 'Datos personales', 'Seguridad'];
   activeTab = signal(0);
   nombre = signal('');
   email = signal('');
@@ -141,10 +141,10 @@ export class FormUserComponent implements OnInit, AfterViewInit {
   
   getTabTitle(): string {
     switch(this.activeTab()) {
-      case 0: return 'Información General';
-      case 1: return 'Datos Personales';
-      case 2: return 'Cambiar Contraseña';
-      default: return 'Perfil de Usuario';
+      case 0: return 'Información general';
+      case 1: return 'Datos personales';
+      case 2: return 'Cambiar contraseña';
+      default: return 'Perfil de usuario';
     }
   }
 
