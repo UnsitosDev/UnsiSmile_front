@@ -1,0 +1,114 @@
+@if (loading) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for (_ of [1, 2, 3, 4, 5]; track $index) {
+      <div class="animate-pulse custom-item rounded-lg h-32"></div>
+    }
+  </div>
+} @else {
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
+    <!-- Card de Usuarios -->
+    <app-dashboard-card
+      (click)="switchChart('users')"
+      [class.active]="activeChart === 'users'"
+      class="transform transition-all duration-300 hover:scale-105 cursor-pointer"
+      title="Usuarios"
+      icon="fas fa-users"
+      cardType="numeric">
+    </app-dashboard-card>
+
+    <!-- Card de Pacientes -->
+    <app-dashboard-card
+      (click)="switchChart('patients')"
+      [class.active]="activeChart === 'patients'"
+      class="transform transition-all duration-300 hover:scale-105 cursor-pointer"
+      title="Pacientes"
+      icon="fas fa-hospital-user"
+      cardType="list">
+    </app-dashboard-card>
+
+    <!-- Card de Tratamientos -->
+    <app-dashboard-card
+      (click)="switchChart('treatments')"
+      [class.active]="activeChart === 'treatments'"
+      class="transform transition-all duration-300 hover:scale-105 cursor-pointer"
+      title="Tratamientos"
+      icon="fas fa-notes-medical"
+      cardType="numeric">
+    </app-dashboard-card>
+  </div>
+
+  <!-- Layout especial para tratamientos - gráfico de ancho completo -->
+  @if (activeChart === 'treatments') {
+    <div class="w-full custom-bar">
+      <section class="p-4">
+        <div class="w-full h-96">
+          <canvas
+            baseChart
+            [type]="lineChartType"
+            [data]="currentChartData"
+            [options]="lineChartOptions">
+          </canvas>
+        </div>
+      </section>
+      
+      <div class="p-4 overflow-auto">
+        <div mat-subheader><p><strong>Tratamientos</strong></p></div>
+        <mat-list role="list">
+          @for (treatment of getTreatmentsList(); track treatment.label) {
+            <mat-list-item role="listitem">
+              <span class="custom-item rounded-lg w-full px-2">{{ treatment.label }}:</span> {{ treatment.value }}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          }
+        </mat-list>
+      </div>
+    </div>
+  } @else {
+    <!-- Layout normal para usuarios y pacientes - lado a lado -->
+    <div class="flex custom-bar">
+      <section class="p-4">
+        <div style="width: 600px; height: 400px;">
+          <canvas
+            baseChart
+            [type]="lineChartType"
+            [data]="currentChartData"
+            [options]="lineChartOptions">
+          </canvas>
+        </div>
+      </section>
+
+      @if (activeChart === 'users') {
+        <div class="p-4 flex-1 overflow-auto">
+          <div mat-subheader><p><strong>Usuarios</strong></p></div>
+          <mat-list role="list">
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Estudiantes:</span> {{ stats.totalStudents }}</mat-list-item>
+            <mat-divider></mat-divider>
+
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Profesores:</span> {{ stats.totalProfessors }}</mat-list-item>
+            <mat-divider></mat-divider>
+
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Estudiantes registrados el ultimo mes:</span>
+               {{ stats.studentsRegisteredLastMonth }}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+
+          </mat-list>
+        </div>
+      }
+
+      @if (activeChart === 'patients') {
+        <div class="p-4 flex-1 overflow-auto">
+          <div mat-subheader><p><strong>Pacientes</strong></p></div>
+          <mat-list role="list">
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes:</span> {{ stats.totalPatients }}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes con discapacidad:</span> {{ stats.patientsWithDisability }}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item role="listitem"><span class="custom-item rounded-lg w-full px-2">Pacientes registrados el ultimo mes:</span> {{ stats.patientsRegisteredLastMonth }}
+            </mat-list-item>
+          </mat-list>
+        </div>
+      }
+    </div>
+  }
+}

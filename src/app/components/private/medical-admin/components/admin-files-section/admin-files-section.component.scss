@@ -1,0 +1,87 @@
+.mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: white;
+}
+
+.custom {
+    text-align: center;
+    background-color: var(--on-primary);
+    color: var(--on-secondary);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.all-files {
+    background-color: var(--on-primary);
+}
+
+.custom-card {
+    background-color: var(--on-primary);
+}
+
+.custom-button {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.custom-input {
+    margin-top: 50px !important;
+}
+
+.file-item:hover {
+    cursor: pointer;
+}
+
+.no-files {
+    text-align: center;
+    padding: 50px;
+    background-color: var(--on-primary);
+    color: var(--on-secondary);
+}
+
+.no-files-content {
+    background-color: var(--on-primary);
+    text-align: center;
+    padding: 20px;
+    color: var(--on-secondary);
+}
+
+.empty-icon {
+    margin-bottom: 15px;
+    color: var(--tertiary);
+}
+
+.no-files p {
+    margin: 8px 0;
+}
+
+.trash-button{
+  color: var(--delete-color);
+  span{
+    color: var(--delete-color);
+  }
+}
+
+.trash-button:hover {
+    background-color: var(--red-color);
+    span, i{
+        color: var(--white-color);
+    }
+}
+
+.dialog-custom{
+  background-color: var(--on-primary);
+}
+
+.delete-button {
+    color: var(--delete-color);
+}
+
+.delete-button:hover {
+    color: var(--white-color);
+    background-color: var(--red-color);
+}

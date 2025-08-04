@@ -331,6 +331,7 @@ export class FormUserComponent implements OnInit, AfterViewInit {
     case 'ROLE_PROFESSOR': return 'Profesor';
     case 'ROLE_MEDICAL_RECORD_DIGITIZER': return 'Digitalizador';
     case 'ROLE_CLINICAL_AREA_SUPERVISOR': return 'Supervisor de Área Clínica';
+    case 'ROLE_MEDICAL_ADMIN': return 'Médico administrador';
     default: return this.user.user.role.role;
   }
 }

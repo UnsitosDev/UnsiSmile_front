@@ -1,0 +1,30 @@
+<mat-card class="full-width-card">
+  <mat-card-title><strong>Grupos asignados al profesor</strong></mat-card-title>
+</mat-card>
+<br>
+<div class="flex justify-end">
+  <button class="mr-10" mat-flat-button color="primary" (click)="openAssignGroupDialog()">
+    <i class="fas fa-users"></i>  
+    Asignar nuevo grupo
+  </button>
+</div>
+<br>
+
+<app-tabla-data
+  [titulo]="title"
+  [columns]="columnas"
+  [data]="groupsList"
+  [totalItems]="totalElements"
+  [sortableColumns]="sortableColumns"
+  [showSearchIcon]="true"
+  [showDeleteIcon]="true"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (pageChange)="onPageChange($event)"
+  (action)="onAction($event)"
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)">
+</app-tabla-data>
+
+<div *ngIf="isLoading" class="flex justify-center p-4">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>

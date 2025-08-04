@@ -1,0 +1,18 @@
+<mat-card class="full-width-card mb-4">
+  <mat-card-title><strong>Tratamientos - reportes de tratamientos</strong></mat-card-title>
+</mat-card>
+
+<app-tabla-data
+  [titulo]="title"
+  [columns]="columns"
+  [data]="studentsList"
+  [totalItems]="totalElements"
+  [sortableColumns]="sortableColumns"
+  [showFolderIcon]="true"
+  (pageChange)="onPageChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (action)="onAction($event)"
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)">
+</app-tabla-data>
+<app-loading/>

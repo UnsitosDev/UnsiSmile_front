@@ -1,0 +1,267 @@
+mat-form-field {
+  margin-right: 12px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.mat-mdc-card-content:last-child {
+  background-color: var(--secondary);
+}
+
+.custom {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+button {
+  background-color: var(--tertiary);
+  color: var(--tertiary);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  
+  button {
+    max-width: 400px;
+    flex: 0 0 auto;
+    margin: 0 5px;
+    min-width: 200px;
+    padding: 8px 24px;
+    font-weight: 500;
+    
+    i {
+      margin-left: 8px;
+    }
+  }
+}
+
+.full-width-card {
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+::ng-deep .mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 1rem;
+  color: var(--side-text);
+  margin-bottom: 1rem !important;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  text-align: center; 
+  display: flex;     
+  justify-content: center; 
+}
+
+.mat-mdc-card {
+  background-color: var(--on-primary);
+}
+
+.card-header {
+  position: relative;
+  width: 100%;
+}
+
+.info-section {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: var(--input-color);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+}
+
+.info-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  i {
+    color: var(--tertiary);
+    font-size: 1.2rem;
+  }
+  
+  span {
+    color: var(--text);
+    font-size: 1rem;
+  }
+}
+
+.form-container {
+  margin: 1rem 0;
+}
+
+.form-field-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.search-container {
+  margin: 20px 0;
+}
+
+.search-field {
+  width: 100%;
+  max-width: 400px;
+}
+
+mat-paginator {
+  margin-top: 20px;
+}
+
+.selected-professors {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 30px;
+  padding: 25px;
+  border: 0.5px solid var(--on-secondary);
+  border-radius: 8px;
+  background-color: var(--secondary);
+
+  h3 {
+    color: var(--tertiary);
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    text-align: left;
+  }
+}
+
+mat-list {
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--secondary);
+  box-shadow: var(--on-secondary);
+
+  
+  mat-list-item {
+    height: 60px !important;
+    margin-bottom: 10px;
+    background-color: var(--secondary);
+    border-radius: 4px;
+    padding: 0 16px;
+    border: 0.5px var(--on-secondary) solid;
+    margin: 0px;
+
+    ::ng-deep .mdc-list-item__content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 5px;
+      color: rgb(212, 0, 0);
+    }
+  }
+}
+
+button[type="button"] {
+  margin-top: 20px;
+  min-width: 250px;
+  height: 45px;
+  background-color: var(--tertiary);
+  color: var( --border) !important;
+  font-size: 16px;
+  padding: 0 24px;
+  border-radius: 4px;
+  
+  i {
+    margin-left: 12px;
+    font-size: 14px;
+  }
+
+}
+
+button[color="warn"] {
+  background-color: transparent;
+  color: var(--status-red) !important;
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  
+  &:hover {
+    background-color: rgba(244, 67, 54, 0.1);
+  }
+}
+
+button[color="warn"], .delete-button {
+  background-color: transparent;
+  color: var(--status-red) !important;
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+    transform: scale(1.1);
+    i {
+      color: var(--status-red);
+    }
+  }
+
+  i {
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
+}
+
+.list-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+
+  .professor-info {
+    flex: 1;
+    text-align: left;
+    color: var(--on-secondary);
+    margin-right: 16px;
+  }
+
+  .delete-button {
+    flex: 0 0 auto;
+  }
+}
+
+mat-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}

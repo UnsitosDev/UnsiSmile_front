@@ -1,0 +1,58 @@
+<mat-card>
+  <mat-card-title><strong>Subir archivos</strong></mat-card-title>
+
+</mat-card>
+<mat-card class="full-width-card custom">
+    <br>
+    <div class="custom-input">
+        <input #fileInput
+          type="file"
+          formControlName="fileStudent"
+          accept=".pdf"
+          (change)="onFileSelected($event)"
+          multiple
+          required
+        />
+    </div>
+    <div class="custom-button">
+        <button mat-flat-button color="primary" (click)="sendFiles()">Subir archivos <i class="fas fa-file-upload"></i></button>
+    </div>
+</mat-card>
+<br>
+
+@if (filesData && filesData.length > 0) {
+  <mat-card class="all-files">
+    <div class="all-files">
+      <mat-card-title><strong>Archivos</strong></mat-card-title>
+      <mat-list>
+        @for (file of filesData; track $index) {
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 sm:mr-2 mb-1">
+            <mat-list-item class="file-item w-full sm:w-auto">
+              <mat-icon matListItemIcon><i class="fas fa-file-alt"></i></mat-icon>
+              <div (click)="onFileClick(file)" matListItemTitle>{{ file.fileName }}</div>
+            </mat-list-item>
+
+            <button mat-stroked-button class="trash-button whitespace-nowrap sm:ml-4 self-start sm:self-auto truncate max-w-full" (click)="dialogDeleteFile(file.idFile)">
+              <i class="fas fa-trash trash-button mr-1"></i>
+              <span>Eliminar archivo</span>
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+        }
+      </mat-list>
+    </div>
+  </mat-card>
+} @else {
+  <mat-card class="no-files">
+    <div class="no-files-content">
+      <mat-icon class="empty-icon" color="primary"><i class="fas fa-folder"></i></mat-icon>
+      <p><strong>No se han encontrado archivos en esta sección.</strong></p>
+      <p>
+        Para asegurar que los alumnos puedan acceder a los archivos necesarios,
+        es importante subir los documentos correspondientes a esta sección.
+      </p>
+    </div>
+  </mat-card>
+
+
+}

@@ -1,0 +1,65 @@
+.fondo {
+  background: var(--secondary);
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button-container.single {
+  justify-content: flex-end;
+}
+
+::ng-deep .mat-step-header .mat-step-label {
+  color: var(--on-secondary);
+}
+
+::ng-deep .mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: var(--side-text);  
+}
+
+.edit-button-container {
+  display: flex;
+  justify-content: flex-start; // Cambiado de flex-end a flex-start para ubicarlo a la izquierda
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--tertiary);
+  color: var(--side-text);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-warning {
+  background: var(--on-tertiary);
+  color: var(--border);
+}
+
+.btn i {
+  margin-right: 8px;
+}
+
+.loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+}

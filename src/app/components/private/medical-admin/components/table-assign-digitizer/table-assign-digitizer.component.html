@@ -1,0 +1,27 @@
+<mat-card class="full-width-card">
+  <mat-card-title>
+    <div class="flex justify-between items-center">
+      <strong>Pacientes asignados al capturador: {{ digitizerName }}</strong>
+      <button mat-button color="primary" (click)="goBack()">
+        <i class="fas fa-arrow-left mr-2"></i> Volver a capturadores
+      </button>
+    </div>
+  </mat-card-title>
+</mat-card>
+
+<br>
+
+<app-tabla-data
+  [titulo]="title"
+  [columns]="columns"
+  [data]="patientsList"
+  [totalItems]="totalElements"
+  [sortableColumns]="sortableColumns"
+  (pageChange)="onPageChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (action)="onAction($event)"
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)">
+</app-tabla-data>
+
+<app-loading/>

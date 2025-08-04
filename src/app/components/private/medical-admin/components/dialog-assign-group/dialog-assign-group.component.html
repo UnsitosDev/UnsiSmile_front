@@ -1,0 +1,40 @@
+<mat-card class="p-4">
+  <div class="card-header">
+    <mat-card-title><strong>Asignar Grupo a Profesor</strong></mat-card-title>
+    <button class="close-button" (click)="onCancel()">×</button>
+  </div>
+  <mat-card-content>
+    <div class="professor-info">
+      <div class="professor-name">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <span>Profesor: <strong>{{ professorName }}</strong></span>
+      </div>
+    </div>
+    
+    <div class="form-container">
+      <div *ngIf="loading" class="loading-spinner">
+        <app-loading></app-loading>
+      </div>
+      
+      <div class="form-field-container">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Grupo</mat-label>
+          <mat-select [(ngModel)]="selectedGroupId">
+            <mat-option *ngFor="let group of groups" [value]="group.idGroup">
+              {{ group.groupName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    
+    <div class="action-buttons">
+      <button mat-flat-button color="warn" (click)="onCancel()">
+        <i class="fas fa-times"></i> Cancelar
+      </button>
+      <button mat-flat-button color="primary" (click)="assignGroup()" [disabled]="!selectedGroupId">
+        <i class="fas fa-users"></i> Asignar Grupo
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>
