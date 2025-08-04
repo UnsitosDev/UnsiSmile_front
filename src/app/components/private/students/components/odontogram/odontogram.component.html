@@ -11,9 +11,10 @@
     <div class="selected-symbol">
       <div class="tooth-preview">
         <svg
-          width="30"
-          height="34"
-          viewBox="0 0 30 34"
+          width="40"
+          height="40"
+          viewBox="-5 -5 40 40"
+          style="overflow: visible"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -183,7 +184,7 @@
             "
             style="cursor: pointer"
           >
-            <polygon points="15,5 0,30 30,30" fill="#e74c3c" />
+            <polygon points="15,5 0,30 30,30" fill="#e74c3c" style="stroke: #c0392b; stroke-width: 1" />
           </g>
           } @case (ToothConditionsConstants.DIENTE_CON_FRACTURA) {
           <g
@@ -230,7 +231,17 @@
         <span class="symbol-name">{{ marked.condition }}</span>
         <span class="symbol-description">{{ marked.description }}</span>
       </div>
-      <!-- Símbolos adicionales debajo del diente -->
+      @if (![
+  ToothConditionsConstants.DIENTE_OBTURADO,
+  ToothConditionsConstants.DIENTE_CON_FRACTURA,
+  ToothConditionsConstants.DIENTE_CARIADO,
+  ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES,
+  ToothConditionsConstants.DIENTE_EXTRAIDO,
+  ToothConditionsConstants.DIENTE_CON_CORONA,
+  ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA,
+  ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA,
+].includes(marked.condition)) {
+        <!-- Símbolos adicionales debajo del diente -->
       <div class="tooth-symbols-below">
         <app-condition-icon
           *ngIf="marked.condition"
@@ -243,6 +254,7 @@
         >
         </app-condition-icon>
       </div>
+      }
       <button
         mat-icon-button
         class="clear-symbol"
