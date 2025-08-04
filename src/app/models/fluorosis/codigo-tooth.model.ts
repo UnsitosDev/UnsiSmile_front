@@ -7,7 +7,8 @@ export enum CodigoTooth {
 }
 
 export interface DentalTreatmentPayload {
-  idTreatment:  number;
+  idTreatment?:  number;
+  idPatientMedicalRecord?:  number;
   teeth: {
     idTooth:    string;
     code:       CodigoTooth;

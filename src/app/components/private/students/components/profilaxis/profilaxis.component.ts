@@ -148,7 +148,7 @@ export class ProfilaxisComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_PROFILAXIS}/${this.idTreatmentDetail}?page=${page}&size=10`,
+        url: `${UriConstants.GET_PROFILAXIS}/${this.idPatientMedicalRecord}?page=${page}&size=10`,
         data: {},
       })
       .subscribe({
@@ -211,7 +211,7 @@ export class ProfilaxisComponent implements OnInit {
 
   public store() {
     const payload: DentalTreatmentPayload = {
-      idTreatment: Number(this.idTreatmentDetail),
+      idPatientMedicalRecord: this.idPatientMedicalRecord,
       teeth: []
     };
 
@@ -248,7 +248,7 @@ export class ProfilaxisComponent implements OnInit {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_IHOS}/${this.idTreatmentDetail}`,
+        url: `${UriConstants.GET_IHOS}/${this.idPatientMedicalRecord}`,
         data: {},
       })
       .subscribe({

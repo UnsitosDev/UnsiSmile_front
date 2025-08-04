@@ -11,6 +11,8 @@ import { ID_STUDENT, PaginatedData, TreatmentDetailResponse, Treatments } from '
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
+import { BaseChartDirective } from 'ng2-charts';
+
 
 @Component({
   selector: 'app-treatments-report-details',
