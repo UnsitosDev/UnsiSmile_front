@@ -1,20 +1,25 @@
+<mat-card class="full-width-card mb-4">
+  <mat-card-title><strong>Calificar tratamiento</strong></mat-card-title>
+</mat-card>
+
 @if (!isLoading) {
 
-  <div class=" flex justify-end mb-4">
-    <button class="rate-treatment" mat-button (click)="opedDialogRateTreatment()">
-      Calificar Tratamiento
-    </button>
-  </div>
+<div class="flex justify-end mb-4">
+  <button class="rate-treatment" mat-button (click)="opedDialogRateTreatment()">
+    Calificar Tratamiento
+  </button>
+</div>
 
-  <div class="mat-tab-group">
-<mat-tab-group>
-
+<div class="mat-tab-group">
+  <mat-tab-group>
     <mat-tab>
       <ng-template mat-tab-label>
         <i class="fas fa-folder"></i>
         <span class="ml-2">Historia clínica general</span>
       </ng-template>
-      <app-students-general-history [patientUuid]="idPatient"></app-students-general-history>
+      <app-students-general-history
+        [patientUuid]="idPatient"
+      ></app-students-general-history>
     </mat-tab>
 
     <mat-tab>
@@ -25,7 +30,7 @@
       <app-odontogram-container
         [patientUuid]="idPatient"
         [readonly]="false"
-        ></app-odontogram-container>
+      ></app-odontogram-container>
     </mat-tab>
 
     <mat-tab>
@@ -33,40 +38,49 @@
         <i class="fas fa-pills"></i>
         <span class="ml-2">Tratamiento</span>
       </ng-template>
-      @switch (medicalRecord) {
-        @case (2) {
-          <!--Protesis bucal-->
-          <app-oral-prosthesis [patientUuid]="idPatient"></app-oral-prosthesis>
-        }
-        @case (3) {
-          <!-- Periodoncia -->
-          <app-students-periodontics-history
-            [patientUuid]="idPatient"
-          ></app-students-periodontics-history>
-        }
-        @case (4) {
-          <!-- Operatioria dental -->
-          <app-students-dental-operation
-            [patientUuid]="idPatient"
-          ></app-students-dental-operation>
-        }
-        @case (5) {
-          <!-- Cirujia bucal -->
-          <app-students-oral-surgery-history
-            [patientUuid]="idPatient"
-          ></app-students-oral-surgery-history>
-        }
-        @case (6) {
-          <app-preventive-dentistry-public-health
-            [patientUuid]="idPatient"
-          ></app-preventive-dentistry-public-health>
-        }
-        @default {
-          <p>No existe esta historia clinica.</p>
-        }
-      }
+      @switch (medicalRecord) { @case (medicalRecordType.ORAL_PROSTHESIS) {
+      <!--Protesis bucal-->
+      <app-oral-prosthesis [patientUuid]="idPatient"></app-oral-prosthesis>
+      } @case (medicalRecordType.PERIODONTICS) {
+      <!-- Periodoncia -->
+      <app-students-periodontics-history
+        [patientUuid]="idPatient"
+      ></app-students-periodontics-history>
+      } @case (medicalRecordType.DENTAL_OPERATION) {
+      <!-- Operatioria dental -->
+      <app-students-dental-operation
+        [patientUuid]="idPatient"
+      ></app-students-dental-operation>
+      } @case (medicalRecordType.ORAL_SURGERY) {
+      <!-- Cirujia bucal -->
+      <app-students-oral-surgery-history
+        [patientUuid]="idPatient"
+      ></app-students-oral-surgery-history>
+      } @case (medicalRecordType.PREVENTIVE_DENTISTRY) {
+      <app-preventive-dentistry-public-health
+        [patientUuid]="idPatient"
+      ></app-preventive-dentistry-public-health>
+      } @case (medicalRecordType.ENDODONTIC) {
+      <app-endodontic-medical-record
+        [patientUuid]="idPatient"
+      ></app-endodontic-medical-record>
+      } @case (medicalRecordType.PULPOTOMY) {
+      <app-pulpotomy-medical-record
+        [patientUuid]="idPatient"
+      ></app-pulpotomy-medical-record>
+      } @case (medicalRecordType.PULPECTOMY) {
+      <app-pulpectomy-medical-record
+        [patientUuid]="idPatient"
+      ></app-pulpectomy-medical-record>
+      } @case (medicalRecordType.DENTAL_OPERATION_PREVIO) {
+      <app-dental-surgery-medical-record
+        [patientUuid]="idPatient"
+      ></app-dental-surgery-medical-record>
+      } @default {
+      <p>No existe esta historia clinica.</p>
+      } }
     </mat-tab>
   </mat-tab-group>
-  </div>
+</div>
 
 }

@@ -1,14 +1,14 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Component, inject } from '@angular/core';
+import { MatCardModule } from "@angular/material/card";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { Accion, studentsTableData } from "@mean/models";
 import { ApiService } from "@mean/services";
 import { LoadingComponent, studentRequest, TablaDataComponent } from "@mean/shared";
 import { UriConstants } from "@mean/utils";
 import { ToastrService } from "ngx-toastr";
 import { debounceTime, distinctUntilChanged, Subject } from "rxjs";
-import { Accion, getEntityPropiedades, studentsTableData } from "@mean/models";
-import { MatCardModule } from "@angular/material/card";
-import {MatDialog} from "@angular/material/dialog";
-import {DialogReportsTreatmentsComponent} from "../dialog-reports-treatments/dialog-reports-treatments.component";
 
 @Component({
   selector: 'app-treatment-reports',
@@ -26,6 +26,7 @@ export class TreatmentReportsComponent {
   private searchSubject = new Subject<string>();                // Subject para manejar búsquedas con debounce
   private toastr = inject(ToastrService);                       // Servicio para mostrar notificaciones toast
   private readonly dialog = inject(MatDialog);
+  private router = inject(Router);
   public studentsList: studentsTableData[] = [];                // Lista de estudiantes para mostrar en la tabla
   public columns: string[] = [];                                // Nombres de las columnas a mostrar en la tabla
   public title: string = 'Estudiantes';                         // Título que se muestra arriba de la tabla
@@ -88,16 +89,12 @@ export class TreatmentReportsComponent {
   // Procesa acciones CRUD
   public onAction(accion: Accion) {
     const idStudent = accion.fila.matricula;
-    this.openDialogTreatments(idStudent);
+    this.navigateToTreatmentsReportDetails(idStudent);
   }
 
-  openDialogTreatments(idStudent: string){
-
-    this.dialog.open(DialogReportsTreatmentsComponent, {
-      data: { idStudent },
-    });
+  public navigateToTreatmentsReportDetails(idStudent: string) {
+    this.router.navigate(['/admin/treatments-reports', idStudent]);
   }
-
   // Ejecuta búsqueda de estudiantes
   public onSearch(keyword: string) {
     this.searchTerm = keyword;

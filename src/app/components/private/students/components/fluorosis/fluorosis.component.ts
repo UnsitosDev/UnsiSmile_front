@@ -29,7 +29,7 @@ import { ToastrService } from "ngx-toastr";
 })
 export class FluorosisComponent {
   @Input({ required: true }) patientUuid!: string;
-  @Input({ required: true }) idPatientClinicalHistory!: number;
+  @Input({ required: true }) idPatientMedicalRecord!: number;
   @Input({ required: true }) idFormSection!: string | null;
   @Input({ required: true }) readonlyTreatment: boolean = false;    // Indica si el tratamiento es de solo lectura
 

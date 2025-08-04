@@ -1,0 +1,19 @@
+i {
+    background-color: var(--red-color);
+}
+
+.custom-background {
+    background-color: var(--secondary);
+}
+
+.mat-mdc-card-title {
+    background-color: var(--tertiary);
+    padding: 8px;
+    border-radius: 2px;
+    color: var(--side-text);
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+}

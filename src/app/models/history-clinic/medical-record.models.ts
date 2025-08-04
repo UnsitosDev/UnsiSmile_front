@@ -129,24 +129,26 @@ export enum EMedicalRecords {
   GENERAL = "GENERAL",
   PROTESIS_BUCAL = "PROTESIS_BUCAL",
   PERIODONCIA = "PERIODONCIA",
-  OPERATORIA_DENTAL = "OPERATORIA_DENTAL",
+  OPERATORIA_DENTAL_PREVIO = "OPERATORIA_DENTAL_PREVIO",
   CIRUGIA_BUCAL = "CIRUGIA_BUCAL",
   ODONTOLOGIA_PREVENTIVA = "ODONTOLOGIA_PREVENTIVA",
   ENDODONCIA = "ENDODONCIA",
   PULPOTOMIA = "PULPOTOMIA",
-  PULPECTOMIA = "PULPECTOMIA"
+  PULPECTOMIA = "PULPECTOMIA",
+  OPERATORIA_DENTAL = "OPERATORIA_DENTAL"
 }
 
 export const MedicalRecordsDescription = new Map<EMedicalRecords, string>([
   [EMedicalRecords.GENERAL, "General"],
   [EMedicalRecords.PROTESIS_BUCAL, "Prótesis bucal"],
   [EMedicalRecords.PERIODONCIA, "Periodoncia"],
-  [EMedicalRecords.OPERATORIA_DENTAL, "Operatoria dental"],
+  [EMedicalRecords.OPERATORIA_DENTAL_PREVIO, "Operatoria dental previo"],
   [EMedicalRecords.CIRUGIA_BUCAL, "Cirugía bucal"],
   [EMedicalRecords.ODONTOLOGIA_PREVENTIVA, "Odontología preventiva y salud pública"],
   [EMedicalRecords.ENDODONCIA, "Endodoncia"],
   [EMedicalRecords.PULPOTOMIA, "Pulpotomía"],
-  [EMedicalRecords.PULPECTOMIA, "Pulpectomía"]
+  [EMedicalRecords.PULPECTOMIA, "Pulpectomía"],
+  [EMedicalRecords.OPERATORIA_DENTAL, "Operatoria dental"]
 ]);
 
 export interface MedicalRecordsDigitizer {

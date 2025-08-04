@@ -28,7 +28,7 @@ import { TokenData } from '@mean/public';
 })
 export class ProfilaxisComponent implements OnInit {
   @Input({ required: true }) idPatient!: string;
-  @Input({ required: true }) idPatientClinicalHistory!: number;
+  @Input({ required: true }) idPatientMedicalRecord!: number;
   @Input({ required: true }) idFormSection!: string;
   @Input({ required: true }) readonlyTreatment: boolean = false; // Indica si el tratamiento es de solo lectura
 
@@ -103,7 +103,7 @@ export class ProfilaxisComponent implements OnInit {
         idTreatmentDetail: this.idTreatmentDetail,
         idPatient: this.idPatient,
         idQuestion: this.idQuestion,
-        idPatientClinicalHistory: this.idPatientClinicalHistory,
+        idPatientMedicalRecord: this.idPatientMedicalRecord,
         idFormSection: this.idFormSection
       },
     });

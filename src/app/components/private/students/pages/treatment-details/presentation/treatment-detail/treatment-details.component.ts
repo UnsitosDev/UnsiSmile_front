@@ -52,7 +52,7 @@ export class TreatmentDetailsComponent
   public readonly dialog = inject(MatDialog);
   private readonly treatmentService = inject(TreatmentRepositoryService);
 
-  public patientClinicalHistoryId!: number;
+  public patientMedicalRecordId!: number;
   public patientUuid!: string;
   public medicalRecordId!: number;
   public idMedicalRecordGeneral: number = 1;
@@ -85,7 +85,7 @@ export class TreatmentDetailsComponent
       next: (response) => {
         this.treatmentDetails = response;
         this.idTreatmentDetail = response.idTreatmentDetail;
-        this.patientClinicalHistoryId = response.patient.idPatientMedicalRecord;
+        this.patientMedicalRecordId = response.patient.idPatientMedicalRecord;
         this.medicalRecordId = response.treatment.medicalRecordCatalogId;
         this.connectToTreatmentDetails(
           String(this.idTreatmentDetail),

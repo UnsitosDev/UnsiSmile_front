@@ -3,9 +3,7 @@
   <mat-card-title><strong>Cargar Alumnos</strong></mat-card-title>
 </mat-card>
 
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-  <mat-tab label="Crear Ciclo">
-    <mat-stepper linear #stepper>
+  <mat-stepper linear #stepper class="custom-background">
       <mat-step [stepControl]="firstFormGroup" errorMessage="El periodo es requerido" [editable]="isEditable">
         <form [formGroup]="firstFormGroup">
           <ng-template matStepLabel>Periodo</ng-template>
@@ -57,9 +55,6 @@
           </div>
         </form>
       </mat-step>
-    </mat-stepper>
-  </mat-tab>
-</mat-tab-group>
-
+  </mat-stepper>
 
 <app-loading/>

@@ -38,9 +38,9 @@ export class ApprovalOfTreatmentsComponent extends treatmentsListNotifications {
     public statusControl = new FormControl(STATUS_TREATMENTS.AWAITING_APPROVAL);
   
     private idTreatmentDetail!: number;
-    private patientClinicalHistoryId!: number;
+    private patientMedicalRecordId!: number;
     private patientUuid!: string;
-    private clinicalHistoryCatalogId!: number;
+    private medicalRecordCatalogId!: number;
   
     public currentPage: number = 0;
     public isLastPage: boolean = false;
@@ -115,20 +115,22 @@ export class ApprovalOfTreatmentsComponent extends treatmentsListNotifications {
       }
     }
 
-     public navigateToGeneralMedicalRecord(patientUuid: string, idTreatmentDetail: number) {
+     public navigateToGeneralMedicalRecord(patientUuid: string, idTreatmentDetail: number, statusId: number): void {
       this.router.navigate([
         '/clinical-area-supervisor/authorize-treatments/patient',
         patientUuid,
         'treatment-detail',
-        idTreatmentDetail
+        idTreatmentDetail,
+        'status',
+        statusId
       ]);
     }
   
     rateTreatment(treatment: TreatmentDetailResponse): void {
       this.idTreatmentDetail = treatment.idTreatmentDetail;
-      this.patientClinicalHistoryId = treatment.patient.idPatientMedicalRecord;
+      this.patientMedicalRecordId = treatment.patient.idPatientMedicalRecord;
       this.patientUuid = treatment.patient.id ?? "";
-      this.clinicalHistoryCatalogId = treatment.treatment.medicalRecordCatalogId;
+      this.medicalRecordCatalogId = treatment.treatment.medicalRecordCatalogId;
       this.router.navigate([
         'clinical-area-supervisor',
         'rate-treatment',
@@ -137,7 +139,7 @@ export class ApprovalOfTreatmentsComponent extends treatmentsListNotifications {
         'patient',
         this.patientUuid,
         'medical-record',
-        this.clinicalHistoryCatalogId
+        this.medicalRecordCatalogId
       ]);
     }
   

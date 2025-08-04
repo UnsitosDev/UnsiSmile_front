@@ -34,7 +34,7 @@ interface ConditionTooth {
 export class DialogInsertProfilaxisComponent implements OnInit {
   public dialogRef = inject(MatDialogRef<DialogInsertProfilaxisComponent>);
   public data = inject(MAT_DIALOG_DATA);
-  public idPatientClinicalHistory = this.data.idPatientClinicalHistory;
+  public idPatientMedicalRecord = this.data.idPatientMedicalRecord;
   public idFormSection = this.data.idFormSection;
   public idPatient = this.data.idPatient;
   private api = inject(ApiService);

@@ -93,6 +93,9 @@
             </li>
             }
             <li><strong>Alumno:</strong> {{ treatmentDetail.student.name }}</li>
+            @if(treatmentDetail.approvalProfessor && treatmentDetail.approvalProfessor !== null) {
+                <li><strong>Profesor que aprueba: </strong> {{treatmentDetail.approvalProfessor.professorName}}</li>
+            }
             <li>{{ treatmentDetail.treatment.medicalRecordCatalogName }}</li>
           </ul>
           <div

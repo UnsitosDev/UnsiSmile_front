@@ -27,8 +27,8 @@ export interface Treatment {
   name:                       string;
   treatmentScope:             TreatmentScope;
   cost:                       number;
-  clinicalHistoryCatalogId:   number;
-  clinicalHistoryCatalogName: string;
+  medicalRecordCatalogId:   number;
+  medicalRecordCatalogName: string;
 }
 
 export interface TreatmentDetailResponse {

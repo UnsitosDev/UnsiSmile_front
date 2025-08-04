@@ -4,11 +4,19 @@ export interface TreatmentDetailResponse {
     endDate:           number[];
     status:            string;
     patient:           Patient;     
-    professor:         Professor;
+    reviewProfessor:         Professor;
     student:           Student;
     treatment:         Treatment;
     teeth:             Tooth[];
     comments:          string;
+    idStatus:         number;
+    approvalProfessor: ApprovalProfessor;
+}
+
+export interface ApprovalProfessor {
+    idProfessorClinicalArea: number;
+    professorName:           string;
+    comments:                string;
 }
 
 interface Patient {

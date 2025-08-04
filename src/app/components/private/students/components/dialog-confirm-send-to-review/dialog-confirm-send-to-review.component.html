@@ -35,7 +35,9 @@
       <mat-label>Selecciona órganos dentarios</mat-label>
       <mat-select multiple class="teeth-multiselect" [(ngModel)]="selectedTeeth">
         @for (tooth of data.treatment?.teeth; track $index) {
-          <mat-option [value]="tooth.idTooth">{{tooth.idTooth}}</mat-option>
+          @if (tooth.status !== STATUS.FINISHED) {
+            <mat-option [value]="tooth.idTooth">{{tooth.idTooth}}</mat-option>
+          }
         }
       </mat-select>
     </mat-form-field>

@@ -11,29 +11,41 @@
 
 @if (medicalRecordId) {
     @switch (medicalRecordId) {
-        @case (1) {
+        @case (medicalRecordType.GENERAL) {
             <!-- General -->
             <app-students-general-history [patientUuid]="patientUuid"></app-students-general-history>
         }
-        @case (2) {
+        @case (medicalRecordType.ORAL_PROSTHESIS) {
             <!-- Prótesis bucal -->
             <app-oral-prosthesis [patientUuid]="patientUuid"></app-oral-prosthesis>
         }
-        @case (3) {
+        @case (medicalRecordType.PERIODONTICS) {
             <!-- Periodoncia -->
             <app-students-periodontics-history [patientUuid]="patientUuid"></app-students-periodontics-history>
         }
-        @case (4) {
+        @case (medicalRecordType.DENTAL_OPERATION) {
             <!-- Operatoría dental -->
             <app-students-dental-operation [patientUuid]="patientUuid"></app-students-dental-operation>
         }
-        @case (5) {
+        @case (medicalRecordType.ORAL_SURGERY) {
             <!-- Cirugía bucal -->
             <app-students-oral-surgery-history [patientUuid]="patientUuid"></app-students-oral-surgery-history>
         }
-        @case (6) {
+        @case (medicalRecordType.PREVENTIVE_DENTISTRY) {
             <!-- Odontología preventiva y salud pública -->
             <app-preventive-dentistry-public-health [patientUuid]="patientUuid"></app-preventive-dentistry-public-health>
+        }
+        @case (medicalRecordType.ENDODONTIC) {
+            <app-endodontic-medical-record [patientUuid]="patientUuid"></app-endodontic-medical-record>
+        }
+        @case (medicalRecordType.PULPOTOMY) {
+            <app-pulpotomy-medical-record [patientUuid]="patientUuid"></app-pulpotomy-medical-record>
+        }
+        @case (medicalRecordType.PULPECTOMY) {
+            <app-pulpectomy-medical-record [patientUuid]="patientUuid"></app-pulpectomy-medical-record>
+        }
+        @case (medicalRecordType.DENTAL_OPERATION_PREVIO) {
+            <app-dental-surgery-medical-record [patientUuid]="patientUuid"></app-dental-surgery-medical-record>
         }
         @default {
             <p>No existe esta historia clínica.</p>

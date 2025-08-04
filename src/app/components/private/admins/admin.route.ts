@@ -267,8 +267,14 @@ export default [
             },
             {
               path: 'treatments',
-              loadComponent: () => import('./components/treatment-reports/treatment-reports.component').then(
+              loadComponent: () => import('./pages/reports/treatment-reports/treatment-reports.component').then(
                 (m) => m.TreatmentReportsComponent
+              )
+            },
+            {
+              path: 'treatments-reports/:idStudent',
+              loadComponent: () => import('./pages/reports/treatments-report-details/treatments-report-details.component').then(
+                (m) => m.TreatmentsReportDetailsComponent
               )
             },
             {

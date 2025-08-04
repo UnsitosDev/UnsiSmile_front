@@ -26,7 +26,7 @@
   
           @if(mappedHistoryData.tabs[currentIndex].status == STATUS.IN_REVIEW && role == ROL.CLINICAL_AREA_SUPERVISOR){
               <app-menu-assess-medical-history
-                  [idClinicalHistoryPatient]="idPatientClinicalHistory"
+                  [idMedicalRecordPatient]="idPatientMedicalRecord"
                   [status]="currentStatus"
                   [idReviewStatus]="mappedHistoryData.tabs[currentIndex].idReviewStatus"
               ></app-menu-assess-medical-history>

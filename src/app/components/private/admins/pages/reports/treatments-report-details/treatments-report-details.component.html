@@ -1,0 +1,59 @@
+<mat-card class="mb-4">
+    <mat-card-title>
+        <div class="title-container">
+            <span><strong>Descargar reportes PDF por tratamiento</strong></span>
+        </div>
+    </mat-card-title>
+</mat-card>
+
+<div class="custom-background">
+    <mat-dialog-content>
+        <mat-form-field class="w-full">
+            <mat-label>Selecciona tratamiento</mat-label>
+            <mat-select [(value)]="selectedIdTreatment">
+                @for (optionTreatment of treatmentData; track optionTreatment.idTreatment) {
+                    <mat-option
+                        [value]="optionTreatment.idTreatment"
+                        (click)="fetchTreatmentStudent()"
+                    >
+                        {{ optionTreatment.name }}
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        @if (selectedIdTreatment !== 'none') {
+            @if (treatments.content.length > 0) {
+                @for (treatment of treatments.content; track $index) {
+                    <section
+                        (click)="getReportTreatment(treatment)"
+                        class="cursor-pointer flex justify-start"
+                    >
+                        <div class="flex flex-col items-center">
+                            <img
+                                src="../../../../../../assets/svg/pdf.svg"
+                                class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
+                                alt="PDF icon"
+                            />
+                            <span class="text-center">
+                                {{ treatment.treatment.name }}
+                            </span>
+                        </div>
+                    </section>
+                }
+            } @else {
+                <div class="flex justify-center items-center h-64">
+                    <span class="text-lg ml-4">
+                        No hay reportes disponibles para este tratamiento.
+                    </span>
+                </div>
+            }
+        } @else {
+            <div class="flex justify-center items-center h-64">
+                <span class="text-lg ml-4">
+                    Selecciona un tratamiento para ver los reportes disponibles.
+                </span>
+            </div>
+        }
+    </mat-dialog-content>
+</div>

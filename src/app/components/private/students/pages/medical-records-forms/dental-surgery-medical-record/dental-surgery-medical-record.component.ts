@@ -4,21 +4,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
+import { EMedicalRecords } from '@mean/models';
 import { TabViewModule } from 'primeng/tabview';
-
-// Componentes
+import { TabFormUpdateComponent } from 'src/app/shared/components/tab-form-update/tab-form-update.component';
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
-
-// Servicios
-
-// Modelos
-import { EMedicalRecords } from 'src/app/models/history-clinic/medical-record.models';
-import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-form-update/tab-form-update.component';
 import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';
 import { MedicalRecordBaseComponent } from '../medical-record-base-component/medical-record-base-component.component';
 
 @Component({
-  selector: 'app-students-dental-operation',
+  selector: 'app-dental-surgery-medical-record',
   standalone: true,
   imports: [
     MatInputModule,
@@ -26,22 +20,21 @@ import { MedicalRecordBaseComponent } from '../medical-record-base-component/med
     MatTabsModule,
     MatDialogModule,
     MatTabsModule,
-    MatDialogModule,
     MatCardModule,
     MatButtonModule,
     TabViewModule,
     TabFormUpdateComponent,
     HeaderHistoryClinicComponent,
-  ],
-  templateUrl: './students-dental-operation.component.html',
-  styleUrl: './students-dental-operation.component.scss',
+  ], 
+  templateUrl: './dental-surgery-medical-record.component.html',
+  styleUrl: './dental-surgery-medical-record.component.scss'
 })
-export class StudentsDentalOperationComponent extends MedicalRecordBaseComponent {
+export class DentalSurgeryMedicalRecordComponent extends MedicalRecordBaseComponent {
   constructor() {
     super();
   }
 
   protected getMedicalRecordType(): EMedicalRecords {
-    return EMedicalRecords.OPERATORIA_DENTAL_PREVIO;
+    return EMedicalRecords.OPERATORIA_DENTAL;
   }
 }
