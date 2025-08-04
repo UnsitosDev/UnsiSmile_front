@@ -439,6 +439,9 @@ export class FormUpdatePatientComponent {
         { list: this.personal, fieldName: 'gender', value: patient.person.gender.idGender.toString() },
         { list: this.other, fieldName: 'nationality', value: patient.nationality?.idNationality?.toString() },
         { list: this.other, fieldName: 'maritalStatus', value: patient.maritalStatus?.idMaritalStatus?.toString() },
+        { list: this.other, fieldName: 'occupation', value: patient.occupation?.idOccupation?.toString() },
+        { list: this.other, fieldName: 'ethnicGroup', value: patient.ethnicGroup?.idEthnicGroup?.toString() },
+        { list: this.other, fieldName: 'religion', value: patient.religion?.idReligion?.toString() },
         { list: this.address, fieldName: 'housingCategory', value: patient.address.housing.idHousing.toString() },  
         { 
           list: this.address, 
@@ -456,7 +459,7 @@ export class FormUpdatePatientComponent {
   
       fieldsToUpdate.forEach(({ list, fieldName, value }) => {
         const field = list.find(f => f.name === fieldName);
-        if (field) {
+        if (field && value) {
           field.value = value;
         }
       });
@@ -473,6 +476,49 @@ export class FormUpdatePatientComponent {
             }
           }
         }
+      }
+
+      // Cargar opciones específicas para los campos que tienen datos
+      if (patient.nationality) {
+        this.personalDataFields.handleNationalityClick(patient.nationality.nationality || '', 0, 1000);
+        // Establecer el valor después de un pequeño delay para asegurar que las opciones se carguen
+        setTimeout(() => {
+          const nationalityField = this.other.find(f => f.name === 'nationality');
+          if (nationalityField) {
+            nationalityField.value = patient.nationality.idNationality.toString();
+            this.formGroup.get('nationality')?.setValue(patient.nationality.idNationality.toString());
+          }
+        }, 100);
+      }
+      if (patient.occupation) {
+        this.personalDataFields.handleOcupationClick(patient.occupation.occupation || '', 0, 1000);
+        setTimeout(() => {
+          const occupationField = this.other.find(f => f.name === 'occupation');
+          if (occupationField) {
+            occupationField.value = patient.occupation.idOccupation.toString();
+            this.formGroup.get('occupation')?.setValue(patient.occupation.idOccupation.toString());
+          }
+        }, 100);
+      }
+      if (patient.ethnicGroup) {
+        this.personalDataFields.handleEthnicGroupClick(patient.ethnicGroup.ethnicGroup || '', 0, 1000);
+        setTimeout(() => {
+          const ethnicGroupField = this.other.find(f => f.name === 'ethnicGroup');
+          if (ethnicGroupField) {
+            ethnicGroupField.value = patient.ethnicGroup.idEthnicGroup.toString();
+            this.formGroup.get('ethnicGroup')?.setValue(patient.ethnicGroup.idEthnicGroup.toString());
+          }
+        }, 100);
+      }
+      if (patient.religion) {
+        this.personalDataFields.handleReligionClick(patient.religion.religion || '', 0, 1000);
+        setTimeout(() => {
+          const religionField = this.other.find(f => f.name === 'religion');
+          if (religionField) {
+            religionField.value = patient.religion.idReligion.toString();
+            this.formGroup.get('religion')?.setValue(patient.religion.idReligion.toString());
+          }
+        }, 100);
       }
     }
   

@@ -25,7 +25,7 @@ export class FormUserComponent implements OnInit, AfterViewInit {
   private profileService = inject(ApiService<ProfileResponse, {}>);
   private route = inject(Router);
   // Actualizamos la lista de pestañas para que sea más clara
-  tabs = ['Información General', 'Datos Personales', 'Seguridad'];
+  tabs = ['Información general', 'Datos personales', 'Seguridad'];
   activeTab = signal(0);
   nombre = signal('');
   email = signal('');
@@ -141,10 +141,10 @@ export class FormUserComponent implements OnInit, AfterViewInit {
   
   getTabTitle(): string {
     switch(this.activeTab()) {
-      case 0: return 'Información General';
-      case 1: return 'Datos Personales';
-      case 2: return 'Cambiar Contraseña';
-      default: return 'Perfil de Usuario';
+      case 0: return 'Información general';
+      case 1: return 'Datos personales';
+      case 2: return 'Cambiar contraseña';
+      default: return 'Perfil de usuario';
     }
   }
 
@@ -270,6 +270,9 @@ export class FormUserComponent implements OnInit, AfterViewInit {
           if (this.user.user.profilePictureId) {
             this.fetchProfilePicture();
           }
+          
+          // Notificar a otros componentes que los datos del usuario han sido actualizados
+          this.profilePictureService.updateUserData(data);
         },
         error: (error) => {
           console.error('Error fetching user data:', error);
@@ -320,4 +323,15 @@ export class FormUserComponent implements OnInit, AfterViewInit {
     }
     this.modoEdicion.set(!this.modoEdicion());
   }
+
+  getRoleFriendlyName(): string {
+  switch(this.user.user.role.role) {
+    case 'ROLE_ADMIN': return 'Administrador';
+    case 'ROLE_STUDENT': return 'Estudiante';
+    case 'ROLE_PROFESSOR': return 'Profesor';
+    case 'ROLE_MEDICAL_RECORD_DIGITIZER': return 'Digitalizador';
+    case 'ROLE_CLINICAL_AREA_SUPERVISOR': return 'Supervisor de Área Clínica';
+    default: return this.user.user.role.role;
+  }
+}
 }
