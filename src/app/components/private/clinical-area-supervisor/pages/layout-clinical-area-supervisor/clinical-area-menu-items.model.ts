@@ -10,12 +10,6 @@ export const ClinicalAreaSupervisorsItems: MenuItem[] = [
     },
     {
       fontAwesomeIcon: faFileClipboard,
-      buttonText: 'Historias Clinicas',
-      buttonDescription: 'Revisar Historias Clinicas',
-      routerlink: '/clinical-area-supervisor/history-clinics',
-    },
-    {
-      fontAwesomeIcon: faFileClipboard,
       buttonText: 'Tratamientos',
       buttonDescription: 'Revisar Tratamientos',
       routerlink: '/clinical-area-supervisor/review-treatment',
