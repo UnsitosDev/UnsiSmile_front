@@ -52,13 +52,6 @@ export default [
           ).then((m) => m.ReviewTreatmentComponent),
       },
       {
-        path: 'review-section/:formSectionId/patient-medical-record/:patientMedicalRecordId/patient/:patientId/review/:idReviewStatus',
-        loadComponent: () =>
-          import(
-            './pages/rate-form-sections/rate-form-sections.component'
-          ).then((m) => m.RateFormSectionsComponent),
-      },
-      {
         path: 'approval-treatments',
         loadComponent: () =>
           import(

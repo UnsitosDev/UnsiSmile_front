@@ -29,6 +29,7 @@ import {
   DialogNewTreatmentComponent,
   FormUpdatePatientComponent,
   StudentsGeneralHistoryComponent,
+  treatmentsNotifications,
 } from '@mean/students';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { StatusService } from 'src/app/services/status.service';
@@ -67,7 +68,8 @@ export interface TreatmentParams {
   templateUrl: './treatment.component.html',
   styleUrl: './treatment.component.scss',
 })
-export class TreatmentComponent implements OnInit {
+export class TreatmentComponent extends treatmentsNotifications implements OnInit {
+  
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
 
   private readonly route = inject(ActivatedRoute);
@@ -294,5 +296,9 @@ export class TreatmentComponent implements OnInit {
         this.fetchTreatmentData();
       }
     });
+  }
+
+  protected override onTreatmentsNotification(): void {
+    this.fetchTreatmentData();
   }
 }
