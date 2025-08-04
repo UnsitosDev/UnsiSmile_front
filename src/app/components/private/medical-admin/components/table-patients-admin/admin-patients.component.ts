@@ -1,28 +1,26 @@
-import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient/patient';
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Asegúrate de importar estos módulos
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
+import { ToastrService } from 'ngx-toastr';
+import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
 import { patientsTableData } from 'src/app/models/shared/patients';
-import { AssignStudentComponent } from '../assign-student/assign-student.component';
-import { AssignDigitizerComponent } from '../assign-digitizer/assign-digitizer.component';
+import { Patient, PatientResponse } from 'src/app/models/shared/patients/patient/patient';
 import {
   Accion,
   getEntityPropiedades,
 } from 'src/app/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { StudentsGeneralHistoryComponent } from '../../../students/pages/medical-records-forms/general/students-general-history.component';
-import { DialogHistoryClinicsComponent } from '../../../students/components/dialog-history-clinics/dialog-history-clinics.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Asegúrate de importar estos módulos
-import { MatCardModule } from '@angular/material/card';
-import { LoadingComponent } from '@mean/shared';
-import { ToastrService } from 'ngx-toastr';
-import { PatientInfo } from 'src/app/models/patient-object-table/patient.object.table';
+import { AssignDigitizerComponent } from '../assign-digitizer/assign-digitizer.component';
+import { AssignStudentComponent } from '../assign-student/assign-student.component';
 
 
 @Component({
@@ -82,9 +80,7 @@ export class AdminPatientsComponent implements OnInit {
   }
 
   onAction(accion: Accion) {
-    if (accion.accion === 'Editar') {
-      this.editar(accion.fila);
-    } else if (accion.accion === 'Eliminar') {
+    if (accion.accion === 'Eliminar') {
       this.delete(accion.fila.nombre);
     } else if (accion.accion === 'Detalles') {
       this.openDetailsDialog(accion.fila);
@@ -133,13 +129,6 @@ edit(objeto: PatientInfo) {
         // Refrescar la lista de pacientes después de asignar un digitalizador
         this.getPacientes(this.currentPage, this.itemsPerPage, this.searchTerm);
       }
-    });
-  }
-
-  editar(objeto: any) {
-    this.dialog.open(DialogHistoryClinicsComponent, {
-      width: '650px',
-      data: { objeto, role: this.role },
     });
   }
 
