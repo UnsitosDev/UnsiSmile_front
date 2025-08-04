@@ -1,0 +1,71 @@
+<mat-card class="p-4">
+    <div class="card-header">
+        <mat-card-title><strong>Datos del estudiante</strong></mat-card-title>
+        <button class="close-button" (click)="closeDialog()">×</button>
+    </div>             
+    <mat-card-content>
+        @if (data) {
+            <div class="admin-details-container">
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="far fa-user"></i>
+                            <span>Nombre completo</span>
+                        </div>
+                        <div class="detail-content">{{data.nombre}} {{data.apellido}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="far fa-id-card"></i>
+                            <span>Matrícula</span>
+                        </div>
+                        <div class="detail-content">{{data.matricula}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-id-card"></i>
+                            <span>CURP</span>
+                        </div>
+                        <div class="detail-content">{{data.curp}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-phone"></i>
+                            <span>Teléfono</span>
+                        </div>
+                        <div class="detail-content">{{data.telefono}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-calendar"></i>
+                            <span>Fecha de nacimiento</span>
+                        </div>
+                        <div class="detail-content">{{data.fechaNacimiento | date:'dd/MM/yyyy'}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-envelope"></i>
+                            <span>Correo electrónico</span>
+                        </div>
+                        <div class="detail-content">{{data.correo}}</div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-header">
+                            <i class="fas fa-circle"></i>
+                            <span>Estado</span>
+                        </div>
+                        <div class="detail-content" [class]="data.estatus === 'Activo' ? 'status-active' : 'status-inactive'">
+                            {{data.estatus}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </mat-card-content>
+</mat-card>

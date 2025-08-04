@@ -1,0 +1,47 @@
+<mat-card class="p-4">
+  <div class="card-header">
+    <mat-card-title><strong>Asignar Capturador a Paciente</strong></mat-card-title>
+    <button class="close-button" (click)="closeDialog()">×</button>
+  </div>
+  <mat-card-content>
+    <div class="patient-info">
+      <div class="patient-name">
+        <i class="fas fa-user-injured"></i>
+        <span>Paciente: <strong>{{ patientName }}</strong></span>
+      </div>
+    </div>
+    
+    <form [formGroup]="formGroup" class="assign-form">
+      <div class="form-container">
+        <div class="form-field-container">
+          <mat-form-field class="full-width">
+            <mat-label>Buscar capturador</mat-label>
+            <input 
+              type="text" 
+              matInput 
+              formControlName="digitizerSearch" 
+              [matAutocomplete]="auto" 
+              (input)="onSearchChange($event)"
+              placeholder="Ingrese nombre o usuario del capturador">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectDigitizer($event)">
+              @for (digitizer of filteredDigitizers | async; track digitizer.idMedicalRecordDigitizer) {
+                <mat-option [value]="digitizer">
+                  {{ digitizer.digitizerName }} ({{ digitizer.username }})
+                </mat-option>
+              }
+            </mat-autocomplete>
+            @if (formGroup.get('digitizerSearch')?.hasError('required') && formGroup.get('digitizerSearch')?.touched) {
+              <mat-error>El capturador es requerido</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button mat-flat-button color="primary" (click)="assignDigitizer()" [disabled]="formGroup.invalid">
+          <i class="fas fa-user-plus"></i> Asignar Capturador
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

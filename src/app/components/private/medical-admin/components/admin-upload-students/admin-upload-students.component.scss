@@ -1,0 +1,51 @@
+mat-form-field {
+  margin-right: 12px;
+}
+
+.custom {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: var(--tertiary);
+  color: white !important;
+}
+
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button-container button {
+  max-width: 400px;
+  flex: 0 0 auto;
+  margin: 0 5px;
+}
+
+.custom-hint {
+  color: var(--on-secondary);
+  font-size: 12px;
+}
+
+mat-tab-group {
+  background-color: var(--secondary);
+}
+
+.custom-message {
+  color: var(--on-secondary);
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+::ng-deep .mat-mdc-card-title {
+  background-color: var(--tertiary);
+  padding: 8px;
+  border-radius: 2px;
+  color: white;
+
+}

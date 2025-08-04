@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-title>
+    <div class="title-container">
+      <span><strong>Paciente con discapacidad</strong></span>
+    </div>
+  </mat-card-title>
+</mat-card>
+
+<div class="dialog-content box-border">
+  <div class="message-container">
+    <i class="fas fa-question-circle question-icon"></i>
+    <p>{{ data.message }}</p>
+  </div>
+</div>
+
+<mat-dialog-actions align="center" class="buttons">
+  <div>
+    <button mat-button (click)="onNoClick()" color="warn">No</button>
+    <button mat-button color="primary" (click)="onYesClick()" cdkFocusInitial>Sí</button>
+  </div>
+</mat-dialog-actions>
