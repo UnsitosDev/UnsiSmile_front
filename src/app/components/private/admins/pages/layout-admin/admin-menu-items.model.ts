@@ -59,6 +59,20 @@ export const AdminItems: MenuItem[] = [
         },
         {
           fontAwesomeIcon: faUserShield,
+          buttonText: 'Administradores clinicos',
+          buttonDescription: 'Ver administradores clinicos',
+          routerlink: '/admin/medical-admin',
+          children: [
+            {
+              fontAwesomeIcon: faPlus,
+              buttonText: 'Nuevo administrador',
+              buttonDescription: 'Registrar administrador',
+              routerlink: '/admin/admins/medical-admin/addMedicalAdmin',
+            },
+          ],
+        },
+        {
+          fontAwesomeIcon: faUserShield,
           buttonText: 'Capturadores',
           buttonDescription: 'Ver capturadores',
           routerlink: '/admin/digitizers',

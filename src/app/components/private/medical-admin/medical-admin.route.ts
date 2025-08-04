@@ -94,6 +94,33 @@ export default [
                     },
                 ]
             },
+              {
+                path: 'medical-admin',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./components/table-medical-admin/table-medical-admin.component').then(
+                                (m) => m.TableMedicalAdminComponent
+                            ),
+                    },
+                    {
+                        path: 'addMedicalAdmin',
+                        loadComponent: () =>
+                            import('./components/form-insert-medical-admin/form-insert-medical-admin.component').then(
+                                (m) => m.FormInsertMedicalAdminComponent
+                            ),
+                    },
+                    {
+                        path: 'updateMedicalAdmin/:employeeNumber',
+                        loadComponent: () =>
+                            import('./components/form-update-medical-admin/form-update-medical-admin.component').then(
+                                (m) => m.FormUpdateMedicalAdminComponent
+                            ),
+                    },
+                   
+                ]
+            },
             {
                 path: 'dashboard',
                 loadComponent: () =>
