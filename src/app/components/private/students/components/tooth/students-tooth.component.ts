@@ -1,4 +1,5 @@
 import { NgClass } from '@angular/common';
+import { ConditionIconComponent } from '../../../../../shared/components/condition-icon/condition-icon.component';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ICondition, ITooth } from 'src/app/models/shared/odontogram/odontogram';
@@ -11,7 +12,8 @@ export type State = 'read' | 'update' | 'create' | 'read-latest';
   selector: 'app-students-tooth',
   standalone: true,
   imports: [
-    NgClass
+    NgClass,
+    ConditionIconComponent
   ],
   templateUrl: './students-tooth.component.html',
   styleUrl: './students-tooth.component.scss',
@@ -128,8 +130,30 @@ export class StudentsToothComponent {
   }
 
 
-  isNotPresent(conditions: ICondition[]): boolean{
+  isNotPresent(conditions: ICondition[]): boolean {
     return !conditions.some(condition => condition.condition === ToothConditionsConstants.DIENTE_NO_PRESENTE);
-    }
-  
+  }
+
+  /**
+   * Obtiene las condiciones que deben mostrarse debajo del diente
+   */
+  getBelowToothConditions(): ICondition[] {
+    // Condiciones que se muestran como íconos debajo del diente
+    const belowToothConditions = [
+      ToothConditionsConstants.FISTULA,
+      ToothConditionsConstants.DIENTE_CON_FLUOROSIS,
+      ToothConditionsConstants.DIENTE_CON_HIPOPLASIA,
+      ToothConditionsConstants.RESTO_RADICULAR,
+      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA,
+      ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA,
+      ToothConditionsConstants.DIENTE_PARCIALMENTE_ERUPCIONADO,
+      ToothConditionsConstants.PROTESIS_REMOVIBLE,
+      ToothConditionsConstants.PUENTE,
+      ToothConditionsConstants.ENDODONCIA
+    ] as string[];
+
+    return this.data.conditions.filter(condition => 
+      belowToothConditions.includes(condition.condition)
+    );
+  }
 }

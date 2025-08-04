@@ -196,6 +196,29 @@ button {
   }
 }
 
+/* Estilos para los símbolos debajo del diente en el selector */
+.tooth-symbols-below {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+  padding: 0 8px;
+  width: 100%;
+  
+  img {
+    width: 100%;
+    max-width: 40px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    transition: transform 0.2s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
 .symbol-header {
   display: flex;
   align-items: center;

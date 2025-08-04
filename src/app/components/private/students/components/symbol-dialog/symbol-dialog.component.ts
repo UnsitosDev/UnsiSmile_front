@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ICondition } from '@mean/models';
 import { ToothConditionsConstants } from '@mean/utils';
+import { ConditionIconComponent } from '../../../../../shared/components/condition-icon/condition-icon.component';
 
 @Component({
   selector: 'app-symbol-dialog',
@@ -19,12 +20,13 @@ import { ToothConditionsConstants } from '@mean/utils';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    ConditionIconComponent
   ],
   templateUrl: './symbol-dialog.component.html',
   styleUrls: ['./symbol-dialog.component.scss']
 })
-export class SymbolDialogComponent implements OnInit {
+export class SymbolDialogComponent implements OnInit, OnDestroy {
   symbols: ICondition[] = [];
   filteredSymbols: ICondition[] = [];
   searchTerm: string = '';
@@ -33,15 +35,66 @@ export class SymbolDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<SymbolDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { symbols: ICondition[], currentSymbol: ICondition | null }
+    @Inject(MAT_DIALOG_DATA) public data: { symbols: ICondition[], currentSymbol: ICondition | null },
+    private renderer: Renderer2,
+    private elementRef: ElementRef
   ) {
+    this.dialogRef.addPanelClass('responsive-symbol-dialog');
     this.symbols = data.symbols;
     this.selectedSymbol = data.currentSymbol;
     this.filteredSymbols = [...this.symbols];
+    
+    // Set initial dialog size
+    this.updateDialogSize();
+    
+    // Update on window resize
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.onWindowResize.bind(this));
+    }
+  }
+  
+  ngOnDestroy() {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.onWindowResize.bind(this));
+    }
+  }
+  
+  private onWindowResize() {
+    this.updateDialogSize();
+  }
+  
+  private updateDialogSize() {
+    const dialogElement = this.elementRef.nativeElement.closest('.mat-dialog-container');
+    if (dialogElement) {
+      this.renderer.setStyle(dialogElement, 'width', '95vw');
+      this.renderer.setStyle(dialogElement, 'max-width', '1200px');
+      this.renderer.setStyle(dialogElement, 'height', '90vh');
+      this.renderer.setStyle(dialogElement, 'max-height', '90vh');
+    }
   }
 
   ngOnInit(): void {
     this.filterSymbols();
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+    if (!filterValue) {
+      this.filteredSymbols = [...this.symbols];
+      return;
+    }
+    this.filteredSymbols = this.symbols.filter(symbol => 
+      symbol.condition.toLowerCase().includes(filterValue) ||
+      (symbol.description && symbol.description.toLowerCase().includes(filterValue))
+    );
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  onSelect(): void {
+    this.dialogRef.close(this.selectedSymbol);
   }
 
   getNormalSymbols(): ICondition[] {
@@ -93,7 +146,8 @@ export class SymbolDialogComponent implements OnInit {
   }
 
   isSelected(symbol: ICondition): boolean {
-    return this.selectedSymbol?.idCondition === symbol.idCondition;
+    return this.selectedSymbol?.idCondition === symbol.idCondition && 
+           this.selectedSymbol?.condition === symbol.condition;
   }
 
   onCancel(): void {
