@@ -236,7 +236,9 @@
       </ng-container>
       } @if (condition.condition === ToothConditionsConstant.DIENTE_EXTRAIDO) {
       <ng-container>
-        <path fill="#e74c3c" d="M15 5 0 30h30z" />
+        <path (click)="onSymbolClick(condition.condition, $event)"
+        style="cursor: pointer;"
+        [attr.title]="condition.condition" fill="#e74c3c" d="M15 5 0 30h30z" />
       </ng-container>
       } }
     </svg>
