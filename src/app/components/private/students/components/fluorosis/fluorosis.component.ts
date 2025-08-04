@@ -220,7 +220,7 @@ export class FluorosisComponent {
           }]
         }))
       })),
-      idTreatmentDetail: this.idTreatmentDetail
+      idPatientMedicalRecord: this.idPatientMedicalRecord
     };
   }
 
@@ -255,7 +255,7 @@ export class FluorosisComponent {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_FLUOROSIS_BY_PATIENT}/${this.idTreatmentDetail}`,
+        url: `${UriConstants.GET_FLUOROSIS_BY_PATIENT}/${this.idPatientMedicalRecord}`,
         data: {},
       })
       .subscribe({
@@ -285,9 +285,10 @@ export class FluorosisComponent {
   // Construye el payload para el Índice de Dean
   public store() {
     const payload: DentalTreatmentPayload = {
-      idTreatment: Number(this.idTreatmentDetail),
+      idPatientMedicalRecord: this.idPatientMedicalRecord,
       teeth: []
     };
+    
 
     this.toothCode.forEach(tooth => {
       if (this.codes[tooth] !== undefined) {
@@ -328,7 +329,7 @@ export class FluorosisComponent {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-        url: `${UriConstants.GET_DEAN_INDEX}/${this.idTreatmentDetail}`,
+        url: `${UriConstants.GET_DEAN_INDEX}/${this.idPatientMedicalRecord}`,
         data: {},
       })
       .subscribe({

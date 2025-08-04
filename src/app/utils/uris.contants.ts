@@ -295,7 +295,7 @@ export class UriConstants {
   public static readonly POS_PROFILAXIS =
     basePath + '/medical-records/dental-prophylaxis';
   public static readonly GET_PROFILAXIS =
-    basePath + '/medical-records/dental-prophylaxis/treatments';
+    basePath + '/medical-records/dental-prophylaxis/medical-records';
   public static readonly GET_PROFESSORS_AREAS =
     basePath + '/professor-clinical-areas';
 
@@ -334,15 +334,15 @@ export class UriConstants {
   public static readonly POST_IHOS =
     basePath + '/medical-records/dental-prophylaxis/sohi';
   public static readonly GET_IHOS =
-    basePath + '/medical-records/dental-prophylaxis/sohi/treatment';
+    basePath + '/medical-records/dental-prophylaxis/sohi/medical-records';
   public static readonly POST_FLUOROSIS =
     basePath + '/medical-records/fluorosis';
   public static readonly GET_FLUOROSIS_BY_PATIENT =
-    basePath + '/medical-records/fluorosis/treatments';
+    basePath + '/medical-records/fluorosis/medical-records';
   public static readonly POST_DEAN_INDEX =
     basePath + '/medical-records/fluorosis/dean-index';
   public static readonly GET_DEAN_INDEX =
-    basePath + '/medical-records/fluorosis/dean-index/treatment';
+    basePath + '/medical-records/fluorosis/dean-index/medical-records';
 
 
   public static readonly GET_PATIENTS_DIGITIZER = basePath + '/digitizer-patients';

@@ -7,7 +7,7 @@ export enum CodigoTooth {
 }
 
 export interface DentalTreatmentPayload {
-  idTreatment:  number;
+  idPatientMedicalRecord:  number;
   teeth: {
     idTooth:    string;
     code:       CodigoTooth;
@@ -37,7 +37,7 @@ export interface FaceConditionFluorosis {
 
 export interface DeanIndexResponse {
   id: number;
-  idTreatment: number;
+  idPatientMedicalRecord: number;
   teeth: DeanIndexTooth[];
 }
 
