@@ -371,4 +371,20 @@ export class UriConstants {
   public static readonly GET_USER_BY_USERNAME =
     basePath + '/users/username/';
   public static readonly GET_MEDICAL_RECORDS_BY_PATIENT_ID = basePath + '/medical-records/patient-medical-records/patients/';
+
+  public static readonly GET_MEDICAL_ADMIN =
+    basePath + '/medical-administrators';
+
+  public static readonly POST_MEDICAL_ADMIN = 
+    basePath + '/medical-administrators';
+
+  public static readonly PATCH_MEDICAL_ADMIN_BY_EMPLOYEENUMBER =
+    basePath + '/medical-administrators/';  
+
+  public static readonly PATCH_MEDICAL_ADMIN = 
+   basePath + '/medical-administrators';
+
+   public static readonly GET_MEDICAL_ADMIN_BY_EMPLOYEENUMBER =
+    basePath + '/medical-administrators/';
+
 }
