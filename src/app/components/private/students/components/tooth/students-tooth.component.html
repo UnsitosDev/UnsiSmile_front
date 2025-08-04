@@ -172,7 +172,7 @@
 
       <!-- Mantenedor de espacio con corona -->
       @if (condition.condition === ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
-      <ng-container (click)="onSymbolClick(condition.condition, $event)" style="cursor: pointer;" [attr.title]="condition.condition">
+      <g (click)="onSymbolClick(condition.condition, $event)" style="cursor: pointer;" [attr.title]="condition.condition">
         <polygon points="1,1 28,1 28,33 1,33" fill="blue" opacity="0.3" />
         <line
           x1="0"
@@ -201,12 +201,12 @@
           stroke-width="2"
           opacity="0.6"
         />
-      </ng-container>
+      </g>
       }
       <!-- Mantenedor de espacio con banda -->
       @if (condition.condition === ToothConditionsConstant.MANTENEDOR_DE_ESPACIO_CON_BANDA) {
-      <ng-container (click)="onSymbolClick(condition.condition, $event)" style="cursor: pointer;" [attr.title]="condition.condition">
-        <line
+      <g>
+        <line (click)="onSymbolClick(condition.condition, $event)" style="cursor: pointer;" [attr.title]="condition.condition"
           x1="0"
           y1="28"
           x2="29"
@@ -215,7 +215,7 @@
           stroke-width="2"
           opacity="0.6"
         />
-        <line
+        <line (click)="onSymbolClick(condition.condition, $event)" style="cursor: pointer;" [attr.title]="condition.condition"
           x1="20"
           y1="17"
           x2="29"
@@ -224,7 +224,7 @@
           stroke-width="2"
           opacity="0.6"
         />
-        <line
+        <line (click)="onSymbolClick(condition.condition, $event)" style="cursor: pointer;" [attr.title]="condition.condition"
           x1="0"
           y1="6"
           x2="29"
@@ -233,13 +233,11 @@
           stroke-width="2"
           opacity="0.6"
         />
-      </ng-container>
+      </g>
       } @if (condition.condition === ToothConditionsConstant.DIENTE_EXTRAIDO) {
-      <ng-container>
-        <path (click)="onSymbolClick(condition.condition, $event)"
-        style="cursor: pointer;"
-        [attr.title]="condition.condition" fill="#e74c3c" d="M15 5 0 30h30z" />
-      </ng-container>
+      <g (click)="onSymbolClick(condition.condition, $event)" style="cursor: pointer;" [attr.title]="condition.condition">
+        <path fill="#e74c3c" d="M7,28 L21,28 L14,9 Z" style="stroke: #c0392b; stroke-width: 0.5" />
+      </g>
       } }
     </svg>
 
