@@ -686,7 +686,7 @@ export class FormUpdatePatientComponent implements OnInit {
             this.formGroup.get(key)?.disable();
           });
           setTimeout(() => {
-            this.router.navigate(['/admin/patients']);
+            this.router.navigate(['/medical-admin/patients']);
           }, 1000);
         },
         error: (error) => {
@@ -699,7 +699,7 @@ export class FormUpdatePatientComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['/admin/patients']);
+    this.router.navigate(['/medical-admin/patients']);
   }
 
 }

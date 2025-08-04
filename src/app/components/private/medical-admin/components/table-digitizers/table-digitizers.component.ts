@@ -88,7 +88,7 @@ export class TableDigitizersComponent implements OnInit {
   
   viewAssignedPatients(digitizer: any): void {
     if (digitizer && digitizer.matricula) {
-      this.router.navigate(['/admin/digitizers/patients', digitizer.matricula]);
+      this.router.navigate(['/medical-admin/digitizers/patients', digitizer.matricula]);
     } else {
       this.toastr.warning('No se puede acceder a la información de pacientes para este capturador', 'Advertencia');
     }

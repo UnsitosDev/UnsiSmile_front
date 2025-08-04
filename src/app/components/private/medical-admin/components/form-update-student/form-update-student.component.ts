@@ -223,7 +223,7 @@ export class FormUpdateStudentComponent implements OnInit {
       }).subscribe({
         next: (response) => {
           this.toastr.success('Estudiante actualizado con éxito', 'Éxito');
-          this.router.navigate(['/admin/students']);
+          this.router.navigate(['/medical-admin/students']);
         },
         error: (error) => {
           this.toastr.error('Error al actualizar el estudiante: ' + error.message, 'Error');
@@ -235,6 +235,6 @@ export class FormUpdateStudentComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/admin/students']);
+    this.router.navigate(['/medical-admin/students']);
   }
 }

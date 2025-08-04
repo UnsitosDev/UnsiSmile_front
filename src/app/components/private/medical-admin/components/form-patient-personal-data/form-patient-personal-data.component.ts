@@ -611,7 +611,7 @@ export class FormPatientPersonalDataComponent {
           this.navigationComplete = true;
           this.toastr.success('Paciente creado y asignado correctamente', 'Éxito');
           setTimeout(() => {
-            this.router.navigate(['/admin/patients']);
+            this.router.navigate(['/medical-admin/patients']);
           }, 1000);
         },
         error: (error) => {

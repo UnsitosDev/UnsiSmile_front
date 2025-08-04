@@ -88,7 +88,7 @@ export class TableAssignDigitizerComponent implements OnInit {
         });
       } else {
         this.toastr.error('No se ha especificado un capturador', 'Error');
-        this.router.navigate(['/admin/digitizers']);
+        this.router.navigate(['/medical-admin/digitizers']);
       }
     });
   }
@@ -185,13 +185,13 @@ export class TableAssignDigitizerComponent implements OnInit {
   viewPatientDetails(patient: PatientData): void {
     // Navegar a los detalles del paciente
     if (patient && patient.id) {
-      this.router.navigate(['/admin/patients/treatments/patient', patient.id]);
+      this.router.navigate(['/medical-admin/patients/treatments/patient', patient.id]);
     } else {
       this.toastr.warning('Este paciente no tiene registros médicos disponibles', 'Información');
     }
   }
 
   goBack(): void {
-    this.router.navigate(['/admin/digitizers']);
+    this.router.navigate(['/medical-admin/digitizers']);
   }
 }

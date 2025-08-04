@@ -125,7 +125,7 @@ export class TableAdminComponent implements OnInit {
   }
 
   edit(objeto: any) {
-    this.router.navigate(['/admin/admins/updateAdmin', objeto['numero empleado']]);
+    this.router.navigate(['/medical-admin/admins/updateAdmin', objeto['numero empleado']]);
   }
 
   delete(nombre: string) {

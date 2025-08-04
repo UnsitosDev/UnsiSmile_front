@@ -108,7 +108,7 @@ export class TableAreaAdminComponent implements OnInit {
     openInsertArea(objeto: any){
       const areaId = objeto.id;
       if (areaId) {
-        this.router.navigate(['/admin/clinical-area', areaId]);
+        this.router.navigate(['/medical-admin/clinical-area', areaId]);
       } 
     }
 
@@ -116,7 +116,7 @@ export class TableAreaAdminComponent implements OnInit {
     }
  
   openDetailsDialog(area: any): void {
-    this.router.navigate(['/admin/professors-area', area.id]);
+    this.router.navigate(['/medical-admin/professors-area', area.id]);
   }
 
   onSearch(keyword: string) {

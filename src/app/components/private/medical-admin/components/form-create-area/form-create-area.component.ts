@@ -74,7 +74,7 @@ export class FormCreateAreaComponent {
         next: (response) => {
           this.toastr.success('Área clínica creada exitosamente');
           this.areaForm.reset();
-          this.router.navigate(['/admin/areas']); // Asegúrate de que esta ruta existe
+          this.router.navigate(['/medical-admin/areas']); // Asegúrate de que esta ruta existe
         },
         error: (error) => {
           this.toastr.error(

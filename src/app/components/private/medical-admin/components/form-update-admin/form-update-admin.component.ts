@@ -147,7 +147,7 @@ export class FormUpdateAdminComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['/admin/admins']);
+    this.router.navigate(['/medical-admin/admins']);
   }
 
   // Agregar método para guardar cambios
@@ -190,7 +190,7 @@ export class FormUpdateAdminComponent implements OnInit {
         next: () => {
           this.toastr.success(Messages.SUCCES_UPDATE_ADMIN, 'Éxito');
           setTimeout(() => {
-            this.router.navigate(['/admin/admins']);
+            this.router.navigate(['/medical-admin/admins']);
           }, 2000);
         },
         error: (error) => {

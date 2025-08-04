@@ -116,7 +116,7 @@ export class AdminPatientsComponent implements OnInit {
   }
 
 edit(objeto: PatientInfo) {
-    this.router.navigate(['/admin/patients/treatments/patient/' + objeto.patientID]);
+    this.router.navigate(['/medical-admin/patients/treatments/patient/' + objeto.patientID]);
   }
 
   openAssignDigitizerDialog(patient: patientsTableData): void {

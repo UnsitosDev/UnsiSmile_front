@@ -96,7 +96,7 @@ export class FormInsertProfessorComponent implements OnInit {
             }).subscribe({
                 next: () => {
                     this.toastr.success('Profesor creado exitosamente', 'Éxito');
-                    this.router.navigate(['/admin/professors']);
+                    this.router.navigate(['/medical-admin/professors']);
                 },
                 error: (error) => {
                     this.toastr.error(error.error?.message || 'Error al crear el profesor', 'Error');

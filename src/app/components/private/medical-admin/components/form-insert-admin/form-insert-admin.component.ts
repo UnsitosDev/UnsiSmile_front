@@ -108,7 +108,7 @@ export class FormInsertAdminComponent {
         .subscribe({
           next: (response) => {
             this.toastr.success(Messages.SUCCES_INSERT_ADMIN, 'Éxito');
-            this.router.navigate(['/admin/admins']);
+            this.router.navigate(['/medical-admin/admins']);
           },
           error: (error) => {
             this.toastr.error(error.error?.message || 'Error al guardar el administrador', 'Error');

@@ -130,7 +130,7 @@ export class FormInsertStudentComponent {
         .subscribe({
           next: (response) => {
             this.toastr.success(Messages.SUCCES_INSERT_STUDENT, 'Éxito');
-            this.router.navigate(['/admin/students']);
+            this.router.navigate(['/medical-admin/students']);
           },
           error: (error) => {
             this.toastr.error('Error al crear el estudiante: ' + error.message, 'Error');

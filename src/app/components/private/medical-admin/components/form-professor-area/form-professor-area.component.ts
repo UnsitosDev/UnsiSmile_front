@@ -86,7 +86,7 @@ export class FormProfessorAreaComponent implements OnInit {
       }).subscribe({
         next: (response) => {
           this.toastr.success('Área clínica asignada exitosamente');
-          this.router.navigate(['/admin/professors']);
+          this.router.navigate(['/medical-admin/professors']);
         },
         error: (error) => {
           this.toastr.error(

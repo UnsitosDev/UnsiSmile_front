@@ -154,7 +154,7 @@ export class FormUpdateProfessorComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['/admin/professors']);
+    this.router.navigate(['/medical-admin/professors']);
   }
 
   onSubmit() {
@@ -199,7 +199,7 @@ export class FormUpdateProfessorComponent implements OnInit {
         next: () => {
           this.toastr.success('Profesor actualizado exitosamente', 'Éxito');
           setTimeout(() => {
-            this.router.navigate(['/admin/professors']);
+            this.router.navigate(['/medical-admin/professors']);
           }, 2000);
         },
         error: (error) => {

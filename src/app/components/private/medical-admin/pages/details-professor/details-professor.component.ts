@@ -50,7 +50,7 @@ export class DetailsProfessorComponent implements OnInit {
       this.professorId = params['professorId'];
       if (!this.professorId) {
         this.toastr.error('No se proporcionó ID del profesor');
-        this.router.navigate(['/admin/professors']);
+        this.router.navigate(['/medical-admin/professors']);
       }
     });
   }
@@ -75,6 +75,6 @@ export class DetailsProfessorComponent implements OnInit {
   }
 
   onBack(): void {
-    this.router.navigate(['/admin/professors']);
+    this.router.navigate(['/medical-admin/professors']);
   }
 }

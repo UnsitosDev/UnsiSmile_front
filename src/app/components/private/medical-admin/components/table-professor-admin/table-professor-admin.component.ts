@@ -110,11 +110,11 @@ export class TableProfessorAdminComponent implements OnInit {
     const professorId = professor['numero empleado'];
     
     // Usar navigateByUrl en lugar de navigate para asegurar una URL limpia
-    this.router.navigateByUrl(`/admin/professors/details/professor/${professorId}`);
+    this.router.navigateByUrl(`/medical-admin/professors/details/professor/${professorId}`);
   }
 
   edit(objeto: any) {
-    this.router.navigate(['/admin/professors/updateProfessor', objeto['numero empleado']]);
+    this.router.navigate(['/medical-admin/professors/updateProfessor', objeto['numero empleado']]);
   }
 
   delete(nombre: string) {

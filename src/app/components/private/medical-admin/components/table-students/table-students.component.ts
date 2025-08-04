@@ -129,7 +129,7 @@ export class TableStudentsComponent implements OnInit {
     }
 
   edit(objeto: any) {
-    this.router.navigate(['/admin/students/updateStudent', objeto.matricula]);
+    this.router.navigate(['/medical-admin/students/updateStudent', objeto.matricula]);
   }
 
   delete(nombre: string) {
@@ -246,6 +246,6 @@ export class TableStudentsComponent implements OnInit {
   }
 
   updateStudent(student: any) {
-    this.router.navigate(['/admin/updateStudent', student.matricula]);
+    this.router.navigate(['/medical-admin/updateStudent', student.matricula]);
   }
 }

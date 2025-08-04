@@ -143,7 +143,7 @@ export class FormClinicalAreaComponent implements OnInit {
       Promise.all(requests)
         .then(() => {
           this.toastr.success('Profesores asignados exitosamente al área clínica');
-          this.router.navigate(['/admin/areas']);
+          this.router.navigate(['/medical-admin/areas']);
         })
         .catch(error => {
           this.toastr.error('Error al asignar los profesores al área clínica', 'Error');

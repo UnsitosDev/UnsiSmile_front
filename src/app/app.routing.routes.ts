@@ -45,7 +45,7 @@ const routes: Routes = [
   },
   {
     path: 'medical-admin',
-    loadChildren: () => import('./components/private/medical-admin/admin.route'),
+    loadChildren: () => import('./components/private/medical-admin/medical-admin.route'),
     canActivate: [medicalAdminGuard, PasswordChangeGuard],
   },
   {

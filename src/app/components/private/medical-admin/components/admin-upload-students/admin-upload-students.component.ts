@@ -180,7 +180,7 @@ export class AdminUploadStudentsComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.router.navigate(['/admin/students']);
+          this.router.navigate(['/medical-admin/students']);
         },
         error: (error) => {
           this.toastr.error(Messages.ERROR_INSERT_FILE);

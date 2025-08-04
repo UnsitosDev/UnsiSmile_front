@@ -115,7 +115,7 @@ export class FormInsertDigitizerComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.toastr.success('Capturador creado correctamente', 'Éxito');
-        this.router.navigate(['/admin/digitizers']);
+        this.router.navigate(['/medical-admin/digitizers']);
         this.loading = false;
       },
       error: (error) => {

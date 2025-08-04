@@ -13,7 +13,7 @@ import { AdminItems } from './admin-menu-items.model';
 export class LayoutAdminComponent implements OnInit {
   isSidebarOpen = false; // Cambiamos el valor inicial a false
   adminMenuItems = AdminItems;
-  readonly userLink = '/admin/user';
+  readonly userLink = '/medical-admin/user';
 
   ngOnInit() {
     this.isSidebarOpen = window.innerWidth > 768;
