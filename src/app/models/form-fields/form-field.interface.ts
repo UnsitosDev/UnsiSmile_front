@@ -27,10 +27,9 @@ export interface formSectionFields {
     component?: string;
     isAnswered?: boolean;
     idFormSection: string;
-    status: string;
-    idReviewStatus: number;
-    message: string;
-    requiresReview: boolean;
+    status?: string | null;  // Made optional to match the response
+    requiresReview?: boolean; // Kept for backward compatibility
+    idReviewStatus?: number | null; // Kept for backward compatibility
 }
 
 export interface subSeccion {

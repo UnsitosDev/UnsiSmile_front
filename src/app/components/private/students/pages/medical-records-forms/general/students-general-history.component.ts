@@ -16,14 +16,11 @@ import { ApiService, AuthService } from '@mean/services';
 import { HttpHeaders } from '@angular/common/http';
 import { dataTabs } from '@mean/models';
 import { TokenData } from '@mean/public';
-import { ROLES, STATUS, UriConstants } from '@mean/utils';
+import { ROLES, UriConstants } from '@mean/utils';
 import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-form-update/tab-form-update.component';
 import { mapMedicalRecordToDataTabs } from '../../../adapters/medical-record.adapter';
 import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';
-import { OdontogramContainerBaseComponent } from '../../../components/odontogram-container-base/odontogram-container-base.component';
-import { OdontogramListComponent } from '../../../components/odontogram-list/odontogram-list.component';
-import { OdontogramComponent } from '../../../components/odontogram/odontogram.component';
 import { ProgressNotesComponent } from '../../../components/progress-notes/progress-notes.component';
 
 @Component({
@@ -137,8 +134,7 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     }
 
     const filteredData = {
-      ...historyData,
-      tabs: historyData.tabs.filter((tab) => tab.status === STATUS.IN_REVIEW),
+      ...historyData
     };
 
     if (filteredData.tabs.length === 0) {
@@ -153,8 +149,6 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     if (this.medicalRecordData.tabs.length > 0) {
       this.currentSectionId =
         this.medicalRecordData.tabs[this.currentIndex].idFormSection;
-      this.currentStatus =
-        this.medicalRecordData.tabs[this.currentIndex].status;
     }
   }
 
@@ -164,53 +158,11 @@ export class StudentsGeneralHistoryComponent implements OnInit {
     this.role = this.tokenData.role[0].authority;
   }
 
-  private processMappedData(mappedData: dataTabs, role: string): dataTabs {
-    let processedData = { ...mappedData };
-    if (role === ROLES.PROFESSOR) {
-      processedData.tabs = processedData.tabs.filter(
-        (tab) => tab.status === STATUS.IN_REVIEW
-      );
-    }
-    return processedData;
-  }
-
   onTabChange(index: number): void {
     this.currentIndex = index;
     if (this.medicalRecordData?.tabs?.length > index) {
       this.currentSectionId = this.medicalRecordData.tabs[index].idFormSection;
-      this.getStatusHc();
     }
-  }
-
-
-  getStatusHc(forceRequest: boolean = false) {
-    const currentTab = this.medicalRecordData.tabs[this.currentIndex];
-
-    if (
-      !forceRequest &&
-      (currentTab.status === STATUS.NOT_REQUIRED ||
-        currentTab.status === STATUS.NO_REQUIRED ||
-        currentTab.status === STATUS.NO_STATUS)
-    ) {
-      return;
-    }
-
-    this.apiService
-      .getService({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        url: `${UriConstants.GET_CLINICAL_HISTORY_STATUS}/${this.patientMedicalRecord}/${currentTab.idFormSection}`,
-        data: {},
-      })
-      .subscribe({
-        next: (response) => {
-          currentTab.status = response.status;
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
   }
 
   onNextTab(): void {

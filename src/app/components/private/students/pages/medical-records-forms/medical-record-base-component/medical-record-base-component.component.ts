@@ -69,10 +69,11 @@ export abstract class MedicalRecordBaseComponent implements OnInit, OnDestroy {
 
   protected updateCurrentSection(): void {
     if (this.mappedHistoryData?.tabs?.length > 0) {
-      this.currentSectionId =
-        this.mappedHistoryData.tabs[this.currentIndex].idFormSection;
-      this.currentStatus =
-        this.mappedHistoryData.tabs[this.currentIndex].status;
+      const currentTab = this.mappedHistoryData.tabs[this.currentIndex];
+      this.currentSectionId = currentTab.idFormSection;
+      this.currentStatus = currentTab.status ?? null;
+    } else {
+      this.currentStatus = null;
     }
   }
 

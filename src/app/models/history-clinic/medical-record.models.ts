@@ -23,9 +23,6 @@ export interface FormSection {
     isAnswered: boolean;
     subSections: SubSection[]; // Array de SubSection
     questions: Question[];
-    status: string;
-    requiresReview: boolean;
-    reviewStatus: reviewStatus;
 }
 
 export interface reviewStatus {

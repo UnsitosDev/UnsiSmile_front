@@ -47,6 +47,7 @@ export class HeaderHistoryClinicComponent {
     APPROVED: 'APROBADO <i class="fas fa-check-circle"></i>',
     REJECTED: 'RECHAZADO <i class="fas fa-times-circle"></i>',
     NOT_REQUIRED: '&nbsp;',
+    NO_STATUS: 'SIN ESTADO',
   };
 
   openConfirmDialog() {
@@ -60,7 +61,10 @@ export class HeaderHistoryClinicComponent {
     });
   }
 
-  translateStatus(status: string): string {
+  translateStatus(status: string | null | undefined): string {
+    if (!status) {
+      return this.statusMap['NO_STATUS'] || 'SIN ESTADO';
+    }
     return this.statusMap[status] || status;
   }
 }
