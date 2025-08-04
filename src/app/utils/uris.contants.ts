@@ -338,11 +338,11 @@ export class UriConstants {
   public static readonly POST_FLUOROSIS =
     basePath + '/medical-records/fluorosis';
   public static readonly GET_FLUOROSIS_BY_PATIENT =
-    basePath + '/medical-records/fluorosis/treatments';
+    basePath + '/medical-records/fluorosis/medical-records';
   public static readonly POST_DEAN_INDEX =
     basePath + '/medical-records/fluorosis/dean-index';
   public static readonly GET_DEAN_INDEX =
-    basePath + '/medical-records/fluorosis/dean-index/treatment';
+    basePath + '/medical-records/fluorosis/dean-index/medical-records';
 
 
   public static readonly GET_PATIENTS_DIGITIZER = basePath + '/digitizer-patients';
