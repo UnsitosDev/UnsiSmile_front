@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, inject, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ConditionIconComponent } from '../../../../../shared/components/condition-icon/condition-icon.component';
 import { OdontogramPost, IOdontogramHandler, IOdontogram, ICondition, IFace, OdontogramResponse, ITooth } from '@mean/models';
 import { TokenData } from '@mean/public';
 import { ApiService, AuthService, OdontogramData, createOdontogramHandler } from '@mean/services';
@@ -21,78 +24,191 @@ import { SymbolDialogComponent } from '../symbol-dialog/symbol-dialog.component'
 import { StudentsToothComponent } from '../tooth/students-tooth.component';
 import { OdontogramMapper } from './odontogramMapper';
 import { ToothEvent } from './tooth-event.model';
-
-
+import { SymbolDetailsDialogComponent, SymbolDetailsData } from './symbol-details-dialog/symbol-details-dialog.component';
 
 @Component({
   selector: 'app-odontogram',
   standalone: true,
   imports: [
-    StudentsToothComponent,
-    MatTabsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatListModule,
-    MatIconModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTabsModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTooltipModule,
+    ConditionIconComponent,
+    StudentsToothComponent
   ],
   templateUrl: './odontogram.component.html',
-  styleUrl: './odontogram.component.scss',
+  styleUrls: ['./odontogram.component.scss', './tooltip.styles.scss'],
 })
 export class OdontogramComponent implements OnInit {
-  constructor(private dialog: MatDialog) { }
-
-  private odontogramService = inject((ApiService<{}, OdontogramPost>));
+  // Servicios inyectados
+  private readonly odontogramService = inject(ApiService<{}, OdontogramPost>);
+  private readonly toastr = inject(ToastrService);
+  private readonly userService = inject(AuthService);
+  private readonly odontogramData = inject(OdontogramData);
+  private readonly dialog = inject(MatDialog);
+  
+  // Inputs
   @Input({ required: true }) patientId!: string;
   @Input() idOdontogram: number = 0;
-  @Input({ required: true }) state!: 'create' |
-    'update' |
-    'read' |
-    'read-latest';
-  private toastr = inject(ToastrService);
-  private userService = inject(AuthService);
-  private token!: string;
-  private tokenData!: TokenData;
-  role!: string;
-
+  @Input({ required: true }) state!: 'create' | 'update' | 'read' | 'read-latest';
+  
+  // Outputs
   @Output() transactionCarriedOut = new EventEmitter<boolean>();
   @Output() cancel = new EventEmitter<boolean>();
-
-  private readonly odontogramData = inject(OdontogramData);
+  
+  // Estado del componente
+  currentOdontogramId!: number;
+  isEditing = false;
+  renderOdontogram = false;
+  value = 0;
+  
+  // Datos del odontograma
+  data: IOdontogramHandler = createOdontogramHandler();
+  odontogram: IOdontogram = { teeth: [], observations: '' };
+  
+  // Opciones y condiciones
+  options: ICondition[] = [];
+  toolbar: { options: ICondition[] } = { options: [] };
+  marked!: ICondition;
+  faces: IFace[] = [];
+  
+  // Constantes y utilidades
+  readonly ToothConditionsConstants = ToothConditionsConstants;
   private readonly toothFaceConditions = new Set([
     ToothConditionsConstants.DIENTE_CARIADO,
     ToothConditionsConstants.DIENTE_OBTURADO,
     ToothConditionsConstants.DIENTE_CON_FRACTURA,
     ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES,
   ]);
-
-  currentOdontogramId!: number;
-  isEditing = false;
-  renderOdontogram = false;
-
-  data: IOdontogramHandler = createOdontogramHandler(); //odontograma que se renderiza
-  odontogram: IOdontogram = { teeth: [], observations: '' }; //odontograma que se insertará
-  options: ICondition[] = [];
-  faces: IFace[] = [];
-  toolbar: { options: ICondition[]; } = { options: [] };
-  marked!: ICondition;
-  value = 0;
-
-  ToothConditionsConstants = ToothConditionsConstants;
+  
+  // Autenticación
+  private token: string = '';
+  private tokenData: TokenData | null = null;
+  role: string = '';
 
   ngOnInit(): void {
     this.loadConditions();
     this.initializeState();
     this.getRole();
+    this.initializeOdontogram();
   }
 
-  getRole() {
+  private initializeOdontogram(): void {
+    // Lógica de inicialización del odontograma
+    if (this.state === 'read-latest') {
+      this.loadLatestExistingOdontogram();
+    } else if (this.state === 'create') {
+      this.initializeNewOdontogram();
+    } else if (this.state === 'update' || this.state === 'read') {
+      this.loadExistingOdontogramById(String(this.idOdontogram));
+    }
+  }
+
+  showSymbolDetails(condition: string): void {
+    const symbolDescriptions: { [key: string]: { title: string; description: string } } = {
+      [ToothConditionsConstants.DIENTE_CARIADO]: {
+        title: 'Diente Cariado',
+        description: 'Diente con caries'
+      },
+      [ToothConditionsConstants.DIENTE_OBTURADO]: {
+        title: 'Diente Obturado',
+        description: 'Diente con obturación'
+      },
+      [ToothConditionsConstants.DIENTE_CON_CORONA]: {
+        title: 'Corona',
+        description: 'Diente con corona'
+      },
+      [ToothConditionsConstants.DIENTE_CON_FRACTURA]: {
+        title: 'Fractura Dental',
+        description: 'Diente con fractura'
+      },
+      [ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES]: {
+        title: 'Obturación con Caries',
+        description: 'Diente con obturación que presenta nuevas caries'
+      },
+      [ToothConditionsConstants.DIENTE_PARCIALMENTE_ERUPCIONADO]: {
+        title: 'Parcialmente Erupcionado',
+        description: 'Diente que no ha terminado de erupcionar'
+      },
+      [ToothConditionsConstants.DIENTE_EN_MAL_POSICION_IZQUIERDA]: {
+        title: 'Malposición Izquierda',
+        description: 'Diente desviado hacia la izquierda'
+      },
+      [ToothConditionsConstants.DIENTE_EN_MAL_POSICION_DERECHA]: {
+        title: 'Malposición Derecha',
+        description: 'Diente desviado hacia la derecha'
+      },
+      [ToothConditionsConstants.FISTULA]: {
+        title: 'Fístula',
+        description: 'Fístula dental'
+      },
+      [ToothConditionsConstants.DIENTE_CON_FLUOROSIS]: {
+        title: 'Fluorosis',
+        description: 'Diente con fluorosis'
+      },
+      [ToothConditionsConstants.DIENTE_CON_HIPOPLASIA]: {
+        title: 'Hipoplasia',
+        description: 'Diente con hipoplasia del esmalte'
+      },
+      [ToothConditionsConstants.RESTO_RADICULAR]: {
+        title: 'Resto Radicular',
+        description: 'Raíz dental remanente'
+      },
+      [ToothConditionsConstants.DIENTE_EXTRAIDO]: {
+        title: 'Diente Extraído',
+        description: 'Diente que ha sido extraído'
+      },
+      [ToothConditionsConstants.ENDODONCIA]: {
+        title: 'Endodoncia',
+        description: 'Diente con tratamiento de conducto'
+      },
+      [ToothConditionsConstants.PROTESIS_REMOVIBLE]: {
+        title: 'Prótesis Removible',
+        description: 'Prótesis dental removible'
+      },
+      [ToothConditionsConstants.PUENTE]: {
+        title: 'Puente Dental',
+        description: 'Prótesis fija que reemplaza uno o más dientes'
+      },
+      [ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA]: {
+        title: 'Mantenedor con Corona',
+        description: 'Mantenedor de espacio con corona'
+      },
+      [ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA]: {
+        title: 'Mantenedor con Banda',
+        description: 'Mantenedor de espacio con banda'
+      }
+    };
+
+    const symbolInfo = symbolDescriptions[condition] || {
+      title: condition,
+      description: 'Descripción no disponible para este símbolo.'
+    };
+
+    this.dialog.open(SymbolDetailsDialogComponent, {
+      width: '450px',
+      data: {
+        title: symbolInfo.title,
+        description: symbolInfo.description
+      } as SymbolDetailsData
+    });
+  }
+
+  private getRole(): void {
     this.token = this.userService.getToken() ?? '';
     this.tokenData = this.userService.getTokenDataUser(this.token);
-    this.role = this.tokenData.role[0].authority;
+    if (this.tokenData?.role) {
+      const roleData = Array.isArray(this.tokenData.role) ? this.tokenData.role[0] : this.tokenData.role;
+      this.role = typeof roleData === 'string' ? roleData : roleData?.authority || '';
+    }
   }
 
   private initializeState(): void {
@@ -196,6 +312,21 @@ export class OdontogramComponent implements OnInit {
       condition: event.condition,
       description: event.description,
       selected: true,
+    };
+  }
+
+  /**
+   * Clears the currently marked symbol
+   * @param event The click event
+   */
+  clearMarkedSymbol(event: MouseEvent): void {
+    
+    event.stopPropagation();
+    this.marked = {
+      idCondition: 0,
+      condition: '',
+      description: '',
+      selected: false,
     };
   }
 
@@ -471,6 +602,17 @@ export class OdontogramComponent implements OnInit {
       }
     });
   }
+
+  // Propiedades temporales para diálogos
+  dialogData = {
+    title: '',
+    description: '',
+    condition: '',
+    idCondition: 0,
+    toothConditions: [] as ICondition[],
+    faceConditions: [] as { idFace: string; conditions: ICondition[]; }[],
+    idFace: ''
+  };
 
   private removeSelectedConditions(
     tooth: ITooth,

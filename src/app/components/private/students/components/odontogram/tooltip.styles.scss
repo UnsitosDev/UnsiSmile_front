@@ -1,0 +1,46 @@
+/* Estilos para los tooltips del odontograma */
+app-students-tooth {
+  svg {
+    g {
+      cursor: help;
+      position: relative;
+      
+      title {
+        display: none; /* Ocultar el título por defecto */
+      }
+      
+      &:hover title {
+        display: block;
+      }
+    }
+  }
+}
+
+/* Estilo para el tooltip del navegador */
+[title] {
+  position: relative;
+  
+  &::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+  }
+  
+  &:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+}

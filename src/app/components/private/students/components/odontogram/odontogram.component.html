@@ -1,267 +1,457 @@
 @if (renderOdontogram) {
-<div>
-  <div class="root custom-text">
-    <!-- Symbol Selection Header -->
-    @if (toolbar.options && state != 'read') {
-    <div class="symbol-header">
-      <button mat-button (click)="openSymbolDialog()" class="symbol-button">
-        <mat-icon>add_circle</mat-icon>
-        Seleccionar símbolo
-      </button>
-      @if (marked) {
-      <div class="selected-symbol">
-        <div class="symbol-preview">
-          <svg width="30" height="35" viewBox="0 0 30 35">
-            <!-- Representación del diente con cinco caras -->
-            <polygon stroke="black" points="1,1 7,9 21,9 28,1" fill="#EAEDEA" stroke-width="0.5"/>
-            <polygon stroke="black" points="21,9 21,25 28,33 28,1" fill="#EAEDEA" stroke-width="0.5"/>
-            <polygon stroke="black" points="21,25 28,33 1,33 7,25" fill="#EAEDEA" stroke-width="0.5"/>
-            <polygon stroke="black" points="1,1 1,33 7,25 7,9" fill="#EAEDEA" stroke-width="0.5"/>
-            <polygon stroke="black" points="7,9 21,9 21,25 7,25" fill="#EAEDEA" stroke-width="0.5"/>
-            
-            @switch (marked.condition) {
-              @case (ToothConditionsConstants.DIENTE_OBTURADO) {
-                <polygon points="7,9 21,9 21,25 7,25" fill="#1919e6" opacity="0.6"/>
-              }
-              @case (ToothConditionsConstants.DIENTE_CON_CORONA) {
-                <polygon points="1,1 28,1 28,33 1,33" fill="#1919e6" opacity="0.6"/>
-              }
-              @case (ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
-                <polygon points="1,1 28,1 28,33 1,33" fill="#1919e6" opacity="0.3"/>
-                <line x1="0" y1="28" x2="29" y2="28" stroke="black" stroke-width="2" opacity="0.6"/>
-                <line x1="20" y1="17" x2="29" y2="17" stroke="black" stroke-width="2" opacity="0.6"/>
-                <line x1="0" y1="6" x2="29" y2="6" stroke="black" stroke-width="2" opacity="0.6"/>
-              }
-              @case (ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA) {
-                <line x1="0" y1="28" x2="29" y2="28" stroke="black" stroke-width="2" opacity="0.6"/>
-                <line x1="20" y1="17" x2="29" y2="17" stroke="black" stroke-width="2" opacity="0.6"/>
-                <line x1="0" y1="6" x2="29" y2="6" stroke="black" stroke-width="2" opacity="0.6"/>
-              }
-              @case (ToothConditionsConstants.DIENTE_CARIADO) {
-                <polygon points="7,9 21,9 21,25 7,25" fill="red" opacity="0.6"/>
-              }
-              @case (ToothConditionsConstants.DIENTE_EXTRAIDO) {
-                <polygon points="15,5 0,30 30,30" fill="#e74c3c"/>
-              }
-              @case (ToothConditionsConstants.DIENTE_CON_FRACTURA) {
-                <line x1="21" y1="9" x2="28" y2="33" stroke="red" stroke-width="2" stroke-dasharray="4"/>
-              }
-              @case (ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES) {
-                <polygon points="7,9 21,9 21,25 7,25" fill="#1919e6" opacity="0.8" stroke="red" stroke-width="2"/>
-              }
-            }
-          </svg>
-        </div>
-        <div class="symbol-info">
-          <span class="symbol-name">{{ marked.condition }}</span>
-          <span class="symbol-description">{{ marked.description }}</span>
-        </div>
-        <button mat-icon-button class="clear-symbol" (click)="handleAction({description: '', condition: '', idCondition: 0})">
-          <mat-icon>close</mat-icon>
-        </button>
+<div class="root custom-text">
+  <!-- Symbol Selection Header -->
+  @if (toolbar.options && state != 'read') {
+  <div class="symbol-header">
+    <button mat-button (click)="openSymbolDialog()" class="symbol-button">
+      <mat-icon>add_circle</mat-icon>
+      Seleccionar símbolo
+    </button>
+    @if (marked != null && marked.idCondition !== 0) {
+    <div class="selected-symbol">
+      <div class="tooth-preview">
+        <svg
+          width="30"
+          height="34"
+          viewBox="0 0 30 34"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Representación del diente con cinco caras -->
+          <polygon
+            stroke="black"
+            points="1,1 7,9 21,9 28,1"
+            fill="#EAEDEA"
+            stroke-width="0.5"
+          />
+          <polygon
+            stroke="black"
+            points="21,9 21,25 28,33 28,1"
+            fill="#EAEDEA"
+            stroke-width="0.5"
+          />
+          <polygon
+            stroke="black"
+            points="21,25 28,33 1,33 7,25"
+            fill="#EAEDEA"
+            stroke-width="0.5"
+          />
+          <polygon
+            stroke="black"
+            points="1,1 1,33 7,25 7,9"
+            fill="#EAEDEA"
+            stroke-width="0.5"
+          />
+          <polygon
+            stroke="black"
+            points="7,9 21,9 21,25 7,25"
+            fill="#EAEDEA"
+            stroke-width="0.5"
+          />
+
+          @switch (marked.condition) { @case
+          (ToothConditionsConstants.DIENTE_OBTURADO) {
+          <g
+            class="tooth-condition"
+            (click)="
+              showSymbolDetails(ToothConditionsConstants.DIENTE_OBTURADO);
+              $event.stopPropagation()
+            "
+            style="cursor: pointer"
+          >
+            <polygon
+              points="7,9 21,9 21,25 7,25"
+              fill="#1919e6"
+              opacity="0.6"
+            />
+          </g>
+          } @case (ToothConditionsConstants.DIENTE_CON_CORONA) {
+          <g
+            class="tooth-condition"
+            (click)="
+              showSymbolDetails(ToothConditionsConstants.DIENTE_CON_CORONA);
+              $event.stopPropagation()
+            "
+            style="cursor: pointer"
+          >
+            <polygon
+              points="1,1 28,1 28,33 1,33"
+              fill="#1919e6"
+              opacity="0.6"
+            />
+          </g>
+          } @case (ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA) {
+          <g
+            class="tooth-condition"
+            (click)="
+              showSymbolDetails(
+                ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_CORONA
+              );
+              $event.stopPropagation()
+            "
+            style="cursor: pointer"
+          >
+            <polygon
+              points="1,1 28,1 28,33 1,33"
+              fill="#1919e6"
+              opacity="0.3"
+            />
+            <line
+              x1="0"
+              y1="28"
+              x2="29"
+              y2="28"
+              stroke="black"
+              stroke-width="2"
+              opacity="0.6"
+            />
+            <line
+              x1="20"
+              y1="17"
+              x2="29"
+              y2="17"
+              stroke="black"
+              stroke-width="2"
+              opacity="0.6"
+            />
+            <line
+              x1="0"
+              y1="6"
+              x2="29"
+              y2="6"
+              stroke="black"
+              stroke-width="2"
+              opacity="0.6"
+            />
+          </g>
+          } @case (ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA) {
+          <g
+            class="tooth-condition"
+            (click)="
+              showSymbolDetails(
+                ToothConditionsConstants.MANTENEDOR_DE_ESPACIO_CON_BANDA
+              );
+              $event.stopPropagation()
+            "
+            style="cursor: pointer"
+          >
+            <line
+              x1="0"
+              y1="28"
+              x2="29"
+              y2="28"
+              stroke="black"
+              stroke-width="2"
+              opacity="0.6"
+            />
+            <line
+              x1="20"
+              y1="17"
+              x2="29"
+              y2="17"
+              stroke="black"
+              stroke-width="2"
+              opacity="0.6"
+            />
+            <line
+              x1="0"
+              y1="6"
+              x2="29"
+              y2="6"
+              stroke="black"
+              stroke-width="2"
+              opacity="0.6"
+            />
+          </g>
+          } @case (ToothConditionsConstants.DIENTE_CARIADO) {
+          <g
+            class="tooth-condition"
+            (click)="
+              showSymbolDetails(ToothConditionsConstants.DIENTE_CARIADO);
+              $event.stopPropagation()
+            "
+            style="cursor: pointer"
+          >
+            <polygon points="7,9 21,9 21,25 7,25" fill="red" opacity="0.6" />
+          </g>
+          } @case (ToothConditionsConstants.DIENTE_EXTRAIDO) {
+          <g
+            class="tooth-condition"
+            (click)="
+              showSymbolDetails(ToothConditionsConstants.DIENTE_EXTRAIDO);
+              $event.stopPropagation()
+            "
+            style="cursor: pointer"
+          >
+            <polygon points="15,5 0,30 30,30" fill="#e74c3c" />
+          </g>
+          } @case (ToothConditionsConstants.DIENTE_CON_FRACTURA) {
+          <g
+            class="tooth-condition"
+            (click)="
+              showSymbolDetails(ToothConditionsConstants.DIENTE_CON_FRACTURA);
+              $event.stopPropagation()
+            "
+            style="cursor: pointer"
+          >
+            <line
+              x1="21"
+              y1="9"
+              x2="28"
+              y2="33"
+              stroke="red"
+              stroke-width="2"
+              stroke-dasharray="4"
+            />
+          </g>
+          } @case (ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES) {
+          <g
+            class="tooth-condition"
+            (click)="
+              showSymbolDetails(
+                ToothConditionsConstants.DIENTE_OBTURADO_CON_CARIES
+              );
+              $event.stopPropagation()
+            "
+            style="cursor: pointer"
+          >
+            <polygon
+              points="7,9 21,9 21,25 7,25"
+              fill="#1919e6"
+              opacity="0.8"
+              stroke="red"
+              stroke-width="2"
+            />
+          </g>
+          } }
+        </svg>
       </div>
-      }
+      <div class="symbol-info">
+        <span class="symbol-name">{{ marked.condition }}</span>
+        <span class="symbol-description">{{ marked.description }}</span>
+      </div>
+      <!-- Símbolos adicionales debajo del diente -->
+      <div class="tooth-symbols-below">
+        <app-condition-icon
+          *ngIf="marked.condition"
+          [condition]="marked.condition"
+          (iconClick)="
+            showSymbolDetails(marked.condition); $event.stopPropagation()
+          "
+          [showTitle]="true"
+          [customStyle]="'width: 32px; height: 32px; cursor: pointer;'"
+        >
+        </app-condition-icon>
+      </div>
+      <button
+        mat-icon-button
+        class="clear-symbol"
+        (click)="clearMarkedSymbol($event)"
+        matTooltip="Quitar símbolo seleccionado"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
     }
-
-    <mat-tab-group
-      [(selectedIndex)]="value"
-      (selectedIndexChange)="handleChange($event, value)"
-    >
-      <mat-tab label="Adulto">
-        <div class="odontogram-container">
-          @if (data.adultArcade.teeth) {
-          <div class="quadrants">
-            <!-- Superior Row -->
-            <div class="upper-row">
-              <!-- Cuadrante 1 (Superior Derecho) -->
-              <div class="quadrant right-quadrant">
-                @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 1);
-                track tooth.idTooth) {
-                <app-students-tooth
-                  (deleteConditions)="openDeleteConditionsDialog($event)"
-                  [state]="state"
-                  [data]="tooth"
-                  [index]="$index"
-                  [marked]="data.marked"
-                  (toggleTooth)="toggleTooth($event)"
-                  (setFace)="setFace($event)"
-                />
-                }
-              </div>
-              <!-- Cuadrante 2 (Superior Izquierdo) -->
-              <div class="quadrant left-quadrant">
-                @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 2);
-                track tooth.idTooth) {
-                <app-students-tooth
-                  (deleteConditions)="openDeleteConditionsDialog($event)"
-                  [state]="state"
-                  [data]="tooth"
-                  [index]="$index"
-                  [marked]="data.marked"
-                  (toggleTooth)="toggleTooth($event)"
-                  (setFace)="setFace($event)"
-                />
-                }
-              </div>
-            </div>
-            <!-- Lower Row -->
-            <div class="lower-row">
-              <!-- Cuadrante 4 (Inferior Derecho) -->
-              <div class="quadrant right-quadrant">
-                @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 4);
-                track tooth.idTooth) {
-                <app-students-tooth
-                  (deleteConditions)="openDeleteConditionsDialog($event)"
-                  [state]="state"
-                  [data]="tooth"
-                  [index]="$index"
-                  [marked]="data.marked"
-                  (toggleTooth)="toggleTooth($event)"
-                  (setFace)="setFace($event)"
-                />
-                }
-              </div>
-              <!-- Cuadrante 3 (Inferior Izquierdo) -->
-              <div class="quadrant left-quadrant">
-                @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 3);
-                track tooth.idTooth) {
-                <app-students-tooth
-                  (deleteConditions)="openDeleteConditionsDialog($event)"
-                  [state]="state"
-                  [data]="tooth"
-                  [index]="$index"
-                  [marked]="data.marked"
-                  (toggleTooth)="toggleTooth($event)"
-                  (setFace)="setFace($event)"
-                />
-                }
-              </div>
-            </div>
-          </div>
-          }
-        </div>
-      </mat-tab>
-      <mat-tab label="Infantil">
-        <div class="odontogram-container">
-          @if (data.childrenArcade.teeth) {
-          <div class="quadrants">
-            <!-- Superior Row -->
-            <div class="upper-row">
-              <!-- Cuadrante 1 (Superior Derecho) -->
-              <div class="quadrant right-quadrant">
-                @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 5);
-                track tooth.idTooth) {
-                <app-students-tooth
-                  (deleteConditions)="openDeleteConditionsDialog($event)"
-                  [state]="state"
-                  [data]="tooth"
-                  [index]="$index"
-                  [marked]="data.marked"
-                  (toggleTooth)="toggleTooth($event)"
-                  (setFace)="setFace($event)"
-                />
-                }
-              </div>
-              <!-- Cuadrante 2 (Superior Izquierdo) -->
-              <div class="quadrant left-quadrant">
-                @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 6);
-                track tooth.idTooth) {
-                <app-students-tooth
-                  (deleteConditions)="openDeleteConditionsDialog($event)"
-                  [state]="state"
-                  [data]="tooth"
-                  [index]="$index"
-                  [marked]="data.marked"
-                  (toggleTooth)="toggleTooth($event)"
-                  (setFace)="setFace($event)"
-                />
-                }
-              </div>
-            </div>
-            <!-- Lower Row -->
-            <div class="lower-row">
-              <!-- Cuadrante 4 (Inferior Derecho) -->
-              <div class="quadrant right-quadrant">
-                @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 8);
-                track tooth.idTooth) {
-                <app-students-tooth
-                  (deleteConditions)="openDeleteConditionsDialog($event)"
-                  [state]="state"
-                  [data]="tooth"
-                  [index]="$index"
-                  [marked]="data.marked"
-                  (toggleTooth)="toggleTooth($event)"
-                  (setFace)="setFace($event)"
-                />
-                }
-              </div>
-              <!-- Cuadrante 3 (Inferior Izquierdo) -->
-              <div class="quadrant left-quadrant">
-                @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 7);
-                track tooth.idTooth) {
-                <app-students-tooth
-                  (deleteConditions)="openDeleteConditionsDialog($event)"
-                  [state]="state"
-                  [data]="tooth"
-                  [index]="$index"
-                  [marked]="data.marked"
-                  (toggleTooth)="toggleTooth($event)"
-                  (setFace)="setFace($event)"
-                />
-                }
-              </div>
-            </div>
-          </div>
-          }
-        </div>
-      </mat-tab>
-    </mat-tab-group>
   </div>
-
-  @if (state === 'read') {
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Observaciones</mat-label>
-    <textarea
-      matInput
-      [(ngModel)]="odontogram.observations"
-      name="observations"
-      rows="5"
-      maxlength="500"
-      placeholder="Ingrese las observaciones"
-      [readonly]="true"
-    >
-    </textarea>
-  </mat-form-field>
-  }@else {
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Observaciones</mat-label>
-    <textarea
-      matInput
-      [(ngModel)]="odontogram.observations"
-      name="observations"
-      rows="5"
-      maxlength="500"
-      placeholder="Ingrese las observaciones"
-    >
-    </textarea>
-  </mat-form-field>
   }
 
-  <div class="button-container">
-    <div>
-      @if (role == 'ROLE_STUDENT' && state != 'read') {
-      <button type="button" mat-button (click)="store()">
-        Guardar <i class="fas fa-save"></i>
-      </button>
-      <button type="button" mat-button (click)="cancelOdontogram()">
-        Cancelar <i class="fas fa-times"></i>
-      </button>
-      }
-    </div>
-  </div>
+  <mat-tab-group
+    [(selectedIndex)]="value"
+    (selectedIndexChange)="handleChange($event, value)"
+  >
+    <mat-tab label="Adulto">
+      <div class="odontogram-container">
+        @if (data.adultArcade.teeth) {
+        <div class="quadrants">
+          <!-- Superior Row -->
+          <div class="upper-row">
+            <!-- Cuadrante 1 (Superior Derecho) -->
+            <div class="quadrant right-quadrant">
+              @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 1); track
+              tooth.idTooth) {
+              <app-students-tooth
+                (deleteConditions)="openDeleteConditionsDialog($event)"
+                [state]="state"
+                [data]="tooth"
+                [index]="$index"
+                [marked]="data.marked"
+                (toggleTooth)="toggleTooth($event)"
+                (setFace)="setFace($event)"
+              />
+              }
+            </div>
+            <!-- Cuadrante 2 (Superior Izquierdo) -->
+            <div class="quadrant left-quadrant">
+              @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 2); track
+              tooth.idTooth) {
+              <app-students-tooth
+                (deleteConditions)="openDeleteConditionsDialog($event)"
+                [state]="state"
+                [data]="tooth"
+                [index]="$index"
+                [marked]="data.marked"
+                (toggleTooth)="toggleTooth($event)"
+                (setFace)="setFace($event)"
+              />
+              }
+            </div>
+          </div>
+          <!-- Lower Row -->
+          <div class="lower-row">
+            <!-- Cuadrante 4 (Inferior Derecho) -->
+            <div class="quadrant right-quadrant">
+              @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 4); track
+              tooth.idTooth) {
+              <app-students-tooth
+                (deleteConditions)="openDeleteConditionsDialog($event)"
+                [state]="state"
+                [data]="tooth"
+                [index]="$index"
+                [marked]="data.marked"
+                (toggleTooth)="toggleTooth($event)"
+                (setFace)="setFace($event)"
+              />
+              }
+            </div>
+            <!-- Cuadrante 3 (Inferior Izquierdo) -->
+            <div class="quadrant left-quadrant">
+              @for (tooth of getQuadrantTeeth(data.adultArcade.teeth, 3); track
+              tooth.idTooth) {
+              <app-students-tooth
+                (deleteConditions)="openDeleteConditionsDialog($event)"
+                [state]="state"
+                [data]="tooth"
+                [index]="$index"
+                [marked]="data.marked"
+                (toggleTooth)="toggleTooth($event)"
+                (setFace)="setFace($event)"
+              />
+              }
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </mat-tab>
+    <mat-tab label="Infantil">
+      <div class="odontogram-container">
+        @if (data.childrenArcade.teeth) {
+        <div class="quadrants">
+          <!-- Superior Row -->
+          <div class="upper-row">
+            <!-- Cuadrante 1 (Superior Derecho) -->
+            <div class="quadrant right-quadrant">
+              @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 5);
+              track tooth.idTooth) {
+              <app-students-tooth
+                (deleteConditions)="openDeleteConditionsDialog($event)"
+                [state]="state"
+                [data]="tooth"
+                [index]="$index"
+                [marked]="data.marked"
+                (toggleTooth)="toggleTooth($event)"
+                (setFace)="setFace($event)"
+              />
+              }
+            </div>
+            <!-- Cuadrante 2 (Superior Izquierdo) -->
+            <div class="quadrant left-quadrant">
+              @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 6);
+              track tooth.idTooth) {
+              <app-students-tooth
+                (deleteConditions)="openDeleteConditionsDialog($event)"
+                [state]="state"
+                [data]="tooth"
+                [index]="$index"
+                [marked]="data.marked"
+                (toggleTooth)="toggleTooth($event)"
+                (setFace)="setFace($event)"
+              />
+              }
+            </div>
+          </div>
+          <!-- Lower Row -->
+          <div class="lower-row">
+            <!-- Cuadrante 4 (Inferior Derecho) -->
+            <div class="quadrant right-quadrant">
+              @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 8);
+              track tooth.idTooth) {
+              <app-students-tooth
+                (deleteConditions)="openDeleteConditionsDialog($event)"
+                [state]="state"
+                [data]="tooth"
+                [index]="$index"
+                [marked]="data.marked"
+                (toggleTooth)="toggleTooth($event)"
+                (setFace)="setFace($event)"
+              />
+              }
+            </div>
+            <!-- Cuadrante 3 (Inferior Izquierdo) -->
+            <div class="quadrant left-quadrant">
+              @for (tooth of getQuadrantTeeth(data.childrenArcade.teeth, 7);
+              track tooth.idTooth) {
+              <app-students-tooth
+                (deleteConditions)="openDeleteConditionsDialog($event)"
+                [state]="state"
+                [data]="tooth"
+                [index]="$index"
+                [marked]="data.marked"
+                (toggleTooth)="toggleTooth($event)"
+                (setFace)="setFace($event)"
+              />
+              }
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>
 
+@if (state === 'read') {
+<mat-form-field appearance="fill" class="full-width">
+  <mat-label>Observaciones</mat-label>
+  <textarea
+    matInput
+    [(ngModel)]="odontogram.observations"
+    name="observations"
+    rows="5"
+    maxlength="500"
+    placeholder="Ingrese las observaciones"
+    [readonly]="true"
+  >
+  </textarea>
+</mat-form-field>
+}@else {
+<mat-form-field appearance="fill" class="full-width">
+  <mat-label>Observaciones</mat-label>
+  <textarea
+    matInput
+    [(ngModel)]="odontogram.observations"
+    name="observations"
+    rows="5"
+    maxlength="500"
+    placeholder="Ingrese las observaciones"
+  >
+  </textarea>
+</mat-form-field>
+}
+
+<div class="button-container">
+  <div>
+    @if (role == 'ROLE_STUDENT' && state != 'read') {
+    <button type="button" mat-button (click)="store()">
+      Guardar <i class="fas fa-save"></i>
+    </button>
+    <button type="button" mat-button (click)="cancelOdontogram()">
+      Cancelar <i class="fas fa-times"></i>
+    </button>
+    }
+  </div>
+</div>
 }@else {
 <mat-card class="no-odontogram">
   <div class="no-odontogram-content">

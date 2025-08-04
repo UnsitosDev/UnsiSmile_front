@@ -1,0 +1,100 @@
+// Contenedor principal del diálogo
+:host {
+  display: block;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+// Estilo del título del diálogo
+.dialog-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: var(--primary);
+  font-size: 1.25rem;
+  font-weight: 500;
+
+  .close-button {
+    margin: -8px -8px -8px 8px;
+    padding: 8px;
+    line-height: 1;
+    color: var(--status-red);
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+      border-radius: 50%;
+    }
+  }
+}
+
+// Contenido del diálogo
+.dialog-content {
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  
+  p {
+    margin: 0 0 16px;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.87);
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Acciones del diálogo
+mat-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding: 16px 20px;
+  margin: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  
+  button {
+    margin: 8px 0 0 8px;
+    min-width: 88px;
+    
+    &[mat-button] {
+      color: rgba(0, 0, 0, 0.87);
+    }
+  }
+}
+
+// Estilos responsivos
+@media (max-width: 600px) {
+  .dialog-title {
+    padding: 12px 16px;
+    font-size: 1.1rem;
+  }
+  
+  .dialog-content {
+    padding: 16px;
+  }
+  
+  mat-dialog-actions {
+    padding: 12px 16px;
+    
+    button {
+      flex: 1 1 auto;
+      margin: 4px;
+      min-width: calc(50% - 8px);
+    }
+  }
+}
+
+// Mejoras para pantallas muy pequeñas
+@media (max-width: 400px) {
+  mat-dialog-actions {
+    button {
+      min-width: 100%;
+      margin: 4px 0;
+    }
+  }
+}
