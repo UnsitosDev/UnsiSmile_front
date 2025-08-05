@@ -6,9 +6,22 @@
     </mat-card-title>
 </mat-card>
 
-<div class="custom-background">
-    <mat-dialog-content>
-        <mat-form-field class="w-full">
+<mat-card class="mb-4">
+  <section class="p-4">
+    <div class="w-full h-96">
+      <canvas
+        baseChart
+        [type]="chartType"
+        [data]="currentChartData"
+        [options]="chartOptions">
+      </canvas>
+    </div>
+  </section>
+</mat-card>
+
+<mat-card class="custom-background">
+        <mat-card-content>
+            <mat-form-field class="w-full ">
             <mat-label>Selecciona tratamiento</mat-label>
             <mat-select [(value)]="selectedIdTreatment">
                 @for (optionTreatment of treatmentData; track optionTreatment.idTreatment) {
@@ -21,7 +34,6 @@
                 }
             </mat-select>
         </mat-form-field>
-
         @if (selectedIdTreatment !== 'none') {
             @if (treatments.content.length > 0) {
                 @for (treatment of treatments.content; track $index) {
@@ -55,5 +67,6 @@
                 </span>
             </div>
         }
-    </mat-dialog-content>
-</div>
+        </mat-card-content>
+
+</mat-card>

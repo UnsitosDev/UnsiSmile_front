@@ -1,23 +1,23 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCard, MatCardTitle } from '@angular/material/card';
+import { MatCard, MatCardTitle, MatCardContent } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { ID_STUDENT, PaginatedData, TreatmentDetailResponse, Treatments } from '@mean/models';
+import { ID_STUDENT, mapTreatmentsToSpanish, PaginatedData, PatientStatistics, TreatmentDetailResponse, Treatments } from '@mean/models';
 import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
+import { ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-
 
 @Component({
   selector: 'app-treatments-report-details',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatCard, MatCardTitle, MatIcon, MatFormFieldModule, MatSelectModule],
+  imports: [MatDialogModule, MatButtonModule, MatCard, MatCardTitle, MatIcon, MatFormFieldModule, MatSelectModule, BaseChartDirective, MatCardContent],
   templateUrl: './treatments-report-details.component.html',
   styleUrl: './treatments-report-details.component.scss'
 })
@@ -29,10 +29,37 @@ export class TreatmentsReportDetailsComponent {
   public treatments!: PaginatedData<TreatmentDetailResponse>;     // Almacena la lista paginada de tratamientos
   public treatmentData: Treatments[] = [];
   public selectedIdTreatment = 'none';
+  public stats!: PatientStatistics;
+  public loading = true;
+  public treatmentsInSpanish: Record<string, number> = {};
+
+  public currentChartData: ChartData<'bar', number[], string> = {
+    labels: [],
+    datasets: [{
+      label: 'Tratamientos Realizados',
+      data: [],
+      backgroundColor: 'rgba(32, 55, 114, 0.84)',
+      borderColor: 'rgb(7, 40, 112)',
+      borderWidth: 1
+    }]
+  };
+
+  public chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  public chartType: ChartType = 'bar';
 
   ngOnInit() {
     this.routeParams();
     this.fetchTreatments();
+    this.getStats();
   }
 
   public routeParams() {
@@ -115,5 +142,48 @@ export class TreatmentsReportDetailsComponent {
         console.log(error);
       },
     });
+  }
+
+  public getStats() {
+    this.apiService
+      .getService({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        url: `${UriConstants.GET_STUDENT_DASHBOARD}/${this.idStudent}`,
+        data: {},
+      })
+      .subscribe({
+        next: (response) => {
+          this.stats = response;
+          this.treatmentsInSpanish = mapTreatmentsToSpanish(response.treatments);
+          this.loading = false;
+          this.initChart();
+          console.log('prueba de dashboard', this.treatmentsInSpanish);
+        },
+        error: (error) => {
+          this.loading = false;
+          this.toastr.error(error, 'Error');
+        },
+      });
+  }
+
+  private initChart(): void {
+    if (!this.treatmentsInSpanish) return;
+    const allTreatments = Object.entries(this.treatmentsInSpanish);
+    
+    const labels = allTreatments.map(([label, _]) => label);
+    const data = allTreatments.map(([_, value]) => value);
+
+    this.currentChartData = {
+      labels: labels,
+      datasets: [{
+        label: 'Tratamientos Realizados',
+        data: data,
+        backgroundColor: 'rgba(32, 55, 114, 0.84)',
+        borderColor: 'rgb(7, 40, 112)',
+        borderWidth: 1
+      }]
+    };
   }
 }
