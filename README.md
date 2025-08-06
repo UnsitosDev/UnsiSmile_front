@@ -1,27 +1,121 @@
-# OdontoFront
+# UnsiSmile - Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.
+Aplicación web frontend para el sistema de gestión odontológica UnsiSmile, desarrollada con Angular 17 y un conjunto de tecnologías modernas para ofrecer una experiencia de usuario óptima.
 
-## Development server
+## 🚀 Tecnologías Principales
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Angular 17** - Framework principal
+- **TypeScript** - Lenguaje de programación
+- **Angular Material** - Componentes UI
+- **PrimeNG** - Biblioteca de componentes UI
+- **Bootstrap 5** - Framework CSS
+- **RxJS** - Programación reactiva
+- **Chart.js** - Gráficos y visualizaciones
+- **NgRx** - Gestión de estado (si se implementa)
 
-## Code scaffolding
+## 🛠️ Requisitos Previos
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Node.js (versión 18 o superior)
+- npm (incluido con Node.js) o yarn
+- Angular CLI (versión 17 o superior)
 
-## Build
+## 🚀 Configuración del Entorno
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. **Clonar el repositorio**
+   ```bash
+   git clone [URL_DEL_REPOSITORIO]
+   cd UnsiSmile_front
+   ```
 
-## Running unit tests
+2. **Instalar dependencias**
+   ```bash
+   npm install
+   # o
+   yarn install
+   ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. **Configurar variables de entorno**
+   - Copiar el archivo de ejemplo de variables de entorno:
+     ```bash
+     cp src/environments/environment.example.ts src/environments/environment.ts
+     ```
+   - Configurar las variables según sea necesario
 
-## Running end-to-end tests
+4. **Iniciar el servidor de desarrollo**
+   ```bash
+   ng serve
+   ```
+   La aplicación estará disponible en [http://localhost:4200/](http://localhost:4200/)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## 🏗️ Estructura del Proyecto
 
-## Further help
+```
+src/
+├── app/
+│   ├── components/          # Componentes organizados por contexto
+│   │   ├── private/         # Componentes que requieren autenticación
+│   │   │   └── admins/      # Componentes específicos de administración
+│   │   └── public/          # Componentes accesibles sin autenticación
+│   │
+│   ├── core/                # Funcionalidades centrales
+│   │   ├── base/            # Clases base
+│   │   └── interceptors/    # Interceptores HTTP
+│   │
+│   ├── guards/              # Guards de rutas para control de acceso
+│   │
+│   ├── shared/              # Recursos compartidos
+│   │   ├── adapters/        # Adaptadores para servicios externos
+│   │   ├── animations/      # Animaciones reutilizables
+│   │   ├── components/      # Componentes compartidos
+│   │   ├── models/          # Interfaces y tipos de datos
+│   │   ├── pipes/           # Pipes personalizados
+│   │   └── services/        # Servicios compartidos
+│   │
+│   └── utils/               # Utilidades y helpers
+│
+├── assets/                  # Recursos estáticos (imágenes, fuentes, etc.)
+└── environments/            # Configuraciones de entorno
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## 🛠️ Comandos Útiles
+
+- **Iniciar servidor de desarrollo**: `ng serve`
+- **Compilar para producción**: `ng build --configuration production`
+- **Ejecutar pruebas unitarias**: `ng test`
+- **Ejecutar linting**: `ng lint`
+- **Generar componentes**: `ng generate component components/nombre-componente`
+- **Generar servicios**: `ng generate service services/nombre-servicio`
+
+## 🐳 Docker
+
+El proyecto incluye configuración para Docker:
+
+```bash
+# Construir la imagen
+sudo docker-compose build
+
+# Iniciar los contenedores
+sudo docker-compose up -d
+```
+
+## 🤝 Guía de Contribución
+
+1. Hacer un fork del proyecto
+2. Crear una rama para tu feature (`git checkout -b feat/AmazingFeature`)
+3. Hacer commit de tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Hacer push a la rama (`git push origin feat/AmazingFeature`)
+5. Abrir un Pull Request
+
+## 📝 Estándares de Código
+
+- Seguir las [guías de estilo de Angular](https://angular.io/guide/styleguide)
+- Escribir mensajes de commit siguiendo [Conventional Commits](https://www.conventionalcommits.org/)
+- Documentar el código con comentarios claros y concisos
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## 📧 Contacto
+
+Para soporte o consultas, contactar al equipo de desarrollo.
