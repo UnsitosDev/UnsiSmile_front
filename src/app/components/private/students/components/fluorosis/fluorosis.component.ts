@@ -14,9 +14,9 @@ import {
   ID_TREATMENT_DETAIL,
   IOdontogramHandler,
   ITooth
-} from "@mean/models";
+} from "src/app/shared/models";
 import { TokenData } from "@mean/public";
-import { ApiService, AuthService, createOdontogramHandler } from "@mean/services";
+import { ApiService, AuthService, createOdontogramHandler } from "src/app/shared/services";
 import { ROLES, UriConstants } from '@mean/utils';
 import { ToastrService } from "ngx-toastr";
 

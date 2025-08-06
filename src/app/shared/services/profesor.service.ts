@@ -1,16 +1,24 @@
 import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { ApiService } from './api.service';
+import { UriConstants } from '@mean/utils';
 import { FormField } from '../models/form-fields/form-field.interface';
-import { curpValidator, phoneNumberValidator, employeeNumberValidator, emailValidator } from '../utils/validators';
+import { curpValidator, phoneNumberValidator, employeeNumberValidator, emailValidator } from '../../utils/validators';
 import { PatientService } from './patient/patient.service';
 import { FieldNames } from '../models/form-fields/form-utils';
-
 
 @Injectable({
     providedIn: 'root'
 })
-export class adminService {
+export class ProfesorService {
+    apiService = inject(ApiService);
     patientService = inject(PatientService);
+    responsibleProfessor = 13;
+    careerOptions: Array<{ value: string; label: string }> = [];
+
+
     private personalDataFields: FormField[] = [
         {
             type: 'input',
@@ -48,7 +56,7 @@ export class adminService {
             required: true,
             validators: [Validators.required],
             errorMessages: {
-                required: 'El campo Apellido Materno es requerido.',
+                required: 'El campo Apellido Materno es requerido.'
             }
         },
         {
@@ -58,9 +66,8 @@ export class adminService {
             required: true,
             validators: [Validators.required, employeeNumberValidator()],
             errorMessages: {
-                required: 'El campo Numero de trabajador es requerido.',
-            },
-           
+                required: 'El campo Numero de trabajador es requerido.'
+            }
         },
         {
             type: 'input',
@@ -71,16 +78,15 @@ export class adminService {
             errorMessages: {
                 required: 'El campo CURP es requerido.',
                 lastError: 'Introduzca una CURP válida'
-            },
+            }
         },
         {
             type: 'input',
             label: 'Teléfono',
             name: 'phone',
             required: false,
-            validators: [Validators.required, phoneNumberValidator()],
+            validators: [phoneNumberValidator()],
             errorMessages: {
-                required: 'El campo Telefono es requerido.',
                 lastError: 'Por favor, introduce un número de teléfono válido.'
             }
         },
@@ -112,23 +118,38 @@ export class adminService {
             required: true,
             validators: [Validators.required],
             errorMessages: {
-                required: 'El campo GENERO es requerido.'
+                required: 'El campo Género es requerido.'
             },
             onClick: this.handleGenderClick.bind(this)
         },
+        {
+            type: 'select',
+            label: 'Carrera',
+            name: 'career',
+            required: true,
+            validators: [Validators.required],
+            errorMessages: {
+                required: 'El campo Carrera es requerido.'
+            },
+            onClick: this.handleCareerClick.bind(this)
+        }
     ];
 
-
-    // Eventos
-
-    constructor(){
-        // Cargar el género inmediatamente al inicializar el servicio
+    constructor() {
         this.patientService.getGender();
-        
-        // Forzar la actualización del campo de género con las opciones disponibles
         setTimeout(() => {
             this.handleGenderClick({} as MouseEvent);
         }, 0);
+    }
+
+    public getProfesorArea(): Observable<any> {
+        return this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: `${UriConstants.GET_PROFESSOR_CLINICAL_AREAS}`,
+            data: {},
+        });
     }
 
     private handleGenderClick(event: MouseEvent): void {
@@ -136,15 +157,31 @@ export class adminService {
         const genderField = this.personalDataFields.find(field => field.name === FieldNames.GENDER);
         if (genderField) {
             genderField.options = this.patientService.genderOptions;
-            if (genderField.options && genderField.options.length > 0) {
-                genderField.value = genderField.options[0].value; // Seleccionar el primer valor por defecto
-            }
         }
     }
 
-    // Formularios
+    private handleCareerClick(): void {
+        this.apiService.getService({
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            url: UriConstants.GET_CAREERS,
+            data: {}
+        }).subscribe({
+            next: (response: Array<{ idCareer: string, career: string }>) => {
+                this.careerOptions = response.map(item => ({
+                    value: item.idCareer,
+                    label: item.career
+                }));
+                const careerField = this.personalDataFields.find(field => field.name === 'career');
+                if (careerField) {
+                    careerField.options = this.careerOptions;
+                }
+            }
+        });
+    }
+
     getPersonalDataFields(): FormField[] {
         return this.personalDataFields;
     }
-    
 }

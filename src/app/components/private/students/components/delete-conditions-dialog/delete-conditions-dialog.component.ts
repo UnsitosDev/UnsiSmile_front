@@ -8,7 +8,7 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { ITooth } from '@mean/models';
+import { ITooth } from 'src/app/shared/models';
 
 interface DialogData {
   tooth: ITooth;

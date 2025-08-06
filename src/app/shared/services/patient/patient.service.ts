@@ -1,24 +1,24 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from '../api.service';
-import { religionOptions, religionRequest, religionResponse } from 'src/app/models/shared/patients/Religion/religion';
+import { religionOptions, religionRequest, religionResponse } from 'src/app/shared/models/shared/patients/Religion/religion';
 import { UriConstants } from '@mean/utils';
-import { genderRequest } from 'src/app/models/models-students/genders/genders';
-import { housingRequest } from 'src/app/models/shared/addresses/housing/housing';
-import { streetRequest } from 'src/app/models/shared/addresses/street/street';
-import { neighborhoodOptions, neighborhoodRequest } from 'src/app/models/shared/addresses/neighborhood/neighborhood';
-import { localityOptions, localityRequest } from 'src/app/models/shared/addresses/locality/locality';
-import { municipalityOptions, municipalityRequest } from 'src/app/models/shared/addresses/municipality/municipality';
-import { stateOptions, stateRequest } from 'src/app/models/shared/addresses/state/state';
-import { nationalityRequest } from 'src/app/models/shared/patients/Nationality/Nationality';
-import { maritalStatusRequest } from 'src/app/models/shared/patients/MaritalStatus/maritalStatus';
-import { occupationOptions, occupationRequest } from 'src/app/models/shared/patients/Occupation/occupation';
-import { ethnicGroupOptions, ethnicGroupRequest } from 'src/app/models/shared/patients/EthnicGroup/ethnicGroup';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import { genderRequest } from 'src/app/shared/models/models-students/genders/genders';
+import { housingRequest } from 'src/app/shared/models/shared/addresses/housing/housing';
+import { streetRequest } from 'src/app/shared/models/shared/addresses/street/street';
+import { neighborhoodOptions, neighborhoodRequest } from 'src/app/shared/models/shared/addresses/neighborhood/neighborhood';
+import { localityOptions, localityRequest } from 'src/app/shared/models/shared/addresses/locality/locality';
+import { municipalityOptions, municipalityRequest } from 'src/app/shared/models/shared/addresses/municipality/municipality';
+import { stateOptions, stateRequest } from 'src/app/shared/models/shared/addresses/state/state';
+import { nationalityRequest } from 'src/app/shared/models/shared/patients/Nationality/Nationality';
+import { maritalStatusRequest } from 'src/app/shared/models/shared/patients/MaritalStatus/maritalStatus';
+import { occupationOptions, occupationRequest } from 'src/app/shared/models/shared/patients/Occupation/occupation';
+import { ethnicGroupOptions, ethnicGroupRequest } from 'src/app/shared/models/shared/patients/EthnicGroup/ethnicGroup';
+import { PaginatedData } from 'src/app/shared/models/shared/pagination/pagination';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
-import { FormFieldOption } from 'src/app/models/form-fields/form-field.interface';
-import { parentsMaritalStatusResponse } from 'src/app/models/shared/patients/patient/patient';
+import { FormFieldOption } from 'src/app/shared/models/form-fields/form-field.interface';
+import { parentsMaritalStatusResponse } from 'src/app/shared/models/shared/patients/patient/patient';
 
 
 @Injectable({

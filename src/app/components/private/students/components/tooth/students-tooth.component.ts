@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { ConditionIconComponent } from '../../../../../shared/components/condition-icon/condition-icon.component';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ICondition, ITooth } from 'src/app/models/shared/odontogram/odontogram';
+import { ICondition, ITooth } from 'src/app/shared/models/shared/odontogram/odontogram';
 import { ToothConditionsConstants } from '@mean/utils';
 import { SymbolDetailsDialogComponent } from '../odontogram/symbol-details-dialog/symbol-details-dialog.component';
 

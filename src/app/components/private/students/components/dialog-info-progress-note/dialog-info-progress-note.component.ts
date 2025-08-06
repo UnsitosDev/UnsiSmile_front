@@ -5,10 +5,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatList, MatListModule } from '@angular/material/list';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
-import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { cardPatient } from 'src/app/shared/models/shared/patients/cardPatient';
 
 interface ProgressNote {
   id: number;

@@ -19,17 +19,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService, AuthService } from '@mean/services';
+import { ApiService, AuthService } from 'src/app/shared/services';
 import { ROLES, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import {
   formSectionFields,
   subSeccion,
-} from 'src/app/models/form-fields/form-field.interface';
+} from 'src/app/shared/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
-import { TabsHandler } from '../../interfaces/tabs_handler';
+import { TabsHandler } from '../../models/tabs_handler';
 
 interface FormData {
   idPatientMedicalRecord: number;

@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltip } from '@angular/material/tooltip';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { HttpHeaders } from '@angular/common/http';
 

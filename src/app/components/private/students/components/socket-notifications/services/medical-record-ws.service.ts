@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { WebSocketService } from '@mean/services';
+import { WebSocketService } from 'src/app/shared/services';
 import { Observable } from 'rxjs';
 
 @Injectable({

@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
 import { ProfesorService } from './profesor.service';
-import { bloodPressureValidator, heartRateValidator, oxygenSaturationValidator, respiratoryRateValidator, temperatureValidator } from '../utils/validators';
+import { bloodPressureValidator, heartRateValidator, oxygenSaturationValidator, respiratoryRateValidator, temperatureValidator } from '../../utils/validators';
 
 interface ProfesorResponse {
     idProfessorClinicalArea: number;

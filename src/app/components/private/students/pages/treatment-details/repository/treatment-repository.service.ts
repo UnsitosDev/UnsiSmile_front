@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TreatmentDetailResponse } from '@mean/models';
+import { TreatmentDetailResponse } from 'src/app/shared/models';
 import { UriConstants } from '@mean/utils';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';

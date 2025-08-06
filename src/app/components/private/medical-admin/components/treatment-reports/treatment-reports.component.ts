@@ -1,11 +1,11 @@
 import { HttpHeaders } from "@angular/common/http";
 import { Component, inject } from '@angular/core';
-import { ApiService } from "@mean/services";
+import { ApiService } from "src/app/shared/services";
 import { LoadingComponent, studentRequest, TablaDataComponent } from "@mean/shared";
 import { UriConstants } from "@mean/utils";
 import { ToastrService } from "ngx-toastr";
 import { debounceTime, distinctUntilChanged, Subject } from "rxjs";
-import { Accion, getEntityPropiedades, studentsTableData } from "@mean/models";
+import { Accion, getEntityPropiedades, studentsTableData } from "src/app/shared/models";
 import { MatCardModule } from "@angular/material/card";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogReportsTreatmentsComponent} from "../dialog-reports-treatments/dialog-reports-treatments.component";

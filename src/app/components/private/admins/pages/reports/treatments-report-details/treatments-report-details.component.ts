@@ -4,20 +4,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardTitle } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { ID_STUDENT, PaginatedData, TreatmentDetailResponse, Treatments } from '@mean/models';
-import { ApiService } from '@mean/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
-import { BaseChartDirective } from 'ng2-charts';
+import { ID_STUDENT, PaginatedData, TreatmentDetailResponse, Treatments } from 'src/app/shared/models';
+import { ApiService } from 'src/app/shared/services';
 
 
 @Component({
   selector: 'app-treatments-report-details',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatCard, MatCardTitle, MatIcon, MatFormFieldModule, MatSelectModule],
+  imports: [MatDialogModule, MatButtonModule, MatCard, MatCardTitle, MatFormFieldModule, MatSelectModule],
   templateUrl: './treatments-report-details.component.html',
   styleUrl: './treatments-report-details.component.scss'
 })

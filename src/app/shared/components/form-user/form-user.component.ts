@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal, ViewChild, ElementRef, AfterViewInit
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router'; // Agregar esta importación
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -10,8 +10,8 @@ import {
   AdminProfile,
   ProfileResponse,
   StudentProfile,
-} from 'src/app/models/shared/profile/profile.model';
-import { ProfilePictureService } from 'src/app/services/profile-picture.service';
+} from 'src/app/shared/models/shared/profile/profile.model';
+import { ProfilePictureService } from 'src/app/shared/services/profile-picture.service';
 
 @Component({
   selector: 'app-form-user',

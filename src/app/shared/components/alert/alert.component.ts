@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { AlertModel } from '@mean/models';
+import { AlertModel } from 'src/app/shared/models';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

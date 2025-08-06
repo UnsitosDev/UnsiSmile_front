@@ -1,13 +1,11 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatTooltip } from '@angular/material/tooltip';
-import { TreatmentDetailResponse } from "@mean/models";
-import { ApiService } from '@mean/services';
-import { ArrayToDatePipe } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
-import { PatientResponse } from 'src/app/models/card-info-patient/card.info.patient';
-import { mapToCardPatientView } from 'src/app/models/card-info-patient/card.info.patient.mapper';
-import { cardGuardian } from 'src/app/models/shared/patients/cardPatient';
+import { TreatmentDetailResponse } from "src/app/shared/models";
+import { PatientResponse } from 'src/app/shared/models/card-info-patient/card.info.patient';
+import { mapToCardPatientView } from 'src/app/shared/models/card-info-patient/card.info.patient.mapper';
+import { cardGuardian } from 'src/app/shared/models/shared/patients/cardPatient';
+import { ApiService } from 'src/app/shared/services';
 
 export interface PatientSummary {
   fullName: string;
@@ -25,7 +23,7 @@ export interface PatientSummary {
 @Component({
   selector: 'app-card-patient-data',
   standalone: true,
-  imports: [MatCardModule, ArrayToDatePipe, MatTooltip],
+  imports: [MatCardModule],
   templateUrl: './card-patient-data.component.html',
   styleUrl: './card-patient-data.component.scss'
 })

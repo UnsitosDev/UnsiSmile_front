@@ -1,5 +1,5 @@
 import { faHome, faUserGraduate } from "@fortawesome/free-solid-svg-icons";
-import { MenuItem } from "@mean/models";
+import { MenuItem } from "src/app/shared/models";
 
 // Menú para profesores
 export const ProfessorItems: MenuItem[] = [

@@ -8,12 +8,12 @@ import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { HttpHeaders } from '@angular/common/http';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from '@mean/shared';
-import { Accion } from 'src/app/models/tabla/tabla-columna';
+import { Accion } from 'src/app/shared/models/tabla/tabla-columna';
 
 interface PatientData {
   id: string;

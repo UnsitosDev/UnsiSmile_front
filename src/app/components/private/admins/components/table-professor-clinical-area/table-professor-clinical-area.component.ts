@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpHeaders } from '@angular/common/http';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { MatCardModule } from '@angular/material/card';
@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Accion } from 'src/app/models/tabla/tabla-columna';
+import { Accion } from 'src/app/shared/models/tabla/tabla-columna';
 
 import { LoadingComponent } from '@mean/shared';
 

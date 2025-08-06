@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCard } from "@angular/material/card";
 import { ActivatedRoute } from '@angular/router';
-import { ID_MEDICAL_RECORD_DIGITIZER, MEDICAL_RECORD_TYPES, PATIENT_UUID } from '@mean/models';
+import { ID_MEDICAL_RECORD_DIGITIZER, MEDICAL_RECORD_TYPES, PATIENT_UUID } from 'src/app/shared/models';
 import { CardPatientDataComponent, OralProsthesisComponent, PreventiveDentistryPublicHealthComponent, StudentsDentalOperationComponent, StudentsGeneralHistoryComponent, StudentsOralSurgeryHistoryComponent, StudentsPeriodonticsHistoryComponent } from "@mean/students";
 import { EndodonticMedicalRecordComponent } from "../../../students/pages/medical-records-forms/endodontic-medical-record/endodontic-medical-record.component";
 import { PulpotomyMedicalRecordComponent } from "../../../students/pages/medical-records-forms/pulpotomy-medical-record/pulpotomy-medical-record.component";

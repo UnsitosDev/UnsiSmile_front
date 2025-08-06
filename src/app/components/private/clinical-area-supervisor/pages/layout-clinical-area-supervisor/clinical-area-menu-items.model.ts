@@ -1,5 +1,5 @@
 import { faFileClipboard, faHome } from "@fortawesome/free-solid-svg-icons";
-import { MenuItem } from "@mean/models";
+import { MenuItem } from "src/app/shared/models";
 
 export const ClinicalAreaSupervisorsItems: MenuItem[] = [
     {

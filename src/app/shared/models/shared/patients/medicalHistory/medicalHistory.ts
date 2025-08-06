@@ -1,7 +1,7 @@
-import { odontogramRequest } from "src/app/models/models-students/odontogram/odontogram"
+import { odontogramRequest } from "src/app/shared/models/models-students/odontogram/odontogram"
 import { vitalSignRequest } from "../vitalSigns/vitalSign"
-import { nonPathologicalPersonalAntecedentsRequest } from "src/app/models/models-students/nonPathologicalPersonalAntecedents/nonPathologicalPersonalAntecedents"
-import { facialExamRequest } from "src/app/models/models-students/facialExam/facialExam"
+import { nonPathologicalPersonalAntecedentsRequest } from "src/app/shared/models/models-students/nonPathologicalPersonalAntecedents/nonPathologicalPersonalAntecedents"
+import { facialExamRequest } from "src/app/shared/models/models-students/facialExam/facialExam"
 
 export interface medicalHistoryRequest {
 

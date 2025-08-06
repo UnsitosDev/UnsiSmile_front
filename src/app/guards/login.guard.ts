@@ -1,6 +1,6 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { AuthService } from '@mean/services'; // Asegúrate de que la ruta del servicio sea correcta
+import { AuthService } from 'src/app/shared/services'; // Asegúrate de que la ruta del servicio sea correcta
 import { ROLES } from 'src/app/utils/roles';
 
 export const loginGuard: CanActivateFn = (route, state) => {

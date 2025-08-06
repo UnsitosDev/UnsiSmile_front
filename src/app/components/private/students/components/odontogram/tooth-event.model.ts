@@ -1,4 +1,4 @@
-import { ITooth } from '@mean/models';
+import { ITooth } from 'src/app/shared/models';
 
 export interface ToothEvent {
   faceId: string;

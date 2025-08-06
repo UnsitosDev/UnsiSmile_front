@@ -5,8 +5,8 @@ import {
     IFace,
     IOdontogram,
     ITooth
-} from 'src/app/models/shared/odontogram/odontogram';
-import { OdontogramData } from 'src/app/services/odontogram-data.service';
+} from 'src/app/shared/models/shared/odontogram/odontogram';
+import { OdontogramData } from 'src/app/shared/services/odontogram-data.service';
 
 @Injectable({
   providedIn: 'root'

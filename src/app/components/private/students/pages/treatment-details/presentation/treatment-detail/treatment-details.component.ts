@@ -15,7 +15,7 @@ import {
 } from '@mean/students';
 
 import { MatListModule } from '@angular/material/list';
-import { MedicalRecordCatalog, TreatmentDetailResponse } from '@mean/models';
+import { MedicalRecordCatalog, TreatmentDetailResponse } from 'src/app/shared/models';
 import { LoadingComponent } from '@mean/shared';
 import { STATUS_TREATMENTS } from '@mean/utils';
 import { DialogDetailsTreatmentComponent } from '../../../../components/dialog-details-treatment/dialog-details-treatment.component';

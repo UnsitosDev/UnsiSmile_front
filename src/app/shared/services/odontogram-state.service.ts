@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ICondition, ITooth, IOdontogramHandler } from '@mean/models';
+import { ICondition, ITooth, IOdontogramHandler } from 'src/app/shared/models';
 
 @Injectable({
   providedIn: 'root'

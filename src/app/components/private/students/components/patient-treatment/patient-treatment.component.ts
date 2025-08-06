@@ -2,11 +2,11 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute } from '@angular/router';
-import { TreatmentDetailResponse } from '@mean/models';
-import { ApiService } from '@mean/services';
+import { TreatmentDetailResponse } from 'src/app/shared/models';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
-import { PATIENT_UUID } from 'src/app/models/shared/route.params.model';
+import { PaginatedData } from 'src/app/shared/models/shared/pagination/pagination';
+import { PATIENT_UUID } from 'src/app/shared/models/shared/route.params.model';
 
 @Component({
   selector: 'app-patient-treatment',

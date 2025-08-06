@@ -12,17 +12,17 @@ import { AlertComponent } from 'src/app/shared/components/alert/alert.component'
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
-import { FormFieldsService } from 'src/app/services/form-fields.service';
+import { FormField } from 'src/app/shared/models/form-fields/form-field.interface';
+import { FormFieldsService } from 'src/app/shared/services/form-fields.service';
 import { inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 
 
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { AlertModel } from '@mean/models';
-import { PatientService } from 'src/app/services/patient/patient.service';
-import { religionRequest } from 'src/app/models/shared/patients/Religion/religion';
-import { ApiService } from '@mean/services';
+import { AlertModel } from 'src/app/shared/models';
+import { PatientService } from 'src/app/shared/services/patient/patient.service';
+import { religionRequest } from 'src/app/shared/models/shared/patients/Religion/religion';
+import { ApiService } from 'src/app/shared/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { NavigationStart, Router } from '@angular/router';
@@ -32,7 +32,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmLeaveComponent } from '../../../students/components/dialog-confirm-leave/dialog-confirm-leave.component';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { MatCardModule } from '@angular/material/card';
-import { studentService } from 'src/app/services/student.service';
+import { studentService } from 'src/app/shared/services/student.service';
 import { DialogConfirmGuardianComponent } from '../../../admins/components/dialog-confirm-guardian/dialog-confirm-guardian.component';
 import { LoadingComponent } from '@mean/shared';
 import { StudentItems } from '../../pages/layout/student-menu-items.model';

@@ -1,4 +1,4 @@
-import { personRequest } from "src/app/models/models-students/person/person"
+import { personRequest } from "src/app/shared/models/models-students/person/person"
 import { userRequest } from "../User/user"
 
 

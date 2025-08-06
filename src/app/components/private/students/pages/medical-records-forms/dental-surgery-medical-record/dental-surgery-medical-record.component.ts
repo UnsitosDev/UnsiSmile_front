@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import { EMedicalRecords } from '@mean/models';
+import { EMedicalRecords } from 'src/app/shared/models';
 import { TabViewModule } from 'primeng/tabview';
 import { TabFormUpdateComponent } from 'src/app/shared/components/tab-form-update/tab-form-update.component';
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';

@@ -7,11 +7,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { LoadingComponent } from '@mean/shared';
 import { REVIEW_TABLE_DATA, ReviewAsigneds } from '@mean/supervisors';
 import { UriConstants } from '@mean/utils';
-import { Accion } from 'src/app/models/tabla/tabla-columna';
+import { Accion } from 'src/app/shared/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { STATUS } from 'src/app/utils/statusToReview';
 

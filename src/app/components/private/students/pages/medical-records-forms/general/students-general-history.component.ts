@@ -10,14 +10,14 @@ import { TabViewModule } from 'primeng/tabview';
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
 import { HistoryInitialBagComponent } from '../../../components/form-history-initial-bag/history-initial-bag.component';
 
-import { ApiService, AuthService } from '@mean/services';
+import { ApiService, AuthService } from 'src/app/shared/services';
 
 // Modelos
 import { HttpHeaders } from '@angular/common/http';
-import { dataTabs } from '@mean/models';
+import { dataTabs } from 'src/app/shared/models';
 import { TokenData } from '@mean/public';
 import { ROLES, UriConstants } from '@mean/utils';
-import { cardPatient } from 'src/app/models/shared/patients/cardPatient';
+import { cardPatient } from 'src/app/shared/models/shared/patients/cardPatient';
 import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-form-update/tab-form-update.component';
 import { mapMedicalRecordToDataTabs } from '../../../adapters/medical-record.adapter';
 import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';

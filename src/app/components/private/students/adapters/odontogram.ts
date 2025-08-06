@@ -1,7 +1,7 @@
-import { Arcade } from './../../../../models/shared/odontogram/odontogram.model';
-import { OdontogramResponse } from '@mean/models';
+import { Arcade } from '../../../../shared/models/shared/odontogram/odontogram.model';
+import { OdontogramResponse } from 'src/app/shared/models';
 import { Constants } from '@mean/utils';
-import { IOdontogramHandler, ITooth, IFace, ICondition } from 'src/app/models/shared/odontogram/odontogram';
+import { IOdontogramHandler, ITooth, IFace, ICondition } from 'src/app/shared/models/shared/odontogram/odontogram';
 
 // Map a odotogram response to a IOdontogramHandler
 export function mapOdontogramResponseToOdontogramData(

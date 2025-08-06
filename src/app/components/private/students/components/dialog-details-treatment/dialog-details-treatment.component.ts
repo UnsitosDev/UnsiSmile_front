@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { TreatmentDetailResponse } from '@mean/models';
+import { TreatmentDetailResponse } from 'src/app/shared/models';
 import { ArrayToDatePipe } from '@mean/shared';
 import { DialogConfirmSendToReviewComponent } from '../dialog-confirm-send-to-review/dialog-confirm-send-to-review.component';
 import { MatCardModule } from '@angular/material/card';

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { LoadingComponent } from '@mean/shared';
 import { CardProfessorDataComponent } from '../../components/card-professor-data/card-professor-data.component';

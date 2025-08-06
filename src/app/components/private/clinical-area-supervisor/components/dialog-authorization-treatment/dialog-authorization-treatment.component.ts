@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 

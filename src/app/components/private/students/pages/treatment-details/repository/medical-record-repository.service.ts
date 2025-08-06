@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UriConstants } from '@mean/utils';
 import { Observable } from 'rxjs';
-import { MedicalRecordCatalog } from 'src/app/models/history-clinic/medical-record.models';
+import { MedicalRecordCatalog } from 'src/app/shared/models/history-clinic/medical-record.models';
 
 @Injectable({
   providedIn: 'root',

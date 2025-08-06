@@ -7,11 +7,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService, AuthService } from '@mean/services';
+import { ApiService, AuthService } from 'src/app/shared/services';
 import { BaseComponent } from '@mean/shared';
 import { Messages, ROLES, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
-import { LoadingComponent } from 'src/app/models/shared/loading/loading.component';
+import { LoadingComponent } from 'src/app/shared/models/shared/loading/loading.component';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { Get, PostLogin } from './model/loginResponse.model';
 import { TokenData } from './model/tokenData';

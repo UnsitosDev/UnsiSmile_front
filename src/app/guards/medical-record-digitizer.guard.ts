@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '@mean/services';
+import { AuthService } from 'src/app/shared/services';
 import { ROLES } from 'src/app/utils/roles';
 
 export const MedicalRecordDigitizer: CanActivateFn = (state) => {

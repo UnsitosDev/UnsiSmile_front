@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { Router } from '@angular/router';
-import { AuthService } from '@mean/services';
+import { AuthService } from 'src/app/shared/services';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
-import { ThemeService } from 'src/app/services/theme.service';
-import { studentUserResponse, studentResponse } from '../../interfaces/student/student';
-import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
+import { ThemeService } from 'src/app/shared/services/theme.service';
+import { studentUserResponse, studentResponse } from '../../models/student/student';
+import { AdminResponse } from 'src/app/shared/models/shared/admin/admin.model';
 
 @Component({
   selector: 'app-new-password',

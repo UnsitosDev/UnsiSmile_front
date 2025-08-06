@@ -13,10 +13,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '../../../../../utils/uris.contants';
-import { ClinicalArea } from '../../../../../models/shared/admin/clinical-area.interface';
-import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
+import { ClinicalArea } from '../../../../../shared/models/shared/admin/clinical-area.interface';
+import { LoadingComponent } from "../../../../../shared/models/shared/loading/loading.component";
 import { ToastrService } from 'ngx-toastr';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { Router } from '@angular/router';
 
 @Component({

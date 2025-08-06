@@ -14,10 +14,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
-import { ProgressNotesService } from 'src/app/services/form-progress-notes.service';
+import { FormField } from 'src/app/shared/models/form-fields/form-field.interface';
+import { ProgressNotesService } from 'src/app/shared/services/form-progress-notes.service';
 
 @Component({
   selector: 'app-field-component',

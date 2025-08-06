@@ -1,8 +1,8 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
-import { FileData} from '@mean/models';
+import { FileData} from 'src/app/shared/models';
 import { ToastrService } from 'ngx-toastr';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { dataTabs } from "@mean/models";
-import { ApiService } from "@mean/services";
+import { dataTabs } from "src/app/shared/models";
+import { ApiService } from "src/app/shared/services";
 import { ROLES, STATUS } from "@mean/utils";
 
 @Injectable({

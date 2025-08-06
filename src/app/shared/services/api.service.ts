@@ -5,8 +5,8 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ApiModel } from '@mean/models';
-import { Messages } from '../utils/MessagesConstant';
+import { ApiModel } from 'src/app/shared/models';
+import { Messages } from '../../utils/MessagesConstant';
 
 @Injectable({
   providedIn: 'root',

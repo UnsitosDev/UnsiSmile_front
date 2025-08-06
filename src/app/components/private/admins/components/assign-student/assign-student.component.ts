@@ -6,11 +6,11 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
-import { studentService } from 'src/app/services/student.service';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { studentService } from 'src/app/shared/services/student.service';
+import { FormField } from 'src/app/shared/models/form-fields/form-field.interface';
 import { MatCardModule } from '@angular/material/card';
 
 export interface AssignStudentDialogData {

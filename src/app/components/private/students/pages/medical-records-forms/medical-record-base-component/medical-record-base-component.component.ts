@@ -1,9 +1,9 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { dataTabs, EMedicalRecords } from '@mean/models';
-import { AuthService } from '@mean/services';
+import { dataTabs, EMedicalRecords } from 'src/app/shared/models';
+import { AuthService } from 'src/app/shared/services';
 import { ROLES } from '@mean/utils';
-import { GeneralMedicalRecordService } from 'src/app/services/history-clinics/general/medical-records.service';
+import { GeneralMedicalRecordService } from 'src/app/shared/services/history-clinics/general/medical-records.service';
 import { MedicalRecordBaseService } from '../../services/medical-record-base.service';
 
 @Component({

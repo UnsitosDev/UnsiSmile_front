@@ -1,5 +1,5 @@
 import { faFileArchive, faFileClipboard, faHome, faHospitalUser, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { MenuItem } from "@mean/models";
+import { MenuItem } from "src/app/shared/models";
 
 // Menú para estudiantes
 export const StudentItems: MenuItem[] = [

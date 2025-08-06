@@ -11,7 +11,7 @@ export * from './treatments/treatments.model';
 export * from './shared/route.params.model'
 export * from './core/TokenResponse'
 export * from './core/auth.model'
-export * from '../models/form-fields/form-field.interface'
+export * from './form-fields/form-field.interface'
 export * from './form-fields/form-field.interface';
 export * from './form-fields/form-utils';
 export * from './fluorosis/codigo-tooth.model';
@@ -20,12 +20,12 @@ export * from './treatments/patientTreatments.model';
 export * from './shared/students'
 export * from './tabla/tabla-columna'
 export * from './shared/pagination/pagination';
-export * from '../models/dashboards/admin-dashboard';
+export * from './dashboards/admin-dashboard';
 export * from './clinical-areas/clinical.areas.model';
 export * from './treatments/payloadtreatments.model';
 export * from './shared/prophylaxis/prophylaxis.model';
 export * from './card-info-patient/card.info.patient';
 export * from './shared/patients';
-export * from '../models/patient-object-table/patient.object.table';
-export * from '../models/tabla/tabla-columna';
+export * from './patient-object-table/patient.object.table';
+export * from './tabla/tabla-columna';
 export * from './shared/medicalRecords';

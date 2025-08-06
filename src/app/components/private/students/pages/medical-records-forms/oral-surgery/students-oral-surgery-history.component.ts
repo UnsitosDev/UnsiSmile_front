@@ -12,7 +12,7 @@ import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.co
 // Servicios
 
 // Modelos
-import { EMedicalRecords } from 'src/app/models/history-clinic/medical-record.models';
+import { EMedicalRecords } from 'src/app/shared/models/history-clinic/medical-record.models';
 import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-form-update/tab-form-update.component';
 import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';
 import { MedicalRecordBaseComponent } from '../medical-record-base-component/medical-record-base-component.component';

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterLinkActive } from '@angular/router';
-import { AuthService } from '@mean/services';
+import { AuthService } from 'src/app/shared/services';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
-import { ThemeService } from 'src/app/services/theme.service';
+import { ThemeService } from 'src/app/shared/services/theme.service';
 
 @Component({
   selector: 'app-header',

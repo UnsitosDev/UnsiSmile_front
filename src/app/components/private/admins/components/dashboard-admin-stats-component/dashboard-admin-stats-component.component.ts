@@ -1,13 +1,13 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 import { DashboardCardComponent } from 'src/app/shared/components/dashbordad-card/dashbordad-card.component';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartType } from 'chart.js';
 import { MatListModule } from "@angular/material/list";
-import { StatisticsResponse } from '@mean/models';
+import { StatisticsResponse } from 'src/app/shared/models';
 
 interface Nationality {
   name: string;

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { AuthService } from '@mean/services';
+import { AuthService } from 'src/app/shared/services';
 import { HeaderComponent, SideNavComponent } from '@mean/shared';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';

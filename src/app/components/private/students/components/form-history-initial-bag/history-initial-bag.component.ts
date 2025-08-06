@@ -5,11 +5,11 @@ import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { ApiService, AuthService } from '@mean/services';
+import { ApiService, AuthService } from 'src/app/shared/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
-import { PatientEvaluation, Row, SurfaceEvaluation, SurfaceMeasurement, TabStructure, ToothEvaluation } from '@mean/models';
+import { PatientEvaluation, Row, SurfaceEvaluation, SurfaceMeasurement, TabStructure, ToothEvaluation } from 'src/app/shared/models';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
 import { ROLES } from "../../../../../utils/roles";

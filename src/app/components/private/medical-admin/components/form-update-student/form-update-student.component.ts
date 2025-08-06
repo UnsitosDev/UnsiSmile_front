@@ -6,12 +6,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
-import { studentService } from 'src/app/services/student.service';
-import { ApiService } from '@mean/services';
+import { studentService } from 'src/app/shared/services/student.service';
+import { ApiService } from 'src/app/shared/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
-import { FormField } from 'src/app/models/form-fields/form-field.interface';
+import { FormField } from 'src/app/shared/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from 'src/app/shared/components/field-component/field-component.component';
 import { LoadingComponent } from '@mean/shared';
 

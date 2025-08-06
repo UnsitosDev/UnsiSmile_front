@@ -1,9 +1,9 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from '@mean/services';
+import { AuthService } from 'src/app/shared/services';
 import { TokenData } from 'src/app/components/public/login/model/tokenData';
-import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
+import { dataTabs } from 'src/app/shared/models/form-fields/form-field.interface';
 import { ROLES } from 'src/app/utils/roles';
 import { STATUS } from 'src/app/utils/statusToReview';
 import { MenuAssessMedicalHistoryComponent } from '../../../clinical-area-supervisor/components/menu-assess-medical-redord/menu-assess-medical-record.component';

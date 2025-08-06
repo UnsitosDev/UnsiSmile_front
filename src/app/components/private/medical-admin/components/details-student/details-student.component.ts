@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { DataSharingService } from 'src/app/shared/services/data-sharing.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';

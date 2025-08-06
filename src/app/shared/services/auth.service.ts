@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { UriConstants } from '@mean/utils';
 import jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
-import { TokenData } from '../components/public/login/model/tokenData';
+import { TokenData } from '../../components/public/login/model/tokenData';
 import { AuthModel } from '../models/core/auth.model';
 import { TokenResponse } from '../models/core/TokenResponse';
-import { SessionStorageConstants } from '../utils/session.storage';
-import { ROLES } from '../utils/roles';
+import { SessionStorageConstants } from '../../utils/session.storage';
+import { ROLES } from '../../utils/roles';
 
 @Injectable({
   providedIn: 'root',

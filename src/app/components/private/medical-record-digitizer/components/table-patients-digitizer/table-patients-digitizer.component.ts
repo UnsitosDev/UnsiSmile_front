@@ -6,17 +6,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import { Router, RouterLink } from '@angular/router';
-import { Accion, PatientInfo, PatientResponse, patientsTableData } from '@mean/models';
-import { ApiService, DataSharingService } from '@mean/services';
+import { Router } from '@angular/router';
 import { LoadingComponent, studentResponse, TablaDataComponent } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
+import { Accion, PatientInfo, PatientResponse, patientsTableData } from 'src/app/shared/models';
+import { ApiService, DataSharingService } from 'src/app/shared/services';
 import { DetailsPatientsComponent } from '../../../students/components/details-patients/details-patients.component';
 
 @Component({
   selector: 'app-table-patients-digitizer',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, RouterLink, MatCardModule, LoadingComponent],
+  imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, MatInputModule, TablaDataComponent, MatButtonModule, MatCardModule, LoadingComponent],
   templateUrl: './table-patients-digitizer.component.html',
   styleUrl: './table-patients-digitizer.component.scss'
 })

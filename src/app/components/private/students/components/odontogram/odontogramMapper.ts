@@ -1,4 +1,4 @@
-import { ICondition, IFace, IOdontogram, ITooth, OdontogramPost, OdontogramResponse } from '@mean/models';
+import { ICondition, IFace, IOdontogram, ITooth, OdontogramPost, OdontogramResponse } from 'src/app/shared/models';
 
 export class OdontogramMapper {
   constructor() {}

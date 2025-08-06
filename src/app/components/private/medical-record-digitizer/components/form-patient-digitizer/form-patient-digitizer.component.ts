@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
-import { ApiService, FormDigitizerPatientService } from '@mean/services';
+import { ApiService, FormDigitizerPatientService } from 'src/app/shared/services';
 import { studentResponse } from '@mean/shared';
 import { UriConstants } from '@mean/utils';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';

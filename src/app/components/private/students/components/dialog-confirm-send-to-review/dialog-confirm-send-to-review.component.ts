@@ -8,13 +8,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
-import { TreatmentDetailResponse } from '@mean/models';
-import { ApiService } from '@mean/services';
+import { TreatmentDetailResponse } from 'src/app/shared/models';
+import { ApiService } from 'src/app/shared/services';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
-import { ProfessorClinicalAreaResponse } from 'src/app/models/clinical-areas/clinical.areas.model';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
-import { LoadingComponent } from "../../../../../models/shared/loading/loading.component";
+import { ProfessorClinicalAreaResponse } from 'src/app/shared/models/clinical-areas/clinical.areas.model';
+import { PaginatedData } from 'src/app/shared/models/shared/pagination/pagination';
+import { LoadingComponent } from "../../../../../shared/models/shared/loading/loading.component";
 
 interface sendToReview {
   idPatientMedicalRecord: number;

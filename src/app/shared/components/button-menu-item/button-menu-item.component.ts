@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { MenuItem } from '@mean/models';
+import { MenuItem } from 'src/app/shared/models';
 import { submenuAnimation, rotateIcon } from '../../animations/menu-animations';
 
 @Component({

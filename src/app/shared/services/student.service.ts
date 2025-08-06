@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormField } from '../models/form-fields/form-field.interface';
-import { curpValidator, emailValidator, phoneNumberValidator, minimumAgeValidator, enrollmentValidator } from '../utils/validators';
+import { curpValidator, emailValidator, phoneNumberValidator, minimumAgeValidator, enrollmentValidator } from '../../utils/validators';
 import { PatientService } from './patient/patient.service';
 import { FieldNames } from '../models/form-fields/form-utils';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

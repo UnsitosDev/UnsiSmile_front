@@ -16,12 +16,12 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService, AuthService } from '@mean/services';
+import { ApiService, AuthService } from 'src/app/shared/services';
 import { ROLES, UriConstants } from '@mean/utils';
 import {
   formSectionFields,
   subSeccion,
-} from 'src/app/models/form-fields/form-field.interface';
+} from 'src/app/shared/models/form-fields/form-field.interface';
 import { FieldComponentComponent } from '../field-component/field-component.component';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';

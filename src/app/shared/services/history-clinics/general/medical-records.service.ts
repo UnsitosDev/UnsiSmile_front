@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { MedicalRecordCatalog, EMedicalRecords } from 'src/app/models/history-clinic/medical-record.models';
+import { MedicalRecordCatalog, EMedicalRecords } from 'src/app/shared/models/history-clinic/medical-record.models';
 import { ApiService } from '../../api.service';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
-import { dataTabs } from 'src/app/models/form-fields/form-field.interface';
+import { dataTabs } from 'src/app/shared/models/form-fields/form-field.interface';
 import { mapMedicalRecordToDataTabs } from 'src/app/components/private/students/adapters/medical-record.adapter'; // Asegúrate de que la ruta sea correcta
 import { map, Observable } from 'rxjs';
 

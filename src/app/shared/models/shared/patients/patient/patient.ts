@@ -7,7 +7,7 @@ import { occupationResponse } from "../Occupation/occupation"
 import { religionResponse } from "../Religion/religion"
 import { medicalHistoryResponse } from "../medicalHistory/medicalHistory"
 import { Pageable, Sort } from "../../paginatedResponse"
-import { personRequest, personResponse } from "src/app/models/models-students/person/person"
+import { personRequest, personResponse } from "src/app/shared/models/models-students/person/person"
 import { MatExpansionPanelDescription } from "@angular/material/expansion"
 
 export interface patientRequest {

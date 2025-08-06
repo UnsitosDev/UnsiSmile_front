@@ -10,12 +10,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from "@angular/material/menu";
 import { MatSelectModule } from "@angular/material/select";
 import { ActivatedRoute, Params } from "@angular/router";
-import { CodigoTooth, DentalTreatmentPayload, ID_TREATMENT_DETAIL } from "@mean/models";
-import { ApiService, AuthService } from '@mean/services';
+import { CodigoTooth, DentalTreatmentPayload, ID_TREATMENT_DETAIL } from "src/app/shared/models";
+import { ApiService, AuthService } from 'src/app/shared/services';
 import { ROLES, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
-import { DentalProphylaxis } from 'src/app/models/shared/prophylaxis/prophylaxis.response.model';
+import { PaginatedData } from 'src/app/shared/models/shared/pagination/pagination';
+import { DentalProphylaxis } from 'src/app/shared/models/shared/prophylaxis/prophylaxis.response.model';
 import { DialogInsertProfilaxisComponent } from '../dialog-insert-profilaxis/dialog-insert-profilaxis.component';
 import { TokenData } from '@mean/public';
 

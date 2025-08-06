@@ -1,5 +1,5 @@
-import { AnswerField, dataTabs, FormField, formSectionFields, subSeccion, ValidationField, validationsFront } from "src/app/models/form-fields/form-field.interface";
-import { Answer, AnswerType, FormSection, MedicalRecordCatalog, Question, SubSection, Validation } from "src/app/models/history-clinic/medical-record.models";
+import { AnswerField, dataTabs, FormField, formSectionFields, subSeccion, ValidationField, validationsFront } from "src/app/shared/models/form-fields/form-field.interface";
+import { Answer, AnswerType, FormSection, MedicalRecordCatalog, Question, SubSection, Validation } from "src/app/shared/models/history-clinic/medical-record.models";
 
 // Mapea el catálogo de historia clínica a la estructura de datos de las pestañas (dataTabs)
 export function mapMedicalRecordToDataTabs(catalog: MedicalRecordCatalog): dataTabs {

@@ -7,16 +7,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import { PaginatedData } from 'src/app/shared/models/shared/pagination/pagination';
 import { ToastrService } from 'ngx-toastr';
 import { DialogAssignGroupComponent } from '../dialog-assign-group/dialog-assign-group.component';
 import { TablaDataComponent } from '@mean/shared';
 import { RouterLink } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
-import { Accion } from 'src/app/models/tabla/tabla-columna';
+import { Accion } from 'src/app/shared/models/tabla/tabla-columna';
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';
 
 interface ProfessorGroup {

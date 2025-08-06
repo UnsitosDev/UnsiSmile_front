@@ -2,8 +2,8 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription, filter } from 'rxjs';
-import { Messages } from '../utils/messageConfirmLeave';
-import { DialogConfirmLeaveComponent } from '../components/private/students/components/dialog-confirm-leave/dialog-confirm-leave.component';
+import { Messages } from '../../utils/messageConfirmLeave';
+import { DialogConfirmLeaveComponent } from '../../components/private/students/components/dialog-confirm-leave/dialog-confirm-leave.component';
 
 @Injectable({
     providedIn: 'root'

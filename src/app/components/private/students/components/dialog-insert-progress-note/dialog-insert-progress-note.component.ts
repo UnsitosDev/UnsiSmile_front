@@ -4,14 +4,14 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FieldComponentComponent } from "../../../../../shared/components/field-component/field-component.component";
-import { ProgressNotesService } from 'src/app/services/form-progress-notes.service';
+import { ProgressNotesService } from 'src/app/shared/services/form-progress-notes.service';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ToastrService } from 'ngx-toastr';
 import { Messages } from 'src/app/utils/messageConfirmLeave';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { HttpHeaders } from '@angular/common/http';
 import { UriConstants } from '@mean/utils';
 import {LoadingComponent} from "@mean/shared";

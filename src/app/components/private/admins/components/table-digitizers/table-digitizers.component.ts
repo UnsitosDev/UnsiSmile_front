@@ -3,21 +3,21 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
-import { digitizersTableData, DigitizersResponse, IDigitizers } from 'src/app/models/shared/digitizers';
+import { digitizersTableData, DigitizersResponse, IDigitizers } from 'src/app/shared/models/shared/digitizers';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   Accion,
   getEntityPropiedades,
-} from 'src/app/models/tabla/tabla-columna';
+} from 'src/app/shared/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
-import { DigitizerRequest } from 'src/app/shared/interfaces/digitizer/digitizer';
+import { DigitizerRequest } from 'src/app/shared/models/digitizer/digitizer';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
-import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { DataSharingService } from 'src/app/shared/services/data-sharing.service';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingComponent } from "@mean/shared";
 import { ConfirmationAlertComponent } from '../confirmation-alert/confirmation-alert.component';

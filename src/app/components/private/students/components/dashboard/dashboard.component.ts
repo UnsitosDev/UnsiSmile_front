@@ -2,9 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUserMd } from '@fortawesome/free-solid-svg-icons';
 import { DashboardStudentStatsComponentComponent } from '../dashboard-student-stats-component/dashboard-student-stats-component.component';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
-import { WelcomeMessageService } from 'src/app/services/welcome-message.service';
+import { WelcomeMessageService } from 'src/app/shared/services/welcome-message.service';
 import { LoadingComponent } from '@mean/shared';
 
 @Component({

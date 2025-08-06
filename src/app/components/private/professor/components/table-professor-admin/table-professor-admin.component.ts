@@ -3,16 +3,16 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Accion, getEntityPropiedades } from 'src/app/models/tabla/tabla-columna';
+import { Accion, getEntityPropiedades } from 'src/app/shared/models/tabla/tabla-columna';
 import { TablaDataComponent } from 'src/app/shared/components/tabla-data/tabla-data.component';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
-import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { DataSharingService } from 'src/app/shared/services/data-sharing.service';
 import { LoadingComponent } from '@mean/shared';
 
 @Component({

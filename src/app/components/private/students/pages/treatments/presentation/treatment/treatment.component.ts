@@ -10,9 +10,9 @@ import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatTooltip } from '@angular/material/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 
-import { dataTabs, TreatmentDetailResponse } from '@mean/models';
+import { dataTabs, TreatmentDetailResponse } from 'src/app/shared/models';
 import {
   ID_PATIENT_CLINICAL_HISTORY,
   ID_TREATMENT_DETAIL,
@@ -21,7 +21,7 @@ import {
   PATIENT_UUID_TREATMENT,
   STATUS_TREATMENT,
   TAB_MEDICAL_RECORD,
-} from 'src/app/models/shared/route.params.model';
+} from 'src/app/shared/models/shared/route.params.model';
 
 import { MatListModule } from '@angular/material/list';
 import {
@@ -32,8 +32,8 @@ import {
   treatmentsNotifications,
 } from '@mean/students';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
-import { StatusService } from 'src/app/services/status.service';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import { StatusService } from 'src/app/shared/services/status.service';
+import { PaginatedData } from 'src/app/shared/models/shared/pagination/pagination';
 
 import { ArrayToDatePipe } from '@mean/shared';
 import { DialogUpdateTreatmentComponent } from '../../../../components/dialog-update-treatment/dialog-update-treatment.component';

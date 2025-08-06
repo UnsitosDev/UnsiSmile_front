@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ApiService } from "@mean/services";
+import { ApiService } from "src/app/shared/services";
 import { HttpHeaders } from "@angular/common/http";
 import { UriConstants } from "@mean/utils";
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
-import { PaginatedData, TreatmentDetailResponse, Treatments } from '@mean/models';
+import { PaginatedData, TreatmentDetailResponse, Treatments } from 'src/app/shared/models';
 import {MatButtonModule} from "@angular/material/button";
 import {MatCard, MatCardTitle} from "@angular/material/card";
 import {MatIcon} from "@angular/material/icon";

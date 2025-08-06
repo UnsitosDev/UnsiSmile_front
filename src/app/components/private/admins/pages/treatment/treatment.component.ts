@@ -7,9 +7,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 
-import { dataTabs, TreatmentDetailResponse } from '@mean/models';
+import { dataTabs, TreatmentDetailResponse } from 'src/app/shared/models';
 import {
   ID_PATIENT_CLINICAL_HISTORY,
   ID_TREATMENT_DETAIL,
@@ -18,7 +18,7 @@ import {
   PATIENT_UUID_TREATMENT,
   STATUS_TREATMENT,
   TAB_MEDICAL_RECORD,
-} from 'src/app/models/shared/route.params.model';
+} from 'src/app/shared/models/shared/route.params.model';
 
 import { MatListModule } from '@angular/material/list';
 import {
@@ -28,7 +28,7 @@ import {
   StudentsGeneralHistoryComponent,
 } from '@mean/students';
 import {STATUS_TREATMENTS, UriConstants} from '@mean/utils';
-import { PaginatedData } from 'src/app/models/shared/pagination/pagination';
+import { PaginatedData } from 'src/app/shared/models/shared/pagination/pagination';
 import {MatTooltip} from "@angular/material/tooltip";
 import { ArrayToDatePipe } from '@mean/shared';
 import { DialogUpdateTreatmentComponent } from '../../../students/components/dialog-update-treatment/dialog-update-treatment.component';

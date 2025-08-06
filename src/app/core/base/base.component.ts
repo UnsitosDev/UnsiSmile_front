@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ApiService } from '@mean/services';
-import { AlertModel, ApiModel } from '@mean/models';
+import { ApiService } from 'src/app/shared/services';
+import { AlertModel, ApiModel } from 'src/app/shared/models';
 import { lastValueFrom } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { UriConstants } from '@mean/utils';

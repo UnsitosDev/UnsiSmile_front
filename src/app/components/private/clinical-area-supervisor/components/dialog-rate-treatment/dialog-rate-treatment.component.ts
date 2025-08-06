@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { Router } from '@angular/router';
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { STATUS_TREATMENTS, UriConstants } from '@mean/utils';
 import { ToastrService } from 'ngx-toastr';
 

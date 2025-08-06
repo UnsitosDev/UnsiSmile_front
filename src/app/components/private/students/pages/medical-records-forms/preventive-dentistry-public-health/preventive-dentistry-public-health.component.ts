@@ -12,7 +12,7 @@ import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.co
 // Servicios
 
 // Modelos
-import { EMedicalRecords } from '@mean/models';
+import { EMedicalRecords } from 'src/app/shared/models';
 import { TabFormUpdateComponent } from '../../../../../../shared/components/tab-form-update/tab-form-update.component';
 import { FluorosisComponent } from '../../../components/fluorosis/fluorosis.component';
 import { HeaderHistoryClinicComponent } from '../../../components/header-history-clinic/header-history-clinic.component';

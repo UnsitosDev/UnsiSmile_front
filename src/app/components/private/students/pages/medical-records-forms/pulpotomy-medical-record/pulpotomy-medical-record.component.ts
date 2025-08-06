@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MedicalRecordBaseComponent } from '../medical-record-base-component/medical-record-base-component.component';
-import { EMedicalRecords } from '@mean/models';
+import { EMedicalRecords } from 'src/app/shared/models';
 import { MatInputModule } from '@angular/material/input';
 import { TabFormComponent } from 'src/app/shared/components/tab-form/tab-form.component';
 import { MatTabsModule } from '@angular/material/tabs';

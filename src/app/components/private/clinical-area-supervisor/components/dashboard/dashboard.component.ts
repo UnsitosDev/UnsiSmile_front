@@ -4,14 +4,14 @@ import {
   FontAwesomeModule,
 } from '@fortawesome/angular-fontawesome';
 import { faUserMd } from '@fortawesome/free-solid-svg-icons'; // Ícono de doctor
-import { ApiService } from '@mean/services';
+import { ApiService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
-import { AdminResponse } from 'src/app/models/shared/admin/admin.model';
-import { WelcomeMessageService } from 'src/app/services/welcome-message.service';
+import { AdminResponse } from 'src/app/shared/models/shared/admin/admin.model';
+import { WelcomeMessageService } from 'src/app/shared/services/welcome-message.service';
 import {
   studentResponse,
   studentUserResponse,
-} from 'src/app/shared/interfaces/student/student';
+} from 'src/app/shared/models/student/student';
 import { DashboardSupervisorStatsComponent } from '../dashboard-supervisor-stats/dashboard-supervisor-stats.component';
 
 @Component({

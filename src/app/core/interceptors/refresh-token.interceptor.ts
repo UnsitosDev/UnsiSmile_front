@@ -1,10 +1,10 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService } from '@mean/services';
+import { AuthService } from 'src/app/shared/services';
 import { throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { SessionStorageConstants } from '@mean/utils';
-import { TokenResponse } from '@mean/models';
+import { TokenResponse } from 'src/app/shared/models';
 
 export const RefreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);

@@ -8,19 +8,19 @@ import {
   signal,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { MenuItem } from '@mean/models';
-import { ApiService, AuthService } from '@mean/services';
+import { MenuItem } from 'src/app/shared/models';
+import { ApiService, AuthService } from 'src/app/shared/services';
 import { UriConstants } from '@mean/utils';
 import { Subject } from 'rxjs';
 import {
   AdminProfile,
   ProfessorProfile,
   StudentProfile,
-} from 'src/app/models/shared/profile/profile.model';
-import { ProfilePictureService } from 'src/app/services/profile-picture.service';
+} from 'src/app/shared/models/shared/profile/profile.model';
+import { ProfilePictureService } from 'src/app/shared/services/profile-picture.service';
 import { ROLES } from 'src/app/utils/roles';
 import { SessionStorageConstants } from 'src/app/utils/session.storage';
-import { studentResponse } from '../../interfaces/student/student';
+import { studentResponse } from '../../models/student/student';
 import { ButtonMenuItemComponent } from '../button-menu-item/button-menu-item.component';
 
 @Component({

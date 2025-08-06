@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { AdminProfile, StudentProfile, ProfessorProfile } from 'src/app/models/shared/profile/profile.model';
+import { AdminProfile, StudentProfile, ProfessorProfile } from 'src/app/shared/models/shared/profile/profile.model';
 
 /**
  * Servicio para manejar la sincronización de datos del usuario y foto de perfil

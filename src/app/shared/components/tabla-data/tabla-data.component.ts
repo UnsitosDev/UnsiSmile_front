@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
-import { Accion } from 'src/app/models/tabla/tabla-columna';
+import { Accion } from 'src/app/shared/models/tabla/tabla-columna';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
